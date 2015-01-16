@@ -1,0 +1,63 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+#   This operation will create an OpenStack server
+#   Inputs:
+#        - host-  OpenStack machine IP
+#        - computePort - optional - Port used for OpenStack computations - Default: 8774
+#        - token - OpenStack token obtained after authentication
+#        - tenant - OpenStack tenantID obtained after authentication
+#        - serverName - Server name
+#        - imgRef - Image reference for of the server to be created
+#   Outputs:
+#       - containerID
+#       - errorMessage
+#   Results:
+#       - SUCCESS - operation succeeded (statusCode == '200')
+#       - FAILURE - otherwise
+####################################################
+
+namespace: org.openscore.slang.openstack
+
+operations:
+    - create_openstack_server:
+          inputs:
+            - host
+            - computePort:
+                default: "'8774'"
+                required: false
+            - token
+            - tenant
+            - serverName
+            - imgRef
+            - headers:
+                default: "'X-AUTH-TOKEN:' + token"
+                override: true
+            - url:
+                default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
+                override: true
+            - body:
+                default: "'{\"server\": { \"name\": \"' + serverName + '\" , \"imageRef\": \"' + imgRef + '\", \"flavorRef\":\"2\",\"max_count\":1,\"min_count\":1,\"security_groups\": [ {\"name\": \"default\"}] }}'"
+                override: true
+            - contentType:
+                default: "'application/json'"
+                override: true
+            - method:
+                default: "'post'"
+                override: true
+          action:
+            java_action:
+              className: org.openscore.content.httpclient.HttpClientAction
+              methodName: execute
+          outputs:
+            - returnResult: returnResult
+            - statusCode: statusCode
+            - errorMessage: returnResult if statusCode != '202' else ''
+          results:
+            - SUCCESS : statusCode == '202'
+            - FAILURE
