@@ -5,15 +5,15 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused docker images
+#   This flow will delete only the unused docker dangling images
 #   Inputs:
 #       - dockerHost - Linux machine IP
 #       - dockerUsername - Username
 #       - dockerPassword - Password
+#       - usedImages - List of used images
 #   Outputs:
-#       - images_list_safe_to_delete - unused docker images
-#       - amount_of_images_deleted - how many images where deleted
-#       - used_images_list - list containing used docker images
+#       - images_list_safe_to_delete - unused docker images (including dangling ones)
+#       - amount_of_dangling_images_deleted - how many dangling images where deleted
 ####################################################
 namespace: org.openscore.slang.docker.images
 
@@ -23,11 +23,12 @@ imports:
  base_lists: org.openscore.slang.base.lists
 
 flow:
-  name: clear_docker_images_flow
+  name: clear_docker_dangling_images_flow
   inputs:
     - dockerHost
     - dockerUsername
     - dockerPassword
+    - usedImages
 
   workflow:
     validate_linux_machine_ssh_access:
@@ -36,33 +37,25 @@ flow:
           - host: dockerHost
           - username: dockerUsername
           - password: dockerPassword
-    get_all_images:
+    get_dangling_images:
       do:
-        docker_images.get_all_images:
+        docker_images.get_dangling_images:
           - host: dockerHost
           - username: dockerUsername
           - password: dockerPassword
       publish:
-        - all_images_list: imageList
-    get_used_images:
-      do:
-        docker_images.get_used_images_flow:
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
-      publish:
-        - used_images_list: used_images_list
-    substract_used_images:
+        - all_dangling_images: danglingImageList.replace("\n"," ")
+    substract_used_dangling_images:
       do:
         base_lists.subtract_sets:
-          - set_1: all_images_list
+          - set_1: all_dangling_images
           - set_1_delimiter: "' '"
-          - set_2: used_images_list
+          - set_2: usedImages
           - set_2_delimiter: "' '"
           - result_set_delimiter: "' '"
       publish:
         - images_list_safe_to_delete: result_set
-        - amount_of_images: str(len(result_set.split()))
+        - amount_of_dangling_images: str(len(result_set.split()))
     delete_images:
       do:
         docker_images.clear_docker_images:
@@ -72,8 +65,6 @@ flow:
           - images: images_list_safe_to_delete
       publish:
         - response
-
   outputs:
-    - images_list_safe_to_delete
-    - amount_of_images_deleted: "'0' if images_list_safe_to_delete == '' else amount_of_images"
-    - used_images_list
+    - dangling_images_list_safe_to_delete: images_list_safe_to_delete
+    - amount_of_dangling_images_deleted: "'0' if images_list_safe_to_delete == '' else amount_of_dangling_images"

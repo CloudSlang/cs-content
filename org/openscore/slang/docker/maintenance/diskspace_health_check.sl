@@ -6,25 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused images if the disk space on a linux machine is greater than a given input
+#   This flow will check if the diskspace on a linux machine is less than a given percentage.
 #   Inputs:
 #       - dockerHost - Linux machine IP
 #       - dockerUsername - Username
 #       - dockerPassword - Password
-#       - percentage - Disk space on the linux machine is compared to this number
-#   Outputs:
-#       - images_list_safe_to_delete - unused docker images
+#       - percentage - ex. (50%)
 #   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - SUCCESS - Diskspace is less than percentage input.
+#       - FAILURE - Otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.health-checks
+namespace: org.openscore.slang.docker.maintenance
 
 imports:
- comparisons: org.openscore.slang.base.comparisons
  docker_linux: org.openscore.slang.docker.linux
- docker_images: org.openscore.slang.docker.images
+ base_comparisons: org.openscore.slang.base.comparisons
 
 flow:
   name: diskspace_health_check
@@ -51,21 +48,11 @@ flow:
         - diskSpace
     check_availability:
       do:
-        comparisons.less_than_percentage:
-          - first_percentage: diskSpace
-          - second_percentage: percentage
-      navigate:
-        SUCCESS: SUCCESS
-        FAILURE: clear_docker_images
-    clear_docker_images:
-      do:
-        docker_images.clear_docker_images_flow:
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
-      publish:
-        - images_list_safe_to_delete
+        base_comparisons.less_than_percentage:
+          - first_percentage: percentage
+          - second_percentage: diskSpace
       navigate:
         SUCCESS: SUCCESS
         FAILURE: FAILURE
+
 

@@ -18,7 +18,7 @@
 #       - FAILURE
 ####################################################
 
-namespace: org.openscore.slang.comparisons
+namespace: org.openscore.slang.base.comparisons
 
 operations:
   - less_than_percentage:

@@ -15,7 +15,7 @@
 #   Outputs:
 #       - used_images_list - List of Docker images currently used on the machine
 ####################################################
-namespace: org.openscore.slang.docker.images.
+namespace: org.openscore.slang.docker.images
 
 imports:
  docker_images: org.openscore.slang.docker.images
