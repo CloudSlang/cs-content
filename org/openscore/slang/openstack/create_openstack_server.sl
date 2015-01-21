@@ -15,10 +15,11 @@
 #        - serverName - Server name
 #        - imgRef - Image reference for of the server to be created
 #   Outputs:
-#       - containerID
-#       - errorMessage
+#       - returnResult - response of the operation
+#       - statusCode - normal status code is 202
+#       - errorMessage: returnResult if statusCode different than '202'
 #   Results:
-#       - SUCCESS - operation succeeded (statusCode == '200')
+#       - SUCCESS - operation succeeded (statusCode == '202')
 #       - FAILURE - otherwise
 ####################################################
 

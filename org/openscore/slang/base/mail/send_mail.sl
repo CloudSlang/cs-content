@@ -25,8 +25,8 @@
 #       - contentTransferEncoding - optional - Default base64
 #       - delimiter - optional - default none
 #   Results:
-#       - SUCCESS - succeeds if mail was sent successfully
-#       - FAILURE
+#       - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
+#       - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.base.mail

@@ -14,10 +14,10 @@
 #       - username - Username
 #       - password  - Password
 #   Outputs:
-#       - imageList
+#       - imageList - List containing the id's of docker images that are used with delimiter "\n"
 #   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - SUCCESS - SSH command succeeds
+#       - FAILURE - SSH command fails
 ####################################################
 
 namespace: org.openscore.slang.docker.images

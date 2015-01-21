@@ -16,7 +16,7 @@
 #       - password - Password
 #   Outputs:
 #       - dbIp - IP of the specified container
-#       - errorMessage
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

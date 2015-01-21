@@ -16,8 +16,8 @@
 #   Outputs:
 #       - token - authentication token
 #       - tenant - tenantID
-#       - returnResult
-#       - errorMessage
+#       - returnResult - response of the last operation that was executed
+#       - errorMessage - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack

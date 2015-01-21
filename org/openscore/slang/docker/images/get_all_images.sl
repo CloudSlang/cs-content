@@ -14,10 +14,10 @@
 #       - username - Username
 #       - password - Password
 #   Outputs:
-#       - imageList
+#       - imageList - List containing all docker images' REPOSITORY and TAG
 #   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - SUCCESS - SSH command succeeds
+#       - FAILURE - SSH command fails
 ####################################################
 namespace: org.openscore.slang.docker.images
 
@@ -36,16 +36,16 @@ operations:
             - command:
                 default: >
                     "docker images | awk '{print $1 \":\" $2}'"
-                required: false
+                override: false
             - arguments:
                 default: "''"
-                required: false
+                override: false
             - characterSet:
                 default: "'UTF-8'"
-                required: false
+                override: false
             - pty:
                 default: "'false'"
-                required: false
+                override: false
             - timeout:
                 default: "'30000000'"
                 override: true

@@ -18,7 +18,7 @@
 #       - password - Password
 #   Outputs:
 #       - dbContainerID - ID of the container
-#       - errorMessage
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

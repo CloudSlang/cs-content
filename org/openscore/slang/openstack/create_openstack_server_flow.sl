@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete two docker containers
+#   This flow get authentication and create an OpenStack server.
 #   Inputs:
 #       - host - OpenStack machine IP
 #       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
@@ -16,8 +16,8 @@
 #       - password - OpenStack password
 #       - serverName - Server name
 #   Outputs:
-#       - returnResult
-#       - errorMessage
+#       - returnResult - response of the last operation that was executed
+#       - errorMessage - error message for the operation that fails
 ####################################################
 
 namespace: org.openscore.slang.openstack

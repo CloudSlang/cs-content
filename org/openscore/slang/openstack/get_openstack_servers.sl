@@ -14,6 +14,10 @@
 #       - computePort - optional - Port used for OpenStack computations - Default: 8774
 #       - token - OpenStack token obtained after authentication
 #       - tenant - OpenStack tenantID obtained after authentication
+#   Outputs:
+#       - returnResult - response of the operation
+#       - statusCode - normal statusCode is 202
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '200')
 #       - FAILURE - otherwise

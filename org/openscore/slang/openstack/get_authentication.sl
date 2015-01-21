@@ -14,6 +14,11 @@
 #       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
 #       - username - OpenStack username
 #       - password - OpenStack password
+#   Outputs:
+#       - returnResult - response of the operation
+#       - statusCode - normal status code is 200
+#       - returnCode - if returnCode = -1 then there was an error
+#       - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
 #   Results:
 #       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #       - FAILURE - otherwise

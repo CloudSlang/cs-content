@@ -13,7 +13,7 @@
 #       - dockerUsername - Username
 #       - dockerPassword - Password
 #   Outputs:
-#       - used_images_list - List of Docker images currently used on the machine
+#       - used_images_list - List of Docker images currently used on the machine with delimiter "\n"
 ####################################################
 namespace: org.openscore.slang.docker.images
 

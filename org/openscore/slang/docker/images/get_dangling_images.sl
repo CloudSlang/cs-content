@@ -14,7 +14,7 @@
 #       - username - Username
 #       - password - Password
 #   Outputs:
-#       - danglingImageList
+#       - danglingImageList - list containing ids of docker dangling images
 #   Results:
 #       - SUCCESS
 #       - FAILURE

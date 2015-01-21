@@ -15,9 +15,9 @@
 #       - openstackUsername - OpenStack username
 #       - openstackPassword - OpenStack password
 #   Outputs:
-#       - serverList
-#       - returnResult
-#       - errorMessage
+#       - serverList - list containing all server names
+#       - returnResult - response of the last operation executed
+#       - errorMessage - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack

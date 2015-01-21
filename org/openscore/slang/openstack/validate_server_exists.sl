@@ -16,8 +16,8 @@
 #       - openstackPassword - OpenStack Password
 #       - serverName - Server name to check
 #   Outputs:
-#       - returnResult
-#       - errorMessage
+#       - returnResult - response of the last operation executed
+#       - errorMessage - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack

@@ -13,10 +13,7 @@
 #       - dockerUsername - Username
 #       - dockerPassword - Password
 #   Outputs:
-#       - errorMessage
-#   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - errorMessage - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.docker.containers
@@ -51,6 +48,5 @@ flow:
           - password: dockerPassword
       publish:
         - errorMessage
-
   outputs:
     - errorMessage

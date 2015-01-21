@@ -20,8 +20,8 @@
 #       - username: Username
 #       - password: Password
 #   Outputs:
-#       - containerID
-#       - errorMessage
+#       - containerID - ID of the container that was started.
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

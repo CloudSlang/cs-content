@@ -9,15 +9,15 @@
 #   This operation will stop a specified docker container.
 #
 #   Inputs:
-#       - containerID - optional - ID of the container to be deleted - Default: none
+#       - containerID - ID of the container to be deleted
 #       - cmdParams - optional - Command parameters - Default: none
 #       - host - Linux machine IP
 #       - port - optional - SSH port - Default: 22
 #       - username - Username
 #       - password - Password
 #   Outputs:
-#       - containerID
-#       - errorMessage
+#       - containerID - ID of the container that was deleted
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

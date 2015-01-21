@@ -15,7 +15,7 @@
 #       - dockerUsername - Username
 #       - dockerPassword - Password
 #   Outputs:
-#       - errorMessage
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

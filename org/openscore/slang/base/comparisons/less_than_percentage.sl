@@ -8,14 +8,14 @@
 ####################################################
 #   This operation will succeed if the first input is less than the second input
 #   Inputs:
-#       - first_percentage
-#       - second_percentage
+#       - first_percentage - string which represents a percentage (must contain "%") - ex. (50%)
+#       - second_percentage - string which represents a percentage (must contain "%") - ex. (50%)
 #   Outputs:
-#       - firstPercentageNr
-#       - secondPercentageNr
+#       - first_percentage_nr - first input string without "%"
+#       - second_percentage_nr - second input string without "%"
 #   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - SUCCESS - succeeds if first_percentage < second_percentage
+#       - FAILURE - fails if first_percentage >= second_percentage
 ####################################################
 
 namespace: org.openscore.slang.base.comparisons
@@ -27,11 +27,11 @@ operations:
           - second_percentage
         action:
           python_script: |
-            firstPercentageNr = first_percentage.replace("%", "")
-            secondPercentageNr = second_percentage.replace("%", "")
+            first_percentage_nr = first_percentage.replace("%", "")
+            second_percentage_nr = second_percentage.replace("%", "")
         outputs:
-          - firstPercentageNr
-          - secondPercentageNr
+          - first_percentage_nr
+          - second_percentage_nr
         results:
-          - SUCCESS: firstPercentageNr < secondPercentageNr
+          - SUCCESS: first_percentage_nr < second_percentage_nr
           - FAILURE

@@ -15,10 +15,7 @@
 #       - amount_of_images_deleted - how many images where deleted
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted
 #       - dangling_images_list_safe_to_delete - list populated with dangling images that are safe to delete
-#       - images_list_safe_to_delete - list populated with images that are wafe to delete
-#   Results:
-#       - SUCCESS
-#       - FAILURE
+#       - images_list_safe_to_delete - list populated with images that are safe to delete
 ####################################################
 
 namespace: org.openscore.slang.docker.images

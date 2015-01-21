@@ -14,6 +14,10 @@
 #       - token - OpenStack token obtained after authentication
 #       - tenant - OpenStack tenantID obtained after authentication
 #       - serverID - ID of the server to be deleted
+#   Outputs:
+#       - returnResult - response of the operation
+#       - statusCode - normal status code is 204
+#       - errorMessage: returnResult if statusCode if different than 204
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '204')
 #       - FAILURE - otherwise
@@ -33,6 +37,7 @@ operations:
         - serverID
         - headers:
             default: "'X-AUTH-TOKEN:' + token"
+            override: true
         - url:
             default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
             override: true

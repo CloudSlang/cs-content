@@ -6,12 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will count the occurrences of a string in another string
+#   This operation will count the occurrences of a string in another string ( *needs to be more general)
 #
 #   Inputs:
 #       - container - String where to search
 #       - toFind - String to be found
 #       - ignoreCase - optional - Ignores case if set to true - Default: true
+#   Outputs:
+#       - occurrence - number of times toFind was found in container
+#       - returnResult - notification string
+#       - returnCode - 0 if everything went ok, -1 if an error was thrown
+#       - errorMessage: returnResult if occurrence == '0'  else ''
 #   Results:
 #       - SUCCESS - string is found at least once
 #       - FAILURE - otherwise

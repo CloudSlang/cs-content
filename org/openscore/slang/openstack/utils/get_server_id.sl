@@ -14,6 +14,8 @@
 #       - server_name - server name
 #   Outputs:
 #       - serverID
+#       - returnResult - notification string which says if parsing was successful or not.
+#       - returnCode - 0 if parsing was successful, -1 otherwise.
 #       - errorMessage
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
@@ -49,3 +51,6 @@ operations:
         - returnResult
         - returnCode
         - errorMessage: returnResult if returnCode == '-1' else ''
+      results:
+        - SUCCESS: returnCode == '0'
+        - FAILURE

@@ -12,7 +12,9 @@
 #       - server_body - response of the get_openstack_servers operation
 #   Outputs:
 #       - serverList - list with server names
-#       - errorMessage
+#       - returnResult - notification string which says if parsing was successful or not.
+#       - returnCode - 0 if parsing was successful, -1 otherwise.
+#       - errorMessage - returnResult if there was an error
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
@@ -46,3 +48,7 @@ operations:
         - returnResult
         - returnCode
         - errorMessage: returnResult if returnCode == '-1' else ''
+
+      results:
+        - SUCCESS: returnCode == '0'
+        - FAILURE

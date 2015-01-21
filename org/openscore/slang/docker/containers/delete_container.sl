@@ -16,8 +16,8 @@
 #       - username - Username
 #       - password - Password
 #   Outputs:
-#       - containerID
-#       - errorMessage
+#       - containerID - ID of the container that was deleted
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
