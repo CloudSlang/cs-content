@@ -11,9 +11,9 @@
 #   Inputs:
 #       - dbContainerID - ID of the DB container
 #       - linkedContainerID - ID of the linked container
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine host password
 #   Outputs:
 #       - errorMessage - error message
 #   Results:
@@ -39,16 +39,16 @@ flow:
       do:
         docker_containers.clear_container:
           - containerID: "linkedContainerID"
-          - dockerHost: "dockerHost"
-          - dockerUsername: "dockerUsername"
-          - dockerPassword: "dockerPassword"
+          - dockerHost
+          - dockerUsername
+          - dockerPassword
     clear_linked_container:
       do:
         docker_containers.clear_container:
           - containerID: "dbContainerID"
-          - dockerHost: "dockerHost"
-          - dockerUsername: "dockerUsername"
-          - dockerPassword: "dockerPassword"
+          - dockerHost
+          - dockerUsername
+          - dockerPassword
   outputs:
     - errorMessage
   results:

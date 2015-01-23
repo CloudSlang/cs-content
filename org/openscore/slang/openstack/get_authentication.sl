@@ -7,11 +7,11 @@
 #
 ####################################################
 #   This operation will do a REST call which contains an OpenStack authentication token and tenantID in its response
-#   (result needs to be parsed)
+#   (result needs to be parsed).
 #
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
+#       - host - OpenStack machine host
+#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #       - username - OpenStack username
 #       - password - OpenStack password
 #   Outputs:

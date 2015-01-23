@@ -5,12 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused docker dangling images
+#   This flow will delete only the unused docker dangling images.
+#
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
-#       - usedImages - List of used images
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
+#       - usedImages - list of used images
 #   Outputs:
 #       - images_list_safe_to_delete - unused docker images (including dangling ones)
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted

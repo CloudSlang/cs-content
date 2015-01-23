@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will count the occurrences of a string in another string ( *needs to be more general)
+#   This operation will count the occurrences of a string in another string ( *needs to be more general).
 #
 #   Inputs:
-#       - container - String where to search
-#       - toFind - String to be found
-#       - ignoreCase - optional - Ignores case if set to true - Default: true
+#       - string_in_which_to_search - string where to search
+#       - string_to_find - string to be found
+#       - ignore_case - optional - ignores case if set to true - Default: true
 #   Outputs:
 #       - occurrence - number of times toFind was found in container
 #       - returnResult - notification string
@@ -27,18 +27,18 @@ namespace: org.openscore.slang.base.strings
 operations:
   - string_occurrence_counter:
       inputs:
-        - container
-        - toFind
-        - ignoreCase:
+        - string_in_which_to_search
+        - string_to_find
+        - ignore_case:
             default: "''true'"
             required: false
       action:
         python_script: |
           try:
-            if ignoreCase == 'true':
-              container.lower()
-              toFind.lower()
-            occurrence = container.count(toFind)
+            if ignore_case == 'true':
+              string_in_which_to_search.lower()
+              string_to_find.lower()
+            occurrence = string_in_which_to_search.count(string_to_find)
             returnCode = '0'
             if occurrence == 0:
               returnResult = 'Server was not created'

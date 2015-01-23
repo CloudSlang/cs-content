@@ -7,14 +7,15 @@
 #
 ####################################################
 #   This flow get authentication and create an OpenStack server.
+#
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - Port used for OpenStack computations - Default: 8774
-#       - imgRef - Image reference for of the server to be created
+#       - host - OpenStack machine host
+#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - imgRef - image reference for of the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
-#       - serverName - Server name
+#       - serverName - server name
 #   Outputs:
 #       - returnResult - response of the last operation that was executed
 #       - errorMessage - error message for the operation that fails

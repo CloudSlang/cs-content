@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will delete docker images specified in the input
+#   This operation will delete docker images specified in the input.
 #
 #   Inputs:
-#       - host - Linux machine IP
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #       - images - list of docker images to be deleted separated by space(" ")
 #   Outputs:
 #       - response - ID of the deleted images

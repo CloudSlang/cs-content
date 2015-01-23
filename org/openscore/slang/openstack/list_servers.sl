@@ -9,9 +9,9 @@
 #   This flow will output a list of servers on an OpenStack machine.
 #
 #   Inputs:
-#       - openstackHost - OpenStack machine IP
-#       - openstackIdentityPort - optional - Port used for OpenStack authentication - Default: 5000
-#       - openstackComputePort - optional - Port used for OpenStack computations - Default: 8774
+#       - openstackHost - OpenStack machine host
+#       - openstackIdentityPort - optional - port used for OpenStack authentication - Default: 5000
+#       - openstackComputePort - optional - port used for OpenStack computations - Default: 8774
 #       - openstackUsername - OpenStack username
 #       - openstackPassword - OpenStack password
 #   Outputs:

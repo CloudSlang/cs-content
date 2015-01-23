@@ -7,11 +7,12 @@
 #
 ####################################################
 #   This flow will delete unused docker images if diskspace is greater than a given value.
+#
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
-#       - percentage - ex. (50%) - If diskspace is greater than this value then unused images will be deleted.
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
+#       - percentage - if diskspace is greater than this value then unused images will be deleted - ex. (50%)
 #   Outputs:
 #       - total_amount_of_images_deleted - how many images were deleted
 ####################################################

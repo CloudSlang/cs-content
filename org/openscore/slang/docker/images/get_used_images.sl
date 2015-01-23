@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will return a list populated with used docker images
+#   This operation will return a list populated with used docker images.
 #
 #   Inputs:
-#       - host - Linux machine IP
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password  - Password
+#       - username - Docker machine username
+#       - password  - Docker machine password
 #   Outputs:
-#       - imageList - List containing the id's of docker images that are used with delimiter "\n"
+#       - imageList - list containing the id's of docker images that are used with delimiter "\n"
 #   Results:
 #       - SUCCESS - SSH command succeeds
 #       - FAILURE - SSH command fails

@@ -6,29 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# This operation retrieves the MySQL server status.
-# Inputs:
-#    - container - name or ID of the docker container that runs MySQL
-#    - host - docker machine host
-#    - username - docker machine username
-#    - password - docker machine password
-#    - mysqlUsername - MySQL instance username
-#    - mysqlPassword - MySQL instance password
+#   This operation retrieves the MySQL server status.
 #
-# Outputs:
-#    - uptime - The number of seconds the MySQL server has been running.
-#    - threads - The number of active threads (clients).
-#    - questions - The number of questions (queries) from clients since the server was started.
-#    - slowQueries - The number of queries that have taken more than long_query_time(MySQL system variable) seconds
-#    - opens - The number of tables the server has opened.
-#    - flushTables - The number of flush-*, refresh, and reload commands the server has executed.
-#    - openTables - The number of tables that currently are open.
-#    - queriesPerSecondAVG - an average value of the number of queries in a second
-#    - errorMessage - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
-#
-# Results:
-#    - SUCCESS - the action was executed successfully and STDERR of the machine contains no errors
-#    - FAILURE
+#   Inputs:
+#       - container - name or ID of the docker container that runs MySQL
+#       - host - Docker machine host
+#       - username - Docker machine username
+#       - password - Docker machine password
+#       - mysqlUsername - MySQL instance username
+#       - mysqlPassword - MySQL instance password
+#   Outputs:
+#       - uptime - number of seconds the MySQL server has been running
+#       - threads - number of active threads (clients)
+#       - questions - number of questions (queries) from clients since the server was started
+#       - slowQueries - number of queries that have taken more than long_query_time(MySQL system variable) seconds
+#       - opens - number of tables the server has opened
+#       - flushTables - number of flush-*, refresh, and reload commands the server has executed
+#       - openTables - number of tables that currently are open
+#       - queriesPerSecondAVG - an average value of the number of queries in a second
+#       - errorMessage - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
+#   Results:
+#       - SUCCESS - the action was executed successfully and STDERR of the machine contains no errors
+#       - FAILURE
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.docker.maintenance

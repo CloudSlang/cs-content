@@ -7,11 +7,11 @@
 #
 ####################################################
 #   This operation will do a REST call which contains a list of OpenStack server in its returnResult
-#   (result needs to be parsed)
+#   (result needs to be parsed).
 #
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - computePort - optional - Port used for OpenStack computations - Default: 8774
+#       - host - OpenStack machine host
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
 #       - token - OpenStack token obtained after authentication
 #       - tenant - OpenStack tenantID obtained after authentication
 #   Outputs:

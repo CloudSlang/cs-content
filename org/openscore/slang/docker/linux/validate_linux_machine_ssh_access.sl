@@ -6,14 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will execute an empty SSH command
+#   This operation will execute an empty SSH command.
+#
 #   Inputs:
-#       - host - Linux machine IP
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
-#       - response - linux welcome message
+#       - response - Linux welcome message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will do a REST call which deletes an OpenStack server
+#   This operation will do a REST call which deletes an OpenStack server.
 #
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - computePort - optional - Port used for OpenStack computations - Default: 8774
+#       - host - OpenStack machine host
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
 #       - token - OpenStack token obtained after authentication
 #       - tenant - OpenStack tenantID obtained after authentication
 #       - serverID - ID of the server to be deleted

@@ -7,15 +7,15 @@
 #
 ####################################################
 #   This operation will parse the response of the get_authentication operation and have the
-#   token and tenantID as its outputs
+#   token and tenantID as its outputs.
 #
 #   Inputs:
 #       -jsonAuthenticationResponse - response of the get_authentication operation
 #   Outputs:
 #       - token - authentication token id
 #       - tenant - tenant id
-#       - returnResult - notification string which says if parsing was successful or not.
-#       - returnCode - 0 if parsing was successful, -1 otherwise.
+#       - returnResult - notification string which says if parsing was successful or not
+#       - returnCode - 0 if parsing was successful, -1 otherwise
 #       - errorMessage - returnResult if there was an error
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')

@@ -9,11 +9,11 @@
 #   This operation will return the ip of a specified container.
 #
 #   Inputs:
-#       - containerName - Container name
-#       - host - Linux machine IP
+#       - containerName - container name
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
 #       - dbIp - IP of the specified container
 #       - errorMessage - error message

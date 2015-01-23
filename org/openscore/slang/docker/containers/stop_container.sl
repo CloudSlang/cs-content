@@ -10,11 +10,11 @@
 #
 #   Inputs:
 #       - containerID - ID of the container to be deleted
-#       - cmdParams - optional - Command parameters - Default: none
-#       - host - Linux machine IP
+#       - cmdParams - optional - command parameters - Default: none
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
 #       - containerID - ID of the container that was deleted
 #       - errorMessage - error message
