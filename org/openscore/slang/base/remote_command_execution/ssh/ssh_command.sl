@@ -9,22 +9,22 @@
 # Runs an SSH command on the host.
 #
 # Inputs:
-#    - host - Hostname or ip address.
-#    - port - The port number for running the command.
-#    - command - The command to execute.
-#    - pty - Whether to use pty - valid values: true, false. Default value: false.
-#    - username - Username to connect as.
-#    - password - Password of user.
-#    - arguments - The arguments to pass to the command.
-#    - privateKeyFile - The absolute path to the private key file.
-#    - timeout - Time in milliseconds to wait for the command to complete. Default value: 90000 ms.
-#    - characterSet - The character encoding used for input stream encoding from the target machine. Valid values: SJIS, EUC-JP, UTF-8. Default value: UTF-8.
-#    - closeSession - If false the ssh session will be cached for future calls of this operation during the life of the flow.
-#      If true the ssh session used by this operation will be closed. Valid values: true, false. Default value: true.
+#    - host - hostname or ip address
+#    - port - port number for running the command
+#    - command - command to execute
+#    - pty - whether to use pty; valid values: true, false; default value: false
+#    - username - username to connect as
+#    - password - password of user
+#    - arguments - arguments to pass to the command
+#    - privateKeyFile - the absolute path to the private key file
+#    - timeout - time in milliseconds to wait for the command to complete; default value: 90000 ms
+#    - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; default value: UTF-8;
+#    - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                     if true the ssh session used by this operation will be closed; Valid values: true, false; default value: true
 # Outputs:
-#    - returnResult - Contains the STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - STDOUT - Contains the standard Output of the machine in case of successful request, null otherwise
-#    - STDERR - Contains the standard Error of the machine in case of successful request, null otherwise
+#    - returnResult - contains the STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#    - STDOUT - contains the standard Output of the machine in case of successful request, null otherwise
+#    - STDERR - contains the standard Error of the machine in case of successful request, null otherwise
 # Results:
 #    - SUCCESS
 #    - FAILURE
