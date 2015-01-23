@@ -6,16 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will pull a docker image
+#   This operation will pull a docker image.
+#
 #   Inputs:
-#       - imageName - Image name to be pulled
-#       - host - Linux machine IP
+#       - imageName - image name to be pulled
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
-#       - returnResult
-#       - errorMessage
+#       - returnResult - response of the operation
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE

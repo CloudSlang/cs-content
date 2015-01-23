@@ -6,11 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused docker images
+#   This flow will delete unused docker images.
+#
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
 #   Outputs:
 #       - amount_of_images_deleted - how many images where deleted
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted

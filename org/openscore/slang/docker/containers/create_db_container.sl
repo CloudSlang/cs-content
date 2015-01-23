@@ -6,11 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will create a docker db container
+#   This flow will create a docker db container.
+#
 #   Inputs:
-#       - host - Linux machine IP
-#       - username - Username
-#       - password - Password
+#       - host - Docker machine host
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
 #       - dbIp - IP of the newly created container
 #       - errorMessage - error message of the operation that failed

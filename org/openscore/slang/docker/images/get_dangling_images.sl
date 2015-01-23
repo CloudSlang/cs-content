@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will return a list populated with all docker dangling images
+#   This operation will return a list populated with all docker dangling images.
 #
 #   Inputs:
-#       - host - Linux machine IP
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
 #       - danglingImageList - list containing ids of docker dangling images
 #   Results:

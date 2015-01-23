@@ -10,12 +10,12 @@
 #
 #   Inputs:
 #       - imageID - docker image that will be assigned to the container
-#       - containerName - Container name
-#       - cmdParams - Command parameters
-#       - host - Linux machine IP
+#       - containerName - container name
+#       - cmdParams - command parameters
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username - Username
-#       - password - Password
+#       - username - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
 #       - dbContainerID - ID of the container
 #       - errorMessage - error message

@@ -7,7 +7,8 @@
 #
 ####################################################
 #   This operation will subtract set2 from set1, meaning return result will be : set_1 - set_2 (elements from set_1 which are not in set_2)
-#   ex. ( set1 = 1 2 3 4 , set2 = 2 3 , set1 - set2 = 1 4 )
+#   ex. ( set1 = 1 2 3 4 , set2 = 2 3 , set1 - set2 = 1 4 ).
+#
 #   Inputs:
 #       - set_1 - first set - ex. ( 1 2 3 4 )
 #       - set_1_delimiter - delimiter of the first set - ex. ( " " )

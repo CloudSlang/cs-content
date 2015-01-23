@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will authenticate on an OpenStack machine
+#   This flow will authenticate on an OpenStack machine.
 #
 #   Inputs:
-#       - openstackHost - OpenStack machine IP
-#       - openstackIdentityPort - optional - Port used for OpenStack authentication - Default: 5000
+#       - openstackHost - OpenStack machine host
+#       - openstackIdentityPort - optional - port used for OpenStack authentication - Default: 5000
 #       - openstackUsername - OpenStack username
 #       - openstackPassword - OpenStack password
 #   Outputs:

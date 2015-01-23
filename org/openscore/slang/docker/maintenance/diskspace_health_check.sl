@@ -7,14 +7,15 @@
 #
 ####################################################
 #   This flow will check if the diskspace on a linux machine is less than a given percentage.
+#
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
 #       - percentage - ex. (50%)
 #   Results:
-#       - SUCCESS - Diskspace is less than percentage input.
-#       - FAILURE - Otherwise
+#       - SUCCESS - diskspace is less than percentage input.
+#       - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.docker.maintenance
@@ -49,8 +50,8 @@ flow:
     check_availability:
       do:
         base_comparisons.less_than_percentage:
-          - first_percentage: percentage
-          - second_percentage: diskSpace
+          - first_percentage: diskSpace
+          - second_percentage: percentage
       navigate:
         SUCCESS: SUCCESS
         FAILURE: FAILURE

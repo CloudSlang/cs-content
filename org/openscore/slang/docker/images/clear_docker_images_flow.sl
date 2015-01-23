@@ -5,11 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused docker images
+#   This flow will delete only the unused docker images.
+#
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
 #   Outputs:
 #       - images_list_safe_to_delete - unused docker images
 #       - amount_of_images_deleted - how many images where deleted

@@ -6,12 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete a docker container
+#   This flow will delete a docker container.
+#
 #   Inputs:
 #       - containerID - ID of the container to be deleted
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
 #   Outputs:
 #       - errorMessage - error message of the operation that failed
 ####################################################
@@ -32,7 +33,7 @@ flow:
     stop_container:
       do:
         docker_containers.stop_container:
-          - containerID: containerID
+          - containerID
           - host: dockerHost
           - username: dockerUsername
           - password: dockerPassword
@@ -42,7 +43,7 @@ flow:
     delete_container:
       do:
         docker_containers.delete_container:
-          - containerID: containerID
+          - containerID
           - host: dockerHost
           - username: dockerUsername
           - password: dockerPassword

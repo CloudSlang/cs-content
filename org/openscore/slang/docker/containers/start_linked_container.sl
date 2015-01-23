@@ -10,15 +10,15 @@
 #
 #   Inputs:
 #       - dbContainerIp - IP of a container that contains MySql
-#       - dbContainerName - Name of the container that contains MySql
-#       - imageName - Image name
-#       - containerName - Linked container name
-#       - linkParams - Link parameters
-#       - cmdParams - Command Parameters
-#       - host - Linux machine IP
+#       - dbContainerName - name of the container that contains MySql
+#       - imageName - image name
+#       - containerName - linked container name
+#       - linkParams - link parameters
+#       - cmdParams - command Parameters
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username: Username
-#       - password: Password
+#       - username: Docker machine username
+#       - password: Docker machine password
 #   Outputs:
 #       - containerID - ID of the container that was started.
 #       - errorMessage - error message

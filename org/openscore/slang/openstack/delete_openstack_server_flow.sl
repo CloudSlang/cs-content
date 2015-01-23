@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete an OpenStack server
+#   This flow will delete an OpenStack server.
 #
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - Port used for OpenStack computations - Default: 8774
-#       - username - OpenStack Username
-#       - password - OpenStack Password
-#       - serverName - Server name to delete
+#       - host - OpenStack machine host
+#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - username - OpenStack username
+#       - password - OpenStack password
+#       - serverName - server name to delete
 #   Outputs:
 #       - returnResult - response of the last operation that was executed
 #       - errorMessage - error message of the operation that failed

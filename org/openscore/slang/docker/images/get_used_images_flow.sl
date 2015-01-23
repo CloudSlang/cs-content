@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will return a list of used docker images
+#   This flow will return a list of used docker images.
 #
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
 #   Outputs:
-#       - used_images_list - List of Docker images currently used on the machine with delimiter "\n"
+#       - used_images_list - list of Docker images currently used on the machine with delimiter "\n"
 ####################################################
 namespace: org.openscore.slang.docker.images
 

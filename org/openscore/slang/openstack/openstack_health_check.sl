@@ -10,17 +10,17 @@
 #   If any of the steps fail it will send an email with the error report.
 #
 #   Inputs:
-#       - host - OpenStack machine IP
-#       - identityPort - optional - Port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - Port used for OpenStack computations - Default: 8774
-#       - imgRef - Image reference for of the server to be created
+#       - host - OpenStack machine host
+#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - imgRef - image reference for of the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
-#       - serverName - optional - Server name - Default: test-server
-#       - emailHost - Email host
-#       - emailPort - Email port
-#       - to - Email recipient
-#       - from - Email sender
+#       - serverName - optional - server name - Default: test-server
+#       - emailHost - email host
+#       - emailPort - email port
+#       - to - email recipient
+#       - from - email sender
 ####################################################
 
 namespace: org.openscore.slang.openstack

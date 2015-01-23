@@ -6,14 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will check the disk space percentage on a linux machine
+#   This operation will check the disk space percentage on a linux machine.
+#
 #   Inputs:
-#       - host - Linux machine IP
+#       - host - Docker machine host
 #       - port - optional - SSH port - Default: 22
-#       - username  - Username
-#       - password - password
+#       - username  - Docker machine username
+#       - password - Docker machine password
 #   Outputs:
-#       - diskSpace - percentage
+#       - diskSpace - percentage - ex. (50%)
 #   Results:
 #       - SUCCESS - operation finished successfully
 #       - FAILURE - otherwise

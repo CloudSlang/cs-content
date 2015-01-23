@@ -6,22 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# This flow retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible errors.
-# Inputs:
-#    - container - name or ID of the docker container that runs MySQL
-#    - dockerHost - docker machine host
-#    - dockerUsername - docker machine username
-#    - dockerPassword - docker machine password
-#    - mysqlUsername - MySQL instance username
-#    - mysqlPassword - MySQL instance password
-#    - emailHost - email server host
-#    - emailPort - email server port
-#    - emailSender - email sender
-#    - emailRecipient - email recipient
+#   This flow retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible errors.
 #
-# Results:
-#    - SUCCESS
-#    - FAILURE
+#   Inputs:
+#       - container - name or ID of the docker container that runs MySQL
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
+#       - mysqlUsername - MySQL instance username
+#       - mysqlPassword - MySQL instance password
+#       - emailHost - email server host
+#       - emailPort - email server port
+#       - emailSender - email sender
+#       - emailRecipient - email recipient
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.docker.maintenance

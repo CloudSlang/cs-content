@@ -10,13 +10,13 @@
 #   If any of the steps fail, an error is send notifying the error.
 #
 #   Inputs:
-#       - dockerHost - Linux machine IP
-#       - dockerUsername - Username
-#       - dockerPassword - Password
-#       - emailHost - Email host
-#       - emailPort - Email port
-#       - emailSender - Email sender
-#       - emailRecipient - Email recipient
+#       - dockerHost - Docker machine host
+#       - dockerUsername - Docker machine username
+#       - dockerPassword - Docker machine password
+#       - emailHost - email host
+#       - emailPort - email port
+#       - emailSender - email sender
+#       - emailRecipient - email recipient
 #   Results:
 #       - SUCCESS
 #       - FAILURE

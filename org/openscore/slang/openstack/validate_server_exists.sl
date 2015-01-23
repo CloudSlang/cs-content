@@ -9,12 +9,12 @@
 #   This flow will check whether or not an OpenStack server exists.
 #
 #   Inputs:
-#       - openstackHost - OpenStack machine IP
-#       - openstackIdentityPort - optional - Port used for OpenStack authentication - Default: 5000
-#       - openstackComputePort - optional - Port used for OpenStack computations - Default: 8774
-#       - openstackUsername - OpenStack Username
-#       - openstackPassword - OpenStack Password
-#       - serverName - Server name to check
+#       - openstackHost - OpenStack machine host
+#       - openstackIdentityPort - optional - port used for OpenStack authentication - Default: 5000
+#       - openstackComputePort - optional - port used for OpenStack computations - Default: 8774
+#       - openstackUsername - OpenStack username
+#       - openstackPassword - OpenStack password
+#       - serverName - server name to check
 #   Outputs:
 #       - returnResult - response of the last operation executed
 #       - errorMessage - error message of the operation that failed
@@ -55,9 +55,9 @@ flow:
     check_server:
       do:
         base_strings.string_occurrence_counter:
-          - toFind: serverName
-          - container: serverList
-          - ignoreCase: "'true'"
+          - string_to_find: serverName
+          - string_in_which_to_search: serverList
+          - ignore_case: "'true'"
       publish:
         - returnResult
         - errorMessage

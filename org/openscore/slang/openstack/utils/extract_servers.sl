@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation build a list with server names from the response of the get_openstack_servers operation
+#   This operation build a list with server names from the response of the get_openstack_servers operation.
 #
 #   Inputs:
 #       - server_body - response of the get_openstack_servers operation
 #   Outputs:
 #       - serverList - list with server names
-#       - returnResult - notification string which says if parsing was successful or not.
-#       - returnCode - 0 if parsing was successful, -1 otherwise.
+#       - returnResult - notification string which says if parsing was successful or not
+#       - returnCode - 0 if parsing was successful, -1 otherwise
 #       - errorMessage - returnResult if there was an error
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')

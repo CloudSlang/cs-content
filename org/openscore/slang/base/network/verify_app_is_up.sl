@@ -7,6 +7,7 @@
 #
 ####################################################
 #   This operation will check if an application is up and running.
+#
 #   Inputs:
 #       - host - ip where the application is running
 #       - port - port on which the application is listening

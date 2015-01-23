@@ -6,7 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will succeed if the first input is less than the second input
+#   This operation will succeed if the first input is less than the second input.
+#
 #   Inputs:
 #       - first_percentage - string which represents a percentage (must contain "%") - ex. (50%)
 #       - second_percentage - string which represents a percentage (must contain "%") - ex. (50%)

@@ -7,16 +7,16 @@
 #
 ####################################################
 #   This operation will get the serverID of a server with its name specified as an input
-#   from the response of the get_openstack_servers operation
+#   from the response of the get_openstack_servers operation.
 #
 #   Inputs:
 #       - server_body - response of the get_openstack_servers operation
 #       - server_name - server name
 #   Outputs:
-#       - serverID
-#       - returnResult - notification string which says if parsing was successful or not.
-#       - returnCode - 0 if parsing was successful, -1 otherwise.
-#       - errorMessage
+#       - serverID - ID of the specified server
+#       - returnResult - notification string which says if parsing was successful or not
+#       - returnCode - 0 if parsing was successful, -1 otherwise
+#       - errorMessage - error message
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
