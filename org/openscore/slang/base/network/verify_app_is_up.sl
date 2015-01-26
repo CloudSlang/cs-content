@@ -46,7 +46,7 @@ operations:
                 if code == 200 :
                   returnResult = True
       outputs:
-        - errorMessage: "'Application is not Up , after ' + count + ' attempts to ping .'"
+        - errorMessage: "'Application is not Up , after ' + count + ' attempts to ping.'"
       results:
         - SUCCESS: returnResult == 'True'
         - FAILURE
