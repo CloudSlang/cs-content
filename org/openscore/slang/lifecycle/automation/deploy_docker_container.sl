@@ -5,8 +5,20 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+
 ###############################################################################################################
 # Create a Dockerfile on the remote machine, build an image from it, create and run a container from the image
+#
+# Inputs:
+#    - artifact_uri - URI to a war file for Tomcat
+#    - docker_machine_host - Docker machine host
+#    - docker_machine_username - Docker machine username
+#    - docker_machine_password - Docker machine password
+#    - workdir - working directory inside Docker machine; the Dockerfile is created here;
+#        if directory does not exist, it is created during the process
+#    - docker_user - Docker username for creating images; it should be the same as the Docker Hub username
+#    - image_name - name of the Docker image that is created
+#    - version - version(tag) of the Docker image that is created
 ###############################################################################################################
 
 namespace: org.openscore.slang.lifecycle.automation
