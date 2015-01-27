@@ -29,7 +29,21 @@ operations:
       action:
         python_script: |    
           import random
-          if min.isnumeric() and max.isnumeric():
+          valid = 0
+          length = len(min)
+          vall = min[1:length]
+          if min.isdigit() or (min.startswith("-") and vall.isdigit()):
+            valid = 1
+          else:
+            valid = 0  
+          length = len(max)
+          vall = max[1:length]
+          if max.isdigit() or (max.startswith("-") and vall.isdigit()):
+            valid = valid and 1
+          else:
+            valid = 0
+              
+          if valid == 1:
             minInteger = int(min)
             maxInteger = int(max)
             if minInteger > maxInteger:
@@ -37,7 +51,7 @@ operations:
             else:
               returnResult = random.randint(minInteger,maxInteger)
           else:
-            returnResult = "%s or %s are not integers" %(min,max)
+              returnResult = "%s or %s are not integers" %(min,max)
       outputs:
         - returnResult
       results:
