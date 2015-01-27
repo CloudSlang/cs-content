@@ -6,23 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   This operation creates a custom Dockerfile on a remote machine
+#   This operation creates an image from a Dockerfile
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.lifecycle.automation
 
 operations:
-  - create_dockerfile:
+  - create_image:
         inputs:
+            - docker_hub_user
             - image_name
             - version
-            - artifact_uri
+            - path_dockerfile
             - host
             - port:
                 default: "'22'"
             - username
             - password
-            - workdir
             - privateKeyFile:
                 default: "''"
             - arguments:
@@ -30,10 +30,7 @@ operations:
                 override: true
             - command:
                 default: >
-                    "mkdir " + workdir
-                    + "; cd " + workdir
-                    + "; echo 'FROM " + image_name + ":" + version + "' > Dockerfile"
-                    + "; echo 'ADD " + artifact_uri + " /usr/local/tomcat/webapps/' >> Dockerfile"
+                    'docker build -t="' + docker_hub_user + '/' + image_name + ':' + version + '" ' + path_dockerfile
                 override: true
             - characterSet:
                 default: "'UTF-8'"

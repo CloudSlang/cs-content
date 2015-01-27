@@ -22,12 +22,33 @@ flow:
     - username
     - password
     - workdir
+    - docker_hub_user
+    - image_name
+    - version
   workflow:
     create_dockerfile:
       do:
         automation.create_dockerfile:
+            - image_name:
+                default: "'tomcat'"
+                override: true
+            - version:
+                default: "'8.0'"
+                override: true
             - artifact_uri
             - host
             - username
             - password
             - workdir
+
+    create_image:
+      do:
+        automation.create_image:
+            - docker_hub_user
+            - image_name
+            - version
+            - path_dockerfile: workdir
+            - host
+            - username
+            - password
+
