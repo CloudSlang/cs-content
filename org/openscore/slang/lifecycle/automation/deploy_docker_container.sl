@@ -18,11 +18,11 @@ flow:
   name: deploy_docker_container
   inputs:
     - artifact_uri
-    - host
-    - username
-    - password
+    - docker_machine_host
+    - docker_machine_username
+    - docker_machine_password
     - workdir
-    - docker_hub_user
+    - docker_user
     - image_name
     - version
   workflow:
@@ -36,28 +36,28 @@ flow:
                 default: "'8.0'"
                 override: true
             - artifact_uri
-            - host
-            - username
-            - password
+            - host: docker_machine_host
+            - username: docker_machine_username
+            - password: docker_machine_password
             - workdir
 
     create_image:
       do:
         automation.create_image:
-            - docker_hub_user
+            - docker_user
             - image_name
             - version
             - path_dockerfile: workdir
-            - host
-            - username
-            - password
+            - host: docker_machine_host
+            - username: docker_machine_username
+            - password: docker_machine_password
 
     create_and_run_container:
       do:
         automation.create_and_run_container:
-            - docker_hub_user
+            - docker_user
             - image_name
             - version
-            - host
-            - username
-            - password
+            - host: docker_machine_host
+            - username: docker_machine_username
+            - password: docker_machine_password

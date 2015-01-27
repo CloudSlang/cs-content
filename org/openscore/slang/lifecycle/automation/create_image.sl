@@ -14,7 +14,7 @@ namespace: org.openscore.slang.lifecycle.automation
 operations:
   - create_image:
         inputs:
-            - docker_hub_user
+            - docker_user
             - image_name
             - version
             - path_dockerfile
@@ -30,7 +30,7 @@ operations:
                 override: true
             - command:
                 default: >
-                    'docker build -t="' + docker_hub_user + '/' + image_name + ':' + version + '" ' + path_dockerfile
+                    'docker build -t="' + docker_user + '/' + image_name + ':' + version + '" ' + path_dockerfile
                 override: true
             - characterSet:
                 default: "'UTF-8'"

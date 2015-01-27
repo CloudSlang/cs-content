@@ -14,7 +14,7 @@ namespace: org.openscore.slang.lifecycle.automation
 operations:
   - create_and_run_container:
         inputs:
-            - docker_hub_user
+            - docker_user
             - image_name
             - version
             - host
@@ -29,7 +29,7 @@ operations:
                 override: true
             - command:
                 default: >
-                    'docker run -p 8888:8080 -t -i ' + docker_hub_user + '/' + image_name + ':' + version
+                    'docker run -p 8888:8080 -t -i ' + docker_user + '/' + image_name + ':' + version
                 override: true
             - characterSet:
                 default: "'UTF-8'"
