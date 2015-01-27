@@ -5,9 +5,9 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
-
-####################################################
+###############################################################################################################
+# Create a Dockerfile on the remote machine, build an image from it, create and run a container from the image
+###############################################################################################################
 
 namespace: org.openscore.slang.lifecycle.automation
 
@@ -61,5 +61,3 @@ flow:
             - host
             - username
             - password
-
-
