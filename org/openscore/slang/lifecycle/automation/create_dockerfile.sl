@@ -48,5 +48,5 @@ operations:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction
               methodName: runSshShellCommand
         results:
-          - SUCCESS: 1==1
+          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
           - FAILURE
