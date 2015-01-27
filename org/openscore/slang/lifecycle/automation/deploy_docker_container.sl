@@ -52,3 +52,14 @@ flow:
             - username
             - password
 
+    create_and_run_container:
+      do:
+        automation.create_and_run_container:
+            - docker_hub_user
+            - image_name
+            - version
+            - host
+            - username
+            - password
+
+
