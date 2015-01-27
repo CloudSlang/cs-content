@@ -1,0 +1,26 @@
+namespace: slang.lifecycle.automation.flows
+    imports:
+      - ops: slang.lifecycle.automation.operations
+    flow:
+      name: Deploy_To_Artifactory
+      inputs:
+        - group
+        - artifact
+        - version
+        - repository:
+            default: "ext-release-local"
+            required: false
+      workflow:
+        httpPost:
+          do:
+            http_client_post:
+              - group
+              - artifactory
+              - version
+              - repository
+          publish:
+            - returnResult
+            - error
+      outputs:
+        - returnResult
+        - errorMessage
