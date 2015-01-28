@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will return a list populated with all docker dangling images.
+#   This operation will return a list populated with all Docker dangling images.
 #
 #   Inputs:
 #       - host - Docker machine host
@@ -14,7 +14,7 @@
 #       - username - Docker machine username
 #       - password - Docker machine password
 #   Outputs:
-#       - danglingImageList - list containing ids of docker dangling images
+#       - danglingImageList - list containing IDs of Docker dangling images
 #   Results:
 #       - SUCCESS
 #       - FAILURE

@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will create a docker container.
+#   This operation will create a Docker container.
 #
 #   Inputs:
-#       - imageID - docker image that will be assigned to the container
+#       - imageID - Docker image that will be assigned to the container
 #       - containerName - container name
 #       - cmdParams - command parameters
 #       - host - Docker machine host

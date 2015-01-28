@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow get authentication and create an OpenStack server.
+#   This flow gets authentication and creates an OpenStack server.
 #
 #   Inputs:
 #       - host - OpenStack machine host
 #       - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - imgRef - image reference for of the server to be created
+#       - imgRef - image reference for the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
 #       - serverName - server name

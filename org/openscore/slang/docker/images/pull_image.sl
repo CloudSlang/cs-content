@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will pull a docker image.
+#   This operation will pull a Docker image.
 #
 #   Inputs:
 #       - imageName - image name to be pulled

@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will return a list populated with all docker images.
+#   This operation will return a list populated with all Docker images.
 #
 #   Inputs:
 #       - host - Docker machine host
@@ -14,7 +14,7 @@
 #       - username - Docker machine username
 #       - password - Docker machine password
 #   Outputs:
-#       - imageList - list containing all docker images' REPOSITORY and TAG
+#       - imageList - list containing all Docker images' REPOSITORY and TAG
 #   Results:
 #       - SUCCESS - SSH command succeeds
 #       - FAILURE - SSH command fails

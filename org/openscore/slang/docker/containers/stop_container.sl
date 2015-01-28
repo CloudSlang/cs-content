@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will stop a specified docker container.
+#   This operation will stop a specified Docker container.
 #
 #   Inputs:
 #       - containerID - ID of the container to be deleted

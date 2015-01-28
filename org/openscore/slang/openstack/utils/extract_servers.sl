@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation build a list with server names from the response of the get_openstack_servers operation.
+#   This operation builds a list with server names from the response of the get_openstack_servers operation.
 #
 #   Inputs:
 #       - server_body - response of the get_openstack_servers operation

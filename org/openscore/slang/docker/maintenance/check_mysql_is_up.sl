@@ -9,14 +9,14 @@
 #   This operation checks if the MySQL server is up, meaning its state is alive.
 #
 #   Inputs:
-#       - container - name or ID of the docker container that runs MySQL
+#       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - mysqlUsername - MySQL instance username
 #       - mysqlPassword - MySQL instance password
 #   Outputs:
-#       - errorMessage - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
+#       - errorMessage - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and the MySQL server state is alive
 #       - FAILURE - some problem occurred, more information in the errorMessage output

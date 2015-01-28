@@ -9,7 +9,7 @@
 #   This operation retrieves the MySQL server status.
 #
 #   Inputs:
-#       - container - name or ID of the docker container that runs MySQL
+#       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
 #       - username - Docker machine username
 #       - password - Docker machine password
@@ -23,7 +23,7 @@
 #       - opens - number of tables the server has opened
 #       - flushTables - number of flush-*, refresh, and reload commands the server has executed
 #       - openTables - number of tables that currently are open
-#       - queriesPerSecondAVG - an average value of the number of queries in a second
+#       - queriesPerSecondAVG - an average value of the number of queries per second
 #       - errorMessage - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and STDERR of the machine contains no errors

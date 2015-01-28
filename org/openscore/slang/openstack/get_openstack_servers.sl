@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will do a REST call which contains a list of OpenStack server in its returnResult
+#   This operation will do a REST call which contains a list of OpenStack servers in its returnResult
 #   (result needs to be parsed).
 #
 #   Inputs:

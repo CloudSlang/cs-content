@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused docker dangling images.
+#   This flow will delete only the unused Docker dangling images.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host
@@ -13,7 +13,7 @@
 #       - dockerPassword - Docker machine password
 #       - usedImages - list of used images
 #   Outputs:
-#       - images_list_safe_to_delete - unused docker images (including dangling ones)
+#       - images_list_safe_to_delete - unused Docker images (including dangling ones)
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted
 ####################################################
 namespace: org.openscore.slang.docker.images

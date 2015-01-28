@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused docker images if diskspace is greater than a given value.
+#   This flow will delete unused Docker images if diskspace is greater than a given value.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host
