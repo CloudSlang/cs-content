@@ -5,9 +5,9 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow is an example of how to link Docker containers. It pulls a DB docker image container and starts it. Then it pulls
-#   a web application image container and starts it, linking it to the DB container. The application is then tested that it is up and running.
-#   If any of the steps fail, an error is send notifying the error.
+#   This flow is an example of how to link Docker containers. It pulls a DB Docker image container and starts it. Then it pulls
+#   a web application image container and starts it, linking it to the DB container. The application is then tested to see that it is up and running.
+#   If any of the steps fail, an error is sent notifying the error.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host

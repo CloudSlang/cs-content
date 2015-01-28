@@ -5,16 +5,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused docker images.
+#   This flow will delete only the unused Docker images.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host
 #       - dockerUsername - Docker machine username
 #       - dockerPassword - Docker machine password
 #   Outputs:
-#       - images_list_safe_to_delete - unused docker images
+#       - images_list_safe_to_delete - unused Docker images
 #       - amount_of_images_deleted - how many images where deleted
-#       - used_images_list - list containing used docker images
+#       - used_images_list - list containing used Docker images
 ####################################################
 namespace: org.openscore.slang.docker.images
 

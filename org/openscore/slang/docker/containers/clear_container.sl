@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete a docker container.
+#   This flow will delete a Docker container.
 #
 #   Inputs:
 #       - containerID - ID of the container to be deleted

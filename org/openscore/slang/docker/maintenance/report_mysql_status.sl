@@ -9,7 +9,7 @@
 #   This flow retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible errors.
 #
 #   Inputs:
-#       - container - name or ID of the docker container that runs MySQL
+#       - container - name or ID of the Docker container that runs MySQL
 #       - dockerHost - Docker machine host
 #       - dockerUsername - Docker machine username
 #       - dockerPassword - Docker machine password

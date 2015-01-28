@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will check if the diskspace on a linux machine is less than a given percentage.
+#   This flow will check if the diskspace on a Linux machine is less than a given percentage.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host
@@ -14,7 +14,7 @@
 #       - dockerPassword - Docker machine password
 #       - percentage - ex. (50%)
 #   Results:
-#       - SUCCESS - diskspace is less than percentage input.
+#       - SUCCESS - diskspace is less than percentage input
 #       - FAILURE - otherwise
 ####################################################
 

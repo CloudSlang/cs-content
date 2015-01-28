@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will check the disk space percentage on a linux machine.
+#   This operation will check the disk space percentage on a Linux machine.
 #
 #   Inputs:
 #       - host - Docker machine host

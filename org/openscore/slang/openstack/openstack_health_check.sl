@@ -13,7 +13,7 @@
 #       - host - OpenStack machine host
 #       - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - imgRef - image reference for of the server to be created
+#       - imgRef - image reference of the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
 #       - serverName - optional - server name - Default: test-server

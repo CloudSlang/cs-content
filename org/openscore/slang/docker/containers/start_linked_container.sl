@@ -9,8 +9,8 @@
 #   This operation will start a linked container.
 #
 #   Inputs:
-#       - dbContainerIp - IP of a container that contains MySql
-#       - dbContainerName - name of the container that contains MySql
+#       - dbContainerIp - IP of a container that contains MySQL
+#       - dbContainerName - name of the container that contains MySQL
 #       - imageName - image name
 #       - containerName - linked container name
 #       - linkParams - link parameters

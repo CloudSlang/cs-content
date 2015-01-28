@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will return a list of used docker images.
+#   This flow will return a list of used Docker images.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host

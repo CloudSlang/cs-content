@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused docker images.
+#   This flow will delete unused Docker images.
 #
 #   Inputs:
 #       - dockerHost - Docker machine host

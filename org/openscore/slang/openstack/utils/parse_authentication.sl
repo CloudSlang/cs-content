@@ -12,8 +12,8 @@
 #   Inputs:
 #       -jsonAuthenticationResponse - response of the get_authentication operation
 #   Outputs:
-#       - token - authentication token id
-#       - tenant - tenant id
+#       - token - authentication token ID
+#       - tenant - tenant ID
 #       - returnResult - notification string which says if parsing was successful or not
 #       - returnCode - 0 if parsing was successful, -1 otherwise
 #       - errorMessage - returnResult if there was an error

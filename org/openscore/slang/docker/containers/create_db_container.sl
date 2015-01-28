@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will create a docker db container.
+#   This flow will create a Docker db container.
 #
 #   Inputs:
 #       - host - Docker machine host

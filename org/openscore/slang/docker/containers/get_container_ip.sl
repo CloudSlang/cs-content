@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will return the ip of a specified container.
+#   This operation will return the IP of a specified container.
 #
 #   Inputs:
 #       - containerName - container name

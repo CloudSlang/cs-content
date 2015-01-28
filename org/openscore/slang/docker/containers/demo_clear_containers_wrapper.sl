@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete two docker containers.
+#   This flow will delete two Docker containers.
 #
 #   Inputs:
 #       - dbContainerID - ID of the DB container
