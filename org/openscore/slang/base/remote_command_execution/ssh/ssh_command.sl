@@ -12,13 +12,13 @@
 #    - host - hostname or IP address
 #    - port - port number for running the command
 #    - command - command to execute
-#    - pty - whether to use pty; valid values: true, false; default value: false
+#    - pty - whether to use pty; valid values: true, false; Default: false
 #    - username - username to connect as
 #    - password - password of user
 #    - arguments - arguments to pass to the command
 #    - privateKeyFile - the absolute path to the private key file
 #    - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
-#    - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; default value: UTF-8;
+#    - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
 #    - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                     if true the ssh session used by this operation will be closed; Valid values: true, false; Default: true
 # Outputs:

@@ -32,7 +32,6 @@ operations:
         - host
         - identityPort:
             default: "'5000'"
-            required: false
         - username
         - password
         - url:

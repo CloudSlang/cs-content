@@ -35,16 +35,13 @@ flow:
     - host
     - identityPort:
         default: "'5000'"
-        required: false
     - computePort:
         default: "'8774'"
-        required: false
     - imgRef
     - username
     - password
     - serverName:
         default: "'test-server'"
-        required: false
     - emailHost
     - emailPort
     - to

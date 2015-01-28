@@ -31,7 +31,6 @@ operations:
         - host
         - computePort:
             default: "'8774'"
-            required: false
         - token
         - tenant
         - headers:
