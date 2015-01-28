@@ -19,6 +19,10 @@
 #  jnks_new_job_name:      branch-project1
 #  new_scm_url:            http://localhost:8080/svn/hackaton-repo/branches/test-branch
 #  delete_job_if_existing: true
+#  email_host:             host name of an SMTP server to use when sending email_host
+#  email_port:             port of the SMTP server
+#  email_sender:           the sender's email address
+#  email_recipient:        the recipient's email address
 
 namespace: org.openscore.slang.jenkins
 

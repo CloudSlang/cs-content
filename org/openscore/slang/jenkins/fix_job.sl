@@ -6,6 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This flow "fixes" a Jenkins job: after copying a job, the job cannot be directly triggered 
+# from the Jenkins UI because the "Build now" link is missing for whatever reason. This job fixes
+# this by disabling and enabling the job.
+#
+# url:             the URL to Jenkins
+# job_name:        the name of the job to fix
 
 namespace: org.openscore.slang.jenkins
 

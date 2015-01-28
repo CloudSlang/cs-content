@@ -6,6 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This operation checks if a job exists in Jenkins
+#
+# url:             the URL to Jenkins
+# job_name:        the name of the job to check
+# expected_status: true if the invoking flow expects the job to exist, false otherwise; affects the operation's results
 
 namespace: org.openscore.slang.jenkins
 

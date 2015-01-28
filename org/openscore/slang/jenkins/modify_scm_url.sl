@@ -6,6 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This operation assigns a given SCM URL to a Jenkins job.
+#
+# url:             the URL to Jenkins
+# job_name:        the name of the job to disable
+# new_scm_url:     the SCM url to assign
 
 namespace: org.openscore.slang.jenkins
 

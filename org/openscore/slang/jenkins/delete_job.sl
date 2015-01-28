@@ -6,6 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This operation deletes a Jenkins job.
+#
+# url:             the URL to Jenkins
+# job_name:        the name of the job to delete
+
 
 namespace: org.openscore.slang.jenkins
 

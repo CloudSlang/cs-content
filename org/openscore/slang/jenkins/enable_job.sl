@@ -6,6 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This operation enables a Jenkins job.
+#
+# url:             the URL to Jenkins
+# job_name:        the name of the job to disable
 
 namespace: org.openscore.slang.jenkins
 
