@@ -28,11 +28,16 @@ namespace: org.openscore.slang.docker.containers
 
 operations:
 
-- create_container:
+  - create_container:
       inputs:
         - imageID
         - containerName
-        - cmdParams
+        - cmdParams:
+            default: "''"
+            required: false
+        - containerCmd:
+            default: "''"
+            required: false
         - host
         - port:
             default: "'22'"
@@ -43,7 +48,7 @@ operations:
             default: "''"
             override: true
         - command:
-            default: "'docker run --name ' + containerName + ' ' +cmdParams + ' -d ' + imageID"
+            default: "'docker run -d --name ' + containerName + ' ' + cmdParams + ' ' + imageID + ' ' + containerCmd"
             override: true
         - arguments:
             default: "''"
