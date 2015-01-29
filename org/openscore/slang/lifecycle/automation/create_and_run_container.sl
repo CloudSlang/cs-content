@@ -18,7 +18,14 @@
 #       - password - Docker machine password
 #       - expose_host_port - port of the Docker host that will be used for accessing the container
 #       - expose_container_port - port of the Docker container that will be used for accessing the container
-#                               - this port must also be exposed in the container
+#                                 this port must also be exposed in the container
+#       - pty - whether to use pty; valid values: true, false; Default: false
+#       - arguments - arguments to pass to the command; Default: none
+#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
+#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
+#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #
 #   Results:
 #       - SUCCESS - the action returnCode is 0 (executed without exceptions) and the STDERR of the machine contains no errors
@@ -40,10 +47,8 @@ operations:
             - password
             - privateKeyFile:
                 default: "''"
-                override: true
             - arguments:
                 default: "''"
-                override: true
             - expose_host_port
             - expose_container_port
             - command:
@@ -52,16 +57,12 @@ operations:
                 override: true
             - characterSet:
                 default: "'UTF-8'"
-                override: true
             - pty:
                 default: "'false'"
-                override: true
             - timeout:
                 default: "'90000'"
-                override: true
             - closeSession:
                 default: "'false'"
-                override: true
         action:
           java_action:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction

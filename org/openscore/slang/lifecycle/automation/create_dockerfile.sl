@@ -20,6 +20,13 @@
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - workdir - working directory on the Docker machine; the Dockerfile will be created here
+#       - pty - whether to use pty; valid values: true, false; Default: false
+#       - arguments - arguments to pass to the command; Default: none
+#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
+#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
+#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #
 #   Results:
 #       - SUCCESS - the action returnCode is 0 (executed without exceptions) and the STDERR of the machine contains no errors
@@ -42,10 +49,8 @@ operations:
             - workdir
             - privateKeyFile:
                 default: "''"
-                override: true
             - arguments:
                 default: "''"
-                override: true
             - command:
                 default: >
                     "mkdir " + workdir
@@ -55,16 +60,12 @@ operations:
                 override: true
             - characterSet:
                 default: "'UTF-8'"
-                override: true
             - pty:
                 default: "'false'"
-                override: true
             - timeout:
                 default: "'90000'"
-                override: true
             - closeSession:
                 default: "'false'"
-                override: true
         action:
           java_action:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction
