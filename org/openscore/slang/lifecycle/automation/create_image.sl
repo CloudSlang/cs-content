@@ -6,7 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   This operation creates an image from a Dockerfile
+#   This operation creates an image from a Dockerfile.
+#
+#   Inputs:
+#       - docker_user - Docker username for creating images; it should be the same as the Docker Hub username
+#       - image_name - name of the Docker image that is created
+#       - version - version(tag) of the Docker image that is created
+#       - path_dockerfile - path to folder that contains the Dockerfile the image is built from
+#       - host - Docker machine host
+#       - port - Docker machine port
+#       - username - Docker machine username
+#       - password - Docker machine password
+#
+#   Results:
+#       - SUCCESS - the action returnCode is 0 (executed without exceptions) and the STDERR of the machine contains no errors
+#       - FAILURE
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.lifecycle.automation
@@ -25,6 +39,7 @@ operations:
             - password
             - privateKeyFile:
                 default: "''"
+                override: true
             - arguments:
                 default: "''"
                 override: true
@@ -34,12 +49,16 @@ operations:
                 override: true
             - characterSet:
                 default: "'UTF-8'"
+                override: true
             - pty:
                 default: "'false'"
+                override: true
             - timeout:
                 default: "'90000'"
+                override: true
             - closeSession:
                 default: "'false'"
+                override: true
         action:
           java_action:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction

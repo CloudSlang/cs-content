@@ -6,8 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 
-###############################################################################################################
-# Create a Dockerfile on the remote machine, build an image from it, create and run a container from the image
+##############################################################################################################################################
+# This flow creates a Dockerfile on a remote machine, builds an image from it, creates and runs a container from the image.
+# The flow downloads a war file from the artifact_uri provided as flow input and deploys it in Tomcat server inside the container.
+# The flow exposes port 8888 of the Docker machine to be able to access the created container.
 #
 # Inputs:
 #    - artifact_uri - URI to a war file for Tomcat
@@ -19,7 +21,7 @@
 #    - docker_user - Docker username for creating images; it should be the same as the Docker Hub username
 #    - image_name - name of the Docker image that is created
 #    - version - version(tag) of the Docker image that is created
-###############################################################################################################
+##############################################################################################################################################
 
 namespace: org.openscore.slang.lifecycle.automation
 
@@ -73,3 +75,5 @@ flow:
             - host: docker_machine_host
             - username: docker_machine_username
             - password: docker_machine_password
+            - expose_host_port: "'8888'"
+            - expose_container_port: "'8080'"
