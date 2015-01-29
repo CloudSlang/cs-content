@@ -1,3 +1,33 @@
+# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+# The Apache License is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+# This flow performs a provisioning check on a 3PAR server.
+#
+# Inputs:
+# - host- The 3PAR server host
+# - port3Par - The port used for connecting to the 3PAR host
+# - username - The username of the 3PAR user
+# - password - The password associated with the 3PAR user
+# - volumeName - The 3PAR volume
+# - proxyHost - The proxy host used for connecting to the 3PAR host
+# - proxyPort - The proxy port associated with the proxy host
+# - emailServerHostname - The email server that will perform the email send task
+# - emailServerPort - The email server port
+# - emailTo - The recipient of the email sent by the flow
+
+# Outputs:
+# - returnResult - response of the operation
+# - errorMessage: - errorMessage of the 3PAR operation
+# Results:
+# - SUCCESS - operation succeeded
+# - FAILURE - otherwise
+####################################################
+
 namespace: org.openscore.slang.threepar
 imports:
  threepar_content: org.openscore.slang.threepar
