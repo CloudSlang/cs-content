@@ -32,7 +32,6 @@ flow:
     - openstackHost
     - openstackIdentityPort:
         default: "'5000'"
-        required: false
     - openstackUsername
     - openstackPassword
   workflow:

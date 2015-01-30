@@ -9,12 +9,12 @@
 #   This operation will create an OpenStack server.
 #
 #   Inputs:
-#        - host-  OpenStack machine host
-#        - computePort - optional - port used for OpenStack computations - Default: 8774
-#        - token - OpenStack token obtained after authentication
-#        - tenant - OpenStack tenantID obtained after authentication
-#        - serverName - server name
-#        - imgRef - image reference for of the server to be created
+#       - host-  OpenStack machine host
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - token - OpenStack token obtained after authentication
+#       - tenant - OpenStack tenantID obtained after authentication
+#       - serverName - server name
+#       - imgRef - image reference for of the server to be created
 #   Outputs:
 #       - returnResult - response of the operation
 #       - statusCode - normal status code is 202
@@ -32,7 +32,6 @@ operations:
             - host
             - computePort:
                 default: "'8774'"
-                required: false
             - token
             - tenant
             - serverName
