@@ -11,7 +11,7 @@
 #       - dockerHost - Docker machine host
 #       - dockerUsername - Docker machine username
 #       - dockerPassword - Docker machine password
-#       - usedImages - list of used images
+#       - usedImages - list of used images; format is a space separated list of strings
 #   Outputs:
 #       - images_list_safe_to_delete - unused Docker images (including dangling ones)
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted

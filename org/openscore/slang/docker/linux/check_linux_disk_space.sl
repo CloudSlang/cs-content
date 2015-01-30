@@ -60,6 +60,7 @@ operations:
               methodName: runSshShellCommand
           outputs:
             - diskSpace: STDOUT.replace("\n", "")
+            - returnCode
           results:
-            - SUCCESS
+            - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
             - FAILURE

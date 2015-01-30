@@ -41,7 +41,8 @@ flow:
           - percentage
       navigate:
         SUCCESS: SUCCESS
-        FAILURE: clear_unused_docker_images
+        FAILURE: FAILURE
+        NOT_ENOUGH_DISKSPACE: clear_unused_docker_images
     clear_unused_docker_images:
       do:
         docker_images.clear_unused_docker_images:
