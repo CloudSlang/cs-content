@@ -10,14 +10,14 @@
 #
 #   Inputs:
 #       - host - OpenStack machine host
-#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - compute_port - optional - port used for OpenStack computations - Default: 8774
 #       - username - OpenStack username
 #       - password - OpenStack password
-#       - serverName - server name to delete
+#       - server_name - server name to delete
 #   Outputs:
-#       - returnResult - response of the last operation that was executed
-#       - errorMessage - error message of the operation that failed
+#       - return_result - response of the last operation that was executed
+#       - error_message - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack
@@ -29,57 +29,57 @@ flow:
   name: delete_openstack_server_flow
   inputs:
     - host
-    - identityPort:
+    - identity_port:
         default: "'5000'"
-    - computePort:
+    - compute_port:
         default: "'8774'"
     - username
     - password
-    - serverName
+    - server_name
   workflow:
     authentication:
       do:
         openstack_content.get_authentication_flow:
-          - openstackHost: host
-          - openstackIdentityPort: identityPort
-          - openstackUsername: username
-          - openstackPassword: password
+          - openstack_host: host
+          - openstack_identityPort: identity_port
+          - openstack_username: username
+          - openstack_password: password
       publish:
         - token
         - tenant
-        - returnResult
-        - errorMessage
+        - return_result
+        - error_message
     get_servers:
       do:
         openstack_content.get_openstack_servers:
           - host
-          - computePort
+          - computePort: compute_port
           - token
           - tenant
       publish:
-        - server_list: returnResult
-        - returnResult
-        - errorMessage
+        - server_list: return_result
+        - return_result
+        - error_message
     get_server_id:
       do:
         openstack_utils.get_server_id:
           - server_body: server_list
-          - server_name: serverName
+          - server_name: server_name
       publish:
-        - serverID
-        - returnResult
-        - errorMessage
+        - server_ID
+        - return_result
+        - error_message
     delete_server:
       do:
         openstack_content.delete_openstack_server:
           - host
-          - computePort
+          - computePort: compute_port
           - token
           - tenant
-          - serverID
+          - serverID: server_ID
       publish:
-        - returnResult
-        - errorMessage
+        - return_result
+        - error_message
   outputs:
-    - returnResult
-    - errorMessage
+    - return_result
+    - error_message
