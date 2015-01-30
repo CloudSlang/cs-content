@@ -60,5 +60,5 @@ operations:
         outputs:
           - response: STDOUT
         results:
-          - SUCCESS
+          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
           - FAILURE

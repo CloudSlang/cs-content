@@ -22,8 +22,8 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - dbIp - IP of the specified container
-#       - errorMessage - error message
+#       - db_IP - IP of the specified container
+#       - error_message - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -64,8 +64,8 @@ operations:
              className: org.openscore.content.ssh.actions.SSHShellCommandAction
              methodName: runSshShellCommand
          outputs:
-           - dbIp: returnResult[:-1]
-           - errorMessage: STDERR if returnCode == '0' else returnResult
+           - db_IP: returnResult[:-1]
+           - error_message: STDERR if returnCode == '0' else returnResult
          results:
            - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
            - FAILURE

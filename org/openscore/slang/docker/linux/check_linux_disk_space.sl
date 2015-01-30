@@ -21,7 +21,7 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - diskSpace - percentage - ex. (50%)
+#       - disk_space - percentage - ex. (50%)
 #   Results:
 #       - SUCCESS - operation finished successfully
 #       - FAILURE - otherwise
@@ -59,8 +59,7 @@ operations:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction
               methodName: runSshShellCommand
           outputs:
-            - diskSpace: STDOUT.replace("\n", "")
-            - returnCode
+            - disk_space: STDOUT.replace("\n", "")
           results:
             - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
             - FAILURE

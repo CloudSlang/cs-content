@@ -21,7 +21,7 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - imageList - list containing all Docker images' REPOSITORY and TAG
+#       - image_list - list containing all Docker images' REPOSITORY and TAG
 #   Results:
 #       - SUCCESS - SSH command succeeds
 #       - FAILURE - SSH command fails
@@ -57,7 +57,7 @@ operations:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction
               methodName: runSshShellCommand
           outputs:
-            - imageList: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
+            - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
           results:
-            - SUCCESS
+            - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
             - FAILURE

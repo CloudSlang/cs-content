@@ -22,6 +22,7 @@
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
 #       - response - Linux welcome message
+#       - error_message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -58,7 +59,7 @@ operations:
             methodName: runSshShellCommand
         outputs:
           - response: STDOUT
-          - errorMessage: STDERR if returnCode == '0' else returnResult
+          - error_message: STDERR if returnCode == '0' else returnResult
         results:
           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
           - FAILURE

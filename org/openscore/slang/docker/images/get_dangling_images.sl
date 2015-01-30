@@ -21,7 +21,7 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - danglingImageList - list containing IDs of Docker dangling images
+#       - dangling_image_list - list containing IDs of Docker dangling images
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -56,7 +56,7 @@ operations:
             className: org.openscore.content.ssh.actions.SSHShellCommandAction
             methodName: runSshShellCommand
         outputs:
-          - danglingImageList: returnResult
+          - dangling_image_list: returnResult
         results:
-          - SUCCESS
+          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
           - FAILURE

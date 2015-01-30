@@ -9,12 +9,12 @@
 #   This flow will delete a Docker container.
 #
 #   Inputs:
-#       - containerID - ID of the container to be deleted
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
+#       - container_ID - ID of the container to be deleted
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
 #   Outputs:
-#       - errorMessage - error message of the operation that failed
+#       - error_message - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.docker.containers
@@ -25,29 +25,29 @@ imports:
 flow:
   name: clear_container
   inputs:
-    - containerID
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - container_ID
+    - docker_host
+    - docker_username
+    - docker_password
   workflow:
     stop_container:
       do:
         docker_containers.stop_container:
-          - containerID
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - containerID: container_ID
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - errorMessage
+        - error_message
 
     delete_container:
       do:
         docker_containers.delete_container:
-          - containerID
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - containerID: container_ID
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - errorMessage
+        - error_message
   outputs:
-    - errorMessage
+    - error_message

@@ -21,7 +21,7 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - imageList - list containing the ID's of Docker images that are used with delimiter "\n"
+#       - image_list - list containing the ID's of Docker images that are used with delimiter "\n"
 #   Results:
 #       - SUCCESS - SSH command succeeds
 #       - FAILURE - SSH command fails
@@ -58,7 +58,7 @@ operations:
              className: org.openscore.content.ssh.actions.SSHShellCommandAction
              methodName: runSshShellCommand
          outputs:
-           - imageList: returnResult.replace("\n"," ").replace("ID ","",1)
+           - image_list: returnResult.replace("\n"," ").replace("ID ","",1)
          results:
-           - SUCCESS
+           - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
            - FAILURE

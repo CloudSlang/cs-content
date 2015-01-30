@@ -23,7 +23,7 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - errorMessage - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
+#       - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and the MySQL server state is alive
 #       - FAILURE - some problem occurred, more information in the errorMessage output
@@ -64,7 +64,7 @@ operations:
             className: org.openscore.content.ssh.actions.SSHShellCommandAction
             methodName: runSshShellCommand
         outputs:
-          - errorMessage:  STDERR if returnCode == '0' else returnResult
+          - error_message:  STDERR if returnCode == '0' else returnResult
         results:
           - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
           - FAILURE

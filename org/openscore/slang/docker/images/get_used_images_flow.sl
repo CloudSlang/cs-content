@@ -9,9 +9,9 @@
 #   This flow will return a list of used Docker images.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
 #   Outputs:
 #       - used_images_list - list of Docker images currently used on the machine with delimiter "\n"
 ####################################################
@@ -24,24 +24,24 @@ imports:
 flow:
   name: get_used_images_flow
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - docker_host
+    - docker_username
+    - docker_password
 
   workflow:
     validate_linux_machine_ssh_access_op:
           do:
             docker_linux.validate_linux_machine_ssh_access:
-              - host: dockerHost
-              - username: dockerUsername
-              - password: dockerPassword
+              - host: docker_host
+              - username: docker_username
+              - password: docker_password
     get_used_images:
       do:
         docker_images.get_used_images:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - used_images_list: imageList
+        - used_images_list: image_list
   outputs:
     - used_images_list

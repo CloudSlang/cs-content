@@ -9,13 +9,13 @@
 #   This flow will delete two Docker containers.
 #
 #   Inputs:
-#       - dbContainerID - ID of the DB container
-#       - linkedContainerID - ID of the linked container
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine host password
+#       - db_container_ID - ID of the DB container
+#       - linked_container_ID - ID of the linked container
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine host password
 #   Outputs:
-#       - errorMessage - error message
+#       - error_message - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -29,28 +29,32 @@ imports:
 flow:
   name: demo_clear_containers_wrapper
   inputs:
-    - dbContainerID
-    - linkedContainerID
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - db_container_ID
+    - linked_container_ID
+    - docker_host
+    - docker_username
+    - docker_password
   workflow:
     clear_db_container:
       do:
         docker_containers.clear_container:
-          - containerID: "linkedContainerID"
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
+          - container_ID: "linked_container_ID"
+          - docker_host
+          - docker_username
+          - docker_password
+      publish:
+        - error_message
     clear_linked_container:
       do:
         docker_containers.clear_container:
-          - containerID: "dbContainerID"
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
+          - container_ID: "db_container_ID"
+          - docker_host
+          - docker_username
+          - docker_password
+      publish:
+        - error_message
   outputs:
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

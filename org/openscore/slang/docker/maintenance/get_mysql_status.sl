@@ -26,12 +26,12 @@
 #       - uptime - number of seconds the MySQL server has been running
 #       - threads - number of active threads (clients)
 #       - questions - number of questions (queries) from clients since the server was started
-#       - slowQueries - number of queries that have taken more than long_query_time(MySQL system variable) seconds
+#       - slow_queries - number of queries that have taken more than long_query_time(MySQL system variable) seconds
 #       - opens - number of tables the server has opened
-#       - flushTables - number of flush-*, refresh, and reload commands the server has executed
-#       - openTables - number of tables that currently are open
-#       - queriesPerSecondAVG - an average value of the number of queries per second
-#       - errorMessage - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
+#       - flush_tables - number of flush-*, refresh, and reload commands the server has executed
+#       - open_tables - number of tables that currently are open
+#       - queries_per_second_AVG - an average value of the number of queries per second
+#       - error_message - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and STDERR of the machine contains no errors
 #       - FAILURE
@@ -76,12 +76,12 @@ operations:
           - uptime: "returnResult.replace(':', ' ').split('  ')[1]"
           - threads: "returnResult.replace(':', ' ').split('  ')[3]"
           - questions: "returnResult.replace(':', ' ').split('  ')[5]"
-          - slowQueries: "returnResult.replace(':', ' ').split('  ')[7]"
+          - slow_queries: "returnResult.replace(':', ' ').split('  ')[7]"
           - opens: "returnResult.replace(':', ' ').split('  ')[9]"
-          - flushTables: "returnResult.replace(':', ' ').split('  ')[11]"
-          - openTables: "returnResult.replace(':', ' ').split('  ')[13]"
-          - queriesPerSecondAVG: "returnResult.replace(':', ' ').split('  ')[15]"
-          - errorMessage: STDERR if returnCode == '0' else returnResult
+          - flush_tables: "returnResult.replace(':', ' ').split('  ')[11]"
+          - open_tables: "returnResult.replace(':', ' ').split('  ')[13]"
+          - queries_per_second_AVG: "returnResult.replace(':', ' ').split('  ')[15]"
+          - error_message: STDERR if returnCode == '0' else returnResult
         results:
           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
           - FAILURE
