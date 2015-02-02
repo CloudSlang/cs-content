@@ -32,49 +32,49 @@
 
 namespace: org.openscore.slang.base.mail
 
-operations:
-  - send_mail:
-      inputs:
-        - hostname
-        - port
-        - from
-        - to
-        - cc:
-            default: "''"
-            required: false
-        - bcc:
-            default: "''"
-            required: false
-        - subject
-        - body
-        - htmlEmail:
-            default: "'true'"
-            required: false
-        - readReceipt:
-            default: "'false'"
-            required: false
-        - attachments:
-            default: "''"
-            required: false
-        - username:
-            default: "''"
-            required: false
-        - password:
-            default: "''"
-            required: false
-        - characterSet:
-            default: "'UTF-8'"
-            required: false
-        - contentTransferEncoding:
-            default: "'base64'"
-            required: false
-        - delimiter:
-            default: "''"
-            required: false
-      action:
-        java_action:
-          className: org.openscore.content.mail.actions.SendMailAction
-          methodName: execute
-      results:
-        - SUCCESS: returnCode == '0'
-        - FAILURE
+operation:
+  name: send_mail
+  inputs:
+    - hostname
+    - port
+    - from
+    - to
+    - cc:
+        default: "''"
+        required: false
+    - bcc:
+        default: "''"
+        required: false
+    - subject
+    - body
+    - htmlEmail:
+        default: "'true'"
+        required: false
+    - readReceipt:
+        default: "'false'"
+        required: false
+    - attachments:
+        default: "''"
+        required: false
+    - username:
+        default: "''"
+        required: false
+    - password:
+        default: "''"
+        required: false
+    - characterSet:
+        default: "'UTF-8'"
+        required: false
+    - contentTransferEncoding:
+        default: "'base64'"
+        required: false
+    - delimiter:
+        default: "''"
+        required: false
+  action:
+    java_action:
+      className: org.openscore.content.mail.actions.SendMailAction
+      methodName: execute
+  results:
+    - SUCCESS: returnCode == '0'
+    - FAILURE
