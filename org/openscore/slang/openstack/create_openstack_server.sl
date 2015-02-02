@@ -26,40 +26,40 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-    - create_openstack_server:
-          inputs:
-            - host
-            - computePort:
-                default: "'8774'"
-                required: false
-            - token
-            - tenant
-            - serverName
-            - imgRef
-            - headers:
-                default: "'X-AUTH-TOKEN:' + token"
-                override: true
-            - url:
-                default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
-                override: true
-            - body:
-                default: "'{\"server\": { \"name\": \"' + serverName + '\" , \"imageRef\": \"' + imgRef + '\", \"flavorRef\":\"2\",\"max_count\":1,\"min_count\":1,\"security_groups\": [ {\"name\": \"default\"}] }}'"
-                override: true
-            - contentType:
-                default: "'application/json'"
-                override: true
-            - method:
-                default: "'post'"
-                override: true
-          action:
-            java_action:
-              className: org.openscore.content.httpclient.HttpClientAction
-              methodName: execute
-          outputs:
-            - returnResult: returnResult
-            - statusCode: statusCode
-            - errorMessage: returnResult if statusCode != '202' else ''
-          results:
-            - SUCCESS : statusCode == '202'
-            - FAILURE
+operation:
+  name: create_openstack_server
+  inputs:
+    - host
+    - computePort:
+        default: "'8774'"
+        required: false
+    - token
+    - tenant
+    - serverName
+    - imgRef
+    - headers:
+        default: "'X-AUTH-TOKEN:' + token"
+        override: true
+    - url:
+        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
+        override: true
+    - body:
+        default: "'{\"server\": { \"name\": \"' + serverName + '\" , \"imageRef\": \"' + imgRef + '\", \"flavorRef\":\"2\",\"max_count\":1,\"min_count\":1,\"security_groups\": [ {\"name\": \"default\"}] }}'"
+        override: true
+    - contentType:
+        default: "'application/json'"
+        override: true
+    - method:
+        default: "'post'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult: returnResult
+    - statusCode: statusCode
+    - errorMessage: returnResult if statusCode != '202' else ''
+  results:
+    - SUCCESS : statusCode == '202'
+    - FAILURE
