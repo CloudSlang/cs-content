@@ -32,26 +32,22 @@ operations:
             - password
             - privateKeyFile:
                 default: "''"
-                override: true
+                overridable: false
             - command:
                 default: >
                     "docker images | awk '{print $1 \":\" $2}'"
-                override: false
             - arguments:
                 default: "''"
-                override: false
             - characterSet:
                 default: "'UTF-8'"
-                override: false
             - pty:
                 default: "'false'"
-                override: false
             - timeout:
                 default: "'30000000'"
-                override: true
+                overridable: false
             - closeSession:
                 default: "'false'"
-                override: true
+                overridable: false
           action:
             java_action:
               className: org.openscore.content.ssh.actions.SSHShellCommandAction

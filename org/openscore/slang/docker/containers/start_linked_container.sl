@@ -46,25 +46,25 @@ operations:
            - password
            - privateKeyFile:
                 default: "''"
-                override: true
+                overridable: false
            - arguments:
                 default: "''"
-                override: true
+                overridable: false
            - command:
                 default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
-                override: true
+                overridable: false
            - characterSet:
                 default: "'UTF-8'"
-                override: true
+                overridable: false
            - pty:
                 default: "'false'"
-                override: true
+                overridable: false
            - timeout:
                 default: "'90000'"
-                override: true
+                overridable: false
            - closeSession:
                 default: "'false'"
-                override: true
+                overridable: false
          action:
            java_action:
              className: org.openscore.content.ssh.actions.SSHShellCommandAction
