@@ -23,23 +23,23 @@
 
 namespace: org.openscore.slang.base.lists
 
-operations:
-  - subtract_sets:
-      inputs:
-        - set_1
-        - set_1_delimiter
-        - set_2
-        - set_2_delimiter
-        - result_set_delimiter
-      action:
-        python_script: |
-          arr_list_1 = set_1.split(set_1_delimiter)
-          arr_list_2 = set_2.split(set_2_delimiter)
+operation:
+  name: subtract_sets
+  inputs:
+    - set_1
+    - set_1_delimiter
+    - set_2
+    - set_2_delimiter
+    - result_set_delimiter
+  action:
+    python_script: |
+      arr_list_1 = set_1.split(set_1_delimiter)
+      arr_list_2 = set_2.split(set_2_delimiter)
 
-          result =  set(arr_list_1) - set(arr_list_2)
+      result =  set(arr_list_1) - set(arr_list_2)
 
-          result_set = result_set_delimiter.join(result)
-      outputs:
-        - result_set
-      results:
-        - SUCCESS
+      result_set = result_set_delimiter.join(result)
+  outputs:
+    - result_set
+  results:
+    - SUCCESS
