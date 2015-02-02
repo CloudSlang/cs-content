@@ -32,34 +32,34 @@
 
 namespace: org.openscore.slang.base.remote_command_execution.ssh
 
-operations:
-  - ssh_command:
-        inputs:
-          - host
-          - port
-          - command
-          - pty:
-                default: "'false'"
-          - username
-          - password
-          - arguments:
-                required: false
-          - privateKeyFile:
-                required: false
-          - timeout:
-                default: "'90000'"
-          - characterSet:
-                default: "'UTF-8'"
-          - closeSession:
-                default: "'true'"
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - returnResult
-          - STDOUT
-          - STDERR
-        results:
-          - SUCCESS
-          - FAILURE
+operation:
+  name: ssh_command
+  inputs:
+    - host
+    - port
+    - command
+    - pty:
+          default: "'false'"
+    - username
+    - password
+    - arguments:
+          required: false
+    - privateKeyFile:
+          required: false
+    - timeout:
+          default: "'90000'"
+    - characterSet:
+          default: "'UTF-8'"
+    - closeSession:
+          default: "'true'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - returnResult
+    - STDOUT
+    - STDERR
+  results:
+    - SUCCESS
+    - FAILURE

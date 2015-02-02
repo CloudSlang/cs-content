@@ -22,43 +22,43 @@
 ####################################################
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - clear_docker_images:
-        inputs:
-          - host
-          - port:
-                default: "'22'"
-                required: false
-          - username
-          - password
-          - images
-          - privateKeyFile:
-                default: "''"
-                override: true
-          - command:
-                default: "'docker rmi ' + images"
-                override: true
-          - arguments:
-                default: "''"
-                override: true
-          - characterSet:
-                default: "'UTF-8'"
-                override: true
-          - pty:
-                default: "'false'"
-                override: true
-          - timeout:
-                default: "'30000000'"
-                override: true
-          - closeSession:
-                default: "'false'"
-                override: true
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - response: STDOUT
-        results:
-          - SUCCESS
-          - FAILURE
+operation:
+  name: clear_docker_images
+  inputs:
+    - host
+    - port:
+        default: "'22'"
+        required: false
+    - username
+    - password
+    - images
+    - privateKeyFile:
+        default: "''"
+        override: true
+    - command:
+        default: "'docker rmi ' + images"
+        override: true
+    - arguments:
+        default: "''"
+        override: true
+    - characterSet:
+        default: "'UTF-8'"
+        override: true
+    - pty:
+        default: "'false'"
+        override: true
+    - timeout:
+        default: "'30000000'"
+        override: true
+    - closeSession:
+        default: "'false'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - response: STDOUT
+  results:
+    - SUCCESS
+    - FAILURE

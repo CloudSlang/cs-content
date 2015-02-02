@@ -26,36 +26,36 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-  - get_authentication:
-      inputs:
-        - host
-        - identityPort:
-            default: "'5000'"
-            required: false
-        - username
-        - password
-        - url:
-            default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
-            override: true
-        - body:
-            default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
-            override: true
-        - method:
-            default: "'post'"
-            override: true
-        - contentType:
-            default: "'application/json'"
-            override: true
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+operation:
+  name: get_authentication
+  inputs:
+    - host
+    - identityPort:
+        default: "'5000'"
+        required: false
+    - username
+    - password
+    - url:
+        default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
+        override: true
+    - body:
+        default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
+        override: true
+    - method:
+        default: "'post'"
+        override: true
+    - contentType:
+        default: "'application/json'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE

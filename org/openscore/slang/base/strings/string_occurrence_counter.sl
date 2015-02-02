@@ -24,34 +24,34 @@
 
 namespace: org.openscore.slang.base.strings
 
-operations:
-  - string_occurrence_counter:
-      inputs:
-        - string_in_which_to_search
-        - string_to_find
-        - ignore_case:
-            default: "''true'"
-            required: false
-      action:
-        python_script: |
-          try:
-            if ignore_case == 'true':
-              string_in_which_to_search.lower()
-              string_to_find.lower()
-            occurrence = string_in_which_to_search.count(string_to_find)
-            returnCode = '0'
-            if occurrence == 0:
-              returnResult = 'Server was not created'
-            else:
-              returnResult = occurrence
-          except:
-            returnCode = '-1'
-            returnResult = 'String occurrence error.'
-      outputs:
-        - occurrence
-        - returnResult
-        - returnCode
-        - errorMessage: returnResult if occurrence == '0'  else ''
-      results:
-        - SUCCESS: occurrence >= '1'
-        - FAILURE
+operation:
+  name: string_occurrence_counter
+  inputs:
+    - string_in_which_to_search
+    - string_to_find
+    - ignore_case:
+        default: "''true'"
+        required: false
+  action:
+    python_script: |
+      try:
+        if ignore_case == 'true':
+          string_in_which_to_search.lower()
+          string_to_find.lower()
+        occurrence = string_in_which_to_search.count(string_to_find)
+        returnCode = '0'
+        if occurrence == 0:
+          returnResult = 'Server was not created'
+        else:
+          returnResult = occurrence
+      except:
+        returnCode = '-1'
+        returnResult = 'String occurrence error.'
+  outputs:
+    - occurrence
+    - returnResult
+    - returnCode
+    - errorMessage: returnResult if occurrence == '0'  else ''
+  results:
+    - SUCCESS: occurrence >= '1'
+    - FAILURE

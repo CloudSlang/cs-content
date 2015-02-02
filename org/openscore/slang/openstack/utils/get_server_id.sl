@@ -24,33 +24,33 @@
 
 namespace: org.openscore.slang.openstack.utils
 
-operations:
-  - get_server_id:
-      inputs:
-        - server_body
-        - server_name
-      action:
-        python_script: |
-          try:
-            import json
-            decoded = json.loads(server_body)
-            serverListJson = decoded['servers']
-            nrServers = len(serverListJson)
-            for index in range(nrServers):
-              currentServerName = serverListJson[index]['name']
-              if currentServerName == server_name:
-                serverID = serverListJson[index]['id']
-            returnCode = '0'
-            returnResult = 'Parsing successful.'
-          except:
-            returnCode = '-1'
-            returnResult = 'Parsing error.'
+operation:
+  name: get_server_id
+  inputs:
+    - server_body
+    - server_name
+  action:
+    python_script: |
+      try:
+        import json
+        decoded = json.loads(server_body)
+        serverListJson = decoded['servers']
+        nrServers = len(serverListJson)
+        for index in range(nrServers):
+          currentServerName = serverListJson[index]['name']
+          if currentServerName == server_name:
+            serverID = serverListJson[index]['id']
+        returnCode = '0'
+        returnResult = 'Parsing successful.'
+      except:
+        returnCode = '-1'
+        returnResult = 'Parsing error.'
 
-      outputs:
-        - serverID
-        - returnResult
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' else ''
-      results:
-        - SUCCESS: returnCode == '0'
-        - FAILURE
+  outputs:
+    - serverID
+    - returnResult
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' else ''
+  results:
+    - SUCCESS: returnCode == '0'
+    - FAILURE

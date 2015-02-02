@@ -22,27 +22,27 @@
 
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - get_dangling_images:
-        inputs:
-          - host
-          - port: "'22'"
-          - username
-          - password
-          - privateKeyFile: "''"
-          - command: >
-              "docker images -f \"dangling=true\" -q"
-          - arguments: "''"
-          - characterSet : "'UTF-8'"
-          - pty: "'false'"
-          - timeout: "'30000000'"
-          - closeSession: "'false'"
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - danglingImageList: returnResult
-        results:
-          - SUCCESS
-          - FAILURE
+operation:
+  name: get_dangling_images
+  inputs:
+    - host
+    - port: "'22'"
+    - username
+    - password
+    - privateKeyFile: "''"
+    - command: >
+        "docker images -f \"dangling=true\" -q"
+    - arguments: "''"
+    - characterSet : "'UTF-8'"
+    - pty: "'false'"
+    - timeout: "'30000000'"
+    - closeSession: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - danglingImageList: returnResult
+  results:
+    - SUCCESS
+    - FAILURE

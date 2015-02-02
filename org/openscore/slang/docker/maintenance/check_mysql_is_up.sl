@@ -24,48 +24,48 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - check_mysql_is_up:
-        inputs:
-          - container
-          - host
-          - port:
-                default: "'22'"
-                override: true
-          - username
-          - password
-          - privateKeyFile:
-                default: "''"
-                override: true
-          - arguments:
-                default: "''"
-                override: true
-          - mysqlUsername
-          - mysqlPassword
-          - execCmd:
-                default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-                override: true
-          - command:
-                default: "'docker exec ' + container + ' ' + execCmd"
-                override: true
-          - characterSet:
-                default: "'UTF-8'"
-                override: true
-          - pty:
-                default: "'false'"
-                override: true
-          - timeout:
-                default: "'90000'"
-                override: true
-          - closeSession:
-                default: "'false'"
-                override: true
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - errorMessage:  STDERR if returnCode == '0' else returnResult
-        results:
-          - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
-          - FAILURE
+operation:
+  name: check_mysql_is_up
+  inputs:
+    - container
+    - host
+    - port:
+        default: "'22'"
+        override: true
+    - username
+    - password
+    - privateKeyFile:
+        default: "''"
+        override: true
+    - arguments:
+        default: "''"
+        override: true
+    - mysqlUsername
+    - mysqlPassword
+    - execCmd:
+        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+        override: true
+    - command:
+        default: "'docker exec ' + container + ' ' + execCmd"
+        override: true
+    - characterSet:
+        default: "'UTF-8'"
+        override: true
+    - pty:
+        default: "'false'"
+        override: true
+    - timeout:
+        default: "'90000'"
+        override: true
+    - closeSession:
+        default: "'false'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - errorMessage:  STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
+    - FAILURE
