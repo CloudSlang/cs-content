@@ -25,32 +25,32 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-  - get_openstack_servers:
-      inputs:
-        - host
-        - computePort:
-            default: "'8774'"
-            required: false
-        - token
-        - tenant
-        - headers:
-            default: "'X-AUTH-TOKEN:' + token"
-            override: true
-        - url:
-            default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
-            override: true
-        - method:
-            default: "'get'"
-            override: true
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult: returnResult
-        - statusCode: statusCode
-        - errorMessage: returnResult if statusCode != '202' else ''
-      results:
-        - SUCCESS : statusCode == '200'
-        - FAILURE
+operation:
+  name: get_openstack_servers
+  inputs:
+    - host
+    - computePort:
+        default: "'8774'"
+        required: false
+    - token
+    - tenant
+    - headers:
+        default: "'X-AUTH-TOKEN:' + token"
+        override: true
+    - url:
+        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
+        override: true
+    - method:
+        default: "'get'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult: returnResult
+    - statusCode: statusCode
+    - errorMessage: returnResult if statusCode != '202' else ''
+  results:
+    - SUCCESS : statusCode == '200'
+    - FAILURE
