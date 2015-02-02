@@ -25,33 +25,33 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-  - delete_openstack_server:
-      inputs:
-        - host
-        - computePort:
-            default: "'8774'"
-            required: false
-        - token
-        - tenant
-        - serverID
-        - headers:
-            default: "'X-AUTH-TOKEN:' + token"
-            override: true
-        - url:
-            default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
-            override: true
-        - method:
-            default: "'delete'"
-            override: true
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult: returnResult
-        - statusCode: statusCode
-        - errorMessage: returnResult if statusCode != '204' else ''
-      results:
-        - SUCCESS : statusCode == '204'
-        - FAILURE
+operation:
+  name: delete_openstack_server
+  inputs:
+    - host
+    - computePort:
+        default: "'8774'"
+        required: false
+    - token
+    - tenant
+    - serverID
+    - headers:
+        default: "'X-AUTH-TOKEN:' + token"
+        override: true
+    - url:
+        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
+        override: true
+    - method:
+        default: "'delete'"
+        override: true
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult: returnResult
+    - statusCode: statusCode
+    - errorMessage: returnResult if statusCode != '204' else ''
+  results:
+    - SUCCESS : statusCode == '204'
+    - FAILURE
