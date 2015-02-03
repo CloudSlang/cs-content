@@ -33,9 +33,8 @@
 
 namespace: org.openscore.slang.docker.containers
 
-operations:
-
-- create_container:
+operation:
+  name: create_container
       inputs:
         - imageID
         - containerName

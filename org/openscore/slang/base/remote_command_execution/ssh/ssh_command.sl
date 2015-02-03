@@ -32,8 +32,8 @@
 
 namespace: org.openscore.slang.base.remote_command_execution.ssh
 
-operations:
-  - ssh_command:
+operation:
+  name: ssh_command
         inputs:
           - host
           - port

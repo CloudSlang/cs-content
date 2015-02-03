@@ -24,31 +24,31 @@
 
 namespace: org.openscore.slang.openstack.utils
 
-operations:
-  - parse_authentication:
-      inputs:
-        - json_authentication_response
-      action:
-        python_script: |
-          try:
-            import json
-            decoded = json.loads(json_authentication_response)
-            access_Json = decoded['access']
-            token_Json = access_Json['token']
-            token = token_Json['id']
-            tenant_Json = token_Json['tenant']
-            tenant = tenant_Json['id']
-            return_code = '0'
-            return_result = 'Parsing successful.'
-          except:
-            return_code = '-1'
-            return_result = 'Parsing error.'
-      outputs:
-        - token
-        - tenant
-        - return_code
-        - return_result
-        - error_message: return_result if return_code == '-1' else ''
-      results:
-        - SUCCESS: return_code == '0'
-        - FAILURE
+operation:
+  name: parse_authentication
+  inputs:
+    - json_authentication_response
+  action:
+    python_script: |
+      try:
+        import json
+        decoded = json.loads(json_authentication_response)
+        access_Json = decoded['access']
+        token_Json = access_Json['token']
+        token = token_Json['id']
+        tenant_Json = token_Json['tenant']
+        tenant = tenant_Json['id']
+        return_code = '0'
+        return_result = 'Parsing successful.'
+      except:
+        return_code = '-1'
+        return_result = 'Parsing error.'
+  outputs:
+    - token
+    - tenant
+    - return_code
+    - return_result
+    - error_message: return_result if return_code == '-1' else ''
+  results:
+    - SUCCESS: return_code == '0'
+    - FAILURE

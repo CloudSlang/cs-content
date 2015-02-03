@@ -24,8 +24,8 @@
 
 namespace: org.openscore.slang.openstack.utils
 
-operations:
-  - get_server_id:
+operation:
+  name: get_server_id
       inputs:
         - server_body
         - server_name

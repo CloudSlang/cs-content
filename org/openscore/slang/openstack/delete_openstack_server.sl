@@ -25,8 +25,8 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-  - delete_openstack_server:
+operation:
+  name: delete_openstack_server
       inputs:
         - host
         - computePort:

@@ -32,8 +32,8 @@
 
 namespace: org.openscore.slang.docker.containers
 
-operations:
-    - delete_container:
+operation:
+  name: delete_container
          inputs:
            - containerID
            - cmdParams:

@@ -29,8 +29,8 @@
 
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - get_dangling_images:
+operation:
+  name: get_dangling_images
         inputs:
           - host
           - port:

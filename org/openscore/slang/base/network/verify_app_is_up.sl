@@ -21,33 +21,33 @@
 
 namespace: org.openscore.slang.base.network
 
-operations:
-  - verify_app_is_up:
-      inputs:
-        - host
-        - port
-        - max_seconds_to_wait
-      action:
-        python_script: |
-          import urllib2
-          import time
-          url = "http://" + host + ":" + port
-          count = 0
-          return_result = False
-          while (( count < max_seconds_to_wait ) and ( not return_result )):
-            try:
-              result = urllib2.urlopen(url)
-            except Exception :
-               count = count + 1
-               time.sleep(1)
-            else:
-                code = result.getcode()
-                count = max_seconds_to_wait
-                if code == 200 :
-                  return_result = True
-      outputs:
-        - error_message: "'Application is not Up , after ' + count + ' attempts to ping .'"
-      results:
-        - SUCCESS: return_result == 'True'
-        - FAILURE
+operation:
+  name: verify_app_is_up
+  inputs:
+    - host
+    - port
+    - max_seconds_to_wait
+  action:
+    python_script: |
+      import urllib2
+      import time
+      url = "http://" + host + ":" + port
+      count = 0
+      return_result = False
+      while (( count < max_seconds_to_wait ) and ( not return_result )):
+        try:
+          result = urllib2.urlopen(url)
+        except Exception :
+           count = count + 1
+           time.sleep(1)
+        else:
+            code = result.getcode()
+            count = max_seconds_to_wait
+            if code == 200 :
+              return_result = True
+  outputs:
+    - error_message: "'Application is not Up , after ' + count + ' attempts to ping .'"
+  results:
+    - SUCCESS: return_result == 'True'
+    - FAILURE
 

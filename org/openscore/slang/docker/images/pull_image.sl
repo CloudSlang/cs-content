@@ -31,38 +31,37 @@
 
 namespace: org.openscore.slang.docker.images
 
-operations:
-
- - pull_image:
-    inputs:
-        - imageName
-        - host
-        - port:
-            default: "'22'"
-        - username
-        - password
-        - privateKeyFile:
-            default: "''"
-        - command:
-            default: "'docker pull ' + imageName"
-            override: true
-        - arguments:
-            default: "''"
-        - characterSet:
-            default: "'UTF-8'"
-        - pty:
-            default: "'false'"
-        - timeout:
-            default: "'30000000'"
-        - closeSession:
-            default: "'false'"
-    action:
-        java_action:
-          className: org.openscore.content.ssh.actions.SSHShellCommandAction
-          methodName: runSshShellCommand
-    outputs:
-        - return_result: returnResult
-        - error_message: STDERR if returnCode == '0' else returnResult
-    results:
-        - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-        - FAILURE
+operation:
+  name: pull_image
+  inputs:
+    - imageName
+    - host
+    - port:
+        default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+        default: "''"
+    - command:
+        default: "'docker pull ' + imageName"
+        override: true
+    - arguments:
+        default: "''"
+    - characterSet:
+        default: "'UTF-8'"
+    - pty:
+        default: "'false'"
+    - timeout:
+        default: "'30000000'"
+    - closeSession:
+        default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+      - return_result: returnResult
+      - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+      - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+      - FAILURE

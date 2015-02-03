@@ -26,8 +26,8 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-    - create_openstack_server:
+operation:
+  name: create_openstack_server
           inputs:
             - host
             - computePort:

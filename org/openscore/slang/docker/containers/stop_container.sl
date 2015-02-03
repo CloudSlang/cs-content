@@ -31,8 +31,8 @@
 ####################################################
 namespace: org.openscore.slang.docker.containers
 
-operations:
-    - stop_container:
+operation:
+  name: stop_container
           inputs:
             - containerID
             - cmdParams:

@@ -29,8 +29,8 @@
 ####################################################
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - clear_docker_images:
+operation:
+  name: clear_docker_images
         inputs:
           - host
           - port:

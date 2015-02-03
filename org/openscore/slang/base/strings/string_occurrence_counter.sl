@@ -24,8 +24,8 @@
 
 namespace: org.openscore.slang.base.strings
 
-operations:
-  - string_occurrence_counter:
+operation:
+  name: string_occurrence_counter
       inputs:
         - string_in_which_to_search
         - string_to_find

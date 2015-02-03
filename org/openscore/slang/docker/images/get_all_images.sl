@@ -28,8 +28,8 @@
 ####################################################
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - get_all_images:
+operation:
+  name: get_all_images
           inputs:
             - host
             - port:

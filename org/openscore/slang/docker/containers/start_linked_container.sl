@@ -36,42 +36,42 @@
 
 namespace: org.openscore.slang.docker.containers
 
-operations:
-    - start_linked_container:
-         inputs:
-           - dbContainerIp
-           - dbContainerName
-           - imageName
-           - containerName
-           - linkParams
-           - cmdParams
-           - host
-           - port:
-                default: "'22'"
-           - username
-           - password
-           - privateKeyFile:
-                default: "''"
-           - arguments:
-                default: "''"
-           - command:
-                default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
-                override: true
-           - characterSet:
-                default: "'UTF-8'"
-           - pty:
-                default: "'false'"
-           - timeout:
-                default: "'90000'"
-           - closeSession:
-                default: "'false'"
-         action:
-           java_action:
-             className: org.openscore.content.ssh.actions.SSHShellCommandAction
-             methodName: runSshShellCommand
-         outputs:
-           - container_ID: returnResult
-           - error_message: STDERR if returnCode == '0' else returnResult
-         results:
-           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-           - FAILURE
+operation:
+  name: start_linked_container
+  inputs:
+    - dbContainerIp
+    - dbContainerName
+    - imageName
+    - containerName
+    - linkParams
+    - cmdParams
+    - host
+    - port:
+         default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+         default: "''"
+    - arguments:
+         default: "''"
+    - command:
+         default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
+         override: true
+    - characterSet:
+         default: "'UTF-8'"
+    - pty:
+         default: "'false'"
+    - timeout:
+         default: "'90000'"
+    - closeSession:
+         default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - container_ID: returnResult
+    - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE

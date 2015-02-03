@@ -31,41 +31,41 @@
 
 namespace: org.openscore.slang.docker.containers
 
-operations:
-    - get_container_ip:
-         inputs:
-           - containerName
-           - cmdParams:
-                default: "''"
-                override: true
-           - host
-           - port:
-                default: "'22'"
-           - username
-           - password
-           - privateKeyFile:
-                default: "''"
-           - command:
-                default: >
-                    "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-                override: true
-           - arguments:
-                default: "''"
-           - characterSet:
-                default: "'UTF-8'"
-           - pty:
-                default: "'false'"
-           - timeout:
-                default: "'90000'"
-           - closeSession:
-                default: "'false'"
-         action:
-           java_action:
-             className: org.openscore.content.ssh.actions.SSHShellCommandAction
-             methodName: runSshShellCommand
-         outputs:
-           - db_IP: returnResult[:-1]
-           - error_message: STDERR if returnCode == '0' else returnResult
-         results:
-           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-           - FAILURE
+operation:
+  name: get_container_ip
+  inputs:
+    - containerName
+    - cmdParams:
+         default: "''"
+         override: true
+    - host
+    - port:
+         default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+         default: "''"
+    - command:
+         default: >
+             "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
+         override: true
+    - arguments:
+         default: "''"
+    - characterSet:
+         default: "'UTF-8'"
+    - pty:
+         default: "'false'"
+    - timeout:
+         default: "'90000'"
+    - closeSession:
+         default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - db_IP: returnResult[:-1]
+    - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE

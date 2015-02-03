@@ -31,40 +31,40 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - check_mysql_is_up:
-        inputs:
-          - container
-          - host
-          - port:
-                default: "'22'"
-          - username
-          - password
-          - privateKeyFile:
-                default: "''"
-          - arguments:
-                default: "''"
-          - mysqlUsername
-          - mysqlPassword
-          - execCmd:
-                default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-                override: true
-          - command:
-                default: "'docker exec ' + container + ' ' + execCmd"
-          - characterSet:
-                default: "'UTF-8'"
-          - pty:
-                default: "'false'"
-          - timeout:
-                default: "'90000'"
-          - closeSession:
-                default: "'false'"
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - error_message:  STDERR if returnCode == '0' else returnResult
-        results:
-          - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
-          - FAILURE
+operation:
+  name: check_mysql_is_up
+  inputs:
+    - container
+    - host
+    - port:
+          default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+          default: "''"
+    - arguments:
+          default: "''"
+    - mysqlUsername
+    - mysqlPassword
+    - execCmd:
+          default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+          override: true
+    - command:
+          default: "'docker exec ' + container + ' ' + execCmd"
+    - characterSet:
+          default: "'UTF-8'"
+    - pty:
+          default: "'false'"
+    - timeout:
+          default: "'90000'"
+    - closeSession:
+          default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - error_message:  STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
+    - FAILURE

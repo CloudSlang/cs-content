@@ -22,8 +22,8 @@
 
 namespace: org.openscore.slang.openstack.utils
 
-operations:
-  - extract_servers:
+operation:
+  name: extract_servers
       inputs:
         - server_body
       action:
@@ -50,5 +50,5 @@ operations:
         - error_message: return_result if return_code == '-1' else ''
 
       results:
-        - SUCCESS: return_code == '0'
+        - SUCCESS: returnCode == '0'
         - FAILURE

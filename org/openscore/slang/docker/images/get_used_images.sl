@@ -29,36 +29,36 @@
 
 namespace: org.openscore.slang.docker.images
 
-operations:
-    - get_used_images:
-         inputs:
-           - host
-           - port:
-                default: "'22'"
-           - username
-           - password
-           - privateKeyFile:
-              default: "''"
-           - command:
-               default: >
-                "docker ps -a | awk '{print $2}'"
-               override: true
-           - arguments:
-                default: "''"
-           - characterSet:
-                default: "'UTF-8'"
-           - pty:
-                default: "'false'"
-           - timeout:
-                default: "'30000000'"
-           - closeSession:
-                default: "'false'"
-         action:
-           java_action:
-             className: org.openscore.content.ssh.actions.SSHShellCommandAction
-             methodName: runSshShellCommand
-         outputs:
-           - image_list: returnResult.replace("\n"," ").replace("ID ","",1)
-         results:
-           - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-           - FAILURE
+operation:
+  name: get_used_images
+  inputs:
+    - host
+    - port:
+         default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+       default: "''"
+    - command:
+        default: >
+         "docker ps -a | awk '{print $2}'"
+        override: true
+    - arguments:
+         default: "''"
+    - characterSet:
+         default: "'UTF-8'"
+    - pty:
+         default: "'false'"
+    - timeout:
+         default: "'30000000'"
+    - closeSession:
+         default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - image_list: returnResult.replace("\n"," ").replace("ID ","",1)
+  results:
+    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE

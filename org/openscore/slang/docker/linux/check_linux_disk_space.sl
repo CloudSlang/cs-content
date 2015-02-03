@@ -29,37 +29,36 @@
 
 namespace: org.openscore.slang.docker.linux
 
-operations:
-
-    - check_linux_disk_space:
-          inputs:
-            - host
-            - port:
-                default: "'22'"
-            - username
-            - password
-            - privateKeyFile:
-                default: "''"
-            - command:
-                default: |
-                    'df -kh | grep -v "Filesystem" | awk \'NR==1{print $5}\''
-                override: true
-            - arguments:
-                default: "''"
-            - characterSet:
-                default: "'UTF-8'"
-            - pty:
-                default: "'false'"
-            - timeout:
-                default: "'30000000'"
-            - closeSession:
-                default: "'false'"
-          action:
-            java_action:
-              className: org.openscore.content.ssh.actions.SSHShellCommandAction
-              methodName: runSshShellCommand
-          outputs:
-            - disk_space: STDOUT.replace("\n", "")
-          results:
-            - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-            - FAILURE
+operation:
+  name: check_linux_disk_space
+  inputs:
+    - host
+    - port:
+        default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+        default: "''"
+    - command:
+        default: |
+            'df -kh | grep -v "Filesystem" | awk \'NR==1{print $5}\''
+        override: true
+    - arguments:
+        default: "''"
+    - characterSet:
+        default: "'UTF-8'"
+    - pty:
+        default: "'false'"
+    - timeout:
+        default: "'30000000'"
+    - closeSession:
+        default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - disk_space: STDOUT.replace("\n", "")
+  results:
+    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE

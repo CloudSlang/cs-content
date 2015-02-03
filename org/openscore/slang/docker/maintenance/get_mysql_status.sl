@@ -39,49 +39,49 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - get_mysql_status:
-        inputs:
-          - container
-          - host
-          - port:
-                default: "'22'"
-          - username
-          - password
-          - privateKeyFile:
-                default: "''"
-          - arguments:
-                default: "''"
-          - mysqlUsername
-          - mysqlPassword
-          - execCmd:
-                default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' status'"
-                override: true
-          - command:
-                default: "'docker exec ' + container + ' ' + execCmd"
-                override: true
-          - characterSet:
-                default: "'UTF-8'"
-          - pty:
-                default: "'false'"
-          - timeout:
-                default: "'90000'"
-          - closeSession:
-                default: "'false'"
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - uptime: "returnResult.replace(':', ' ').split('  ')[1]"
-          - threads: "returnResult.replace(':', ' ').split('  ')[3]"
-          - questions: "returnResult.replace(':', ' ').split('  ')[5]"
-          - slow_queries: "returnResult.replace(':', ' ').split('  ')[7]"
-          - opens: "returnResult.replace(':', ' ').split('  ')[9]"
-          - flush_tables: "returnResult.replace(':', ' ').split('  ')[11]"
-          - open_tables: "returnResult.replace(':', ' ').split('  ')[13]"
-          - queries_per_second_AVG: "returnResult.replace(':', ' ').split('  ')[15]"
-          - error_message: STDERR if returnCode == '0' else returnResult
-        results:
-          - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-          - FAILURE
+operation:
+  name: get_mysql_status
+  inputs:
+    - container
+    - host
+    - port:
+          default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+          default: "''"
+    - arguments:
+          default: "''"
+    - mysqlUsername
+    - mysqlPassword
+    - execCmd:
+          default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' status'"
+          override: true
+    - command:
+          default: "'docker exec ' + container + ' ' + execCmd"
+          override: true
+    - characterSet:
+          default: "'UTF-8'"
+    - pty:
+          default: "'false'"
+    - timeout:
+          default: "'90000'"
+    - closeSession:
+          default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - uptime: "returnResult.replace(':', ' ').split('  ')[1]"
+    - threads: "returnResult.replace(':', ' ').split('  ')[3]"
+    - questions: "returnResult.replace(':', ' ').split('  ')[5]"
+    - slow_queries: "returnResult.replace(':', ' ').split('  ')[7]"
+    - opens: "returnResult.replace(':', ' ').split('  ')[9]"
+    - flush_tables: "returnResult.replace(':', ' ').split('  ')[11]"
+    - open_tables: "returnResult.replace(':', ' ').split('  ')[13]"
+    - queries_per_second_AVG: "returnResult.replace(':', ' ').split('  ')[15]"
+    - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE

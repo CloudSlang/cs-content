@@ -22,8 +22,8 @@
 
 namespace: org.openscore.slang.base.comparisons
 
-operations:
-  - less_than_percentage:
+operation:
+  name: less_than_percentage
         inputs:
           - first_percentage
           - second_percentage
