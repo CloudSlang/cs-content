@@ -25,41 +25,44 @@
 #    - returnResult - contains the STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #    - STDOUT - contains the standard Output of the machine in case of successful request, null otherwise
 #    - STDERR - contains the standard Error of the machine in case of successful request, null otherwise
+#    - exception - contains the stack trace in case of an exception
 # Results:
-#    - SUCCESS
+#    - SUCCESS - the SSH access was successful and returned with code 0
 #    - FAILURE
 ###############################################################################################################################################################################
 
 namespace: org.openscore.slang.base.remote_command_execution.ssh
 
 operation:
-  name: ssh_command
-  inputs:
-    - host
-    - port
-    - command
-    - pty:
-          default: "'false'"
-    - username
-    - password
-    - arguments:
-          required: false
-    - privateKeyFile:
-          required: false
-    - timeout:
-          default: "'90000'"
-    - characterSet:
-          default: "'UTF-8'"
-    - closeSession:
-          default: "'true'"
-  action:
-    java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
-  outputs:
-    - returnResult
-    - STDOUT
-    - STDERR
-  results:
-    - SUCCESS
-    - FAILURE
+    name: ssh_command
+    inputs:
+      - host
+      - port:
+            required: false
+      - command
+      - pty:
+            default: "'false'"
+      - username
+      - password
+      - arguments:
+            required: false
+      - privateKeyFile:
+            required: false
+      - timeout:
+            default: "'90000'"
+      - characterSet:
+            default: "'UTF-8'"
+      - closeSession:
+            default: "'true'"
+    action:
+      java_action:
+        className: org.openscore.content.ssh.actions.SSHShellCommandAction
+        methodName: runSshShellCommand
+    outputs:
+      - returnResult
+      - STDOUT
+      - STDERR
+      - exception
+    results:
+      - SUCCESS: returnCode == '0'
+      - FAILURE
