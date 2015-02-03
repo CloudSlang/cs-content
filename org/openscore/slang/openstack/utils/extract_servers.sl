@@ -24,31 +24,30 @@ namespace: org.openscore.slang.openstack.utils
 
 operation:
   name: extract_servers
-      inputs:
-        - server_body
-      action:
-        python_script: |
-          try:
-            import json
-            decoded = json.loads(server_body)
-            server_list_Json = decoded['servers']
-            nr_servers = len(server_list_Json)
-            server_list = ''
-            for index in range(nr_servers):
-              server_name = server_list_Json[index]['name']
-              server_list = server_list + server_name + ','
-            server_list = server_list[:-1]
-            return_code = '0'
-            return_result = 'Parsing successful.'
-          except:
-            return_code = '-1'
-            return_result = 'Parsing error.'
-      outputs:
-        - server_list
-        - return_result
-        - return_code
-        - error_message: return_result if return_code == '-1' else ''
-
-      results:
-        - SUCCESS: returnCode == '0'
-        - FAILURE
+  inputs:
+    - server_body
+  action:
+    python_script: |
+      try:
+        import json
+        decoded = json.loads(server_body)
+        server_list_Json = decoded['servers']
+        nr_servers = len(server_list_Json)
+        server_list = ''
+        for index in range(nr_servers):
+          server_name = server_list_Json[index]['name']
+          server_list = server_list + server_name + ','
+        server_list = server_list[:-1]
+        return_code = '0'
+        return_result = 'Parsing successful.'
+      except:
+        return_code = '-1'
+        return_result = 'Parsing error.'
+  outputs:
+    - server_list
+    - return_result
+    - return_code
+    - error_message: return_result if return_code == '-1' else ''
+  results:
+    - SUCCESS: return_code == '0'
+    - FAILURE

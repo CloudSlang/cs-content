@@ -34,37 +34,37 @@ namespace: org.openscore.slang.docker.containers
 
 operation:
   name: delete_container
-         inputs:
-           - containerID
-           - cmdParams:
-                default: "''"
-           - host
-           - port:
-                default: "'22'"
-           - username
-           - password
-           - privateKeyFile:
-                default: "''"
-           - arguments:
-                default: "''"
-           - command:
-                default: "'docker rm ' + cmdParams + ' ' + containerID"
-                override: true
-           - characterSet:
-                default: "'UTF-8'"
-           - pty:
-                default: "'false'"
-           - timeout:
-                default: "'90000'"
-           - closeSession:
-                default: "'false'"
-         action:
-           java_action:
-             className: org.openscore.content.ssh.actions.SSHShellCommandAction
-             methodName: runSshShellCommand
-         outputs:
-           - container_ID: returnResult
-           - error_message: STDERR if returnCode == '0' else returnResult
-         results:
-           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-           - FAILURE
+  inputs:
+    - containerID
+    - cmdParams:
+         default: "''"
+    - host
+    - port:
+         default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+         default: "''"
+    - arguments:
+         default: "''"
+    - command:
+         default: "'docker rm ' + cmdParams + ' ' + containerID"
+         override: true
+    - characterSet:
+         default: "'UTF-8'"
+    - pty:
+         default: "'false'"
+    - timeout:
+         default: "'90000'"
+    - closeSession:
+         default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - container_ID: returnResult
+    - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE
