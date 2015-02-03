@@ -37,28 +37,28 @@ operation:
     - container
     - host
     - port:
-          default: "'22'"
+        default: "'22'"
     - username
     - password
     - privateKeyFile:
-          default: "''"
+        default: "''"
     - arguments:
-          default: "''"
+        default: "''"
     - mysqlUsername
     - mysqlPassword
     - execCmd:
-          default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-          override: true
+        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+        override: true
     - command:
-          default: "'docker exec ' + container + ' ' + execCmd"
+        default: "'docker exec ' + container + ' ' + execCmd"
     - characterSet:
-          default: "'UTF-8'"
+        default: "'UTF-8'"
     - pty:
-          default: "'false'"
+        default: "'false'"
     - timeout:
-          default: "'90000'"
+        default: "'90000'"
     - closeSession:
-          default: "'false'"
+        default: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction

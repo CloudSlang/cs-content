@@ -47,24 +47,24 @@ operation:
     - cmdParams
     - host
     - port:
-         default: "'22'"
+        default: "'22'"
     - username
     - password
     - privateKeyFile:
-         default: "''"
+        default: "''"
     - arguments:
-         default: "''"
+        default: "''"
     - command:
-         default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
-         override: true
+        default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
+        override: true
     - characterSet:
-         default: "'UTF-8'"
+        default: "'UTF-8'"
     - pty:
-         default: "'false'"
+        default: "'false'"
     - timeout:
-         default: "'90000'"
+        default: "'90000'"
     - closeSession:
-         default: "'false'"
+        default: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
