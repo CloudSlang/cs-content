@@ -30,21 +30,21 @@ operation:
   action:
     python_script: |
       error_message = ""
-      if "%" in first_percentage and "%" in second_percentage:
-          first_percentage_nr = first_percentage.replace("%", "")
-          second_percentage_nr = second_percentage.replace("%", "")
-          try:
-              int_value1 = int(first_percentage_nr)
-              int_value2 = int(second_percentage_nr)
-          except ValueError:
-              error_message = "Both inputs have to be integers"
-      else:
-          error_message = "Both inputs must contain \"%\""
+      result = None
+      first_percentage_nr = first_percentage.replace("%", "")
+      second_percentage_nr = second_percentage.replace("%", "")
+      try:
+          int_value1 = int(first_percentage_nr)
+          int_value2 = int(second_percentage_nr)
+          result = error_message == "" and int_value1 < int_value2
+      except ValueError:
+          error_message = "Both inputs have to be integers"
   outputs:
     - first_percentage_nr
     - second_percentage_nr
     - error_message
+    - result
   results:
-    - SUCCESS: error_message == "" and first_percentage_nr < second_percentage_nr
-    - FAILURE: error_message == "" and first_percentage_nr >= second_percentage_nr
-    - ERROR: error_message <> ""
+    - LESS: result == "True"
+    - MORE: result == "False"
+    - FAILURE: error_message <> ""
