@@ -53,9 +53,9 @@ flow:
           - first_percentage: disk_space
           - second_percentage: percentage
       navigate:
-        LESS: SUCCESS
-        MORE: NOT_ENOUGH_DISKSPACE
-        FAILURE: FAILURE
+        SUCCESS: SUCCESS
+        FAILURE: NOT_ENOUGH_DISKSPACE
+        ERROR: FAILURE
   results:
     - SUCCESS
     - FAILURE
