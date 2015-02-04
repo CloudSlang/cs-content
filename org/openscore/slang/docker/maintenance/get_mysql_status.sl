@@ -11,6 +11,7 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
+#       - port - optional - SSH port - Default: 22
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - mysqlUsername - MySQL instance username
