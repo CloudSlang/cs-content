@@ -36,29 +36,29 @@ operation:
   inputs:
     - containerName
     - cmdParams:
-         default: "''"
-         override: true
+        default: "''"
+        overridable: false
     - host
     - port:
-         default: "'22'"
+        default: "'22'"
     - username
     - password
     - privateKeyFile:
-         default: "''"
+        default: "''"
     - command:
-         default: >
-             "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-         override: true
+        default: >
+            "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
+        overridable: false
     - arguments:
-         default: "''"
+        default: "''"
     - characterSet:
-         default: "'UTF-8'"
+        default: "'UTF-8'"
     - pty:
-         default: "'false'"
+        default: "'false'"
     - timeout:
-         default: "'90000'"
+        default: "'90000'"
     - closeSession:
-         default: "'false'"
+        default: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction

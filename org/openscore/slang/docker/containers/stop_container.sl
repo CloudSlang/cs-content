@@ -48,7 +48,7 @@ operation:
         default: "''"
     - command:
         default: "'docker stop ' + cmdParams + ' ' + containerID"
-        override: true
+        overridable: false
     - characterSet:
         default: "'UTF-8'"
     - pty:

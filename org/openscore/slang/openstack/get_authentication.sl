@@ -36,16 +36,16 @@ operation:
     - password
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
-        override: true
+        overridable: false
     - body:
         default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
-        override: true
+        overridable: false
     - method:
         default: "'post'"
-        override: true
+        overridable: false
     - contentType:
         default: "'application/json'"
-        override: true
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.httpclient.HttpClientAction

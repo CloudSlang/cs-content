@@ -33,24 +33,17 @@ operation:
   name: get_dangling_images
   inputs:
     - host
-    - port:
-        default: "'22'"
+    - port: "'22'"
     - username
     - password
-    - privateKeyFile:
-        default: "''"
+    - privateKeyFile: "''"
     - command: >
         "docker images -f \"dangling=true\" -q"
-    - arguments:
-        default: "''"
-    - characterSet :
-        default: "'UTF-8'"
-    - pty:
-        default: "'false'"
-    - timeout:
-        default: "'30000000'"
-    - closeSession:
-        default: "'false'"
+    - arguments: "''"
+    - characterSet : "'UTF-8'"
+    - pty: "'false'"
+    - timeout: "'30000000'"
+    - closeSession: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction

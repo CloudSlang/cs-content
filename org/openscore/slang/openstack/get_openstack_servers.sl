@@ -35,13 +35,13 @@ operation:
     - tenant
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
-        override: true
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
-        override: true
+        overridable: false
     - method:
         default: "'get'"
-        override: true
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.httpclient.HttpClientAction

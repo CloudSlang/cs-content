@@ -44,7 +44,7 @@ operation:
         default: "''"
     - command:
         default: "'docker pull ' + imageName"
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

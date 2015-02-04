@@ -41,7 +41,7 @@ operation:
     - command:
         default: >
             "docker images | awk '{print $1 \":\" $2}'"
-        override: false
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:
