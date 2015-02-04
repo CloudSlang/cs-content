@@ -11,14 +11,14 @@
 #
 #   Inputs:
 #       - host - OpenStack machine host
-#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - imgRef - image reference of the server to be created
+#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - compute_port - optional - port used for OpenStack computations - Default: 8774
+#       - img_ref - image reference of the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
-#       - serverName - optional - server name - Default: test-server
-#       - emailHost - email host
-#       - emailPort - email port
+#       - server_name - optional - server name - Default: test-server
+#       - email_host - email host
+#       - email_port - email port
 #       - to - email recipient
 #       - from - email sender
 ####################################################
@@ -33,20 +33,17 @@ flow:
   name: openstack_health_check
   inputs:
     - host
-    - identityPort:
+    - identity_port:
         default: "'5000'"
-        required: false
-    - computePort:
+    - compute_port:
         default: "'8774'"
-        required: false
-    - imgRef
+    - img_ref
     - username
     - password
-    - serverName:
+    - server_name:
         default: "'test-server'"
-        required: false
-    - emailHost
-    - emailPort
+    - email_host
+    - email_port
     - to
     - from
   workflow:
@@ -54,42 +51,42 @@ flow:
       do:
         openstack_content.create_openstack_server_flow:
           - host
-          - identityPort
-          - computePort
-          - imgRef
+          - identity_port
+          - compute_port
+          - img_ref
           - username
           - password
-          - serverName
+          - server_name
       publish:
-        - subflow_error: "'\"Create Server\": ' + errorMessage"
+        - subflow_error: "'\"Create Server\": ' + error_message"
     validate_server_exists:
       do:
         openstack_content.validate_server_exists:
-          - openstackHost: host
-          - openstackIdentityPort: identityPort
-          - openstackComputePort: computePort
-          - openstackUsername: username
-          - openstackPassword: password
-          - serverName
+          - openstack_host: host
+          - openstack_identity_port: identity_port
+          - openstack_compute_port: compute_port
+          - openstack_username: username
+          - openstack_password: password
+          - server_name
       publish:
-        - subflow_error : "'\"Validate Server\": ' + errorMessage"
+        - subflow_error : "'\"Validate Server\": ' + error_message"
     delete_server:
       do:
         openstack_content.delete_openstack_server_flow:
           - host
-          - identityPort
-          - computePort
+          - identity_port
+          - compute_port
           - username
           - password
-          - serverName
+          - server_name
       publish:
-        - subflow_error : "'\"Delete Server\": ' + errorMessage"
+        - subflow_error : "'\"Delete Server\": ' + error_message"
     on_failure:
       send_error_mail:
         do:
           email.send_mail:
-            - hostname: emailHost
-            - port: emailPort
+            - hostname: email_host
+            - port: email_port
             - from
             - to
             - subject: "'Flow failure'"

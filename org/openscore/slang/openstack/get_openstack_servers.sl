@@ -15,9 +15,9 @@
 #       - token - OpenStack token obtained after authentication
 #       - tenant - OpenStack tenantID obtained after authentication
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal statusCode is 202
-#       - errorMessage - error message
+#       - return_result - response of the operation
+#       - status_code - normal statusCode is 202
+#       - error_message - error message
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '200')
 #       - FAILURE - otherwise
@@ -31,7 +31,6 @@ operation:
     - host
     - computePort:
         default: "'8774'"
-        required: false
     - token
     - tenant
     - headers:
@@ -48,9 +47,9 @@ operation:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult: returnResult
-    - statusCode: statusCode
-    - errorMessage: returnResult if statusCode != '202' else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - error_message: returnResult if statusCode != '202' else ''
   results:
     - SUCCESS : statusCode == '200'
     - FAILURE

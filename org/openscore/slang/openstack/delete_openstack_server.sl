@@ -15,9 +15,9 @@
 #       - tenant - OpenStack tenantID obtained after authentication
 #       - serverID - ID of the server to be deleted
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 204
-#       - errorMessage: returnResult if statusCode if different than 204
+#       - return_result - response of the operation
+#       - status_code - normal status code is 204
+#       - error_message: returnResult if statusCode if different than 204
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '204')
 #       - FAILURE - otherwise
@@ -31,7 +31,6 @@ operation:
     - host
     - computePort:
         default: "'8774'"
-        required: false
     - token
     - tenant
     - serverID
@@ -49,9 +48,9 @@ operation:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult: returnResult
-    - statusCode: statusCode
-    - errorMessage: returnResult if statusCode != '204' else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - error_message: returnResult if statusCode != '204' else ''
   results:
     - SUCCESS : statusCode == '204'
     - FAILURE

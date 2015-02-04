@@ -9,16 +9,16 @@
 #   This operation will create an OpenStack server.
 #
 #   Inputs:
-#        - host-  OpenStack machine host
-#        - computePort - optional - port used for OpenStack computations - Default: 8774
-#        - token - OpenStack token obtained after authentication
-#        - tenant - OpenStack tenantID obtained after authentication
-#        - serverName - server name
-#        - imgRef - image reference for of the server to be created
+#       - host-  OpenStack machine host
+#       - computePort - optional - port used for OpenStack computations - Default: 8774
+#       - token - OpenStack token obtained after authentication
+#       - tenant - OpenStack tenantID obtained after authentication
+#       - serverName - server name
+#       - imgRef - image reference for of the server to be created
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 202
-#       - errorMessage: returnResult if statusCode different than '202'
+#       - return_result - response of the operation
+#       - status_code - normal status code is 202
+#       - error_message: returnResult if statusCode different than '202'
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '202')
 #       - FAILURE - otherwise
@@ -32,7 +32,6 @@ operation:
     - host
     - computePort:
         default: "'8774'"
-        required: false
     - token
     - tenant
     - serverName
@@ -57,9 +56,9 @@ operation:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult: returnResult
-    - statusCode: statusCode
-    - errorMessage: returnResult if statusCode != '202' else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - error_message: returnResult if statusCode != '202' else ''
   results:
     - SUCCESS : statusCode == '202'
     - FAILURE

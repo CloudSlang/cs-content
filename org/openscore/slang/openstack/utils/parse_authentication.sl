@@ -10,13 +10,13 @@
 #   token and tenantID as its outputs.
 #
 #   Inputs:
-#       -jsonAuthenticationResponse - response of the get_authentication operation
+#       -json_authentication_response - response of the get_authentication operation
 #   Outputs:
 #       - token - authentication token ID
 #       - tenant - tenant ID
-#       - returnResult - notification string which says if parsing was successful or not
-#       - returnCode - 0 if parsing was successful, -1 otherwise
-#       - errorMessage - returnResult if there was an error
+#       - return_result - notification string which says if parsing was successful or not
+#       - return_code - 0 if parsing was successful, -1 otherwise
+#       - error_message - returnResult if there was an error
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
@@ -27,28 +27,28 @@ namespace: org.openscore.slang.openstack.utils
 operation:
   name: parse_authentication
   inputs:
-    - jsonAuthenticationResponse
+    - json_authentication_response
   action:
     python_script: |
       try:
         import json
-        decoded = json.loads(jsonAuthenticationResponse)
-        accessJson = decoded['access']
-        tokenJson = accessJson['token']
-        token = tokenJson['id']
-        tenantJson = tokenJson['tenant']
-        tenant = tenantJson['id']
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        decoded = json.loads(json_authentication_response)
+        access_Json = decoded['access']
+        token_Json = access_Json['token']
+        token = token_Json['id']
+        tenant_Json = token_Json['tenant']
+        tenant = tenant_Json['id']
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error.'
+        return_code = '-1'
+        return_result = 'Parsing error.'
   outputs:
     - token
     - tenant
-    - returnCode
-    - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - return_code
+    - return_result
+    - error_message: return_result if return_code == '-1' else ''
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE
