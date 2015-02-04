@@ -14,6 +14,8 @@
 #       - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #       - username - OpenStack username
 #       - password - OpenStack password
+#       - url - optional - URL for which the REST call is made - Default: Openstack authentication URL
+#       - body - optional - body of the POST request (JSON) - Default: body for getting OpenStack authentication
 #   Outputs:
 #       - return_result - response of the operation
 #       - status_code - normal status code is 200
@@ -36,10 +38,8 @@ operation:
     - password
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
-        override: true
     - body:
         default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
-        override: true
     - method:
         default: "'post'"
         override: true
