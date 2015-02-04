@@ -17,6 +17,7 @@
 #   Results:
 #       - SUCCESS - succeeds if first_percentage < second_percentage
 #       - FAILURE - fails if first_percentage >= second_percentage
+#       - ERROR - if input was not in correct format
 ####################################################
 
 namespace: org.openscore.slang.base.comparisons
@@ -28,11 +29,22 @@ operation:
     - second_percentage
   action:
     python_script: |
+      error_message = ""
+      result = None
       first_percentage_nr = first_percentage.replace("%", "")
       second_percentage_nr = second_percentage.replace("%", "")
+      try:
+          int_value1 = int(first_percentage_nr)
+          int_value2 = int(second_percentage_nr)
+          result = error_message == "" and int_value1 < int_value2
+      except ValueError:
+          error_message = "Both inputs have to be integers"
   outputs:
     - first_percentage_nr
     - second_percentage_nr
+    - error_message
+    - result
   results:
-    - SUCCESS: first_percentage_nr < second_percentage_nr
-    - FAILURE
+    - LESS: result == "True"
+    - MORE: result == "False"
+    - FAILURE: error_message <> ""
