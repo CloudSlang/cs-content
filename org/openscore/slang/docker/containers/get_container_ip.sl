@@ -37,7 +37,7 @@ operation:
     - containerName
     - cmdParams:
         default: "''"
-        override: true
+        overridable: false
     - host
     - port:
         default: "'22'"
@@ -48,7 +48,7 @@ operation:
     - command:
         default: >
             "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

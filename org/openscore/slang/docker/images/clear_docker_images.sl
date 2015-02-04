@@ -42,7 +42,7 @@ operation:
         default: "''"
     - command:
         default: "'docker rmi ' + images"
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

@@ -42,7 +42,7 @@ operation:
     - command:
         default: >
          "docker ps -a | awk '{print $2}'"
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

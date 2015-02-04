@@ -53,7 +53,7 @@ operation:
         default: "''"
     - command:
         default: "'docker run -d --name ' + containerName + ' ' + cmdParams + ' ' + imageID + ' ' + containerCmd"
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

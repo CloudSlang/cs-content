@@ -42,7 +42,7 @@ operation:
     - command:
         default: |
             'df -kh | grep -v "Filesystem" | awk \'NR==1{print $5}\''
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

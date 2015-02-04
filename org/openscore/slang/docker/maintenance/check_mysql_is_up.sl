@@ -49,7 +49,7 @@ operation:
     - mysqlPassword
     - execCmd:
         default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-        override: true
+        overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + execCmd"
     - characterSet:

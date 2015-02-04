@@ -49,7 +49,7 @@ operation:
         default: "''"
     - command:
         default: "'docker rm ' + cmdParams + ' ' + containerID"
-        override: true
+        overridable: false
     - characterSet:
         default: "'UTF-8'"
     - pty:

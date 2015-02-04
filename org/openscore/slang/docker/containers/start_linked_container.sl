@@ -56,7 +56,7 @@ operation:
         default: "''"
     - command:
         default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
-        override: true
+        overridable: false
     - characterSet:
         default: "'UTF-8'"
     - pty:
