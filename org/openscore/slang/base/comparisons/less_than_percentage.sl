@@ -21,18 +21,18 @@
 
 namespace: org.openscore.slang.base.comparisons
 
-operations:
-  - less_than_percentage:
-        inputs:
-          - first_percentage
-          - second_percentage
-        action:
-          python_script: |
-            first_percentage_nr = first_percentage.replace("%", "")
-            second_percentage_nr = second_percentage.replace("%", "")
-        outputs:
-          - first_percentage_nr
-          - second_percentage_nr
-        results:
-          - SUCCESS: first_percentage_nr < second_percentage_nr
-          - FAILURE
+operation:
+  name: less_than_percentage
+  inputs:
+    - first_percentage
+    - second_percentage
+  action:
+    python_script: |
+      first_percentage_nr = first_percentage.replace("%", "")
+      second_percentage_nr = second_percentage.replace("%", "")
+  outputs:
+    - first_percentage_nr
+    - second_percentage_nr
+  results:
+    - SUCCESS: first_percentage_nr < second_percentage_nr
+    - FAILURE

@@ -8,9 +8,9 @@
 #   This flow will delete only the unused Docker images.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
 #   Outputs:
 #       - images_list_safe_to_delete - unused Docker images
 #       - amount_of_images_deleted - how many images where deleted
@@ -26,31 +26,31 @@ imports:
 flow:
   name: clear_docker_images_flow
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - docker_host
+    - docker_username
+    - docker_password
 
   workflow:
     validate_linux_machine_ssh_access:
       do:
         docker_linux.validate_linux_machine_ssh_access:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
     get_all_images:
       do:
         docker_images.get_all_images:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - all_images_list: imageList
+        - all_images_list: image_list
     get_used_images:
       do:
         docker_images.get_used_images_flow:
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
+          - docker_host
+          - docker_username
+          - docker_password
       publish:
         - used_images_list: used_images_list
     substract_used_images:
@@ -67,9 +67,9 @@ flow:
     delete_images:
       do:
         docker_images.clear_docker_images:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
           - images: images_list_safe_to_delete
       publish:
         - response

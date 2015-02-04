@@ -9,15 +9,15 @@
 #   This flow will authenticate on an OpenStack machine.
 #
 #   Inputs:
-#       - openstackHost - OpenStack machine host
-#       - openstackIdentityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - openstackUsername - OpenStack username
-#       - openstackPassword - OpenStack password
+#       - openstack_host - OpenStack machine host
+#       - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - openstack_username - OpenStack username
+#       - openstack_password - OpenStack password
 #   Outputs:
 #       - token - authentication token
 #       - tenant - tenantID
-#       - returnResult - response of the last operation that was executed
-#       - errorMessage - error message of the operation that failed
+#       - return_result - response of the last operation that was executed
+#       - error_message - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack
@@ -29,36 +29,35 @@ imports:
 flow:
   name: get_authentication_flow
   inputs:
-    - openstackHost
-    - openstackIdentityPort:
+    - openstack_host
+    - openstack_identity_port:
         default: "'5000'"
-        required: false
-    - openstackUsername
-    - openstackPassword
+    - openstack_username
+    - openstack_password
   workflow:
     get_token:
       do:
         openstack_content.get_authentication:
-          - host: openstackHost
-          - identityPort: openstackIdentityPort
-          - username: openstackUsername
-          - password: openstackPassword
+          - host: openstack_host
+          - identityPort: openstack_identity_port
+          - username: openstack_username
+          - password: openstack_password
       publish:
-        - response_body: returnResult
-        - returnCode
-        - errorMessage
+        - response_body: return_result
+        - return_code
+        - error_message
 
     parse_authentication:
       do:
         openstack_utils.parse_authentication:
-          - jsonAuthenticationResponse: response_body
+          - json_authentication_response: response_body
       publish:
         - token
         - tenant
-        - errorMessage
+        - error_message
 
   outputs:
     - token
     - tenant
-    - returnResult: response_body
-    - errorMessage
+    - return_result: response_body
+    - error_message

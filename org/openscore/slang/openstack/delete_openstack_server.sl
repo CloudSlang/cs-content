@@ -15,9 +15,9 @@
 #       - tenant - OpenStack tenantID obtained after authentication
 #       - serverID - ID of the server to be deleted
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 204
-#       - errorMessage: returnResult if statusCode if different than 204
+#       - return_result - response of the operation
+#       - status_code - normal status code is 204
+#       - error_message: returnResult if statusCode if different than 204
 #   Results:
 #       - SUCCESS - operation succeeded (statusCode == '204')
 #       - FAILURE - otherwise
@@ -25,33 +25,32 @@
 
 namespace: org.openscore.slang.openstack
 
-operations:
-  - delete_openstack_server:
-      inputs:
-        - host
-        - computePort:
-            default: "'8774'"
-            required: false
-        - token
-        - tenant
-        - serverID
-        - headers:
-            default: "'X-AUTH-TOKEN:' + token"
-            overridable: false
-        - url:
-            default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
-            overridable: false
-        - method:
-            default: "'delete'"
-            overridable: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult: returnResult
-        - statusCode: statusCode
-        - errorMessage: returnResult if statusCode != '204' else ''
-      results:
-        - SUCCESS : statusCode == '204'
-        - FAILURE
+operation:
+  name: delete_openstack_server
+  inputs:
+    - host
+    - computePort:
+        default: "'8774'"
+    - token
+    - tenant
+    - serverID
+    - headers:
+        default: "'X-AUTH-TOKEN:' + token"
+        overridable: false
+    - url:
+        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
+        overridable: false
+    - method:
+        default: "'delete'"
+        overridable: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - return_result: returnResult
+    - status_code: statusCode
+    - error_message: returnResult if statusCode != '204' else ''
+  results:
+    - SUCCESS : statusCode == '204'
+    - FAILURE

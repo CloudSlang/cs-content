@@ -11,12 +11,20 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
+#       - port - optional - SSH port - Default: 22
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - mysqlUsername - MySQL instance username
 #       - mysqlPassword - MySQL instance password
+#       - pty - whether to use pty; valid values: true, false; Default: false
+#       - arguments - arguments to pass to the command; Default: none
+#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
+#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
+#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - errorMessage - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
+#       - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and the MySQL server state is alive
 #       - FAILURE - some problem occurred, more information in the errorMessage output
@@ -24,48 +32,40 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - check_mysql_is_up:
-        inputs:
-          - container
-          - host
-          - port:
-                default: "'22'"
-                overridable: false
-          - username
-          - password
-          - privateKeyFile:
-                default: "''"
-                overridable: false
-          - arguments:
-                default: "''"
-                overridable: false
-          - mysqlUsername
-          - mysqlPassword
-          - execCmd:
-                default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-                overridable: false
-          - command:
-                default: "'docker exec ' + container + ' ' + execCmd"
-                overridable: false
-          - characterSet:
-                default: "'UTF-8'"
-                overridable: false
-          - pty:
-                default: "'false'"
-                overridable: false
-          - timeout:
-                default: "'90000'"
-                overridable: false
-          - closeSession:
-                default: "'false'"
-                overridable: false
-        action:
-          java_action:
-            className: org.openscore.content.ssh.actions.SSHShellCommandAction
-            methodName: runSshShellCommand
-        outputs:
-          - errorMessage:  STDERR if returnCode == '0' else returnResult
-        results:
-          - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
-          - FAILURE
+operation:
+  name: check_mysql_is_up
+  inputs:
+    - container
+    - host
+    - port:
+        default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+        default: "''"
+    - arguments:
+        default: "''"
+    - mysqlUsername
+    - mysqlPassword
+    - execCmd:
+        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+        overridable: false
+    - command:
+        default: "'docker exec ' + container + ' ' + execCmd"
+    - characterSet:
+        default: "'UTF-8'"
+    - pty:
+        default: "'false'"
+    - timeout:
+        default: "'90000'"
+    - closeSession:
+        default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - error_message:  STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
+    - FAILURE

@@ -15,9 +15,16 @@
 #       - port - optional - SSH port - Default: 22
 #       - username - Docker machine username
 #       - password - Docker machine password
+#       - pty - whether to use pty; valid values: true, false; Default: false
+#       - arguments - arguments to pass to the command; Default: none
+#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
+#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
+#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - containerID - ID of the container that was deleted
-#       - errorMessage - error message
+#       - container_ID - ID of the container that was deleted
+#       - error_message - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -25,47 +32,39 @@
 
 namespace: org.openscore.slang.docker.containers
 
-operations:
-    - delete_container:
-         inputs:
-           - containerID
-           - cmdParams:
-                default: "''"
-                required: false
-           - host
-           - port:
-                default: "'22'"
-                required: false
-           - username
-           - password
-           - privateKeyFile:
-                default: "''"
-                overridable: false
-           - arguments:
-                default: "''"
-                overridable: false
-           - command:
-                default: "'docker rm ' + cmdParams + ' ' + containerID"
-                overridable: false
-           - characterSet:
-                default: "'UTF-8'"
-                overridable: false
-           - pty:
-                default: "'false'"
-                overridable: false
-           - timeout:
-                default: "'90000'"
-                overridable: false
-           - closeSession:
-                default: "'false'"
-                overridable: false
-         action:
-           java_action:
-             className: org.openscore.content.ssh.actions.SSHShellCommandAction
-             methodName: runSshShellCommand
-         outputs:
-           - containerID: returnResult
-           - errorMessage: STDERR if returnCode == '0' else returnResult
-         results:
-           - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-           - FAILURE
+operation:
+  name: delete_container
+  inputs:
+    - containerID
+    - cmdParams:
+        default: "''"
+    - host
+    - port:
+        default: "'22'"
+    - username
+    - password
+    - privateKeyFile:
+        default: "''"
+    - arguments:
+        default: "''"
+    - command:
+        default: "'docker rm ' + cmdParams + ' ' + containerID"
+        overridable: false
+    - characterSet:
+        default: "'UTF-8'"
+    - pty:
+        default: "'false'"
+    - timeout:
+        default: "'90000'"
+    - closeSession:
+        default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - container_ID: returnResult
+    - error_message: STDERR if returnCode == '0' else returnResult
+  results:
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - FAILURE
