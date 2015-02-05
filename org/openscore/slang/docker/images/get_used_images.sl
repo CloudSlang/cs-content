@@ -34,25 +34,25 @@ operation:
   inputs:
     - host
     - port:
-         default: "'22'"
+        default: "'22'"
     - username
     - password
     - privateKeyFile:
-       default: "''"
+        default: "''"
     - command:
         default: >
          "docker ps -a | awk '{print $2}'"
-        override: true
+        overridable: false
     - arguments:
-         default: "''"
+        default: "''"
     - characterSet:
-         default: "'UTF-8'"
+        default: "'UTF-8'"
     - pty:
-         default: "'false'"
+        default: "'false'"
     - timeout:
-         default: "'30000000'"
+        default: "'30000000'"
     - closeSession:
-         default: "'false'"
+        default: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction

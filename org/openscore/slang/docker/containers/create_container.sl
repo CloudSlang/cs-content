@@ -38,7 +38,12 @@ operation:
   inputs:
     - imageID
     - containerName
-    - cmdParams
+    - cmdParams:
+        default: "''"
+        required: false
+    - containerCmd:
+        default: "''"
+        required: false
     - host
     - port:
         default: "'22'"
@@ -47,8 +52,8 @@ operation:
     - privateKeyFile:
         default: "''"
     - command:
-        default: "'docker run --name ' + containerName + ' ' +cmdParams + ' -d ' + imageID"
-        override: true
+        default: "'docker run -d --name ' + containerName + ' ' + cmdParams + ' ' + imageID + ' ' + containerCmd"
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

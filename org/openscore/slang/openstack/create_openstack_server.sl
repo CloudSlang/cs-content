@@ -38,19 +38,19 @@ operation:
     - imgRef
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
-        override: true
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers'"
-        override: true
+        overridable: false
     - body:
         default: "'{\"server\": { \"name\": \"' + serverName + '\" , \"imageRef\": \"' + imgRef + '\", \"flavorRef\":\"2\",\"max_count\":1,\"min_count\":1,\"security_groups\": [ {\"name\": \"default\"}] }}'"
-        override: true
+        overridable: false
     - contentType:
         default: "'application/json'"
-        override: true
+        overridable: false
     - method:
         default: "'post'"
-        override: true
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.httpclient.HttpClientAction

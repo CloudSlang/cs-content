@@ -42,7 +42,7 @@ operation:
         default: "''"
     - command:
         default: "' '"
-        override: true
+        overridable: false
     - arguments:
         default: "''"
     - characterSet:

@@ -36,13 +36,13 @@ operation:
     - serverID
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
-        override: true
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
-        override: true
+        overridable: false
     - method:
         default: "'delete'"
-        override: true
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.httpclient.HttpClientAction

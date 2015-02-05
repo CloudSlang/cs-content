@@ -11,6 +11,7 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
+#       - port - optional - SSH port - Default: 22
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - mysqlUsername - MySQL instance username
@@ -37,28 +38,28 @@ operation:
     - container
     - host
     - port:
-          default: "'22'"
+        default: "'22'"
     - username
     - password
     - privateKeyFile:
-          default: "''"
+        default: "''"
     - arguments:
-          default: "''"
+        default: "''"
     - mysqlUsername
     - mysqlPassword
     - execCmd:
-          default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
-          override: true
+        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+        overridable: false
     - command:
-          default: "'docker exec ' + container + ' ' + execCmd"
+        default: "'docker exec ' + container + ' ' + execCmd"
     - characterSet:
-          default: "'UTF-8'"
+        default: "'UTF-8'"
     - pty:
-          default: "'false'"
+        default: "'false'"
     - timeout:
-          default: "'90000'"
+        default: "'90000'"
     - closeSession:
-          default: "'false'"
+        default: "'false'"
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
