@@ -42,10 +42,10 @@ flow:
     authentication:
       do:
         openstack_content.get_authentication_flow:
-          - openstack_host: host
-          - openstack_identity_port: identity_port
-          - openstack_username: username
-          - openstack_password: password
+          - host
+          - identity_port
+          - username
+          - password
       publish:
         - token
         - tenant

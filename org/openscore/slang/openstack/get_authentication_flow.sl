@@ -9,10 +9,10 @@
 #   This flow will authenticate on an OpenStack machine.
 #
 #   Inputs:
-#       - openstack_host - OpenStack machine host
-#       - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
-#       - openstack_username - OpenStack username
-#       - openstack_password - OpenStack password
+#       - host - OpenStack machine host
+#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - username - OpenStack username
+#       - password - OpenStack password
 #   Outputs:
 #       - token - authentication token
 #       - tenant - tenantID
@@ -29,19 +29,19 @@ imports:
 flow:
   name: get_authentication_flow
   inputs:
-    - openstack_host
-    - openstack_identity_port:
+    - host
+    - identity_port:
         default: "'5000'"
-    - openstack_username
-    - openstack_password
+    - username
+    - password
   workflow:
     get_token:
       do:
         openstack_content.get_authentication:
-          - host: openstack_host
-          - identityPort: openstack_identity_port
-          - username: openstack_username
-          - password: openstack_password
+          - host
+          - identityPort: identity_port
+          - username
+          - password
       publish:
         - response_body: return_result
         - return_code
