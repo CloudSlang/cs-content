@@ -23,8 +23,8 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - parse_cadvisor_container:
+operation:
+      name: parse_cadvisor_container
       inputs:
         - jsonResponse
       action:

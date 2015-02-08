@@ -52,12 +52,12 @@ flow:
         - errorMessage
     print_result:
       do:
-        docker_print.print:
+        docker_print.print_text:
           - text: "'cAdviser return resualt '+timestamp+' --cpu-- '+cpu+' --memory-- '+memory+' --network-- '+network"
     on_failure:
       print_error:
         do:
-          docker_print.print:
+          docker_print.print_text:
                 - text: "'cAdviser ended with the following error message '+errorMessage"
         navigate:
           SUCCESS: FAILURE

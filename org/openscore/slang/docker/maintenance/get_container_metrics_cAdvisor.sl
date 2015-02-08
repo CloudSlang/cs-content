@@ -25,8 +25,8 @@
 
 namespace: org.openscore.slang.docker.maintenance
 
-operations:
-  - get_container_metrics_cAdvisor:
+operation:
+      name: get_container_metrics_cAdvisor
       inputs:
         - host
         - identityPort:
