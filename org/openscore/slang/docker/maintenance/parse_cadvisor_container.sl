@@ -32,6 +32,13 @@ operations:
           try:
             import json
             decoded = json.loads(jsonResponse)
+            for key, value in decoded.items():
+              stats= value['stats'][len(value['stats'])-1]
+              spec = value['spec']
+            cpu=stats['cpu']
+            memory=stats['memory']
+            network=stats['network']
+            timestamp=stats['timestamp']
             returnCode = '0'
             returnResult = 'Parsing successful.'
           except:
@@ -39,6 +46,12 @@ operations:
             returnResult = 'Parsing error.'
       outputs:
         - decoded
+        - spec
+        - stats
+        - timestamp
+        - cpu
+        - memory
+        - network
         - returnCode
         - returnResult
         - errorMessage: returnResult if returnCode == '-1' else ''
