@@ -18,6 +18,7 @@ namespace: org.openscore.slang.docker.maintenance
 
 imports:
   docker_maintenance: org.openscore.slang.docker.maintenance
+  docker_print: org.openscore.slang.base.print
 
 flow:
   name: report_container_metrics_cAdvisor
@@ -51,12 +52,12 @@ flow:
         - errorMessage
     print_result:
       do:
-        docker_maintenance.print:
+        docker_print.print:
           - text: "'cAdviser return resualt '+timestamp+' --cpu-- '+cpu+' --memory-- '+memory+' --network-- '+network"
     on_failure:
       print_error:
         do:
-          docker_maintenance.print:
+          docker_print.print:
                 - text: "'cAdviser ended with the following error message '+errorMessage"
         navigate:
           SUCCESS: FAILURE

@@ -1,4 +1,4 @@
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.base.print
 
 operations:
   - print:
