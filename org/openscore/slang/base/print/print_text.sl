@@ -1,7 +1,7 @@
 namespace: org.openscore.slang.base.print
 
-operations:
-  - print:
+operation:
+      name: print_text
       inputs:
         - text
       action:
