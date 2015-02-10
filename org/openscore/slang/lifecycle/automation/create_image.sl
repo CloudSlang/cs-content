@@ -32,38 +32,38 @@
 
 namespace: org.openscore.slang.lifecycle.automation
 
-operations:
-  - create_image:
-        inputs:
-            - docker_user
-            - image_name
-            - version
-            - path_dockerfile
-            - host
-            - port:
-                default: "'22'"
-            - username
-            - password
-            - privateKeyFile:
-                default: "''"
-            - arguments:
-                default: "''"
-            - command:
-                default: >
-                    'docker build -t="' + docker_user + '/' + image_name + ':' + version + '" ' + path_dockerfile
-                override: true
-            - characterSet:
-                default: "'UTF-8'"
-            - pty:
-                default: "'false'"
-            - timeout:
-                default: "'90000'"
-            - closeSession:
-                default: "'false'"
-        action:
-          java_action:
-              className: org.openscore.content.ssh.actions.SSHShellCommandAction
-              methodName: runSshShellCommand
-        results:
-          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-          - FAILURE
+operation:
+    name: create_image
+    inputs:
+        - docker_user
+        - image_name
+        - version
+        - path_dockerfile
+        - host
+        - port:
+            default: "'22'"
+        - username
+        - password
+        - privateKeyFile:
+            default: "''"
+        - arguments:
+            default: "''"
+        - command:
+            default: >
+                'docker build -t="' + docker_user + '/' + image_name + ':' + version + '" ' + path_dockerfile
+            override: true
+        - characterSet:
+            default: "'UTF-8'"
+        - pty:
+            default: "'false'"
+        - timeout:
+            default: "'90000'"
+        - closeSession:
+            default: "'false'"
+    action:
+      java_action:
+          className: org.openscore.content.ssh.actions.SSHShellCommandAction
+          methodName: runSshShellCommand
+    results:
+      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+      - FAILURE

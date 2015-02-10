@@ -34,39 +34,39 @@
 
 namespace: org.openscore.slang.lifecycle.automation
 
-operations:
-  - create_and_run_container:
-        inputs:
-            - docker_user
-            - image_name
-            - version
-            - host
-            - port:
-                default: "'22'"
-            - username
-            - password
-            - privateKeyFile:
-                default: "''"
-            - arguments:
-                default: "''"
-            - expose_host_port
-            - expose_container_port
-            - command:
-                default: >
-                    'docker run -p ' + expose_host_port + ':' + expose_container_port + ' -t -i ' + docker_user + '/' + image_name + ':' + version
-                override: true
-            - characterSet:
-                default: "'UTF-8'"
-            - pty:
-                default: "'false'"
-            - timeout:
-                default: "'90000'"
-            - closeSession:
-                default: "'false'"
-        action:
-          java_action:
-              className: org.openscore.content.ssh.actions.SSHShellCommandAction
-              methodName: runSshShellCommand
-        results:
-          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-          - FAILURE
+operation:
+    name: create_and_run_container
+    inputs:
+        - docker_user
+        - image_name
+        - version
+        - host
+        - port:
+            default: "'22'"
+        - username
+        - password
+        - privateKeyFile:
+            default: "''"
+        - arguments:
+            default: "''"
+        - expose_host_port
+        - expose_container_port
+        - command:
+            default: >
+                'docker run -p ' + expose_host_port + ':' + expose_container_port + ' -t -i ' + docker_user + '/' + image_name + ':' + version
+            override: true
+        - characterSet:
+            default: "'UTF-8'"
+        - pty:
+            default: "'false'"
+        - timeout:
+            default: "'90000'"
+        - closeSession:
+            default: "'false'"
+    action:
+      java_action:
+          className: org.openscore.content.ssh.actions.SSHShellCommandAction
+          methodName: runSshShellCommand
+    results:
+      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+      - FAILURE

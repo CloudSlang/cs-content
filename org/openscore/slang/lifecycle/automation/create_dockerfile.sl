@@ -35,41 +35,41 @@
 
 namespace: org.openscore.slang.lifecycle.automation
 
-operations:
-  - create_dockerfile:
-        inputs:
-            - image_name
-            - version
-            - artifact_uri
-            - host
-            - port:
-                default: "'22'"
-            - username
-            - password
-            - workdir
-            - privateKeyFile:
-                default: "''"
-            - arguments:
-                default: "''"
-            - command:
-                default: >
-                    "mkdir " + workdir
-                    + "; cd " + workdir
-                    + "; echo 'FROM " + image_name + ":" + version + "' > Dockerfile"
-                    + "; echo 'ADD " + artifact_uri + " /usr/local/tomcat/webapps/' >> Dockerfile"
-                override: true
-            - characterSet:
-                default: "'UTF-8'"
-            - pty:
-                default: "'false'"
-            - timeout:
-                default: "'90000'"
-            - closeSession:
-                default: "'false'"
-        action:
-          java_action:
-              className: org.openscore.content.ssh.actions.SSHShellCommandAction
-              methodName: runSshShellCommand
-        results:
-          - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-          - FAILURE
+operation:
+    name: create_dockerfile
+    inputs:
+        - image_name
+        - version
+        - artifact_uri
+        - host
+        - port:
+            default: "'22'"
+        - username
+        - password
+        - workdir
+        - privateKeyFile:
+            default: "''"
+        - arguments:
+            default: "''"
+        - command:
+            default: >
+                "mkdir " + workdir
+                + "; cd " + workdir
+                + "; echo 'FROM " + image_name + ":" + version + "' > Dockerfile"
+                + "; echo 'ADD " + artifact_uri + " /usr/local/tomcat/webapps/' >> Dockerfile"
+            override: true
+        - characterSet:
+            default: "'UTF-8'"
+        - pty:
+            default: "'false'"
+        - timeout:
+            default: "'90000'"
+        - closeSession:
+            default: "'false'"
+    action:
+      java_action:
+          className: org.openscore.content.ssh.actions.SSHShellCommandAction
+          methodName: runSshShellCommand
+    results:
+      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+      - FAILURE
