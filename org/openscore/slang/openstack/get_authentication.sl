@@ -15,10 +15,10 @@
 #       - username - OpenStack username
 #       - password - OpenStack password
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 200
-#       - returnCode - if returnCode is equal to -1 then there was an error
-#       - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
+#       - return_result - response of the operation
+#       - status_code - normal status code is 200
+#       - return_code - if returnCode is equal to -1 then there was an error
+#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
 #   Results:
 #       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #       - FAILURE - otherwise
@@ -32,30 +32,29 @@ operation:
     - host
     - identityPort:
         default: "'5000'"
-        required: false
     - username
     - password
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
-        override: true
+        overridable: false
     - body:
         default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
-        override: true
+        overridable: false
     - method:
         default: "'post'"
-        override: true
+        overridable: false
     - contentType:
         default: "'application/json'"
-        override: true
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - return_code: returnCode
+    - error_message: returnResult if returnCode == '-1' or statusCode != 200 else ''
   results:
     - SUCCESS: returnCode != '-1' and statusCode == '200'
     - FAILURE

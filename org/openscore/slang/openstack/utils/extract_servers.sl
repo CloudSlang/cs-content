@@ -11,12 +11,12 @@
 #   Inputs:
 #       - server_body - response of the get_openstack_servers operation
 #   Outputs:
-#       - serverList - list with server names
-#       - returnResult - notification string which says if parsing was successful or not
-#       - returnCode - 0 if parsing was successful, -1 otherwise
-#       - errorMessage - returnResult if there was an error
+#       - server_list - list with server names
+#       - return_result - notification string which says if parsing was successful or not
+#       - return_code - 0 if parsing was successful, -1 otherwise
+#       - error_message - returnResult if there was an error
 #   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
+#       - SUCCESS - parsing was successful (return_code == '0')
 #       - FAILURE - otherwise
 ####################################################
 
@@ -31,24 +31,23 @@ operation:
       try:
         import json
         decoded = json.loads(server_body)
-        serverListJson = decoded['servers']
-        nrServers = len(serverListJson)
-        serverList = ''
-        for index in range(nrServers):
-          serverName = serverListJson[index]['name']
-          serverList = serverList + serverName + ','
-        serverList = serverList[:-1]
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        server_list_Json = decoded['servers']
+        nr_servers = len(server_list_Json)
+        server_list = ''
+        for index in range(nr_servers):
+          server_name = server_list_Json[index]['name']
+          server_list = server_list + server_name + ','
+        server_list = server_list[:-1]
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error.'
+        return_code = '-1'
+        return_result = 'Parsing error.'
   outputs:
-    - serverList
-    - returnResult
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' else ''
-
+    - server_list
+    - return_result
+    - return_code
+    - error_message: return_result if return_code == '-1' else ''
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

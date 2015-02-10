@@ -10,15 +10,15 @@
 #
 #   Inputs:
 #       - host - OpenStack machine host
-#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - imgRef - image reference for the server to be created
+#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - compute_port - optional - port used for OpenStack computations - Default: 8774
+#       - img_ref - image reference for the server to be created
 #       - username - OpenStack username
 #       - password - OpenStack password
-#       - serverName - server name
+#       - server_name - server name
 #   Outputs:
-#       - returnResult - response of the last operation that was executed
-#       - errorMessage - error message for the operation that fails
+#       - return_result - response of the last operation that was executed
+#       - error_message - error message for the operation that fails
 ####################################################
 
 namespace: org.openscore.slang.openstack
@@ -30,43 +30,41 @@ flow:
   name: create_openstack_server_flow
   inputs:
     - host
-    - identityPort:
+    - identity_port:
         default: "'5000'"
-        required: false
-    - computePort:
+    - compute_port:
         default: "'8774'"
-        required: false
-    - imgRef
+    - img_ref
     - username
     - password
-    - serverName
+    - server_name
   workflow:
     authentication:
       do:
         openstack_content.get_authentication_flow:
-          - openstackHost: host
-          - openstackIdentityPort: identityPort
-          - openstackUsername: username
-          - openstackPassword: password
+          - host
+          - identity_port
+          - username
+          - password
       publish:
         - token
         - tenant
-        - returnResult
-        - errorMessage
+        - return_result
+        - error_message
     create_server:
       do:
         openstack_content.create_openstack_server:
           - host
-          - computePort
+          - computePort: compute_port
           - token
           - tenant
-          - imgRef
-          - serverName
+          - imgRef: img_ref
+          - serverName: server_name
       publish:
-        - returnResult
-        - errorMessage
+        - return_result
+        - error_message
   outputs:
-    - returnResult
-    - errorMessage
+    - return_result
+    - error_message
 
 

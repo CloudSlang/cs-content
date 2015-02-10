@@ -14,9 +14,16 @@
 #       - port - optional - SSH port - Default: 22
 #       - username - Docker machine username
 #       - password - Docker machine password
+#       - pty - whether to use pty; valid values: true, false; Default: false
+#       - arguments - arguments to pass to the command; Default: none
+#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
+#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
+#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
+#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - dbIp - IP of the specified container
-#       - errorMessage - error message
+#       - db_IP - IP of the specified container
+#       - error_message - error message
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -30,42 +37,35 @@ operation:
     - containerName
     - cmdParams:
         default: "''"
-        override: true
+        overridable: false
     - host
     - port:
         default: "'22'"
-        required: false
     - username
     - password
     - privateKeyFile:
         default: "''"
-        override: true
     - command:
         default: >
             "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-        override: true
+        overridable: false
     - arguments:
         default: "''"
-        override: true
     - characterSet:
         default: "'UTF-8'"
-        override: true
     - pty:
         default: "'false'"
-        override: true
     - timeout:
         default: "'90000'"
-        override: true
     - closeSession:
         default: "'false'"
-        override: true
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - dbIp: returnResult[:-1]
-    - errorMessage: STDERR if returnCode == '0' else returnResult
+    - db_IP: returnResult[:-1]
+    - error_message: STDERR if returnCode == '0' else returnResult
   results:
     - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE

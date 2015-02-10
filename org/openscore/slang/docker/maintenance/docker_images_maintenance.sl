@@ -9,9 +9,9 @@
 #   This flow will delete unused Docker images if diskspace is greater than a given value.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
 #       - percentage - if diskspace is greater than this value then unused images will be deleted - ex. (50%)
 #   Outputs:
 #       - total_amount_of_images_deleted - how many images were deleted
@@ -27,27 +27,28 @@ imports:
 flow:
   name: docker_images_maintenance
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - docker_host
+    - docker_username
+    - docker_password
     - percentage
   workflow:
     check_diskspace:
       do:
         docker_maintenance.diskspace_health_check:
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
+          - docker_host
+          - docker_username
+          - docker_password
           - percentage
       navigate:
         SUCCESS: SUCCESS
-        FAILURE: clear_unused_docker_images
+        FAILURE: FAILURE
+        NOT_ENOUGH_DISKSPACE: clear_unused_docker_images
     clear_unused_docker_images:
       do:
         docker_images.clear_unused_docker_images:
-          - dockerHost
-          - dockerUsername
-          - dockerPassword
+          - docker_host
+          - docker_username
+          - docker_password
       publish:
         - amount_of_images_deleted
         - amount_of_dangling_images_deleted

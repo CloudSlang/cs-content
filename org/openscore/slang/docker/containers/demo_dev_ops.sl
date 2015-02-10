@@ -10,13 +10,13 @@
 #   If any of the steps fail, an error is sent notifying the error.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
-#       - emailHost - email host
-#       - emailPort - email port
-#       - emailSender - email sender
-#       - emailRecipient - email recipient
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
+#       - email_host - email host
+#       - email_port - email port
+#       - email_sender - email sender
+#       - email_recipient - email recipient
 #   Results:
 #       - SUCCESS
 #       - FAILURE
@@ -32,33 +32,33 @@ imports:
 flow:
   name: demo_dev_ops
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
-    - emailHost
-    - emailPort
-    - emailSender
-    - emailRecipient
+    - docker_host
+    - docker_username
+    - docker_password
+    - email_host
+    - email_port
+    - email_sender
+    - email_recipient
   workflow:
     create_db_container:
       do:
         docker_containers.create_db_container:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - db_IP: dbIp
-        - errorMessage
+        - db_IP
+        - error_message
 
     pull_app_image:
       do:
         docker_images.pull_image:
           - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - errorMessage
+        - error_message
 
     start_linked_container:
       do:
@@ -69,32 +69,32 @@ flow:
           - containerName: "'spring-boot-tomcat-mysql-app'"
           - linkParams: "dbContainerName + ':mysql'"
           - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p 8080:8080'"
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - containerID
-        - errorMessage
+        - container_ID
+        - error_message
 
     test_application:
       do:
         base_network.verify_app_is_up:
-          - host: dockerHost
+          - host: docker_host
           - port: "'8080'"
           - max_seconds_to_wait: 20
       publish:
-        - errorMessage
+        - error_message
 
     on_failure:
       send_error_mail:
         do:
           base_mail.send_mail:
-            - hostname: emailHost
-            - port: emailPort
-            - from: emailSender
-            - to: emailRecipient
+            - hostname: email_host
+            - port: email_port
+            - from: email_sender
+            - to: email_recipient
             - subject: "'Flow failure'"
-            - body: "'Operation failed with the following error:<br>' + errorMessage"
+            - body: "'Operation failed with the following error:<br>' + error_message"
         navigate:
           SUCCESS: FAILURE
           FAILURE: FAILURE

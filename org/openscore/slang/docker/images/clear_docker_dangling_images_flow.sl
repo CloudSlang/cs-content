@@ -8,10 +8,10 @@
 #   This flow will delete only the unused Docker dangling images.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
-#       - usedImages - list of used images
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
+#       - used_images - list of used images; format is a space separated list of strings
 #   Outputs:
 #       - images_list_safe_to_delete - unused Docker images (including dangling ones)
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted
@@ -26,32 +26,32 @@ imports:
 flow:
   name: clear_docker_dangling_images_flow
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
-    - usedImages
+    - docker_host
+    - docker_username
+    - docker_password
+    - used_images
 
   workflow:
     validate_linux_machine_ssh_access:
       do:
         docker_linux.validate_linux_machine_ssh_access:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
     get_dangling_images:
       do:
         docker_images.get_dangling_images:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
       publish:
-        - all_dangling_images: danglingImageList.replace("\n"," ")
+        - all_dangling_images: dangling_image_list.replace("\n"," ")
     substract_used_dangling_images:
       do:
         base_lists.subtract_sets:
           - set_1: all_dangling_images
           - set_1_delimiter: "' '"
-          - set_2: usedImages
+          - set_2: used_images
           - set_2_delimiter: "' '"
           - result_set_delimiter: "' '"
       publish:
@@ -60,9 +60,9 @@ flow:
     delete_images:
       do:
         docker_images.clear_docker_images:
-          - host: dockerHost
-          - username: dockerUsername
-          - password: dockerPassword
+          - host: docker_host
+          - username: docker_username
+          - password: docker_password
           - images: images_list_safe_to_delete
       publish:
         - response
