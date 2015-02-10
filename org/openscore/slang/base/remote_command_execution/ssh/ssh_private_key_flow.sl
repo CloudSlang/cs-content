@@ -18,7 +18,8 @@ flow:
     - port
     - username
     - password
-    - privateKeyFile
+    - private_key_file
+    - arguments
 
   workflow:
     test_private_key_file:
@@ -29,11 +30,12 @@ flow:
               - command: "'ls'"
               - username
               - password
-              - privateKeyFile
+              - privateKeyFile: private_key_file
+              - arguments
           publish:
-            - returnResult
-            - STDOUT
-            - STDERR
+            - return_result: returnResult
+            - stdout: STDOUT
+            - stderr: STDERR
             - exception
 
   outputs:
