@@ -10,8 +10,21 @@
 #
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
-#       - dockerHost - Docker machine host
+#       - host - Docker machine host
 #       - identityPort - optional - port used for cAdvisor - Default: 8080
+#   Outputs:
+#       - decoded - parse response
+#       - num_cores - machine number of cores
+#       - cpu_frequency_khz - machine cpu
+#       - memory_capacity- machine memory
+#       - file_systems - parse cAdviser machine filesystems
+#       - disk_map- parse cAdviser machine disk map
+#       - network_devices- parse cAdviser machine network devices
+#       - topology- parse cAdviser machine topology
+#       - errorMessage - returnResult if there was an error
+#   Results:
+#       - SUCCESS - parsing was successful (returnCode == '0')
+#       - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.docker.maintenance
@@ -39,13 +52,13 @@ flow:
     parse_machine_metrics_cAdvisor:
       do:
         docker_maintenance.parse_cadvisor_machine:
-          - jsonResponse: response_body
+          - json_response: response_body
       publish:
         - decoded
         - num_cores
         - cpu_frequency_khz
         - memory_capacity
-        - filesystems
+        - file_systems
         - disk_map
         - network_devices
         - topology

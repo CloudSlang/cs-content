@@ -10,9 +10,16 @@
 #   decoded as output.
 #
 #   Inputs:
-#       -jsonResponse - response of the cAdviser container information
+#       -json_response - response of the cAdviser container information
 #   Outputs:
 #       - decoded - parse response
+#       - num_cores - machine number of cores
+#       - cpu_frequency_khz - machine cpu
+#       - memory_capacity- machine memory
+#       - file_systems - parse cAdviser machine filesystems
+#       - disk_map- parse cAdviser machine disk map
+#       - network_devices- parse cAdviser machine network devices
+#       - topology- parse cAdviser machine topology
 #       - returnResult - notification string which says if parsing was successful or not
 #       - returnCode - 0 if parsing was successful, -1 otherwise
 #       - errorMessage - returnResult if there was an error
@@ -26,12 +33,12 @@ namespace: org.openscore.slang.docker.maintenance
 operation:
       name: parse_cadvisor_machine
       inputs:
-        - jsonResponse
+        - json_response
       action:
         python_script: |
           try:
             import json
-            decoded = json.loads(jsonResponse)
+            decoded = json.loads(json_response)
             num_cores=int(decoded['num_cores'])
             cpu_frequency_khz=int(decoded['cpu_frequency_khz'])
             memory_capacity=int(decoded['memory_capacity'])
@@ -49,7 +56,7 @@ operation:
         - num_cores
         - cpu_frequency_khz
         - memory_capacity
-        - filesystems
+        - file_systems
         - disk_map
         - network_devices
         - topology

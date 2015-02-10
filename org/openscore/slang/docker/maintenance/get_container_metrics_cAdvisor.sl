@@ -35,10 +35,10 @@ operation:
         - container
         - url:
             default: "'http://'+ host + ':' + identityPort +'/api/v1.2/docker/'+container"
-            override: true
+            overridable: false
         - method:
             default: "'get'"
-            override: true
+            overridable: false
       action:
         java_action:
           className: org.openscore.content.httpclient.HttpClientAction

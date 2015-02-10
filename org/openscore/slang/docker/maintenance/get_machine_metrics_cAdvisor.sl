@@ -12,7 +12,6 @@
 #   Inputs:
 #       - host - docker machine host
 #       - identityPort - optional - port used for cAdvisor - Default: 8080
-#       - container - name or ID of the Docker container that runs cAdvisor
 #   Outputs:
 #       - returnResult - response of the operation
 #       - statusCode - normal status code is 200
@@ -34,10 +33,10 @@ operation:
             required: false
         - url:
             default: "'http://'+ host + ':' + identityPort +'/api/v1.2/machine'"
-            override: true
+            overridable: false
         - method:
             default: "'get'"
-            override: true
+            overridable: false
       action:
         java_action:
           className: org.openscore.content.httpclient.HttpClientAction

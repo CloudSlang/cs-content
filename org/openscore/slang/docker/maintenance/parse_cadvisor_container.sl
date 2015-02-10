@@ -10,9 +10,23 @@
 #   decoded as output.
 #
 #   Inputs:
-#       -jsonResponse - response of the cAdviser container information
+#       -json_response - response of the cAdviser container information
+#       -machine_memory_limit- optional - the container machine memory limit
 #   Outputs:
 #       - decoded - parse response
+#       - spec - parse cAdviser spec
+#       - stat - parse cAdviser stat
+#       - timestamp - the time used to calculate the stat
+#       - cpu- parse cAdviser cpu 
+#       - memory- parse cAdviser memory 
+#       - network- parse cAdviser network 
+#       - cpu_usage - calculated cpu usages of the container
+#       - memory_usage- calculated cpu usages of the container (if the machine_memory_limit is given use the minimum
+#                       of the container memory limit and the machine memory limit to calculate)
+#       - throughput_rx- calculated network Throughput Tx bytes
+#       - throughput_tx- calculated network Throughput Rx bytes
+#       - error_rx- calculated network error Tx
+#       - error_tx- calculated network error Rx
 #       - returnResult - notification string which says if parsing was successful or not
 #       - returnCode - 0 if parsing was successful, -1 otherwise
 #       - errorMessage - returnResult if there was an error
@@ -26,7 +40,7 @@ namespace: org.openscore.slang.docker.maintenance
 operation:
       name: parse_cadvisor_container
       inputs:
-        - jsonResponse
+        - json_response
         - machine_memory_limit:
             default: -1
             required: false
@@ -34,7 +48,7 @@ operation:
         python_script: |
           try:
             import json
-            decoded = json.loads(jsonResponse)
+            decoded = json.loads(json_response)
             for key, value in decoded.items():
               statsPrev= value['stats'][len(value['stats'])-2]
               stats= value['stats'][len(value['stats'])-1]
