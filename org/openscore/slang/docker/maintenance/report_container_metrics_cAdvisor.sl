@@ -18,7 +18,6 @@ namespace: org.openscore.slang.docker.maintenance
 
 imports:
   docker_maintenance: org.openscore.slang.docker.maintenance
-  docker_print: org.openscore.slang.base.print
 
 flow:
   name: report_container_metrics_cAdvisor
@@ -39,26 +38,38 @@ flow:
             - response_body: returnResult
             - returnCode
             - errorMessage
-    parse:
+    retrieve_machine_memory:
+      do:
+        docker_maintenance.report_machine_metrics_cAdvisor:
+          - host
+          - identityPort
+      publish:
+        - memory_capacity
+    parse_container_metrics_cAdvisor:
       do:
         docker_maintenance.parse_cadvisor_container:
           - jsonResponse: response_body
+          - machine_memory_limit: memory_capacity
       publish:
         - decoded
         - timestamp
-        - cpu
-        - memory
-        - network
+        - memory_usage
+        - cpu_usage
+        - throughput_rx
+        - throughput_tx
+        - error_rx
+        - error_tx
         - errorMessage
-    print_result:
-      do:
-        docker_print.print_text:
-          - text: "'cAdviser return resualt '+timestamp+' --cpu-- '+cpu+' --memory-- '+memory+' --network-- '+network"
-    on_failure:
-      print_error:
-        do:
-          docker_print.print_text:
-                - text: "'cAdviser ended with the following error message '+errorMessage"
-        navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+  outputs:
+    - decoded
+    - timestamp
+    - memory_usage
+    - cpu_usage
+    - throughput_rx
+    - throughput_tx
+    - error_rx
+    - error_tx
+    - errorMessage
+  results:
+    - SUCCESS
+    - FAILURE

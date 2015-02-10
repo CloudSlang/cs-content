@@ -36,7 +36,7 @@ flow:
         - response_body: returnResult
         - returnCode
         - errorMessage
-    parse:
+    parse_machine_metrics_cAdvisor:
       do:
         docker_maintenance.parse_cadvisor_machine:
           - jsonResponse: response_body
