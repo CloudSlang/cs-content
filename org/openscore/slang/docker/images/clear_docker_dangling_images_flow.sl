@@ -11,6 +11,7 @@
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #       - used_images - list of used images; format is a space separated list of strings
 #   Outputs:
 #       - images_list_safe_to_delete - unused Docker images (including dangling ones)
@@ -29,6 +30,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
     - used_images
 
   workflow:
@@ -38,12 +41,14 @@ flow:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
     get_dangling_images:
       do:
         docker_images.get_dangling_images:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
       publish:
         - all_dangling_images: dangling_image_list.replace("\n"," ")
     substract_used_dangling_images:
@@ -63,6 +68,7 @@ flow:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
           - images: images_list_safe_to_delete
       publish:
         - response

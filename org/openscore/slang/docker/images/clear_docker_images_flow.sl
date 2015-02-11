@@ -11,6 +11,7 @@
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #   Outputs:
 #       - images_list_safe_to_delete - unused Docker images
 #       - amount_of_images_deleted - how many images where deleted
@@ -29,6 +30,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
 
   workflow:
     validate_linux_machine_ssh_access:
@@ -37,12 +40,14 @@ flow:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
     get_all_images:
       do:
         docker_images.get_all_images:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
       publish:
         - all_images_list: image_list
     get_used_images:
@@ -51,6 +56,7 @@ flow:
           - docker_host
           - docker_username
           - docker_password
+          - private_key_file
       publish:
         - used_images_list: used_images_list
     substract_used_images:
@@ -70,6 +76,7 @@ flow:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
           - images: images_list_safe_to_delete
       publish:
         - response

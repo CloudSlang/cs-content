@@ -6,13 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused Docker images if diskspace is greater than a given value.
+#   This flow will delete unused Docker images if disk space is greater than a given value.
 #
 #   Inputs:
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
-#       - percentage - if diskspace is greater than this value then unused images will be deleted - ex. (50%)
+#       - private_key_file - the absolute path to the private key file; Default: none
+#       - percentage - if disk space is greater than this value then unused images will be deleted - ex. (50%)
 #   Outputs:
 #       - total_amount_of_images_deleted - how many images were deleted
 ####################################################
@@ -30,6 +31,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
     - percentage
   workflow:
     check_diskspace:
@@ -38,6 +41,7 @@ flow:
           - docker_host
           - docker_username
           - docker_password
+          - private_key_file
           - percentage
       navigate:
         SUCCESS: SUCCESS
@@ -49,6 +53,7 @@ flow:
           - docker_host
           - docker_username
           - docker_password
+          - private_key_file
       publish:
         - amount_of_images_deleted
         - amount_of_dangling_images_deleted
