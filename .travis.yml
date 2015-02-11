@@ -1,3 +1,5 @@
 language: java
-install: wget https://www.dropbox.com/s/6e2b6515e3wag4q/score-lang-content-verifier.jar?dl=1
-script: java -jar score-lang-content-verifier .
+script:
+  - wget https://www.dropbox.com/s/6e2b6515e3wag4q/score-lang-content-verifier.jar?dl=1
+  - chmod +x score-lang-content-verifier.jar?dl=1
+  - java -jar score-lang-content-verifier.jar?dl=1 .
