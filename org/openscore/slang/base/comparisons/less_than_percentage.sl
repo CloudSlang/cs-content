@@ -22,7 +22,7 @@
 
 namespace: org.openscore.slang.base.comparisons
 
-operation:
+operation1:
   name: less_than_percentage
   inputs:
     - first_percentage
