@@ -15,7 +15,8 @@ flow:
 
   inputs:
     - host
-    - port
+    - port:
+        required: false
     - username
     - password
     - private_key_file
@@ -26,7 +27,8 @@ flow:
           do:
             ssh.ssh_command:
               - host
-              - port
+              - port:
+                    required: false
               - command: "'ls'"
               - username
               - password
