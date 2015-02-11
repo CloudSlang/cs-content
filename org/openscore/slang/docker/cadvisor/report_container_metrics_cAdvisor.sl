@@ -28,10 +28,10 @@
 #       - FAILURE - otherwise
 ##################################################################################################################################################
 
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.docker.cadvisor
 
 imports:
-  docker_maintenance: org.openscore.slang.docker.maintenance
+  docker_cadvisor: org.openscore.slang.docker.cadvisor
 
 flow:
   name: report_container_metrics_cAdvisor
@@ -44,7 +44,7 @@ flow:
   workflow:
     retrieve_container_metrics_cAdvisor:
           do:
-            docker_maintenance.get_container_metrics_cAdvisor:
+            docker_cadvisor.get_container_metrics_cAdvisor:
                 - container
                 - host
                 - identityPort
@@ -54,14 +54,14 @@ flow:
             - errorMessage
     retrieve_machine_memory:
       do:
-        docker_maintenance.report_machine_metrics_cAdvisor:
+        docker_cadvisor.report_machine_metrics_cAdvisor:
           - host
           - identityPort
       publish:
         - memory_capacity
     parse_container_metrics_cAdvisor:
       do:
-        docker_maintenance.parse_cadvisor_container:
+        docker_cadvisor.parse_cadvisor_container:
           - json_response: response_body
           - machine_memory_limit: memory_capacity
       publish:

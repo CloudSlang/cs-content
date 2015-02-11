@@ -23,7 +23,7 @@
 #       - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.docker.cadvisor
 
 operation:
       name: get_container_metrics_cAdvisor

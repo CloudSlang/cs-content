@@ -22,7 +22,7 @@
 #       - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.docker.cadvisor
 
 operation:
       name: get_machine_metrics_cAdvisor

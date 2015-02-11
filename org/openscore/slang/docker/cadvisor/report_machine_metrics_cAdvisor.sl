@@ -9,7 +9,6 @@
 #   This flow retrieves cAdviser status of a container in docker 
 #
 #   Inputs:
-#       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
 #       - identityPort - optional - port used for cAdvisor - Default: 8080
 #   Outputs:
@@ -27,10 +26,10 @@
 #       - FAILURE - otherwise
 ##################################################################################################################################################
 
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.docker.cadvisor
 
 imports:
-  docker_maintenance: org.openscore.slang.docker.maintenance
+  docker_cadvisor: org.openscore.slang.docker.cadvisor
 
 flow:
   name: report_machine_metrics_cAdvisor
@@ -42,7 +41,7 @@ flow:
   workflow:
     retrieve_machine_metrics_cAdvisor:
       do:
-        docker_maintenance.get_machine_metrics_cAdvisor:
+        docker_cadvisor.get_machine_metrics_cAdvisor:
             - host
             - identityPort
       publish:
@@ -51,7 +50,7 @@ flow:
         - errorMessage
     parse_machine_metrics_cAdvisor:
       do:
-        docker_maintenance.parse_cadvisor_machine:
+        docker_cadvisor.parse_cadvisor_machine:
           - json_response: response_body
       publish:
         - decoded

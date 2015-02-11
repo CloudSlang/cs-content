@@ -28,7 +28,7 @@
 #       - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.maintenance
+namespace: org.openscore.slang.docker.cadvisor
 
 operation:
       name: parse_cadvisor_machine
