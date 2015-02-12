@@ -33,7 +33,7 @@ operation:
   name: evaluate_resource_usage
   inputs:
     - usage_query:
-        default: "memory_usage +'< 0 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8 and '+error_rx+'<0.5 and '+error_tx+'<0.5'"
+        default: "memory_usage +'< 0.8 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8 and '+error_rx+'<0.5 and '+error_tx+'<0.5'"
         required: false
     - memory_usage
     - cpu_usage

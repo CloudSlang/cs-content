@@ -14,6 +14,8 @@
 #       - identityPort - optional - port used for cAdvisor - Default: 8080
 #       - username - Docker machine username
 #       - password - Docker machine password
+#       - machine_connect_port- port to use to connect the machine runs rhe docker
+#       - privateKeyFile - the absolute path to the private key file; Default: none
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
@@ -34,8 +36,13 @@ flow:
     - identityPort:
         default: "'8080'"
         required: false
+    - machine_connect_port:
+        default: "'22'"
+        required: false
     - username
     - password
+    - privateKeyFile:
+        default: "''"
   workflow:
     retrieve_container_usage_cAdvisor:
           do:
@@ -73,6 +80,8 @@ flow:
            - host
            - username
            - password
+           - port: machine_connect_port
+           - privateKeyFile
       publish:
         - errorMessage
       navigate:
@@ -81,10 +90,12 @@ flow:
     start_container:
       do:
         docker_container.start_container:
+           - privateKeyFile
            - containerID: container
            - host
            - username
            - password
+           - port: machine_connect_port
       publish:
         - errorMessage
     on_failure:
