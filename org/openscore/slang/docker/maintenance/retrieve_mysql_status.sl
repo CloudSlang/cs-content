@@ -13,6 +13,7 @@
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #       - mysql_username - MySQL instance username
 #       - mysql_password - MySQL instance password
 #   Outputs:
@@ -41,6 +42,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
     - mysql_username
     - mysql_password
 
@@ -51,6 +54,7 @@ flow:
               - host: docker_host
               - username: docker_username
               - password: docker_password
+              - privateKeyFile: private_key_file
           publish:
               - error_message
 
@@ -61,6 +65,7 @@ flow:
               - host: docker_host
               - username: docker_username
               - password: docker_password
+              - privateKeyFile: private_key_file
               - mysqlUsername: mysql_username
               - mysqlPassword: mysql_password
           publish:
@@ -73,6 +78,7 @@ flow:
               - host: docker_host
               - username: docker_username
               - password: docker_password
+              - privateKeyFile: private_key_file
               - mysqlUsername: mysql_username
               - mysqlPassword: mysql_password
           publish:
