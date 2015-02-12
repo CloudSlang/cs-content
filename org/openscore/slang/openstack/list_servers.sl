@@ -9,15 +9,15 @@
 #   This flow will output a list of servers on an OpenStack machine.
 #
 #   Inputs:
-#       - openstackHost - OpenStack machine host
-#       - openstackIdentityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - openstackComputePort - optional - port used for OpenStack computations - Default: 8774
-#       - openstackUsername - OpenStack username
-#       - openstackPassword - OpenStack password
+#       - openstack_host - OpenStack machine host
+#       - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
+#       - openstack_compute_port - optional - port used for OpenStack computations - Default: 8774
+#       - openstack_username - OpenStack username
+#       - openstack_password - OpenStack password
 #   Outputs:
-#       - serverList - list containing all server names
-#       - returnResult - response of the last operation executed
-#       - errorMessage - error message of the operation that failed
+#       - server_list - list containing all server names
+#       - return_result - response of the last operation executed
+#       - error_message - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack
@@ -29,50 +29,48 @@ imports:
 flow:
   name: list_servers
   inputs:
-    - openstackHost
-    - openstackIdentityPort:
+    - openstack_host
+    - openstack_identity_port:
         default: "'5000'"
-        required: false
-    - openstackComputePort:
+    - openstack_compute_port:
         default: "'8774'"
-        required: false
-    - openstackUsername
-    - openstackPassword
+    - openstack_username
+    - openstack_password
   workflow:
     authentication:
       do:
         openstack_content.get_authentication_flow:
-          - openstackHost
-          - openstackIdentityPort
-          - openstackUsername
-          - openstackPassword
+          - host: openstack_host
+          - identity_port: openstack_identity_port
+          - username: openstack_username
+          - password: openstack_password
       publish:
         - token
         - tenant
-        - returnResult
-        - errorMessage
+        - return_result
+        - error_message
 
     get_openstack_servers:
       do:
         openstack_content.get_openstack_servers:
-          - host: openstackHost
-          - computePort: openstackComputePort
+          - host: openstack_host
+          - computePort: openstack_compute_port
           - token
           - tenant
       publish:
-        - responseBody: returnResult
-        - returnResult
-        - errorMessage
+        - response_body: return_result
+        - return_result: return_result
+        - error_message
 
     extract_servers:
       do:
         openstack_utils.extract_servers:
-          - server_body: responseBody
+          - server_body: response_body
       publish:
-        - serverList
-        - errorMessage
+        - server_list
+        - error_message
 
   outputs:
-    - serverList
-    - returnResult
-    - errorMessage
+    - server_list
+    - return_result
+    - error_message

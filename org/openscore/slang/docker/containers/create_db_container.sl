@@ -13,8 +13,8 @@
 #       - username - Docker machine username
 #       - password - Docker machine password
 #   Outputs:
-#       - dbIp - IP of the newly created container
-#       - errorMessage - error message of the operation that failed
+#       - db_IP - IP of the newly created container
+#       - error_message - error message of the operation that failed
 ####################################################
 namespace: org.openscore.slang.docker.containers
 
@@ -36,7 +36,7 @@ flow:
           - username
           - password
       publish:
-        - errorMessage
+        - error_message
 
     create_mysql_container:
       do:
@@ -48,7 +48,7 @@ flow:
           - username
           - password
       publish:
-        - errorMessage
+        - error_message
 
     get_db_ip:
       do:
@@ -58,9 +58,9 @@ flow:
           - username
           - password
       publish:
-        - dbIp
-        - errorMessage
+        - db_IP
+        - error_message
 
   outputs:
-    - dbIp
-    - errorMessage
+    - db_IP
+    - error_message

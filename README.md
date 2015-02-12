@@ -1,9 +1,12 @@
 #slang-content
 
-score-language (Slang)
-==============
+slang-content
+=============
 
 Slang is a YAML based language for writing human-readable workflows for score. This project includes slang flows and operations.
+
+[![Build Status](https://travis-ci.org/openscore/slang-content.svg)](https://travis-ci.org/openscore/slang-content)
+
 
 #### Getting started:
 

@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will stop a specified Docker container.
+#   This operation will start a specified Docker container.
 #
 #   Inputs:
 #       - containerID - ID of the container to be deleted
@@ -32,7 +32,7 @@
 namespace: org.openscore.slang.docker.containers
 
 operation:
-  name: stop_container
+  name: start_container
   inputs:
     - containerID
     - cmdParams:
@@ -47,7 +47,7 @@ operation:
     - arguments:
         default: "''"
     - command:
-        default: "'docker stop ' + cmdParams + ' ' + containerID"
+        default: "'docker start ' + cmdParams + ' ' + containerID"
         overridable: false
     - characterSet:
         default: "'UTF-8'"

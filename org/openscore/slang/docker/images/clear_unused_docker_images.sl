@@ -9,9 +9,10 @@
 #   This flow will delete unused Docker images.
 #
 #   Inputs:
-#       - dockerHost - Docker machine host
-#       - dockerUsername - Docker machine username
-#       - dockerPassword - Docker machine password
+#       - docker_host - Docker machine host
+#       - docker_username - Docker machine username
+#       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #   Outputs:
 #       - amount_of_images_deleted - how many images where deleted
 #       - amount_of_dangling_images_deleted - how many dangling images where deleted
@@ -28,16 +29,19 @@ imports:
 flow:
   name: clear_unused_docker_images
   inputs:
-    - dockerHost
-    - dockerUsername
-    - dockerPassword
+    - docker_host
+    - docker_username
+    - docker_password
+    - private_key_file:
+        default: "''"
   workflow:
      clear_docker_images:
         do:
           docker_images.clear_docker_images_flow:
-            - dockerHost
-            - dockerUsername
-            - dockerPassword
+            - docker_host
+            - docker_username
+            - docker_password
+            - private_key_file
         publish:
           - images_list_safe_to_delete
           - amount_of_images_deleted
@@ -45,10 +49,11 @@ flow:
      clear_docker_dangling_images:
         do:
           docker_images.clear_docker_dangling_images_flow:
-            - dockerHost
-            - dockerUsername
-            - dockerPassword
-            - usedImages: used_images_list
+            - docker_host
+            - docker_username
+            - docker_password
+            - private_key_file
+            - used_images: used_images_list
         publish:
           - dangling_images_list_safe_to_delete
           - amount_of_dangling_images_deleted

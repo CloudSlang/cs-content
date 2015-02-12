@@ -14,9 +14,9 @@
 #       - ignore_case - optional - ignores case if set to true - Default: true
 #   Outputs:
 #       - occurrence - number of times toFind was found in container
-#       - returnResult - notification string
-#       - returnCode - 0 if everything went ok, -1 if an error was thrown
-#       - errorMessage: returnResult if occurrence == '0'  else ''
+#       - return_result - notification string
+#       - return_code - 0 if everything went ok, -1 if an error was thrown
+#       - error_message: returnResult if occurrence == '0'  else ''
 #   Results:
 #       - SUCCESS - string is found at least once
 #       - FAILURE - otherwise
@@ -24,34 +24,34 @@
 
 namespace: org.openscore.slang.base.strings
 
-operations:
-  - string_occurrence_counter:
-      inputs:
-        - string_in_which_to_search
-        - string_to_find
-        - ignore_case:
-            default: "''true'"
-            required: false
-      action:
-        python_script: |
-          try:
-            if ignore_case == 'true':
-              string_in_which_to_search.lower()
-              string_to_find.lower()
-            occurrence = string_in_which_to_search.count(string_to_find)
-            returnCode = '0'
-            if occurrence == 0:
-              returnResult = 'Server was not created'
-            else:
-              returnResult = occurrence
-          except:
-            returnCode = '-1'
-            returnResult = 'String occurrence error.'
-      outputs:
-        - occurrence
-        - returnResult
-        - returnCode
-        - errorMessage: returnResult if occurrence == '0'  else ''
-      results:
-        - SUCCESS: occurrence >= '1'
-        - FAILURE
+operation:
+  name: string_occurrence_counter
+  inputs:
+    - string_in_which_to_search
+    - string_to_find
+    - ignore_case:
+        default: "''true'"
+        required: false
+  action:
+    python_script: |
+      try:
+        if ignore_case == 'true':
+          string_in_which_to_search.lower()
+          string_to_find.lower()
+        occurrence = string_in_which_to_search.count(string_to_find)
+        return_code = '0'
+        if occurrence == 0:
+          return_result = 'Server was not created'
+        else:
+          return_result = occurrence
+      except:
+        return_code = '-1'
+        return_result = 'String occurrence error.'
+  outputs:
+    - occurrence
+    - return_result
+    - return_code
+    - error_message: return_result if occurrence == '0'  else ''
+  results:
+    - SUCCESS: occurrence >= '1'
+    - FAILURE
