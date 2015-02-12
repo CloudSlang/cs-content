@@ -1,5 +1,3 @@
-#slang-content
-
 slang-content
 =============
 
