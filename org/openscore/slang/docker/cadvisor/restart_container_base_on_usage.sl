@@ -11,7 +11,7 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - Host - Docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #       - username - Docker machine username
 #       - password - Docker machine password
 #       - machine_connect_port- port to use to connect the machine runs rhe docker
@@ -33,7 +33,7 @@ flow:
   inputs:
     - container
     - host
-    - identityPort:
+    - cadvisor_port:
         default: "'8080'"
         required: false
     - machine_connect_port:
@@ -49,7 +49,7 @@ flow:
             docker_cadvisor.report_container_metrics_cAdvisor:
                 - container
                 - host
-                - identityPort
+                - cadvisor_port
           publish:
             - memory_usage
             - cpu_usage

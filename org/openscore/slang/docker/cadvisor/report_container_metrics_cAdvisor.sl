@@ -11,7 +11,7 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   Outputs:
 #       - decoded - parse response
 #       - timestamp - the time used to calculate the stat
@@ -38,7 +38,7 @@ flow:
   inputs:
     - container
     - host
-    - identityPort:
+    - cadvisor_port:
         default: "'8080'"
         required: false
   workflow:
@@ -47,7 +47,7 @@ flow:
             docker_cadvisor.get_container_metrics_cAdvisor:
                 - container
                 - host
-                - identityPort
+                - cadvisor_port
           publish:
             - response_body: returnResult
             - returnCode
@@ -56,7 +56,7 @@ flow:
       do:
         docker_cadvisor.report_machine_metrics_cAdvisor:
           - host
-          - identityPort
+          - cadvisor_port
       publish:
         - memory_capacity
     parse_container_metrics_cAdvisor:

@@ -10,7 +10,7 @@
 #
 #   Inputs:
 #       - host - Docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   Outputs:
 #       - decoded - parse response
 #       - num_cores - machine number of cores
@@ -35,7 +35,7 @@ flow:
   name: report_machine_metrics_cAdvisor
   inputs:
     - host
-    - identityPort:
+    - cadvisor_port:
         default: "'8080'"
         required: false
   workflow:
@@ -43,7 +43,7 @@ flow:
       do:
         docker_cadvisor.get_machine_metrics_cAdvisor:
             - host
-            - identityPort
+            - cadvisor_port
       publish:
         - response_body: returnResult
         - returnCode
@@ -67,7 +67,7 @@ flow:
     - num_cores
     - cpu_frequency_khz
     - memory_capacity
-    - filesystems
+    - file_systems
     - disk_map
     - network_devices
     - topology
