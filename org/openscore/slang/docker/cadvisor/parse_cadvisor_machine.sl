@@ -42,7 +42,7 @@ operation:
             num_cores=int(decoded['num_cores'])
             cpu_frequency_khz=int(decoded['cpu_frequency_khz'])
             memory_capacity=int(decoded['memory_capacity'])
-            filesystems=decoded['filesystems']
+            file_systems=decoded['filesystems']
             disk_map=decoded['disk_map']
             network_devices=decoded['network_devices']
             topology=decoded['topology']

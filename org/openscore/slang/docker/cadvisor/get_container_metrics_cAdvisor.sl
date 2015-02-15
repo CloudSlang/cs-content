@@ -11,7 +11,7 @@
 #
 #   Inputs:
 #       - host - docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #       - container - name or ID of the Docker container that runs cAdvisor
 #   Outputs:
 #       - returnResult - response of the operation
@@ -29,12 +29,12 @@ operation:
       name: get_container_metrics_cAdvisor
       inputs:
         - host
-        - identityPort:
+        - cadvisor_port:
             default: "'8080'"
             required: false
         - container
         - url:
-            default: "'http://'+ host + ':' + identityPort +'/api/v1.2/docker/'+container"
+            default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/docker/'+container"
             overridable: false
         - method:
             default: "'get'"

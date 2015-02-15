@@ -11,7 +11,7 @@
 #
 #   Inputs:
 #       - host - docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   Outputs:
 #       - returnResult - response of the operation
 #       - statusCode - normal status code is 200
@@ -28,11 +28,11 @@ operation:
       name: get_machine_metrics_cAdvisor
       inputs:
         - host
-        - identityPort:
+        - cadvisor_port:
             default: "'8080'"
             required: false
         - url:
-            default: "'http://'+ host + ':' + identityPort +'/api/v1.2/machine'"
+            default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/machine'"
             overridable: false
         - method:
             default: "'get'"
