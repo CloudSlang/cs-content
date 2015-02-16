@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   create consul key 
+#   create consul key name key_name if the key exist update the key.
 #
 #   Inputs:
 #       - host - consul agent host
