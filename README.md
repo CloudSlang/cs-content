@@ -19,8 +19,10 @@ Slang is a YAML based language for writing human-readable workflows for score. T
 5. Run a flow: slang>run --f c:/.../your_flow.sl --i input1=root,input2=25 --cp c:/.../dependencies/
 
 **note**
+
 Some of the content is dependent on external python modules.
 You can import them by doing the following:
+
 1. Create a JYTHONPATH environment variable.
 2. Add desired modules' paths to the JYTHONPATH variable, separating them by colons (:) on Unix and semicolons (;) on Windows.
 Or check out the [docs](http://openscore.io/#/docs) for other methods
