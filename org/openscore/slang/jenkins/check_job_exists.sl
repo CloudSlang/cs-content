@@ -15,7 +15,7 @@
 namespace: org.openscore.slang.jenkins
 
 operation:
-  name: check_job_exists:
+  name: check_job_exists
   inputs:
     - url
     - job_name

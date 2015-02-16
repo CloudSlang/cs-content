@@ -15,7 +15,7 @@
 namespace: org.openscore.slang.jenkins
 
 operation:
-  name: delete_job:
+  name: delete_job
   inputs:
     - url
     - job_name

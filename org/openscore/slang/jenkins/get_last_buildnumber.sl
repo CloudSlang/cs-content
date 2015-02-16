@@ -14,7 +14,7 @@
 namespace: org.openscore.slang.jenkins
 
 operation:
-  name: get_last_buildnumber:
+  name: get_last_buildnumber
   inputs:
     - url
     - job_name

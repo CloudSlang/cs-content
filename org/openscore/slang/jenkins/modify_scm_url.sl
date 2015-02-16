@@ -15,7 +15,7 @@
 namespace: org.openscore.slang.jenkins
 
 operation:
-  name: modify_scm_url:
+  name: modify_scm_url
   inputs:
     - url
     - job_name

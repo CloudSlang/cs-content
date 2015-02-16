@@ -15,7 +15,7 @@
 namespace: org.openscore.slang.jenkins
 
 operation:
-  name: copy_job:
+  name: copy_job
   inputs:
     - url
     - job_name
