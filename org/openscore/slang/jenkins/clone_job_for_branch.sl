@@ -7,22 +7,21 @@
 #
 ####################################################
 #
-# This flow clones an existing Jenkins job and changes it's SCM URL.
-# 
-# Use case: as a build manager, after you created a new SCM branch, you want to clone your Jenkins builds, and you want to set
-# the SCM URL of these clones to point to the new SCM branch.
-#  
-# e.g.
+#   This flow clones an existing Jenkins job and changes it's SCM URL.
 #
-#  url:                    http://localhost:8090/
-#  jnks_job_name:          trunk-project1
-#  jnks_new_job_name:      branch-project1
-#  new_scm_url:            http://localhost:8080/svn/hackaton-repo/branches/test-branch
-#  delete_job_if_existing: true
-#  email_host:             host name of an SMTP server to use when sending email_host
-#  email_port:             port of the SMTP server
-#  email_sender:           the sender's email address
-#  email_recipient:        the recipient's email address
+#   Use case: as a build manager, after you created a new SCM branch, you want to clone your Jenkins builds, and you want to set
+#   the SCM URL of these clones to point to the new SCM branch.
+#
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - jnks_job_name - the name of the origin job
+#      - jnks_new_job_name - the name of the new job
+#      - new_scm_url - the URL of the new SCM branch
+#      - delete_job_if_existing - set to true if you want to delete the job if it exists already
+#      - email_host - email server host
+#      - email_port - email server port
+#      - email_sender - email sender
+#      - email_recipient - email recipient
 ####################################################
 
 namespace: org.openscore.slang.jenkins
