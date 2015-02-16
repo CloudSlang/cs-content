@@ -27,17 +27,17 @@ operation:
 
         j.delete_job(job_name)
 
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
       except:
         import sys
-        returnCode = '-1'
-        returnResult = 'Error deleting job: ' + job_name
+        return_code = '-1'
+        result_message = 'Error deleting job: ' + job_name
 
   outputs:
     - exists
-    - returnResult
+    - result_message
 
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

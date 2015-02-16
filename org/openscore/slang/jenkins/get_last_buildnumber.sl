@@ -26,16 +26,16 @@ operation:
 
         job = j.get_job(job_name)
         last_buildnumber = job.get_last_buildnumber()
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
       except:
-        returnCode = '-1'
-        returnResult = 'Error while obtaining last build number for job: ' + job_name
+        return_code = '-1'
+        result_message = 'Error while obtaining last build number for job: ' + job_name
 
   outputs:
     - last_buildnumber
-    - returnResult
+    - result_message
 
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

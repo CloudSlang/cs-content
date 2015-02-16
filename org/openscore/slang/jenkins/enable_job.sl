@@ -27,17 +27,16 @@ operation:
         job = j.get_job(job_name)
         job.enable()
 
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
       except:
         import sys
-        returnCode = '-1'
-        returnResult = 'Error while enabling job: ' + job_name
+        return_code = '-1'
+        result_message = 'Error while enabling job: ' + job_name
 
   outputs:
-    - last_buildnumber
-    - returnResult
+    - result_message
 
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

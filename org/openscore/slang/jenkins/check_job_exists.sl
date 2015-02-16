@@ -8,10 +8,19 @@
 ####################################################
 # This operation checks if a job exists in Jenkins
 #
-# url:             the URL to Jenkins
-# job_name:        the name of the job to check
-# expected_status: true if the invoking flow expects the job to exist, false otherwise; affects the operation's results
-
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - job_name - the name of the job to check
+#      - expected_status - true if the invoking flow expects the job to exist, false otherwise
+#    Outputs:
+#      - result_message - a string formatted message of the operation results
+#      - exists - true is the job exists status equals to inputs
+#    Results:
+#      - EXISTS_EXPECTED: if operation result is 'EXISTS_EXPECTED'
+#      - EXISTS_UNEXPECTED: if operation result is 'EXISTS_UNEXPECTED'
+#      - NOT_EXISTS: if operation result is 'NOT_EXISTS'
+#      - FAILURE: if operation result is 'FAILURE'
+####################################################
 namespace: org.openscore.slang.jenkins
 
 operation:
@@ -29,8 +38,8 @@ operation:
         exists = j.has_job(job_name)
         expected_status2 = expected_status in ['true', 'True', 'TRUE']
 
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
 
         result = ''
         if (exists == True) and (expected_status2 == True):
@@ -42,14 +51,13 @@ operation:
 
       except:
         import sys
-        returnCode = '-1'
-        returnResult = 'Error checking job\'s existance: ' + job_name
+        return_code = '-1'
+        result_message = 'Error checking job\'s existance: ' + job_name
         result = 'FAILURE'
 
   outputs:
     - exists
-    - returnResult
-    - result
+    - result_message
 
   results:
     - EXISTS_EXPECTED: result == 'EXISTS_EXPECTED'

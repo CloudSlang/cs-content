@@ -6,11 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation assigns a given SCM URL to a Jenkins job.
 #
-# url:             the URL to Jenkins
-# job_name:        the name of the job to disable
-# new_scm_url:     the SCM url to assign
+#   This operation assigns a given SCM URL to a Jenkins job.
+#
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - job_name - the name of the job to disable
+#      - new_scm_url - the SCM url to assign
+#    Outputs:
+#      - result_message - a string formatted message of the operation results
+#    Results:
+#      - SUCCESS - return code is 0
+#      - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.jenkins
 
@@ -29,17 +37,16 @@ operation:
         job = j.get_job(job_name)
         job.modify_scm_url(new_scm_url)
 
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
       except:
         import sys
-        returnCode = '-1'
-        returnResult = 'Error while modifying scm url for job: ' + job_name + ' to ' + new_scm_url
+        return_code = '-1'
+        result_message = 'Error while modifying scm url for job: ' + job_name + ' to ' + new_scm_url
 
   outputs:
-    - last_buildnumber
-    - returnResult
+    - result_message
 
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

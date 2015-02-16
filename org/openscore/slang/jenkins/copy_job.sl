@@ -29,17 +29,16 @@ operation:
         jobs = j.jobs
         jobs.copy(job_name, new_job_name)
 
-        returnCode = '0'
-        returnResult = 'Success'
+        return_code = '0'
+        result_message = 'Success'
       except:
         import sys
-        returnCode = '-1'
-        returnResult = 'Error while copying job: ' + job_name + ' to ' + new_job_name
+        return_code = '-1'
+        result_message = 'Error while copying job: ' + job_name + ' to ' + new_job_name
 
   outputs:
-    - last_buildnumber
-    - returnResult
+    - result_message
 
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: return_code == '0'
     - FAILURE

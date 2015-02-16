@@ -23,6 +23,7 @@
 #  email_port:             port of the SMTP server
 #  email_sender:           the sender's email address
 #  email_recipient:        the recipient's email address
+####################################################
 
 namespace: org.openscore.slang.jenkins
 
@@ -68,7 +69,7 @@ flow:
           - job_name: jnks_job_name
           - new_job_name: jnks_new_job_name
       publish:
-        - returnResult
+        - result_message
 
     modify_scm_url:
       do:
@@ -77,7 +78,7 @@ flow:
           - job_name: jnks_new_job_name
           - new_scm_url
       publish:
-        - returnResult
+        - result_message
 
     fix_job:
       do:
@@ -85,7 +86,7 @@ flow:
           - url
           - job_name: jnks_new_job_name
       publish:
-        - returnResult
+        - result_message
       navigate:
         SUCCESS: SUCCESS
         FAILURE: FAILURE
@@ -112,7 +113,7 @@ flow:
             - from: email_sender
             - to: email_recipient
             - subject: "'Flow failure'"
-            - body: "'Operation failed: ' + returnResult"
+            - body: "'Operation failed: ' + result_message"
         navigate:
           SUCCESS: FAILURE
           FAILURE: FAILURE
