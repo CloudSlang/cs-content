@@ -1,10 +1,35 @@
 slang-content
 =============
 
+Slang is a YAML based language for writing human-readable workflows for score. This project includes slang flows and operations.
 
-Sample arguments:
+[![Build Status](https://travis-ci.org/openscore/slang-content.svg)](https://travis-ci.org/openscore/slang-content)
 
-run --f c:/Work/hackaton/slang-content/org/openscore/slang/jenkins/clone_job_for_branch.sl --cp c:/Work/hackaton/slang-content/org/openscore/slang/base/mail,c:/Work/hackaton/slang-content/org/openscore/slang/jenkins --i url=http://localhost:8090,jnks_job_name=trunk-project1,jnks_new_job_name=branch-project1,new_scm_url=http://localhost:8080/svn/hackaton-repo/branches/test-branch,delete_job_if_existing=false,email_host=smtp-host,email_port=25,email_sender=sample-address@host.com,email_recipient=sample-address@host.com
 
-Argument to add to slang.bat: -Dpython.path=<path-to-folder-containing-jenkinsapi-python-module-and-dependencies>
+#### Getting started:
 
+###### Pre-Requisite: Java JRE >= 7
+
+1. Download the slang zip from [here](https://github.com/openscore/score-language/releases/download/slang-CLI-v0.2.1/score-lang-cli.zip).
+2. Unzip it.
+3. Go to the folder /slang/bin/
+4. Run the executable :
+  - For Windows : slang.bat 
+  - For Linux : bash slang
+5. Run a flow: slang>run --f c:/.../your_flow.sl --i input1=root,input2=25 --cp c:/.../dependencies/
+
+**note**
+Some of the content is dependent on external python modules.
+You can import them by doing the following:
+1. Create a JYTHONPATH environment variable.
+2. Add desired modules' paths to the JYTHONPATH variable, separating them by colons (:) on Unix and semicolons (;) on Windows.
+Or check out the [docs](http://openscore.io/#/docs) for other methods
+
+
+#### Documentation :
+
+All documentation is available on the [openscore website](http://www.openscore.io/#/docs).
+
+#### Get Involved
+
+Contact us at [here](mailto:support@openscore.io).

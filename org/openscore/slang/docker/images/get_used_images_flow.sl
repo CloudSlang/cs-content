@@ -12,6 +12,7 @@
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #   Outputs:
 #       - used_images_list - list of Docker images currently used on the machine with delimiter "\n"
 ####################################################
@@ -27,6 +28,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
 
   workflow:
     validate_linux_machine_ssh_access_op:
@@ -35,12 +38,14 @@ flow:
               - host: docker_host
               - username: docker_username
               - password: docker_password
+              - privateKeyFile: private_key_file
     get_used_images:
       do:
         docker_images.get_used_images:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
       publish:
         - used_images_list: image_list
   outputs:
