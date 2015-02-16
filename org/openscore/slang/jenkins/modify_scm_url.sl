@@ -18,6 +18,10 @@
 #    Results:
 #      - SUCCESS - return code is 0
 #      - FAILURE - otherwise
+#
+#
+#   This opeation requires 'jenkinsapi' python module to be imported
+#   Please refer README.md for more information
 ####################################################
 
 namespace: org.openscore.slang.jenkins

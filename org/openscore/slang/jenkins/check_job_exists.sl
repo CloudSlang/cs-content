@@ -20,6 +20,10 @@
 #      - EXISTS_UNEXPECTED: if operation result is 'EXISTS_UNEXPECTED'
 #      - NOT_EXISTS: if operation result is 'NOT_EXISTS'
 #      - FAILURE: if operation result is 'FAILURE'
+#
+#
+#   This opeation requires 'jenkinsapi' python module to be imported
+#   Please refer README.md for more information
 ####################################################
 namespace: org.openscore.slang.jenkins
 
