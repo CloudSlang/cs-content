@@ -6,10 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation enables a Jenkins job.
 #
-# url:             the URL to Jenkins
-# job_name:        the name of the job to disable
+#   This operation enables a Jenkins job.
+#
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - job_name - the name of the job to enable
+#    Outputs:
+#      - result_message - a string formatted message of the operation results
+#    Results:
+#      - SUCCESS - return code is 0
+#      - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.jenkins
 
