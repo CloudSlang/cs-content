@@ -6,11 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation deletes a Jenkins job.
 #
-# url:             the URL to Jenkins
-# job_name:        the name of the job to delete
-
+#   This operation deletes a Jenkins job.
+#
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - job_name - the name of the job to delete
+#    Outputs:
+#      - result_message - a string formatted message of the operation results
+#    Results:
+#      - SUCCESS - return code is 0
+#      - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.jenkins
 
@@ -35,7 +42,6 @@ operation:
         result_message = 'Error deleting job: ' + job_name
 
   outputs:
-    - exists
     - result_message
 
   results:
