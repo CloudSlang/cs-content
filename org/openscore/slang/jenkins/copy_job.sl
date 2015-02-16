@@ -6,11 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation copies a Jenkins job into a new Jenkins job.
-# 
-# url:             the URL to Jenkins
-# job_name:        the name of the job to check
-# new_job_name:    the name of the destionation job (copy)
+#
+#   This operation copies a Jenkins job into a new Jenkins job
+#
+#    Inputs:
+#      - url - the URL to Jenkins
+#      - job_name - the name of the job to copy
+#      - new_job_name - the name of the destionation job (copy to)
+#    Outputs:
+#      - result_message - a string formatted message of the operation results
+#    Results:
+#      - SUCCESS - return code is 0
+#      - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.jenkins
 
