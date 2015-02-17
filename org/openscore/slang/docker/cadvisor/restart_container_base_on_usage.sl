@@ -16,6 +16,7 @@
 #       - password - Docker machine password
 #       - machine_connect_port- port to use to connect the machine runs rhe docker
 #       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - rule - optional - python query to determine if the resource usages is high
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
@@ -43,6 +44,9 @@ flow:
     - password
     - privateKeyFile:
         default: "''"
+    - rule:
+        default: "''"
+        required: false
   workflow:
     retrieve_container_usage_cAdvisor:
           do:
@@ -62,6 +66,7 @@ flow:
     evaluate_resource_usage:
       do:
         docker_cadvisor.evaluate_resource_usage:
+          - rule
           - memory_usage
           - cpu_usage
           - throughput_rx
