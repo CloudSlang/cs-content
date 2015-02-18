@@ -9,33 +9,31 @@
 # Replaces a substring within a string.
 #
 # Inputs:
-#   - input - the master string.
-#   - replace - the text to replace.
-#   - replaceWith - the text to replace with.
+#   - origin_string - the master string.
+#   - text_to_replace - the text to replace.
+#   - replace_with - the text to replace with.
 #
 # Outputs:
 #   - returnResult - the string with the text replaced.
 #
 # Results:
-#   - SUCCESS - succeeded in updating string.
-#   - FAILURE - was unable to replace for some reason
+#   - SUCCESS - always
 ##################################################
-
 namespace: org.openscore.slang.base.strings
-operations:
-  - searchAndReplace:
-      inputs:
-        - input
-        - replace
-        - replaceWith
-      action:
-        python_script: |    
-          if replace in input:
-            returnResult = input.replace(replace, replaceWith)
-          else:
-            returnResult = input 
-      outputs:
-        - returnResult
-      results:
-        - SUCCESS
-        - FAILURE
+
+operation:
+  name: search_and_replace
+  inputs:
+    - origin_string
+    - text_to_replace
+    - replace_with
+  action:
+    python_script: |
+      if text_to_replace in origin_string:
+        replaced_string = origin_string.replace(text_to_replace, replace_with)
+      else:
+        replaced_string = origin_string
+  outputs:
+    - replaced_string
+  results:
+    - SUCCESS
