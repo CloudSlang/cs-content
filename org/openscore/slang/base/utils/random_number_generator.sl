@@ -19,7 +19,7 @@
 #   - SUCCESS - a number was generated
 #   - FAILURE - otherwise
 ##################################################
-namespace: org.openscore.slang.base.utilities
+namespace: org.openscore.slang.base.utils
 
 operation:
   name: random_number_generator
