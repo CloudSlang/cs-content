@@ -82,7 +82,6 @@ Normally, all pull requests must include tests that test your change. Occasional
 When contributing new Slang content, or changing existing content, the content should be written according to our content best practices (http://www.openscore.io/#/docs).
 
 All Slang content must pass our content validation.
-
 In order to test that your content passes validation, do the following:
 - Download the slang-content-validator.jar from: https://github.com/openscore/score-language/releases
 - Run `java -jar slang-content-verifier.jar directory_path`
