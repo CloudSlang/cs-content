@@ -35,8 +35,8 @@ flow:
     - private_key_file:
         default: "''"
     - percentage
-    - number_of_deleted_images:
-        default: "'0'"
+    - number_of_deleted_images_per_host:
+        default: "''"
         overridable: false
 
   workflow:
@@ -62,9 +62,10 @@ flow:
                   - private_key_file
                   - percentage
             publish:
-                - number_of_deleted_images: str(int(fromInputs['number_of_deleted_images']) + int(total_amount_of_images_deleted))
+                - number_of_deleted_images_per_host: >
+                    fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + total_amount_of_images_deleted + ','
                 - error_message
 
   outputs:
-    - number_of_deleted_images
+    - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]
     - error_message
