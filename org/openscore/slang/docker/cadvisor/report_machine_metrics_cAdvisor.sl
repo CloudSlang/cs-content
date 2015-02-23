@@ -39,29 +39,29 @@ flow:
         default: "'8080'"
         required: false
   workflow:
-    retrieve_machine_metrics_cAdvisor:
-      do:
-        docker_cadvisor.get_machine_metrics_cAdvisor:
-            - host
-            - cadvisor_port
-      publish:
-        - response_body: returnResult
-        - returnCode
-        - errorMessage
-    parse_machine_metrics_cAdvisor:
-      do:
-        docker_cadvisor.parse_cadvisor_machine:
-          - json_response: response_body
-      publish:
-        - decoded
-        - num_cores
-        - cpu_frequency_khz
-        - memory_capacity
-        - file_systems
-        - disk_map
-        - network_devices
-        - topology
-        - errorMessage
+    - retrieve_machine_metrics_cAdvisor:
+        do:
+          docker_cadvisor.get_machine_metrics_cAdvisor:
+              - host
+              - cadvisor_port
+        publish:
+          - response_body: returnResult
+          - returnCode
+          - errorMessage
+    - parse_machine_metrics_cAdvisor:
+        do:
+          docker_cadvisor.parse_cadvisor_machine:
+            - json_response: response_body
+        publish:
+          - decoded
+          - num_cores
+          - cpu_frequency_khz
+          - memory_capacity
+          - file_systems
+          - disk_map
+          - network_devices
+          - topology
+          - errorMessage
   outputs:
     - decoded
     - num_cores

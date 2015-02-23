@@ -30,24 +30,24 @@ flow:
     - docker_username
     - docker_password
   workflow:
-    stop_container:
-      do:
-        docker_containers.stop_container:
-          - containerID: container_ID
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-      publish:
-        - error_message
+    - stop_container:
+        do:
+          docker_containers.stop_container:
+            - containerID: container_ID
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+        publish:
+          - error_message
 
-    delete_container:
-      do:
-        docker_containers.delete_container:
-          - containerID: container_ID
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-      publish:
-        - error_message
+    - delete_container:
+        do:
+          docker_containers.delete_container:
+            - containerID: container_ID
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+        publish:
+          - error_message
   outputs:
     - error_message

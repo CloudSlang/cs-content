@@ -35,26 +35,26 @@ flow:
     - username
     - password
   workflow:
-    get_token:
-      do:
-        openstack_content.get_authentication:
-          - host
-          - identityPort: identity_port
-          - username
-          - password
-      publish:
-        - response_body: return_result
-        - return_code
-        - error_message
+    - get_token:
+        do:
+          openstack_content.get_authentication:
+            - host
+            - identityPort: identity_port
+            - username
+            - password
+        publish:
+          - response_body: return_result
+          - return_code
+          - error_message
 
-    parse_authentication:
-      do:
-        openstack_utils.parse_authentication:
-          - json_authentication_response: response_body
-      publish:
-        - token
-        - tenant
-        - error_message
+    - parse_authentication:
+        do:
+          openstack_utils.parse_authentication:
+            - json_authentication_response: response_body
+        publish:
+          - token
+          - tenant
+          - error_message
 
   outputs:
     - token

@@ -28,38 +28,38 @@ flow:
     - username
     - password
   workflow:
-    pull_mysql_image:
-      do:
-        docker_images.pull_image:
-          - imageName: "'mysql'"
-          - host
-          - username
-          - password
-      publish:
-        - error_message
+    - pull_mysql_image:
+        do:
+          docker_images.pull_image:
+            - imageName: "'mysql'"
+            - host
+            - username
+            - password
+        publish:
+          - error_message
 
-    create_mysql_container:
-      do:
-        docker_containers.create_container:
-          - imageID: "'mysql'"
-          - containerName: "'mysqldb'"
-          - cmdParams: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
-          - host
-          - username
-          - password
-      publish:
-        - error_message
+    - create_mysql_container:
+        do:
+          docker_containers.create_container:
+            - imageID: "'mysql'"
+            - containerName: "'mysqldb'"
+            - cmdParams: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
+            - host
+            - username
+            - password
+        publish:
+          - error_message
 
-    get_db_ip:
-      do:
-        docker_containers.get_container_ip:
-          - containerName: "'mysqldb'"
-          - host
-          - username
-          - password
-      publish:
-        - db_IP
-        - error_message
+    - get_db_ip:
+        do:
+          docker_containers.get_container_ip:
+            - containerName: "'mysqldb'"
+            - host
+            - username
+            - password
+        publish:
+          - db_IP
+          - error_message
 
   outputs:
     - db_IP

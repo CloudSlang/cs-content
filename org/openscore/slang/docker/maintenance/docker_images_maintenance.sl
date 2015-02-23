@@ -35,29 +35,29 @@ flow:
         default: "''"
     - percentage
   workflow:
-    check_diskspace:
-      do:
-        docker_maintenance.diskspace_health_check:
-          - docker_host
-          - docker_username
-          - docker_password
-          - private_key_file
-          - percentage
-      navigate:
-        SUCCESS: SUCCESS
-        FAILURE: FAILURE
-        NOT_ENOUGH_DISKSPACE: clear_unused_docker_images
-    clear_unused_docker_images:
-      do:
-        docker_images.clear_unused_docker_images:
-          - docker_host
-          - docker_username
-          - docker_password
-          - private_key_file
-      publish:
-        - amount_of_images_deleted
-        - amount_of_dangling_images_deleted
-        - dangling_images_list_safe_to_delete
-        - images_list_safe_to_delete
+    - check_diskspace:
+        do:
+          docker_maintenance.diskspace_health_check:
+            - docker_host
+            - docker_username
+            - docker_password
+            - private_key_file
+            - percentage
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+          NOT_ENOUGH_DISKSPACE: clear_unused_docker_images
+    - clear_unused_docker_images:
+        do:
+          docker_images.clear_unused_docker_images:
+            - docker_host
+            - docker_username
+            - docker_password
+            - private_key_file
+        publish:
+          - amount_of_images_deleted
+          - amount_of_dangling_images_deleted
+          - dangling_images_list_safe_to_delete
+          - images_list_safe_to_delete
   outputs:
     - total_amount_of_images_deleted: str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted))

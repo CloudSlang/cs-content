@@ -38,27 +38,27 @@ flow:
     - openstack_password
     - server_name
   workflow:
-    get_server_list:
-      do:
-        openstack_content.list_servers:
-          - openstack_host
-          - openstack_identity_port
-          - openstack_compute_port
-          - openstack_username
-          - openstack_password
-      publish:
-        - server_list
-        - return_result
-        - error_message
-    check_server:
-      do:
-        base_strings.string_occurrence_counter:
-          - string_to_find: server_name
-          - string_in_which_to_search: server_list
-          - ignore_case: "'true'"
-      publish:
-        - return_result
-        - error_message
+    - get_server_list:
+        do:
+          openstack_content.list_servers:
+            - openstack_host
+            - openstack_identity_port
+            - openstack_compute_port
+            - openstack_username
+            - openstack_password
+        publish:
+          - server_list
+          - return_result
+          - error_message
+    - check_server:
+        do:
+          base_strings.string_occurrence_counter:
+            - string_to_find: server_name
+            - string_in_which_to_search: server_list
+            - ignore_case: "'true'"
+        publish:
+          - return_result
+          - error_message
   outputs:
     - return_result
     - error_message
