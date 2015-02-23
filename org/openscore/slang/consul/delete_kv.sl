@@ -10,7 +10,7 @@
 #
 #   Inputs:
 #       - host - consul agent host
-#       - consul_port - optional - consul agent host port defualt 8500
+#       - consul_port - optional - consul agent port (defualt 8500)
 #       - key_name - name for the new key
 #   Outputs:
 #       - returnResult - response of the operation
@@ -46,7 +46,7 @@ operation:
         - returnResult
         - statusCode
         - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
+        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
       results:
         - SUCCESS: returnCode != '-1' and statusCode == '200'
         - FAILURE

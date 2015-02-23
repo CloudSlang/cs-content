@@ -30,9 +30,15 @@ operation:
       inputs:
         - node
         - address
-        - datacenter
-        - service
-        - check
+        - datacenter:
+            default: "''"
+            required: false
+        - service:
+            default: "''"
+            required: false
+        - check:
+            default: "''"
+            required: false
       action:
         python_script: |
           try:

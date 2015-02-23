@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   create consul key 
+#   get consul key 
 #
 #   Inputs:
 #       - host - consul agent host
-#       - consul_port - optional - consul agent host port defualt 8500
+#       - consul_port - optional - consul agent port (defualt 8500)
 #       - key_name - name for the new key
-#       - key_value - optional - value of new key default is null
-#       - flags - optional -flags for new kew sefault is 0
+#       - key_value - optional - value for the new key (default is null)
+#       - flags - optional - flags for the new key (default is 0)
 #   Outputs:
 #       - returnResult - response of the operation
 #       - statusCode - normal status code is 200
@@ -48,7 +48,7 @@ operation:
         - returnResult
         - statusCode
         - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
+        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
       results:
         - SUCCESS: returnCode != '-1' and statusCode == '200'
         - FAILURE

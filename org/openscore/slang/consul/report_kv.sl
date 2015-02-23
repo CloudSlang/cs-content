@@ -10,7 +10,7 @@
 #
 #   Inputs:
 #       - host - consul agent host
-#       - consul_port - optional - consul agent host port defualt 8500
+#       - consul_port - optional - consul agent port (defualt 8500)
 #       - key_name - name for the new key
 #   Outputs:
 #       - decoded - parse response
@@ -61,6 +61,15 @@ flow:
         - modify_index
         - lock_index
         - errorMessage
+  outputs:
+    - decoded
+    - key
+    - flags
+    - create_index
+    - value
+    - modify_index
+    - lock_index
+    - errorMessage
   results:
     - SUCCESS
     - FAILURE
