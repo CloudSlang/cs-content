@@ -1,5 +1,5 @@
 language: java
 script:
-  - wget -O verifier.jar https://github.com/openscore/score-language/releases/download/score-language-0.1.11/slang-content-verifier.jar
+  - wget -O verifier.jar https://github.com/openscore/score-language/releases/download/score-language-0.1.12/slang-content-verifier.jar
   - chmod +x verifier.jar
   - java -jar verifier.jar .
