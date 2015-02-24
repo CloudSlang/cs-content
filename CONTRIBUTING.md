@@ -77,6 +77,15 @@ To make a pull request you will need a GitHub account. For help, see GitHub's do
 Normally, all pull requests must include tests that test your change. Occasionally, a change will be very difficult to test. In those cases, please include a note in your commit message explaining why tests are not included.
 
 
+### Content Validation
+
+When contributing new Slang content or changing existing content, the content must be written according to our content best practices (http://www.openscore.io/#/docs).
+
+All Slang content must pass our content validation.
+In order to test that your content passes validation, do the following:
+- Download the slang-content-validator.jar from: https://github.com/openscore/score-language/releases
+- Run `java -jar slang-content-verifier.jar directory_path`
+
 ##Conduct
 
 Whether you are a regular contributor or a newcomer, we care about making this community a safe place for you.

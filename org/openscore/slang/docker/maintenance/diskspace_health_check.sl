@@ -6,15 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will check if the diskspace on a Linux machine is less than a given percentage.
+#   This flow will check if the disk space on a Linux machine is less than a given percentage.
 #
 #   Inputs:
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #       - percentage - ex. (50%)
 #   Results:
-#       - SUCCESS - diskspace is less than percentage input
+#       - SUCCESS - disk space is less than percentage input
 #       - FAILURE - otherwise
 ####################################################
 
@@ -30,6 +31,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
     - percentage
 
   workflow:
@@ -39,12 +42,14 @@ flow:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
     check_disk_space:
       do:
         docker_linux.check_linux_disk_space:
           - host: docker_host
           - username: docker_username
           - password: docker_password
+          - privateKeyFile: private_key_file
       publish:
         - disk_space
     check_availability:
