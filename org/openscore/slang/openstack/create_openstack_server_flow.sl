@@ -39,30 +39,30 @@ flow:
     - password
     - server_name
   workflow:
-    authentication:
-      do:
-        openstack_content.get_authentication_flow:
-          - host
-          - identity_port
-          - username
-          - password
-      publish:
-        - token
-        - tenant
-        - return_result
-        - error_message
-    create_server:
-      do:
-        openstack_content.create_openstack_server:
-          - host
-          - computePort: compute_port
+    - authentication:
+        do:
+          openstack_content.get_authentication_flow:
+            - host
+            - identity_port
+            - username
+            - password
+        publish:
           - token
           - tenant
-          - imgRef: img_ref
-          - serverName: server_name
-      publish:
-        - return_result
-        - error_message
+          - return_result
+          - error_message
+    - create_server:
+        do:
+          openstack_content.create_openstack_server:
+            - host
+            - computePort: compute_port
+            - token
+            - tenant
+            - imgRef: img_ref
+            - serverName: server_name
+        publish:
+          - return_result
+          - error_message
   outputs:
     - return_result
     - error_message

@@ -37,38 +37,38 @@ flow:
     - openstack_username
     - openstack_password
   workflow:
-    authentication:
-      do:
-        openstack_content.get_authentication_flow:
-          - host: openstack_host
-          - identity_port: openstack_identity_port
-          - username: openstack_username
-          - password: openstack_password
-      publish:
-        - token
-        - tenant
-        - return_result
-        - error_message
-
-    get_openstack_servers:
-      do:
-        openstack_content.get_openstack_servers:
-          - host: openstack_host
-          - computePort: openstack_compute_port
+    - authentication:
+        do:
+          openstack_content.get_authentication_flow:
+            - host: openstack_host
+            - identity_port: openstack_identity_port
+            - username: openstack_username
+            - password: openstack_password
+        publish:
           - token
           - tenant
-      publish:
-        - response_body: return_result
-        - return_result: return_result
-        - error_message
+          - return_result
+          - error_message
 
-    extract_servers:
-      do:
-        openstack_utils.extract_servers:
-          - server_body: response_body
-      publish:
-        - server_list
-        - error_message
+    - get_openstack_servers:
+        do:
+          openstack_content.get_openstack_servers:
+            - host: openstack_host
+            - computePort: openstack_compute_port
+            - token
+            - tenant
+        publish:
+          - response_body: return_result
+          - return_result: return_result
+          - error_message
+
+    - extract_servers:
+        do:
+          openstack_utils.extract_servers:
+            - server_body: response_body
+        publish:
+          - server_list
+          - error_message
 
   outputs:
     - server_list

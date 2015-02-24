@@ -37,49 +37,49 @@ flow:
     - password
     - server_name
   workflow:
-    authentication:
-      do:
-        openstack_content.get_authentication_flow:
-          - host
-          - identity_port
-          - username
-          - password
-      publish:
-        - token
-        - tenant
-        - return_result
-        - error_message
-    get_servers:
-      do:
-        openstack_content.get_openstack_servers:
-          - host
-          - computePort: compute_port
+    - authentication:
+        do:
+          openstack_content.get_authentication_flow:
+            - host
+            - identity_port
+            - username
+            - password
+        publish:
           - token
           - tenant
-      publish:
-        - server_list: return_result
-        - return_result
-        - error_message
-    get_server_id:
-      do:
-        openstack_utils.get_server_id:
-          - server_body: server_list
-          - server_name: server_name
-      publish:
-        - server_ID
-        - return_result
-        - error_message
-    delete_server:
-      do:
-        openstack_content.delete_openstack_server:
-          - host
-          - computePort: compute_port
-          - token
-          - tenant
-          - serverID: server_ID
-      publish:
-        - return_result
-        - error_message
+          - return_result
+          - error_message
+    - get_servers:
+        do:
+          openstack_content.get_openstack_servers:
+            - host
+            - computePort: compute_port
+            - token
+            - tenant
+        publish:
+          - server_list: return_result
+          - return_result
+          - error_message
+    - get_server_id:
+        do:
+          openstack_utils.get_server_id:
+            - server_body: server_list
+            - server_name: server_name
+        publish:
+          - server_ID
+          - return_result
+          - error_message
+    - delete_server:
+        do:
+          openstack_content.delete_openstack_server:
+            - host
+            - computePort: compute_port
+            - token
+            - tenant
+            - serverID: server_ID
+        publish:
+          - return_result
+          - error_message
   outputs:
     - return_result
     - error_message

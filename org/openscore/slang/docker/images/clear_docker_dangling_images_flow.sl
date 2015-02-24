@@ -35,43 +35,43 @@ flow:
     - used_images
 
   workflow:
-    validate_linux_machine_ssh_access:
-      do:
-        docker_linux.validate_linux_machine_ssh_access:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-    get_dangling_images:
-      do:
-        docker_images.get_dangling_images:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-      publish:
-        - all_dangling_images: dangling_image_list.replace("\n"," ")
-    substract_used_dangling_images:
-      do:
-        base_lists.subtract_sets:
-          - set_1: all_dangling_images
-          - set_1_delimiter: "' '"
-          - set_2: used_images
-          - set_2_delimiter: "' '"
-          - result_set_delimiter: "' '"
-      publish:
-        - images_list_safe_to_delete: result_set
-        - amount_of_dangling_images: str(len(result_set.split()))
-    delete_images:
-      do:
-        docker_images.clear_docker_images:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-          - images: images_list_safe_to_delete
-      publish:
-        - response
+    - validate_linux_machine_ssh_access:
+        do:
+          docker_linux.validate_linux_machine_ssh_access:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+    - get_dangling_images:
+        do:
+          docker_images.get_dangling_images:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+        publish:
+          - all_dangling_images: dangling_image_list.replace("\n"," ")
+    - substract_used_dangling_images:
+        do:
+          base_lists.subtract_sets:
+            - set_1: all_dangling_images
+            - set_1_delimiter: "' '"
+            - set_2: used_images
+            - set_2_delimiter: "' '"
+            - result_set_delimiter: "' '"
+        publish:
+          - images_list_safe_to_delete: result_set
+          - amount_of_dangling_images: str(len(result_set.split()))
+    - delete_images:
+        do:
+          docker_images.clear_docker_images:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - images: images_list_safe_to_delete
+        publish:
+          - response
   outputs:
     - dangling_images_list_safe_to_delete: images_list_safe_to_delete
     - amount_of_dangling_images_deleted: "'0' if images_list_safe_to_delete == '' else amount_of_dangling_images"

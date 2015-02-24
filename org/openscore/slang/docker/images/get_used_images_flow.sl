@@ -32,21 +32,21 @@ flow:
         default: "''"
 
   workflow:
-    validate_linux_machine_ssh_access_op:
-          do:
-            docker_linux.validate_linux_machine_ssh_access:
-              - host: docker_host
-              - username: docker_username
-              - password: docker_password
-              - privateKeyFile: private_key_file
-    get_used_images:
-      do:
-        docker_images.get_used_images:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-      publish:
-        - used_images_list: image_list
+    - validate_linux_machine_ssh_access_op:
+        do:
+          docker_linux.validate_linux_machine_ssh_access:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+    - get_used_images:
+        do:
+          docker_images.get_used_images:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+        publish:
+          - used_images_list: image_list
   outputs:
     - used_images_list

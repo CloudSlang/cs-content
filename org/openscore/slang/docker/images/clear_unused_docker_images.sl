@@ -35,28 +35,28 @@ flow:
     - private_key_file:
         default: "''"
   workflow:
-     clear_docker_images:
-        do:
-          docker_images.clear_docker_images_flow:
-            - docker_host
-            - docker_username
-            - docker_password
-            - private_key_file
-        publish:
-          - images_list_safe_to_delete
-          - amount_of_images_deleted
-          - used_images_list
-     clear_docker_dangling_images:
-        do:
-          docker_images.clear_docker_dangling_images_flow:
-            - docker_host
-            - docker_username
-            - docker_password
-            - private_key_file
-            - used_images: used_images_list
-        publish:
-          - dangling_images_list_safe_to_delete
-          - amount_of_dangling_images_deleted
+     - clear_docker_images:
+          do:
+            docker_images.clear_docker_images_flow:
+              - docker_host
+              - docker_username
+              - docker_password
+              - private_key_file
+          publish:
+            - images_list_safe_to_delete
+            - amount_of_images_deleted
+            - used_images_list
+     - clear_docker_dangling_images:
+          do:
+            docker_images.clear_docker_dangling_images_flow:
+              - docker_host
+              - docker_username
+              - docker_password
+              - private_key_file
+              - used_images: used_images_list
+          publish:
+            - dangling_images_list_safe_to_delete
+            - amount_of_dangling_images_deleted
   outputs:
     - amount_of_images_deleted
     - amount_of_dangling_images_deleted
