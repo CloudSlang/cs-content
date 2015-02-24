@@ -16,8 +16,9 @@
 #                           "apps.tasks". Apps' tasks are not embedded in the response by default.
 #                            "apps.failures". Apps' last failures are not embedded in the response by default.
 #   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 200
+#       - response - response of the operation as json
+#       - decoded - response of the operation as string
+#       - returnResult - error or success
 #       - returnCode - if returnCode is equal to -1 then there was an error
 #       - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
 #   Results:
@@ -41,16 +42,15 @@ operation:
             default: "'none'"
             required: false
         - url:
-            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'"
-            overridable: false
-        - method:
-            default: "'get'"
+            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
             overridable: false
       action:
         python_script: |
           try:
             import urllib2
             import json
+            if cmd!='':
+              url=url+'&cmd='+cmd
             response = urllib2.urlopen(url).read()
             decoded = json.loads(response)
             returnCode = '0'
