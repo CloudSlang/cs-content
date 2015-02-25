@@ -11,7 +11,7 @@
 #   Inputs:
 #       - container - name or ID of the Docker container that runs MySQL
 #       - host - Docker machine host
-#       - identityPort - optional - port used for cAdvisor - Default: 8080
+#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   Outputs:
 #       - decoded - parse response
 #       - timestamp - the time used to calculate the stat
@@ -38,42 +38,42 @@ flow:
   inputs:
     - container
     - host
-    - identityPort:
+    - cadvisor_port:
         default: "'8080'"
         required: false
   workflow:
-    retrieve_container_metrics_cAdvisor:
-          do:
-            docker_cadvisor.get_container_metrics_cAdvisor:
-                - container
-                - host
-                - identityPort
-          publish:
-            - response_body: returnResult
-            - returnCode
-            - errorMessage
-    retrieve_machine_memory:
-      do:
-        docker_cadvisor.report_machine_metrics_cAdvisor:
-          - host
-          - identityPort
-      publish:
-        - memory_capacity
-    parse_container_metrics_cAdvisor:
-      do:
-        docker_cadvisor.parse_cadvisor_container:
-          - json_response: response_body
-          - machine_memory_limit: memory_capacity
-      publish:
-        - decoded
-        - timestamp
-        - memory_usage
-        - cpu_usage
-        - throughput_rx
-        - throughput_tx
-        - error_rx
-        - error_tx
-        - errorMessage
+    - retrieve_container_metrics_cAdvisor:
+        do:
+          docker_cadvisor.get_container_metrics_cAdvisor:
+              - container
+              - host
+              - cadvisor_port
+        publish:
+          - response_body: returnResult
+          - returnCode
+          - errorMessage
+    - retrieve_machine_memory:
+        do:
+          docker_cadvisor.report_machine_metrics_cAdvisor:
+            - host
+            - cadvisor_port
+        publish:
+          - memory_capacity
+    - parse_container_metrics_cAdvisor:
+        do:
+          docker_cadvisor.parse_cadvisor_container:
+            - json_response: response_body
+            - machine_memory_limit: memory_capacity
+        publish:
+          - decoded
+          - timestamp
+          - memory_usage
+          - cpu_usage
+          - throughput_rx
+          - throughput_tx
+          - error_rx
+          - error_tx
+          - errorMessage
   outputs:
     - decoded
     - timestamp

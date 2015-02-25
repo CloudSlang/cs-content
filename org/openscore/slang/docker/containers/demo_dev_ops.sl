@@ -40,61 +40,61 @@ flow:
     - email_sender
     - email_recipient
   workflow:
-    create_db_container:
-      do:
-        docker_containers.create_db_container:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-      publish:
-        - db_IP
-        - error_message
-
-    pull_app_image:
-      do:
-        docker_images.pull_image:
-          - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-      publish:
-        - error_message
-
-    start_linked_container:
-      do:
-        docker_containers.start_linked_container:
-          - dbContainerIp: db_IP
-          - dbContainerName: "'mysqldb'"
-          - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-          - containerName: "'spring-boot-tomcat-mysql-app'"
-          - linkParams: "dbContainerName + ':mysql'"
-          - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p 8080:8080'"
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-      publish:
-        - container_ID
-        - error_message
-
-    test_application:
-      do:
-        base_network.verify_app_is_up:
-          - host: docker_host
-          - port: "'8080'"
-          - max_seconds_to_wait: 20
-      publish:
-        - error_message
-
-    on_failure:
-      send_error_mail:
+    - create_db_container:
         do:
-          base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - from: email_sender
-            - to: email_recipient
-            - subject: "'Flow failure'"
-            - body: "'Operation failed with the following error:<br>' + error_message"
-        navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+          docker_containers.create_db_container:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+        publish:
+          - db_IP
+          - error_message
+
+    - pull_app_image:
+        do:
+          docker_images.pull_image:
+            - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+        publish:
+          - error_message
+
+    - start_linked_container:
+        do:
+          docker_containers.start_linked_container:
+            - dbContainerIp: db_IP
+            - dbContainerName: "'mysqldb'"
+            - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
+            - containerName: "'spring-boot-tomcat-mysql-app'"
+            - linkParams: "dbContainerName + ':mysql'"
+            - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p 8080:8080'"
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+        publish:
+          - container_ID
+          - error_message
+
+    - test_application:
+        do:
+          base_network.verify_app_is_up:
+            - host: docker_host
+            - port: "'8080'"
+            - max_seconds_to_wait: 20
+        publish:
+          - error_message
+
+    - on_failure:
+        - send_error_mail:
+            do:
+              base_mail.send_mail:
+                - hostname: email_host
+                - port: email_port
+                - from: email_sender
+                - to: email_recipient
+                - subject: "'Flow failure'"
+                - body: "'Operation failed with the following error:<br>' + error_message"
+            navigate:
+              SUCCESS: FAILURE
+              FAILURE: FAILURE

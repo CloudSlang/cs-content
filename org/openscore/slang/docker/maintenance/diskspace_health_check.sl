@@ -36,31 +36,31 @@ flow:
     - percentage
 
   workflow:
-    validate_linux_machine_ssh_access:
-      do:
-        docker_linux.validate_linux_machine_ssh_access:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-    check_disk_space:
-      do:
-        docker_linux.check_linux_disk_space:
-          - host: docker_host
-          - username: docker_username
-          - password: docker_password
-          - privateKeyFile: private_key_file
-      publish:
-        - disk_space
-    check_availability:
-      do:
-        base_comparisons.less_than_percentage:
-          - first_percentage: disk_space
-          - second_percentage: percentage
-      navigate:
-        LESS: SUCCESS
-        MORE: NOT_ENOUGH_DISKSPACE
-        FAILURE: FAILURE
+    - validate_linux_machine_ssh_access:
+        do:
+          docker_linux.validate_linux_machine_ssh_access:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+    - check_disk_space:
+        do:
+          docker_linux.check_linux_disk_space:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile: private_key_file
+        publish:
+          - disk_space
+    - check_availability:
+        do:
+          base_comparisons.less_than_percentage:
+            - first_percentage: disk_space
+            - second_percentage: percentage
+        navigate:
+          LESS: SUCCESS
+          MORE: NOT_ENOUGH_DISKSPACE
+          FAILURE: FAILURE
   results:
     - SUCCESS
     - FAILURE

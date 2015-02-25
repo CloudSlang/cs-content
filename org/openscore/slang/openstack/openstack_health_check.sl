@@ -47,50 +47,50 @@ flow:
     - to
     - from
   workflow:
-    create_server:
-      do:
-        openstack_content.create_openstack_server_flow:
-          - host
-          - identity_port
-          - compute_port
-          - img_ref
-          - username
-          - password
-          - server_name
-      publish:
-        - subflow_error: "'\"Create Server\": ' + error_message"
-    validate_server_exists:
-      do:
-        openstack_content.validate_server_exists:
-          - openstack_host: host
-          - openstack_identity_port: identity_port
-          - openstack_compute_port: compute_port
-          - openstack_username: username
-          - openstack_password: password
-          - server_name
-      publish:
-        - subflow_error : "'\"Validate Server\": ' + error_message"
-    delete_server:
-      do:
-        openstack_content.delete_openstack_server_flow:
-          - host
-          - identity_port
-          - compute_port
-          - username
-          - password
-          - server_name
-      publish:
-        - subflow_error : "'\"Delete Server\": ' + error_message"
-    on_failure:
-      send_error_mail:
+    - create_server:
         do:
-          email.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - from
-            - to
-            - subject: "'Flow failure'"
-            - body: "'Failure from step ' + subflow_error"
-        navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+          openstack_content.create_openstack_server_flow:
+            - host
+            - identity_port
+            - compute_port
+            - img_ref
+            - username
+            - password
+            - server_name
+        publish:
+          - subflow_error: "'\"Create Server\": ' + error_message"
+    - validate_server_exists:
+        do:
+          openstack_content.validate_server_exists:
+            - openstack_host: host
+            - openstack_identity_port: identity_port
+            - openstack_compute_port: compute_port
+            - openstack_username: username
+            - openstack_password: password
+            - server_name
+        publish:
+          - subflow_error : "'\"Validate Server\": ' + error_message"
+    - delete_server:
+        do:
+          openstack_content.delete_openstack_server_flow:
+            - host
+            - identity_port
+            - compute_port
+            - username
+            - password
+            - server_name
+        publish:
+          - subflow_error : "'\"Delete Server\": ' + error_message"
+    - on_failure:
+        - send_error_mail:
+            do:
+              email.send_mail:
+                - hostname: email_host
+                - port: email_port
+                - from
+                - to
+                - subject: "'Flow failure'"
+                - body: "'Failure from step ' + subflow_error"
+            navigate:
+              SUCCESS: FAILURE
+              FAILURE: FAILURE
