@@ -40,31 +40,31 @@ flow:
         overridable: false
 
   workflow:
-    list_machines_public_ip:
-      do:
-        coreos.list_machines_public_ip:
-          - coreos_host
-          - coreos_username
-          - coreos_password
-          - private_key_file
-      publish:
-          - machines_public_ip_list
-          - error_message
+    - list_machines_public_ip:
+        do:
+          coreos.list_machines_public_ip:
+            - coreos_host
+            - coreos_username
+            - coreos_password
+            - private_key_file
+        publish:
+            - machines_public_ip_list
+            - error_message
 
-    loop_docker_images_maintenance:
-        loop:
-            for: machine_public_ip in machines_public_ip_list.split(' ')
-            do:
-                maintenance.docker_images_maintenance:
-                  - docker_host: machine_public_ip
-                  - docker_username: coreos_username
-                  - docker_password: coreos_password
-                  - private_key_file
-                  - percentage
-            publish:
-                - number_of_deleted_images_per_host: >
-                    fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + total_amount_of_images_deleted + ','
-                - error_message
+    - loop_docker_images_maintenance:
+          loop:
+              for: machine_public_ip in machines_public_ip_list.split(' ')
+              do:
+                  maintenance.docker_images_maintenance:
+                    - docker_host: machine_public_ip
+                    - docker_username: coreos_username
+                    - docker_password: coreos_password
+                    - private_key_file
+                    - percentage
+              publish:
+                    - number_of_deleted_images_per_host: >
+                        fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + total_amount_of_images_deleted + ','
+                    - error_message
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]

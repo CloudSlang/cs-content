@@ -38,30 +38,30 @@ flow:
         overridable: false
 
   workflow:
-    list_machines_id:
-      do:
-        coreos.list_machines_id:
-          - host: coreos_host
-          - username: coreos_username
-          - password: coreos_password
-          - privateKeyFile: private_key_file
-      publish:
-          - machines_id_list
-          - error_message
+    - list_machines_id:
+        do:
+          coreos.list_machines_id:
+            - host: coreos_host
+            - username: coreos_username
+            - password: coreos_password
+            - privateKeyFile: private_key_file
+        publish:
+            - machines_id_list
+            - error_message
 
-    get_machines_public_ip:
-        loop:
-            for: machine_id in machines_id_list.split(' ')
-            do:
-                coreos.get_machine_public_ip:
-                  - machine_id
-                  - host: coreos_host
-                  - username: coreos_username
-                  - password: coreos_password
-                  - privateKeyFile: private_key_file
-            publish:
-                - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
-                - error_message
+    - get_machines_public_ip:
+            loop:
+                for: machine_id in machines_id_list.split(' ')
+                do:
+                  coreos.get_machine_public_ip:
+                    - machine_id
+                    - host: coreos_host
+                    - username: coreos_username
+                    - password: coreos_password
+                    - privateKeyFile: private_key_file
+                publish:
+                    - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
+                    - error_message
 
   outputs:
     - machines_public_ip_list: machines_public_ip_list[:-1]
