@@ -45,6 +45,6 @@ operation:
     - error_message
     - result
   results:
-    - LESS: result == 1
-    - MORE: result == 0
+    - LESS: result
+    - MORE: not result
     - FAILURE: error_message <> ""
