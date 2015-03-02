@@ -46,7 +46,7 @@ operation:
         default: "''"
     - command:
         default: >
-          "fleetctl ssh " + machine_id + " cat /etc/environment"
+          "fleetctl --strict-host-key-checking=false  ssh " + machine_id + " cat /etc/environment"
         overridable: false
     - characterSet:
         default: "'UTF-8'"
@@ -56,6 +56,9 @@ operation:
         default: "'90000'"
     - closeSession:
         default: "'false'"
+    - agentForwarding:
+        default: "'true'"
+        overridable: false
   action:
     java_action:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
@@ -65,5 +68,5 @@ operation:
         returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
     - error_message:  STDERR if returnCode == '0' else returnResult
   results:
-    - SUCCESS: returnCode == '0' and (not 'ERROR' in STDERR)
+    - SUCCESS: (returnCode == '0') and (not 'ssh-agent' in STDERR) and (not 'ERROR' in STDERR)
     - FAILURE
