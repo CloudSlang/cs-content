@@ -56,34 +56,36 @@ flow:
         required: false
     - json_file
   workflow:
-    create_app:
-      do:
-        marathon.create_app:
-                - marathon_host
-                - marathon_port
-                - json_file
-                - proxyHost
-                - proxyPort
-      publish:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage
-    send_status_mail:
-      do:
-        base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - htmlEmail: "'false'"
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'New app '"
-                - body: "'app create succeeded'"
-      navigate:
-        SUCCESS: SUCCESS
-        FAILURE: FAILURE
-    on_failure:
-       send_error_mail:
+    - create_app:
+        do:
+          marathon.create_app:
+            - marathon_host
+            - marathon_port
+            - json_file
+            - proxyHost
+            - proxyPort
+        publish:
+          - returnResult
+          - statusCode
+          - returnCode
+          - errorMessage
+
+    - send_status_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: email_host
+            - port: email_port
+            - htmlEmail: "'false'"
+            - from: email_sender
+            - to: email_recipient
+            - subject: "'New app '"
+            - body: "'app create succeeded'"
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+
+    - on_failure:
+        - send_error_mail:
             do:
               base_mail.send_mail:
                 - hostname: email_host

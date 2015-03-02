@@ -12,6 +12,8 @@
 #       - marathon_host - marathon agent host
 #       - marathon_port - optional - marathon agent port (defualt 8080)
 #       - appId - app ID to delete
+#       - proxyUsername - optional - user name used when connecting to the proxy
+#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
 #   Outputs:
 #       - return_result - response of the operation
 #       - status_code - normal status code is 200
@@ -41,6 +43,12 @@ operation:
         - contentType:
             default: "'application/json'"
             overridable: false
+        - proxyHost:
+            default: "''"
+            required: false
+        - proxyPort:
+            default: "'8080'"
+            required: false
       action:
         java_action:
           className: org.openscore.content.httpclient.HttpClientAction

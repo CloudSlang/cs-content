@@ -13,6 +13,8 @@
 #       - marathon_port - optional - marathon agent port (defualt 8080)
 #       - appId - app ID to update
 #       - body - JSON format of an application resource
+#       - proxyUsername - optional - user name used when connecting to the proxy
+#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
 #   Outputs:
 #       - return_result - response of the operation
 #       - status_code - normal status code is 200
@@ -34,6 +36,12 @@ operation:
             required: false
         - app_id
         - body
+        - proxyHost:
+            default: "''"
+            required: false
+        - proxyPort:
+            default: "'8080'"
+            required: false
         - url:
             default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
             overridable: false

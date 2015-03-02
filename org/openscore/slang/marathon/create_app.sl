@@ -29,6 +29,7 @@ namespace: org.openscore.slang.marathon
 imports:
   files: org.openscore.slang.base.files
   marathon: org.openscore.slang.marathon
+
 flow:
   name: create_app
   inputs:
@@ -38,30 +39,33 @@ flow:
         required: false
     - json_file
     - proxyHost:
+        default: "''"
         required: false
     - proxyPort:
         default: "'8080'"
         required: false
   workflow:
-    read_from_file:
-          do:
-            files.read_from_file:
-                - file_path: json_file
-          publish:
-            - read_text
-    send_create_app_req:
-      do:
-        marathon.send_create_app_req:
-                - marathon_host
-                - marathon_port
-                - body: read_text
-                - proxyHost
-                - proxyPort
-      publish:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage
+    - read_from_file:
+        do:
+          files.read_from_file:
+            - file_path: json_file
+        publish:
+          - read_text
+
+    - send_create_app_req:
+        do:
+          marathon.send_create_app_req:
+            - marathon_host
+            - marathon_port
+            - body: read_text
+            - proxyHost
+            - proxyPort
+        publish:
+          - returnResult
+          - statusCode
+          - returnCode
+          - errorMessage
+
   outputs:
     - returnResult
     - statusCode

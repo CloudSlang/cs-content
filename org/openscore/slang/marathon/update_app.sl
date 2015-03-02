@@ -11,8 +11,10 @@
 #   Inputs:
 #       - marathon_host - marathon agent host
 #       - marathon_port - optional - marathon agent port (defualt 8080)
-#       - appId - app ID to update
+#       - app_id - app ID to update
 #       - json_file - path to json of the app
+#       - proxyUsername - optional - user name used when connecting to the proxy
+#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
 #   Outputs:
 #       - return_result - response of the operation
 #       - status_code - normal status code is 200
@@ -28,6 +30,7 @@ namespace: org.openscore.slang.marathon
 imports:
   files: org.openscore.slang.base.files
   marathon: org.openscore.slang.marathon
+
 flow:
   name: update_app
   inputs:
@@ -37,25 +40,35 @@ flow:
         required: false
     - app_id
     - json_file
+    - proxyHost:
+        default: "''"
+        required: false
+    - proxyPort:
+        default: "'8080'"
+        required: false
   workflow:
-    read_from_file:
-          do:
-            files.read_from_file:
-                - file_path: json_file
-          publish:
-            - read_text
-    send_update_app_req:
-      do:
-        marathon.send_update_app_req:
-                - marathon_host
-                - marathon_port
-                - app_id
-                - body: read_text
-      publish:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage
+    - read_from_file:
+        do:
+          files.read_from_file:
+            - file_path: json_file
+        publish:
+          - read_text
+
+    - send_update_app_req:
+        do:
+          marathon.send_update_app_req:
+            - marathon_host
+            - marathon_port
+            - app_id
+            - body: read_text
+            - proxyHost
+            - proxyPort
+        publish:
+          - returnResult
+          - statusCode
+          - returnCode
+          - errorMessage
+
   outputs:
     - returnResult
     - statusCode
