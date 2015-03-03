@@ -13,7 +13,7 @@
 #       - coreos_username - CoreOS machine username
 #       - password - CoreOS machine password; can be empty since with CoreOS machines private key file authentication is used
 #       - privateKeyFile - the absolute path to the private key file; Default: none
-#       - percentage - if disk space is greater than this value then unused images will be deleted - ex. (50%)
+#       - percentage - if disk space is greater than this value then unused images will be deleted - ex. (50%) - Default: 0%
 #   Outputs:
 #       - number_of_deleted_images - how many images were deleted
 #       - error_Message - possible error message
@@ -34,7 +34,8 @@ flow:
     - coreos_password
     - private_key_file:
         default: "''"
-    - percentage
+    - percentage:
+        default: "'0%'"
     - number_of_deleted_images_per_host:
         default: "''"
         overridable: false
@@ -64,7 +65,6 @@ flow:
               publish:
                     - number_of_deleted_images_per_host: >
                         fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + total_amount_of_images_deleted + ','
-                    - error_message
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]

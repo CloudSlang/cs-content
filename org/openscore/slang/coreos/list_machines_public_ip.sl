@@ -49,7 +49,7 @@ flow:
             - machines_id_list
             - error_message
 
-    - get_machines_public_ip:
+    - get_machine_public_ip:
             loop:
                 for: machine_id in machines_id_list.split(' ')
                 do:
