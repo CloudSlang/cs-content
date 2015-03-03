@@ -40,27 +40,27 @@ flow:
         required: false
     - key_name
   workflow:
-    retrieve_key:
-          do:
-            consul.get_kv:
-                - key_name
-                - host
-                - consul_port
-          publish:
-            - returnResult
-    parse_key:
-      do:
-        consul.parse_key:
-                - json_response: returnResult
-      publish:
-        - decoded
-        - key
-        - flags
-        - create_index
-        - value
-        - modify_index
-        - lock_index
-        - errorMessage
+    - retrieve_key:
+        do:
+          consul.get_kv:
+            - key_name
+            - host
+            - consul_port
+        publish:
+          - returnResult
+    - parse_key:
+        do:
+          consul.parse_key:
+            - json_response: returnResult
+        publish:
+          - decoded
+          - key
+          - flags
+          - create_index
+          - value
+          - modify_index
+          - lock_index
+          - errorMessage
   outputs:
     - decoded
     - key

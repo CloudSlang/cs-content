@@ -46,7 +46,7 @@ flow:
         default: "''"
         required: false
   workflow:
-    parse_register_endpoint_request:
+    - parse_register_endpoint_request:
           do:
             consul.parse_register_endpoint_request:
                 - node
@@ -56,14 +56,14 @@ flow:
                 - check
           publish:
             - json_request
-    send_register_endpoint_request:
-      do:
-        consul.send_register_endpoint_request:
-            - host
-            - consul_port
-            - json_request
-      publish:
-          - errorMessage
+    - send_register_endpoint_request:
+        do:
+          consul.send_register_endpoint_request:
+              - host
+              - consul_port
+              - json_request
+        publish:
+            - errorMessage
   outputs:
       - errorMessage
   results:

@@ -46,24 +46,26 @@ flow:
         default: "''"
         required: false
   workflow:
-    parse_register_endpoint_request:
-          do:
-            consul.parse_register_endpoint_request:
-                - node
-                - address
-                - datacenter
-                - service
-                - check
-          publish:
-            - json_request
-    send_register_endpoint_request:
-      do:
-        consul.send_deregister_endpoint_request:
+    - parse_register_endpoint_request:
+        do:
+          consul.parse_register_endpoint_request:
+            - node
+            - address
+            - datacenter
+            - service
+            - check
+        publish:
+          - json_request
+
+    - send_register_endpoint_request:
+        do:
+          consul.send_deregister_endpoint_request:
             - host
             - consul_port
             - json_request
-      publish:
+        publish:
           - errorMessage
+
   outputs:
       - errorMessage
   results:
