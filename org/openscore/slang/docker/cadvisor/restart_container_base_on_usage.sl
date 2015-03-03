@@ -48,69 +48,69 @@ flow:
         default: "''"
         required: false
   workflow:
-    retrieve_container_usage_cAdvisor:
-          do:
-            docker_cadvisor.report_container_metrics_cAdvisor:
-                - container
-                - host
-                - cadvisor_port
-          publish:
-            - memory_usage
-            - cpu_usage
-            - throughput_rx
-            - throughput_tx
-            - error_rx
-            - error_tx
-            - returnCode
-            - errorMessage
-    evaluate_resource_usage:
-      do:
-        docker_cadvisor.evaluate_resource_usage:
-          - rule
+    - retrieve_container_usage_cAdvisor:
+        do:
+          docker_cadvisor.report_container_metrics_cAdvisor:
+            - container
+            - host
+            - cadvisor_port
+        publish:
           - memory_usage
           - cpu_usage
           - throughput_rx
           - throughput_tx
           - error_rx
           - error_tx
+          - returnCode
           - errorMessage
-      navigate:
-          MORE: stop_container
-          LESS: SUCCESS
-          FAILURE: FAILURE
-    stop_container:
-      do:
-        docker_container.stop_container:
-           - containerID: container
-           - host
-           - username
-           - password
-           - port: machine_connect_port
-           - privateKeyFile
-      publish:
-        - errorMessage
-      navigate:
-          SUCCESS: start_container
-          FAILURE: FAILURE
-    start_container:
-      do:
-        docker_container.start_container:
-           - privateKeyFile
-           - containerID: container
-           - host
-           - username
-           - password
-           - port: machine_connect_port
-      publish:
-        - errorMessage
-    on_failure:
-      print_error:
+    - evaluate_resource_usage:
         do:
-          docker_print.print_text:
-                - text: "'cAdviser ended with the following error message '+errorMessage"
+          docker_cadvisor.evaluate_resource_usage:
+            - rule
+            - memory_usage
+            - cpu_usage
+            - throughput_rx
+            - throughput_tx
+            - error_rx
+            - error_tx
+            - errorMessage
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+            MORE: stop_container
+            LESS: SUCCESS
+            FAILURE: FAILURE
+    - stop_container:
+        do:
+          docker_container.stop_container:
+            - containerID: container
+            - host
+            - username
+            - password
+            - port: machine_connect_port
+            - privateKeyFile
+        publish:
+          - errorMessage
+        navigate:
+            SUCCESS: start_container
+            FAILURE: FAILURE
+    - start_container:
+        do:
+          docker_container.start_container:
+            - privateKeyFile
+            - containerID: container
+            - host
+            - username
+            - password
+            - port: machine_connect_port
+        publish:
+          - errorMessage
+    - on_failure:
+        - print_error:
+            do:
+              docker_print.print_text:
+                - text: "'cAdviser ended with the following error message '+errorMessage"
+            navigate:
+              SUCCESS: FAILURE
+              FAILURE: FAILURE
   results:
     - SUCCESS
     - FAILURE
