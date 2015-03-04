@@ -10,7 +10,7 @@
 #   exceeds the maximum usage 
 #
 #   Inputs:
-#       - usage_query - optional - python query to determine if the resource usages is high
+#       - rule - optional - python query to determine if the resource usages is high
 #       - cpu_usage - calculated cpu usages of the container
 #       - memory_usage- calculated cpu usages of the container (if the machine_memory_limit is given use the minimum
 #                       of the container memory limit and the machine memory limit to calculate)
@@ -32,7 +32,7 @@ namespace: org.openscore.slang.docker.cadvisor
 operation:
   name: evaluate_resource_usage
   inputs:
-    - role:
+    - rule:
         default: "memory_usage +'< 0.8 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8 and '+error_rx+'<0.5 and '+error_tx+'<0.5'"
         required: false
     - memory_usage
@@ -46,7 +46,9 @@ operation:
       error_message = ""
       result = None
       try:
-          result = error_message == "" and eval(role)
+          if rule=="":
+            rule= memory_usage +'< 0.8 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8 and '+error_rx+'<0.5 and '+error_tx+'<0.5'
+          result = error_message == "" and eval(rule)
       except ValueError:
           error_message = "inputs have to be float"
   outputs:
