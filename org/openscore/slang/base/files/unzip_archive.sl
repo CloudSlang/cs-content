@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation creates a zip archive
+# This operation unzip an archive
 #
 # Inputs:
 # - archive_name - name of archive to be unziped (including '.zip')
