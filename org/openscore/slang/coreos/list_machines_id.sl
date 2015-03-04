@@ -21,8 +21,8 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
 #   Outputs:
-#       - machines_id  - contains the IDs of the machines deployed in the CoreOS cluster - Delimiter: space
-#       - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
+#       - machines_id_list  - contains the IDs of the machines deployed in the CoreOS cluster - Delimiter: space
+#       - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 #   Results:
 #       - SUCCESS - the action was executed successfully and no error message is found in the STDERR
 #       - FAILURE - some problem occurred, more information in the errorMessage output

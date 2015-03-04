@@ -11,8 +11,7 @@
 #   Inputs:
 #       - coreos_host - CoreOS machine host - can be any machine from the cluster
 #       - coreos_username - CoreOS machine username
-#       - password - CoreOS machine password; can be empty since with CoreOS machines private key file authentication is used
-#       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - private_key_file - the absolute path to the private key file; Default: none
 #   Outputs:
 #       - machines_public_ip_list: public IP address list of machines in the cluster - Delimiter: space
 #       - error_Message - possible error message
@@ -30,9 +29,10 @@ flow:
   inputs:
     - coreos_host
     - coreos_username
-    - coreos_password
-    - private_key_file:
+    - coreos_password:
         default: "''"
+        overridable: false
+    - private_key_file
     - machines_public_ip_list:
         default: "''"
         overridable: false
