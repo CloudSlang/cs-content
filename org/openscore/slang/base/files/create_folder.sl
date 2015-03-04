@@ -6,39 +6,40 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation unzip an archive
+# This operation creates folder
 #
 # Inputs:
-# - archive_name - name of archive to be unziped (including '.zip')
-# - output_folder - folder to place unziped files from archvie
+# - folder_name - name of folder to be created
 # Outputs:
 # - message - error message in case of error
 # Results:
-# - SUCCESS - archive was successfully unziped
-# - FAILURE - archive was not unziped due to error
+# - SUCCESS - folder was successfully created
+# - FAILURE - folder was not created due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
-  name: unzip_archive
+  name: create_folder
   inputs:
-    - archive_name
-    - output_folder
+    - folder_name
 
   action:
     python_script: |
-        import zipfile, sys
+        import sys, os
         try:
-          with zipfile.ZipFile(archive_name, "r") as z:
-            z.extractall(output_folder)
-          message = "'unziping done successfully'"
-          result = True
-        except Exception:
-          messsage = sys.exc_info()[0]
+          if os.path.isdir(folder_name):
+            message = ("folder already exist")
+            result = False
+          else:
+            os.mkdir(folder_name)
+            message = ("folder created")
+            result = True
+        except Exception as e:
+          message = sys.exc_info()[0]
           result = False
 
   outputs:
-    - messsage: messsage
+    - message: message
 
   results:
     - SUCCESS: result == True
