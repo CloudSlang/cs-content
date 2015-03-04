@@ -13,7 +13,7 @@
 # - folder_path - path to folder to be ziped
 # - output_folder - folder to place created archive
 # Outputs:
-# - error_message - error message in case of error
+# - message - error message in case of error
 # Results:
 # - SUCCESS - archive was successfully cereated
 # - FAILURE - archive was not created due to error
@@ -38,13 +38,14 @@ operation:
           else:
             os.mkdir(output_folder)
             shutil.move(filename, output_folder)
+          message = "'zip created successfully'"
           result = True
         except Exception:
-          error_messsage = sys.exc_info()[0]
-          reselut = False
+          messsage = sys.exc_info()[0]
+          result = False
 
   outputs:
-    - error_messsage: "'Something went wrong: ' + error_messsage"
+    - messsage: messsage
 
   results:
     - SUCCESS: result == True

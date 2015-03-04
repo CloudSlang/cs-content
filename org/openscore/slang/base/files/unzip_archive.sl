@@ -31,13 +31,14 @@ operation:
         try:
           with zipfile.ZipFile(archive_name, "r") as z:
             z.extractall(output_folder)
+          message = "'unziping done successfully'"
           result = True
-        except Exception as e:
-          error_message = sys.exc_info()[0]
+        except Exception:
+          messsage = sys.exc_info()[0]
           result = False
 
   outputs:
-    - error_message: "'Something went wrong' + error_message"
+    - messsage: messsage
 
   results:
     - SUCCESS: result == True
