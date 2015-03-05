@@ -41,11 +41,11 @@ operation:
           message = "'zip created successfully'"
           result = True
         except Exception:
-          messsage = sys.exc_info()[0]
+          message = sys.exc_info()[0]
           result = False
 
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result == True

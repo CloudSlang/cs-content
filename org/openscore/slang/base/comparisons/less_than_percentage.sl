@@ -14,6 +14,8 @@
 #   Outputs:
 #       - first_percentage_nr - first input string without "%"
 #       - second_percentage_nr - second input string without "%"
+#       - error_message - error occurred
+        - result - True if first_percentage < second_percentage, False otherwise
 #   Results:
 #       - SUCCESS - succeeds if first_percentage < second_percentage
 #       - FAILURE - fails if first_percentage >= second_percentage
