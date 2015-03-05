@@ -29,11 +29,11 @@ operation:
       import re
       m = re.search(regex, text)
       match_text = m.group(0)
-      res = 'False'
+      res = False
       if match_text:
-        res = 'True'
+        res = True
   outputs:
     - match_text
   results:
-    - MATCH: res == 'True'
+    - MATCH: res
     - NO_MATCH

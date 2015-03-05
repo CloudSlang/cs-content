@@ -48,6 +48,6 @@ operation:
   outputs:
     - error_message: "'Application is not Up , after ' + count + ' attempts to ping .'"
   results:
-    - SUCCESS: return_result == 'True'
+    - SUCCESS: return_result
     - FAILURE
 

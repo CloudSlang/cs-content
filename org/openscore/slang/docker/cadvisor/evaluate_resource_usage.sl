@@ -55,6 +55,6 @@ operation:
     - error_message
     - result
   results:
-    - LESS: result == "True"
-    - MORE: result == "False"
+    - LESS: result
+    - MORE: not result
     - FAILURE: error_message <> ""

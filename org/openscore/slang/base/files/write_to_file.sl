@@ -28,10 +28,10 @@ operation:
         f = open(file_path, 'w')
         f.write(text)
         f.close()
-        res = 'True'
+        res = True
       except:
         print sys.exc_info()[0]
-        res = 'False'
+        res = False
   results:
-    - SUCCESS: res == 'True'
+    - SUCCESS: res
     - FAILURE

@@ -51,7 +51,7 @@ operation:
     - occurrence
     - return_result
     - return_code
-    - error_message: return_result if occurrence == '0'  else ''
+    - error_message: return_result if occurrence == 0  else ''
   results:
-    - SUCCESS: occurrence >= '1'
+    - SUCCESS: occurrence >= 1
     - FAILURE
