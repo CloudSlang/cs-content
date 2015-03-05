@@ -28,6 +28,7 @@ operation:
   action:
     python_script: |
       import re
+      result_text = ""
       result_text = re.sub(regex, replacement, text)
   outputs:
     - result_text

@@ -45,6 +45,7 @@ operation:
         else:
           return_result = occurrence
       except:
+        occurrence = 0
         return_code = '-1'
         return_result = 'String occurrence error.'
   outputs:

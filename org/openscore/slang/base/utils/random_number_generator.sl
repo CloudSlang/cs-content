@@ -29,6 +29,10 @@ operation:
   action:
     python_script: |
       import random
+
+      random_number = 0
+      error_message = ""
+
       valid = 0
       length = len(min)
       vall = min[1:length]
@@ -54,6 +58,7 @@ operation:
           error_message = "%s or %s are not integers" %(min,max)
   outputs:
     - random_number
+    - error_message
   results:
     - SUCCESS: random_number is not None
     - FAILURE

@@ -27,8 +27,11 @@ operation:
   action:
     python_script: |
       import re
+
+      match_text = ""
       m = re.search(regex, text)
-      match_text = m.group(0)
+      if m is not None:
+        match_text = m.group(0)
       res = False
       if match_text:
         res = True
