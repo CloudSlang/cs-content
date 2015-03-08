@@ -13,6 +13,7 @@
 #       - docker_host - Docker machine host
 #       - docker_username - Docker machine username
 #       - docker_password - Docker machine password
+#       - private_key_file - the absolute path to the private key file; Default: none
 #       - mysql_username - MySQL instance username
 #       - mysql_password - MySQL instance password
 #       - email_host - email server host
@@ -35,6 +36,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - private_key_file:
+        default: "''"
     - mysql_username
     - mysql_password
     - email_host
@@ -44,55 +47,56 @@ flow:
 
   workflow:
     - retrieve_mysql_status:
-        do:
-          docker_maintenance.retrieve_mysql_status:
-              - docker_host
-              - docker_username
-              - docker_password
-              - container
-              - mysql_username
-              - mysql_password
-        publish:
-          - uptime
-          - threads
-          - questions
-          - slow_queries
-          - opens
-          - flush_tables
-          - open_tables
-          - queries_per_second_AVG
-          - error_message
+            do:
+              docker_maintenance.retrieve_mysql_status:
+                  - docker_host
+                  - docker_username
+                  - docker_password
+                  - private_key_file
+                  - container
+                  - mysql_username
+                  - mysql_password
+            publish:
+                - uptime
+                - threads
+                - questions
+                - slow_queries
+                - opens
+                - flush_tables
+                - open_tables
+                - queries_per_second_AVG
+                - error_message
 
     - send_status_mail:
-        do:
-          base_mail.send_mail:
-              - hostname: email_host
-              - port: email_port
-              - htmlEmail: "'false'"
-              - from: email_sender
-              - to: email_recipient
-              - subject: "'MySQL Server Status on ' + docker_host"
-              - body: >
-                   'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
-                   + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
-                   + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
-                   + '\nQueries per second avg: ' + queries_per_second_AVG
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-
-    - on_failure:
-        - send_error_mail:
             do:
               base_mail.send_mail:
-                    - hostname: email_host
-                    - port: email_port
-                    - from: email_sender
-                    - to: email_recipient
-                    - subject: "'MySQL Server Status on ' + docker_host"
-                    - body: >
-                        'The MySQL server status checking on host ' + docker_host
-                        + ' ended with the following error message: ' + error_message
+                  - hostname: email_host
+                  - port: email_port
+                  - htmlEmail: "'false'"
+                  - from: email_sender
+                  - to: email_recipient
+                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - body: >
+                       'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
+                       + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
+                       + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
+                       + '\nQueries per second avg: ' + queries_per_second_AVG
             navigate:
-              SUCCESS: FAILURE
+              SUCCESS: SUCCESS
               FAILURE: FAILURE
+
+    - on_failure:
+      - send_error_mail:
+          do:
+              base_mail.send_mail:
+                  - hostname: email_host
+                  - port: email_port
+                  - from: email_sender
+                  - to: email_recipient
+                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - body: >
+                      'The MySQL server status checking on host ' + docker_host
+                      + ' ended with the following error message: ' + error_message
+          navigate:
+            SUCCESS: FAILURE
+            FAILURE: FAILURE

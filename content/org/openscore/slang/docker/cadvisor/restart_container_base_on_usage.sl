@@ -16,6 +16,7 @@
 #       - password - Docker machine password
 #       - machine_connect_port- port to use to connect the machine runs rhe docker
 #       - privateKeyFile - the absolute path to the private key file; Default: none
+#       - rule - optional - python query to determine if the resource usages is high
 #   Results:
 #       - SUCCESS - parsing was successful (returnCode == '0')
 #       - FAILURE - otherwise
@@ -43,13 +44,16 @@ flow:
     - password
     - privateKeyFile:
         default: "''"
+    - rule:
+        default: "''"
+        required: false
   workflow:
     - retrieve_container_usage_cAdvisor:
         do:
           docker_cadvisor.report_container_metrics_cAdvisor:
-              - container
-              - host
-              - cadvisor_port
+            - container
+            - host
+            - cadvisor_port
         publish:
           - memory_usage
           - cpu_usage
@@ -62,6 +66,7 @@ flow:
     - evaluate_resource_usage:
         do:
           docker_cadvisor.evaluate_resource_usage:
+            - rule
             - memory_usage
             - cpu_usage
             - throughput_rx
@@ -76,12 +81,12 @@ flow:
     - stop_container:
         do:
           docker_container.stop_container:
-             - containerID: container
-             - host
-             - username
-             - password
-             - port: machine_connect_port
-             - privateKeyFile
+            - containerID: container
+            - host
+            - username
+            - password
+            - port: machine_connect_port
+            - privateKeyFile
         publish:
           - errorMessage
         navigate:
@@ -90,19 +95,19 @@ flow:
     - start_container:
         do:
           docker_container.start_container:
-             - privateKeyFile
-             - containerID: container
-             - host
-             - username
-             - password
-             - port: machine_connect_port
+            - privateKeyFile
+            - containerID: container
+            - host
+            - username
+            - password
+            - port: machine_connect_port
         publish:
           - errorMessage
     - on_failure:
         - print_error:
             do:
               docker_print.print_text:
-                    - text: "'cAdviser ended with the following error message '+errorMessage"
+                - text: "'cAdviser ended with the following error message '+errorMessage"
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE
