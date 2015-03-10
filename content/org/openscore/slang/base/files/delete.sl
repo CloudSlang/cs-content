@@ -6,10 +6,10 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation deletes file/folder
+# This operation deletes a file/folder
 #
 # Inputs:
-# - source - source fole/dolder path to be deleted
+# - source - source file/folder path to be deleted
 # Outputs:
 # - message - error message in case of error
 # Results:

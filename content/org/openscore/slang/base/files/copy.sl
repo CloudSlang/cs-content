@@ -6,11 +6,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation copies file/folder
+# This operation copies a file/folder
 #
 # Inputs:
 # - source - source file/folder path to be copied
-# - destiantion - destination path file/folder to be copied. If coping object is a folder - destination path must include folder name, if file - destination must include file name
+# - destination - destination path file/folder to be copied. If coping object is a folder - destination path must include folder name, if file - destination must include file name
 # Outputs:
 # - message - error message in case of error
 # Results:

@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation creates folder
+# This operation creates a folder
 #
 # Inputs:
 # - folder_name - name of folder to be created

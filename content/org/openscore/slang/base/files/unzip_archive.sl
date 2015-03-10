@@ -9,13 +9,13 @@
 # This operation unzip an archive
 #
 # Inputs:
-# - archive_name - name of archive to be unziped (including '.zip')
-# - output_folder - folder to place unziped files from archvie
+# - archive_name - name of archive to be unzipped (including '.zip')
+# - output_folder - folder to place unzipped files from archvie
 # Outputs:
 # - message - error message in case of error
 # Results:
 # - SUCCESS - archive was successfully unziped
-# - FAILURE - archive was not unziped due to error
+# - FAILURE - archive was not unzipped due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 

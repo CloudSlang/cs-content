@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will execute an REST calls depending on the method provided.
+#   This operation will execute a REST call based on the method provided.
 #
 #   Inputs:
 #       - url - The URL to which the call is made
@@ -167,7 +167,7 @@ operation:
     - chunkedRequestEntity:
         required: false
     - method
-    - httpClientCookieSessio:
+    - httpClientCookieSession:
         required: false
     - httpClientPoolingConnectionManager:
         required: false

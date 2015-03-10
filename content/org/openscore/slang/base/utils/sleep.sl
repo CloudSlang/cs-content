@@ -9,7 +9,7 @@
 #   This operation sleeps for a given amount of seconds
 #
 #   Inputs:
-#       - seconds - the time to slepp
+#       - seconds - the time to sleep
 #   Results:
 #       - SUCCESS - always
 ####################################################

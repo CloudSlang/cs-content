@@ -6,11 +6,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation moves file/folder
+# This operation moves a file/folder
 #
 # Inputs:
 # - source - source file/folder path to be moved
-# - destiantion - destination path file/folder to be moved
+# - destination - destination path file/folder to be moved
 # Outputs:
 # - message - error message in case of error
 # Results:

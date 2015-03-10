@@ -10,7 +10,7 @@
 #
 # Inputs:
 # - archive_name - name of archive to be created
-# - folder_path - path to folder to be ziped
+# - folder_path - path to folder to be zipped
 # - output_folder - folder to place created archive
 # Outputs:
 # - message - error message in case of error
