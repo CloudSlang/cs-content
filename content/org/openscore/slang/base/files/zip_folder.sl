@@ -6,17 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation creates a zip archive
+# Creates a zip archive.
 #
 # Inputs:
-# - archive_name - name of archive to be created
-# - folder_path - path to folder to be ziped
-# - output_folder - folder to place created archive
+#   - archive_name - name of archive to be created (without 'zip')
+#   - folder_path - path to folder to be zipped
+#   - output_folder - path of folder in which to place created archive
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - archive was successfully cereated
-# - FAILURE - archive was not created due to error
+#   - SUCCESS - archive was successfully created
+#   - FAILURE - archive was not created due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
@@ -38,10 +38,10 @@ operation:
           else:
             os.mkdir(output_folder)
             shutil.move(filename, output_folder)
-          message = "'zip created successfully'"
+          message = 'zip created successfully'
           result = True
         except Exception:
-          messsage = sys.exc_info()[0]
+          message = sys.exc_info()[0]
           result = False
 
   outputs:
