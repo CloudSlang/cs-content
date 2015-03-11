@@ -9,13 +9,11 @@
 # Replaces a substring within a string.
 #
 # Inputs:
-#   - origin_string - the master string.
-#   - text_to_replace - the text to replace.
-#   - replace_with - the text to replace with.
-#
+#   - origin_string - original string
+#   - text_to_replace - text to replace
+#   - replace_with - text to replace with
 # Outputs:
-#   - returnResult - the string with the text replaced.
-#
+#   - returnResult - string with the text replaced
 # Results:
 #   - SUCCESS - always
 ##################################################
