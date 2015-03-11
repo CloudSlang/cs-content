@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes a file or folder
+# Deletes a file or folder.
 #
 # Inputs:
 #   - source - path of source file or folder to be deleted
