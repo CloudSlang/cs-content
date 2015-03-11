@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will check if an application is up and running.
+# Checks if an application is up and running.
 #
-#   Inputs:
-#       - host - IP where the application is running
-#       - port - port on which the application is listening
-#       - max_seconds_to_wait - timeout
-#   Outputs:
-#       - error_message - timeout exceeded and application did not respond
-#   Results:
-#       - SUCCESS - application is up
-#       - FAILURE - application not responding or down
+# Inputs:
+#   - host - IP where the application is running
+#   - port - port on which the application is listening
+#   - max_seconds_to_wait - timeout
+# Outputs:
+#   - error_message - timeout exceeded and application did not respond
+# Results:
+#   - SUCCESS - application is up
+#   - FAILURE - application not responding or down
 ####################################################
 
 namespace: org.openscore.slang.base.network
