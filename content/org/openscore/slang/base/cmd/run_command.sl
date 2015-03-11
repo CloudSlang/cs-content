@@ -16,7 +16,7 @@
 #      - FAILURE - else
 ####################################################
 
-namespace: org.openscore.slang.base.utils
+namespace: org.openscore.slang.base.cmd
 
 operation:
   name: run_command
