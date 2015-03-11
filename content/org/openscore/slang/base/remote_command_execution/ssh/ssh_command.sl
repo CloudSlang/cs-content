@@ -10,16 +10,16 @@
 #
 #  Inputs:
 #    - host - hostname or IP address
-#    - port - port number for running the command
+#    - port - optional - port number for running the command
 #    - command - command to execute
-#    - pty - whether to use pty - Valid: true, false - Default: false
+#    - pty - optional - whether to use pty - Valid: true, false - Default: false
 #    - username - username to connect as
 #    - password - password of user
-#    - arguments - arguments to pass to the command
-#    - privateKeyFile - the absolute path to the private key file
-#    - timeout - time in milliseconds to wait for the command to complete - Default: 90000 ms
-#    - characterSet - character encoding used for input stream encoding from the target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#    - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: true
+#    - arguments - optional - arguments to pass to the command
+#    - privateKeyFile - optional - the absolute path to the private key file
+#    - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#    - characterSet - optional - character encoding used for input stream encoding from the target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
+#    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: true
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #    - STDOUT - STDOUT of the machine in case of successful request, null otherwise
