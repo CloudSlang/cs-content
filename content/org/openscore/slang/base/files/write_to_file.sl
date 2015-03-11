@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation writes text to a file of the given path
+# Writes text to a file.
 #
-#   Inputs:
-#       - file_path - the path of the file to write to
-#       - text - the text to write to the file
-#   Results:
-#       - SUCCESS - succeeded writing to the file
-#       - FAILURE - otherwise
+# Inputs:
+#   - file_path - path of the file to write to
+#   - text - text to write to the file
+# Results:
+#   - SUCCESS - text was written to the file
+#   - FAILURE - otherwise
 ####################################################
 namespace: org.openscore.slang.base.files
 
