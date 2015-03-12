@@ -8,22 +8,22 @@
 ####################################################
 # Parses a JSON response holding Consul key information.
 #
-#   Inputs:
-#       -json_response - response holding Consul key information
-#   Outputs:
-#       - decoded - parsed response
-#       - key -key name
-#       - flags - key flags
-#       - create_index- key create index
-#       - value - key value
-#       - modify_index - key modify index
-#       - lock_index - key lock index
-#       - returnCode - 0 if parsing was successful, -1 otherwise
-#       - returnResult - response of the operation
-#       - errorMessage - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - json_response - response holding Consul key information
+# Outputs:
+#   - decoded - parsed response
+#   - key -key name
+#   - flags - key flags
+#   - create_index- key create index
+#   - value - key value
+#   - modify_index - key modify index
+#   - lock_index - key lock index
+#   - returnCode - 0 if parsing was successful, -1 otherwise
+#   - returnResult - response of the operation
+#   - errorMessage - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.consul
