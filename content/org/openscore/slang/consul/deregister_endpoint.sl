@@ -4,8 +4,8 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
+#
+####################################################
 # Low level mechanism for directly registering or updating entries in the catalog.
 #
 # Inputs:
@@ -21,7 +21,7 @@
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
 #   - FAILURE - otherwise
-##################################################################################################################################################
+####################################################
 
 namespace: org.openscore.slang.consul
 
