@@ -6,47 +6,47 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   delete consul key if the key exist.
+# Delete Consul key if the key exists.
 #
-#   Inputs:
-#       - host - consul agent host
-#       - consul_port - optional - consul agent port (defualt 8500)
-#       - key_name - name for the new key
-#   Outputs:
-#       - returnResult - response of the operation
-#       - statusCode - normal status code is 200
-#       - returnCode - if returnCode is equal to -1 then there was an error
-#       - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - host - Consul agent host
+#   - consul_port - optional - Consul agent port - Defualt: 8500
+#   - key_name - name of key to delete
+# Outputs:
+#   - returnResult - response of the operation
+#   - statusCode - normal status code is 200
+#   - returnCode - if returnCode is equal to -1 then there was an error
+#   - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.consul
 
 operation:
-      name: delete_kv
-      inputs:
-        - host
-        - consul_port:
-            default: "'8500'"
-            required: false
-        - key_name
-        - url:
-            default: "'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name"
-            overridable: false
-        - method:
-            default: "'delete'"
-            overridable: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+  name: delete_kv
+  inputs:
+    - host
+    - consul_port:
+        default: "'8500'"
+        required: false
+    - key_name
+    - url:
+        default: "'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name"
+        overridable: false
+    - method:
+        default: "'delete'"
+        overridable: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE
