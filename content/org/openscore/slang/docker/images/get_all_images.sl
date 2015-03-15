@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Returns a list of all the Docker images.
+# Retrieves a list of all the Docker images.
 #
 # Inputs:
 #   - host - Docker machine host
