@@ -5,17 +5,17 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow will delete only the unused Docker dangling images.
+# Deletes unused dangling Docker images.
 #
-#   Inputs:
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - private_key_file - the absolute path to the private key file; Default: none
-#       - used_images - list of used images; format is a space separated list of strings
-#   Outputs:
-#       - images_list_safe_to_delete - unused Docker images (including dangling ones)
-#       - amount_of_dangling_images_deleted - how many dangling images where deleted
+# Inputs:
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - used_images - list of used images - Format: space delimited list of strings
+# Outputs:
+#   - images_list_safe_to_delete - unused Docker images (including dangling ones)
+#   - amount_of_dangling_images_deleted - number of dangling images that where deleted
 ####################################################
 namespace: org.openscore.slang.docker.images
 
