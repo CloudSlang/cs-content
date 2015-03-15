@@ -35,16 +35,16 @@ namespace: org.openscore.slang.base.remote_command_execution.remote_file_transfe
 
 operation:
     name: ScpTo
-    action:
-      java_action:
-        className: org.openscore.content.rft.actions.RemoteSecureCopyAction
-        methodName: copyTo
     inputs:
       - sourcePath
       - destinationHost
       - destinationPath
       - username
       - password
+    action:
+          java_action:
+            className: org.openscore.content.rft.actions.RemoteSecureCopyAction
+            methodName: copyTo
     outputs:
       - returnResult
       - returnCode
