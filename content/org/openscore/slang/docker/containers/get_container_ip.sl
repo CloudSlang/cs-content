@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets the IP of a specified container.
+# Gets the IP of the specified Docker container.
 #
 # Inputs:
 #   - containerName - container name

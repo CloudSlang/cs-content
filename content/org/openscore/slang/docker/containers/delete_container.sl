@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes specified container.
+# Deletes the specified Docker container.
 #
 # Inputs
 #   - containerID - ID of the container to be deleted
