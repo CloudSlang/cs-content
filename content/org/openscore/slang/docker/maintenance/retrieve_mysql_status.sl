@@ -6,26 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   This flow retrieves the MySQL server status from a docker container.
+# Retrieves a MySQL server status from a Docker container.
 #
-#   Inputs:
-#       - container - name or ID of the Docker container that runs MySQL
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - private_key_file - the absolute path to the private key file; Default: none
-#       - mysql_username - MySQL instance username
-#       - mysql_password - MySQL instance password
-#   Outputs:
-#       - uptime - number of seconds the MySQL server has been running
-#       - threads - number of active threads (clients)
-#       - questions - number of questions (queries) from clients since the server was started
-#       - slow_queries - number of queries that have taken more than long_query_time(MySQL system variable) seconds
-#       - opens - number of tables the server has opened
-#       - flush_tables - number of flush-*, refresh, and reload commands the server has executed
-#       - open_tables - number of tables that currently are open
-#       - queries_per_second_AVG - an average value of the number of queries per second
-#       - error_message - possible error message, may contain the STDERR of the machine or the cause of an exception
+# Inputs:
+#   - container - name or ID of the Docker container that runs MySQL
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - mysql_username - MySQL instance username
+#   - mysql_password - MySQL instance password
+# Outputs:
+#   - uptime - number of seconds MySQL server has been running
+#   - threads - number of active threads (clients)
+#   - questions - number of questions (queries) from clients since server was started
+#   - slow_queries - number of queries that have taken more than long_query_time (MySQL system variable) seconds
+#   - opens - number of tables server has opened
+#   - flush_tables - number of flush-*, refresh, and reload commands server has executed
+#   - open_tables - number of tables that are currently open
+#   - queries_per_second_AVG - average value of number of queries per second
+#   - error_message - possible error message, may contain the STDERR of the machine or the cause of an exception
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.docker.maintenance
