@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will return a list of used Docker images.
+# Retrieves a list of used Docker images.
 #
-#   Inputs:
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - private_key_file - the absolute path to the private key file; Default: none
-#   Outputs:
-#       - used_images_list - list of Docker images currently used on the machine with delimiter "\n"
+# Inputs:
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - private_key_file - optional - absolute path to private key file - Default: none
+# Outputs:
+#   - used_images_list - "\n" delimited list of Docker images currently used on the machine
 ####################################################
 namespace: org.openscore.slang.docker.images
 
