@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will create a Docker db container.
+# Creates a Docker db container.
 #
-#   Inputs:
-#       - host - Docker machine host
-#       - username - Docker machine username
-#       - password - Docker machine password
-#   Outputs:
-#       - db_IP - IP of the newly created container
-#       - error_message - error message of the operation that failed
+# Inputs:
+#   - host - Docker machine host
+#   - username - Docker machine username
+#   - password - Docker machine password
+# Outputs:
+#   - db_IP - IP of newly created container
+#   - error_message - error message of failed operation
 ####################################################
 namespace: org.openscore.slang.docker.containers
 
