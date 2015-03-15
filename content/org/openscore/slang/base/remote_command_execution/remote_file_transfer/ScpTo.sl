@@ -34,7 +34,7 @@
 namespace: org.openscore.slang.base.remote_command_execution.remote_file_transfer
 
 operation:
-    name: ssh_command
+    name: ScpTo
     action:
       java_action:
         className: org.openscore.content.rft.actions.RemoteSecureCopyAction
