@@ -31,7 +31,7 @@
 #    - FAILURE
 ###############################################################################################################################################################################
 
-namespace: org.openscore.slang.base.remote_command_execution.ssh
+namespace: org.openscore.slang.base.remote_command_execution.remote_file_transfer
 
 operation:
     name: ssh_command
