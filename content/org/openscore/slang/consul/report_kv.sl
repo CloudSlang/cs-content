@@ -4,27 +4,27 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   This flow retun key data
 #
-#   Inputs:
-#       - host - consul agent host
-#       - consul_port - optional - consul agent port (defualt 8500)
-#       - key_name - name for the new key
-#   Outputs:
-#       - decoded - parse response
-#       - key -key name
-#       - flags - key flags
-#       - create_index- key create index
-#       - value - key value
-#       - modify_index- key modify index
-#       - lock_index- key lock index
-#       - errorMessage - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
-##################################################################################################################################################
+####################################################
+#  Retrieves parsed key data.
+#
+#  Inputs:
+#    - host - Consul agent host
+#    - consul_port - optional - Consul agent port - Defualt: 8500
+#    - key_name - name of key to retrieve
+#  Outputs:
+#    - decoded - parsed response
+#    - key - key name
+#    - flags - key flags
+#    - create_index - key create index
+#    - value - key value
+#    - modify_index - key modify index
+#    - lock_index - key lock index
+#    - errorMessage - returnResult if there was an error
+#  Results:
+#    - SUCCESS - parsing was successful (returnCode == '0')
+#    - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.consul
 

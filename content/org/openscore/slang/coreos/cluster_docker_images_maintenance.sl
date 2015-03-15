@@ -4,19 +4,19 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##########################################################################################################################################################
-#   Runs the docker_images_maintenance flow against all the machines in the cluster.
 #
-#   Inputs:
-#       - coreos_host - CoreOS machine host - can be any machine from the cluster
-#       - coreos_username - CoreOS machine username
-#       - private_key_file - the absolute path to the private key file; Default: none
-#       - percentage - if disk space is greater than this value then unused images will be deleted - ex. (50%) - Default: 0%
-#   Outputs:
-#       - number_of_deleted_images_per_host - String that contains how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
-#       - error_Message - possible error message
-##########################################################################################################################################################
+####################################################
+# Runs the docker_images_maintenance flow against all the machines in the cluster.
+#
+# Inputs:
+#   - coreos_host - CoreOS machine host; can be any machine from the cluster
+#   - coreos_username - CoreOS machine username
+#   - private_key_file - absolute path to the private key file - Default: none
+#   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50% - Default: 0%
+# Outputs:
+#   - number_of_deleted_images_per_host - how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
+#   - error_message - possible error message
+####################################################
 
 namespace: org.openscore.slang.coreos
 

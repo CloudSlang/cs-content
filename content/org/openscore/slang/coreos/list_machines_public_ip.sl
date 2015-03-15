@@ -4,19 +4,18 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   Retrieves the public IPs of machines deployed in a CoreOS cluster.
 #
-#   Inputs:
-#       - coreos_host - CoreOS machine host - can be any machine from the cluster
-#       - coreos_username - CoreOS machine username
-#       - private_key_file - the absolute path to the private key file; Default: none
-#   Outputs:
-#       - machines_public_ip_list: public IP address list of machines in the cluster - Delimiter: space
-#       - error_Message - possible error message
-##################################################################################################################################################
-
+#####################################################
+# Retrieves the public IPs of machines deployed in a CoreOS cluster.
+#
+# Inputs:
+#   - coreos_host - CoreOS machine host; can be any machine from the cluster
+#   - coreos_username - CoreOS machine username
+#   - private_key_file - the absolute path to the private key file - Default: none
+# Outputs:
+#   - machines_public_ip_list: space delimeted list of public IP addresses of machines in cluster
+#   - error_Message - possible error message
+#####################################################
 
 namespace: org.openscore.slang.coreos
 
@@ -32,7 +31,8 @@ flow:
     - coreos_password:
         default: "''"
         overridable: false
-    - private_key_file
+    - privateKeyFile:
+        default: "''"
     - machines_public_ip_list:
         default: "''"
         overridable: false

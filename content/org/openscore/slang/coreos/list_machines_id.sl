@@ -4,29 +4,28 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   Retrieves the ID list of machines deployed in a CoreOS cluster.
 #
-#   Inputs:
-#       - host - CoreOS machine host - can be any machine from the cluster
-#       - port - optional - SSH port - Default: 22
-#       - username - CoreOS machine username
-#       - password - CoreOS machine password; can be empty since with CoreOS machines private key file authentication is used
-#       - pty - whether to use pty; valid values: true, false; Default: false
-#       - arguments - arguments to pass to the command; Default: none
-#       - privateKeyFile - the absolute path to the private key file; Default: none
-#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
-#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
-#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
-#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
-#   Outputs:
-#       - machines_id_list  - contains the IDs of the machines deployed in the CoreOS cluster - Delimiter: space
-#       - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
-#   Results:
-#       - SUCCESS - the action was executed successfully and no error message is found in the STDERR
-#       - FAILURE - some problem occurred, more information in the errorMessage output
-##################################################################################################################################################
+#####################################################
+# Retrieves the ID list of machines deployed in a CoreOS cluster.
+#
+# Inputs:
+#   - host - CoreOS machine host - can be any machine from the cluster
+#   - port - optional - SSH port - Default: 22
+#   - username - CoreOS machine username
+#   - password - CoreOS machine password; can be empty since with CoreOS machines private key file authentication is used
+#   - privateKeyFile - optional - absolute path to the private key file - Default: none
+#   - arguments - optional - arguments to pass to the command - Default: none
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
+#   - pty - optional - whether to use pty - Valid: true, false - Default: false
+#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
+#   - closeSession - optional - if false SSH session will be cached for future calls of this operation during the life of the flow, if true SSH session used by this operation will be closed - Valid values: true, false - Default: false
+# Outputs:
+#   - machines_id_list  - space delimited list of IDs of machines deployed in the CoreOS cluster
+#   - error_message - contains STDERR of machine if SSH action was executed successfully, cause of exception otherwise
+# Results:
+#   - SUCCESS - action was executed successfully and no error message is found in the STDERR
+#   - FAILURE - otherwise
+#####################################################
 
 namespace: org.openscore.slang.coreos
 

@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation generates a new uuid
+# Generates a new uuid.
 #
-#   Outputs:
-#       - new_uuid - the genarated uuid
-#   Results:
-#       - SUCCESS - always
+# Outputs:
+#   - new_uuid - genarated uuid
+# Results:
+#   - SUCCESS - always
 ####################################################
 namespace: org.openscore.slang.base.utils
 

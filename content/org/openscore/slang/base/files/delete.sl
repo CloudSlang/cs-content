@@ -6,15 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation deletes file/folder
+# Deletes a file or folder.
 #
 # Inputs:
-# - source - source fole/dolder path to be deleted
+#   - source - path of source file or folder to be deleted
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - file/folder was successfully deleted
-# - FAILURE - file/folder was not deleted due to error
+#   - SUCCESS - file or folder was successfully deleted
+#   - FAILURE - file or folder was not deleted due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 

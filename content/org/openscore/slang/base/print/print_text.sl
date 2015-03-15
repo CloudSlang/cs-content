@@ -4,21 +4,23 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   print text to the screen
 #
-#   Inputs:
-#       - text - text to print
-##################################################################################################################################################
+####################################################
+# Prints text to the screen.
+#
+# Inputs:
+#   - text - text to print
+# Results:
+#   - SUCCESS
+####################################################
 
 namespace: org.openscore.slang.base.print
 
 operation:
-      name: print_text
-      inputs:
-        - text
-      action:
-        python_script: print text
-      results:
-        - SUCCESS
+  name: print_text
+  inputs:
+    - text
+  action:
+    python_script: print text
+  results:
+    - SUCCESS

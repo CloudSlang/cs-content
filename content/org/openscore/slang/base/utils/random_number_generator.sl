@@ -6,15 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ##################################################
-# Generates a random number
+# Generates a random number.
 #
 # Inputs:
-#   - max - The maximum number that can be returned.
-#   - min - The minimum number that can be returned.
-#
+#   - max - maximum number that can be returned
+#   - min - minimum number that can be returned
 # Outputs:
-#   - random_number - A random number between max and min (inclusive)
-#
+#   - random_number - random number between max and min (inclusive)
 # Results:
 #   - SUCCESS - a number was generated
 #   - FAILURE - otherwise
