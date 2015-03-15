@@ -24,27 +24,27 @@
 namespace: org.openscore.slang.docker.cadvisor
 
 operation:
-      name: get_machine_metrics_cAdvisor
-      inputs:
-        - host
-        - cadvisor_port:
-            default: "'8080'"
-            required: false
-        - url:
-            default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/machine'"
-            overridable: false
-        - method:
-            default: "'get'"
-            overridable: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+  name: get_machine_metrics_cAdvisor
+  inputs:
+    - host
+    - cadvisor_port:
+        default: "'8080'"
+        required: false
+    - url:
+        default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/machine'"
+        overridable: false
+    - method:
+        default: "'get'"
+        overridable: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != 200 else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE
