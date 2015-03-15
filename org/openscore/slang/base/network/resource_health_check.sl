@@ -65,7 +65,7 @@ flow:
 
     - failure_mail_send:
         do:
-          mail_send:
+          mail.mail_send:
             - hostname: 
                 system_property: org.openscore.slang.base.hostname
             - port:
