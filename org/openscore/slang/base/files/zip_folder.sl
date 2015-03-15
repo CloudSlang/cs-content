@@ -11,7 +11,6 @@
 # Inputs:
 # - archive_name - name of archive to be created
 # - folder_path - path to folder to be ziped
-# - output_folder - folder to place created archive
 # Outputs:
 # - message - error message in case of error
 # Results:
@@ -25,7 +24,6 @@ operation:
   inputs:
     - archive_name
     - folder_path
-    - output_folder
 
   action:
     python_script: |
@@ -33,11 +31,7 @@ operation:
         try:
           shutil.make_archive(archive_name, "zip", folder_path)
           filename = archive_name + '.zip'
-          if os.path.isdir(output_folder):
-            shutil.move(filename, output_folder)
-          else:
-            os.mkdir(output_folder)
-            shutil.move(filename, output_folder)
+          shutil.move(filename, folder_path)
           message = "'zip created successfully'"
           result = True
         except Exception:

@@ -31,17 +31,19 @@ operation:
         try:
           if os.path.isfile(source):
             shutil.copy(source,destination)
+            message = ("copying done successfully")
             result = True
           elif os.path.isdir(source):
             shutil.copytree(source,destination,)
+            message = ("copying done successfully")
             result = True
           else:
             message = ("no such file or folder")
             result = False
-          message = ("copying done successfully")
         except Exception as e:
-          message = sys.exc_info()[0]
+          message = e
           result = False
+        print message
 
   outputs:
     - message: message
