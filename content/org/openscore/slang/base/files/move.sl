@@ -6,16 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation moves file/folder
+# Moves a file or folder.
 #
 # Inputs:
-# - source - source file/folder path to be moved
-# - destiantion - destination path file/folder to be moved
+#   - source - path of source file or folder to be moved
+#   - destination - path to move file or folder to
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - file/folder was successfully moved
-# - FAILURE - file/folder was not moved due to an error
+#   - SUCCESS - file or folder was successfully moved
+#   - FAILURE - file or folder was not moved due to an error
 ####################################################
 namespace: org.openscore.slang.base.files
 

@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation sleeps for a given amount of seconds
+# Sleeps for a given number of seconds.
 #
-#   Inputs:
-#       - seconds - the time to slepp
-#   Results:
-#       - SUCCESS - always
+# Inputs:
+#   - seconds - time to sleep
+# Results:
+#   - SUCCESS - always
 ####################################################
 namespace: org.openscore.slang.base.utils
 

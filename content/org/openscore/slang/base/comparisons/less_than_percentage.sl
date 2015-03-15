@@ -6,18 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will succeed if the first input is less than the second input.
+# Checks if one percentage is less than another.
 #
-#   Inputs:
-#       - first_percentage - string which represents a percentage (must contain "%") - ex. (50%)
-#       - second_percentage - string which represents a percentage (must contain "%") - ex. (50%)
-#   Outputs:
-#       - first_percentage_nr - first input string without "%"
-#       - second_percentage_nr - second input string without "%"
-#   Results:
-#       - SUCCESS - succeeds if first_percentage < second_percentage
-#       - FAILURE - fails if first_percentage >= second_percentage
-#       - ERROR - if input was not in correct format
+# Inputs:
+#   - first_percentage - string which represents a percentage - Example: 50%
+#   - second_percentage - string which represents a percentage - Example: 50%
+# Outputs:
+#   - first_percentage_nr - first input string without "%"
+#   - second_percentage_nr - second input string without "%"
+#   - error_message - error message if error occurred
+#   - result - true if first_percentage < second_percentage, false otherwise
+# Results:
+#   - LESS - first_percentage < second_percentage
+#   - MORE - first_percentage >= second_percentage
+#   - ERROR - input was not in correct format
 ####################################################
 
 namespace: org.openscore.slang.base.comparisons

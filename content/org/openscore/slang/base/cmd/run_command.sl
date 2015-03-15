@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# This operation run a shell command
 #
-#   This operation run a shell command
-#
-#    Inputs:
-#      - command - the command to run
-#    Results:
-#      - SUCCESS - exit code is 0
-#      - FAILURE - else
+# Inputs:
+#   - command - the command to run
+# Results:
+#   - SUCCESS - exit code is 0
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.base.cmd

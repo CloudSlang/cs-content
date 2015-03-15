@@ -6,20 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will count the occurrences of a string in another string ( *needs to be more general).
+# Counts the occurrences of a string in another string (*needs to be more general).
 #
-#   Inputs:
-#       - string_in_which_to_search - string where to search
-#       - string_to_find - string to be found
-#       - ignore_case - optional - ignores case if set to true - Default: true
-#   Outputs:
-#       - occurrence - number of times toFind was found in container
-#       - return_result - notification string
-#       - return_code - 0 if everything went ok, -1 if an error was thrown
-#       - error_message: returnResult if occurrence == '0'  else ''
-#   Results:
-#       - SUCCESS - string is found at least once
-#       - FAILURE - otherwise
+# Inputs:
+#   - string_in_which_to_search - string where to search
+#   - string_to_find - string to be found
+#   - ignore_case - optional - ignores case if set to true - Default: true
+# Outputs:
+#   - occurrence - number of times string_to_find was found in container
+#   - return_result - notification string
+#   - return_code - 0 if everything went ok, -1 if an error was thrown
+#   - error_message: returnResult if occurrence == '0'  else ''
+# Results:
+#   - SUCCESS - string is found at least once
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.base.strings
@@ -30,7 +30,7 @@ operation:
     - string_in_which_to_search
     - string_to_find
     - ignore_case:
-        default: "''true'"
+        default: "'true'"
         required: false
   action:
     python_script: |

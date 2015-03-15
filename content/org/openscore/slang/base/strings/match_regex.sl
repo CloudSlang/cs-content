@@ -6,16 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation matches a string against a regex expression
+#  Matches a string against a regex expression.
 #
-#   Inputs:
-#       - regex - the regex expresssion
-#       - text - the string to match
-#   Outputs:
-#       - match_text - the matched text
-#   Results:
-#       - MATCH - if there is a match
-#       - NO_MATCH - otherwise
+#  Inputs:
+#    - regex - the regex expresssion
+#    - text - the string to match
+#  Outputs:
+#    - match_text - the matched text
+#  Results:
+#    - MATCH - there was a match
+#    - NO_MATCH - otherwise
 ####################################################
 namespace: org.openscore.slang.base.strings
 

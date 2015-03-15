@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation reads a file of the given path and returns its content
+# Reads a file from the given path and returns its content.
 #
-#   Inputs:
-#       - file_path - the path of the file to read
-#   Outputs:
-#       - read_text - content of the file
-#   Results:
-#       - SUCCESS - succeeded reading the file
-#       - FAILURE - otherwise
+# Inputs:
+#   - file_path - the path of the file to read
+# Outputs:
+#   - read_text - content of the file
+# Results:
+#   - SUCCESS - file was read successfully
+#   - FAILURE - otherwise
 ####################################################
 namespace: org.openscore.slang.base.files
 

@@ -6,28 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation sends a simple email.
+# Sends an email.
 #
-#   Inputs:
-#       - hostname - email host
-#       - port - email port
-#       - from - email sender
-#       - to - email recipient
-#       - cc - optional - Default: none
-#       - bcc - optional - Default: none
-#       - subject - email subject
-#       - body - email text
-#       - htmlEmail - optional - Default: true
-#       - readReceipt - optional - Default: false
-#       - attachments - optional - Default: none
-#       - username - optional - Default: none
-#       - password - optional - Default: none
-#       - characterSet - optional - Default: UTF-8
-#       - contentTransferEncoding - optional - Default: base64
-#       - delimiter - optional - Default: none
-#   Results:
-#       - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
-#       - FAILURE - otherwise
+# Inputs:
+#   - hostname - email host
+#   - port - email port
+#   - from - email sender
+#   - to - email recipient
+#   - cc - optional - Default: none
+#   - bcc - optional - Default: none
+#   - subject - email subject
+#   - body - email text
+#   - htmlEmail - optional - Default: true
+#   - readReceipt - optional - Default: false
+#   - attachments - optional - Default: none
+#   - username - optional - Default: none
+#   - password - optional - Default: none
+#   - characterSet - optional - Default: UTF-8
+#   - contentTransferEncoding - optional - Default: base64
+#   - delimiter - optional - Default: none
+# Results:
+#   - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.base.mail

@@ -6,16 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation replaces a string in another by a regex expression
+# Replaces a string in another by a regex expression.
 #
-#   Inputs:
-#       - regex - the regex expresssion
-#       - text - the string to replace in
-#       - replacement - the replacement string
-#   Outputs:
-#       - result_text - the string after replacement
-#   Results:
-#       - SUCCESS - always
+# Inputs:
+#   - regex - the regex expresssion
+#   - text - the string to replace in
+#   - replacement - the replacement string
+# Outputs:
+#   - result_text - the string after replacement
+# Results:
+#   - SUCCESS - always
 ####################################################
 namespace: org.openscore.slang.base.strings
 
