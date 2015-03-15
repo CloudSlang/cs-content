@@ -4,8 +4,8 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
+#
+####################################################
 # Retrieves cAdvisor status of a Docker container.
 #
 # Inputs:
@@ -25,7 +25,7 @@
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
 #   - FAILURE - otherwise
-##################################################################################################################################################
+####################################################
 
 namespace: org.openscore.slang.docker.cadvisor
 
