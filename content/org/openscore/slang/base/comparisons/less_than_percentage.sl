@@ -9,8 +9,8 @@
 # Checks if one percentage is less than another.
 #
 # Inputs:
-#   - first_percentage - string which represents a percentage - ex. (50%)
-#   - second_percentage - string which represents a percentage - ex. (50%)
+#   - first_percentage - string which represents a percentage - Example: 50%
+#   - second_percentage - string which represents a percentage - Example: 50%
 # Outputs:
 #   - first_percentage_nr - first input string without "%"
 #   - second_percentage_nr - second input string without "%"
