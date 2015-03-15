@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete two Docker containers.
+# Deletes two Docker containers.
 #
-#   Inputs:
-#       - db_container_ID - ID of the DB container
-#       - linked_container_ID - ID of the linked container
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine host password
-#   Outputs:
-#       - error_message - error message
-#   Results:
-#       - SUCCESS
-#       - FAILURE
+# Inputs:
+#   - db_container_ID - ID of the DB container
+#   - linked_container_ID - ID of the linked container
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine host password
+# Outputs:
+#   - error_message - error message
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 
 namespace: org.openscore.slang.docker.containers

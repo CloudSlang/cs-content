@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a Docker db container.
+# Creates a Docker DB container.
 #
 # Inputs:
 #   - host - Docker machine host
