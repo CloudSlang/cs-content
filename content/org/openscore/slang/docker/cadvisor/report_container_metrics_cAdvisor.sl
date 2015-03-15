@@ -6,26 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   This flow retrieves cAdviser status of a container in docker 
+# Retrieves cAdvisor status of a Docker container.
 #
-#   Inputs:
-#       - container - name or ID of the Docker container that runs MySQL
-#       - host - Docker machine host
-#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-#   Outputs:
-#       - decoded - parse response
-#       - timestamp - the time used to calculate the stat
-#       - cpu_usage - calculated cpu usages of the container
-#       - memory_usage- calculated cpu usages of the container (if the machine_memory_limit is given use the minimum
-#                       of the container memory limit and the machine memory limit to calculate)
-#       - throughput_rx- calculated network Throughput Tx bytes
-#       - throughput_tx- calculated network Throughput Rx bytes
-#       - error_rx- calculated network error Tx
-#       - error_tx- calculated network error Rx
-#       - errorMessage - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - container - name or ID of Docker container that runs MySQL
+#   - host - Docker machine host
+#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
+# Outputs:
+#   - decoded - parsed response
+#   - timestamp - time used to calculate stat
+#   - memory_usage- calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
+#   - cpu_usage - calculated CPU usage of the container
+#   - throughput_rx - calculated network Throughput Rx bytes
+#   - throughput_tx - calculated network Throughput Tx bytes
+#   - error_rx- calculated network error Rx
+#   - error_tx- calculated network error Tx
+#   - errorMessage - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.docker.cadvisor

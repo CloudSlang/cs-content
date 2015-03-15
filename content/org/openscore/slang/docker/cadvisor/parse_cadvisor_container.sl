@@ -21,8 +21,8 @@
 #   - network - parsed cAdvisor network
 #   - cpu_usage - calculated CPU usage of the container
 #   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
-#   - throughput_rx - calculated network Throughput Tx bytes
-#   - throughput_tx - calculated network Throughput Rx bytes
+#   - throughput_rx - calculated network Throughput Rx bytes
+#   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
 #   - returnResult - notification string; was parsing was successful or not
