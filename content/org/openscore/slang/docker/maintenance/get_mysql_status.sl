@@ -6,35 +6,34 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   This operation retrieves the MySQL server status.
+# Retrieves the MySQL server status.
 #
-#   Inputs:
-#       - container - name or ID of the Docker container that runs MySQL
-#       - host - Docker machine host
-#       - port - optional - SSH port - Default: 22
-#       - username - Docker machine username
-#       - password - Docker machine password
-#       - mysqlUsername - MySQL instance username
-#       - mysqlPassword - MySQL instance password
-#       - pty - whether to use pty; valid values: true, false; Default: false
-#       - arguments - arguments to pass to the command; Default: none
-#       - privateKeyFile - the absolute path to the private key file; Default: none
-#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
-#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
-#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
-#                        if true the ssh session used by this operation will be closed; Valid values: true, false; Default: false
-#   Outputs:
-#       - uptime - number of seconds the MySQL server has been running
-#       - threads - number of active threads (clients)
-#       - questions - number of questions (queries) from clients since the server was started
-#       - slow_queries - number of queries that have taken more than long_query_time(MySQL system variable) seconds
-#       - opens - number of tables the server has opened
-#       - flush_tables - number of flush-*, refresh, and reload commands the server has executed
-#       - open_tables - number of tables that currently are open
-#       - queries_per_second_AVG - an average value of the number of queries per second
-#       - error_message - contains the STDERR of the machine if the shh action was executed successfully, the cause of the exception otherwise
+# Inputs:
+#   - container - name or ID of the Docker container that runs MySQL
+#   - host - Docker machine host
+#   - port - optional - SSH port - Default: 22
+#   - username - Docker machine username
+#   - password - Docker machine password
+#   - privateKeyFile - optional - absolute path to the private file - Default: none
+#   - arguments - optional - arguments to pass to the command - Default: none
+#   - mysqlUsername - MySQL instance username
+#   - mysqlPassword - MySQL instance password
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
+#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+# Outputs:
+#   - uptime - number of seconds MySQL server has been running
+#   - threads - number of active threads (clients)
+#   - questions - number of questions (queries) from clients since server was started
+#   - slow_queries - number of queries that have taken more than long_query_time (MySQL system variable) seconds
+#   - opens - number of tables server has opened
+#   - flush_tables - number of flush-*, refresh, and reload commands server has executed
+#   - open_tables - number of tables that are currently open
+#   - queries_per_second_AVG - average value of number of queries per second
+#   - error_message - STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
 #   Results:
-#       - SUCCESS - the action was executed successfully and STDERR of the machine contains no errors
+#       - SUCCESS - action was executed successfully and STDERR of the machine contains no errors
 #       - FAILURE
 ##################################################################################################################################################
 

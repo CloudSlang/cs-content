@@ -6,26 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will parse the response of the cAdviser container information and have the
-#   decoded as output.
+# Parses the response of the cAdvisor container information.
 #
-#   Inputs:
-#       -json_response - response of the cAdviser container information
-#   Outputs:
-#       - decoded - parse response
-#       - num_cores - machine number of cores
-#       - cpu_frequency_khz - machine cpu
-#       - memory_capacity- machine memory
-#       - file_systems - parse cAdviser machine filesystems
-#       - disk_map- parse cAdviser machine disk map
-#       - network_devices- parse cAdviser machine network devices
-#       - topology- parse cAdviser machine topology
-#       - returnResult - notification string which says if parsing was successful or not
-#       - returnCode - 0 if parsing was successful, -1 otherwise
-#       - errorMessage - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - json_response - response of the cAdvisor container information
+# Outputs:
+#   - decoded - parsed response
+#   - num_cores - machine number of cores
+#   - cpu_frequency_khz - machine CPU
+#   - memory_capacity- machine memory
+#   - file_systems - parsed cAdvisor machine filesystems
+#   - disk_map- parsed cAdvisor machine disk map
+#   - network_devices- parsed cAdvisor machine network devices
+#   - topology- parsed cAdvisor machine topology
+#   - returnCode - 0 if parsing was successful, -1 otherwise
+#   - returnResult - notification string; was parsing was successful or not
+#   - errorMessage - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.docker.cadvisor

@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will delete unused Docker images.
+#  Deletes unused Docker images.
 #
-#   Inputs:
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - private_key_file - the absolute path to the private key file; Default: none
-#   Outputs:
-#       - amount_of_images_deleted - how many images where deleted
-#       - amount_of_dangling_images_deleted - how many dangling images where deleted
-#       - dangling_images_list_safe_to_delete - list populated with dangling images that are safe to delete
-#       - images_list_safe_to_delete - list populated with images that are safe to delete
+#  Inputs:
+#    - docker_host - Docker machine host
+#    - docker_username - Docker machine username
+#    - docker_password - Docker machine password
+#    - private_key_file - the absolute path to the private key file; Default: none
+#  Outputs:
+#    - amount_of_images_deleted - number of images deleted
+#    - amount_of_dangling_images_deleted - number of dangling images deleted
+#    - dangling_images_list_safe_to_delete - list of dangling images that are safe to delete
+#    - images_list_safe_to_delete - list of images that are safe to delete
 ####################################################
 
 namespace: org.openscore.slang.docker.images

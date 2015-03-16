@@ -4,23 +4,23 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   This flow retrieves cAdviser status and perform restart to the container is the resourses useges is high
 #
-#   Inputs:
-#       - container - name or ID of the Docker container that runs MySQL
-#       - Host - Docker machine host
-#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-#       - username - Docker machine username
-#       - password - Docker machine password
-#       - machine_connect_port- port to use to connect the machine runs rhe docker
-#       - privateKeyFile - the absolute path to the private key file; Default: none
-#       - rule - optional - python query to determine if the resource usages is high
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
-##################################################################################################################################################
+####################################################
+# Retrieves cAdvisor status and performs restart to the container if the resourse usage is too high.
+#
+# Inputs:
+#   - container - name or ID of Docker container that runs MySQL
+#   - Host - Docker machine host
+#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
+#   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: 22
+#   - username - Docker machine username
+#   - password - Docker machine password
+#   - privateKeyFile - optional - absolute path to the private key file - Default: none
+#   - rule - optional - Python query to determine if the resource usages is high
+# Results:
+#   - SUCCESS - successful (returnCode == '0')
+#   - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.docker.cadvisor
 
@@ -107,7 +107,7 @@ flow:
         - print_error:
             do:
               docker_print.print_text:
-                - text: "'cAdviser ended with the following error message '+errorMessage"
+                - text: "'cAdvisor ended with the following error message '+errorMessage"
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE

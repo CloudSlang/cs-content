@@ -6,17 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will check if the disk space on a Linux machine is less than a given percentage.
+# Checks if the disk space on a Linux machine is less than a given percentage.
 #
-#   Inputs:
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - private_key_file - the absolute path to the private key file; Default: none
-#       - percentage - ex. (50%)
-#   Results:
-#       - SUCCESS - disk space is less than percentage input
-#       - FAILURE - otherwise
+# Inputs:
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - private_key_file - absolute path to the private key file - Default: none
+#   - percentage - Example: 50%
+# Results:
+#   - SUCCESS - disk space less than percentage
+#   - FAILURE - error occurred
+#   - NOT_ENOUGH_DISKSPACE - disk space more than percentage
 ####################################################
 
 namespace: org.openscore.slang.docker.maintenance

@@ -5,21 +5,22 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-#   This flow is an example of how to link Docker containers. It pulls a DB Docker image container and starts it. Then it pulls
-#   a web application image container and starts it, linking it to the DB container. The application is then tested to see that it is up and running.
-#   If any of the steps fail, an error is sent notifying the error.
+# Example of how to link Docker containers. Pulls a DB Docker image container and starts it.
+# Then pulls a web application image container and starts it, linking it to the DB container.
+# The application is then tested to see that it is up and running.
+# If any of the steps fail, an error is sent notifying the error.
 #
-#   Inputs:
-#       - docker_host - Docker machine host
-#       - docker_username - Docker machine username
-#       - docker_password - Docker machine password
-#       - email_host - email host
-#       - email_port - email port
-#       - email_sender - email sender
-#       - email_recipient - email recipient
-#   Results:
-#       - SUCCESS
-#       - FAILURE
+# Inputs:
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - email_host - email host
+#   - email_port - email port
+#   - email_sender - email sender
+#   - email_recipient - email recipient
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 namespace: org.openscore.slang.docker.containers
 

@@ -4,27 +4,27 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
-##################################################################################################################################################
-#   This flow retrieves cAdviser status of a container in docker 
 #
-#   Inputs:
-#       - host - Docker machine host
-#       - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-#   Outputs:
-#       - decoded - parse response
-#       - num_cores - machine number of cores
-#       - cpu_frequency_khz - machine cpu
-#       - memory_capacity- machine memory
-#       - file_systems - parse cAdviser machine filesystems
-#       - disk_map- parse cAdviser machine disk map
-#       - network_devices- parse cAdviser machine network devices
-#       - topology- parse cAdviser machine topology
-#       - errorMessage - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
-##################################################################################################################################################
+####################################################
+# Retrieves cAdvisor status of a Docker container.
+#
+# Inputs:
+#   - host - Docker machine host
+#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
+# Outputs:
+#   - decoded - parsed response
+#   - num_cores - machine number of cores
+#   - cpu_frequency_khz - machine CPU
+#   - memory_capacity - machine memory
+#   - file_systems - parsed cAdvisor machine filesystems
+#   - disk_map - parsed cAdvisor machine disk map
+#   - network_devices- parsed cAdvisor machine network devices
+#   - topology- parsed cAdvisor machine topology
+#   - errorMessage - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
+####################################################
 
 namespace: org.openscore.slang.docker.cadvisor
 

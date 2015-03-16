@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will evaluate if a docker container resource usages (memory, cpu, network) 
-#   exceeds the maximum usage 
+# Evaluates if a Docker container's resource usages (memory, cpu, network) exceeds the given maximum usage.
 #
-#   Inputs:
-#       - rule - optional - python query to determine if the resource usages is high
-#       - cpu_usage - calculated cpu usages of the container
-#       - memory_usage- calculated cpu usages of the container (if the machine_memory_limit is given use the minimum
-#                       of the container memory limit and the machine memory limit to calculate)
-#       - throughput_rx- calculated network Throughput Tx bytes
-#       - throughput_tx- calculated network Throughput Rx bytes
-#       - error_rx- calculated network error Tx
-#       - error_tx- calculated network error Rx
-#   Outputs:
-#       - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
-#       - result -if all resources usage not exceed the maximum
-#   Results:
-#       - LESS -  if all resources usage not exceed the maximum
-#       - MORE -  if one or more resources usage exceed the maximum
-#       - ERROR - if input was not in correct format
+# Inputs:
+#   - rule - optional - Python query to determine if the resource usages is high - Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8 and error_rx < 0.5 and error_tx < 0.5
+#   - memory_usage- calculated memory usage of container; if machine_memory_limit is given use lower of container memory limit and machine memory limit to calculate
+#   - cpu_usage - calculated CPU usage of container
+#   - throughput_rx - calculated network Throughput Tx bytes
+#   - throughput_tx - calculated network Throughput Rx bytes
+#   - error_rx - calculated network error Tx
+#   - error_tx - calculated network error Rx
+# Outputs:
+#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
+#   - result - if all resource usage did not exceed the maximum
+# Results:
+#   - LESS -  all resource usage did not exceed the maximum
+#   - MORE -  one or more resources' usage exceeded the maximum
+#   - FAILURE - input was not in correct format
 ####################################################
 
 namespace: org.openscore.slang.docker.cadvisor
