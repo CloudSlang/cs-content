@@ -12,7 +12,7 @@
 #
 # Inputs:
 #   - url - URL to Jenkins
-#   - job_name - name of the job to check
+#   - job_name - name of job to check
 #   - expected_status - true if job is expected to exist, false otherwise
 # Outputs:
 #   - exists - true if job exists
