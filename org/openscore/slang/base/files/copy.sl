@@ -6,16 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation copies file/folder
+# Copies a file or folder.
 #
 # Inputs:
-# - source - source file/folder path to be copied
-# - destiantion - destination path file/folder to be copied. If coping object is a folder - destination path must include folder name, if file - destination must include file name
+#   - source - path of source file or folder to be copied
+#   - destination - path of destination for file or folder to be copied to. If copying a folder, destination path must include folder name. If copying a file - destination path must include file name.
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - file/folder was successfully copied
-# - FAILURE - file/folder was not copied due to an error
+#   - SUCCESS - file or folder was successfully copied
+#   - FAILURE - file or folder was not copied due to an error
 ####################################################
 namespace: org.openscore.slang.base.files
 
@@ -31,19 +31,17 @@ operation:
         try:
           if os.path.isfile(source):
             shutil.copy(source,destination)
-            message = ("copying done successfully")
             result = True
           elif os.path.isdir(source):
             shutil.copytree(source,destination,)
-            message = ("copying done successfully")
             result = True
           else:
             message = ("no such file or folder")
             result = False
+          message = ("copying done successfully")
         except Exception as e:
-          message = e
+          message = sys.exc_info()[0]
           result = False
-        print message
 
   outputs:
     - message: message

@@ -6,39 +6,39 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation unzip an archive
+# Unzips an archive.
 #
 # Inputs:
-# - archive_path - path to archive to be unziped (including '.zip')
-# - output_folder - folder to place unziped files from archvie
+#   - archive_name - path of archive to be unzipped (including '.zip')
+#   - output_folder - path of folder to place unzipped files from archive
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - archive was successfully unziped
-# - FAILURE - archive was not unziped due to error
+#   - SUCCESS - archive was successfully unzipped
+#   - FAILURE - archive was not unzipped due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
   name: unzip_archive
   inputs:
-    - archive_path
+    - archive_name
     - output_folder
 
   action:
     python_script: |
         import zipfile, sys
         try:
-          with zipfile.ZipFile(archive_path, "r") as z:
+          with zipfile.ZipFile(archive_name, "r") as z:
             z.extractall(output_folder)
-          message = "'unziping done successfully'"
+          message = 'unzipping done successfully'
           result = True
         except Exception:
-          messsage = sys.exc_info()[0]
+          message = sys.exc_info()[0]
           result = False
 
   outputs:
-    - messsage: messsage
+    - message: message
 
   results:
     - SUCCESS: result == True

@@ -6,15 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation creates folder
+# Creates a folder.
 #
 # Inputs:
-# - folder_name - name of folder to be created
+#   - folder_name - name of folder to be created
 # Outputs:
-# - message - error message in case of error
+#   - message - error message in case of error
 # Results:
-# - SUCCESS - folder was successfully created
-# - FAILURE - folder was not created due to error
+#   - SUCCESS - folder was successfully created
+#   - FAILURE - folder was not created due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
@@ -35,7 +35,7 @@ operation:
             message = ("folder created")
             result = True
         except Exception as e:
-          message = e
+          message = sys.exc_info()[0]
           result = False
 
   outputs:
