@@ -15,10 +15,10 @@
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
+#   - return_Result - response of the operation
+#   - status_Code - normal status code is 200
+#   - return_Code - if returnCode == -1 then there was an error
+#   - error_Message: returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise

@@ -27,39 +27,39 @@
 namespace: org.openscore.slang.marathon
 
 operation:
-      name: get_tasks_list
-      inputs:
-        - marathon_host
-        - marathon_port:
-            default: "'8080'"
-            required: false
-        - status:
-            default: "'none'"
-            required: false
-        - url:
-            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status"
-            overridable: false
-        - method:
-            default: "'get'"
-            overridable: false
-        - contentType:
-            default: "'application/json'"
-            overridable: false
-        - proxyHost:
-            default: "''"
-            required: false
-        - proxyPort:
-            default: "'8080'"
-            required: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+  name: get_tasks_list
+  inputs:
+    - marathon_host
+    - marathon_port:
+        default: "'8080'"
+        required: false
+    - status:
+        default: "'none'"
+        required: false
+    - url:
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status"
+        overridable: false
+    - method:
+        default: "'get'"
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
+    - proxyHost:
+        default: "''"
+        required: false
+    - proxyPort:
+        default: "'8080'"
+        required: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE

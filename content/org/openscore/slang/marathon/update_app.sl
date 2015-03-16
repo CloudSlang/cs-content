@@ -6,23 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   update app
+# Updates an app.
 #
-#   Inputs:
-#       - marathon_host - marathon agent host
-#       - marathon_port - optional - marathon agent port (defualt 8080)
-#       - app_id - app ID to update
-#       - json_file - path to json of the app
-#       - proxyUsername - optional - user name used when connecting to the proxy
-#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 200
-#       - return_code - if returnCode is equal to -1 then there was an error
-#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - marathon_host - Marathon agent host
+#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - app_id - app ID to update
+#   - json_file - path to JSON of the app
+#   - proxyHost - optional - proxy host - Default: none
+#   - proxyPort - optional - proxy port - Default: 8080
+# Outputs:
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message: returnResult if returnCode == -1 or statusCode != 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.marathon

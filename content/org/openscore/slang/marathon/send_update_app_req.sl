@@ -28,38 +28,38 @@
 namespace: org.openscore.slang.marathon
 
 operation:
-      name: send_update_app_req
-      inputs:
-        - marathon_host
-        - marathon_port:
-            default: "'8080'"
-            required: false
-        - app_id
-        - body
-        - proxyHost:
-            default: "''"
-            required: false
-        - proxyPort:
-            default: "'8080'"
-            required: false
-        - url:
-            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
-            overridable: false
-        - method:
-            default: "'put'"
-            overridable: false
-        - contentType:
-            default: "'application/json'"
-            overridable: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+  name: send_update_app_req
+  inputs:
+    - marathon_host
+    - marathon_port:
+        default: "'8080'"
+        required: false
+    - app_id
+    - body
+    - proxyHost:
+        default: "''"
+        required: false
+    - proxyPort:
+        default: "'8080'"
+        required: false
+    - url:
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
+        overridable: false
+    - method:
+        default: "'put'"
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE

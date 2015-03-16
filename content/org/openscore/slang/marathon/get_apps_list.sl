@@ -30,42 +30,42 @@
 namespace: org.openscore.slang.marathon
 
 operation:
-      name: get_apps_list
-      inputs:
-        - marathon_host
-        - marathon_port:
-            default: "'8080'"
-            required: false
-        - cmd:
-            default: "''"
-            required: false
-        - embed:
-            default: "'none'"
-            required: false
-        - url:
-            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
-            overridable: false
-        - proxyHost:
-            default: "''"
-            required: false
-        - proxyPort:
-            default: "'8080'"
-            required: false
-        - method:
-            default: "'get'"
-            overridable: false
-        - contentType:
-            default: "'application/json'"
-            overridable: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '200'
-        - FAILURE
+  name: get_apps_list
+  inputs:
+    - marathon_host
+    - marathon_port:
+        default: "'8080'"
+        required: false
+    - cmd:
+        default: "''"
+        required: false
+    - embed:
+        default: "'none'"
+        required: false
+    - url:
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
+        overridable: false
+    - proxyHost:
+        default: "''"
+        required: false
+    - proxyPort:
+        default: "'8080'"
+        required: false
+    - method:
+        default: "'get'"
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - FAILURE

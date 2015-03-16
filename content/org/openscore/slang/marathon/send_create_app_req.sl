@@ -27,37 +27,37 @@
 namespace: org.openscore.slang.marathon
 
 operation:
-      name: send_create_app_req
-      inputs:
-        - marathon_host
-        - marathon_port:
-            default: "'8080'"
-            required: false
-        - body
-        - url:
-            default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'"
-            overridable: false
-        - method:
-            default: "'post'"
-            overridable: false
-        - contentType:
-            default: "'application/json'"
-            overridable: false
-        - proxyHost:
-            default: "''"
-            required: false
-        - proxyPort:
-            default: "''"
-            required: false
-      action:
-        java_action:
-          className: org.openscore.content.httpclient.HttpClientAction
-          methodName: execute
-      outputs:
-        - returnResult
-        - statusCode
-        - returnCode
-        - errorMessage: returnResult if returnCode == '-1' or statusCode != '201' else ''
-      results:
-        - SUCCESS: returnCode != '-1' and statusCode == '201'
-        - FAILURE
+  name: send_create_app_req
+  inputs:
+    - marathon_host
+    - marathon_port:
+        default: "'8080'"
+        required: false
+    - body
+    - url:
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'"
+        overridable: false
+    - method:
+        default: "'post'"
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
+    - proxyHost:
+        default: "''"
+        required: false
+    - proxyPort:
+        default: "''"
+        required: false
+  action:
+    java_action:
+      className: org.openscore.content.httpclient.HttpClientAction
+      methodName: execute
+  outputs:
+    - returnResult
+    - statusCode
+    - returnCode
+    - errorMessage: returnResult if returnCode == '-1' or statusCode != '201' else ''
+  results:
+    - SUCCESS: returnCode != '-1' and statusCode == '201'
+    - FAILURE
