@@ -6,21 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# Deletes a Jenkins job.
 #
-#   This operation deletes a Jenkins job.
+# Prerequisites: jenkinsapi Python module
 #
-#    Inputs:
-#      - url - the URL to Jenkins
-#      - job_name - the name of the job to delete
-#    Outputs:
-#      - result_message - a string formatted message of the operation results
-#    Results:
-#      - SUCCESS - return code is 0
-#      - FAILURE - otherwise
-#
-#
-#   This opeation requires 'jenkinsapi' python module to be imported
-#   Please refer README.md for more information
+# Inputs:
+#  - url - URL to Jenkins
+#  - job_name - name of job to delete
+# Outputs:
+#  - result_message - a string formatted message of the operation results
+# Results:
+#  - SUCCESS - return code is 0
+#  - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.jenkins

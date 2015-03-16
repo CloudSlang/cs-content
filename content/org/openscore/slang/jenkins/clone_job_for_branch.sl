@@ -6,22 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# Clones an existing Jenkins job and changes it's SCM URL.
 #
-#   This flow clones an existing Jenkins job and changes it's SCM URL.
+# Use case: as a build manager, after creating a new SCM branch, you want to clone your Jenkins builds, and you want to set the SCM URL of these clones to point to the new SCM branch.
 #
-#   Use case: as a build manager, after you created a new SCM branch, you want to clone your Jenkins builds, and you want to set
-#   the SCM URL of these clones to point to the new SCM branch.
-#
-#    Inputs:
-#      - url - the URL to Jenkins
-#      - jnks_job_name - the name of the origin job
-#      - jnks_new_job_name - the name of the new job
-#      - new_scm_url - the URL of the new SCM branch
-#      - delete_job_if_existing - set to true if you want to delete the job if it exists already
-#      - email_host - email server host
-#      - email_port - email server port
-#      - email_sender - email sender
-#      - email_recipient - email recipient
+# Inputs:
+#   - url - URL to Jenkins
+#   - jnks_job_name - name of the origin job
+#   - jnks_new_job_name - name of the new job
+#   - new_scm_url - URL of the new SCM branch
+#   - delete_job_if_existing - true to delete job if it exists already
+#   - email_host - email server host
+#   - email_port - email server port
+#   - email_sender - email sender
+#   - email_recipient - email recipient
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 
 namespace: org.openscore.slang.jenkins

@@ -18,15 +18,30 @@ Slang is a YAML based language for writing human-readable workflows for score. T
   - For Linux : bash slang
 5. Run a flow: slang>run --f c:/.../your_flow.sl --i input1=root,input2=25 --cp c:/.../dependencies/
 
-**note**
+**Note:** Some of the content is dependent on external python modules. If you are using the CLI  to run your flows, you can import external modules by doing one of the following:
 
-Some of the content is dependent on external python modules.
-You can import them by doing the following:
++ Installing packages into the **python-lib** folder
++ Editing the executable file
 
-1. Create a JYTHONPATH environment variable.
-2. Add desired modules' paths to the JYTHONPATH variable, separating them by colons (:) on Unix and semicolons (;) on Windows.
-Or check out the [docs](http://openscore.io/#/docs) for other methods
+**Installing packages into the python-lib folder:**
 
+Prerequisite: **pip** - see **pip**'s [documentation](https://pip.pypa.io/en/latest/installing.html) for how to install. 
+
+1. Edit the **requirements.txt** file in the **python-lib** folder, which is found at the same level as the **bin** folder that contains the CLI executable. 
+2. Enter the Python package and all its dependencies in the requirements file.
+	+ See the **pip** [documentation](https://pip.pypa.io/en/latest/user_guide.html#requirements-files) for information on how to format the requirements file.
+3.  Run the following command from inside the **python-lib** folder:
+    ```
+    pip install -r requirements.txt -t .
+    ```
+    **Note:** If your machine is behind a proxy you will need to specify the proxy using pip's `--proxy` flag.
+
+**Note:** If you have defined a `JYTHONPATH` environment variable, you will need to add the **python-lib** folder's path to its value. 
+
+**Editing the executable file**
+
+1. Open the executable found in the **bin** folder for editing.
+2. Change the `Dpython.path` key's value to the desired path.
 
 #### Documentation :
 

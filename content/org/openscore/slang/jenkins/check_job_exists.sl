@@ -6,24 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation checks if a job exists in Jenkins
+# Checks if a job exists in Jenkins.
 #
-#    Inputs:
-#      - url - the URL to Jenkins
-#      - job_name - the name of the job to check
-#      - expected_status - true if the invoking flow expects the job to exist, false otherwise
-#    Outputs:
-#      - result_message - a string formatted message of the operation results
-#      - exists - true is the job exists status equals to inputs
-#    Results:
-#      - EXISTS_EXPECTED: if operation result is 'EXISTS_EXPECTED'
-#      - EXISTS_UNEXPECTED: if operation result is 'EXISTS_UNEXPECTED'
-#      - NOT_EXISTS: if operation result is 'NOT_EXISTS'
-#      - FAILURE: if operation result is 'FAILURE'
+# Prerequisites: jenkinsapi Python module
 #
-#
-#   This opeation requires 'jenkinsapi' python module to be imported
-#   Please refer README.md for more information
+# Inputs:
+#   - url - URL to Jenkins
+#   - job_name - name of job to check
+#   - expected_status - true if job is expected to exist, false otherwise
+# Outputs:
+#   - exists - true if job exists
+#   - result_message - operation results
+# Results:
+#   - EXISTS_EXPECTED: job was expected to exist and does exist
+#   - EXISTS_UNEXPECTED: job was not expected to exist, but does exist
+#   - NOT_EXISTS: job does not exist
+#   - FAILURE: error occurred
 ####################################################
 namespace: org.openscore.slang.jenkins
 
@@ -56,7 +54,7 @@ operation:
       except:
         import sys
         return_code = '-1'
-        result_message = 'Error checking job\'s existance: ' + job_name
+        result_message = 'Error checking job\'s existence: ' + job_name
         result = 'FAILURE'
 
   outputs:
