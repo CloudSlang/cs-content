@@ -6,22 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   delete app
+# Deletes an app.
 #
-#   Inputs:
-#       - marathon_host - marathon agent host
-#       - marathon_port - optional - marathon agent port (defualt 8080)
-#       - appId - app ID to delete
-#       - proxyUsername - optional - user name used when connecting to the proxy
-#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 200
-#       - return_code - if returnCode is equal to -1 then there was an error
-#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - marathon_host - marathon agent host
+#   - marathon_port - optional - marathon agent port - Defualt: 8080
+#   - appId - app ID to delete
+#   - proxyHost - optional - proxy host - Default: none
+#   - proxyPort - optional - proxy port - Default: 8080
+# Outputs:
+#   - returnResult - response of the operation
+#   - statusCode - normal status code is 200
+#   - returnCode - if returnCode is equal to -1 then there was an error
+#   - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.marathon
