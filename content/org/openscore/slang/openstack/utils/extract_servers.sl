@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation builds a list with server names from the response of the get_openstack_servers operation.
+# Builds a list of server names from the response of the get_openstack_servers operation.
 #
-#   Inputs:
-#       - server_body - response of the get_openstack_servers operation
-#   Outputs:
-#       - server_list - list with server names
-#       - return_result - notification string which says if parsing was successful or not
-#       - return_code - 0 if parsing was successful, -1 otherwise
-#       - error_message - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (return_code == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - server_body - response of get_openstack_servers operation
+# Outputs:
+#   - server_list - list of server names
+#   - return_result - was parsing was successful or not
+#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - error_message - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (return_code == '0')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack.utils

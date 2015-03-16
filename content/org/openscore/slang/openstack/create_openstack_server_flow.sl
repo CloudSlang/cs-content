@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow gets authentication and creates an OpenStack server.
+# Authenticates and creates an OpenStack server.
 #
-#   Inputs:
-#       - host - OpenStack machine host
-#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#       - compute_port - optional - port used for OpenStack computations - Default: 8774
-#       - img_ref - image reference for the server to be created
-#       - username - OpenStack username
-#       - password - OpenStack password
-#       - server_name - server name
-#   Outputs:
-#       - return_result - response of the last operation that was executed
-#       - error_message - error message for the operation that fails
+# Inputs:
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - img_ref - image reference for server to be created
+#   - username - OpenStack username
+#   - password - OpenStack password
+#   - server_name - server name
+# Outputs:
+#   - return_result - response of the last operation that was executed
+#   - error_message - error message of the operation that failed
 ####################################################
 
 namespace: org.openscore.slang.openstack

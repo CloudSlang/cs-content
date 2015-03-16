@@ -6,22 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will create an OpenStack server.
+# Creates an OpenStack server.
 #
-#   Inputs:
-#       - host-  OpenStack machine host
-#       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - token - OpenStack token obtained after authentication
-#       - tenant - OpenStack tenantID obtained after authentication
-#       - serverName - server name
-#       - imgRef - image reference for of the server to be created
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 202
-#       - error_message: returnResult if statusCode different than '202'
-#   Results:
-#       - SUCCESS - operation succeeded (statusCode == '202')
-#       - FAILURE - otherwise
+# Inputs:
+#   - host - OpenStack machine host
+#   - computePort - optional - port used for OpenStack computations - Default: 8774
+#   - token - OpenStack token obtained after authentication
+#   - tenant - OpenStack tenantID obtained after authentication
+#   - serverName - server name
+#   - imgRef - image reference for server to be created
+# Outputs:
+#   - return_result - response of the operation
+#   - status_code - normal status code is 202
+#   - error_message: returnResult if statusCode != '202'
+# Results:
+#   - SUCCESS - operation succeeded (statusCode == '202')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack
@@ -60,5 +60,5 @@ operation:
     - status_code: statusCode
     - error_message: returnResult if statusCode != '202' else ''
   results:
-    - SUCCESS : statusCode == '202'
+    - SUCCESS: statusCode == '202'
     - FAILURE

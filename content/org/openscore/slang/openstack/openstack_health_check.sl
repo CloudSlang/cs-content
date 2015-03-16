@@ -6,21 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will do a health check on an OpenStack machine. It creates a server, checks it is up and then deletes it.
-#   If any of the steps fail it will send an email with the error report.
+# Performs a health check on an OpenStack machine.
+# Creates a server, checks it is up and then deletes it.
+# If any steps fail it will send an email with an error report.
 #
-#   Inputs:
-#       - host - OpenStack machine host
-#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#       - compute_port - optional - port used for OpenStack computations - Default: 8774
-#       - img_ref - image reference of the server to be created
-#       - username - OpenStack username
-#       - password - OpenStack password
-#       - server_name - optional - server name - Default: test-server
-#       - email_host - email host
-#       - email_port - email port
-#       - to - email recipient
-#       - from - email sender
+# Inputs:
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - img_ref - image reference of the server to be created
+#   - username - OpenStack username
+#   - password - OpenStack password
+#   - server_name - optional - server name - Default: test-server
+#   - email_host - email host
+#   - email_port - email port
+#   - to - email recipient
+#   - from - email sender
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 
 namespace: org.openscore.slang.openstack

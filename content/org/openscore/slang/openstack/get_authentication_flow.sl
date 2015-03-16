@@ -6,18 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This flow will authenticate on an OpenStack machine.
+# Authenticates an OpenStack machine.
 #
-#   Inputs:
-#       - host - OpenStack machine host
-#       - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#       - username - OpenStack username
-#       - password - OpenStack password
-#   Outputs:
-#       - token - authentication token
-#       - tenant - tenantID
-#       - return_result - response of the last operation that was executed
-#       - error_message - error message of the operation that failed
+# Inputs:
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - username - OpenStack username
+#   - password - OpenStack password
+# Outputs:
+#   - token - authentication token
+#   - tenant - tenantID
+#   - return_result - response of the last operation that was executed
+#   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 
 namespace: org.openscore.slang.openstack
