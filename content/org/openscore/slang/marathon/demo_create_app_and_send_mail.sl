@@ -13,11 +13,11 @@
 #   - email_port - email port
 #   - email_sender - email sender
 #   - email_recipient - email recipient
-#   - marathon_host - marathon agent host
+#   - marathon_host - Marathon agent host
 #   - marathon_port - optional - marathon agent port - Defualt: 8080
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
-#   - json_file - path to json of new app
+#   - json_file - path to JSON of new app
 # Outputs:
 #   - return_result - operation response
 #   - status_code - normal status code is 200

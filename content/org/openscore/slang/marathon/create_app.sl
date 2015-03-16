@@ -9,9 +9,9 @@
 # Creates a new app.
 #
 # Inputs:
-#   - marathon_host - marathon agent host
-#   - marathon_port - optional - marathon agent port - Defualt: 8080
-#   - json_file - path to json of new app
+#   - marathon_host - Marathon agent host
+#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - json_file - path to JSON of new app
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
 # Outputs:

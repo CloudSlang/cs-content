@@ -6,24 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   get marathon apps list
+# Retrieves a list of Marathon apps.
 #
-#   Inputs:
-#       - marathon_host - marathon agent host
-#       - marathon_port - optional - marathon agent port (defualt 8080)
-#       - embed - optional - Embeds nested resources that match the supplied path. Default: none. Possible values:
-#                           "apps.tasks". Apps' tasks are not embedded in the response by default.
-#                            "apps.failures". Apps' last failures are not embedded in the response by default.
-#       - proxyUsername - optional - user name used when connecting to the proxy
-#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 200
-#       - return_code - if returnCode is equal to -1 then there was an error
-#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - marathon_host - Marathon agent host
+#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - cmd - optional - filter apps to only those whose commands contain cmd - Default: none
+#   - embed - optional - embeds nested resources that match supplied path - Default: none -
+#     Valid: "apps.tasks" Apps' tasks are not embedded in response by default
+#            "apps.failures". Apps' last failures are not embedded in response by default
+#   - proxyHost - optional - proxy host - Default: none
+#   - proxyPort - optional - proxy port - Default: 8080
+# Outputs:
+#   - returnResult - response of the operation
+#   - statusCode - normal status code is 200
+#   - returnCode - if returnCode == -1 then there was an error
+#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.marathon

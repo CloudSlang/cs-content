@@ -9,8 +9,8 @@
 # Deletes an app.
 #
 # Inputs:
-#   - marathon_host - marathon agent host
-#   - marathon_port - optional - marathon agent port - Defualt: 8080
+#   - marathon_host - Marathon agent host
+#   - marathon_port - optional - Marathon agent port - Defualt: 8080
 #   - appId - app ID to delete
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
