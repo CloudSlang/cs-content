@@ -6,30 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-#   demo flow for creating new app and then send email 
+# Demo that creates a new app and sends a status email.
 #
-#   Inputs:
-#       - email_host - email host
-#       - email_port - email port
-#       - email_sender - email sender
-#       - email_recipient - email recipient
-#       - marathon_host - marathon agent host
-#       - marathon_port - optional - marathon agent port (defualt 8080)
-#       - proxyUsername - optional - user name used when connecting to the proxy
-#       - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
-#       - json_file - path to json of the new app
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 200
-#       - return_code - if returnCode is equal to -1 then there was an error
-#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
-#       - email_host - email server host
-#       - email_port - email server port
-#       - email_sender - email sender
-#       - email_recipient - email recipient
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - email_host - email host
+#   - email_port - email port
+#   - email_sender - email sender
+#   - email_recipient - email recipient
+#   - marathon_host - marathon agent host
+#   - marathon_port - optional - marathon agent port - Defualt: 8080
+#   - proxyHost - optional - proxy host - Default: none
+#   - proxyPort - optional - proxy port - Default: 8080
+#   - json_file - path to json of new app
+# Outputs:
+#   - return_result - operation response
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message: returnResult if returnCode == -1 or statusCode != 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: org.openscore.slang.marathon
@@ -79,7 +75,7 @@ flow:
             - from: email_sender
             - to: email_recipient
             - subject: "'New app '"
-            - body: "'app create succeeded'"
+            - body: "'App creation succeeded.'"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
@@ -94,7 +90,7 @@ flow:
                 - from: email_sender
                 - to: email_recipient
                 - subject: "'New app fail'"
-                - body: "'app create failed '+errorMessage"
+                - body: "'App creation failed '+errorMessage"
   outputs:
     - returnResult
     - statusCode
