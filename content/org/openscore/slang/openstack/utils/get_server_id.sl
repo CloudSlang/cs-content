@@ -6,20 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will get the serverID of a server with its name specified as an input
-#   from the response of the get_openstack_servers operation.
+# Retrieves the serverID from the response of the get_openstack_servers operation of a given server by name.
 #
-#   Inputs:
-#       - server_body - response of the get_openstack_servers operation
-#       - server_name - server name
-#   Outputs:
-#       - server_ID - ID of the specified server
-#       - return_result - notification string which says if parsing was successful or not
-#       - return_code - 0 if parsing was successful, -1 otherwise
-#       - error_message - error message
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - server_body - response of the get_openstack_servers operation
+#   - server_name - server name
+# Outputs:
+#   - server_ID - ID of the specified server
+#   - return_result - was parsing was successful or not
+#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - error_message - error message
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack.utils
