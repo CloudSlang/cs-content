@@ -18,7 +18,7 @@
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202
-#   - error_message: returnResult if statusCode different than '202'
+#   - error_message: returnResult if statusCode != '202'
 # Results:
 #   - SUCCESS - operation succeeded (statusCode == '202')
 #   - FAILURE - otherwise
