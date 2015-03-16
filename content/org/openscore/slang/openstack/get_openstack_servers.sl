@@ -6,21 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will do a REST call which contains a list of OpenStack servers in its returnResult
-#   (result needs to be parsed).
+# Performs a REST call to retrieve a list of OpenStack servers.
 #
-#   Inputs:
-#       - host - OpenStack machine host
-#       - computePort - optional - port used for OpenStack computations - Default: 8774
-#       - token - OpenStack token obtained after authentication
-#       - tenant - OpenStack tenantID obtained after authentication
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal statusCode is 202
-#       - error_message - error message
-#   Results:
-#       - SUCCESS - operation succeeded (statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - host - OpenStack machine host
+#   - computePort - optional - port used for OpenStack computations - Default: 8774
+#   - token - OpenStack token obtained after authentication
+#   - tenant - OpenStack tenantID obtained after authentication
+# Outputs:
+#   - return_result - response of the operation
+#   - status_code - normal statusCode is 202
+#   - error_message - error message
+# Results:
+#   - SUCCESS - operation succeeded (statusCode == '200')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack
