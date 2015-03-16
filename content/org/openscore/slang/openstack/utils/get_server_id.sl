@@ -9,7 +9,7 @@
 # Retrieves the serverID from the response of the get_openstack_servers operation of a given server by name.
 #
 # Inputs:
-#   - server_body - response of the get_openstack_servers operation
+#   - server_body - response of get_openstack_servers operation
 #   - server_name - server name
 # Outputs:
 #   - server_ID - ID of the specified server

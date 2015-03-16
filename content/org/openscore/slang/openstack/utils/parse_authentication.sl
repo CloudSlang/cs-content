@@ -6,20 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will parse the response of the get_authentication operation and have the
-#   token and tenantID as its outputs.
+# Parses the response of the get_authentication operation to retrieve the token and tenantID.
 #
-#   Inputs:
-#       -json_authentication_response - response of the get_authentication operation
-#   Outputs:
-#       - token - authentication token ID
-#       - tenant - tenant ID
-#       - return_result - notification string which says if parsing was successful or not
-#       - return_code - 0 if parsing was successful, -1 otherwise
-#       - error_message - returnResult if there was an error
-#   Results:
-#       - SUCCESS - parsing was successful (returnCode == '0')
-#       - FAILURE - otherwise
+# Inputs:
+#   - json_authentication_response - response of get_authentication operation
+# Outputs:
+#   - token - authentication token ID
+#   - tenant - tenant ID
+#   - return_result - was parsing was successful or not
+#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - error_message - returnResult if there was an error
+# Results:
+#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack.utils

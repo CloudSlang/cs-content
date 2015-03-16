@@ -9,7 +9,7 @@
 # Builds a list of server names from the response of the get_openstack_servers operation.
 #
 # Inputs:
-#   - server_body - response of the get_openstack_servers operation
+#   - server_body - response of get_openstack_servers operation
 # Outputs:
 #   - server_list - list of server names
 #   - return_result - was parsing was successful or not
