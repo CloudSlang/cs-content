@@ -6,22 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
+# Copies a Jenkins job into a new Jenkins job.
 #
-#   This operation copies a Jenkins job into a new Jenkins job
+# Prerequisites: jenkinsapi Python module
 #
-#    Inputs:
-#      - url - the URL to Jenkins
-#      - job_name - the name of the job to copy
-#      - new_job_name - the name of the destionation job (copy to)
-#    Outputs:
-#      - result_message - a string formatted message of the operation results
-#    Results:
-#      - SUCCESS - return code is 0
-#      - FAILURE - otherwise
-#
-#
-#   This opeation requires 'jenkinsapi' python module to be imported
-#   Please refer README.md for more information
+# Inputs:
+#   - url - URL to Jenkins
+#   - job_name - name of job to copy
+#   - new_job_name - name of job to copy to
+# Outputs:
+#   - result_message - operation results
+# Results:
+#   - SUCCESS - return code is 0
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.jenkins
