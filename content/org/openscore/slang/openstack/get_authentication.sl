@@ -6,22 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#   This operation will do a REST call which contains an OpenStack authentication token and tenantID in its response
-#   (result needs to be parsed).
+# Performs a REST call to retrieve an unparsed OpenStack authentication token and tenantID.
 #
-#   Inputs:
-#       - host - OpenStack machine host
-#       - identityPort - optional - port used for OpenStack authentication - Default: 5000
-#       - username - OpenStack username
-#       - password - OpenStack password
-#   Outputs:
-#       - return_result - response of the operation
-#       - status_code - normal status code is 200
-#       - return_code - if returnCode is equal to -1 then there was an error
-#       - error_message: returnResult if returnCode is equal to -1 or statusCode different than 200
-#   Results:
-#       - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#       - FAILURE - otherwise
+# Inputs:
+#   - host - OpenStack machine host
+#   - identityPort - optional - port used for OpenStack authentication - Default: 5000
+#   - username - OpenStack username
+#   - password - OpenStack password
+# Outputs:
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message: returnResult if returnCode == -1 or statusCode != 200
+# Results:
+#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: org.openscore.slang.openstack
