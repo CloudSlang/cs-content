@@ -11,7 +11,7 @@
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port (defualt 8080)
-#   - body - JSON format of an application resource
+#   - body - application resource JSON
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
 # Outputs:
