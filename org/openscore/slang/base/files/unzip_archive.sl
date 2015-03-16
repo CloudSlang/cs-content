@@ -9,7 +9,7 @@
 # Unzips an archive.
 #
 # Inputs:
-#   - archive_name - path of archive to be unzipped (including '.zip')
+#   - archive_path - path to archive to be unziped (including '.zip')
 #   - output_folder - path of folder to place unzipped files from archive
 # Outputs:
 #   - message - error message in case of error
@@ -22,19 +22,19 @@ namespace: org.openscore.slang.base.files
 operation:
   name: unzip_archive
   inputs:
-    - archive_name
+    - archive_path
     - output_folder
 
   action:
     python_script: |
         import zipfile, sys
         try:
-          with zipfile.ZipFile(archive_name, "r") as z:
+          with zipfile.ZipFile(archive_path, "r") as z:
             z.extractall(output_folder)
           message = 'unzipping done successfully'
           result = True
-        except Exception:
-          message = sys.exc_info()[0]
+        except Exception as e:
+          message = e
           result = False
 
   outputs:

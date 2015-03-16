@@ -21,6 +21,7 @@ namespace: org.openscore.slang.base.files
 
 operation:
   name: move
+  
   inputs:
     - source
     - destination
@@ -33,7 +34,7 @@ operation:
           message = ("moving done successfully")
           result = True
         except Exception as e:
-          message = sys.exc_info()[0]
+          message = e
           result = False
 
   outputs:

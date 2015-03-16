@@ -20,6 +20,7 @@ namespace: org.openscore.slang.base.files
 
 operation:
   name: delete
+  
   inputs:
     - source
 
@@ -29,17 +30,17 @@ operation:
         try:
           if os.path.isfile(source):
             os.remove(source)
-            message = "source + ' was removed'"
+            message = source + " was removed"
             result = True
           elif os.path.isdir(source):
             shutil.rmtree(source)
-            message = "source + ' was removed'"
+            message = source + " was removed"
             result = True
           else:
             message = "'No such file/folder'"
             result = False
         except Exception as e:
-          message = sys.exc_info()[0]
+          message = e
           result = False
 
   outputs:
