@@ -25,7 +25,7 @@ imports:
   mail: org.openscore.slang.base.mail
 
 flow:
-  name: resource_health_check
+  name: ping_hosts
 
   inputs:
     - ip_list
