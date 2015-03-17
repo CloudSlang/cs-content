@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ###############################################################################################################################################################################
-#   This operation copies a file on the remote machine using the SCP protocol.
+#   Copies a file on the remote machine using the SCP protocol.
 #
 #   Inputs:
 #       - host - hostname or IP address
@@ -21,14 +21,14 @@
 #       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                     if true the ssh session used by this operation will be closed; Valid values: true, false; Default: true
-# Outputs:
-#    - returnResult - contains the STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - STDOUT - contains the standard Output of the machine in case of successful request, null otherwise
-#    - STDERR - contains the standard Error of the machine in case of successful request, null otherwise
-#    - exception - contains the stack trace in case of an exception
-# Results:
-#    - SUCCESS - the SSH access was successful and returned with code 0
-#    - FAILURE
+#   Outputs:
+#       - returnResult - contains the STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#       - STDOUT - contains the standard Output of the machine in case of successful request, null otherwise
+#       - STDERR - contains the standard Error of the machine in case of successful request, null otherwise
+#       - exception - contains the stack trace in case of an exception
+#   Results:
+#       - SUCCESS - the SSH access was successful and returned with code 0
+#       - FAILURE
 ###############################################################################################################################################################################
 
 namespace: org.openscore.slang.base.remote_command_execution.remote_file_transfer
@@ -46,8 +46,8 @@ operation:
             className: org.openscore.content.rft.actions.RemoteSecureCopyAction
             methodName: copyTo
     outputs:
-      - returnResult
-      - returnCode
+      - return_result: returnResult
+      - return_code: returnCode
       - exception
     results:
       - SUCCESS: returnCode == '0'
