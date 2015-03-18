@@ -28,7 +28,7 @@ operation:
     python_script: |
       import random
 
-      random_number = 0
+      random_number = None
       error_message = ""
 
       valid = 0

@@ -37,7 +37,7 @@ operation:
           result = False
 
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result == True

@@ -26,14 +26,15 @@ operation:
   action:
     python_script: |
       import sys
+      read_text = ""
+      error_message = ""
       try:
         f = open(file_path, 'r')
         read_text = f.read()
         f.close()
         res = True
       except:
-        read_text = ""
-        error_message =  sys.exc_info()[0]
+        error_message = sys.exc_info()[0]
         res = False
   outputs:
     - read_text

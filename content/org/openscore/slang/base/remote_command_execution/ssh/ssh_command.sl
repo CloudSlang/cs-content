@@ -59,9 +59,9 @@ operation:
         methodName: runSshShellCommand
     outputs:
       - returnResult
-      - STDOUT
-      - STDERR
-      - exception
+      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
+      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
+      - exception: "'' if 'exception' not in locals() else exception"
     results:
       - SUCCESS: returnCode == '0'
       - FAILURE
