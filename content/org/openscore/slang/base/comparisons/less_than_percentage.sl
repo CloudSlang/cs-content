@@ -19,7 +19,7 @@
 # Results:
 #   - LESS - first_percentage < second_percentage
 #   - MORE - first_percentage >= second_percentage
-#   - ERROR - input was not in correct format
+#   - FAILURE - input was not in correct format
 ####################################################
 
 namespace: org.openscore.slang.base.comparisons

@@ -12,7 +12,7 @@
 #   - file_path - the path of the file to read
 # Outputs:
 #   - read_text - content of the file
-#   - error_message - error occurred
+#   - error_message - error message if error occurred
 # Results:
 #   - SUCCESS - file was read successfully
 #   - FAILURE - otherwise

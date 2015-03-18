@@ -36,7 +36,7 @@ operation:
             message = source + " was removed"
             result = True
           else:
-            message = "No such file/folder"
+            message = "No such file or folder"
             result = False
         except Exception as e:
           message = sys.exc_info()[0]

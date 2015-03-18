@@ -13,6 +13,7 @@
 #   - min - minimum number that can be returned
 # Outputs:
 #   - random_number - random number between max and min (inclusive)
+#   - error_message - error message if error occurred
 # Results:
 #   - SUCCESS - a number was generated
 #   - FAILURE - otherwise

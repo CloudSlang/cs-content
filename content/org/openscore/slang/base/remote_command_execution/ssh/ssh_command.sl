@@ -22,8 +22,8 @@
 #    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: true
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - STDOUT - STDOUT of the machine in case of successful request, null otherwise
-#    - STDERR - STDERR of the machine in case of successful request, null otherwise
+#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#    - standard_err - STDERR of the machine in case of successful request, null otherwise
 #    - exception - contains the stack trace in case of an exception
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
