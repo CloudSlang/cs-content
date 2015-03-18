@@ -18,7 +18,7 @@
 #  FAILURE: addressee will get an email with exception of operation
 # 
 ####################################################
-namespace: org.openscore.slang.base.network
+namespace: org.openscore.slang.base.network.example
 
 imports:
   network: org.openscore.slang.base.network
