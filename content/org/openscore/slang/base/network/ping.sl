@@ -39,7 +39,7 @@ operation:
   action:
     python_script: |
         try:
-          import os, smtplib
+          import os, smtplib, sys
           if os.path.isdir('/usr'):
             response = os.system("ping -c 1 -t " + ttl + ' -s ' + size + ' -W ' + timeout + ' ' + address)
           else:
