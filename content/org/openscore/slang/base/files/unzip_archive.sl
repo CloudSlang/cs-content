@@ -36,9 +36,8 @@ operation:
         except Exception:
           message = sys.exc_info()[0]
           result = False
-
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result == True

@@ -13,6 +13,7 @@
 #   - min - minimum number that can be returned
 # Outputs:
 #   - random_number - random number between max and min (inclusive)
+#   - error_message - error message if error occurred
 # Results:
 #   - SUCCESS - a number was generated
 #   - FAILURE - otherwise
@@ -27,6 +28,10 @@ operation:
   action:
     python_script: |
       import random
+
+      random_number = None
+      error_message = ""
+
       valid = 0
       length = len(min)
       vall = min[1:length]
@@ -52,6 +57,7 @@ operation:
           error_message = "%s or %s are not integers" %(min,max)
   outputs:
     - random_number
+    - error_message
   results:
     - SUCCESS: random_number is not None
     - FAILURE

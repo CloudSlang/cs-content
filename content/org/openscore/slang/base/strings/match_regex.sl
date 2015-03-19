@@ -27,13 +27,16 @@ operation:
   action:
     python_script: |
       import re
+
+      match_text = ""
       m = re.search(regex, text)
-      match_text = m.group(0)
-      res = 'False'
+      if m is not None:
+        match_text = m.group(0)
+      res = False
       if match_text:
-        res = 'True'
+        res = True
   outputs:
     - match_text
   results:
-    - MATCH: res == 'True'
+    - MATCH: res
     - NO_MATCH

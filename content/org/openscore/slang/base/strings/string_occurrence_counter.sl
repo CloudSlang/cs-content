@@ -6,15 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Counts the occurrences of a string in another string (*needs to be more general).
+# Counts the occurrences of a string in another string.
 #
 # Inputs:
 #   - string_in_which_to_search - string where to search
 #   - string_to_find - string to be found
 #   - ignore_case - optional - ignores case if set to true - Default: true
 # Outputs:
-#   - occurrence - number of times string_to_find was found in container
-#   - return_result - notification string
+#   - return_result - number of times string_to_find was found in container
 #   - return_code - 0 if everything went ok, -1 if an error was thrown
 #   - error_message: returnResult if occurrence == '0'  else ''
 # Results:
@@ -36,22 +35,19 @@ operation:
     python_script: |
       try:
         if ignore_case == 'true':
-          string_in_which_to_search.lower()
-          string_to_find.lower()
+          string_in_which_to_search = string_in_which_to_search.lower()
+          string_to_find = string_to_find.lower()
         occurrence = string_in_which_to_search.count(string_to_find)
         return_code = '0'
-        if occurrence == 0:
-          return_result = 'Server was not created'
-        else:
-          return_result = occurrence
+        return_result = occurrence
       except:
+        occurrence = 0
         return_code = '-1'
-        return_result = 'String occurrence error.'
+        return_result = occurrence
   outputs:
-    - occurrence
     - return_result
     - return_code
-    - error_message: return_result if occurrence == '0'  else ''
+    - error_message: return_result if occurrence == 0  else ''
   results:
-    - SUCCESS: occurrence >= '1'
+    - SUCCESS: return_result >= 1
     - FAILURE

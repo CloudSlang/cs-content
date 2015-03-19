@@ -22,8 +22,8 @@
 #    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: true
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - STDOUT - STDOUT of the machine in case of successful request, null otherwise
-#    - STDERR - STDERR of the machine in case of successful request, null otherwise
+#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#    - standard_err - STDERR of the machine in case of successful request, null otherwise
 #    - exception - contains the stack trace in case of an exception
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
@@ -59,9 +59,9 @@ operation:
         methodName: runSshShellCommand
     outputs:
       - returnResult
-      - STDOUT
-      - STDERR
-      - exception
+      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
+      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
+      - exception: "'' if 'exception' not in locals() else exception"
     results:
       - SUCCESS: returnCode == '0'
       - FAILURE

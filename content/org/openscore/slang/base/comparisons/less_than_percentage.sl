@@ -19,7 +19,7 @@
 # Results:
 #   - LESS - first_percentage < second_percentage
 #   - MORE - first_percentage >= second_percentage
-#   - ERROR - input was not in correct format
+#   - FAILURE - input was not in correct format
 ####################################################
 
 namespace: org.openscore.slang.base.comparisons
@@ -32,7 +32,7 @@ operation:
   action:
     python_script: |
       error_message = ""
-      result = None
+      result = ""
       first_percentage_nr = first_percentage.replace("%", "")
       second_percentage_nr = second_percentage.replace("%", "")
       try:
@@ -47,6 +47,6 @@ operation:
     - error_message
     - result
   results:
-    - LESS: result
-    - MORE: not result
+    - LESS: error_message == "" and result
+    - MORE: error_message == "" and not result
     - FAILURE
