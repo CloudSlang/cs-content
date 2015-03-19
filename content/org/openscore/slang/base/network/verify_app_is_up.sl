@@ -46,7 +46,7 @@ operation:
             if code == 200 :
               return_result = True
   outputs:
-    - error_message: "'Application is not Up , after ' + count + ' attempts to ping .'"
+    - error_message: "'Application is not Up , after ' + str(count) + ' attempts to ping .'"
   results:
     - SUCCESS: return_result == 'True'
     - FAILURE

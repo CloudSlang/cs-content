@@ -58,9 +58,9 @@ flow:
             - username
             - password
         publish:
-          - db_IP
+          - container_ip
           - error_message
 
   outputs:
-    - db_IP
+    - db_IP: "'' if 'container_ip' not in locals() else container_ip"
     - error_message

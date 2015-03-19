@@ -63,8 +63,8 @@ operation:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - db_IP: returnResult[:-1]
-    - error_message: STDERR if returnCode == '0' else returnResult
+    - container_ip: returnResult[:-1]
+    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
   results:
     - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE
