@@ -32,7 +32,7 @@ operation:
   action:
     python_script: |
       error_message = ""
-      result = None
+      result = ""
       first_percentage_nr = first_percentage.replace("%", "")
       second_percentage_nr = second_percentage.replace("%", "")
       try:
