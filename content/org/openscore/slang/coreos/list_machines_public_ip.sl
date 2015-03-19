@@ -31,7 +31,7 @@ flow:
     - coreos_password:
         default: "''"
         overridable: false
-    - privateKeyFile:
+    - private_key_file:
         default: "''"
     - machines_public_ip_list:
         default: "''"
