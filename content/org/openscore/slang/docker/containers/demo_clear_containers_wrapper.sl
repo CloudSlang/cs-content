@@ -38,16 +38,16 @@ flow:
     - clear_db_container:
         do:
           docker_containers.clear_container:
-            - container_ID: "linked_container_ID"
+            - container_ID: db_container_ID
             - docker_host
             - docker_username
             - docker_password
         publish:
           - error_message
-      clear_linked_container:
+    - clear_linked_container:
         do:
           docker_containers.clear_container:
-            - container_ID: "db_container_ID"
+            - container_ID: linked_container_ID
             - docker_host
             - docker_username
             - docker_password

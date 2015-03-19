@@ -21,7 +21,7 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - db_IP - IP of the specified container
+#   - container_ip - IP of the specified container
 #   - error_message - error message
 # Results:
 #   - SUCCESS
@@ -63,8 +63,8 @@ operation:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - db_IP: returnResult[:-1]
-    - error_message: STDERR if returnCode == '0' else returnResult
+    - container_ip: returnResult[:-1]
+    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
   results:
     - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE
