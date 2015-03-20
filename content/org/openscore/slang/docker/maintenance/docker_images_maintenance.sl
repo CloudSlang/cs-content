@@ -59,6 +59,6 @@ flow:
           - amount_of_dangling_images_deleted
           - dangling_images_list_safe_to_delete
           - images_list_safe_to_delete
-          - total_amount_of_images_deleted: str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted))
+          - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
   outputs:
-    - total_amount_of_images_deleted: "''"
+    - total_amount_of_images_deleted: "'' if 'total_amount' not in locals() else total_amount"

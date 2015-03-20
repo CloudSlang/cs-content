@@ -57,7 +57,8 @@ operation:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - disk_space: STDOUT.replace("\n", "")
+    - disk_space: "'' if 'STDOUT' not in locals() else STDOUT"
+    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
   results:
     - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE
