@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes an empty SSH command.
+# Check the disk space percentage on a Linux machine.
 #
 # Inputs:
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
-#   - username - Docker machine username
+#   - username  - Docker machine username
 #   - password - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file - Default: none
 #   - arguments - optional - arguments to pass to the command - Default: none
@@ -20,17 +20,16 @@
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - response - Linux welcome message
-#   - error_message
+#   - disk_space - percentage - Example: 50%
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - operation finished successfully
+#   - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.linux
+namespace: org.openscore.slang.base.os.linux
 
 operation:
-  name: validate_linux_machine_ssh_access
+  name: check_linux_disk_space
   inputs:
     - host
     - port:
@@ -40,7 +39,8 @@ operation:
     - privateKeyFile:
         default: "''"
     - command:
-        default: "' '"
+        default: |
+            'df -kh | grep -v "Filesystem" | awk \'NR==1{print $5}\''
         overridable: false
     - arguments:
         default: "''"
@@ -57,8 +57,7 @@ operation:
       className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - response: STDOUT
-    - error_message: STDERR if returnCode == '0' else returnResult
+    - disk_space: STDOUT.replace("\n", "")
   results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE

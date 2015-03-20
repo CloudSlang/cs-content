@@ -24,7 +24,7 @@ namespace: org.openscore.slang.docker.images
 
 imports:
  docker_images: org.openscore.slang.docker.images
- docker_linux: org.openscore.slang.docker.linux
+ base_os_linux: org.openscore.slang.base.os.linux
 
 flow:
   name: clear_unused_docker_images

@@ -20,7 +20,7 @@ namespace: org.openscore.slang.docker.images
 
 imports:
  docker_images: org.openscore.slang.docker.images
- docker_linux: org.openscore.slang.docker.linux
+ base_os_linux: org.openscore.slang.base.os.linux
 
 flow:
   name: get_used_images_flow
@@ -34,7 +34,7 @@ flow:
   workflow:
     - validate_linux_machine_ssh_access_op:
         do:
-          docker_linux.validate_linux_machine_ssh_access:
+          base_os_linux.validate_linux_machine_ssh_access:
             - host: docker_host
             - username: docker_username
             - password: docker_password

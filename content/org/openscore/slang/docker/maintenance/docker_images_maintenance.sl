@@ -22,7 +22,7 @@ namespace: org.openscore.slang.docker.maintenance
 
 imports:
  docker_maintenance: org.openscore.slang.docker.maintenance
- docker_linux: org.openscore.slang.docker.linux
+ base_os_linux: org.openscore.slang.base.os.linux
  docker_images: org.openscore.slang.docker.images
 
 flow:
