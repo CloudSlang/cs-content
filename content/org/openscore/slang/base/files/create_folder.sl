@@ -6,39 +6,34 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes a file or folder.
+# Creates a folder.
 #
 # Inputs:
-#   - source - path of source file or folder to be deleted
+#   - folder_name - name of folder to be created
 # Outputs:
 #   - message - error message in case of error
 # Results:
-#   - SUCCESS - file or folder was successfully deleted
-#   - FAILURE - file or folder was not deleted due to error
+#   - SUCCESS - folder was successfully created
+#   - FAILURE - folder was not created due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
-  name: delete
-  
+  name: create_folder
   inputs:
-    - source
+    - folder_name
 
   action:
     python_script: |
-        import shutil, sys, os
+        import sys, os
         try:
-          if os.path.isfile(source):
-            os.remove(source)
-            message = source + " was removed"
-            result = True
-          elif os.path.isdir(source):
-            shutil.rmtree(source)
-            message = source + " was removed"
-            result = True
-          else:
-            message = "'No such file/folder'"
+          if os.path.isdir(folder_name):
+            message = ("folder already exist")
             result = False
+          else:
+            os.mkdir(folder_name)
+            message = ("folder created")
+            result = True
         except Exception as e:
           message = e
           result = False
@@ -47,5 +42,5 @@ operation:
     - message: message
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - SUCCESS: result
+    - FAILURE

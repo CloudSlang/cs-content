@@ -49,5 +49,5 @@ operation:
     - message: message
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - SUCCESS: result
+    - FAILURE

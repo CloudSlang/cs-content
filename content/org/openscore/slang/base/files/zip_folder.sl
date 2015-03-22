@@ -6,32 +6,32 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Moves a file or folder.
+# Creates a zip archive.
 #
 # Inputs:
-#   - source - path of source file or folder to be moved
-#   - destination - path to move file or folder to
+#   - archive_name - name of archive to be created (without 'zip')
+#   - folder_path - path to folder to be zipped
 # Outputs:
 #   - message - error message in case of error
 # Results:
-#   - SUCCESS - file or folder was successfully moved
-#   - FAILURE - file or folder was not moved due to an error
+#   - SUCCESS - archive was successfully created
+#   - FAILURE - archive was not created due to error
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
-  name: move
-  
+  name: zip_folder
   inputs:
-    - source
-    - destination
+    - archive_name
+    - folder_path
 
   action:
     python_script: |
-        import shutil, sys
+        import sys, os, shutil
         try:
-          shutil.move(source,destination)
-          message = ("moving done successfully")
+          shutil.make_archive(archive_name, "zip", folder_path)
+          filename = archive_name + '.zip'
+          shutil.move(filename, folder_path)
           result = True
         except Exception as e:
           message = e
@@ -41,5 +41,5 @@ operation:
     - message: message
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - SUCCESS: result
+    - FAILURE

@@ -6,32 +6,32 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Unzips an archive.
+# Moves a file or folder.
 #
 # Inputs:
-#   - archive_path - path to archive to be unziped (including '.zip')
-#   - output_folder - path of folder to place unzipped files from archive
+#   - source - path of source file or folder to be moved
+#   - destination - path to move file or folder to
 # Outputs:
 #   - message - error message in case of error
 # Results:
-#   - SUCCESS - archive was successfully unzipped
-#   - FAILURE - archive was not unzipped due to error
+#   - SUCCESS - file or folder was successfully moved
+#   - FAILURE - file or folder was not moved due to an error
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
-  name: unzip_archive
+  name: move
+  
   inputs:
-    - archive_path
-    - output_folder
+    - source
+    - destination
 
   action:
     python_script: |
-        import zipfile, sys
+        import shutil, sys
         try:
-          with zipfile.ZipFile(archive_path, "r") as z:
-            z.extractall(output_folder)
-          message = 'unzipping done successfully'
+          shutil.move(source,destination)
+          message = ("moving done successfully")
           result = True
         except Exception as e:
           message = e
@@ -41,5 +41,5 @@ operation:
     - message: message
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - SUCCESS: result
+    - FAILURE

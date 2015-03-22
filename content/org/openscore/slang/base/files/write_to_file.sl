@@ -6,37 +6,32 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Reads a file from the given path and returns its content.
+# Writes text to a file.
 #
 # Inputs:
-#   - file_path - the path of the file to read
-# Outputs:
-#   - read_text - content of the file
+#   - file_path - path of the file to write to
+#   - text - text to write to the file
 # Results:
-#   - SUCCESS - file was read successfully
+#   - SUCCESS - text was written to the file
 #   - FAILURE - otherwise
 ####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
-  name: read_from_file
-
+  name: write_to_file
   inputs:
     - file_path
-
+    - text
   action:
     python_script: |
-      import sys
       try:
-        f = open(file_path, 'r')
-        read_text = f.read()
+        f = open(file_path, 'w')
+        f.write(text)
         f.close()
         res = True
       except Exception as e:
         print e
         res = False
-  outputs:
-    - read_text
   results:
-    - SUCCESS: res == True
+    - SUCCESS: res
     - FAILURE
