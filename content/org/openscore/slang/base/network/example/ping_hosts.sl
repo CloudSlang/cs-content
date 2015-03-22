@@ -16,7 +16,7 @@
 # Results:
 #  SUCCESS: addressee will get an email with result
 #  FAILURE: addressee will get an email with exception of operation
-# 
+#
 ####################################################
 namespace: org.openscore.slang.base.network.example
 
@@ -30,6 +30,7 @@ flow:
   inputs:
     - ip_list
     - message_body: []
+    - all_nodes_are_up: True
 
   workflow:
     - check_address:
@@ -39,15 +40,17 @@ flow:
             network.ping:
               - address
         publish:
-              - message_body: "fromInputs['message_body'].append(message)"
+              - messagebody: "fromInputs['message_body'].append(message)"
+              - all_nodes_are_up: "fromInputs['all_nodes_are_up'] and is_up"
         navigate:
-          SUCCESS: mail_send
+          UP: mail_send
+          DOWN: failure_mail_send
           FAILURE: failure_mail_send
 
     - mail_send:
         do:
           mail.send_mail:
-            - hostname: 
+            - hostname:
                 system_property: org.openscore.slang.base.hostname
             - port:
                 system_property: org.openscore.slang.base.port
@@ -57,7 +60,7 @@ flow:
                 system_property: org.openscore.slang.base.to
             - subject: "'Ping Result'"
             - body: >
-                  "Result: " + " ".join(map(lambda tup: tup[0] + " " + tup[1], message_body))
+                  "Result: " + " ".join(message_body)
             - username:
                 system_property: org.openscore.slang.base.username
             - password:
@@ -77,7 +80,7 @@ flow:
                     system_property: org.openscore.slang.base.to
                 - subject: "'Ping Result'"
                 - body: >
-                      "Result: Failure to ping: message_body"
+                      "Result: Failure to ping: " + "".join(message_body)
                 - username:
                     system_property: org.openscore.slang.base.username
                 - password:

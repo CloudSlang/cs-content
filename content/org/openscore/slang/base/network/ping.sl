@@ -40,23 +40,26 @@ operation:
     python_script: |
         try:
           import os, smtplib
+          is_up = False
+          is_error = False
           if os.path.isdir('/usr'):
             response = os.system("ping -c 1 -t " + ttl + ' -s ' + size + ' -W ' + timeout + ' ' + address)
           else:
             response = os.system("ping -n 1 -i " + ttl + ' -l ' + size + ' -w ' + timeout + ' ' + address)
           if response == 0:
-            message = (address, 'is up!')
+            message = (address + " is up! \n")
+            is_up = True
           else:
-            message = (address, 'is down!')
-          print (message)
-          result = True
+            message = (address + " is down! \n")
         except Exception as e:
           message = e
-          result = False
+          is_error = True
 
   outputs:
-     - message: message
+     - message
+     - is_up
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - FAILURE: is_error
+    - UP: is_up
+    - DOWN: not is_up
