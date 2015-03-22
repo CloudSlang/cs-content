@@ -63,21 +63,22 @@ flow:
             - password:
                 system_property: org.openscore.slang.base.password
 
-    - failure_mail_send:
-        do:
-          mail.send_mail:
-            - hostname: 
-                system_property: org.openscore.slang.base.hostname
-            - port:
-                system_property: org.openscore.slang.base.port
-            - from:
-                system_property: org.openscore.slang.base.from
-            - to:
-                system_property: org.openscore.slang.base.to
-            - subject: "'Ping Result'"
-            - body: >
-                  "Result: Failure to ping: message_body" 
-            - username:
-                system_property: org.openscore.slang.base.username
-            - password:
-                system_property: org.openscore.slang.base.password
+    - on_failure:
+        - failure_mail_send:
+            do:
+              mail.send_mail:
+                - hostname:
+                    system_property: org.openscore.slang.base.hostname
+                - port:
+                    system_property: org.openscore.slang.base.port
+                - from:
+                    system_property: org.openscore.slang.base.from
+                - to:
+                    system_property: org.openscore.slang.base.to
+                - subject: "'Ping Result'"
+                - body: >
+                      "Result: Failure to ping: message_body"
+                - username:
+                    system_property: org.openscore.slang.base.username
+                - password:
+                    system_property: org.openscore.slang.base.password
