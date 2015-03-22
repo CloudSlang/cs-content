@@ -20,6 +20,7 @@ namespace: org.openscore.slang.base.files
 
 operation:
   name: delete
+  
   inputs:
     - source
 
@@ -39,12 +40,12 @@ operation:
             message = "No such file or folder"
             result = False
         except Exception as e:
-          message = sys.exc_info()[0]
+          message = e
           result = False
 
   outputs:
     - message
 
   results:
-    - SUCCESS: result == True
-    - FAILURE: result == False
+    - SUCCESS: result
+    - FAILURE

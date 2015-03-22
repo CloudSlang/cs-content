@@ -21,8 +21,10 @@ namespace: org.openscore.slang.base.files
 
 operation:
   name: read_from_file
+
   inputs:
     - file_path
+
   action:
     python_script: |
       import sys
@@ -33,8 +35,8 @@ operation:
         read_text = f.read()
         f.close()
         res = True
-      except:
-        error_message = sys.exc_info()[0]
+      except Exception as e:
+        print e
         res = False
   outputs:
     - read_text

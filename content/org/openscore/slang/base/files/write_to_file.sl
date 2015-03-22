@@ -29,8 +29,8 @@ operation:
         f.write(text)
         f.close()
         res = True
-      except:
-        print sys.exc_info()[0]
+      except Exception as e:
+        print e
         res = False
   results:
     - SUCCESS: res
