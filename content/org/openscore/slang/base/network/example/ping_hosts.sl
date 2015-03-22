@@ -9,13 +9,13 @@
 # This flow pings addressed from input list and send an email with results
 #
 # Inputs:
-# - address: list of ip's to be checked
+# - address - list of ip's to be checked
 #
 # For correct work of email part - system_property (mail.yaml) file should be filled and called as '--spf' input
 #
 # Results:
-#  SUCCESS: addressee will get an email with result
-#  FAILURE: addressee will get an email with exception of operation
+#  - SUCCESS - addressee will get an email with result
+#  - FAILURE - addressee will get an email with exception of operation
 #
 ####################################################
 namespace: org.openscore.slang.base.network.example
