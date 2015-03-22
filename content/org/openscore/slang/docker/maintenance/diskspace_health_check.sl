@@ -23,7 +23,7 @@
 namespace: org.openscore.slang.docker.maintenance
 
 imports:
- docker_linux: org.openscore.slang.docker.linux
+ base_os_linux: org.openscore.slang.base.os.linux
  base_comparisons: org.openscore.slang.base.comparisons
 
 flow:
@@ -39,14 +39,14 @@ flow:
   workflow:
     - validate_linux_machine_ssh_access:
         do:
-          docker_linux.validate_linux_machine_ssh_access:
+          base_os_linux.validate_linux_machine_ssh_access:
             - host: docker_host
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
     - check_disk_space:
         do:
-          docker_linux.check_linux_disk_space:
+          base_os_linux.check_linux_disk_space:
             - host: docker_host
             - username: docker_username
             - password: docker_password

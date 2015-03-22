@@ -27,7 +27,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.docker.linux
+namespace: org.openscore.slang.base.os.linux
 
 operation:
   name: check_linux_disk_space

@@ -27,7 +27,7 @@
 #   - FAILURE
 ####################################################
 
-namespace: org.openscore.slang.docker.linux
+namespace: org.openscore.slang.base.os.linux
 
 operation:
   name: validate_linux_machine_ssh_access
