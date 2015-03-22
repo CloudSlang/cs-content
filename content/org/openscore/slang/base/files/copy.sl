@@ -33,10 +33,12 @@ operation:
             shutil.copy(source,destination)
             message = ("copying done successfully")
             result = True
+            message = ("copying done successfully")
           elif os.path.isdir(source):
             shutil.copytree(source,destination,)
             message = ("copying done successfully")
             result = True
+            message = ("copying done successfully")
           else:
             message = ("no such file or folder")
             result = False

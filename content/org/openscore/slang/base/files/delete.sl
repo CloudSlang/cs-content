@@ -10,12 +10,12 @@
 #
 # Inputs:
 #   - source - path of source file or folder to be deleted
-# Outputs::
-          #   - SUCCESS - file or folder was successfully deleted
-          #   - FAILURE - file or folder was not deleted due to error
-          ####################################################
+# Outputs:
 #   - message - error message in case of error
-# Results
+# Results:
+#   - SUCCESS - file or folder was successfully deleted
+#   - FAILURE - file or folder was not deleted due to error
+####################################################
 namespace: org.openscore.slang.base.files
 
 operation:
@@ -37,14 +37,14 @@ operation:
             message = source + " was removed"
             result = True
           else:
-            message = "'No such file/folder'"
+            message = "No such file or folder"
             result = False
         except Exception as e:
           message = e
           result = False
 
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result

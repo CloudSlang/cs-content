@@ -28,7 +28,7 @@ operation:
         import sys, os
         try:
           if os.path.isdir(folder_name):
-            message = ("folder already exist")
+            message = ("folder already exists")
             result = False
           else:
             os.mkdir(folder_name)
@@ -39,7 +39,7 @@ operation:
           result = False
 
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result
