@@ -21,6 +21,7 @@
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
 #   - disk_space - percentage - Example: 50%
+#   - error_message - error message if error occurred
 # Results:
 #   - SUCCESS - operation finished successfully
 #   - FAILURE - otherwise
