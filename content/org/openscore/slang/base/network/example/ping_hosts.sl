@@ -9,7 +9,7 @@
 # This flow pings addressed from input list and send an email with results
 #
 # Inputs:
-# - address - list of ip's to be checked
+# - address: list of ip's to be checked
 #
 # For correct work of email part - system_property (mail.yaml) file should be filled and called as '--spf' input
 #
