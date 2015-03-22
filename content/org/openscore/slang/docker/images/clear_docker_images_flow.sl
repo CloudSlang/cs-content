@@ -69,7 +69,7 @@ flow:
             - result_set_delimiter: "' '"
         publish:
           - images_list_safe_to_delete: result_set
-          - amount_of_images: str(len(result_set.split()))
+          - amount_of_images: len(result_set.split())
     - delete_images:
         do:
           docker_images.clear_docker_images:
@@ -83,5 +83,5 @@ flow:
 
   outputs:
     - images_list_safe_to_delete
-    - amount_of_images_deleted: "'0' if images_list_safe_to_delete == '' else amount_of_images"
+    - amount_of_images_deleted: "0 if images_list_safe_to_delete == '' else amount_of_images"
     - used_images_list

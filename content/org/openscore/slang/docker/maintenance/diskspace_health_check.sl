@@ -56,7 +56,7 @@ flow:
     - check_availability:
         do:
           base_comparisons.less_than_percentage:
-            - first_percentage: disk_space
+            - first_percentage: disk_space.replace("\n", "")
             - second_percentage: percentage
         navigate:
           LESS: SUCCESS
