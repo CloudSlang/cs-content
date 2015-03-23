@@ -6,18 +6,18 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation copies file/folder
+# Pings an address.
 #
 # Inputs:
-# - address - address to ping send
-# - ttl - TimeToLive ping parametr
-# - size - ping buffer size
-# - timeout - timeout in miliseconds to wait for reply
+#   - address - address to ping send
+#   - ttl - time to live ping parameter
+#   - size - ping buffer size
+#   - timeout - timeout in milliseconds to wait for reply
 # Outputs:
-# - message - error message in case of error
+#   - message - error message if error occurred
 # Results:
-# - SUCCESS - address is up
-# - FAILURE - address is down
+#   - SUCCESS - address is up
+#   - FAILURE - address is down
 ####################################################
 namespace: org.openscore.slang.base.network
 

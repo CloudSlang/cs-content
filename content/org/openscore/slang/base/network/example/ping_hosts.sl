@@ -6,16 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow pings addressed from input list and send an email with results
+# Pings addresses from input list and sends an email with results.
+#
+# Prerequisites: system property file with email properties
 #
 # Inputs:
-# - address - list of ip's to be checked
-#
-# For correct work of email part - system_property (mail.yaml) file should be filled and called as '--spf' input
-#
+#   - ip_list - list of IPs to be checked
 # Results:
-#  - SUCCESS - addressee will get an email with result
-#  - FAILURE - addressee will get an email with exception of operation
+#   - SUCCESS - addressee will get an email with result
+#   - FAILURE - addressee will get an email with exception of operation
 #
 ####################################################
 namespace: org.openscore.slang.base.network.example
