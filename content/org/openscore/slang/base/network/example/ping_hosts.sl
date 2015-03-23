@@ -28,8 +28,12 @@ flow:
 
   inputs:
     - ip_list
-    - message_body: []
-    - all_nodes_are_up: True
+    - message_body:
+        default: []
+        overridable: false
+    - all_nodes_are_up:
+        default: True
+        overridable: false
 
   workflow:
     - check_address:
