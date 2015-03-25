@@ -26,7 +26,7 @@
 namespace: org.openscore.slang.openstack
 
 imports:
- base_strings: org.openscore.slang.base.strings
+ openstack_utils: org.openscore.slang.openstack.utils
  openstack_content: org.openscore.slang.openstack
 
 flow:
@@ -55,10 +55,9 @@ flow:
           - error_message
     - check_server:
         do:
-          base_strings.string_occurrence_counter:
-            - string_to_find: server_name
-            - string_in_which_to_search: server_list
-            - ignore_case: "'true'"
+          openstack_utils.check_server:
+            - server_to_find: server_name
+            - server_list
         publish:
           - return_result
           - error_message

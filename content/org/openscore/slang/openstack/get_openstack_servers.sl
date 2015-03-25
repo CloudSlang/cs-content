@@ -50,5 +50,5 @@ operation:
     - status_code: statusCode
     - error_message: returnResult if statusCode != '202' else ''
   results:
-    - SUCCESS : statusCode == '200'
+    - SUCCESS : "'statusCode' in locals() and statusCode == '200'"
     - FAILURE

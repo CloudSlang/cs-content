@@ -41,6 +41,8 @@ flow:
         default: "'5000'"
     - compute_port:
         default: "'8774'"
+    - network_ID:
+        default: "''"
     - img_ref
     - username
     - password
@@ -57,6 +59,7 @@ flow:
             - host
             - identity_port
             - compute_port
+            - network_ID
             - img_ref
             - username
             - password

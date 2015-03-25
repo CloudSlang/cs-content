@@ -48,9 +48,9 @@ operation:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
+    - return_result: "'' if 'returnResult' not in locals() else returnResult"
     - status_code: statusCode
     - error_message: returnResult if statusCode != '204' else ''
   results:
-    - SUCCESS: statusCode == '204'
+    - SUCCESS: "'statusCode' in locals() and statusCode == '204'"
     - FAILURE
