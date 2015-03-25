@@ -19,10 +19,10 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: org.openscore.slang.openstack.utils
+namespace: io.cloudslang.openstack.utils
 
 imports:
- base_strings: org.openscore.slang.base.strings
+ base_strings: io.cloudslang.base.strings
 
 flow:
   name: check_server
