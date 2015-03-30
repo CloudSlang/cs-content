@@ -12,7 +12,7 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
-#   - private_key_file - absolute path to the private key file - Default: none
+#   - private_key_file - path to the private key file - Default: none
 #   - percentage - Example: 50%
 # Results:
 #   - SUCCESS - disk space less than percentage

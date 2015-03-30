@@ -12,7 +12,7 @@
 #    - docker_host - Docker machine host
 #    - docker_username - Docker machine username
 #    - docker_password - Docker machine password
-#    - private_key_file - the absolute path to the private key file; Default: none
+#    - private_key_file - path to the private key file; Default: none
 #  Outputs:
 #    - amount_of_images_deleted - number of images deleted
 #    - amount_of_dangling_images_deleted - number of dangling images deleted

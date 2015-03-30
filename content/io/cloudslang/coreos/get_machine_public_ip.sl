@@ -14,7 +14,7 @@
 #   - port - optional - SSH port - Default: 22
 #   - username - CoreOS machine username
 #   - password - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
-#   - privateKeyFile - optional - absolute path to the private key file - Default: none
+#   - privateKeyFile - optional - path to the private key file - Default: none
 #   - arguments - optional - arguments to pass to the command - Default: none
 #   - pty - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for the command to complete - Default: 90000

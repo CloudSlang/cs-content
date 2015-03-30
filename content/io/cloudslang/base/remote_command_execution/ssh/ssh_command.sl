@@ -16,7 +16,7 @@
 #    - username - username to connect as
 #    - password - password of user
 #    - arguments - optional - arguments to pass to the command
-#    - privateKeyFile - optional - the absolute path to the private key file
+#    - privateKeyFile - optional - path to the private key file
 #    - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
 #    - characterSet - optional - character encoding used for input stream encoding from the target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: true
