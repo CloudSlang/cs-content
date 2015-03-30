@@ -11,7 +11,7 @@
 # Inputs:
 #   - coreos_host - CoreOS machine host; can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
-#   - private_key_file - the path to the private key file - Default: none
+#   - private_key_file - path to the private key file - Default: none
 # Outputs:
 #   - machines_public_ip_list: space delimeted list of public IP addresses of machines in cluster
 #   - error_Message - possible error message
