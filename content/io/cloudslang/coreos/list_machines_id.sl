@@ -13,7 +13,7 @@
 #   - port - optional - SSH port - Default: 22
 #   - username - CoreOS machine username
 #   - password - CoreOS machine password; can be empty since with CoreOS machines private key file authentication is used
-#   - privateKeyFile - optional - absolute path to the private key file - Default: none
+#   - privateKeyFile - optional - path to the private key file - Default: none
 #   - arguments - optional - arguments to pass to the command - Default: none
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use pty - Valid: true, false - Default: false
