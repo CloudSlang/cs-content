@@ -11,8 +11,8 @@
 # Outputs:
 #   - message - error message if error occurred
 # Results:
-#   - LINUX - OS is linux
-#   - WINDOWS - OS is windows
+#   - LINUX - OS is Linux
+#   - WINDOWS - OS is Windows
 ####################################################
 namespace: io.cloudslang.base.os
 
