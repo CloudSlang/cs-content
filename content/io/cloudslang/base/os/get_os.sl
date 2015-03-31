@@ -6,13 +6,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Define linux or windows OS.
+# Checks if operating system is Linux or Windows.
 #
 # Outputs:
 #   - message - error message if error occurred
 # Results:
-#   - LINUX - os is linux
-#   - WINDOWS - os is windows
+#   - LINUX - OS is linux
+#   - WINDOWS - OS is windows
 ####################################################
 namespace: io.cloudslang.base.os
 
