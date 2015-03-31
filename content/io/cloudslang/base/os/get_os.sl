@@ -17,7 +17,7 @@
 namespace: io.cloudslang.base.os
 
 operation:
-  name: os_define
+  name: get_os
   action:
     python_script: |
         try:
