@@ -23,75 +23,46 @@
 #       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
 #                     if true the ssh session used by this operation will be closed; Valid values: true, false; Default: true
 #
-# For correct work of email part - system_property (mail.yaml) file should be filled and called as '--spf' input
 #
 # Results:
-#  SUCCESS: service on linux host will be restarted
+#  SUCCESS: service on Linux host is restarted successfully
 #  FAILURE: service cannot be restarted due to an error
 # 
 ####################################################
 namespace: io.cloudslang.base.os.linux
 
-imports:
-  ssh_command: io.cloudslang.base.remote_command_execution.ssh
-  print: io.cloudslang.base.print
-
-flow:
+operation:
   name: restart_service
-
   inputs:
     - service_name
     - host
     - port:
-        required: false
-    - pty:
-        default: "'false'"
+        default: "'22'"
     - username
     - password
-    - arguments:
-          required: false
     - privateKeyFile:
-          required: false
-    - timeout:
-          default: "'90000'"
+        default: "''"
+    - command:
+        default: |
+            "service " + service_name + " restart"
+        overridable: false
+    - arguments:
+        default: "''"
     - characterSet:
-         default: "'UTF-8'"
+        default: "'UTF-8'"
+    - pty:
+        default: "'false'"
+    - timeout:
+        default: "'30000000'"
     - closeSession:
-          default: "'true'"
-
-
-  workflow:
-    - service_restart:
-        do:
-          ssh_command.ssh_command:
-            - host
-            - command: >
-                "service " + service_name + " restart"
-            - username
-            - password
-        publish: 
-          - returnResult: returnResult
-          - STDOUT: STDOUT
-          - STDERR: STDERR
-          - exception: FAILURE
-      navigate:
-          SUCCESS: print_success
-          FAILURE: print_failure
-
-    - print_success:
-        do:
-          print.print_text:
-            - text: >
-                "Result: " + str(STDOUT)
-
-    - print_failure:
-        do:
-          print.print_text:
-            - text: >
-                "Result: " + str(STDERR)
-
-    - print_result:
-        do:
-          print.print_text:
-            - text: >
-                str(returnResult)
+        default: "'false'"
+  action:
+    java_action:
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - message: "'' if 'STDOUT' not in locals() else STDOUT"
+    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+  results:
+    - SUCCESS: returnCode == '0' and (not 'unrecognized' in STDERR)
+    - FAILURE
