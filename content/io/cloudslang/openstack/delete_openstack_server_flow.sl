@@ -36,6 +36,8 @@ flow:
     - username
     - password
     - server_name
+    - tenant_name:
+        default: "'demo'"
   workflow:
     - authentication:
         do:
@@ -44,6 +46,7 @@ flow:
             - identity_port
             - username
             - password
+            - tenant_name
         publish:
           - token
           - tenant

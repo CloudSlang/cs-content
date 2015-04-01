@@ -33,11 +33,13 @@ operation:
         default: "'5000'"
     - username
     - password
+    - tenant_name:
+        default: "'demo'"
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
         overridable: false
     - body:
-        default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
+        default: "'{\"auth\": {\"tenantName\": \"' + tenant_name + '\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
         overridable: false
     - method:
         default: "'post'"

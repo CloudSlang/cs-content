@@ -46,6 +46,8 @@ flow:
     - img_ref
     - username
     - password
+    - tenant_name:
+        default: "'demo'"
     - server_name:
         default: "'test-server'"
     - email_host
@@ -63,6 +65,7 @@ flow:
             - img_ref
             - username
             - password
+            - tenant_name
             - server_name
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
@@ -74,6 +77,7 @@ flow:
             - openstack_compute_port: compute_port
             - openstack_username: username
             - openstack_password: password
+            - tenant_name
             - server_name
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
@@ -85,6 +89,7 @@ flow:
             - compute_port
             - username
             - password
+            - tenant_name
             - server_name
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"

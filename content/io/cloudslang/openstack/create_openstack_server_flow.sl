@@ -39,6 +39,8 @@ flow:
     - img_ref
     - username
     - password
+    - tenant_name:
+        default: "'demo'"
     - server_name
   workflow:
     - authentication:
@@ -48,6 +50,7 @@ flow:
             - identity_port
             - username
             - password
+            - tenant_name
         publish:
           - token
           - tenant

@@ -37,6 +37,8 @@ flow:
         default: "'5000'"
     - username
     - password
+    - tenant_name:
+        default: "'demo'"
   workflow:
     - get_token:
         do:
@@ -45,6 +47,7 @@ flow:
             - identityPort: identity_port
             - username
             - password
+            - tenant_name
         publish:
           - response_body: return_result
           - return_code

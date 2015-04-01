@@ -39,6 +39,8 @@ flow:
         default: "'8774'"
     - openstack_username
     - openstack_password
+    - tenant_name:
+        default: "'demo'"
   workflow:
     - authentication:
         do:
@@ -47,6 +49,7 @@ flow:
             - identity_port: openstack_identity_port
             - username: openstack_username
             - password: openstack_password
+            - tenant_name
         publish:
           - token
           - tenant
