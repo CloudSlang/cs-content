@@ -1,0 +1,10 @@
+testSubtractSetsSuccess:
+  inputs:
+    - set_1: element1,element2,element3,element4
+    - set_1_delimiter: ','
+    - set_2: element2;element3
+    - set_2_delimiter: ';'
+    - result_set_delimiter: '-'
+  description: Tests that subtract_sets.sl operation finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.lists.subtract_sets
+  result: SUCCESS
