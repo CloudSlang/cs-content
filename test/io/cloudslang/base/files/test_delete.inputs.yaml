@@ -1,0 +1,7 @@
+testDeleteSuccess:
+  inputs:
+    - delete_source: test.txt
+  description: Tests that delete.sl finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.files.test_delete
+  result: SUCCESS
+
