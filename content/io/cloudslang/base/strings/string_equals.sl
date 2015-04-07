@@ -27,6 +27,8 @@ operation:
       res = False
       if first_string == second_string:
         res = True
+      print "first:" + first_string
+      print "second:" + second_string
 
   results:
     - SUCCESS: res == True

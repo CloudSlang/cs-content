@@ -1,17 +1,19 @@
 testStringOccurrenceCounterSuccess:
   inputs:
-    - string_in_which_to_search: long string in which to search
+    - string_in_which_to_search: long string inin which to search
     - string_to_find: in
     - ignore_case: true
+    - expected_output: 3
   description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when inputs are valid
-  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  testFlowPath: io.cloudslang.base.strings.test_string_occurrence_counter
   result: SUCCESS
 
-testStringOccurrenceCounterSuccess:
+testStringOccurrenceCounterFailure:
   inputs:
     - string_in_which_to_search: long string in which to search
     - string_to_find: stringthatisnotfound
     - ignore_case: true
+    - expected_output: 0
   description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when inputs are valid
-  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  testFlowPath: io.cloudslang.base.strings.test_string_occurrence_counter
   result: FAILURE

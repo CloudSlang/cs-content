@@ -1,0 +1,18 @@
+testMatchRegexMatch:
+  inputs:
+    - regex: 'a+b'
+    - text: aaabc
+    - expected_output: 'aaab'
+  description: Tests that match_regex.sl operation finishes with MATCH for specified regex/text
+  testFlowPath: io.cloudslang.base.strings.test_match_regex
+  result: MATCH
+
+testMatchRegexNoMatch:
+  inputs:
+    - regex: '[a-z]'
+    - text: HELLO WORLD
+    - expected_output: ''
+  description: Tests that match_regex.sl operation finishes with MATCH for specified regex/text
+  testFlowPath: io.cloudslang.base.strings.test_match_regex
+  result: NO_MATCH
+
