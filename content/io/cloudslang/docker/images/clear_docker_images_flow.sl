@@ -11,7 +11,7 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
-#   - private_key_file - optional - absolute path to the private key file - Default: none
+#   - private_key_file - optional - path to the private key file - Default: none
 # Outputs:
 #   - images_list_safe_to_delete - unused Docker images
 #   - amount_of_images_deleted - how many images where deleted
