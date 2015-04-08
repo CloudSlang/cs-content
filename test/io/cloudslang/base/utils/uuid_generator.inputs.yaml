@@ -1,0 +1,4 @@
+testUuidGeneratorSuccess:
+  description: Tests that uuid_generator.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.uuid_generator
+  result: SUCCESS

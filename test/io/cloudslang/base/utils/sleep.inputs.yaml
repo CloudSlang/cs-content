@@ -1,0 +1,13 @@
+testSleepSuccess:
+  inputs:
+    - seconds: '0.1'
+  description: Tests that sleep.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.sleep
+  result: SUCCESS
+
+testSleepConversionException:
+  inputs:
+    - seconds: 'sd'
+  description: Tests that sleep.sl operation throws an exception when seconds cannot be converted to float
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
