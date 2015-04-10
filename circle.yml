@@ -1,0 +1,5 @@
+test:
+  override:
+    - wget -O verifier.jar https://github.com/openscore/score-language/releases/download/score-language-0.1.18/slang-content-verifier.jar
+    - chmod +x verifier.jar
+    - java -jar verifier.jar .
