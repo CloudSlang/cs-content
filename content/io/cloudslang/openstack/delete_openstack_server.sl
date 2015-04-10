@@ -14,6 +14,8 @@
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - serverID - ID of server to be deleted
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 204

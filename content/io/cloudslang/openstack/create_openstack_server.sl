@@ -14,6 +14,8 @@
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - serverName - server name
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 #   - imgRef - image reference for server to be created
 # Outputs:
 #   - return_result - response of the operation

@@ -18,6 +18,8 @@
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 #   - server_name - optional - server name - Default: test-server
 #   - email_host - email host
 #   - email_port - email port

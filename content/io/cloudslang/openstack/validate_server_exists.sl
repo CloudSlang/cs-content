@@ -9,12 +9,14 @@
 # Checks if an OpenStack server exists.
 #
 # Inputs:
-#   - openstack_host - OpenStack machine host
-#   - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - openstack_compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - openstack_username - OpenStack username
-#   - openstack_password - OpenStack password
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - username - OpenStack username
+#   - password - OpenStack password
 #   - server_name - server name to check
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed

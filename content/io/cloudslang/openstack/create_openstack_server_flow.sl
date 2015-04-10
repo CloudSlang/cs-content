@@ -17,6 +17,8 @@
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
 #   - server_name - server name
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
