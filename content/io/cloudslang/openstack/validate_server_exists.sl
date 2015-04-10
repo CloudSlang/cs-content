@@ -32,23 +32,31 @@ imports:
 flow:
   name: validate_server_exists
   inputs:
-    - openstack_host
-    - openstack_identity_port:
+    - host
+    - identity_port:
         default: "'5000'"
-    - openstack_compute_port:
+    - compute_port:
         default: "'8774'"
-    - openstack_username
-    - openstack_password
+    - username
+    - password
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
     - server_name
   workflow:
     - get_server_list:
         do:
           openstack_content.list_servers:
-            - openstack_host
-            - openstack_identity_port
-            - openstack_compute_port
-            - openstack_username
-            - openstack_password
+            - host
+            - identity_port
+            - compute_port
+            - username
+            - password
+            - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - server_list
           - return_result

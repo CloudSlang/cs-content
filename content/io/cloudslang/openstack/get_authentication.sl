@@ -13,6 +13,7 @@
 #   - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200
@@ -33,8 +34,13 @@ operation:
         default: "'5000'"
     - username
     - password
-    - tenant_name:
-        default: "'demo'"
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
+    - proxyHost: "proxy_host if proxy_host != '' else ''"
+    - proxyPort: "proxy_port if proxy_port != '' else ''"
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
         overridable: false

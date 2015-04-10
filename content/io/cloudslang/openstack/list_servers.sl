@@ -9,11 +9,12 @@
 # Retrieves a list of servers on an OpenStack machine.
 #
 # Inputs:
-#   - openstack_host - OpenStack machine host
-#   - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - openstack_compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - openstack_username - OpenStack username
-#   - openstack_password - OpenStack password
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - username - OpenStack username
+#   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 # Outputs:
 #   - server_list - list of server names
 #   - return_result - response of the last operation executed
@@ -32,24 +33,29 @@ imports:
 flow:
   name: list_servers
   inputs:
-    - openstack_host
-    - openstack_identity_port:
+    - host
+    - identity_port:
         default: "'5000'"
-    - openstack_compute_port:
+    - compute_port:
         default: "'8774'"
-    - openstack_username
-    - openstack_password
-    - tenant_name:
-        default: "'demo'"
+    - username
+    - password
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
   workflow:
     - authentication:
         do:
           openstack_content.get_authentication_flow:
-            - host: openstack_host
-            - identity_port: openstack_identity_port
-            - username: openstack_username
-            - password: openstack_password
+            - host
+            - identity_port
+            - username
+            - password
             - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -59,10 +65,12 @@ flow:
     - get_openstack_servers:
         do:
           openstack_content.get_openstack_servers:
-            - host: openstack_host
-            - computePort: openstack_compute_port
+            - host
+            - computePort: compute_port
             - token
             - tenant
+            - proxy_host
+            - proxy_port
         publish:
           - response_body: return_result
           - return_result: return_result

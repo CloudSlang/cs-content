@@ -17,6 +17,7 @@
 #   - img_ref - image reference of the server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 #   - server_name - optional - server name - Default: test-server
 #   - email_host - email host
 #   - email_port - email port
@@ -46,8 +47,11 @@ flow:
     - img_ref
     - username
     - password
-    - tenant_name:
-        default: "'demo'"
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
     - server_name:
         default: "'test-server'"
     - email_host
@@ -67,18 +71,22 @@ flow:
             - password
             - tenant_name
             - server_name
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
     - validate_server_exists:
         do:
           openstack_content.validate_server_exists:
-            - openstack_host: host
-            - openstack_identity_port: identity_port
-            - openstack_compute_port: compute_port
-            - openstack_username: username
-            - openstack_password: password
+            - host
+            - identity_port
+            - compute_port
+            - username
+            - password
             - tenant_name
             - server_name
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
     - delete_server:
@@ -91,6 +99,8 @@ flow:
             - password
             - tenant_name
             - server_name
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"
     - on_failure:

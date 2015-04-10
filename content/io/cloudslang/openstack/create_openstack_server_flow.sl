@@ -15,6 +15,7 @@
 #   - img_ref - image reference for server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 #   - server_name - server name
 # Outputs:
 #   - return_result - response of the last operation that was executed
@@ -39,9 +40,12 @@ flow:
     - img_ref
     - username
     - password
-    - tenant_name:
-        default: "'demo'"
+    - tenant_name
     - server_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
   workflow:
     - authentication:
         do:
@@ -51,6 +55,8 @@ flow:
             - username
             - password
             - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -66,6 +72,8 @@ flow:
             - imgRef: img_ref
             - networkID: network_ID
             - serverName: server_name
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

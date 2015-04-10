@@ -15,6 +15,7 @@
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - server_name - name of server to delete
+#   - tenant_name - name of the project on OpenStack
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
@@ -35,9 +36,12 @@ flow:
         default: "'8774'"
     - username
     - password
+    - tenant_name
     - server_name
-    - tenant_name:
-        default: "'demo'"
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
   workflow:
     - authentication:
         do:
@@ -47,6 +51,8 @@ flow:
             - username
             - password
             - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -59,6 +65,8 @@ flow:
             - computePort: compute_port
             - token
             - tenant
+            - proxy_host
+            - proxy_port
         publish:
           - server_list: return_result
           - return_result
@@ -80,6 +88,8 @@ flow:
             - token
             - tenant
             - serverID: server_ID
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

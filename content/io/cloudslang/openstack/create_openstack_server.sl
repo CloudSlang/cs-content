@@ -35,6 +35,12 @@ operation:
     - token
     - tenant
     - serverName
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
+    - proxyHost: "proxy_host if proxy_host != '' else ''"
+    - proxyPort: "proxy_port if proxy_port != '' else ''"
     - imgRef
     - networkID:
         default: "''"

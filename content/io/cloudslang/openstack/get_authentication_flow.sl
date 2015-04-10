@@ -13,6 +13,7 @@
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 # Outputs:
 #   - token - authentication token
 #   - tenant - tenantID
@@ -37,8 +38,11 @@ flow:
         default: "'5000'"
     - username
     - password
-    - tenant_name:
-        default: "'demo'"
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
   workflow:
     - get_token:
         do:
@@ -48,6 +52,8 @@ flow:
             - username
             - password
             - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - response_body: return_result
           - return_code
