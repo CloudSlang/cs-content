@@ -1,4 +1,4 @@
-testSringEqualsSuccess:
+testStringEqualsSuccess:
   inputs:
     - first_string: text
     - second_string: text
@@ -6,7 +6,7 @@ testSringEqualsSuccess:
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
-testSringEqualsFailure:
+testStringEqualsFailure:
   inputs:
     - first_string: text
     - second_string: different
