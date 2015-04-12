@@ -6,22 +6,14 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote linux process thrue ssh
+# This flow restart remote Linux process thrue ssh
 #
 #   Inputs:
-#       - process_name - linux process name to be restarted (NOTE: if linux has several process with same name - all of them will be restarted)
 #       - host - hostname or IP address
-#       - port - port number for running the command
-#       - command - command to execute
-#       - pty - whether to use pty; valid values: true, false; Default: false
 #       - username - username to connect as
 #       - password - password of user
-#       - arguments - arguments to pass to the command
+#       - process_name - Linux process name to be restarted (NOTE: if Linux has several process with same name - all of them will be restarted)
 #       - privateKeyFile - the absolute path to the private key file
-#       - timeout - time in milliseconds to wait for the command to complete; Default: 90000 ms
-#       - characterSet - character encoding used for input stream encoding from the target machine; valid values: SJIS, EUC-JP, UTF-8; Default: UTF-8;
-#       - closeSession - if false the ssh session will be cached for future calls of this operation during the life of the flow
-#                     if true the ssh session used by this operation will be closed; Valid values: true, false; Default: true
 #
 # Results:
 #  SUCCESS: process on Linux host is restarted successfully
@@ -30,38 +22,44 @@
 ####################################################
 namespace: io.cloudslang.base.os.linux
 
-operation:
-  name: restart_process
+imports:
+  ssh_command: io.cloudslang.base.remote_command_execution.ssh
+  strings: io.cloudslang.base.strings
+
+flow:
+  name: restart_service
+
   inputs:
-    - process_name
     - host
-    - port:
-        default: "'22'"
     - username
     - password
+    - process_name
     - privateKeyFile:
-        default: "''"
-    - command:
-        default: |
-            "killall -HUP " + process_name
-        overridable: false
-    - arguments:
-        default: "''"
-    - characterSet:
-        default: "'UTF-8'"
-    - pty:
-        default: "'false'"
-    - timeout:
-        default: "'30000000'"
-    - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
-  outputs:
-    - message: "'' if 'STDOUT' not in locals() else STDOUT"
-    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
-  results:
-    - SUCCESS: returnCode == '0' and (not 'process' in STDERR)
-    - FAILURE
+          required: false
+  
+  workflow:
+    - process_restart:
+        do:
+          ssh_command.ssh_command:
+            - host
+            - command: >
+                "killall -HUP " + process_name
+            - username
+            - password
+            - privateKeyFile:
+                  required: false
+
+        publish: 
+          - STDERR: standard_err
+        navigate:
+          SUCCESS: check_result
+          FAILURE: FAILURE
+    
+    - check_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: STDERR
+            - string_to_find: process_name
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: SUCCESS
