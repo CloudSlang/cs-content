@@ -33,7 +33,9 @@ flow:
     - username
     - password
     - service_name
-
+    - privateKeyFile:
+          required: false
+  
   workflow:
     - service_restart:
         do:
@@ -43,11 +45,11 @@ flow:
                 "service " + service_name + " restart"
             - username
             - password
+            - privateKeyFile:
+                  required: false
+
         publish: 
-          - returnResult: returnResult
-          - STDOUT: standard_out
           - STDERR: standard_err
-          - exception: exception
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
