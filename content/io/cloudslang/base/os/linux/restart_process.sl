@@ -27,7 +27,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: restart_service
+  name: restart_process
 
   inputs:
     - host
