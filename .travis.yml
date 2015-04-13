@@ -1,5 +1,6 @@
 language: java
 script:
-  - wget -O verifier.jar https://github.com/openscore/score-language/releases/download/score-language-0.1.18/slang-content-verifier.jar
-  - chmod +x verifier.jar
-  - java -jar verifier.jar .
+  - https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.14/cslang-builder.zip
+  - unzip cslang-builder.zip -d cslang-builder
+  - chmod +x cslang-builder/bin/cslang-builder
+  - ./cslang-builder/bin/cslang-builder ./content
