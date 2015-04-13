@@ -1,10 +1,10 @@
 #Content
 
-The **slang-content** repository contains ready-made Slang flows and operations for many common tasks as well as content that integrates with several other systems.
+The **cloud-slang-content** repository contains ready-made CloudSlang flows and operations for many common tasks as well as content that integrates with several other systems.
 
 The following is an overview of what is included in the ready-made content:
 
-+ **slang**
++ **cloudslang**
   + **base:** This folder contains general purpose content.
     + **cmd:** Shell command content.
     + **files:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.

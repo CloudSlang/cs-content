@@ -11,7 +11,7 @@
 # Inputs:
 #   - coreos_host - CoreOS machine host; can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
-#   - private_key_file - absolute path to the private key file - Default: none
+#   - private_key_file - path to the private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50% - Default: 0%
 # Outputs:
 #   - number_of_deleted_images_per_host - how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
@@ -64,7 +64,7 @@ flow:
                     - percentage
               publish:
                     - number_of_deleted_images_per_host: >
-                        fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + total_amount_of_images_deleted + ','
+                        fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]
