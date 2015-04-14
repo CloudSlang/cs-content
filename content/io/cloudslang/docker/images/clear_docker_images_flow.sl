@@ -32,7 +32,8 @@ flow:
     - docker_password
     - private_key_file:
         default: "''"
-
+    - timeout:
+        required: false
   workflow:
     - validate_linux_machine_ssh_access:
         do:
@@ -41,6 +42,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
     - get_all_images:
         do:
           docker_images.get_all_images:
@@ -48,6 +51,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
         publish:
           - all_images_list: image_list
     - get_used_images:
@@ -57,6 +62,8 @@ flow:
             - docker_username
             - docker_password
             - private_key_file
+            - timeout:
+                required: false
         publish:
           - used_images_list: used_images_list
     - substract_used_images:
@@ -78,6 +85,8 @@ flow:
             - password: docker_password
             - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
+            - timeout:
+                required: false
         publish:
           - response
 

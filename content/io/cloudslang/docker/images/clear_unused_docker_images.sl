@@ -34,6 +34,8 @@ flow:
     - docker_password
     - private_key_file:
         default: "''"
+    - timeout:
+        required: false
   workflow:
      - clear_docker_images:
           do:
@@ -42,6 +44,8 @@ flow:
               - docker_username
               - docker_password
               - private_key_file
+              - timeout:
+                  required: false
           publish:
             - images_list_safe_to_delete
             - amount_of_images_deleted
@@ -54,6 +58,8 @@ flow:
               - docker_password
               - private_key_file
               - used_images: used_images_list
+              - timeout:
+                  required: false
           publish:
             - dangling_images_list_safe_to_delete
             - amount_of_dangling_images_deleted

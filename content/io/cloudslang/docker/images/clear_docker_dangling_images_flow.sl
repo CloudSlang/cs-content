@@ -33,6 +33,8 @@ flow:
     - private_key_file:
         default: "''"
     - used_images
+    - timeout:
+        required: false
 
   workflow:
     - validate_linux_machine_ssh_access:
@@ -42,6 +44,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
     - get_dangling_images:
         do:
           docker_images.get_dangling_images:
@@ -49,6 +53,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
         publish:
           - all_dangling_images: dangling_image_list.replace("\n"," ")
     - substract_used_dangling_images:
@@ -70,6 +76,8 @@ flow:
             - password: docker_password
             - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
+            - timeout:
+                required: false
         publish:
           - response
   outputs:

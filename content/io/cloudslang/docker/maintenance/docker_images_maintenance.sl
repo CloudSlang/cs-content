@@ -34,6 +34,8 @@ flow:
     - private_key_file:
         default: "''"
     - percentage
+    - timeout:
+        required: false
   workflow:
     - check_diskspace:
         do:
@@ -43,6 +45,8 @@ flow:
             - docker_password
             - private_key_file
             - percentage
+            - timeout:
+                required: false
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
