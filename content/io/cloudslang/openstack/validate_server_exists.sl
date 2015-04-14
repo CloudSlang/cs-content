@@ -9,12 +9,14 @@
 # Checks if an OpenStack server exists.
 #
 # Inputs:
-#   - openstack_host - OpenStack machine host
-#   - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - openstack_compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - openstack_username - OpenStack username
-#   - openstack_password - OpenStack password
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - username - OpenStack username
+#   - password - OpenStack password
 #   - server_name - server name to check
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
@@ -26,39 +28,46 @@
 namespace: io.cloudslang.openstack
 
 imports:
- base_strings: io.cloudslang.base.strings
+ openstack_utils: io.cloudslang.openstack.utils
  openstack_content: io.cloudslang.openstack
 
 flow:
   name: validate_server_exists
   inputs:
-    - openstack_host
-    - openstack_identity_port:
+    - host
+    - identity_port:
         default: "'5000'"
-    - openstack_compute_port:
+    - compute_port:
         default: "'8774'"
-    - openstack_username
-    - openstack_password
+    - username
+    - password
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
     - server_name
   workflow:
     - get_server_list:
         do:
           openstack_content.list_servers:
-            - openstack_host
-            - openstack_identity_port
-            - openstack_compute_port
-            - openstack_username
-            - openstack_password
+            - host
+            - identity_port
+            - compute_port
+            - username
+            - password
+            - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - server_list
           - return_result
           - error_message
     - check_server:
         do:
-          base_strings.string_occurrence_counter:
-            - string_to_find: server_name
-            - string_in_which_to_search: server_list
-            - ignore_case: "'true'"
+          openstack_utils.check_server:
+            - server_to_find: server_name
+            - server_list
         publish:
           - return_result
           - error_message

@@ -13,6 +13,9 @@
 #   - identityPort - optional - port used for OpenStack authentication - Default: 5000
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200
@@ -33,11 +36,18 @@ operation:
         default: "'5000'"
     - username
     - password
+    - tenant_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
+    - proxyHost: "proxy_host if proxy_host != '' else ''"
+    - proxyPort: "proxy_port if proxy_port != '' else ''"
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
         overridable: false
     - body:
-        default: "'{\"auth\": {\"tenantName\": \"demo\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
+        default: "'{\"auth\": {\"tenantName\": \"' + tenant_name + '\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
         overridable: false
     - method:
         default: "'post'"
@@ -51,9 +61,9 @@ operation:
       methodName: execute
   outputs:
     - return_result: returnResult
-    - status_code: statusCode
+    - status_code: "'' if 'statusCode' not in locals() else statusCode"
     - return_code: returnCode
     - error_message: returnResult if returnCode == '-1' or statusCode != 200 else ''
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: "'statusCode' in locals() and returnCode != '-1' and statusCode == '200'"
     - FAILURE

@@ -1,0 +1,7 @@
+testUnzipArchiveSuccess:
+  inputs:
+    - path: test_arch2.zip
+    - out_folder: foldertest
+  description: Tests that unzip_archive.sl operation finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.files.test_unzip_archive
+  result: SUCCESS
