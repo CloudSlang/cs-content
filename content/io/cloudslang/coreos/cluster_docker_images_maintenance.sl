@@ -39,6 +39,8 @@ flow:
     - number_of_deleted_images_per_host:
         default: "''"
         overridable: false
+    - timeout:
+        default: "'600000'"
 
   workflow:
     - list_machines_public_ip:
@@ -48,6 +50,7 @@ flow:
             - coreos_username
             - coreos_password
             - private_key_file
+            - timeout
         publish:
             - machines_public_ip_list
             - error_message
@@ -62,6 +65,7 @@ flow:
                     - docker_password: coreos_password
                     - private_key_file
                     - percentage
+                    - timeout
               publish:
                     - number_of_deleted_images_per_host: >
                         fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
