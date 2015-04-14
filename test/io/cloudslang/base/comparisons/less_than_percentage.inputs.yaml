@@ -6,7 +6,7 @@ testLessThanPercentageLess:
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
   result: LESS
 
-testLessThanPercentageLess:
+testLessThanPercentageMore:
   inputs:
     - first_percentage: 70%
     - second_percentage: 60%
