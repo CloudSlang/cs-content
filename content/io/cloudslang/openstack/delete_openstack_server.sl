@@ -14,6 +14,8 @@
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - serverID - ID of server to be deleted
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 204
@@ -34,6 +36,12 @@ operation:
     - token
     - tenant
     - serverID
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
+    - proxyHost: "proxy_host if proxy_host != '' else ''"
+    - proxyPort: "proxy_port if proxy_port != '' else ''"
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
@@ -48,9 +56,9 @@ operation:
       className: org.openscore.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
+    - return_result: "'' if 'returnResult' not in locals() else returnResult"
     - status_code: statusCode
     - error_message: returnResult if statusCode != '204' else ''
   results:
-    - SUCCESS: statusCode == '204'
+    - SUCCESS: "'statusCode' in locals() and statusCode == '204'"
     - FAILURE

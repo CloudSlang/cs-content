@@ -15,7 +15,10 @@
 #   - img_ref - image reference for server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
 #   - server_name - server name
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
@@ -34,10 +37,17 @@ flow:
         default: "'5000'"
     - compute_port:
         default: "'8774'"
+    - network_ID:
+        default: "''"
     - img_ref
     - username
     - password
+    - tenant_name
     - server_name
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
   workflow:
     - authentication:
         do:
@@ -46,6 +56,9 @@ flow:
             - identity_port
             - username
             - password
+            - tenant_name
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -59,7 +72,10 @@ flow:
             - token
             - tenant
             - imgRef: img_ref
+            - networkID: network_ID
             - serverName: server_name
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

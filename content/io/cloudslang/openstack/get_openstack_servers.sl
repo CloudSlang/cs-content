@@ -13,6 +13,8 @@
 #   - computePort - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal statusCode is 202
@@ -32,6 +34,12 @@ operation:
         default: "'8774'"
     - token
     - tenant
+    - proxy_host:
+        default: "''"
+    - proxy_port:
+        default: "''"
+    - proxyHost: "proxy_host if proxy_host != '' else ''"
+    - proxyPort: "proxy_port if proxy_port != '' else ''"
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
@@ -50,5 +58,5 @@ operation:
     - status_code: statusCode
     - error_message: returnResult if statusCode != '202' else ''
   results:
-    - SUCCESS : statusCode == '200'
+    - SUCCESS : "'statusCode' in locals() and statusCode == '200'"
     - FAILURE
