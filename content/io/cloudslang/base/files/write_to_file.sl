@@ -29,6 +29,9 @@ operation:
         f.write(text)
         f.close()
         res = True
+      except IOError as e:
+        print "ERROR: no such folder or permission denied: " + str(e)
+        res = False
       except Exception as e:
         print e
         res = False
