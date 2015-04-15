@@ -1,0 +1,23 @@
+testCopySuccess:
+  inputs:
+    - copy_source: README.md
+    - copy_destination: README2.md
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: SUCCESS
+
+testCopyFailure:
+  inputs:
+    - copy_source: README1.md
+    - copy_destination: README2.md
+  description: Tests that copy.sl finishes with FAILURE when source file does not exist
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
+
+testCopyFailure2:
+  inputs:
+    - copy_source: README.md
+    - copy_destination: abc/README2.md
+  description: Tests that copy.sl finishes with FAILURE when destination file path is inexistent
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE

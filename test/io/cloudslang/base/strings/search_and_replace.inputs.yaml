@@ -1,0 +1,9 @@
+testSearchAndReplaceSuccess:
+  inputs:
+    - origin_string: text
+    - text_to_replace: ex
+    - replace_with: ha
+    - expected_output: that
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.strings.test_search_and_replace
+  result: SUCCESS

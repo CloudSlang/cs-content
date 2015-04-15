@@ -1,0 +1,16 @@
+testZipFolderSuccess:
+  inputs:
+    - archive_name: test_archive
+    - folder_path: test
+  description: Tests that zip_folder.sl operation finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.files.test_zip_folder
+  result: SUCCESS
+
+
+testZipFolderFailure:
+  inputs:
+    - archive_name: test_archive
+    - folder_path: doesnotexist
+  description: Tests that zip_folder.sl operation finishes with FAILURE when the specified folder does not exist
+  testFlowPath: io.cloudslang.base.files.test_zip_folder
+  result: ZIPFAILURE

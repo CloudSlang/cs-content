@@ -1,0 +1,6 @@
+testGetOsSuccess:
+  inputs:
+    - expected_output: ''
+  description: Tests that get_os.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.os.test_get_os
+  result: SUCCESS

@@ -1,0 +1,23 @@
+testMoveSuccess:
+  inputs:
+    - move_source: README.md
+    - move_destination: README2.md
+  description: Tests that move.sl finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: SUCCESS
+
+testMoveFailure:
+  inputs:
+    - move_source: README3.md
+    - move_destination: README2.md
+  description: Tests that move.sl finishes with FAILURE when source does not exist
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE
+
+testMoveFailure2:
+  inputs:
+    - move_source: README.md
+    - move_destination: abc/README2.md
+  description: Tests that move.sl finishes with FAILURE when destination does not exist
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE

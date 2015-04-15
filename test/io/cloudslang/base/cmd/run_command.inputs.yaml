@@ -1,0 +1,18 @@
+testRunCommandSuccess:
+  inputs:
+    - command: echo test
+  description: Tests that run_command.sl operation finishes with SUCCESS for a valid command
+  testFlowPath: io.cloudslang.base.cmd.run_command
+  result: SUCCESS
+
+testRunCommandFailure:
+  inputs:
+    - command: wrong_command
+  description: Tests that run_command.sl operation finishes with Failure for an invalid command
+  testFlowPath: io.cloudslang.base.cmd.run_command
+  result: FAILURE
+
+testRunCommandException:
+  description: Tests that run_command.sl operation throws an exception if no inputs are provided
+  testFlowPath: io.cloudslang.base.cmd.run_command
+  throwsException: true

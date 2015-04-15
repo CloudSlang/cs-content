@@ -1,0 +1,15 @@
+testStringEqualsSuccess:
+  inputs:
+    - first_string: text
+    - second_string: text
+  description: Tests that string_equals.sl operation finishes with SUCCESS when inputs are equal
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsFailure:
+  inputs:
+    - first_string: text
+    - second_string: different
+  description: Tests that string_equals.sl operation finishes with SUCCESS when inputs are equal
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE

@@ -1,0 +1,6 @@
+testPrintTextSuccess:
+  inputs:
+    - text: hello
+  description: Tests that print_text.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.print.print_text
+  result: SUCCESS
