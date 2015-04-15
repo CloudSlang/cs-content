@@ -13,6 +13,7 @@
 #   - coreos_username - CoreOS machine username
 #   - private_key_file - path to the private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50% - Default: 0%
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
 # Outputs:
 #   - number_of_deleted_images_per_host - how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
 #   - error_message - possible error message
@@ -40,7 +41,7 @@ flow:
         default: "''"
         overridable: false
     - timeout:
-        default: "'600000'"
+        default: "'6000000'"
 
   workflow:
     - list_machines_public_ip:
