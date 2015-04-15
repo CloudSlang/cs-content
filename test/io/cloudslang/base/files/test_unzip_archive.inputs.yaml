@@ -6,16 +6,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Test for unzip_archive operation.
-#
-# Inputs:
-#   - path - path to the archive
-#   - out_folder - path of folder to place unzipped files from archive
-# Results:
-#   - SUCCESS - archive unziped successfully
-#   - UNZIPFAILURE - unziping operation failed
-#
-####################################################
 testUnzipArchiveSuccess:
   inputs:
     - path: test_arch2.zip
