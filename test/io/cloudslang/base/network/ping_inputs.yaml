@@ -1,0 +1,69 @@
+testPing_UP_requied_inputs:
+  inputs:
+    - address: localhost
+  description: Tests that ping.sl operation finishes with UP
+  testFlowPath: io.cloudslang.base.network.ping
+  result: UP
+
+testPing_DOWN_requied_inputs:
+  inputs:
+    - address: 400.1.1.1
+  description: Tests that ping.sl operation finishes with DOWN
+  testFlowPath: io.cloudslang.base.network.ping
+  result: DOWN
+
+testPing_UP_requied_inputs_and_ttl:
+  inputs:
+    - address: localhost
+    - ttl: '100'
+  description: Tests that ping.sl operation finishes with UP
+  testFlowPath: io.cloudslang.base.network.ping
+  result: UP
+
+testPing_DOWN_requied_inputs_and_ttl:
+  inputs:
+    - address: localhost
+    - ttl: '256'
+  description: Tests that ping.sl operation finishes with DOWN due to tll > 255
+  testFlowPath: io.cloudslang.base.network.ping
+  result: DOWN
+
+testPing_UP_requied_inputs_and_size:
+  inputs:
+    - address: localhost
+    - size: '1024'
+  description: Tests that ping.sl operation finishes with UP
+  testFlowPath: io.cloudslang.base.network.ping
+  result: UP
+
+testPing_DOWN_requied_inputs_and_size:
+  inputs:
+    - address: localhost
+    - size: '69000'
+  description: Tests that ping.sl operation finishes with DOWN due to size > 65500
+  testFlowPath: io.cloudslang.base.network.ping
+  result: DOWN
+
+testPing_UP_requied_inputs_and_timeout:
+  inputs:
+    - address: localhost
+    - timeout: '100'
+  description: Tests that ping.sl operation finishes with UP
+  testFlowPath: io.cloudslang.base.network.ping
+  result: UP
+
+testPing_DOWN_requied_inputs_and_timeout:
+  inputs:
+    - address: localhost
+    - timeout: '0'
+  description: Tests that ping.sl operation finishes with DOWN
+  testFlowPath: io.cloudslang.base.network.ping
+  result: DOWN
+
+
+testPing_Failure_requied_inputs:
+  inputs:
+    - address: 1
+  description: Tests that ping.sl operation finishes with FAILURE
+  testFlowPath: io.cloudslang.base.network.ping
+  result: FAILURE
