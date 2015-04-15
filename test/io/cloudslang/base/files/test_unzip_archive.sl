@@ -29,7 +29,7 @@ flow:
     - path
     - out_folder
   workflow:
-    - zip_check:
+    - prerquest_for_zip_creation:
         do:
           files.delete:
             - source:
