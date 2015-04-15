@@ -13,6 +13,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - used_images - list of used images - Format: space delimited list of strings
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
 #   - images_list_safe_to_delete - unused Docker images (including dangling ones)
 #   - amount_of_dangling_images_deleted - number of dangling images that where deleted

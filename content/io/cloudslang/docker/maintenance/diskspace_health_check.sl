@@ -14,6 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - path to the private key file - Default: none
 #   - percentage - Example: 50%
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 # Results:
 #   - SUCCESS - disk space less than percentage
 #   - FAILURE - error occurred

@@ -14,6 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50%
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
 ####################################################
@@ -35,7 +36,7 @@ flow:
         default: "''"
     - percentage
     - timeout:
-        required: false
+        default: 6000000
   workflow:
     - check_diskspace:
         do:
@@ -58,6 +59,8 @@ flow:
             - docker_username
             - docker_password
             - private_key_file
+            - timeout:
+                required: false
         publish:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted
