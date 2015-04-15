@@ -6,19 +6,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Workflow to test ping operation.
-#
-# Inputs:
-#   - address - address to ping send
-#   - ttl - time to live ping parameter
-#   - size - ping buffer size
-#   - timeout - timeout in milliseconds to wait for reply
-# Results:
-#   - UP - address is up
-#   - DOWN - address is down
-#   - FAILURE - ping cannot be performed due to an error
-#
-####################################################
 testPing_UP_requied_inputs:
   inputs:
     - address: localhost
