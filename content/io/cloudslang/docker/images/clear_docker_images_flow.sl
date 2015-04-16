@@ -66,7 +66,7 @@ flow:
             - timeout:
                 required: false
         publish:
-          - used_images_list: used_images_list
+          - used_images_list
     - substract_used_images:
         do:
           base_lists.subtract_sets:
@@ -78,6 +78,32 @@ flow:
         publish:
           - images_list_safe_to_delete: result_set
           - amount_of_images: len(result_set.split())
+
+    - get_parent_images:
+        loop:
+            for: image in used_images_list[:-1].split(' ')
+            do:
+              docker_images.get_image_parents:
+                - docker_host
+                - docker_username
+                - docker_password
+                - image_name: image
+                - private_key_file
+                - timeout
+            publish:
+                - all_parent_images: >
+                    parent_images_list + " "
+    - substract_parent_images:
+        do:
+          base_lists.subtract_sets:
+            - set_1: images_list_safe_to_delete
+            - set_1_delimiter: "' '"
+            - set_2: all_parent_images
+            - set_2_delimiter: "' '"
+            - result_set_delimiter: "' '"
+        publish:
+          - images_list_safe_to_delete_final: result_set
+          - amount_of_images_final: len(result_set.split())
     - delete_images:
         do:
           docker_images.clear_docker_images:
@@ -85,13 +111,14 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
-            - images: images_list_safe_to_delete
+            - images: images_list_safe_to_delete_final
             - timeout:
                 required: false
         publish:
           - response
 
   outputs:
-    - images_list_safe_to_delete
-    - amount_of_images_deleted: "0 if images_list_safe_to_delete == '' else amount_of_images"
+    - images_list_safe_to_delete: images_list_safe_to_delete_final
+    - amount_of_images_deleted: "0 if images_list_safe_to_delete_final == '' else amount_of_images_final"
     - used_images_list
+    - all_parent_images
