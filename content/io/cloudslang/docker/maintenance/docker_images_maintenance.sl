@@ -36,7 +36,7 @@ flow:
         default: "''"
     - percentage
     - timeout:
-        default: 6000000
+        default: "'6000000'"
   workflow:
     - check_diskspace:
         do:
