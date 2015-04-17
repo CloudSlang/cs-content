@@ -22,3 +22,19 @@ testZipFolderFailure:
   description: Tests that zip_folder.sl operation finishes with FAILURE when the specified folder does not exist
   testFlowPath: io.cloudslang.base.files.test_zip_folder
   result: ZIPFAILURE
+
+testZipFolderMissingInputs:
+  inputs:
+    - folder_path: doesnotexist
+  description: Tests that zip_folder.sl operation throws an exception when a required input is missing
+  testFlowPath: io.cloudslang.base.files.test_zip_folder
+  throwsException: true
+
+testZipFolderWithFileAsInput:
+  inputs:
+    - archive_name: test_archive
+    - folder_path: README.md
+  description: Tests that zip_folder.sl operation finishes with FAILURE when folder_path leads to a file
+  testFlowPath: io.cloudslang.base.files.test_zip_folder
+  result: ZIPFAILURE
+
