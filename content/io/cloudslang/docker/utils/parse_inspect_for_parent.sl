@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets parents from the response of inspect_image.sl
+# Gets parent from the response of inspect_image.sl
 #
 # Inputs:
 #   - json_response - response of inspect_container operation
 # Outputs:
-#   - parent_images - parent images parsed from the response
+#   - parent_image - parent image parsed from the response
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - returnResult if there was an error
@@ -23,7 +23,7 @@
 namespace: io.cloudslang.docker.utils
 
 operation:
-  name: parse_inspect_for_parents
+  name: parse_inspect_for_parent
   inputs:
     - json_response
   action:
@@ -31,15 +31,15 @@ operation:
       try:
         import json
         decoded = json.loads(json_response)
-        parent_images = decoded[0]['Parent']
-        parent_images = parent_images[:-1]
+        parent_image = decoded[0]['Parent']
+        parent_image = parent_image[:-1]
         return_code = '0'
         return_result = 'Parsing successful.'
       except:
         return_code = '-1'
         return_result = 'Parsing error.'
   outputs:
-    - parent_images
+    - parent_image
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''

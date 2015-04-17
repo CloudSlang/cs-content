@@ -17,11 +17,15 @@
 #   - images_list_safe_to_delete - unused Docker images
 #   - amount_of_images_deleted - how many images where deleted
 #   - used_images_list - list of used Docker images
+# Results:
+#   SUCCESS - flow ends with SUCCES
+#   FAILURE - some step ended with FAILURE
 ####################################################
 namespace: io.cloudslang.docker.images
 
 imports:
  docker_images: io.cloudslang.docker.images
+ docker_utils: io.cloudslang.docker.utils
  base_os_linux: io.cloudslang.base.os.linux
  base_lists: io.cloudslang.base.lists
 
@@ -35,6 +39,8 @@ flow:
         default: "''"
     - timeout:
         required: false
+    - all_parent_images:
+        default: "''"
   workflow:
     - validate_linux_machine_ssh_access:
         do:
@@ -67,7 +73,8 @@ flow:
                 required: false
         publish:
           - used_images_list
-    - substract_used_images:
+
+    - subtract_used_images:
         do:
           base_lists.subtract_sets:
             - set_1: all_images_list
@@ -79,20 +86,31 @@ flow:
           - images_list_safe_to_delete: result_set
           - amount_of_images: len(result_set.split())
 
-    - get_parent_images:
+    - check_lists:
+        do:
+          docker_utils.check_lists:
+            - all_images_list
+            - used_images_list
+        navigate:
+          BOTH_EMPTY: SUCCESS
+          USED_EMPTY: delete_images
+          NONE_EMPTY: get_parent_image
+
+    - get_parent_image:
         loop:
-            for: image in used_images_list[:-1].split(' ')
+            for: image in used_images_list.split()
             do:
-              docker_images.get_image_parents:
+              docker_images.get_image_parent:
                 - docker_host
                 - docker_username
                 - docker_password
                 - image_name: image
                 - private_key_file
-                - timeout
+                - timeout:
+                    required: false
             publish:
                 - all_parent_images: >
-                    parent_images_list + " "
+                    fromInputs['all_parent_images'] + parent_image_name + " "
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
@@ -102,8 +120,8 @@ flow:
             - set_2_delimiter: "' '"
             - result_set_delimiter: "' '"
         publish:
-          - images_list_safe_to_delete_final: result_set
-          - amount_of_images_final: len(result_set.split())
+          - images_list_safe_to_delete: result_set
+          - amount_of_images: len(result_set.split())
     - delete_images:
         do:
           docker_images.clear_docker_images:
@@ -111,14 +129,17 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
-            - images: images_list_safe_to_delete_final
+            - images: images_list_safe_to_delete
             - timeout:
                 required: false
         publish:
           - response
 
   outputs:
-    - images_list_safe_to_delete: images_list_safe_to_delete_final
-    - amount_of_images_deleted: "0 if images_list_safe_to_delete_final == '' else amount_of_images_final"
+    - images_list_safe_to_delete
+    - amount_of_images_deleted: "0 if images_list_safe_to_delete == '' else amount_of_images"
     - used_images_list
-    - all_parent_images
+    - all_parent_images: "0 if 'all_parent_images' not in locals() else all_parent_images"
+  results:
+    - SUCCESS
+    - FAILURE

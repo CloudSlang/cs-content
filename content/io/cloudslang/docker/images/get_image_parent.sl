@@ -5,13 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Inspects specified image and gets parents.
+# Inspects specified image and gets parent.
 #
 # Inputs:
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
-#   - image_ID - image for which to check parents
+#   - image_name - image for which to check parents - ex: <repository>:<tag>
 #   - private_key_file - optional - path to the private key file - Default: none
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
@@ -25,7 +25,7 @@ imports:
  base_os_linux: io.cloudslang.base.os.linux
 
 flow:
-  name: get_image_parents
+  name: get_image_parent
   inputs:
     - docker_host
     - docker_username
@@ -58,13 +58,13 @@ flow:
         publish:
           - standard_out
           - standard_err
-    - get_parents:
+    - get_parent:
         do:
-           docker_utils.parse_inspect_for_parents:
+           docker_utils.parse_inspect_for_parent:
              - json_response: standard_out
         publish:
-          - parent_images
-    - get_parents_name:
+          - parent_image
+    - get_parent_name:
         do:
            docker_images.get_image_name_from_id:
              - host: docker_host
@@ -73,8 +73,8 @@ flow:
              - privateKeyFile: private_key_file
              - timeout:
                  required: false
-             - image_id: parent_images[:10]
+             - image_id: parent_image[:10]
         publish:
           - image_name
   outputs:
-    - parent_images_list: image_name
+    - parent_image_name: image_name
