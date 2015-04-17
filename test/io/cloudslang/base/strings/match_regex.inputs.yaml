@@ -20,7 +20,35 @@ testMatchRegexNoMatch:
     - regex: '[a-z]'
     - text: HELLO WORLD
     - expected_output: ''
-  description: Tests that match_regex.sl operation finishes with MATCH for specified regex/text
+  description: Tests that match_regex.sl operation finishes with NO_MATCH for specified regex/text
   testFlowPath: io.cloudslang.base.strings.test_match_regex
   result: NO_MATCH
+
+testMatchRegexMissingInputs:
+  inputs:
+    - text: HELLO WORLD
+    - expected_output: ''
+  description: Tests that match_regex.sl operation throws an exception when a required input is missing
+  testFlowPath: io.cloudslang.base.strings.test_match_regex
+  throwsException: true
+
+testMatchRegexEmpty:
+  inputs:
+    - regex: ""
+    - text: HELLO WORLD
+    - expected_output: ""
+  description: Tests that match_regex.sl operation finishes with NO_MATCH when regex is empty
+  testFlowPath: io.cloudslang.base.strings.test_match_regex
+  result: NO_MATCH
+
+testMatchRegexEmptyText:
+  inputs:
+    - regex: "[A-Z ]*"
+    - text: ""
+    - expected_output: ""
+  description: Tests that match_regex.sl operation finishes with NO_MATCH when text is empty
+  testFlowPath: io.cloudslang.base.strings.test_match_regex
+  result: NO_MATCH
+
+
 
