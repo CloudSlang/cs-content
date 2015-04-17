@@ -20,3 +20,16 @@ testCreateFolderFailure:
   testFlowPath: io.cloudslang.base.files.test_create_folder
   result: FOLDERFAILURE
 
+testCreateFolderFailure:
+  inputs:
+    - folder_name: te*st
+  description: Tests that create_folder.sl finishes with FAILURE if the specified folder contains illegal characters
+  testFlowPath: io.cloudslang.base.files.test_create_folder
+  result: FOLDERFAILURE
+
+testCreateFolderMissingInput:
+  description: Tests that create_folder.sl throws an exception when the required input is missing
+  testFlowPath: io.cloudslang.base.files.test_create_folder
+  throwsException: true
+
+
