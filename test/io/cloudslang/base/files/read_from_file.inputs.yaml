@@ -19,3 +19,9 @@ testReadFromFileFailure:
   description: Tests that read_from_file.sl operation finishes with FAILURE when file_path contains a file path that does not exist
   testFlowPath: io.cloudslang.base.files.read_from_file
   result: FAILURE
+
+testReadFromFileMissingInput:
+  description: Tests that read_from_file.sl operation throws an exception when the required input is missing
+  testFlowPath: io.cloudslang.base.files.read_from_file
+  result: FAILURE
+  throwsException: true
