@@ -21,7 +21,7 @@ flow:
           files.create_folder:
             - folder_name
         navigate:
-          SUCCESS: delete_copied_file
+          SUCCESS: delete_copied_folder
           FAILURE: FOLDERFAILURE
     - delete_copied_folder:
         do:

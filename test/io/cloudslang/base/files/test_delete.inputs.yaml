@@ -9,14 +9,32 @@
 testDeleteSuccess:
   inputs:
     - delete_source: test.txt
-  description: Tests that delete.sl finishes with SUCCESS when inputs are valid
+  description: Tests that delete.sl finishes with SUCCESS when delete_source leads to a file
   testFlowPath: io.cloudslang.base.files.test_delete
   result: SUCCESS
 
 testDeleteFailure:
   inputs:
     - source: test.txt
-  description: Tests that delete.sl finishes with SUCCESS when inputs are valid
+  description: Tests that delete.sl finishes with FAILURE when the specified file does not exist
   testFlowPath: io.cloudslang.base.files.delete
   result: FAILURE
 
+testDeleteFolderSuccess:
+  inputs:
+    - delete_source: testfolder
+  description: Tests that delete.sl finishes with SUCCESS when delete_source leads to a folder
+  testFlowPath: io.cloudslang.base.files.test_delete
+  result: SUCCESS
+
+testDeleteFolderFailure:
+  inputs:
+    - source: testfolder
+  description: Tests that delete.sl finishes with FAILURE when the specified folder does not exist
+  testFlowPath: io.cloudslang.base.files.delete
+  result: FAILURE
+
+testDeleteMissingInput:
+  description: Tests that delete.sl throws an exception when the required input is missing
+  testFlowPath: io.cloudslang.base.files.delete
+  throwsException: true
