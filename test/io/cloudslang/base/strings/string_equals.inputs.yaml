@@ -18,6 +18,47 @@ testStringEqualsFailure:
   inputs:
     - first_string: text
     - second_string: different
-  description: Tests that string_equals.sl operation finishes with SUCCESS when inputs are equal
+  description: Tests that string_equals.sl operation finishes with FAILURE when inputs are different
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: FAILURE
+
+testStringEqualsMissingInputs:
+  inputs:
+    - second_string: different
+  description: Tests that string_equals.sl operation throws an exception when a required input is missing
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  throwsException: true
+
+testStringEqualsEmptyFirst:
+  inputs:
+    - first_string: ""
+    - second_string: text
+  description: Tests that string_equals.sl operation finishes with FAILURE when first_string is empty
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsEmptySecond:
+  inputs:
+    - first_string: text
+    - second_string: ""
+  description: Tests that string_equals.sl operation finishes with FAILURE when second_string is empty
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsBothEmpty:
+  inputs:
+    - first_string: ""
+    - second_string: ""
+  description: Tests that string_equals.sl operation finishes with SUCCESS when both strings are empty
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsSpecialCharacters:
+  inputs:
+    - first_string: t%&e$\"
+    - second_string: t%&e$\"
+  description: Tests that string_equals.sl operation finishes with SUCCESS strings contain special characters
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+
