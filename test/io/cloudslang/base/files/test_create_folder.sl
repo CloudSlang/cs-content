@@ -23,7 +23,7 @@ flow:
         navigate:
           SUCCESS: delete_copied_file
           FAILURE: FOLDERFAILURE
-    - delete_copied_file:
+    - delete_copied_folder:
         do:
           files.delete:
             - source: folder_name
