@@ -24,8 +24,15 @@ testWriteToFileNoFolder:
 
 testWriteToFileFailure:
   inputs:
-    - file_path: abc/hello.txt
+    - file_path: abc/a.txt
     - text: hi
   description: Tests that write_to_file.sl operation finishes with FAILURE file_path contains an invalid file path
   testFlowPath: io.cloudslang.base.files.test_write_to_file
   result: WRITEFAILURE
+
+testWriteToFileMissingInputs:
+  inputs:
+    - text: hi
+  description: Tests that write_to_file.sl operation throws an exception when a required input is missing
+  testFlowPath: io.cloudslang.base.files.test_write_to_file
+  throwsException: true
