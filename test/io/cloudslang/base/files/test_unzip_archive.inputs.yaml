@@ -14,7 +14,7 @@ testUnzipArchiveSuccess:
   testFlowPath: io.cloudslang.base.files.test_unzip_archive
   result: SUCCESS
 
-testUnzipArchiveUNZIPFAILURE:
+testUnzipArchiveUNZIPFAILURE_wron_name:
   inputs:
     - path: test_arch2
     - out_folder: foldertest
@@ -22,10 +22,12 @@ testUnzipArchiveUNZIPFAILURE:
   testFlowPath: io.cloudslang.base.files.test_unzip_archive
   result: UNZIPFAILURE
 
-testUnzipArchiveUNZIPFAILURE:
+testUnzipArchiveSuccess_output_message:
   inputs:
-    - path: test_arch2
-    - out_folder: \:/
-  description: Tests that unzip_archive.sl operation finishes with UNZIPFAILURE due to incorrect archive file name
+    - path: test_arch2.zip
+    - out_folder: foldertest
+  description: Unziping operation outputs test
   testFlowPath: io.cloudslang.base.files.test_unzip_archive
-  result: UNZIPFAILURE
+  result: SUCCESS
+  outputs:
+     - unzip_message: unzipping done successfully

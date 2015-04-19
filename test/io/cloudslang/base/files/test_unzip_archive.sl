@@ -30,14 +30,16 @@ flow:
     - out_folder
   workflow:
     - prerquest_for_zip_creation:
-        do:
-          files.delete:
-            - source:
-                default: "'./test/' + path"
-                overridable: false
+        loop:
+          for: file in ['./test/' + path + '.zip', './test/' + path, path, path+'.zip',]
+          do:
+            files.delete:
+              - source: file
+          break: []
         navigate:
           SUCCESS: zip_folder
           FAILURE: zip_folder
+
     - zip_folder:
         do:
           files.zip_folder:
@@ -46,6 +48,7 @@ flow:
         navigate:
           SUCCESS: unzip_folder
           FAILURE: ZIPFAILURE
+
     - unzip_folder:
         do:
           files.unzip_archive:
@@ -53,9 +56,12 @@ flow:
                 default: "'./test/' + path"
                 overridable: false
             - output_folder: out_folder
+        publish:
+            - unzip_message: message
         navigate:
           SUCCESS: delete_output_folder
           FAILURE: UNZIPFAILURE
+
     - delete_output_folder:
         do:
           files.delete:
@@ -75,6 +81,9 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
+
+  outputs:
+    - unzip_message
 
   results:
     - SUCCESS
