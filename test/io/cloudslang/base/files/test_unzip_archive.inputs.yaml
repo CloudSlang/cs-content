@@ -14,11 +14,27 @@ testUnzipArchiveSuccess:
   testFlowPath: io.cloudslang.base.files.test_unzip_archive
   result: SUCCESS
 
+testUnzipArchiveSuccess:
+  inputs:
+    - path: test_arch2.zip
+    - out_folder: foldertest/2
+  description: Tests that unzip_archive.sl operation finishes with SUCCESS when outout contauins subfolder
+  testFlowPath: io.cloudslang.base.files.test_unzip_archive
+  result: SUCCESS
+
 testUnzipArchiveUNZIPFAILURE_wron_name:
   inputs:
     - path: test_arch2
     - out_folder: foldertest
   description: Tests that unzip_archive.sl operation finishes with UNZIPFAILURE due to incorrect archive file name
+  testFlowPath: io.cloudslang.base.files.test_unzip_archive
+  result: UNZIPFAILURE
+
+testUnzipArchiveUNZIPFAILURE_wron_name:
+  inputs:
+    - path: test_arch2
+    - out_folder: foldertest.txt
+  description: Tests that unzip_archive.sl operation finishes with UNZIPFAILURE due to out_folder is file
   testFlowPath: io.cloudslang.base.files.test_unzip_archive
   result: UNZIPFAILURE
 
@@ -31,3 +47,10 @@ testUnzipArchiveSuccess_output_message:
   result: SUCCESS
   outputs:
      - unzip_message: unzipping done successfully
+
+testUnzipArchiveException:
+  inputs:
+    - path: test_arch2.zip
+  description: Unziping operation outputs test with EXCEPTION due to out_folder input is missing
+  testFlowPath: io.cloudslang.base.files.unzip_archive
+  throwsException: true
