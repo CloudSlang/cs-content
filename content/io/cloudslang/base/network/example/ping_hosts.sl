@@ -44,7 +44,6 @@ flow:
             network.ping:
               - address
         publish:
-              - is_up: is_up
               - messagebody: "fromInputs['message_body'].append(message)"
               - all_nodes_are_up: "fromInputs['all_nodes_are_up'] and is_up"
         navigate:
