@@ -46,13 +46,13 @@ testCopyFolderFailure:
   testFlowPath: io.cloudslang.base.files.test_copy
   result: COPYFAILURE
 
-#testCopyFolderFailure2:
-#  inputs:
-#    - copy_source: test
-#    - copy_destination: \0inexist\0en*tpath/folder
-#  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
-#  testFlowPath: io.cloudslang.base.files.test_copy
-#  result: COPYFAILURE
+testCopyFolderFailure2:
+  inputs:
+    - copy_source: test
+    - copy_destination: \0inexist\0en*tpath/folder
+  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
 
 testCopyException:
   description: Tests that copy.sl throws exception when there are missing inputs
