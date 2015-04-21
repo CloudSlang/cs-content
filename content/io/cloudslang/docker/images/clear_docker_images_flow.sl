@@ -28,6 +28,7 @@ imports:
  docker_utils: io.cloudslang.docker.utils
  base_os_linux: io.cloudslang.base.os.linux
  base_lists: io.cloudslang.base.lists
+ base_strings: io.cloudslang.base.strings
 
 flow:
   name: clear_docker_images_flow
@@ -85,18 +86,23 @@ flow:
         publish:
           - images_list_safe_to_delete: result_set
           - amount_of_images: len(result_set.split())
-
-    - check_lists:
+    - verify_all_images_list_not_empty:
         do:
-          docker_utils.check_lists:
-            - all_images_list
-            - used_images_list
+          base_strings.string_equals:
+            - first_string: all_images_list
+            - second_string: "''"
         navigate:
-          BOTH_EMPTY: SUCCESS
-          USED_EMPTY: delete_images
-          NONE_EMPTY: get_parent_image
-
-    - get_parent_image:
+          SUCCESS: SUCCESS
+          FAILURE: verify_used_images_list_not_empty
+    - verify_used_images_list_not_empty:
+        do:
+          base_strings.string_equals:
+            - first_string: used_images_list
+            - second_string: "''"
+        navigate:
+          SUCCESS: delete_images
+          FAILURE: get_parent_images
+    - get_parent_images:
         loop:
             for: image in used_images_list.split()
             do:

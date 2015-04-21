@@ -56,12 +56,11 @@ flow:
             - timeout:
                 required: false
         publish:
-          - standard_out
-          - standard_err
+          - image_inspect_json: standard_out
     - get_parent:
         do:
            docker_utils.parse_inspect_for_parent:
-             - json_response: standard_out
+             - json_response: image_inspect_json
         publish:
           - parent_image
     - get_parent_name:
