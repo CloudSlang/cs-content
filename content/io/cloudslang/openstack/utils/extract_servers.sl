@@ -14,7 +14,7 @@
 #   - server_list - list of server names
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - returnResult if there was an error
+#   - error_message - return_result if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
