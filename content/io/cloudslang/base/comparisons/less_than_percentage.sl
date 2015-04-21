@@ -12,10 +12,7 @@
 #   - first_percentage - string which represents a percentage - Example: 50%
 #   - second_percentage - string which represents a percentage - Example: 50%
 # Outputs:
-#   - first_percentage_nr - first input string without "%"
-#   - second_percentage_nr - second input string without "%"
 #   - error_message - error message if error occurred
-#   - result - true if first_percentage < second_percentage, false otherwise
 # Results:
 #   - LESS - first_percentage < second_percentage
 #   - MORE - first_percentage >= second_percentage
