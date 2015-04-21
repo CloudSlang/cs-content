@@ -28,11 +28,14 @@ flow:
         do:
           files.delete:
             - source: delete_source
+        publish:
+          - message
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
 
-
+  outputs:
+    - message
   results:
     - SUCCESS
     - WRITEFAILURE
