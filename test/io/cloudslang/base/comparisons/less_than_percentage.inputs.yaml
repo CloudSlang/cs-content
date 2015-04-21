@@ -12,6 +12,8 @@ testLessThanPercentageLess:
     - second_percentage: 100%
   description: Tests that less_than_percentage.sl operation finishes with LESS when first_percentage < second_percentage
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
+  outputs:
+    - error_message: ""
   result: LESS
 
 testLessThanPercentageMore:
@@ -28,6 +30,8 @@ testLessThanPercentageFailure:
     - second_percentage: 60%
   description: Tests that less_than_percentage.sl operation finishes with FAILURE if one of the inputs cannot be converted to integer
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
+  outputs:
+    - error_message: "Both inputs have to be integers"
   result: FAILURE
 
 testLessThanPercentageException:
