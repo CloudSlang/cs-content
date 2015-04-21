@@ -38,14 +38,11 @@ operation:
       try:
           int_value1 = int(first_percentage_nr)
           int_value2 = int(second_percentage_nr)
-          result = error_message == "" and int_value1 < int_value2
+          result = int_value1 < int_value2
       except ValueError:
           error_message = "Both inputs have to be integers"
   outputs:
-    - first_percentage_nr
-    - second_percentage_nr
     - error_message
-    - result
   results:
     - LESS: error_message == "" and result
     - MORE: error_message == "" and not result
