@@ -1,0 +1,60 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testCopySuccess:
+  inputs:
+    - copy_source: README.md
+    - copy_destination: README2.md
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid file paths
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: SUCCESS
+
+testCopyFailure:
+  inputs:
+    - copy_source: README1.md
+    - copy_destination: README2.md
+  description: Tests that copy.sl finishes with FAILURE when source file does not exist
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
+
+testCopyFailure2:
+  inputs:
+    - copy_source: README.md
+    - copy_destination: abc/RE\0AD*ME2.md
+  description: Tests that copy.sl finishes with FAILURE when destination file path contains unallowed characters
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
+
+testCopyFolderSuccess:
+  inputs:
+    - copy_source: test
+    - copy_destination: test2
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid folder paths
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: SUCCESS
+
+testCopyFolderFailure:
+  inputs:
+    - copy_source: inexistentfolder
+    - copy_destination: path
+  description: Tests that copy.sl finishes with FAILURE when source folder does not exist
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
+
+#testCopyFolderFailure2:
+#  inputs:
+#    - copy_source: test
+#    - copy_destination: \0inexist\0en*tpath/folder
+#  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
+#  testFlowPath: io.cloudslang.base.files.test_copy
+#  result: COPYFAILURE
+
+testCopyException:
+  description: Tests that copy.sl throws exception when there are missing inputs
+  testFlowPath: io.cloudslang.base.files.test_copy
+  throwsException: true
