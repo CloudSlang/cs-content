@@ -19,3 +19,8 @@ testSleepConversionException:
   description: Tests that sleep.sl operation throws an exception when seconds cannot be converted to float
   testFlowPath: io.cloudslang.base.utils.sleep
   throwsException: true
+
+testSleepNoRequiredInputException:
+  description: Tests that sleep.sl operation throws an exception when required inputs is not given
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
