@@ -11,7 +11,8 @@ testRegexReplaceSuccess:
     - regex: 'a+b'
     - text: aaaabworld
     - replacement: hello
-    - expected_output: helloworld
   description: Tests that regex_replace.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.strings.test_regex_replace
+  testFlowPath: io.cloudslang.base.strings.regex_replace
+  outputs:
+    - result_text: helloworld
   result: SUCCESS

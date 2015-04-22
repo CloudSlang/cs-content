@@ -13,7 +13,7 @@
 #   - text_to_replace - text to replace
 #   - replace_with - text to replace with
 # Outputs:
-#   - returnResult - string with the text replaced
+#   - replaced_string - string with the text replaced
 # Results:
 #   - SUCCESS - always
 ##################################################

@@ -11,6 +11,8 @@ testDeleteSuccess:
     - delete_source: test.txt
   description: Tests that delete.sl finishes with SUCCESS when delete_source leads to a file
   testFlowPath: io.cloudslang.base.files.test_delete
+  outputs:
+    - message: "test.txt was removed"
   result: SUCCESS
 
 testDeleteFailure:
@@ -18,6 +20,8 @@ testDeleteFailure:
     - source: test.txt
   description: Tests that delete.sl finishes with FAILURE when the specified file does not exist
   testFlowPath: io.cloudslang.base.files.delete
+  outputs:
+    - message: "No such file or folder"
   result: FAILURE
 
 testDeleteFolderSuccess:
@@ -25,6 +29,8 @@ testDeleteFolderSuccess:
     - delete_source: testfolder
   description: Tests that delete.sl finishes with SUCCESS when delete_source leads to a folder
   testFlowPath: io.cloudslang.base.files.test_delete
+  outputs:
+      - message: "testfolder was removed"
   result: SUCCESS
 
 testDeleteFolderFailure:
@@ -32,6 +38,8 @@ testDeleteFolderFailure:
     - source: testfolder
   description: Tests that delete.sl finishes with FAILURE when the specified folder does not exist
   testFlowPath: io.cloudslang.base.files.delete
+  outputs:
+      - message: "No such file or folder"
   result: FAILURE
 
 testDeleteMissingInput:

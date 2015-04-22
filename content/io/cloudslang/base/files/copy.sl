@@ -48,7 +48,7 @@ operation:
         print message
 
   outputs:
-    - message: message
+    - message
 
   results:
     - SUCCESS: result
