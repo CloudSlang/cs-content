@@ -22,7 +22,7 @@ testCopyFailure:
   testFlowPath: io.cloudslang.base.files.test_copy
   result: COPYFAILURE
 
-testCopyFailure2:
+testCopyFailureIllegal:
   inputs:
     - copy_source: README.md
     - copy_destination: abc/RE\0AD*ME2.md
@@ -46,10 +46,12 @@ testCopyFolderFailure:
   testFlowPath: io.cloudslang.base.files.test_copy
   result: COPYFAILURE
 
-#testCopyFolderFailure2:
+#fails on linux
+
+#testCopyFolderFailureIllegal:
 #  inputs:
 #    - copy_source: test
-#    - copy_destination: \0inexist\0en*tpath/folder
+#    - copy_destination: i/0nexist\0en*tpath/folder
 #  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
 #  testFlowPath: io.cloudslang.base.files.test_copy
 #  result: COPYFAILURE

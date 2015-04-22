@@ -25,6 +25,8 @@ flow:
         navigate:
           SUCCESS: delete_copied_file
           FAILURE: COPYFAILURE
+        publish:
+          - message
     - delete_copied_file:
         do:
           files.delete:
@@ -32,6 +34,9 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
+
+  outputs:
+    - message
 
   results:
     - SUCCESS

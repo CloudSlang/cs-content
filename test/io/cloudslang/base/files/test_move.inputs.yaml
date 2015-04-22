@@ -1,0 +1,62 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testMoveSuccess:
+  inputs:
+    - move_source: README.md
+    - move_destination: README2.md
+  description: Tests that move.sl finishes with SUCCESS when inputs are valid file paths
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: SUCCESS
+
+testMoveFailureWithSourceFileInexistent:
+  inputs:
+    - move_source: README3.md
+    - move_destination: README2.md
+  description: Tests that move.sl finishes with FAILURE when move_source leads to an inexistent file
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE
+
+testMoveFailureWithDestinationFileIncorrect:
+  inputs:
+    - move_source: README.md
+    - move_destination: abc/REA2.md
+  description: Tests that move.sl finishes with FAILURE when move_destination contains unwanted characters
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE
+
+testMoveMissingInputs:
+  description: Tests that move.sl throws an exception when there are missing inputs
+  testFlowPath: io.cloudslang.base.files.test_move
+  throwsException: true
+
+testMoveFolderSuccess:
+  inputs:
+    - move_source: python-lib
+    - move_destination: python-lib2
+  description: Tests that move.sl finishes with SUCCESS when inputs are valid folder paths
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: SUCCESS
+
+testMoveFolderFailureWithSourceFolderPathInexistent:
+  inputs:
+    - move_source: inexistentfolder
+    - move_destination: test
+  description: Tests that move.sl finishes with FAILURE when when move_source leads to an inexistent folder
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE
+
+#fails on linux
+
+#testMoveFolderFailureWithDestinationFolderPathInexistent:
+#  inputs:
+#    - move_source: python-lib
+#    - move_destination: \0**D
+#  description: Tests that move.sl finishes with FAILURE when when move_destination contains unwanted characters
+#  testFlowPath: io.cloudslang.base.files.test_move
+#  result: FAILURE
