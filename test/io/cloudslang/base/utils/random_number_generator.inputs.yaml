@@ -13,6 +13,8 @@ testRandomNumberGeneratorSuccess:
   description: Tests that random_number_generator.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.random_number_generator
   result: SUCCESS
+  outputs:
+    - error_message: ""
 
 testRandomNumberGeneratorFailure:
   inputs:
@@ -21,6 +23,8 @@ testRandomNumberGeneratorFailure:
   description: Tests that random_number_generator.sl operation finishes with FAILURE when first input is greater than second input
   testFlowPath: io.cloudslang.base.utils.random_number_generator
   result: FAILURE
+  outputs:
+    - error_message: Minimum number (10) is bigger than maximum number(1)
 
 testRandomNumberGeneratorFailure2:
   inputs:
@@ -29,3 +33,39 @@ testRandomNumberGeneratorFailure2:
   description: Tests that random_number_generator.sl operation finishes with FAILURE when one of the inputs is not a number
   testFlowPath: io.cloudslang.base.utils.random_number_generator
   result: FAILURE
+  outputs:
+    - error_message: 1 or 10a are not integers
+
+testRandomNumberGeneratorNegativeNumbersSuccess:
+  inputs:
+    - min: '-10'
+    - max: '-1'
+  description: Tests that random_number_generator.sl operation finishes with SUCCESS when inputs are negative numbers
+  testFlowPath: io.cloudslang.base.utils.random_number_generator
+  result: SUCCESS
+  outputs:
+    - error_message: ""
+
+testRandomNumberGeneratorNegativeNumbersFailure:
+  inputs:
+    - min: '-1'
+    - max: '-11'
+  description: Tests that random_number_generator.sl operation finishes with FAILURE when inputs are negative and first input is greater than second input
+  testFlowPath: io.cloudslang.base.utils.random_number_generator
+  result: FAILURE
+  outputs:
+    - error_message: Minimum number (-1) is bigger than maximum number(-11)
+
+testRandomNumberGeneratorException:
+  description: Tests that random_number_generator.sl operation throws an exception when required inputs are missing
+  testFlowPath: io.cloudslang.base.utils.random_number_generator
+  throwsException: true
+
+testRandomNumberGeneratorOutputInsideBounds:
+  inputs:
+    - min: '-11'
+    - max: '-1'
+  description: Tests that random_number_generator.sl operation finishes with FAILURE when inputs are negative and first input is greater than second input
+  testFlowPath: io.cloudslang.base.utils.test_random_number_generator
+  result: SUCCESS
+
