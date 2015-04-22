@@ -14,6 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - path to the private key file - Default: none
 #   - percentage - Example: 50%
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 # Results:
 #   - SUCCESS - disk space less than percentage
 #   - FAILURE - error occurred
@@ -35,6 +36,8 @@ flow:
     - private_key_file:
         default: "''"
     - percentage
+    - timeout:
+        required: false
 
   workflow:
     - validate_linux_machine_ssh_access:
@@ -44,6 +47,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
     - check_disk_space:
         do:
           base_os_linux.check_linux_disk_space:
@@ -51,6 +56,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
         publish:
           - disk_space
     - check_availability:
