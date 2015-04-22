@@ -1,6 +1,6 @@
 language: java
 script:
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.17/cslang-builder.zip
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.20/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder .
