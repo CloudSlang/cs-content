@@ -25,3 +25,12 @@ testReadFromFileMissingInput:
   testFlowPath: io.cloudslang.base.files.read_from_file
   result: FAILURE
   throwsException: true
+
+testReadFromFileFlow:
+  inputs:
+    - expected_read_text: hello
+    - expected_error_message: ""
+    - read_file_path: 1.txt
+  description: Tests that read_from_file.sl operation throws an exception when the required input is missing
+  testFlowPath: io.cloudslang.base.files.test_read_from_file
+  result: SUCCESS
