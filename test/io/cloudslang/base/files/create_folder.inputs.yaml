@@ -16,12 +16,12 @@ testCreateFolderSuccess:
   testFlowPath: io.cloudslang.base.files.test_create_folder
   result: SUCCESS
 
-#testCreateFolderFailure:
-#  inputs:
-#    - folder_name: test
-#  description: Tests that create_folder.sl finishes with FAILURE if the specified folder already exists
-#  testFlowPath: io.cloudslang.base.files.test_create_folder
-#  result: FOLDERFAILURE
+testCreateFolderFailure:
+  inputs:
+    - folder_name: tobecreated
+  description: Tests that create_folder.sl finishes with FAILURE if the specified folder already exists
+  testFlowPath: io.cloudslang.base.files.test_create_folder_already_existent
+  result: FAILURE
 
 testCreateFolderFailureIllegal:
   inputs:
