@@ -11,6 +11,7 @@ namespace: io.cloudslang.base.utils
 imports:
   utils: io.cloudslang.base.utils
   comparisons: io.cloudslang.base.comparisons
+  files: io.cloudslang.base.files
 
 flow:
   name: test_random_number_generator
@@ -26,22 +27,23 @@ flow:
         publish:
           - random_number
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: output_greater_than_min
           FAILURE: FAILURE
+
     - output_greater_than_min:
         do:
           comparisons.less_than_percentage:
-            - first_percentage: min
-            - second_percentage: number_generator
+            - first_percentage: str(int(min) - 1)
+            - second_percentage: str(random_number)
         navigate:
-          LESS: OUTPUT_OUTSIDE_BOUNDS
-          MORE: output_less_than_max
+          LESS: output_less_than_max
+          MORE: OUTPUT_OUTSIDE_BOUNDS
           FAILURE: COMPARISON_FAILURE
     - output_less_than_max:
         do:
           comparisons.less_than_percentage:
-            - first_percentage: number_generator
-            - second_percentage: max
+            - first_percentage: str(random_number)
+            - second_percentage: str(int(max) + 1)
         navigate:
           LESS: SUCCESS
           MORE: OUTPUT_OUTSIDE_BOUNDS
