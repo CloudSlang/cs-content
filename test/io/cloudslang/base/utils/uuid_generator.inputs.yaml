@@ -10,3 +10,8 @@ testUuidGeneratorSuccess:
   description: Tests that uuid_generator.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.uuid_generator
   result: SUCCESS
+
+testUuidGeneratorOutputNotEmpty:
+  description: Tests that uuid_generator.sl contains an output that is not empty
+  testFlowPath: io.cloudslang.base.utils.test_uuid_generator
+  result: SUCCESS
