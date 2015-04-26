@@ -1,0 +1,25 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testVerifyAppIsUp_Success:
+  inputs:
+    - host: localhost
+    - port: '80'
+    - attempts: '1'
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: SUCCESS
+
+testVerifyAppIsUp_Failure:
+  inputs:
+    - host: localhost
+    - port: '80'
+    - attempts: '0'
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: FAILURE
