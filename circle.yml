@@ -1,15 +1,15 @@
 machine:
   services:
     - docker
-
-dependencies:
-  cache_directories:
-    - "~/docker"
-
-  override:
-    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-    - docker pull jpetazzo/dind .
-    - mkdir -p ~/docker; docker save jpetazzo/dind > ~/docker/image.tar
+#
+#dependencies:
+#  cache_directories:
+#    - "~/docker"
+#
+#  override:
+#    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+#    - docker pull jpetazzo/dind
+#    - mkdir -p ~/docker; docker save jpetazzo/dind > ~/docker/image.tar
 
 test:
   override:
