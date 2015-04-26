@@ -4,7 +4,7 @@ machine:
 
 test:
   override:
-    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -t -i jpetazzo/dind
+    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -e PORT=4444 jpetazzo/dind
     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.20/cslang-builder.zip
     - unzip cslang-builder.zip -d cslang-builder
     - chmod +x cslang-builder/bin/cslang-builder
