@@ -22,6 +22,7 @@ namespace: io.cloudslang.base.network.example
 imports:
   network: io.cloudslang.base.network
   mail: io.cloudslang.base.mail
+  strings: io.cloudslang.base.strings
 
 flow:
   name: ping_hosts
@@ -46,8 +47,19 @@ flow:
               - messagebody: "fromInputs['message_body'].append(message)"
               - all_nodes_are_up: "fromInputs['all_nodes_are_up'] and is_up"
         navigate:
-          UP: mail_send
+          UP: check_result
           DOWN: failure_mail_send
+          FAILURE: failure_mail_send
+
+    - check_result:
+        do:
+          strings.string_equals:
+            - first_string: >
+                str(all_nodes_are_up)
+            - second_string: >
+                "True"
+        navigate:
+          SUCCESS: mail_send
           FAILURE: failure_mail_send
 
     - mail_send:
@@ -83,7 +95,7 @@ flow:
                     system_property: io.cloudslang.base.to
                 - subject: "'Ping Result'"
                 - body: >
-                      "Result: Failure to ping: " + "".join(message_body)
+                      "Result: Failure to ping: " + " ".join(message_body)
                 - username:
                     system_property: io.cloudslang.base.username
                 - password:
