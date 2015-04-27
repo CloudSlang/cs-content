@@ -17,10 +17,10 @@ testVerifyAppIsUp_Success:
 
 testVerifyAppIsUp_Failure:
   inputs:
-    - host: localhost
+    - host: 260.1.1.1
     - port: '80'
     - attempts: '0'
-  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  description: Tests that verify_app_is_up.sl operation failes with wrong input data
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: FAILURE
 
@@ -29,7 +29,7 @@ testVerifyAppIsUp_Success_output_message:
     - host: 64.233.177.113
     - port: '80'
     - attempts: '1'
-  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  description: Tests that verify_app_is_up.sl operation Success output_message is correct
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: SUCCESS
   outputs:
@@ -37,10 +37,10 @@ testVerifyAppIsUp_Success_output_message:
 
 testVerifyAppIsUp_Failure_output_message:
   inputs:
-    - host: localhost
+    - host: 260.1.1.1
     - port: '80'
     - attempts: '0'
-  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  description: Tests that verify_app_is_up.sl operation Failure output_message is correct
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: FAILURE
   outputs:
@@ -51,6 +51,13 @@ testVerifyAppIsUp_Exception:
     - host: 64.233.177.113
     - port: '80'
     - attempts: aa
-  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  description: Tests that verify_app_is_up.sl operation throws exception with inappropriate input data
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  throwsException: true
+
+testVerifyAppIsUp_Exception:
+  inputs:
+    - host: 64.233.177.113
+  description: Tests that verify_app_is_up.sl operation throws exception with missing input data
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   throwsException: true
