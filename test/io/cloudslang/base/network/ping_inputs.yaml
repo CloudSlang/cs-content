@@ -63,7 +63,7 @@ testPing_UP_requied_inputs_and_timeout:
 testPing_DOWN_requied_inputs_and_timeout:
   inputs:
     - address: localhost
-    - timeout: '0'
+    - timeout: '-1'
   description: Tests that ping.sl operation finishes with DOWN
   testFlowPath: io.cloudslang.base.network.ping
   result: DOWN
