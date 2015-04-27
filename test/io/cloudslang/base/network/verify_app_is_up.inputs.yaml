@@ -8,7 +8,7 @@
 ####################################################
 testVerifyAppIsUp_Success:
   inputs:
-    - host: 107.22.240.13
+    - host: 64.233.177.113
     - port: '80'
     - attempts: '1'
   description: Tests that verify_app_is_up.sl operation does not contain an error message
@@ -26,7 +26,7 @@ testVerifyAppIsUp_Failure:
 
 testVerifyAppIsUp_Success_output_message:
   inputs:
-    - host: 107.22.240.13
+    - host: 64.233.177.113
     - port: '80'
     - attempts: '1'
   description: Tests that verify_app_is_up.sl operation does not contain an error message
@@ -48,7 +48,7 @@ testVerifyAppIsUp_Failure_output_message:
 
 testVerifyAppIsUp_Exception:
   inputs:
-    - host: 107.22.240.13
+    - host: 64.233.177.113
     - port: '80'
     - attempts: aa
   description: Tests that verify_app_is_up.sl operation does not contain an error message
