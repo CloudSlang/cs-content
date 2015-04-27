@@ -30,7 +30,9 @@ operation:
   name: parse_register_endpoint_request
   inputs:
     - node
-    - address
+    - address:
+        default: "''"
+        required: false
     - datacenter:
         default: "''"
         required: false
@@ -46,7 +48,8 @@ operation:
         import json
         data= {}
         data['Node'] = node
-        data['Address'] = address
+        if address != '':
+          data['Address'] = address
         if datacenter != '':
           data['Datacenter'] = datacenter
         if service != '':
