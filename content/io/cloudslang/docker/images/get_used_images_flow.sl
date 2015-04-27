@@ -13,6 +13,7 @@
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
 #   - used_images_list - "\n" delimited list of Docker images currently used on the machine
 ####################################################
@@ -30,7 +31,8 @@ flow:
     - docker_password
     - private_key_file:
         default: "''"
-
+    - timeout:
+            required: false
   workflow:
     - validate_linux_machine_ssh_access_op:
         do:
@@ -39,6 +41,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
     - get_used_images:
         do:
           docker_images.get_used_images:
@@ -46,6 +50,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - timeout:
+                    required: false
         publish:
           - used_images_list: image_list
   outputs:

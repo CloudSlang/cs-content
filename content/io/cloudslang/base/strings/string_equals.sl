@@ -27,7 +27,6 @@ operation:
       res = False
       if first_string == second_string:
         res = True
-
   results:
     - SUCCESS: res == True
     - FAILURE

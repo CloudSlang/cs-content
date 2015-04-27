@@ -27,10 +27,13 @@ operation:
 
   action:
     python_script: |
-        import zipfile, sys
+        import zipfile
         try:
-          with zipfile.ZipFile(archive_path, "r") as z:
-            z.extractall(output_folder)
+          fh = open(archive_path, 'rb')
+          z = zipfile.ZipFile(fh)
+          for name in z.namelist():
+              z.extract(name, output_folder)
+          fh.close()
           message = 'unzipping done successfully'
           result = True
         except Exception as e:
