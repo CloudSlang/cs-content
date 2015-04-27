@@ -66,6 +66,6 @@ testRandomNumberGeneratorOutputInsideBounds:
     - min: '-11'
     - max: '-1'
   description: Tests that random_number_generator.sl operation finishes with FAILURE when inputs are negative and first input is greater than second input
-  testFlowPath: io.cloudslang.base.utils.random_number_generator
+  testFlowPath: io.cloudslang.base.utils.test_random_number_generator
   result: SUCCESS
 
