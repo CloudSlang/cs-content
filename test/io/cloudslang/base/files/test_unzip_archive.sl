@@ -22,29 +22,50 @@ namespace: io.cloudslang.base.files
 
 imports:
   files: io.cloudslang.base.files
-  utils: io.cloudslang.base.utils
+  print: io.cloudslang.base.print
 flow:
   name: test_unzip_archive
   inputs:
+    - name
     - path
     - out_folder
   workflow:
     - prerquest_for_zip_creation:
         loop:
-          for: file in ['./test/' + path + '.zip', './test/' + path, path, path+'.zip',]
+          for: f in [path + '/' + name + '.zip', path + '/' + name, name, name + '.zip', out_folder]
           do:
             files.delete:
-              - source: file
+              - source: f
           break: []
         navigate:
+          SUCCESS: test_folder_creation
+          FAILURE: test_folder_creation
+
+    - test_folder_creation:
+        loop:
+          for: folder in [path, out_folder]
+          do:
+            files.create_folder:
+              - folder_name: folder
+          break: []
+        navigate:
+          SUCCESS: test_file_creation
+          FAILURE: test_file_creation
+
+    - test_file_creation:
+        do:
+          files.write_to_file:
+            - file_path: "path + '/test.txt'"
+            - text: "'Workflow to test unzip operation'"
+        navigate:
           SUCCESS: zip_folder
-          FAILURE: zip_folder
+          FAILURE: PREREQUESTFAILURE
 
     - zip_folder:
         do:
           files.zip_folder:
-            - archive_name: path.split('.')[0]
-            - folder_path: "'test'"
+            - archive_name: name.split('.')[0]
+            - folder_path: path
         navigate:
           SUCCESS: unzip_folder
           FAILURE: ZIPFAILURE
@@ -53,7 +74,7 @@ flow:
         do:
           files.unzip_archive:
             - archive_path:
-                default: "'./test/' + path"
+                default: "path + '/' + name"
                 overridable: false
             - output_folder: out_folder
         publish:
@@ -69,14 +90,14 @@ flow:
                 default: out_folder
                 overridable: false
         navigate:
-          SUCCESS: delete_archive
+          SUCCESS: delete_test_folder
           FAILURE: DELETEFAILURE
 
-    - delete_archive:
+    - delete_test_folder:
         do:
           files.delete:
             - source:
-                default: "'./test/' + path"
+                default: path
                 overridable: false
         navigate:
           SUCCESS: SUCCESS
@@ -88,5 +109,6 @@ flow:
   results:
     - SUCCESS
     - ZIPFAILURE
+    - PREREQUESTFAILURE
     - UNZIPFAILURE
     - DELETEFAILURE
