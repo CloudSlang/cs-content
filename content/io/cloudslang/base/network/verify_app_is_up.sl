@@ -12,6 +12,7 @@
 #   - host - IP where the application is running
 #   - port - port on which the application is listening
 #   - attempts - attempts to reach host
+#   - time_to_sleep - time in seconds to wait between attempts
 # Outputs:
 #   - error_message - timeout exceeded and application did not respond
 # Results:
@@ -27,6 +28,9 @@ operation:
     - host
     - port
     - attempts
+    - time_to_sleep:
+        default: 1
+        required: false
   action:
     python_script: |
       import urllib2
@@ -40,7 +44,7 @@ operation:
           result = urllib2.urlopen(url)
         except Exception :
           count = count + 1
-          time.sleep(1)
+          time.sleep(int(time_to_sleep))
         else:
             code = result.getcode()
             count = int(attempts)
