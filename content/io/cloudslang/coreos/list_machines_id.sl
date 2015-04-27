@@ -21,7 +21,6 @@
 #   - closeSession - optional - if false SSH session will be cached for future calls of this operation during the life of the flow, if true SSH session used by this operation will be closed - Valid values: true, false - Default: false
 # Outputs:
 #   - machines_id_list  - space delimited list of IDs of machines deployed in the CoreOS cluster
-#   - error_message - contains STDERR of machine if SSH action was executed successfully, cause of exception otherwise
 # Results:
 #   - SUCCESS - action was executed successfully and no error message is found in the STDERR
 #   - FAILURE - otherwise
@@ -61,7 +60,6 @@ operation:
     - machines_id_list: >
         returnResult.replace("\n"," ").replace("MACHINE ","",1).replace("...", "")[:-1]
         if (returnCode == '0' and (not 'ERROR' in STDERR)) else ''
-    - error_message:  STDERR if returnCode == '0' else returnResult
   results:
     - SUCCESS: returnCode == '0' and (not 'ERROR' in STDERR)
     - FAILURE
