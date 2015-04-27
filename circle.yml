@@ -5,7 +5,6 @@ machine:
 dependencies:
   cache_directories:
     - "~/docker"
-
   override:
     - docker info
     - docker images
