@@ -8,7 +8,7 @@
 ####################################################
 testVerifyAppIsUp_Success:
   inputs:
-    - host: localhost
+    - host: 107.22.240.13
     - port: '80'
     - attempts: '1'
   description: Tests that verify_app_is_up.sl operation does not contain an error message
@@ -23,3 +23,34 @@ testVerifyAppIsUp_Failure:
   description: Tests that verify_app_is_up.sl operation does not contain an error message
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: FAILURE
+
+testVerifyAppIsUp_Success_output_message:
+  inputs:
+    - host: 107.22.240.13
+    - port: '80'
+    - attempts: '1'
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: SUCCESS
+  outputs:
+    - output_message: Application is up
+
+testVerifyAppIsUp_Failure_output_message:
+  inputs:
+    - host: localhost
+    - port: '80'
+    - attempts: '0'
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: FAILURE
+  outputs:
+    - output_message: Application is not up after 0 attempts to ping.
+
+testVerifyAppIsUp_Exception:
+  inputs:
+    - host: 107.22.240.13
+    - port: '80'
+    - attempts: aa
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  throwsException: true

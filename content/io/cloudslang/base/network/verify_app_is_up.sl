@@ -46,9 +46,9 @@ operation:
             count = int(attempts)
             if code == 200 :
               return_result = True
-              message = "'Application is up'"
+              message = "Application is up"
   outputs:
-    - error_message: message
+    - output_message: message
 
   results:
     - SUCCESS: return_result
