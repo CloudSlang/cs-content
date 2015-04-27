@@ -53,9 +53,9 @@ operation:
         if datacenter != '':
           data['Datacenter'] = datacenter
         if service != '':
-          data['Service'] = service
+          data['Service'] = json.loads(service)
         if check != '':
-          data['Check'] = check
+          data['Check'] = json.loads(check)
         json_request = json.dumps(data)
         returnCode = '0'
         returnResult = 'Parsing successful.'
