@@ -14,6 +14,8 @@ dependencies:
 
 test:
   override:
+    - docker stop docker_host_ssh
+    - docker rm docker_host_ssh
     - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
     - docker port docker_host_ssh 22
     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.22/cslang-builder.zip
