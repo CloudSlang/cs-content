@@ -82,7 +82,7 @@ flow:
           base_network.verify_app_is_up:
             - host: docker_host
             - port: "'8080'"
-            - max_seconds_to_wait: 20
+            - attempts: 20
         publish:
           - error_message
 
