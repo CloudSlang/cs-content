@@ -1,0 +1,72 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testVerifyAppIsUp_Success:
+  inputs:
+    - host: 64.233.177.113
+    - port: '80'
+    - attempts: '1'
+  description: Tests that verify_app_is_up.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: SUCCESS
+
+testVerifyAppIsUp_Failure_unreachable_host:
+  inputs:
+    - host: 260.1.1.1
+    - port: '80'
+    - attempts: '1'
+  description: Tests that verify_app_is_up.sl operation failes with unreacheble input data
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: FAILURE
+
+testVerifyAppIsUp_Failure_0_attepts:
+  inputs:
+    - host: 64.233.177.113
+    - port: '80'
+    - attempts: '0'
+  description: Tests that verify_app_is_up.sl operation failes with 0 attempts
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: FAILURE
+
+testVerifyAppIsUp_Success_output_message:
+  inputs:
+    - host: 64.233.177.113
+    - port: '80'
+    - attempts: '1'
+  description: Tests that verify_app_is_up.sl operation Success output_message is correct
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: SUCCESS
+  outputs:
+    - output_message: Application is up
+
+testVerifyAppIsUp_Failure_output_message:
+  inputs:
+    - host: 260.1.1.1
+    - port: '80'
+    - attempts: '0'
+  description: Tests that verify_app_is_up.sl operation Failure output_message is correct
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  result: FAILURE
+  outputs:
+    - output_message: Application is not up after 0 attempts to ping.
+
+testVerifyAppIsUp_Exception_wrong_data:
+  inputs:
+    - host: 64.233.177.113
+    - port: '80'
+    - attempts: aa
+  description: Tests that verify_app_is_up.sl operation throws exception with inappropriate input data
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  throwsException: true
+
+testVerifyAppIsUp_Exception_missing_data:
+  inputs:
+    - host: 64.233.177.113
+  description: Tests that verify_app_is_up.sl operation throws exception with missing input data
+  testFlowPath: io.cloudslang.base.network.verify_app_is_up
+  throwsException: true
