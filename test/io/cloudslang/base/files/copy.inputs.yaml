@@ -50,13 +50,13 @@ testCopyFolderFailure:
 
 #fails on linux
 
-testCopyFolderFailureIllegal:
-  inputs:
-    - copy_source: willbecreated
-    - copy_destination: i/0nexist\0en*tpath/fol/der
-  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
-  testFlowPath: io.cloudslang.base.files.test_copy_folder
-  result: COPYFAILURE
+#testCopyFolderFailureIllegal:
+#  inputs:
+#    - copy_source: willbecreated
+#    - copy_destination: i/0nexist\0en*tpath/fol/der
+#  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
+#  testFlowPath: io.cloudslang.base.files.test_copy_folder
+#  result: COPYFAILURE
 
 testCopyException:
   description: Tests that copy.sl throws exception when there are missing inputs

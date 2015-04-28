@@ -28,7 +28,7 @@ testDeleteFolderSuccess:
   inputs:
     - delete_source: testfolder
   description: Tests that delete.sl finishes with SUCCESS when delete_source leads to a folder
-  testFlowPath: io.cloudslang.base.files.test_delete
+  testFlowPath: io.cloudslang.base.files.test_delete_folder
   outputs:
       - message: "testfolder was removed"
   result: SUCCESS
