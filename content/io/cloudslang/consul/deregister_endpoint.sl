@@ -35,7 +35,6 @@ flow:
         default: "'8500'"
         required: false
     - node
-    - address
     - datacenter:
         default: "''"
         required: false
@@ -50,7 +49,6 @@ flow:
         do:
           consul.parse_register_endpoint_request:
             - node
-            - address
             - datacenter
             - service
             - check

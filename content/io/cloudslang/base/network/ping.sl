@@ -18,7 +18,7 @@
 # Results:
 #   - UP - address is up
 #   - DOWN - address is down
-#   - FAILURE - ping operation failed due to error
+#   - FAILURE - ping cannot be performed due to an error
 #
 ####################################################
 namespace: io.cloudslang.base.network

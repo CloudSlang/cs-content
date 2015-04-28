@@ -15,7 +15,6 @@
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
 #   - machines_public_ip_list: space delimeted list of public IP addresses of machines in cluster
-#   - error_Message - possible error message
 #####################################################
 
 namespace: io.cloudslang.coreos
@@ -52,7 +51,6 @@ flow:
                 required: false
         publish:
             - machines_id_list
-            - error_message
 
     - get_machine_public_ip:
             loop:
@@ -68,8 +66,6 @@ flow:
                         required: false
                 publish:
                     - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
-                    - error_message
 
   outputs:
     - machines_public_ip_list: machines_public_ip_list[:-1]
-    - error_message
