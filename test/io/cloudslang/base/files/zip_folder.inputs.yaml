@@ -9,7 +9,7 @@
 testZipFolderSuccess:
   inputs:
     - archive_name: test_archive
-    - folder_path: test
+    - folder_path: folderwillbecreated
   description: Tests that zip_folder.sl operation finishes with SUCCESS when inputs are valid
   testFlowPath: io.cloudslang.base.files.test_zip_folder
   result: SUCCESS
@@ -20,8 +20,8 @@ testZipFolderFailure:
     - archive_name: test_archive
     - folder_path: doesnotexist
   description: Tests that zip_folder.sl operation finishes with FAILURE when the specified folder does not exist
-  testFlowPath: io.cloudslang.base.files.test_zip_folder
-  result: ZIPFAILURE
+  testFlowPath: io.cloudslang.base.files.zip_folder
+  result: FAILURE
 
 testZipFolderMissingInputs:
   inputs:
@@ -33,8 +33,8 @@ testZipFolderMissingInputs:
 testZipFolderWithFileAsInput:
   inputs:
     - archive_name: test_archive
-    - folder_path: README.md
+    - folder_path: filethatwillbecreated.txt
   description: Tests that zip_folder.sl operation finishes with FAILURE when folder_path leads to a file
-  testFlowPath: io.cloudslang.base.files.test_zip_folder
+  testFlowPath: io.cloudslang.base.files.test_zip_folder_with_file_as_input
   result: ZIPFAILURE
 
