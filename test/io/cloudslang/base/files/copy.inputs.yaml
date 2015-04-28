@@ -53,7 +53,7 @@ testCopyFolderFailure:
 testCopyFolderFailureIllegal:
   inputs:
     - copy_source: willbecreated
-    - copy_destination: a*bc/RE\0AD*ME/2
+    - copy_destination: i/0nexist\0en*tpath/fol/der
   description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
   testFlowPath: io.cloudslang.base.files.test_copy_folder
   result: COPYFAILURE
