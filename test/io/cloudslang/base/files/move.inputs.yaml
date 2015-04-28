@@ -54,12 +54,12 @@ testMoveFolderFailureWithSourceFolderPathInexistent:
   testFlowPath: io.cloudslang.base.files.move
   result: FAILURE
 #
-##fails on linux
-#
-##testMoveFolderFailureWithDestinationFolderPathInexistent:
-##  inputs:
-##    - move_source: python-lib
-##    - move_destination: \0**D
-##  description: Tests that move.sl finishes with FAILURE when when move_destination contains unwanted characters
-##  testFlowPath: io.cloudslang.base.files.test_move
-##  result: FAILURE
+#fails on linux
+
+testMoveFolderFailureWithDestinationFolderPathInexistent:
+  inputs:
+    - move_source: inexistentfolder
+    - move_destination: \0**/D
+  description: Tests that move.sl finishes with FAILURE when when move_destination contains unwanted characters
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE
