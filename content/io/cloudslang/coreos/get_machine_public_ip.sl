@@ -21,7 +21,6 @@
 #   - closeSession - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false - Default: false
 # Outputs:
 #   - public_ip: public IP address of the machine based on its ID
-#   - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 # Results:
 #   - SUCCESS - the action was executed successfully and no error message is found in the STDERR
 #   - FAILURE - otherwise
@@ -64,7 +63,6 @@ operation:
   outputs:
     - public_ip: >
         returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
-    - error_message:  STDERR if returnCode == '0' else returnResult
   results:
     - SUCCESS: (returnCode == '0') and (not 'ssh-agent' in STDERR) and (not 'ERROR' in STDERR)
     - FAILURE
