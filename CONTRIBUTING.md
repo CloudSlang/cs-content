@@ -83,7 +83,7 @@ When contributing new CloudSlang content or changing existing content, the conte
 
 All CloudSlang content must pass our content validation.
 In order to test that your content passes validation, do the following:
-- Download the slang-content-validator.jar from: https://github.com/openscore/score-language/releases
+- Download the slang-content-validator.jar from: https://github.com/CloudSlang/cloud-slang/releases
 - Run `java -jar slang-content-verifier.jar directory_path`
 
 ##Conduct

@@ -45,7 +45,7 @@ operation:
     - closeSession: "'false'"
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - dangling_image_list: returnResult
