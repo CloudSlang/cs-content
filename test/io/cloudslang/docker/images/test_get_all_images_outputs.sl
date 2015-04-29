@@ -30,6 +30,7 @@ flow:
   name: test_get_all_images_outputs
   inputs:
     - host
+    - port
     - username
     - password
   workflow:
