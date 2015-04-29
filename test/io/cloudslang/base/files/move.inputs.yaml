@@ -9,25 +9,25 @@
 
 #tests here fail when running from a different place that content repo root
 
-#testMoveSuccess:
-#  inputs:
-#    - move_source: README.md
-#    - move_destination: README2.md
-#  description: Tests that move.sl finishes with SUCCESS when inputs are valid file paths
-#  testFlowPath: io.cloudslang.base.files.test_move
-#  result: SUCCESS
+testMoveSuccess:
+  inputs:
+    - move_source: willbecreated.txt
+    - move_destination: moved.txt
+  description: Tests that move.sl finishes with SUCCESS when inputs are valid file paths
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: SUCCESS
 
 testMoveFailureWithSourceFileInexistent:
   inputs:
-    - move_source: README3.md
-    - move_destination: README2.md
+    - source: inexistent.txt
+    - destination: willnotbemoved.txt
   description: Tests that move.sl finishes with FAILURE when move_source leads to an inexistent file
-  testFlowPath: io.cloudslang.base.files.test_move
+  testFlowPath: io.cloudslang.base.files.move
   result: FAILURE
 
 testMoveFailureWithDestinationFileIncorrect:
   inputs:
-    - move_source: README.md
+    - move_source: willbecreated.txt
     - move_destination: abc/REA2.md
   description: Tests that move.sl finishes with FAILURE when move_destination contains unwanted characters
   testFlowPath: io.cloudslang.base.files.test_move
@@ -38,28 +38,26 @@ testMoveMissingInputs:
   testFlowPath: io.cloudslang.base.files.test_move
   throwsException: true
 
-#testMoveFolderSuccess:
-#  inputs:
-#    - move_source: python-lib
-#    - move_destination: python-lib2
-#  description: Tests that move.sl finishes with SUCCESS when inputs are valid folder paths
-#  testFlowPath: io.cloudslang.base.files.test_move
-#  result: SUCCESS
+testMoveFolderSuccess:
+  inputs:
+    - move_source: foldertobecreated
+    - move_destination: folderwillbemoved
+  description: Tests that move.sl finishes with SUCCESS when inputs are valid folder paths
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: SUCCESS
 
 testMoveFolderFailureWithSourceFolderPathInexistent:
   inputs:
-    - move_source: inexistentfolder
-    - move_destination: test
+    - source: inexistentfolder
+    - destination: willnotbemoved
   description: Tests that move.sl finishes with FAILURE when when move_source leads to an inexistent folder
-  testFlowPath: io.cloudslang.base.files.test_move
+  testFlowPath: io.cloudslang.base.files.move
   result: FAILURE
 
-#fails on linux
-
-#testMoveFolderFailureWithDestinationFolderPathInexistent:
-#  inputs:
-#    - move_source: python-lib
-#    - move_destination: \0**D
-#  description: Tests that move.sl finishes with FAILURE when when move_destination contains unwanted characters
-#  testFlowPath: io.cloudslang.base.files.test_move
-#  result: FAILURE
+testMoveFolderFailureWithDestinationFolderPathInexistent:
+  inputs:
+    - move_source: inexistentfolder
+    - move_destination: \0**/D
+  description: Tests that move.sl finishes with FAILURE when when move_destination contains unwanted characters
+  testFlowPath: io.cloudslang.base.files.test_move
+  result: FAILURE

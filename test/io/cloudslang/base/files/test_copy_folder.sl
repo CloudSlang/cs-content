@@ -12,16 +12,15 @@ imports:
   files: io.cloudslang.base.files
 
 flow:
-  name: test_copy
+  name: test_copy_folder
   inputs:
     - copy_source
     - copy_destination
   workflow:
-    - create_file_to_be_copied:
+    - create_folder_to_be_copied:
         do:
-          files.write_to_file:
-            - file_path: copy_source
-            - text: "'text-to-be-copied'"
+          files.create_folder:
+            - folder_name: copy_source
         navigate:
           SUCCESS: test_copy_operation
           FAILURE: CREATEFAILURE
@@ -31,25 +30,25 @@ flow:
             - source: copy_source
             - destination: copy_destination
         navigate:
-          SUCCESS: delete_copied_file
-          FAILURE: delete_created_file_after_copy_failure
+          SUCCESS: delete_copied_folder
+          FAILURE: delete_created_folder_after_copy_failure
         publish:
           - message
-    - delete_created_file_after_copy_failure:
+    - delete_created_folder_after_copy_failure:
         do:
           files.delete:
             - source: copy_source
         navigate:
           SUCCESS: COPYFAILURE
           FAILURE: DELETEFAILURE
-    - delete_copied_file:
+    - delete_copied_folder:
         do:
           files.delete:
             - source: copy_destination
         navigate:
-          SUCCESS: delete_created_file
+          SUCCESS: delete_created_folder
           FAILURE: DELETEFAILURE
-    - delete_created_file:
+    - delete_created_folder:
         do:
           files.delete:
             - source: copy_source
@@ -65,4 +64,3 @@ flow:
     - CREATEFAILURE
     - COPYFAILURE
     - DELETEFAILURE
-

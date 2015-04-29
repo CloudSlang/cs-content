@@ -18,6 +18,14 @@ flow:
     - archive_name
     - folder_path
   workflow:
+    -  create_folder_to_be_zipped:
+        do:
+          files.create_folder:
+            - folder_name: folder_path
+        navigate:
+          SUCCESS: test_zip_folder_operation
+          FAILURE: CREATEFAILURE
+
     - test_zip_folder_operation:
         do:
           files.zip_folder:
@@ -31,10 +39,18 @@ flow:
           files.delete:
             - source: "'./' + folder_path + '/' + archive_name + '.zip'"
         navigate:
+          SUCCESS: delete_created_folder
+          FAILURE: DELETEFAILURE
+    - delete_created_folder:
+        do:
+          files.delete:
+            - source: folder_path
+        navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
   results:
     - SUCCESS
+    - CREATEFAILURE
     - ZIPFAILURE
     - DELETEFAILURE
 

@@ -10,59 +10,54 @@ namespace: io.cloudslang.base.files
 
 imports:
   files: io.cloudslang.base.files
+  strings: io.cloudslang.base.strings
 
 flow:
-  name: test_copy
+  name: test_zip_folder_with_file_as_input
   inputs:
-    - copy_source
-    - copy_destination
+    - archive_name
+    - folder_path
   workflow:
-    - create_file_to_be_copied:
+    -  create_file_to_be_zipped:
         do:
           files.write_to_file:
-            - file_path: copy_source
+            - file_path: folder_path
             - text: "'text-to-be-copied'"
         navigate:
-          SUCCESS: test_copy_operation
+          SUCCESS: test_zip_folder_operation
           FAILURE: CREATEFAILURE
-    - test_copy_operation:
+
+    - test_zip_folder_operation:
         do:
-          files.copy:
-            - source: copy_source
-            - destination: copy_destination
+          files.zip_folder:
+            - archive_name
+            - folder_path
         navigate:
-          SUCCESS: delete_copied_file
-          FAILURE: delete_created_file_after_copy_failure
-        publish:
-          - message
-    - delete_created_file_after_copy_failure:
+          SUCCESS: delete_archive
+          FAILURE: delete_created_file_from_zip_failure
+    - delete_archive:
         do:
           files.delete:
-            - source: copy_source
+            - source: "'./' + folder_path + '/' + archive_name + '.zip'"
         navigate:
-          SUCCESS: COPYFAILURE
+          SUCCESS: delete_created_file_from_zip_success
           FAILURE: DELETEFAILURE
-    - delete_copied_file:
+    - delete_created_file_from_zip_failure:
         do:
           files.delete:
-            - source: copy_destination
+            - source: folder_path
         navigate:
-          SUCCESS: delete_created_file
+          SUCCESS: ZIPFAILURE
           FAILURE: DELETEFAILURE
-    - delete_created_file:
+    - delete_created_file_from_zip_success:
         do:
           files.delete:
-            - source: copy_source
+            - source: folder_path
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
-
-  outputs:
-    - message
-
   results:
     - SUCCESS
     - CREATEFAILURE
-    - COPYFAILURE
+    - ZIPFAILURE
     - DELETEFAILURE
-
