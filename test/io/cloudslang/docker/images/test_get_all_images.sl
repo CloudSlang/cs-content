@@ -29,6 +29,7 @@ flow:
   name: test_get_all_images
   inputs:
     - host
+    - port
     - username
     - password
   workflow:
@@ -37,6 +38,7 @@ flow:
           images.pull_image:
             - imageName: "'hello-world'"
             - host: host
+            - port: port
             - username: username
             - password: password
         navigate:
@@ -47,26 +49,26 @@ flow:
         do:
           images.get_all_images:
             - host: host
+            - port: port
             - username: username
             - password: password
         publish:
             - list: image_list
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: delete_downloaded_image
           FAILURE: FAILURE
 
-#    - delete_downloaded_image:
-#        do:
-#          images.clear_docker_images:
-#            - host: host
-#            - username: username
-#            - password: password
-#            - images: "'hello-world'"
-#        navigate:
-#          SUCCESS: SUCCESS
-#          FAILURE: DELETEFAIL
-  outputs:
-    - list: list
+    - delete_downloaded_image:
+        do:
+          images.clear_docker_images:
+            - host: host
+            - port: port
+            - username: username
+            - password: password
+            - images: "'hello-world'"
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: DELETEFAIL
 
   results:
     - SUCCESS

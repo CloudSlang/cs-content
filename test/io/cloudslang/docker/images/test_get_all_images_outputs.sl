@@ -38,6 +38,7 @@ flow:
           images.pull_image:
             - imageName: "'hello-world'"
             - host: host
+            - port: port
             - username: username
             - password: password
         navigate:
@@ -48,6 +49,7 @@ flow:
         do:
           images.get_all_images:
             - host: host
+            - port: port
             - username: username
             - password: password
         publish:
@@ -69,6 +71,7 @@ flow:
         do:
           images.clear_docker_images:
             - host: host
+            - port: port
             - username: username
             - password: password
             - images: "'hello-world'"
