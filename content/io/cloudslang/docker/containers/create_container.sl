@@ -66,7 +66,7 @@ operation:
         default: "'false'"
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - db_container_ID: returnResult

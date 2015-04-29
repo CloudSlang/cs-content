@@ -73,7 +73,7 @@ operation:
         required: false
   action:
     java_action:
-      className: org.openscore.content.mail.actions.SendMailAction
+      className: io.cloudslang.content.mail.actions.SendMailAction
       methodName: execute
   results:
     - SUCCESS: returnCode == '0'
