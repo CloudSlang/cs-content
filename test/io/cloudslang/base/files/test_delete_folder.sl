@@ -12,15 +12,14 @@ imports:
   files: io.cloudslang.base.files
 
 flow:
-  name: test_delete
+  name: test_delete_folder
   inputs:
     - delete_source
   workflow:
-    - create_file:
+    - create_folder:
         do:
-          files.write_to_file:
-            - file_path: delete_source
-            - text: "'hello'"
+          files.create_folder:
+            - folder_name: delete_source
         navigate:
           SUCCESS: test_delete_operation
           FAILURE: WRITEFAILURE
