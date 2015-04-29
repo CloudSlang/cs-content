@@ -14,4 +14,5 @@ testDockerStuff:
     - password: screencast
   description: Tests that it works
   testFlowPath: io.cloudslang.docker.images.get_all_images
+  testSuites: [docker]
   result: SUCCESS
