@@ -23,4 +23,5 @@ test:
     - ./cslang-builder/bin/cslang-builder .
   post:
     - docker ps -a
-    - docker rm -f $(docker ps -a -q)
+    - docker stop $(docker ps -a -q)
+    - docker rm $(docker ps -a -q)
