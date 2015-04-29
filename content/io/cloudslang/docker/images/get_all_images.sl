@@ -58,5 +58,5 @@ operation:
   outputs:
     - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
   results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR) and (not 'command not found' in STDERR) and (not 'deamon' in STDERR)
     - FAILURE
