@@ -38,6 +38,7 @@ flow:
         do:
           images.pull_image:
             - host
+            - port
             - username
             - password
             - imageName: image_name
@@ -52,6 +53,7 @@ flow:
         do:
           images.clear_docker_images:
             - host
+            - port
             - username
             - password
             - images: image_name
