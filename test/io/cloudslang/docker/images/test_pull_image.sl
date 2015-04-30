@@ -1,0 +1,69 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+namespace: io.cloudslang.docker.images
+
+imports:
+  images: io.cloudslang.docker.images
+  linux: io.cloudslang.base.os.linux
+
+flow:
+  name: test_pull_image
+  inputs:
+    - host
+    - port:
+        required: false
+    - username
+    - password
+    - image_name
+
+  workflow:
+    - validate_ssh:
+        do:
+          linux.validate_linux_machine_ssh_access:
+            - host
+            - username
+            - password
+        navigate:
+          SUCCESS: pull_image
+          FAILURE: FAIL_VALIDATE_SSH
+    - pull_image:
+        do:
+          images.pull_image:
+            - host
+            - username
+            - password
+            - imageName: image_name
+        publish:
+          - return_result
+          - error_message
+        navigate:
+          SUCCESS: clear_image
+          FAILURE: FAIL_PULL_IMAGE
+
+    - clear_image:
+        do:
+          images.clear_docker_images:
+            - host
+            - username
+            - password
+            - images: image_name
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAIL_CLEAR_IMAGE
+
+  outputs:
+    - return_result
+    - error_message
+
+  results:
+    - SUCCESS
+    - FAIL_VALIDATE_SSH
+    - FAIL_CLEAR_IMAGE
+    - FAIL_PULL_IMAGE
