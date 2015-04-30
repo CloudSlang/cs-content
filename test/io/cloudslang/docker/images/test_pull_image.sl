@@ -28,6 +28,7 @@ flow:
         do:
           linux.validate_linux_machine_ssh_access:
             - host
+            - port
             - username
             - password
         navigate:

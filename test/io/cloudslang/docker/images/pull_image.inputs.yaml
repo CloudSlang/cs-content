@@ -9,7 +9,7 @@
 testDocker_pull_image_Success:
   inputs:
     - host: localhost
-    - port: "49153"
+    - port: 49153
     - username: root
     - password: screencast
     - image_name: hello-world
