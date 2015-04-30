@@ -9,10 +9,11 @@
 testDocker_pull_image_Success:
   inputs:
     - host: localhost
-    - port: 49153
+    - port: "49153"
     - username: root
     - password: screencast
     - image_name: hello-world
   description: Tests that pull image flow finishes with success
   testFlowPath: io.cloudslang.docker.images.test_pull_image
+  testSuites: [docker]
   result: SUCCESS
