@@ -39,11 +39,9 @@ operation:
       - host
       - port:
             default: "'22'"
-            required: false
       - command
       - pty:
             default: "'false'"
-            required: false
       - username
       - password:
             required: false
@@ -53,13 +51,10 @@ operation:
             required: false
       - timeout:
             default: "'90000'"
-            required: false
       - characterSet:
             default: "'UTF-8'"
-            required: false
       - closeSession:
             default: "'false'"
-            required: false
       - agentForwarding:
             required: false
     action:
