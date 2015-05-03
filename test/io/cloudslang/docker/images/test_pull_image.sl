@@ -25,6 +25,7 @@ flow:
     - image_name
 
   workflow:
+
     - validate_ssh:
         do:
           linux.validate_linux_machine_ssh_access:
@@ -33,8 +34,31 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: pull_image
+          SUCCESS: get_all_images_before
           FAILURE: FAIL_VALIDATE_SSH
+
+    - get_all_images_before:
+        do:
+          images.get_all_images:
+            - host
+            - port
+            - username
+            - password
+        publish:
+          - image_list
+        navigate:
+          SUCCESS: verify_no_images_before
+          FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
+
+    - verify_no_images_before:
+        do:
+          strings.string_equals:
+            - first_string: image_list
+            - second_string: "''"
+        navigate:
+          SUCCESS: pull_image
+          FAILURE: MACHINE_IS_NOT_CLEAN
+
     - pull_image:
         do:
           images.pull_image:
@@ -91,6 +115,8 @@ flow:
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
+    - FAIL_GET_ALL_IMAGES_BEFORE
+    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
     - FAILURE
