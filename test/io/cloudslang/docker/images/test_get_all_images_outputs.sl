@@ -88,7 +88,7 @@ flow:
             - port
             - username
             - password
-            - imageName: image_name
+            - images: image_name
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAIL
