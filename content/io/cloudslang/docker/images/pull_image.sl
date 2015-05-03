@@ -9,11 +9,11 @@
 # Pulls a Docker image.
 #
 # Inputs:
-#   - imageName - image name to be pulled
+#   - image_name - image name to be pulled
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
-#   - password - Docker machine password
+#   - password - optional - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - characterSet - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
@@ -33,7 +33,7 @@ namespace: io.cloudslang.docker.images
 operation:
   name: pull_image
   inputs:
-    - imageName
+    - image_name
     - host
     - port:
         default: "'22'"
@@ -44,7 +44,7 @@ operation:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker pull ' + imageName"
+        default: "'docker pull ' + image_name"
         overridable: false
     - arguments:
         required: false

@@ -66,7 +66,7 @@ flow:
             - port
             - username
             - password
-            - imageName: image_name
+            - image_name
         publish:
           - return_result
           - error_message
@@ -107,10 +107,6 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_CLEAR_IMAGE
-
-  outputs:
-    - return_result
-    - error_message
 
   results:
     - SUCCESS
