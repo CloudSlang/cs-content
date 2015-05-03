@@ -31,6 +31,7 @@ flow:
 
   inputs:
     - host
+    - port
     - username
     - password
     - service_name
