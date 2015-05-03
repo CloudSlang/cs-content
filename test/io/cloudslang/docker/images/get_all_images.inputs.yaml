@@ -13,18 +13,8 @@ testDocker_GetAllImages_Success:
     - username: root
     - password: screencast
   description: Tests that getting images list done with success result
-  testFlowPath: io.cloudslang.docker.images.test_get_all_images
+  testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
   result: SUCCESS
-
-testDocker_GetAllImages_Failure:
-  inputs:
-    - host: 260.1.1.1
-    - port: "49153"
-    - username: root
-    - password: screencast
-  description: Tests that getting images list done with filure result
-  testFlowPath: io.cloudslang.docker.images.get_all_images
-  result: FAILURE
 
 testDocker_GetAllImages_Success_output:
   inputs:

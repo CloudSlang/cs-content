@@ -24,7 +24,7 @@ namespace: io.cloudslang.docker.images
 imports:
   images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
+  linux: io.cloudslang.base.os.linux
 
 flow:
   name: test_get_all_images_outputs
@@ -34,6 +34,17 @@ flow:
     - username
     - password
   workflow:
+    - validate_ssh:
+        do:
+          linux.validate_linux_machine_ssh_access:
+            - host: host
+            - port: port
+            - username: username
+            - password: password
+        navigate:
+          SUCCESS: hello_world_image_download
+          FAILURE: FAIL_VALIDATE_SSH
+
     - hello_world_image_download:
         do:
           images.pull_image:
@@ -86,3 +97,4 @@ flow:
     - DOWNLOADFAIL
     - VEFIFYFAILURE
     - DELETEFAIL
+    - FAIL_VALIDATE_SSH
