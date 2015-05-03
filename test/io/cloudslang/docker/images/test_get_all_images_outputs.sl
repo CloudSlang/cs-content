@@ -30,9 +30,11 @@ flow:
   name: test_get_all_images_outputs
   inputs:
     - host
-    - port
+    - port:
+        required: false
     - username
     - password
+    - image_name
   workflow:
     - validate_ssh:
         do:
@@ -48,11 +50,11 @@ flow:
     - hello_world_image_download:
         do:
           images.pull_image:
-            - imageName: "'hello-world'"
             - host: host
             - port: port
             - username: username
             - password: password
+            - imageName: image_name
         navigate:
           SUCCESS: get_all_images
           FAILURE: DOWNLOADFAIL
