@@ -39,10 +39,10 @@ flow:
     - validate_ssh:
         do:
           linux.validate_linux_machine_ssh_access:
-            - host: host
-            - port: port
-            - username: username
-            - password: password
+            - host
+            - port
+            - username
+            - password
         navigate:
           SUCCESS: hello_world_image_download
           FAILURE: FAIL_VALIDATE_SSH
