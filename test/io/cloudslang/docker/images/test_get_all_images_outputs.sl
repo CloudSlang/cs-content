@@ -84,11 +84,11 @@ flow:
     - delete_downloaded_image:
         do:
           images.clear_docker_images:
-            - host: host
-            - port: port
-            - username: username
-            - password: password
-            - images: "'hello-world'"
+            - host
+            - port
+            - username
+            - password
+            - imageName: image_name
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAIL
