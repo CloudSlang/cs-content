@@ -12,6 +12,7 @@ namespace: io.cloudslang.docker.images
 imports:
   images: io.cloudslang.docker.images
   linux: io.cloudslang.base.os.linux
+  strings: io.cloudslang.base.strings
 
 flow:
   name: test_pull_image
@@ -46,8 +47,30 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: clear_image
+          SUCCESS: get_all_images
           FAILURE: FAIL_PULL_IMAGE
+
+    - get_all_images:
+        do:
+          images.get_all_images:
+            - host
+            - port
+            - username
+            - password
+        publish:
+          - image_list
+        navigate:
+          SUCCESS: verify_image_name
+          FAILURE: FAIL_GET_ALL_IMAGES
+
+    - verify_image_name:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: image_list
+            - string_to_find: image_name + ":latest"
+        navigate:
+          SUCCESS: clear_image
+          FAILURE: FAILURE
 
     - clear_image:
         do:
@@ -68,5 +91,7 @@ flow:
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
-    - FAIL_CLEAR_IMAGE
     - FAIL_PULL_IMAGE
+    - FAIL_GET_ALL_IMAGES
+    - FAILURE
+    - FAIL_CLEAR_IMAGE
