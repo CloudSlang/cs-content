@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################################################################################################################
-#  Runs an SSH command on the host.
+#  Validates SSH access to the host and then runs an SSH command on the host.
 #
 #  Inputs:
 #    - host - hostname or IP address
@@ -33,8 +33,12 @@
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
-operation:
-    name: ssh_command
+imports:
+  linux: io.cloudslang.base.os.linux
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
+    name: ssh_flow
     inputs:
       - host
       - port:
@@ -62,15 +66,48 @@ operation:
             required: false
       - agentForwarding:
             required: false
-    action:
-      java_action:
-        className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-        methodName: runSshShellCommand
+    workflow:
+      - validate_ssh:
+          do:
+            linux.validate_linux_machine_ssh_access:
+              - host
+              - port
+              - username
+              - password
+          navigate:
+            SUCCESS: ssh_command
+            FAILURE: FAIL_VALIDATE_SSH
+
+      - ssh_command:
+          do:
+            ssh.ssh_command:
+              - host
+              - port
+              - username
+              - password
+              - privateKeyFile:
+                  required: false
+              - command
+              - arguments:
+                  required: false
+              - characterSet
+              - pty
+              - timeout
+              - closeSession
+              - agentForwarding:
+                  required: false
+          publish:
+            - returnResult
+            - standard_out
+            - standard_err
+            - exception
+
     outputs:
       - returnResult
-      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-      - exception: "'' if 'exception' not in locals() else exception"
+      - standard_out
+      - standard_err
+      - exception
     results:
       - SUCCESS: returnCode == '0'
       - FAILURE
+      - FAIL_VALIDATE_SSH
