@@ -56,7 +56,7 @@ operation:
         default: "'false'"
   action:
     java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
+      className: org.openscore.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
       - return_result: returnResult
