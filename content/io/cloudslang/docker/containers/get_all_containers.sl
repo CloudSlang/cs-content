@@ -20,7 +20,7 @@
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_list - list containing container ID for all the Docker containers
+#   - container_list - list containing container ID for all the Docker containers, separated by space
 # Results:
 #   - SUCCESS - SSH command succeeded
 #   - FAILURE - SSH command failed
