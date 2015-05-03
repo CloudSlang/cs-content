@@ -15,6 +15,7 @@ testDocker_GetAllImages_Success:
     - image_name: hello-world
   description: Tests that getting images list done with success result
   testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
+  testSuites: [docker]
   result: SUCCESS
 
 testDocker_GetAllImages_Success_output:
@@ -26,4 +27,5 @@ testDocker_GetAllImages_Success_output:
     - image_name: hello-world
   description: Tests that getting images list done with success result and correct output message
   testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
+  testSuites: [docker]
   result: SUCCESS

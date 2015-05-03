@@ -50,10 +50,10 @@ flow:
     - hello_world_image_download:
         do:
           images.pull_image:
-            - host: host
-            - port: port
-            - username: username
-            - password: password
+            - host
+            - port
+            - username
+            - password
             - imageName: image_name
         navigate:
           SUCCESS: get_all_images
@@ -62,10 +62,10 @@ flow:
     - get_all_images:
         do:
           images.get_all_images:
-            - host: host
-            - port: port
-            - username: username
-            - password: password
+            - host
+            - port
+            - username
+            - password
         publish:
             - list: image_list
         navigate:
