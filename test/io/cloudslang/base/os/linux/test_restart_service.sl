@@ -22,7 +22,8 @@ flow:
     - username
     - password
     - service_name
-    - imageName: "'rastasheep/ubuntu-sshd'"
+    - imageName: >
+        "rastasheep/ubuntu-sshd"
 
   workflow:
     - validate_ssh:
