@@ -34,7 +34,6 @@
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
 imports:
-  linux: io.cloudslang.base.os.linux
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
@@ -42,33 +41,50 @@ flow:
     inputs:
       - host
       - port:
-            default: "'22'"
+          required: false
       - command
       - pty:
-            default: "'false'"
+          required: false
       - username
       - password:
-            required: false
+          required: false
       - arguments:
-            required: false
+          required: false
       - privateKeyFile:
-            required: false
+          required: false
       - timeout:
-            default: "'90000'"
+          required: false
       - characterSet:
-            default: "'UTF-8'"
+          required: false
       - closeSession:
-            default: "'false'"
+          required: false
       - agentForwarding:
-            required: false
+          required: false
     workflow:
-      - validate_ssh:
+      - validate_ssh_access:
           do:
-            linux.validate_linux_machine_ssh_access:
+            ssh.ssh_command:
               - host
-              - port
+              - port:
+                  required: false
               - username
-              - password
+              - password:
+                  required: false
+              - privateKeyFile:
+                  required: false
+              - command: " "
+              - arguments:
+                  required: false
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
+              - agentForwarding:
+                  required: false
           navigate:
             SUCCESS: ssh_command
             FAILURE: FAIL_VALIDATE_SSH
@@ -77,18 +93,24 @@ flow:
           do:
             ssh.ssh_command:
               - host
-              - port
+              - port:
+                  required: false
               - username
-              - password
+              - password:
+                  required: false
               - privateKeyFile:
                   required: false
               - command
               - arguments:
                   required: false
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
               - agentForwarding:
                   required: false
           publish:
