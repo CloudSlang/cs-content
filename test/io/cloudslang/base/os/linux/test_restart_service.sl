@@ -23,7 +23,7 @@ flow:
     - password
     - service_name
     - imageName: >
-           rastasheep/ubuntu-sshd
+           "rastasheep/ubuntu-sshd"
 
   workflow:
     - validate_ssh:
@@ -68,7 +68,7 @@ flow:
             - port: "49160"
             - username: root
             - password: root
-            - service_name: sudo
+            - service_name: service_name
         navigate:
           SUCCESS: stop_test_container
           FAILURE: FAILURE
