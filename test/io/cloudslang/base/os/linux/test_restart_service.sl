@@ -22,7 +22,8 @@ flow:
     - username
     - password
     - service_name
-    - imageName: "'mysql'"
+    - imageName: >
+           rastasheep/ubuntu-sshd
 
   workflow:
     - validate_ssh:
