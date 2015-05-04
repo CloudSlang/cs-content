@@ -8,10 +8,10 @@
 ####################################################
 testLinuxRestartService:
   inputs:
-    - host: localhost
-    - port: "49153"
+    - host: 16.60.157.211
+    - port: "22"
     - username: root
-    - password: screencast
+    - password: Xy6stqZ
     - service_name: sudo
   description: Tests that restart_service operation works correctly
   testFlowPath: io.cloudslang.base.os.linux.test_restart_service
