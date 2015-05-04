@@ -13,7 +13,7 @@ testLinuxRestartService:
     - username: root
     - password: screencast
     - service_name: sudo
-  description: Tests that it works
-  testFlowPath: io.cloudslang.base.os.linux.restart_service
+  description: Tests that restart_service operation works correctly
+  testFlowPath: io.cloudslang.base.os.linux.test_restart_service
   testSuites: [linux]
   result: SUCCESS
