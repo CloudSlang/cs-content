@@ -22,6 +22,7 @@ flow:
     - username
     - password
     - service_name
+    - imageName: "'rastasheep/ubuntu-sshd'"
 
   workflow:
     - validate_ssh:
@@ -42,7 +43,7 @@ flow:
             - port
             - username
             - password
-            - imageName: "'rastasheep/ubuntu-sshd'"
+            - imageName
         navigate:
           SUCCESS: start_docker
           FAILURE: FAIL_PULL_IMAGE
