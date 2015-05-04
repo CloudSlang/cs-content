@@ -15,5 +15,5 @@ testLinuxRestartService:
     - service_name: sudo
   description: Tests that restart_service operation works correctly
   testFlowPath: io.cloudslang.base.os.linux.test_restart_service
-  testSuites: [linux]
+#  testSuites: [linux]
   result: SUCCESS
