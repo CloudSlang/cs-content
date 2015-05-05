@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################################################################################################################
-#  Runs an SSH command on the host.
+#  Validates SSH access to the host and then runs an SSH command on the host.
 #
 #  Inputs:
 #    - host - hostname or IP address
@@ -33,8 +33,11 @@
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
-operation:
-    name: ssh_command
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
+    name: ssh_flow
     inputs:
       - host
       - port: "'22'"
@@ -51,16 +54,73 @@ operation:
       - characterSet: "'UTF-8'"
       - closeSession: "'false'"
       - agentForwarding:
-            required: false
-    action:
-      java_action:
-        className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-        methodName: runSshShellCommand
+          required: false
+    workflow:
+      - validate_ssh_access:
+          do:
+            ssh.ssh_command:
+              - host
+              - port:
+                  required: false
+              - username
+              - password:
+                  required: false
+              - privateKeyFile:
+                  required: false
+              - command: " "
+              - arguments:
+                  required: false
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
+              - agentForwarding:
+                  required: false
+          publish:
+            - returnResult
+            - standard_out
+            - standard_err
+            - exception
+
+      - ssh_command:
+          do:
+            ssh.ssh_command:
+              - host
+              - port:
+                  required: false
+              - username
+              - password:
+                  required: false
+              - privateKeyFile:
+                  required: false
+              - command
+              - arguments:
+                  required: false
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
+              - agentForwarding:
+                  required: false
+          publish:
+            - returnResult
+            - standard_out
+            - standard_err
+            - exception
+
     outputs:
       - returnResult
-      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-      - exception: "'' if 'exception' not in locals() else exception"
+      - standard_out
+      - standard_err
+      - exception
     results:
-      - SUCCESS: returnCode == '0'
+      - SUCCESS
       - FAILURE
