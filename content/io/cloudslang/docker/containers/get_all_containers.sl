@@ -36,7 +36,7 @@ flow:
   inputs:
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password:
         required: false
@@ -45,15 +45,16 @@ flow:
     - arguments:
         required: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'30000000'"
+        required: false
     - closeSession:
-        default: "'false'"
+        required: false
     - agentForwarding:
         required: false
+
   workflow:
     - get_all_containers:
         do:
