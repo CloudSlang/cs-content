@@ -60,9 +60,11 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
             - command:
@@ -70,10 +72,14 @@ flow:
                   "docker ps -a -q"
             - arguments:
                 required: false
-            - characterSet
-            - pty
-            - timeout
-            - closeSession
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
             - agentForwarding:
                 required: false
         publish:
