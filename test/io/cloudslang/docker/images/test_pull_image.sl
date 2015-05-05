@@ -11,7 +11,7 @@ namespace: io.cloudslang.docker.images
 
 imports:
   images: io.cloudslang.docker.images
-  linux: io.cloudslang.base.os.linux
+  ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -26,13 +26,16 @@ flow:
 
   workflow:
 
+#temporary task, until get_all_images use the ssh flow
     - validate_ssh:
         do:
-          linux.validate_linux_machine_ssh_access:
+          ssh.ssh_command:
             - host
             - port
             - username
             - password
+            - command: "' '"
+            - timeout: "'30000000'"
         navigate:
           SUCCESS: get_all_images_before
           FAILURE: FAIL_VALIDATE_SSH
