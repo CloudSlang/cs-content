@@ -70,6 +70,7 @@ flow:
             - username
             - password:
                 default: "'root'"
+                overridable: false
             - service_name: service_name
         navigate:
           SUCCESS: stop_test_container
