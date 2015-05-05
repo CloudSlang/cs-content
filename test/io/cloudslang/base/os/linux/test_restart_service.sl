@@ -64,9 +64,12 @@ flow:
         do:
           linux.restart_service:
             - host
-            - port: "49160"
-            - username: root
-            - password: root
+            - port:
+                default: "'49160'"
+                overridable: false
+            - username
+            - password:
+                default: "'root'"
             - service_name: service_name
         navigate:
           SUCCESS: stop_test_container
