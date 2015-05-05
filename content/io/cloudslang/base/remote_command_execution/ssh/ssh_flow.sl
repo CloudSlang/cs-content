@@ -29,7 +29,6 @@
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
 #    - FAILURE - otherwise
-#    - FAIL_VALIDATE_SSH - SSH Validation check failed
 ###############################################################################################################################################################################
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
