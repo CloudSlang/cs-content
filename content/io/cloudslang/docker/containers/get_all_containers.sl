@@ -66,7 +66,7 @@ flow:
                 required: false
             - command:
                 default: >
-                  "docker ps -a | awk '{print $1}'"
+                  "docker ps -a -q"
             - arguments:
                 required: false
             - characterSet
