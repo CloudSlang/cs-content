@@ -56,7 +56,7 @@ operation:
         required: false
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")

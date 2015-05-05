@@ -9,7 +9,7 @@
 # Starts a specified Docker container.
 #
 # Inputs:
-#   - containerID - ID of the container to be deleted
+#   - containerID - ID of the container to be started
 #   - cmdParams - optional - command parameters - Default: none
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
@@ -58,7 +58,7 @@ operation:
         default: "'false'"
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - container_ID: returnResult
