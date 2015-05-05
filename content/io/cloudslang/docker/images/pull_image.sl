@@ -27,40 +27,49 @@
 #   - SUCCESS
 #   - FAILURE
 ####################################################
-
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: pull_image
   inputs:
     - imageName
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
-    - privateKeyFile:
-        default: "''"
+    - password:
+        required: false
     - command:
         default: "'docker pull ' + imageName"
         overridable: false
-    - arguments:
-        default: "''"
-    - characterSet:
-        default: "'UTF-8'"
-    - pty:
-        default: "'false'"
-    - timeout:
-        default: "'30000000'"
-    - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+    - privateKeyFile:
+        required: false
+  workflow:
+    - pull_image:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - command
+            - privateKeyFile:
+                required: false
+        publish:
+          - returnResult
+          - standard_out
+          - standard_err
+          - exception
   outputs:
-      - return_result: returnResult
-      - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+    - returnResult
+    - standard_out
+    - standard_err
+    - exception
   results:
-      - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-      - FAILURE
+    - SUCCESS
+    - FAILURE
