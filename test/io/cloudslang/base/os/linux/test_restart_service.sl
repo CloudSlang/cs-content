@@ -42,8 +42,7 @@ flow:
             - port
             - username
             - password
-            - imageName: >
-                "'rastasheep' + / + 'ubuntu-sshd'"
+            - imageName: "'rastasheep/ubuntu-sshd'"
         navigate:
           SUCCESS: start_docker
           FAILURE: FAIL_PULL_IMAGE
@@ -63,7 +62,7 @@ flow:
     - restart_service:
         do:
           linux.restart_service:
-            - host: localhost
+            - host
             - port: "49160"
             - username: root
             - password: root
