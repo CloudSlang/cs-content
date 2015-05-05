@@ -26,41 +26,18 @@ flow:
 
   workflow:
 
-#temporary task, until get_all_images use the ssh flow
-    - validate_ssh:
+    - test_verify_no_images:
         do:
-          ssh.ssh_command:
+          images.test_verify_no_images:
             - host
             - port
             - username
             - password
-            - command: "' '"
-            - timeout: "'30000000'"
-        navigate:
-          SUCCESS: get_all_images_before
-          FAILURE: FAIL_VALIDATE_SSH
-
-    - get_all_images_before:
-        do:
-          images.get_all_images:
-            - host
-            - port
-            - username
-            - password
-        publish:
-          - image_list
-        navigate:
-          SUCCESS: verify_no_images_before
-          FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
-
-    - verify_no_images_before:
-        do:
-          strings.string_equals:
-            - first_string: image_list
-            - second_string: "''"
         navigate:
           SUCCESS: pull_image
           FAILURE: MACHINE_IS_NOT_CLEAN
+          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
         do:
