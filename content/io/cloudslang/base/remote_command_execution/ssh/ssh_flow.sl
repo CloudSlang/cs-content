@@ -10,14 +10,14 @@
 #
 #  Inputs:
 #    - host - hostname or IP address
-#    - port - optional - port number for running the command
+#    - port - optional - port number for running the command - Default: 22
 #    - command - command to execute
-#    - pty - optional - whether to use pty - Valid: true, false
+#    - pty - optional - whether to use pty - Valid: true, false - Default: false
 #    - username - username to connect as
 #    - password - optional - password of user
 #    - arguments - optional - arguments to pass to the command
 #    - privateKeyFile - optional - path to the private key file
-#    - timeout - optional - time in milliseconds to wait for the command to complete
+#    - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
 #    - characterSet - optional - character encoding used for input stream encoding from the target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: false
 #    - agentForwarding - optional - the sessionObject that holds the connection if the close session is false
@@ -41,11 +41,9 @@ flow:
     name: ssh_flow
     inputs:
       - host
-      - port:
-          required: false
+      - port: "'22'"
       - command
-      - pty:
-          required: false
+      - pty: "'false'"
       - username
       - password:
           required: false
@@ -53,12 +51,9 @@ flow:
           required: false
       - privateKeyFile:
           required: false
-      - timeout:
-          required: false
-      - characterSet:
-          required: false
-      - closeSession:
-          required: false
+      - timeout: "'90000'"
+      - characterSet: "'UTF-8'"
+      - closeSession: "'false'"
       - agentForwarding:
           required: false
     workflow:
@@ -86,9 +81,14 @@ flow:
                   required: false
               - agentForwarding:
                   required: false
+          publish:
+            - returnResult
+            - standard_out
+            - standard_err
+            - exception
           navigate:
             SUCCESS: ssh_command
-            FAILURE: FAIL_VALIDATE_SSH
+            FAILURE: FAILURE
 
       - ssh_command:
           do:
@@ -128,4 +128,3 @@ flow:
     results:
       - SUCCESS: returnCode == '0'
       - FAILURE
-      - FAIL_VALIDATE_SSH
