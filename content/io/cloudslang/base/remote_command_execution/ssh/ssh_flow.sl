@@ -29,66 +29,89 @@
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
 #    - FAILURE - otherwise
+#    - FAIL_VALIDATE_SSH - SSH Validation check failed
 ###############################################################################################################################################################################
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
 imports:
-  linux: io.cloudslang.base.os.linux
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
     name: ssh_flow
     inputs:
       - host
-      - port:
-            default: "'22'"
+      - port: "'22'"
       - command
-      - pty:
-            default: "'false'"
+      - pty: "'false'"
       - username
       - password:
-            required: false
+          required: false
       - arguments:
-            required: false
+          required: false
       - privateKeyFile:
-            required: false
-      - timeout:
-            default: "'90000'"
-      - characterSet:
-            default: "'UTF-8'"
-      - closeSession:
-            default: "'false'"
+          required: false
+      - timeout: "'90000'"
+      - characterSet: "'UTF-8'"
+      - closeSession: "'false'"
       - agentForwarding:
-            required: false
+          required: false
     workflow:
-      - validate_ssh:
+      - validate_ssh_access:
           do:
-            linux.validate_linux_machine_ssh_access:
+            ssh.ssh_command:
               - host
-              - port
+              - port:
+                  required: false
               - username
-              - password
+              - password:
+                  required: false
+              - privateKeyFile:
+                  required: false
+              - command: " "
+              - arguments:
+                  required: false
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
+              - agentForwarding:
+                  required: false
+          publish:
+            - returnResult
+            - standard_out
+            - standard_err
+            - exception
           navigate:
             SUCCESS: ssh_command
-            FAILURE: FAIL_VALIDATE_SSH
+            FAILURE: FAILURE
 
       - ssh_command:
           do:
             ssh.ssh_command:
               - host
-              - port
+              - port:
+                  required: false
               - username
-              - password
+              - password:
+                  required: false
               - privateKeyFile:
                   required: false
               - command
               - arguments:
                   required: false
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
+              - characterSet:
+                  required: false
+              - pty:
+                  required: false
+              - timeout:
+                  required: false
+              - closeSession:
+                  required: false
               - agentForwarding:
                   required: false
           publish:
@@ -105,4 +128,3 @@ flow:
     results:
       - SUCCESS: returnCode == '0'
       - FAILURE
-      - FAIL_VALIDATE_SSH

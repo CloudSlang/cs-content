@@ -37,24 +37,19 @@ operation:
     name: ssh_command
     inputs:
       - host
-      - port:
-            default: "'22'"
+      - port: "'22'"
       - command
-      - pty:
-            default: "'false'"
+      - pty: "'false'"
       - username
       - password:
-            required: false
+          required: false
       - arguments:
-            required: false
+          required: false
       - privateKeyFile:
-            required: false
-      - timeout:
-            default: "'90000'"
-      - characterSet:
-            default: "'UTF-8'"
-      - closeSession:
-            default: "'false'"
+          required: false
+      - timeout: "'90000'"
+      - characterSet: "'UTF-8'"
+      - closeSession: "'false'"
       - agentForwarding:
             required: false
     action:
