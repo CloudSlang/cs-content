@@ -25,6 +25,7 @@
 #   - SUCCESS - SSH command succeeded
 #   - FAILURE - SSH command failed
 ####################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
