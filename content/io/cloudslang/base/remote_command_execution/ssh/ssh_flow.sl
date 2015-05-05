@@ -86,9 +86,6 @@ flow:
             - standard_out
             - standard_err
             - exception
-          navigate:
-            SUCCESS: ssh_command
-            FAILURE: FAILURE
 
       - ssh_command:
           do:
@@ -126,5 +123,5 @@ flow:
       - standard_err
       - exception
     results:
-      - SUCCESS: returnCode == '0'
+      - SUCCESS
       - FAILURE
