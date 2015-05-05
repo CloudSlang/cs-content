@@ -42,7 +42,8 @@ flow:
             - port
             - username
             - password
-            - imageName: "'rastasheep/ubuntu-sshd'"
+            - imageName: >
+                "'rastasheep' + / + 'ubuntu-sshd'"
         navigate:
           SUCCESS: start_docker
           FAILURE: FAIL_PULL_IMAGE
