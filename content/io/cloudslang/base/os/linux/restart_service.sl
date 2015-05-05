@@ -43,8 +43,9 @@ flow:
         do:
           ssh_command.ssh_command:
             - host
+            - port
             - command: >
-                "service " + service_name + " restart"
+                "sudo service " + service_name + " restart"
             - username
             - password
             - privateKeyFile:
