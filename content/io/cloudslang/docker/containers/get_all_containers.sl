@@ -9,6 +9,8 @@
 # Retrieves a list of all the Docker containers.
 #
 # Inputs:
+#   - all_containers: adds all_container option to docker command. False by default, any input change it to True
+#   - ps_params: option trigger to add all_containers option to docker command
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
@@ -38,9 +40,7 @@ flow:
         default: False
     - ps_params:
         default: " '-a' if bool(all_containers) else ''"
-    - command:
-        default: "'docker ps -q ' + ps_params"
-        overridable: false
+    - command: "'docker ps -q ' + ps_params"
     - host
     - port:
         required: false
