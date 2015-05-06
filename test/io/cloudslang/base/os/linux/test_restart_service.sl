@@ -13,7 +13,7 @@ imports:
   containers: io.cloudslang.docker.containers
   linux: io.cloudslang.base.os.linux
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  cmd: io.cludslang.base.cmd
+  cmd: io.cloudslang.base.cmd
 
 flow:
   name: test_restart_service
