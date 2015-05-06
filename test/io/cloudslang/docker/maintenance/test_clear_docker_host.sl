@@ -78,7 +78,8 @@ flow:
                 required: false
             - username
             - password
-            - containerName: image_name_to_run
+            - containerName: "'xxx'"
+            - imageID: image_name_to_run
         publish:
           - return_result
           - error_message
