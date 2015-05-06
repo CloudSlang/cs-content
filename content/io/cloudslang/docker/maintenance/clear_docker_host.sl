@@ -35,6 +35,8 @@ flow:
         required: false
     - timeout:
         default: "'6000000'"
+    - port:
+        required: false
   workflow:
     - get_all_containers:
         do:
@@ -47,6 +49,8 @@ flow:
             - private_key_file:
                 required: false
             - timeout:
+                required: false
+            - port:
                 required: false
         publish:
           - all_containers: container_list
@@ -61,6 +65,8 @@ flow:
             - private_key_file:
                 required: false
             - timeout:
+                required: false
+            - port:
                 required: false
     - clear_all_docker_images:
         do:
