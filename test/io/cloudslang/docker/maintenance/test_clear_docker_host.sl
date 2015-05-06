@@ -62,7 +62,7 @@ flow:
                 required: false
             - username
             - password
-            - image_name_to_pull
+            - image_name: image_name_to_pull
         publish:
           - return_result
           - error_message
@@ -78,7 +78,7 @@ flow:
                 required: false
             - username
             - password
-            - image_name_to_run
+            - containerName: image_name_to_run
         publish:
           - return_result
           - error_message
