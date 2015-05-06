@@ -67,7 +67,7 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_all_images
+          SUCCESS: run_container
           FAILURE: FAIL_PULL_IMAGE
 
     - run_container:
