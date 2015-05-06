@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  Deletes unused Docker images.
+#  Deletes unused and Dangling Docker images.
 #
 #  Inputs:
 #    - docker_host - Docker machine host
