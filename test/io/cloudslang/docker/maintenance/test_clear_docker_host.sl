@@ -95,7 +95,7 @@ flow:
                  - username
                  - password
              navigate:
-               SUCCESS: test_verify_no_images
+               SUCCESS: test_verify_no_images_post_cleanup
                FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images_post_cleanup:
