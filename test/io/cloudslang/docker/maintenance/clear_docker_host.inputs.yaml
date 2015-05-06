@@ -16,5 +16,5 @@ testDocker_clear_docker_host_Success:
     - username: root
     - password: screencast
     - image_name_to_pull: "hello-world"
-    - image_name_to_run: "busybox"
+    - image_name_to_run: "meirwah/hello-world"
   result: SUCCESS
