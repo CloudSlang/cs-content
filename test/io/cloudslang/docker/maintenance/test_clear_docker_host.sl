@@ -28,7 +28,7 @@ flow:
     - image_name_to_run
 
   workflow:
-    - clear_docker_host:
+    - pre_test_cleanup:
              do:
                maintenance.clear_docker_host:
                  - docker_host: host
@@ -98,28 +98,19 @@ flow:
                SUCCESS: test_verify_no_images
                FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - get_all_images:
+    - test_verify_no_images_post_cleanup:
         do:
-          images.get_all_images:
+          images.test_verify_no_images:
             - host
             - port:
                 required: false
             - username
             - password
-        publish:
-          - image_list
         navigate:
-          SUCCESS: verify_no_images
-          FAILURE: FAIL_GET_ALL_IMAGES
-
-    - verify_no_images:
-        do:
-          strings.string_equals:
-            - first_string: image_list
-            - second_string: ""
-        navigate:
-          SUCCESS: clear_image
-          FAILURE: FAILURE
+          SUCCESS: pull_image
+          FAILURE: MACHINE_IS_NOT_CLEAN
+          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
   results:
     - SUCCESS
