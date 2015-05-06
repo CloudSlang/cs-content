@@ -13,6 +13,7 @@ imports:
   containers: io.cloudslang.docker.containers
   linux: io.cloudslang.base.os.linux
   ssh: io.cloudslang.base.remote_command_execution.ssh
+  cmd: io.cludslang.base.cmd
 
 flow:
   name: test_restart_service
@@ -24,37 +25,17 @@ flow:
     - service_name
 
   workflow:
-    - validate_ssh:
-        do:
-          linux.validate_linux_machine_ssh_access:
-            - host
-            - port
-            - username
-            - password
-        navigate:
-          SUCCESS: pull_test_image
-          FAILURE: FAIL_VALIDATE_SSH
-
     - pull_test_image:
         do:
-          images.pull_image:
-            - host
-            - port
-            - username
-            - password
-            - imageName: >
-                "'rastasheep' + / + 'ubuntu-sshd'"
+          cmd.run_command:
+            - command: "'docker pull rastasheep/ubuntu-sshd'"
         navigate:
           SUCCESS: start_docker
           FAILURE: FAIL_PULL_IMAGE
 
     - start_docker:
         do:
-          ssh.ssh_command:
-            - host
-            - port
-            - username
-            - password
+          cmd.run_command:
             - command: "'docker run -d -P -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
         navigate:
           SUCCESS: restart_service
@@ -63,7 +44,9 @@ flow:
     - restart_service:
         do:
           linux.restart_service:
-            - host
+            - host:
+                default: "'localhost'"
+                overridable: false
             - port:
                 default: "'49160'"
                 overridable: false
