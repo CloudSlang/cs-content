@@ -34,6 +34,13 @@ imports:
 flow:
   name: get_all_containers
   inputs:
+    - all_containers:
+        default: False
+    - ps_params:
+        default: " '-a' if bool(all_containers) else ''"
+    - command:
+        default: "'docker ps -q ' + ps_params"
+        overridable: false
     - host
     - port:
         required: false
@@ -67,9 +74,7 @@ flow:
                 required: false
             - privateKeyFile:
                 required: false
-            - command:
-                default: >
-                  "docker ps -a -q"
+            - command
             - arguments:
                 required: false
             - characterSet:
