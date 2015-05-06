@@ -34,8 +34,8 @@ flow:
                  - docker_host: host
                  - port:
                      required: false
-                 - username
-                 - password
+                 - docker_username: username
+                 - docker_password: password
              navigate:
                SUCCESS: test_verify_no_images
                FAILURE: MACHINE_IS_NOT_CLEAN
@@ -89,11 +89,11 @@ flow:
     - clear_docker_host:
              do:
                maintenance.clear_docker_host:
-                 - host
+                 - docker_host: host
                  - port:
                      required: false
-                 - username
-                 - password
+                 - docker_username: username
+                 - docker_password: password
              navigate:
                SUCCESS: test_verify_no_images_post_cleanup
                FAILURE: MACHINE_IS_NOT_CLEAN
