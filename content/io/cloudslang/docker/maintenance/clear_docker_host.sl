@@ -25,7 +25,7 @@ imports:
  docker_images: io.cloudslang.docker.images
 
 flow:
-  name: docker_images_maintenance
+  name: docker_docker_host
   inputs:
     - docker_host
     - docker_username
