@@ -14,6 +14,8 @@ dependencies:
 
 test:
   pre:
+    - netstat -a | grep 49153
+    - netstat -a
     - docker ps -a
     - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
     - docker port docker_host_ssh 22
