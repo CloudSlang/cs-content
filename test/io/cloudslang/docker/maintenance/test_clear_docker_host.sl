@@ -83,8 +83,8 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: FAIL_PULL_IMAGE
+          SUCCESS: clear_docker_host
+          FAILURE: FAIL_RUN_IMAGE
 
     - clear_docker_host:
              do:
@@ -107,7 +107,7 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: pull_image
+          SUCCESS: SUCCESS
           FAILURE: MACHINE_IS_NOT_CLEAN
           FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
           FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
@@ -121,3 +121,4 @@ flow:
     - FAIL_GET_ALL_IMAGES
     - FAILURE
     - FAIL_CLEAR_IMAGE
+    - FAIL_RUN_IMAGE
