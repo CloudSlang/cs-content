@@ -29,22 +29,20 @@ flow:
   inputs:
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
         required: false
     - private_key_file:
         required: false
-    - percentage
     - timeout:
         default: "'6000000'"
   workflow:
     - get_all_containers:
         do:
           docker_containers.get_all_containers:
-            - docker_host
-            - docker_username
-            - docker_password
-                required: false
-            - private_key_file
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - private_key_file:
                 required: false
             - timeout:
                 required: false
@@ -53,12 +51,12 @@ flow:
     - clear_all_containers:
         do:
           docker_containers.clear_container:
-            - containerName: all_containers
+            - container_ID: all_containers
             - docker_host
             - docker_username
-            - docker_password
+            - docker_password:
                 required: false
-            - private_key_file
+            - private_key_file:
                 required: false
             - timeout:
                 required: false
@@ -67,9 +65,9 @@ flow:
           docker_images.clear_unused_docker_images:
             - docker_host
             - docker_username
-            - docker_password
+            - docker_password:
                 required: false
-            - private_key_file
+            - private_key_file:
                 required: false
             - timeout:
                 required: false
