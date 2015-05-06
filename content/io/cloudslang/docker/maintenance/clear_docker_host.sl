@@ -41,7 +41,9 @@ flow:
           docker_containers.get_all_containers:
             - host: docker_host
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
             - private_key_file:
                 required: false
             - timeout:
