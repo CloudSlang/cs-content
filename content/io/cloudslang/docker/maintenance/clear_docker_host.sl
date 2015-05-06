@@ -80,6 +80,7 @@ flow:
             - timeout:
                 required: false
         publish:
+          - amount_of_dangling_images_deleted
           - amount_of_images_deleted
           - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
   outputs:
