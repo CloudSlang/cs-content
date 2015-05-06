@@ -79,6 +79,8 @@ flow:
                 required: false
             - timeout:
                 required: false
+            - port:
+                required: false
         publish:
           - amount_of_dangling_images_deleted
           - amount_of_images_deleted
