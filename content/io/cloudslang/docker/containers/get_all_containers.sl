@@ -67,8 +67,7 @@ flow:
                 required: false
             - privateKeyFile:
                 required: false
-            - command:
-                default: >
+            - command: >
                   "docker ps -a -q"
             - arguments:
                 required: false
