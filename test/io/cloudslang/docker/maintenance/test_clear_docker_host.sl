@@ -67,7 +67,7 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: run_container
+          SUCCESS: clear_docker_host
           FAILURE: FAIL_PULL_IMAGE
 
 #    - run_container:
