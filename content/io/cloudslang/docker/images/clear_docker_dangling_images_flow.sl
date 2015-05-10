@@ -34,6 +34,8 @@ flow:
     - private_key_file:
         default: "''"
     - used_images
+    - port:
+        required: false
     - timeout:
         required: false
 
@@ -47,6 +49,8 @@ flow:
             - privateKeyFile: private_key_file
             - timeout:
                 required: false
+            - port:
+                required: false
     - get_dangling_images:
         do:
           docker_images.get_dangling_images:
@@ -55,6 +59,8 @@ flow:
             - password: docker_password
             - privateKeyFile: private_key_file
             - timeout:
+                required: false
+            - port:
                 required: false
         publish:
           - all_dangling_images: dangling_image_list.replace("\n"," ")
@@ -78,6 +84,8 @@ flow:
             - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
             - timeout:
+                required: false
+            - port:
                 required: false
         publish:
           - response
