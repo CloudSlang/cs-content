@@ -60,18 +60,8 @@ flow:
                 default: "'docker stop test_sshd'"
                 overridable: false
         navigate:
-          SUCCESS: remove_test_container
-          FAILURE: FAIL_STOP_CONTAINER
-
-    - remove_test_container:
-        do:
-          cmd.run_command:
-            - command:
-                default: "'docker rm test_sshd'"
-                overridable: false
-        navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAIL_REMOVE_CONTAINER
+          FAILURE: FAIL_STOP_CONTAINER
 
   results:
     - SUCCESS
