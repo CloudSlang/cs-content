@@ -18,7 +18,3 @@ test:
     - unzip cslang-builder.zip -d cslang-builder
     - chmod +x cslang-builder/bin/cslang-builder
     - ./cslang-builder/bin/cslang-builder
-  post:
-    - docker ps -a
-    - docker stop $(docker ps -a -q)
-    #- docker rm $(docker ps -a -q)
