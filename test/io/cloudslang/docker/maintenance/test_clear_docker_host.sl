@@ -70,22 +70,22 @@ flow:
           SUCCESS: clear_docker_host
           FAILURE: FAIL_PULL_IMAGE
 
-#    - run_container:
-#        do:
-#          containers.create_container:
-#            - host
-#            - port:
-#                required: false
-#            - username
-#            - password
-#            - containerName: "'xxx'"
-#            - imageID: image_name_to_run
-#        publish:
-#          - return_result
-#          - error_message
-#        navigate:
-#          SUCCESS: clear_docker_host
-#          FAILURE: FAIL_RUN_IMAGE
+    - run_container:
+        do:
+          containers.create_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - containerName: "'xxx'"
+            - imageID: image_name_to_run
+        publish:
+          - return_result
+          - error_message
+        navigate:
+          SUCCESS: clear_docker_host
+          FAILURE: FAIL_RUN_IMAGE
 
     - clear_docker_host:
              do:
