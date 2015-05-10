@@ -1,4 +1,7 @@
 language: java
+
+sudo: required
+
 script:
   - curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - ./run docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
