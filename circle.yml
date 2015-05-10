@@ -6,6 +6,7 @@ dependencies:
   cache_directories:
     - "~/docker"
   override:
+    - curl -sLo - http://j.mp/install-travis-docker | sh -xe
     - docker info
     - docker images
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
