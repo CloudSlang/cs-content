@@ -57,7 +57,7 @@ flow:
         do:
           cmd.run_command:
             - command:
-                default: "'docker stop test_sshd'"
+                default: "'docker stop $(docker ps -a -q | grep -v $(docker ps -q $(docker ps -a -f image=orius123/dind-ssh)))'"
                 overridable: false
         navigate:
           SUCCESS: SUCCESS
