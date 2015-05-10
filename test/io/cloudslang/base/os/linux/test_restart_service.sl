@@ -54,15 +54,15 @@ flow:
     - stop_test_container:
         do:
           cmd.run_command:
-            - command: "'docker stop test_sshd"
+            - command: "'docker stop test_sshd'"
         navigate:
           SUCCESS: remove_test_container
           FAILURE: FAIL_STOP_CONTAINER
 
     - remove_test_container:
         do:
-         cmd.run_command:
-            - command: "'docker rm test_sshd"
+          cmd.run_command:
+            - command: "'docker rm test_sshd'"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_REMOVE_CONTAINER
