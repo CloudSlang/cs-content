@@ -61,7 +61,7 @@ flow:
 
     - remove_test_container:
         do:
-          cmd.run_command:
+         cmd.run_command:
             - command: "'docker rm test_sshd"
         navigate:
           SUCCESS: SUCCESS
