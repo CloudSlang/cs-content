@@ -60,6 +60,7 @@ flow:
           FAILURE: FAIL_STOP_CONTAINER
 
     - remove_test_container:
+        do:
           cmd.run_command:
             - command: "'docker rm test_sshd"
         navigate:
