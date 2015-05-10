@@ -63,7 +63,7 @@ flow:
             - port
             - username
             - password
-            - image_name: image_name
+            - image_name
         navigate:
           SUCCESS: get_all_images
           FAILURE: DOWNLOADFAIL
