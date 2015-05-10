@@ -28,7 +28,9 @@ flow:
     - start_docker:
         do:
           cmd.run_command:
-            - command: "'docker run -d -P -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
+            - command:
+                default: "'docker run -d -P -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
+                overridable: false
         navigate:
           SUCCESS: restart_service
           FAILURE: FAIL_START_DOCKER
@@ -54,7 +56,9 @@ flow:
     - stop_test_container:
         do:
           cmd.run_command:
-            - command: "'docker stop test_sshd'"
+            - command:
+                default: "'docker stop test_sshd'"
+                overridable: false
         navigate:
           SUCCESS: remove_test_container
           FAILURE: FAIL_STOP_CONTAINER
@@ -62,7 +66,9 @@ flow:
     - remove_test_container:
         do:
           cmd.run_command:
-            - command: "'docker rm test_sshd'"
+            - command:
+                default: "'docker rm test_sshd'"
+                overridable: false
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_REMOVE_CONTAINER
