@@ -35,6 +35,8 @@ flow:
         required: false
     - timeout:
         default: "'6000000'"
+    - port:
+        required: false
   workflow:
     - get_all_containers:
         do:
@@ -47,6 +49,8 @@ flow:
             - private_key_file:
                 required: false
             - timeout:
+                required: false
+            - port:
                 required: false
         publish:
           - all_containers: container_list
@@ -62,6 +66,8 @@ flow:
                 required: false
             - timeout:
                 required: false
+            - port:
+                required: false
     - clear_all_docker_images:
         do:
           docker_images.clear_unused_docker_images:
@@ -73,7 +79,10 @@ flow:
                 required: false
             - timeout:
                 required: false
+            - port:
+                required: false
         publish:
+          - amount_of_dangling_images_deleted
           - amount_of_images_deleted
           - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
   outputs:

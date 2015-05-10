@@ -29,6 +29,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - port:
+        required: false
   workflow:
     - stop_container:
         do:
@@ -37,6 +39,8 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
+            - port:
+                required: false
         publish:
           - error_message
 
@@ -47,6 +51,8 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
+            - port:
+                required: false
         publish:
           - error_message
   outputs:
