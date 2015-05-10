@@ -25,14 +25,6 @@ flow:
     - service_name
 
   workflow:
-    - pull_test_image:
-        do:
-          cmd.run_command:
-            - command: "'docker pull rastasheep/ubuntu-sshd'"
-        navigate:
-          SUCCESS: start_docker
-          FAILURE: FAIL_PULL_IMAGE
-
     - start_docker:
         do:
           cmd.run_command:
@@ -61,27 +53,18 @@ flow:
 
     - stop_test_container:
         do:
-          containers.stop_container:
-            - host
-            - port
-            - username
-            - password
-            - containerID: "'test_sshd'"
+          cmd.run_command:
+            - command: "'docker stop test_sshd"
         navigate:
-          SUCCESS: delete_test_container
+          SUCCESS: remove_test_container
           FAILURE: FAIL_STOP_CONTAINER
 
-    - delete_test_container:
-        do:
-          containers.delete_container:
-            - host
-            - port
-            - username
-            - password
-            - containerID: "'test_sshd'"
+    - remove_test_container:
+          cmd.run_command:
+            - command: "'docker rm test_sshd"
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAIL_DELETE_CONTAINER
+          FAILURE: FAIL_REMOVE_CONTAINER
 
   results:
     - SUCCESS
@@ -89,5 +72,5 @@ flow:
     - FAIL_PULL_IMAGE
     - FAIL_START_DOCKER
     - FAIL_STOP_CONTAINER
-    - FAIL_DELETE_CONTAINER
+    - FAIL_REMOVE_CONTAINER
     - FAILURE
