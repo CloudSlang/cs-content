@@ -8,14 +8,14 @@ dependencies:
   override:
     - docker info
     - docker images
-    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-    - docker pull orius123/dind-ssh
-    - mkdir -p ~/docker; docker save orius123/dind-ssh > ~/docker/image.tar
+#    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+#    - docker pull orius123/dind-ssh
+#    - mkdir -p ~/docker; docker save orius123/dind-ssh > ~/docker/image.tar
 
 test:
-  pre:
-    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
-    - docker port docker_host_ssh 22
+#  pre:
+#    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
+#    - docker port docker_host_ssh 22
   override:
     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
     - unzip cslang-builder.zip -d cslang-builder
