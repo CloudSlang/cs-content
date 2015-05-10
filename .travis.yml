@@ -2,7 +2,7 @@ language: java
 
 sudo: required
 
-before_install: |
+install: |
   # needed for the UML container
   sudo apt-get install -qq -y slirp aufs-tools cgroup-lite
 
