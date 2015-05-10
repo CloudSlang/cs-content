@@ -36,6 +36,8 @@ flow:
     - docker_host
     - docker_username
     - docker_password
+    - port:
+        required: false
     - private_key_file:
         default: "''"
     - timeout:
@@ -50,6 +52,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - port:
+                required: false
             - timeout:
                 required: false
     - get_all_images:
@@ -59,6 +63,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - port:
+                required: false
             - timeout:
                 required: false
         publish:
@@ -70,6 +76,8 @@ flow:
             - docker_username
             - docker_password
             - private_key_file
+            - port:
+                required: false
             - timeout:
                 required: false
         publish:
@@ -114,6 +122,8 @@ flow:
                 - private_key_file
                 - timeout:
                     required: false
+                - port:
+                    required: false
             publish:
                 - all_parent_images: >
                     fromInputs['all_parent_images'] + parent_image_name + " "
@@ -137,6 +147,8 @@ flow:
             - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
             - timeout:
+                required: false
+            - port:
                 required: false
         publish:
           - response

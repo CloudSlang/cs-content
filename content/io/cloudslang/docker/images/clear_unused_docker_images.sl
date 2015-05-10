@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  Deletes unused Docker images.
+#  Deletes unused and Dangling Docker images.
 #
 #  Inputs:
 #    - docker_host - Docker machine host
@@ -37,6 +37,8 @@ flow:
         default: "''"
     - timeout:
         required: false
+    - port:
+        required: false
   workflow:
      - clear_docker_images:
           do:
@@ -45,6 +47,8 @@ flow:
               - docker_username
               - docker_password
               - private_key_file
+              - port:
+                  required: false
               - timeout:
                   required: false
           publish:
@@ -59,6 +63,8 @@ flow:
               - docker_password
               - private_key_file
               - used_images: used_images_list
+              - port:
+                  required: false
               - timeout:
                   required: false
           publish:
