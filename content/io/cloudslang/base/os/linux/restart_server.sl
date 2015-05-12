@@ -10,10 +10,12 @@
 #
 #   Inputs:
 #       - host - hostname or IP address
+#       - port - optional - port number for running the command - Default: 22
 #       - username - username to connect as
 #       - password - password of user
 #       - timeout - time (in minutes) to postpone restart
 #       - privateKeyFile - the absolute path to the private key file
+#       - sudo_user - use 'sudo' prefix before command
 #
 # Results:
 #  SUCCESS: Linux host is restarted successfully
@@ -31,20 +33,27 @@ flow:
 
   inputs:
     - host
+    - port:
+        required: False
     - username
     - password
     - timeout:
         default: "'now'"
+    - sudo_user:
+        default: False
+        required: False
     - privateKeyFile:
           required: false
   
   workflow:
     - server_restart:
         do:
-          ssh_command.ssh_command:
+          ssh_command.ssh_flow:
             - host
-            - command: >
-                "shutdown -r " + timeout
+            - port:
+                required: False
+            - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - command: "sudo_command + ' shutdown -r ' + timeout"
             - username
             - password
             - privateKeyFile:
