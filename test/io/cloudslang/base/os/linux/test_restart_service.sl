@@ -29,7 +29,7 @@ flow:
         do:
           cmd.run_command:
             - command:
-                default: "'docker run -d -P -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
+                default: "'docker run -d -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
                 overridable: false
         navigate:
           SUCCESS: restart_service
