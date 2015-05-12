@@ -1,0 +1,70 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+namespace: io.cloudslang.base.os.linux
+
+imports:
+  linux: io.cloudslang.base.os.linux
+  cmd: io.cloudslang.base.cmd
+
+flow:
+  name: test_restart_process
+  inputs:
+    - host
+    - port
+    - username
+    - password
+    - process_name
+
+  workflow:
+    - start_docker:
+        do:
+          cmd.run_command:
+            - command:
+                default: "'docker run -d -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
+                overridable: false
+        navigate:
+          SUCCESS: restart_service
+          FAILURE: FAIL_START_DOCKER
+
+    - restart_service:
+        do:
+          linux.restart_server:
+            - host:
+                default: "'localhost'"
+                overridable: false
+            - port:
+                default: "'49160'"
+                overridable: false
+            - username
+            - password:
+                default: "'root'"
+                overridable: false
+            - process_name
+        navigate:
+          SUCCESS: stop_test_container
+          FAILURE: FAILURE
+
+    - stop_test_container:
+        do:
+          cmd.run_command:
+            - command:
+                default: "'docker stop $(docker ps -a -q | grep -v $(docker ps -a -q -f name=docker_host_ssh))'"
+                overridable: false
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAIL_STOP_CONTAINER
+
+  results:
+    - SUCCESS
+    - FAIL_VALIDATE_SSH
+    - FAIL_PULL_IMAGE
+    - FAIL_START_DOCKER
+    - FAIL_STOP_CONTAINER
+    - FAIL_REMOVE_CONTAINER
+    - FAILURE

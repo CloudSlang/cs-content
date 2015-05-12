@@ -31,19 +31,23 @@ flow:
 
   inputs:
     - host
+    - port:
+        required: false
     - username
     - password
     - process_name
     - privateKeyFile:
-          required: false
+        required: false
   
   workflow:
     - process_restart:
         do:
-          ssh_command.ssh_command:
+          ssh_command.ssh_flow:
             - host
+            - port:
+                required: false
             - command: >
-                "killall -HUP " + process_name
+                "pkill -HUP -e " + process_name
             - username
             - password
             - privateKeyFile:
@@ -51,6 +55,7 @@ flow:
 
         publish: 
           - STDERR: standard_err
+          - STDOUT: standard_out
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
@@ -58,8 +63,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDERR
+            - string_in_which_to_search: STDOUT
             - string_to_find: process_name
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
