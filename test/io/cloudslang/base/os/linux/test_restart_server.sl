@@ -13,7 +13,7 @@ imports:
   cmd: io.cloudslang.base.cmd
 
 flow:
-  name: test_restart_service
+  name: test_restart_server
   inputs:
     - host
     - port
