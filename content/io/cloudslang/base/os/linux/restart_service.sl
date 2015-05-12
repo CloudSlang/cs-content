@@ -31,21 +31,26 @@ flow:
 
   inputs:
     - host
-    - port
+    - port:
+        required: false
     - username
     - password
     - service_name
+    - sudo_user:
+        default: False
+        required: False
     - privateKeyFile:
-          required: false
+        required: false
   
   workflow:
     - service_restart:
         do:
-          ssh_command.ssh_command:
+          ssh_command.ssh_flow:
             - host
-            - port
-            - command: >
-                "sudo service " + service_name + " restart"
+            - port:
+                required: false
+            - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - command: "sudo_command + 'service ' + service_name + ' restart'"
             - username
             - password
             - privateKeyFile:
