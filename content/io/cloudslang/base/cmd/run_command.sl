@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This operation run a shell command
+# This operation run a shell command locally
 #
 # Inputs:
 #   - command - the command to run
