@@ -24,8 +24,6 @@ flow:
         required: false
     - username
     - password
-    - image_name_to_pull
-    - image_name_to_run
 
   workflow:
     - pre_test_cleanup:
