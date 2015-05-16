@@ -37,71 +37,12 @@ flow:
                  - docker_username: username
                  - docker_password: password
              navigate:
-               SUCCESS: test_verify_no_images
+               SUCCESS: start_mysql_container
                FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - test_verify_no_images:
+    - start_mysql_container:
         do:
-          images.test_verify_no_images:
-            - host
-            - port:
-                required: false
-            - username
-            - password
-        navigate:
-          SUCCESS: pull_image
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
-
-    - pull_image:
-        do:
-          images.pull_image:
-            - host
-            - port:
-                required: false
-            - username
-            - password
-            - image_name: image_name_to_pull
-        publish:
-          - return_result
-          - error_message
-        navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAIL_PULL_IMAGE
-
-    - run_container:
-        do:
-          containers.create_container:
-            - host
-            - port:
-                required: false
-            - username
-            - password
-            - containerName: "'xxx'"
-            - imageID: image_name_to_run
-        publish:
-          - return_result
-          - error_message
-        navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAIL_RUN_IMAGE
-
-    - clear_docker_host:
-             do:
-               maintenance.clear_docker_host:
-                 - docker_host: host
-                 - port:
-                     required: false
-                 - docker_username: username
-                 - docker_password: password
-             navigate:
-               SUCCESS: test_verify_no_images_post_cleanup
-               FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - test_verify_no_images_post_cleanup:
-        do:
-          images.test_verify_no_images:
+          containers.create_db_container:
             - host
             - port:
                 required: false
@@ -109,17 +50,10 @@ flow:
             - password
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
-    - FAIL_PULL_IMAGE
-    - FAIL_GET_ALL_IMAGES
-    - FAILURE
-    - FAIL_CLEAR_IMAGE
-    - FAIL_RUN_IMAGE
+    - FAIL_TO_START_MYSQL_CONTAINER

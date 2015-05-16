@@ -6,15 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_clear_docker_host_Success:
+testDocker_test_mysql_monitor:
   testSuites: [docker]
-  description: Tests that clear docker host, remove all containers and images from host
-  testFlowPath: io.cloudslang.docker.maintenance.test_clear_docker_host
+  description: Tests the operation that monitor a mysql container.
+  testFlowPath: io.cloudslang.docker.maintenance.test_mysql_monitor
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-    - image_name_to_pull: "hello-world"
-    - image_name_to_run: "meirwah/hello-world"
   result: SUCCESS
