@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Workflow to test docker get_all_images operation.
+# Workflow to test docker get_image_name_from_id.
 #
 # Inputs:
 #   - host - Docker machine host
@@ -16,8 +16,8 @@
 #   - image_id - Docker image ID
 #
 # Results:
-#   - SUCCESS - get_all_images performed successfully
-#   - FAILURE - get_all_images finished with an error
+#   - SUCCESS - get_image_name_from_id performed successfully
+#   - FAILURE - get_image_name_from_id finished with an error
 #   - DOWNLOADFAIL - prerequest error - could not download dockerimage
 #   - VEFIFYFAILURE - failes ro verify downloaded images
 #   - DELETEFAIL - failes to delte downloaded image
