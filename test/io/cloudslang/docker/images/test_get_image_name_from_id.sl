@@ -34,7 +34,7 @@ imports:
   linux: io.cloudslang.base.os.linux
 
 flow:
-  name: test_get_all_images_outputs
+  name: test_get_image_name_from_id
   inputs:
     - host
     - port:
