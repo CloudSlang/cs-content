@@ -83,9 +83,9 @@ flow:
 
     - verify_output:
         do:
-          strings.match_regex:
-            - regex: "'hello-world'"
-            - text: list
+          strings.string_equals:
+            - first_string: "image_name + ':latest '"
+            - second_string: list
         navigate:
           MATCH: delete_downloaded_image
           NO_MATCH: VEFIFYFAILURE
