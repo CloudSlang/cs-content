@@ -87,8 +87,8 @@ flow:
             - first_string: "image_name + ':latest '"
             - second_string: list
         navigate:
-          MATCH: delete_downloaded_image
-          NO_MATCH: VEFIFYFAILURE
+          SUCCESS: delete_downloaded_image
+          FAILURE: VEFIFYFAILURE
 
     - delete_downloaded_image:
         do:
