@@ -31,7 +31,7 @@ flow:
     - pull_mysql_image:
         do:
           docker_images.pull_image:
-            - imageName: "'mysql'"
+            - image_name: "'mysql'"
             - host
             - username
             - password
