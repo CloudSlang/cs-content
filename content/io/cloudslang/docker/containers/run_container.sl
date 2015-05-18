@@ -35,19 +35,25 @@ namespace: io.cloudslang.docker.containers
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   images: io.cloudslang.docker.images
+  print: io.cloudslang.base.print
 
 flow:
   name: run_container
   inputs:
-    - container_name
+    - container_name:
+        required: false
     - container_params:
-        default: "' '"
+        required: false
+    - container_command:
         required: false
     - image_name
-    - container_command:
-        default: "' '"
-        required: false
-    - command: "'docker run -d --name ' + container_name + ' ' + container_params + ' ' + image_name + ' ' + container_command"
+    - container_name_param:
+        default: "'--name ' + container_name + ' ' if bool(container_name) else ''"
+    - container_params_cmd:
+        default: "container_params + ' ' if bool(container_params) else ''"
+    - container_command_cmd:
+        default: "' ' + container_command if bool(container_command) else ''"
+    - command: "'docker run -d ' + container_name_param + container_params_cmd + image_name + container_command_cmd"
     - host
     - port:
         required: false
@@ -70,6 +76,10 @@ flow:
         required: false
 
   workflow:
+#    - print:
+#        do:
+#          print.print_text:
+#            - text: command
     - run_container:
         do:
           ssh.ssh_flow:
