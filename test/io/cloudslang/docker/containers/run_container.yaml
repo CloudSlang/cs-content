@@ -9,7 +9,7 @@
 testDocker_run_container_Success:
   testSuites: [docker]
   description: Tests that run containers works
-  testFlowPath: io.cloudslang.docker.maintenance.test_run_container
+  testFlowPath: io.cloudslang.docker.containers.test_run_container
   inputs:
     - host: localhost
     - port: "49153"
