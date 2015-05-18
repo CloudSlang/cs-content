@@ -49,6 +49,8 @@ flow:
             - password
         publish:
           - error_message
+        navigate:
+          FAIL_TO_PULL: FAILURE
 
     - get_db_ip:
         do:
