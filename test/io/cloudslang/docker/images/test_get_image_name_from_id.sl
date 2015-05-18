@@ -77,7 +77,7 @@ flow:
             - password
             - image_id
         publish:
-            - image_name : image_name
+            - image_name
         navigate:
           SUCCESS: verify_output
           FAILURE: FAILURE
