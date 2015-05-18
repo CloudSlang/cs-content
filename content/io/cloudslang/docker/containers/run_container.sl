@@ -70,19 +70,6 @@ flow:
         required: false
 
   workflow:
-    - pull_image:
-        do:
-          images.pull_image:
-            - host
-            - port:
-                required: false
-            - username
-            - password
-            - image_name
-        navigate:
-          SUCCESS: run_container
-          FAILURE: FAIL_TO_PULL
-
     - run_container:
         do:
           ssh.ssh_flow:
@@ -118,5 +105,4 @@ flow:
     - result
   results:
     - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAIL_TO_PULL
     - FAILURE
