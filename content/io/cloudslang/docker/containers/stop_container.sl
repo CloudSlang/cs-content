@@ -14,8 +14,8 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
-#   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
+#   - password - optional - Docker machine password - Default: none
+#   - privateKeyFile - optional - path to private key file - Default: none
 #   - arguments - optional - arguments to pass to command - Default: none
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
@@ -40,7 +40,8 @@ operation:
     - port:
         default: "'22'"
     - username
-    - password
+    - password:
+        default: "''"
     - privateKeyFile:
         default: "''"
     - arguments:
