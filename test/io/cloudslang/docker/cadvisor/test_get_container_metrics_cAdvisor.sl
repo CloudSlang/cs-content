@@ -10,8 +10,8 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
   cadvisor: io.cloudslang.docker.cadvisor
+  containers: io.cloudslang.docker.containers
 
 flow:
   name: test_get_container_metrics_cAdvisor
@@ -30,34 +30,27 @@ flow:
         default: "'cadvisor'"
 
   workflow:
-    - start_cAdvisor_container:
+    - create_cAdvisor_container:
         do:
-          ssh.ssh_flow:
+          containers.create_container:
+            - imageID: "'google/cadvisor:latest'"
+            - containerName: cadvisor_container_name
+            - cmdParams: >
+                '--volume=/:/rootfs:ro ' +
+                '--volume=/var/run:/var/run:rw ' +
+                '--volume=/sys:/sys:ro ' +
+                '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
+                '--publish=' + cadvisor_port + ':8080'
             - host
             - port:
                 default: ssh_port
                 required: false
-            - command:
-                default: >
-                  'sudo docker run \
-                      --volume=/:/rootfs:ro \
-                      --volume=/var/run:/var/run:rw \
-                      --volume=/sys:/sys:ro \
-                      --volume=/var/lib/docker/:/var/lib/docker:ro \
-                      --publish=' + cadvisor_port + ':8080 \
-                      --detach=true \
-                      --name=' + cadvisor_container_name + ' \
-                      google/cadvisor:latest'
-                overridable: false
             - username
             - password
-            - arguments:
-                default: "''"
-                overridable: false
             - timeout
         navigate:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
-          FAILURE: C_ADVISOR_CONTAINER_DOWN
+          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - validate_success_get_container_metrics_cAdvisor:
         do:
@@ -71,27 +64,17 @@ flow:
 
     - delete_cadvisor_container:
         do:
-          ssh.ssh_flow:
-            - host
-            - port:
-                default: ssh_port
-                required: false
-            - command:
-                default: >
-                  'sudo docker stop ' + cadvisor_container_name + ' && sudo docker rm ' + cadvisor_container_name
-                overridable: false
-            - username
-            - password
-            - arguments:
-                default: "''"
-                overridable: false
-            - timeout
+          containers.clear_container:
+            - container_ID: cadvisor_container_name
+            - docker_host: host
+            - docker_username: username
+            - docker_password: password
         navigate:
           SUCCESS: SUCCESS
           FAILURE: C_ADVISOR_CONTAINER_REMOVAL_PROBLEM
 
   results:
     - SUCCESS
-    - C_ADVISOR_CONTAINER_DOWN
+    - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
     - C_ADVISOR_CONTAINER_REMOVAL_PROBLEM
     - FAILURE
