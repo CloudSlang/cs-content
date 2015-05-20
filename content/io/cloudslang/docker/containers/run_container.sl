@@ -35,7 +35,6 @@ namespace: io.cloudslang.docker.containers
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   images: io.cloudslang.docker.images
-  print: io.cloudslang.base.print
 
 flow:
   name: run_container
@@ -76,10 +75,6 @@ flow:
         required: false
 
   workflow:
-#    - print:
-#        do:
-#          print.print_text:
-#            - text: command
     - run_container:
         do:
           ssh.ssh_flow:
