@@ -40,10 +40,10 @@ flow:
 
     - create_mysql_container:
         do:
-          docker_containers.create_container:
-            - imageID: "'mysql'"
-            - containerName: "'mysqldb'"
-            - cmdParams: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
+          docker_containers.run_container:
+            - image_name: "'mysql'"
+            - container_name: "'mysqldb'"
+            - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
             - username
             - password

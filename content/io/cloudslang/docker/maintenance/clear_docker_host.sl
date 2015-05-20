@@ -46,6 +46,9 @@ flow:
             - password:
                 default: docker_password
                 required: false
+            - all_containers:
+                default: true
+                required: false
             - private_key_file:
                 required: false
             - timeout:
