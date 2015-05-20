@@ -35,7 +35,7 @@ flow:
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
-                '--publish=' + host + :' + cadvisor_port + ':8080 ' +
+                '--publish=' + host + ':' + cadvisor_port + ':8080 ' +
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
