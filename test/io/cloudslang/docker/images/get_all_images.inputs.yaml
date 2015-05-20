@@ -6,13 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDockerStuff:
+testDocker_GetAllImages_Success_output:
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
+    - image_name: hello-world
+  description: Tests that getting images list done with success result and correct output message
+  testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
   testSuites: [docker]
   result: SUCCESS
