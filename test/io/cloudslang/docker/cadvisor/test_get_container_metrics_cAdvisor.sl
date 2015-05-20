@@ -12,14 +12,13 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   cmd: io.cloudslang.base.cmd
-  print: io.cloudslang.base.print
 
 flow:
   name: test_get_container_metrics_cAdvisor
 
   inputs:
     - host:
-        default: "'localhost'"
+        default: "'127.0.0.1'"
         overridable: false
     - cadvisor_port:
         default: "'32951'"
@@ -36,17 +35,12 @@ flow:
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
-                '--publish=' + cadvisor_port + ':8080 ' +
+                '--publish=' + host + :' + cadvisor_port + ':8080 ' +
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
           SUCCESS: docker_ps
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
-
-    - print1:
-        do:
-          print.print_text:
-            - text: "'checkpoint 1'"
 
     - docker_ps:
         do:
@@ -54,11 +48,6 @@ flow:
             - command: >
                 'docker ps -a'
             - overridable: false
-
-    - print2:
-        do:
-          print.print_text:
-            - text: "'checkpoint 2'"
 
     - validate_success_get_container_metrics_cAdvisor:
         do:
