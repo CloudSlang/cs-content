@@ -42,6 +42,13 @@ flow:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
+    - docker_ps:
+        do:
+          cmd.run_command:
+            - command: >
+                'docker ps -a'
+            - overridable: false
+
     - validate_success_get_container_metrics_cAdvisor:
         do:
           cadvisor.get_container_metrics_cAdvisor:
