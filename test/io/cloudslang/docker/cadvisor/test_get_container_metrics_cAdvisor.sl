@@ -52,7 +52,9 @@ flow:
     - validate_success_get_container_metrics_cAdvisor:
         do:
           cadvisor.get_container_metrics_cAdvisor:
-            - host
+            - host:
+                default:  "'localhost'"
+                overridable: false
             - cadvisor_port
             - container: cadvisor_container_name
         navigate:
