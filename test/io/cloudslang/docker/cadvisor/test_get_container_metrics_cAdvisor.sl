@@ -39,7 +39,7 @@ flow:
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
-          SUCCESS: validate_success_get_container_metrics_cAdvisor
+          SUCCESS: docker_ps
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - docker_ps:
