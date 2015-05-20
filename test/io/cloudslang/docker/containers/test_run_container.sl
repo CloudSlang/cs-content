@@ -37,7 +37,7 @@ flow:
            - docker_password: password
        navigate:
          SUCCESS: pull_image
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -103,6 +103,7 @@ flow:
     - SUCCESS
     - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
+    - PREREQUST_MACHINE_IS_NOT_CLEAN
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
