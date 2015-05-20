@@ -11,19 +11,15 @@ namespace: io.cloudslang.docker.cadvisor
 
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
-  containers: io.cloudslang.docker.containers
+  cmd: io.cloudslang.base.cmd
 
 flow:
   name: test_get_container_metrics_cAdvisor
 
   inputs:
-    - host
-    - ssh_port:
-        required: false
-    - username
-    - password
-    - timeout:
-        default: "'3000000'"
+    - host:
+        default: "'localhost'"
+        overridable: false
     - cadvisor_port:
         default: "'32951'"
     - cadvisor_container_name:
@@ -32,22 +28,16 @@ flow:
   workflow:
     - create_cAdvisor_container:
         do:
-          containers.create_container:
-            - imageID: "'google/cadvisor:latest'"
-            - containerName: cadvisor_container_name
-            - cmdParams: >
+          cmd.run_command:
+            - command: >
+                'docker run -d --name ' + cadvisor_container_name + ' ' +
                 '--volume=/:/rootfs:ro ' +
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
-                '--publish=' + cadvisor_port + ':8080'
-            - host
-            - port:
-                default: ssh_port
-                required: false
-            - username
-            - password
-            - timeout
+                '--publish=' + cadvisor_port + ':8080' +
+                'google/cadvisor:latest'
+            - overridable: false
         navigate:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
@@ -64,11 +54,10 @@ flow:
 
     - delete_cadvisor_container:
         do:
-          containers.clear_container:
-            - container_ID: cadvisor_container_name
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+          cmd.run_command:
+            - command: >
+                'docker stop ' + cadvisor_container_name + ' && ' + 'docker rm ' + cadvisor_container_name
+            - overridable: false
         navigate:
           SUCCESS: SUCCESS
           FAILURE: C_ADVISOR_CONTAINER_REMOVAL_PROBLEM

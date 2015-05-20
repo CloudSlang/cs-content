@@ -7,12 +7,6 @@
 #
 ####################################################
 testDocker_get_container_metrics_cAdvisor_Success:
-  inputs:
-    - host: localhost
-    - ssh_port: "49153"
-    - username: root
-    - password: screencast
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics_cAdvisor
-  testSuites: [docker]
   result: SUCCESS
