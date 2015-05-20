@@ -67,9 +67,7 @@ flow:
                   required: false
               - privateKeyFile:
                   required: false
-              - command:
-                  default: "' '"
-                  overridable: false
+              - command: " "
               - arguments:
                   required: false
               - characterSet:
