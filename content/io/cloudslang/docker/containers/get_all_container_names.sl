@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of all the Docker container IDs.
+# Retrieves a list of all the Docker container names.
 #
 # Inputs:
-#   - all_containers - adds all_container option to docker command. False by default, any input changes it to True
-#   - ps_params - option trigger to add all_containers option to docker command
+#   - all_containers - optional - adds all_container option to docker command. False by default, any input changes it to True
+#   - ps_params - optional - trigger to add all_containers option to docker command
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
@@ -22,25 +22,22 @@
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_list - list containing container ID for all the Docker containers, separated by space
-# Results:
-#   - SUCCESS - SSH command succeeded
-#   - FAILURE - SSH command failed
+#   - container_list - list containing container name for all the Docker containers, separated by space
 ####################################################
 
 namespace: io.cloudslang.docker.containers
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
+  containers: io.cloudslang.docker.containers
 
 flow:
-  name: get_all_containers
+  name: get_all_container_names
   inputs:
     - all_containers:
-        default: False
+        required: false
     - ps_params:
-        default: " '-a' if bool(all_containers) else ''"
-    - command: "'docker ps -q ' + ps_params"
+        required: false
     - host
     - port:
         required: false
@@ -48,8 +45,6 @@ flow:
     - password:
         required: false
     - private_key_file:
-        required: false
-    - arguments:
         required: false
     - characterSet:
         required: false
@@ -63,20 +58,20 @@ flow:
         required: false
 
   workflow:
-    - get_all_containers:
+    - get_all_container_ids:
         do:
-          ssh.ssh_flow:
+          containers.get_all_containers:
+            - all_containers:
+                required: false
+            - ps_params:
+                required: false
             - host
             - port:
                 required: false
             - username
             - password:
                 required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - command
-            - arguments:
+            - private_key_file:
                 required: false
             - characterSet:
                 required: false
@@ -89,8 +84,39 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - container_list: returnResult.replace("\n"," ").replace("CONTAINER","")
-          - returnCode
+          - container_list
+
+    - get_all_container_names_from_ids:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - command:
+                default: >
+                  'docker inspect --format="{{ .Name }}" ' + container_list
+                overridable: false
+            - arguments:
+                default: "''"
+                overridable: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+          - container_list: returnResult.replace("\n"," ").replace("/","")[:-1]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
@@ -98,6 +124,3 @@ flow:
 
   outputs:
     - container_list
-  results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
