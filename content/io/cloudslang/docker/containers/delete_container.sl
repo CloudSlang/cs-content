@@ -31,87 +31,39 @@
 
 namespace: io.cloudslang.docker.containers
 
-imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
-
-flow:
+operation:
   name: delete_container
   inputs:
-    - container_id
-    - cmd_params:
-        required: false
-    - params:
-        default: "cmd_params + ' ' if bool(cmd_params) else ''"
+    - containerID
+    - cmdParams:
+        default: "''"
     - host
     - port:
-        required: false
+        default: "'22'"
     - username
-    - password:
-        required: false
+    - password
     - privateKeyFile:
-        required: false
+        default: "''"
     - arguments:
-        required: false
+        default: "''"
     - command:
-        default: "'docker rm ' + params + container_id"
+        default: "'docker rm ' + cmdParams + ' ' + containerID"
         overridable: false
     - characterSet:
-        required: false
+        default: "'UTF-8'"
     - pty:
-        required: false
+        default: "'false'"
     - timeout:
-        required: false
+        default: "'90000'"
     - closeSession:
-        required: false
-    - agentForwarding:
-        required: false
-
-  workflow:
-    - delete_container:
-        do:
-          ssh.ssh_flow:
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
-            - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
-        publish:
-          - result: returnResult.replace("\n","")
-          - standard_out
-          - standard_err
-          - exception
-        navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
-
-    - verify_output:
-        do:
-          strings.string_equals:
-            - first_string: "result"
-            - second_string: container_id
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-
+        default: "'false'"
+  action:
+    java_action:
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
+      methodName: runSshShellCommand
+  outputs:
+    - container_ID: returnResult
+    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
   results:
-    - SUCCESS
+    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE
