@@ -25,7 +25,7 @@ flow:
     - timeout:
         default: "'3000000'"
     - cadvisor_port:
-        default: "'8080'"
+        default: "'32951'"
     - cadvisor_container_name:
         default: "'cadvisor'"
 
