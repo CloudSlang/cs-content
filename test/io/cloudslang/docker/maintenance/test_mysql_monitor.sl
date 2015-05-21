@@ -47,11 +47,43 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: check_mysql_is_up
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+
+    - check_mysql_is_up:
+        do:
+          maintenance.check_mysql_is_up:
+            - container: "'mysqldb'"
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - mysqlUsername: "'user'"
+            - mysqlPassword: "'pass'"
+        navigate:
+          SUCCESS: get_mysql_status
+          FAILURE: MYSQL_CONTAINER_NOT_UP
+
+    - get_mysql_status:
+        do:
+          maintenance.get_mysql_status:
+            - container: "'mysqldb'"
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - mysqlUsername: "'user'"
+            - mysqlPassword: "'pass'"
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER
+    - MYSQL_CONTAINER_NOT_UP
+    - MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
