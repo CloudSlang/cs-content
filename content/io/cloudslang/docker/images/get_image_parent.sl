@@ -35,6 +35,8 @@ flow:
         default: "''"
     - timeout:
         required: false
+    - port:
+        required: false
   workflow:
     - validate_linux_machine_ssh_access:
         do:
@@ -43,6 +45,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - privateKeyFile: private_key_file
+            - port:
+                required: false
             - timeout:
                 required: false
     - inspect_image:
@@ -52,6 +56,8 @@ flow:
             - username: docker_username
             - password: docker_password
             - imageName: image_name
+            - port:
+                required: false
             - privateKeyFile: private_key_file
             - timeout:
                 required: false
@@ -70,6 +76,8 @@ flow:
              - username: docker_username
              - password: docker_password
              - privateKeyFile: private_key_file
+             - port:
+                 required: false
              - timeout:
                  required: false
              - image_id: parent_image[:10]
