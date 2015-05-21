@@ -12,12 +12,17 @@
 #
 # Inputs:
 #   - docker_host - Docker machine host
+#   - docker_ssh_port - optional - SSH port - Default: 22
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
+#   - db_container_name - optional - name of the DB container - Default: mysqldb
+#   - app_container_name - optional - name of the app container - Default: spring-boot-tomcat-mysql-app
+#   - app_port - optional - web server port for the application - Default: 8080
 #   - email_host - email host
 #   - email_port - email port
 #   - email_sender - email sender
 #   - email_recipient - email recipient
+#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
 # Results:
 #   - SUCCESS
 #   - FAILURE
@@ -34,19 +39,32 @@ flow:
   name: demo_dev_ops
   inputs:
     - docker_host
+    - docker_ssh_port:
+        default: "'22'"
     - docker_username
     - docker_password
+    - db_container_name:
+        default: "'mysqldb'"
+    - app_container_name:
+        default: "'spring-boot-tomcat-mysql-app'"
+    - app_port:
+        default: "'8080'"
     - email_host
     - email_port
     - email_sender
     - email_recipient
+    - timeout:
+        default: "'30000000'"
   workflow:
     - create_db_container:
         do:
           docker_containers.create_db_container:
             - host: docker_host
+            - port: docker_ssh_port
             - username: docker_username
             - password: docker_password
+            - container_name: db_container_name
+            - timeout
         publish:
           - db_IP
           - error_message
@@ -54,10 +72,12 @@ flow:
     - pull_app_image:
         do:
           docker_images.pull_image:
-            - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
+            - image_name: "'meirwa/spring-boot-tomcat-mysql-app'"
             - host: docker_host
+            - port: docker_ssh_port
             - username: docker_username
             - password: docker_password
+            - timeout
         publish:
           - error_message
 
@@ -65,14 +85,16 @@ flow:
         do:
           docker_containers.start_linked_container:
             - dbContainerIp: db_IP
-            - dbContainerName: "'mysqldb'"
+            - dbContainerName: db_container_name
             - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-            - containerName: "'spring-boot-tomcat-mysql-app'"
+            - containerName: app_container_name
             - linkParams: "dbContainerName + ':mysql'"
-            - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p 8080:8080'"
+            - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p ' + app_port + ':8080'"
             - host: docker_host
+            - port: docker_ssh_port
             - username: docker_username
             - password: docker_password
+            - timeout
         publish:
           - container_ID
           - error_message
@@ -81,7 +103,7 @@ flow:
         do:
           base_network.verify_app_is_up:
             - host: docker_host
-            - port: "'8080'"
+            - port: app_port
             - attempts: 20
         publish:
           - error_message
