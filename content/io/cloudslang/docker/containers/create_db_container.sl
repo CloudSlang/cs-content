@@ -12,7 +12,8 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
-#   - password - Docker machine password
+#   - password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
 #   - container_name - optional - name of the DB container - Default: mysqldb
 #   - timeout - optional - time in milliseconds to wait for command to complete
 # Outputs:
@@ -31,7 +32,10 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
+    - private_key_file:
+        required: false
     - container_name:
         default: "'mysqldb'"
     - timeout:
@@ -45,7 +49,11 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
         publish:
@@ -61,7 +69,10 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
             - timeout:
                 required: false
         publish:
@@ -75,7 +86,11 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
         publish:

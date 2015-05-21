@@ -14,7 +14,8 @@
 #   - docker_host - Docker machine host
 #   - docker_ssh_port - optional - SSH port - Default: 22
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
+#   - docker_password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
 #   - db_container_name - optional - name of the DB container - Default: mysqldb
 #   - app_container_name - optional - name of the app container - Default: spring-boot-tomcat-mysql-app
 #   - app_port - optional - web server port for the application - Default: 8080
@@ -42,7 +43,10 @@ flow:
     - docker_ssh_port:
         default: "'22'"
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
+    - private_key_file:
+        required: false
     - db_container_name:
         default: "'mysqldb'"
     - app_container_name:
@@ -62,7 +66,11 @@ flow:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
+            - private_key_file:
+                required: false
             - container_name: db_container_name
             - timeout
         publish:
@@ -76,7 +84,12 @@ flow:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout
         publish:
           - error_message
@@ -93,7 +106,12 @@ flow:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout
         publish:
           - container_ID

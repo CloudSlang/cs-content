@@ -18,7 +18,10 @@ flow:
     - docker_ssh_port:
         default: "'22'"
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
+    - private_key_file:
+        required: false
     - db_container_name:
         default: "'mysqldb'"
     - app_container_name:
@@ -37,7 +40,10 @@ flow:
             - docker_host
             - docker_ssh_port
             - docker_username
-            - docker_password
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
             - db_container_name
             - app_container_name
             - app_port
@@ -52,7 +58,10 @@ flow:
             - container_ID: app_container_name
             - docker_host
             - docker_username
-            - docker_password
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
             - port: docker_ssh_port
         navigate:
           SUCCESS: remove_db_container
@@ -64,7 +73,10 @@ flow:
             - container_ID: db_container_name
             - docker_host
             - docker_username
-            - docker_password
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
             - port: docker_ssh_port
         navigate:
           SUCCESS: SUCCESS
