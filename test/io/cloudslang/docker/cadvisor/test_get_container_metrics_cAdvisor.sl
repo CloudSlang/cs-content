@@ -55,6 +55,16 @@ flow:
             - command: >
                 'docker exec ' + cadvisor_container_name + ' ls'
             - overridable: false
+        navigate:
+          SUCCESS: docker_ps2
+          FAILURE: docker_ps2
+
+    - docker_ps2:
+        do:
+          cmd.run_command:
+            - command: >
+                'docker ps -a'
+            - overridable: false
 
     - curl_test:
         do:
@@ -62,6 +72,9 @@ flow:
             - command: >
                 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://' + host + ':32951/api/v1.2/docker/cadvisor'
             - overridable: false
+        navigate:
+          SUCCESS: validate_success_get_container_metrics_cAdvisor
+          FAILURE: validate_success_get_container_metrics_cAdvisor
 
     - validate_success_get_container_metrics_cAdvisor:
         do:
