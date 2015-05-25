@@ -99,18 +99,9 @@ flow:
           - standard_err
           - exception
         navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
-
-    - verify_output:
-        do:
-          strings.string_equals:
-            - first_string: "result"
-            - second_string: container_id
-        navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
+          FAIL_VALIDATE_SSH: FAILURE
 
   results:
     - SUCCESS
