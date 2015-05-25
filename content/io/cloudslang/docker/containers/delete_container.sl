@@ -33,8 +33,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: delete_container
@@ -102,6 +100,9 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
           FAIL_VALIDATE_SSH: FAILURE
+  outputs:
+    - result
+    - standard_err
 
   results:
     - SUCCESS
