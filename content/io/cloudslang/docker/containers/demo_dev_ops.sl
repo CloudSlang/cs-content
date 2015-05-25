@@ -76,6 +76,9 @@ flow:
         publish:
           - db_IP
           - error_message
+        navigate: # TODO: remove later - debugging scope
+          SUCCESS: pull_app_image
+          FAILURE: DB_CONTAINER_STARTUP_PROBLEM
 
     - pull_app_image:
         do:
@@ -93,6 +96,9 @@ flow:
             - timeout
         publish:
           - error_message
+        navigate: # TODO: remove later - debugging scope
+          SUCCESS: start_linked_container
+          FAILURE: PULL_APP_IMAGE_PROBLEM
 
     - start_linked_container:
         do:
@@ -116,6 +122,9 @@ flow:
         publish:
           - container_ID
           - error_message
+        navigate: # TODO: remove later - debugging scope
+          SUCCESS: test_application
+          FAILURE: START_LINKED_CONTAINER_PROBLEM
 
     - test_application:
         do:
@@ -125,6 +134,9 @@ flow:
             - attempts: 20
         publish:
           - error_message
+        navigate: # TODO: remove later - debugging scope
+          SUCCESS: SUCCESS
+          FAILURE: VERIFY_APP_IS_UP_PROBLEM
 
     - on_failure:
         - send_error_mail:
@@ -139,3 +151,11 @@ flow:
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE
+
+  results:
+    - SUCCESS # TODO: remove later - debugging scope
+    - DB_CONTAINER_STARTUP_PROBLEM
+    - PULL_APP_IMAGE_PROBLEM
+    - START_LINKED_CONTAINER_PROBLEM
+    - VERIFY_APP_IS_UP_PROBLEM
+    - FAILURE
