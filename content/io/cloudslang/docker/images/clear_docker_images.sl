@@ -28,36 +28,59 @@
 ####################################################
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: clear_docker_images
   inputs:
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password
     - images
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
         default: "'docker rmi ' + images"
         overridable: false
     - arguments:
-        default: "''"
+        required: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'30000000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+  workflow:
+    - clear_images:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port
+            - username
+            - password
+            - privateKeyFile:
+                required: false
+            - command: "'docker rmi ' + images"
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+            - return_result: returnResult
+            - error_message: standard_err
   outputs:
-    - response: STDOUT
-  results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
+    - reposnse: return_result
+    - error_message: error_message
