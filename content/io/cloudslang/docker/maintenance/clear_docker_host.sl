@@ -14,6 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
+#   - port - optional - SSH port
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
 ####################################################

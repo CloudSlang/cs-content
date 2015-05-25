@@ -10,6 +10,7 @@ namespace: io.cloudslang.docker.containers
 
 imports:
  containers: io.cloudslang.docker.containers
+ maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_demo_dev_ops
@@ -32,6 +33,8 @@ flow:
     - email_port
     - email_sender
     - email_recipient
+    - timeout:
+        default: "'30000000'"
   workflow:
 
     - execute_demo_dev_ops:
@@ -52,38 +55,22 @@ flow:
             - email_sender
             - email_recipient
 
-    - remove_app_container:
+    - clear_docker_host:
         do:
-          containers.clear_container:
-            - container_ID: app_container_name
+          maintenance.clear_docker_host:
             - docker_host
             - docker_username
             - docker_password:
                 required: false
             - private_key_file:
                 required: false
-            - port: docker_ssh_port
-        navigate:
-          SUCCESS: remove_db_container
-          FAILURE: REMOVE_APP_CONTAINER_PROBLEM
-
-    - remove_db_container:
-        do:
-          containers.clear_container:
-            - container_ID: db_container_name
-            - docker_host
-            - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - timeout
             - port: docker_ssh_port
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: REMOVE_DB_CONTAINER_PROBLEM
+          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
 
   results:
     - SUCCESS
-    - REMOVE_APP_CONTAINER_PROBLEM
-    - REMOVE_DB_CONTAINER_PROBLEM
+    - CLEAR_DOCKER_HOST_PROBLEM
     - FAILURE
