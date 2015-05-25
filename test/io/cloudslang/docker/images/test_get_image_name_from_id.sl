@@ -63,7 +63,7 @@ flow:
             - port
             - username
             - password
-            - image_name: "'hello-world'"
+            - image_name: "'raskin/hello-world'"
         navigate:
           SUCCESS: get_image_name_from_id
           FAILURE: DOWNLOADFAIL
@@ -77,7 +77,7 @@ flow:
             - password
             - image_id
         publish:
-            - image_name
+            - image_name : image_name
         navigate:
           SUCCESS: verify_output
           FAILURE: FAILURE
@@ -85,7 +85,7 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: "'hello-world:latest '"
+            - first_string: "'raskin/hello-world:latest '"
             - second_string: image_name
         navigate:
           SUCCESS: delete_downloaded_image
@@ -98,7 +98,7 @@ flow:
             - port
             - username
             - password
-            - images: "'hello-world'"
+            - images: "'raskin/hello-world'"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAIL
