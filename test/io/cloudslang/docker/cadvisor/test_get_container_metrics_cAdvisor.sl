@@ -37,7 +37,7 @@ flow:
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
                 '--volume=/cgroup:/cgroup ' +
                 '--publish=' + host + ':' + cadvisor_port + ':8080 ' +
-                'google/cadvisor:latest'
+                'google/cadvisor:0.7.1'
             - overridable: false
         navigate:
           SUCCESS: docker_ps
