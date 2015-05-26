@@ -35,6 +35,8 @@ imports:
  docker_images: io.cloudslang.docker.images
  base_mail: io.cloudslang.base.mail
  base_network: io.cloudslang.base.network
+ ssh: io.cloudslang.base.remote_command_execution.ssh # TODO: remove later - debugging scope
+ print: io.cloudslang.base.print # TODO: remove later - debugging scope
 
 flow:
   name: demo_dev_ops
@@ -97,8 +99,33 @@ flow:
         publish:
           - error_message
         navigate: # TODO: remove later - debugging scope
-          SUCCESS: start_linked_container
+          SUCCESS: docker_ps
           FAILURE: PULL_APP_IMAGE_PROBLEM
+
+    - docker_ps: # TODO: remove later - debugging scope
+        do:
+          ssh.ssh_flow:
+            - host: docker_host
+            - port: docker_ssh_port
+            - username: docker_username
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout
+            - command: "'docker ps -a'"
+        publish:
+          - container_details: returnResult
+        navigate:
+          SUCCESS: print_details
+          FAILURE: CONTAINER_DETAILS_PROBLEM
+
+    - print_details: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: container_details
 
     - start_linked_container:
         do:
@@ -159,3 +186,4 @@ flow:
     - START_LINKED_CONTAINER_PROBLEM
     - VERIFY_APP_IS_UP_PROBLEM
     - FAILURE
+    - CONTAINER_DETAILS_PROBLEM
