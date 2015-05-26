@@ -84,3 +84,6 @@ flow:
         publish:
             - return_result: returnResult
             - error_message: standard_err
+  outputs:
+    - return_result
+    - error_message
