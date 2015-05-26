@@ -37,7 +37,7 @@ flow:
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
                 '--volume=/cgroup:/cgroup ' +
                 '--publish=' + host + ':' + cadvisor_port + ':8080 ' +
-                'google/cadvisor:0.7.1'
+                'google/cadvisor:latest'
             - overridable: false
         navigate:
           SUCCESS: docker_ps
@@ -65,6 +65,16 @@ flow:
           cmd.run_command:
             - command: >
                 'docker inspect ' + cadvisor_container_name
+            - overridable: false
+        navigate:
+          SUCCESS: logs_container
+          FAILURE: logs_container
+
+    - logs_container:
+        do:
+          cmd.run_command:
+            - command: >
+                'docker logs ' + cadvisor_container_name
             - overridable: false
         navigate:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
