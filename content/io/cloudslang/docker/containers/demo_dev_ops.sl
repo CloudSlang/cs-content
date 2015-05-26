@@ -159,7 +159,15 @@ flow:
           - error_message
         navigate: # TODO: remove later - debugging scope
           SUCCESS: test_application
-          FAILURE: START_LINKED_CONTAINER_PROBLEM
+          FAILURE: print_error
+
+    - print_error: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: >
+                error_message
+        navigate:
+          SUCCESS: START_LINKED_CONTAINER_PROBLEM
 
     - test_application:
         do:
