@@ -66,7 +66,7 @@ flow:
             - password
             - privateKeyFile:
                 required: false
-            - command: "'docker rmi ' + images"
+            - command
             - arguments:
                 required: false
             - characterSet:
