@@ -18,7 +18,7 @@ flow:
 
   inputs:
     - host:
-        default: "'127.0.0.1'"
+        default: "'localhost'"
         overridable: false
     - cadvisor_port:
         default: "'32951'"
@@ -36,7 +36,7 @@ flow:
                 '--volume=/sys:/sys:ro ' +
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
                 '--volume=/cgroup:/cgroup ' +
-                '--publish=' + host + ':' + cadvisor_port + ':8080 ' +
+                '--publish=' + cadvisor_port + ':8080 ' +
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
@@ -83,9 +83,7 @@ flow:
     - validate_success_get_container_metrics_cAdvisor:
         do:
           cadvisor.get_container_metrics_cAdvisor:
-            - host:
-                default:  "'localhost'"
-                overridable: false
+            - host
             - cadvisor_port
             - container: cadvisor_container_name
         publish:
