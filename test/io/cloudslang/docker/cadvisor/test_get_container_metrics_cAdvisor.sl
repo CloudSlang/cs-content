@@ -56,6 +56,16 @@ flow:
                 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://' + host + ':32951/api/v1.2/docker/cadvisor'
             - overridable: false
         navigate:
+          SUCCESS: inspect_container
+          FAILURE: inspect_container
+
+    - inspect_container:
+        do:
+          cmd.run_command:
+            - command: >
+                'docker inspect ' + cadvisor_container_name
+            - overridable: false
+        navigate:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
           FAILURE: validate_success_get_container_metrics_cAdvisor
 
