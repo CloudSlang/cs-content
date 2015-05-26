@@ -35,8 +35,21 @@ flow:
            - docker_username: username
            - docker_password: password
        navigate:
-         SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         SUCCESS: test_verify_no_images
+         FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
+
+    - test_verify_no_images:
+        do:
+          images.test_verify_no_images:
+            - host
+            - port
+            - username
+            - password
+        navigate:
+          SUCCESS: pull_image
+          FAILURE: MACHINE_IS_NOT_CLEAN
+          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
         do:
@@ -90,7 +103,9 @@ flow:
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
-    - PREREQUST_MACHINE_IS_NOT_CLEAN
+    - FAIL_GET_ALL_IMAGES_BEFORE
+    - PREREQUISITE_MACHINE_IS_NOT_CLEAN
+    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
     - FAILURE
