@@ -127,6 +127,14 @@ flow:
           print.print_text:
             - text: container_details
 
+    - print_inputs: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: >
+                'db_IP= ' + db_IP +
+                ',db_container_name= ' + db_container_name +
+                ',app_container_name= ' + app_container_name
+
     - start_linked_container:
         do:
           docker_containers.start_linked_container:
