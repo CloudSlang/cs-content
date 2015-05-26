@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDockerStuff:
+testDocker_get_all_containers:
   inputs:
     - host: localhost
     - port: "49153"
