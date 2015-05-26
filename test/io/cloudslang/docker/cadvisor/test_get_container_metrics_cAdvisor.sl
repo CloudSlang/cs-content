@@ -49,23 +49,6 @@ flow:
                 'docker ps -a'
             - overridable: false
 
-    - exec_test:
-        do:
-          cmd.run_command:
-            - command: >
-                'docker exec ' + cadvisor_container_name + ' ls'
-            - overridable: false
-        navigate:
-          SUCCESS: docker_ps2
-          FAILURE: docker_ps2
-
-    - docker_ps2:
-        do:
-          cmd.run_command:
-            - command: >
-                'docker ps -a'
-            - overridable: false
-
     - curl_test:
         do:
           cmd.run_command:
@@ -84,9 +67,22 @@ flow:
                 overridable: false
             - cadvisor_port
             - container: cadvisor_container_name
+        publish:
+          - returnResult
+          - statusCode
         navigate:
           SUCCESS: delete_cadvisor_container
-          FAILURE: FAILURE
+          FAILURE: print_details
+
+    - print_details:
+        do:
+          cmd.run_command:
+            - command: >
+                "echo 'returnResult= " + returnResult + " statusCode= " + statusCode + "'"
+            - overridable: false
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: PRINT_DETAILS_PROBLEM
 
     - delete_cadvisor_container:
         do:
@@ -103,3 +99,4 @@ flow:
     - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
     - C_ADVISOR_CONTAINER_REMOVAL_PROBLEM
     - FAILURE
+    - PRINT_DETAILS_PROBLEM
