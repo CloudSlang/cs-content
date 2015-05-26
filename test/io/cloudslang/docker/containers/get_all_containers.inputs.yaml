@@ -12,7 +12,8 @@ testDockerStuff:
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
+    - image_name: hello-world
+  description: Tests that get_all_containers operation works
+  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
   testSuites: [docker]
   result: SUCCESS
