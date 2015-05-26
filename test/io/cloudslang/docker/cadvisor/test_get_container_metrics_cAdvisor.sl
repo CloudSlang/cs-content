@@ -30,7 +30,7 @@ flow:
         do:
           cmd.run_command:
             - command: >
-                'docker run -d --name ' + cadvisor_container_name + ' ' +
+                'docker run --privileged -d --name ' + cadvisor_container_name + ' ' +
                 '--volume=/:/rootfs:ro ' +
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
