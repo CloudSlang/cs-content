@@ -79,7 +79,26 @@ flow:
             - password
             - container_id: container_name
         navigate:
-          SUCCESS: clear_docker_host
+          SUCCESS: verify
+          FAILURE: FAILURE
+
+    - verify:
+        do:
+          containers.get_all_containers:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+        publish:
+          - all_containers: container_list
+    - compare:
+        do:
+          strings.string_equals:
+            - first_string: all_containers
+            - second_string: "''"
+        navigate:
+          SUCCESS: SUCCESS
           FAILURE: FAILURE
 
     - clear_docker_host:
