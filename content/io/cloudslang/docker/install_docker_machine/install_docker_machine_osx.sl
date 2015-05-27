@@ -17,7 +17,7 @@
 #   - SUCCESS
 #   - FAILURE
 ####################################################
-namespace: io.cloudslang.docker.install
+namespace: io.cloudslang.docker.install_docker_machine
 
 imports:
  docker_install: io.cloudslang.docker.install_docker_machine
