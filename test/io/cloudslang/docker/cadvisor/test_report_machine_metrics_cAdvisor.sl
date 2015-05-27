@@ -14,16 +14,16 @@ imports:
   cmd: io.cloudslang.base.cmd
 
 flow:
-  name: test_get_machine_metrics_cAdvisor
+  name: test_report_machine_metrics_cAdvisor
 
   inputs:
     - host:
         default: "'localhost'"
         overridable: false
     - cadvisor_port:
-        default: "'32951'"
+        default: "'32952'"
     - cadvisor_container_name:
-        default: "'cadvisor_machine_test'"
+        default: "'cadvisor_report_machine_test'"
     - cadvisor_image:
         default: "'google/cadvisor:latest'"
         overridable: false
@@ -46,9 +46,9 @@ flow:
           SUCCESS: validate_success_get_machine_metrics_cAdvisor
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
-    - validate_success_get_machine_metrics_cAdvisor:
+    - validate_success_report_machine_metrics_cAdvisor:
         do:
-          cadvisor.get_machine_metrics_cAdvisor:
+          cadvisor.report_machine_metrics_cAdvisor:
             - host
             - cadvisor_port
         navigate:
