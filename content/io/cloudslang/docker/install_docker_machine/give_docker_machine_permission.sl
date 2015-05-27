@@ -21,7 +21,7 @@
 #   - FAILURE - some problem occurred, more information in errorMessage output
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.install
+namespace: io.cloudslang.docker.install_docker_machine
 
 operation:
   name: give_docker_machine_permission

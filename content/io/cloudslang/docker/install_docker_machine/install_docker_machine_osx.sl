@@ -20,7 +20,7 @@
 namespace: io.cloudslang.docker.install
 
 imports:
- docker_install: io.cloudslang.docker.install
+ docker_install: io.cloudslang.docker.install_docker_machine
 
 flow:
   name: install_docker_machine_linux
