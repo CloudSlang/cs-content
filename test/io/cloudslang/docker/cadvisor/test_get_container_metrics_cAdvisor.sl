@@ -17,31 +17,11 @@ flow:
   name: test_get_container_metrics_cAdvisor
 
   inputs:
-    - host:
-        default: "'localhost'"
-        overridable: false
-    - cadvisor_port:
-        default: "'32951'"
-    - cadvisor_container_name:
-        default: "'cadvisor'"
+    - host
+    - cadvisor_port
+    - cadvisor_container_name
 
   workflow:
-    - create_cAdvisor_container:
-        do:
-          cmd.run_command:
-            - command: >
-                'docker run --privileged -d --name ' + cadvisor_container_name + ' ' +
-                '--volume=/:/rootfs:ro ' +
-                '--volume=/var/run:/var/run:rw ' +
-                '--volume=/sys:/sys:ro ' +
-                '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
-                '--volume=/cgroup:/cgroup ' +
-                '--publish=' + cadvisor_port + ':8080 ' +
-                'google/cadvisor:latest'
-            - overridable: false
-        navigate:
-          SUCCESS: docker_ps
-          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - docker_ps:
         do:
@@ -57,6 +37,16 @@ flow:
                 'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/' + cadvisor_container_name
             - overridable: false
         navigate:
+          SUCCESS: curl_test2
+          FAILURE: curl_test2
+
+    - curl_test2:
+        do:
+          cmd.run_command:
+            - command: >
+                'curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/'
+            - overridable: false
+        navigate:
           SUCCESS: inspect_container
           FAILURE: inspect_container
 
@@ -67,8 +57,8 @@ flow:
                 'docker inspect ' + cadvisor_container_name
             - overridable: false
         navigate:
-          SUCCESS: validate_success_get_container_metrics_cAdvisor
-          FAILURE: validate_success_get_container_metrics_cAdvisor
+          SUCCESS: logs_container
+          FAILURE: logs_container
 
     - logs_container:
         do:
@@ -103,19 +93,7 @@ flow:
           SUCCESS: FAILURE
           FAILURE: PRINT_DETAILS_PROBLEM
 
-    - delete_cadvisor_container:
-        do:
-          cmd.run_command:
-            - command: >
-                'docker stop ' + cadvisor_container_name + ' && ' + 'docker rm ' + cadvisor_container_name
-            - overridable: false
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: C_ADVISOR_CONTAINER_REMOVAL_PROBLEM
-
   results:
     - SUCCESS
-    - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
-    - C_ADVISOR_CONTAINER_REMOVAL_PROBLEM
     - FAILURE
     - PRINT_DETAILS_PROBLEM
