@@ -23,7 +23,7 @@ dependencies:
 
 test:
   pre:
-    - docker run --privileged -d --name cadvisor --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --volume=/cgroup:/cgroup --publish=32951:8080 google/cadvisor:latest
+    - docker run --privileged -d --name cadvisor --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --volume=/cgroup/cpu:/cgroup/cpu --volume=/cgroup/cpuacct:/cgroup/cpuacct --volume=/cgroup/cpuset:/cgroup/cpuset --volume=/cgroup/memory:/cgroup/memory --volume=/cgroup/blkio:/cgroup/blkio --publish=32951:8080 google/cadvisor:latest
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
   override:
