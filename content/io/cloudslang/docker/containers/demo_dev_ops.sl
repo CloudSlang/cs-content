@@ -62,6 +62,32 @@ flow:
     - timeout:
         default: "'30000000'"
   workflow:
+
+    - df_1: # TODO: remove later - debugging scope
+        do:
+          ssh.ssh_flow:
+            - host: docker_host
+            - port: docker_ssh_port
+            - username: docker_username
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout
+            - command: "'df -h'"
+        publish:
+          - disk_space_1: returnResult
+        navigate:
+          SUCCESS: print_df1
+          FAILURE: CONTAINER_DETAILS_PROBLEM
+
+    - print_df1: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: disk_space_1
+
     - create_db_container:
         do:
           docker_containers.create_db_container:
@@ -79,8 +105,33 @@ flow:
           - db_IP
           - error_message
         navigate: # TODO: remove later - debugging scope
-          SUCCESS: pull_app_image
+          SUCCESS: df_2
           FAILURE: DB_CONTAINER_STARTUP_PROBLEM
+
+    - df_2: # TODO: remove later - debugging scope
+        do:
+          ssh.ssh_flow:
+            - host: docker_host
+            - port: docker_ssh_port
+            - username: docker_username
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout
+            - command: "'df -h'"
+        publish:
+          - disk_space_2: returnResult
+        navigate:
+          SUCCESS: print_df2
+          FAILURE: CONTAINER_DETAILS_PROBLEM
+
+    - print_df2: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: disk_space_2
 
     - pull_app_image:
         do:
@@ -134,6 +185,31 @@ flow:
                 'db_IP= ' + db_IP +
                 ',db_container_name= ' + db_container_name +
                 ',app_container_name= ' + app_container_name
+
+    - df_3: # TODO: remove later - debugging scope
+        do:
+          ssh.ssh_flow:
+            - host: docker_host
+            - port: docker_ssh_port
+            - username: docker_username
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout
+            - command: "'df -h'"
+        publish:
+          - disk_space_3: returnResult
+        navigate:
+          SUCCESS: print_df3
+          FAILURE: CONTAINER_DETAILS_PROBLEM
+
+    - print_df3: # TODO: remove later - debugging scope
+        do:
+          print.print_text:
+            - text: disk_space_3
 
     - start_linked_container:
         do:
