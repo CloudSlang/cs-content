@@ -14,6 +14,7 @@ imports:
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
+  print: io.cloudslang.base.print
 
 flow:
   name: test_clear_container
@@ -27,74 +28,121 @@ flow:
     - second_image_name
 
   workflow:
-    - clear_docker_host_prereqeust:
-       do:
-         maintenance.clear_docker_host:
-           - docker_host: host
-           - port:
-               required: false
-           - docker_username: username
-           - docker_password: password
-       navigate:
-         SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+#    - clear_docker_host_prereqeust:
+#       do:
+#         maintenance.clear_docker_host:
+#           - docker_host: host
+#           - port:
+#               required: false
+#           - docker_username: username
+#           - docker_password: password
+#       navigate:
+#         SUCCESS: pull_image
+#         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+#
+#    - pull_image:
+#        do:
+#          images.pull_image:
+#            - host
+#            - port:
+#                required: false
+#            - username
+#            - password
+#            - image_name: first_image_name
+#        navigate:
+#          SUCCESS: pull_second
+#          FAILURE: FAIL_PULL_IMAGE
+#
+#    - pull_second:
+#        do:
+#          images.pull_image:
+#            - host
+#            - port:
+#                required: false
+#            - username
+#            - password
+#            - image_name: second_image_name
+#        navigate:
+#          SUCCESS: SUCCESS
+#          FAILURE: FAIL_PULL_IMAGE
 
-    - pull_image:
+    - run_first_container:
         do:
-          images.pull_image:
+          containers.run_container:
             - host
             - port:
                 required: false
             - username
             - password
+            - container_name: "'first'"
             - image_name: first_image_name
         navigate:
-          SUCCESS: pull_second
-          FAILURE: FAIL_PULL_IMAGE
+          SUCCESS: run_second_container
+          FAILURE: FAIL_RUN_IMAGE
 
-    - pull_second:
+    - run_second_container:
         do:
-          images.pull_image:
+          containers.run_container:
             - host
             - port:
                 required: false
             - username
             - password
+            - container_name: "'second'"
             - image_name: second_image_name
+            - container_params:
+                default: "'-p 49165:22'"
+                overridable: false
+        navigate:
+          SUCCESS: get_all_containers
+          FAILURE: FAIL_RUN_IMAGE
+
+
+    - get_all_containers:
+        do:
+          containers.get_all_containers:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - all_containers: true
+        publish:
+          - list: container_list
+
+    - clear_container:
+        do:
+          containers.clear_container:
+            - docker_host: host
+            - port:
+                required: false
+            - docker_username: username
+            - docker_password: password
+            - container_ID: list
+        navigate:
+          SUCCESS: verify
+          FAILURE: FAILURE
+
+    - verify:
+        do:
+          containers.get_all_containers:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - all_containers: true
+        publish:
+          - all_containers: container_list
+    - compare:
+        do:
+          strings.string_equals:
+            - first_string: all_containers
+            - second_string: "''"
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAIL_PULL_IMAGE
+          FAILURE: FAILURE
 
-#    - run_container:
-#        do:
-#          containers.run_container:
-#            - host
-#            - port:
-#                required: false
-#            - username
-#            - password
-#            - container_name
-#            - image_name
-#            - container_params:
-#                default: "'-p 49165:22'"
-#                overridable: false
-#        navigate:
-#          SUCCESS: stop_container
-#          FAILURE: FAIL_RUN_IMAGE
-#
-#    - stop_container:
-#        do:
-#          containers.stop_container:
-#            - host
-#            - port:
-#                required: false
-#            - username
-#            - password
-#            - container_id: container_name
-#        navigate:
-#          SUCCESS: clear_docker_host
-#          FAILURE: FAILURE
-#
 #    - clear_docker_host:
 #        do:
 #         maintenance.clear_docker_host:
