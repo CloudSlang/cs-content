@@ -11,8 +11,8 @@
 #  Inputs:
 #    - docker_host - Docker machine host
 #    - docker_username - Docker machine username
-#    - docker_password - Docker machine password
-#    - private_key_file - path to the private key file; Default: none
+#    - docker_password - optional - Docker machine password - Default: none
+#    - private_key_file - optional - path to the private key file - Default: none
 #    - timeout - optional - time in milliseconds to wait for the command to complete
 #  Outputs:
 #    - amount_of_images_deleted - number of images deleted
@@ -32,7 +32,8 @@ flow:
   inputs:
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        default: "''"
     - private_key_file:
         default: "''"
     - timeout:
