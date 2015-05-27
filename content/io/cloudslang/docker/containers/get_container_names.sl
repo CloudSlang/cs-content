@@ -74,9 +74,6 @@ flow:
             - username
             - password:
                 required: false
-            - arguments:
-                default: "''"
-                overridable: false
             - privateKeyFile:
                 default: private_key_file
                 required: false
