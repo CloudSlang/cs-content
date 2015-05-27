@@ -8,5 +8,5 @@
 ####################################################
 test_get_machine_metrics_cAdvisor:
   description: Tests SUCCESS case
-  testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics_cAdvisor
+  testFlowPath: io.cloudslang.docker.cadvisor.test_get_machine_metrics_cAdvisor
   result: SUCCESS
