@@ -80,7 +80,7 @@ flow:
           - returnResult
           - statusCode
         navigate:
-          SUCCESS: delete_cadvisor_container
+          SUCCESS: SUCCESS
           FAILURE: print_details
 
     - print_details:
