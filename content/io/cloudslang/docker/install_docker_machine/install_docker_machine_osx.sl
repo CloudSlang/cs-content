@@ -23,7 +23,7 @@ imports:
  docker_install: io.cloudslang.docker.install_docker_machine
 
 flow:
-  name: install_docker_machine_linux
+  name: install_docker_machine_osx
   inputs:
     - host
     - port:
