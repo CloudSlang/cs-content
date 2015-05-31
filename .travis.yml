@@ -12,6 +12,7 @@ language: java
 sudo: required
 
 script:
+  - sudo apt-get install linux-image-virtual linux-image-extra-virtual
   - curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
