@@ -100,6 +100,9 @@ flow:
           FAILURE: FAILURE
           FAIL_VALIDATE_SSH: FAILURE
 
+  outputs:
+    - result
+
   results:
     - SUCCESS
     - FAILURE
