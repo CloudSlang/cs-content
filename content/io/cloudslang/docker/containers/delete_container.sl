@@ -22,8 +22,8 @@
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_ID - ID of the container that was deleted
-#   - error_message - error message
+#   - result - ID of the container that was deleted
+#   - standard_err - error message
 # Results:
 #   - SUCCESS
 #   - FAILURE

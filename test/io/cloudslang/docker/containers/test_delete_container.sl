@@ -62,10 +62,10 @@ flow:
             - container_name
             - image_name: container_name
         navigate:
-          SUCCESS: stop_contaier
+          SUCCESS: get_used_images
           FAILURE: FAIL_RUN_IMAGE
 
-    - stop_contaier:
+    - get_used_images:
         do:
           images.get_used_images:
             - host
