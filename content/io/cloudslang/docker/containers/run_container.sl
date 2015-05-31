@@ -85,6 +85,7 @@ flow:
             - password:
                 required: false
             - privateKeyFile:
+                default: private_key_file
                 required: false
             - command
             - arguments:
