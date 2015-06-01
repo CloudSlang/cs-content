@@ -28,7 +28,10 @@
 ####################################################
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: get_image_name_from_id
   inputs:
     - host
@@ -53,12 +56,38 @@ operation:
         default: "'30000000'"
     - closeSession:
         default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+
+  workflow:
+    - get_image_name_from_id:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port
+            - username
+            - password
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+          - image_name: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+          FAIL_VALIDATE_SSH: FAILURE
+
   outputs:
-    - image_name: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
+    - image_name
   results:
     - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE
