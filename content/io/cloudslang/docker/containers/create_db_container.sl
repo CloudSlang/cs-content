@@ -26,7 +26,7 @@ flow:
   name: create_db_container
   inputs:
     - host
-    - port
+    - port:
         required: false
     - username
     - password
@@ -38,7 +38,7 @@ flow:
             - host
             - username
             - password
-            - port
+            - port:
                 required: false
         publish:
           - error_message
