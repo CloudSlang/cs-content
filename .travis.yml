@@ -15,7 +15,6 @@ env:
  global:
    - UML_DOCKERCOMPOSE=0
    - UML_FIG=0
-   - DOCKER_STORAGE_DRIVER=aufs
 
 
 script:
