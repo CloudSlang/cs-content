@@ -12,6 +12,7 @@
 #   - host - Docker machine host
 #   - username - Docker machine username
 #   - password - Docker machine password
+#   - port - optional - SSH port
 # Outputs:
 #   - db_IP - IP of newly created container
 #   - error_message - error message of failed operation
@@ -25,6 +26,8 @@ flow:
   name: create_db_container
   inputs:
     - host
+    - port
+        required: false
     - username
     - password
   workflow:
@@ -35,6 +38,8 @@ flow:
             - host
             - username
             - password
+            - port
+                required: false
         publish:
           - error_message
 
