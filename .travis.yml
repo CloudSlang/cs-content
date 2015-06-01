@@ -15,10 +15,9 @@ env:
  global:
    - UML_DOCKERCOMPOSE=0
    - UML_FIG=0
-   - DOCKER_STORAGE_DRIVER=aufs
 
 script:
-  - curl -sLo - https://github.com/orius123/travis-docker/raw/master/install.sh | sh -xe
+  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
