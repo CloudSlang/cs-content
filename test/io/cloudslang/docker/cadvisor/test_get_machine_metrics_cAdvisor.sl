@@ -12,6 +12,7 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   cmd: io.cloudslang.base.cmd
+  print: io.cloudslang.base.print
 
 flow:
   name: test_get_machine_metrics_cAdvisor
@@ -47,6 +48,19 @@ flow:
           cadvisor.get_machine_metrics_cAdvisor:
             - host
             - cadvisor_port
+        publish:
+          - error_message: errorMessage
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: print_error_message
+
+    - print_error_message:
+        do:
+          print.print_text:
+            - text: >
+                "Operation failed with message: " + error_message
+        navigate:
+          SUCCESS: FAILURE
 
   results:
     - SUCCESS
