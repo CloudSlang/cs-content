@@ -6,14 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Set docker machine permission
+# Download docker machine binary for on Windows, OSX
 #
 # Inputs:
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
 #   - password - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file - Default: none
+#   - distro - distrebution to use can be one pf the follow: docker-machine_darwin-amd64,docker-machine_darwin-386,docker-machine_linux-amd64,docker-machine_linux-386
+#   - version - docker machine version to install default v0.2.0
 # Outputs:
 #   - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 # Results:
@@ -21,20 +22,21 @@
 #   - FAILURE - some problem occurred, more information in errorMessage output
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.install_docker_machine
+namespace: io.cloudslang.docker.docker_machine.install_docker_machine
 
 operation:
-  name: give_docker_machine_permission
+  name: download_binary
   inputs:
     - host
-    - port:
-        default: "'22'"
     - username
     - password
     - privateKeyFile:
         default: "''"
+    - distro
+    - version:
+        default: "'v0.2.0'"
     - command:
-        default: "'chmod +x /usr/local/bin/docker-machine'"
+        default: "'curl -L https://github.com/docker/machine/releases/download/'+version+'/'+distro+' > /usr/local/bin/docker-machine'"
         overridable: false
   action:
     java_action:

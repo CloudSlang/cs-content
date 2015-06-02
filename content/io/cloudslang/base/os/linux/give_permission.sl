@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Download docker machine binary for linux 64 bit
+# Set permission
 #
 # Inputs:
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
 #   - password - Docker machine password
+#   - path - to give permmition
 #   - privateKeyFile - optional - absolute path to private key file - Default: none
 # Outputs:
 #   - error_Message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
@@ -21,20 +21,19 @@
 #   - FAILURE - some problem occurred, more information in errorMessage output
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.install_docker_machine
+namespace: io.cloudslang.base.os.linux
 
 operation:
-  name: linux_download_binary
+  name: give_permission
   inputs:
     - host
-    - port:
-        default: "'22'"
     - username
     - password
+    - path
     - privateKeyFile:
         default: "''"
     - command:
-        default: "'curl -L https://github.com/docker/machine/releases/download/v0.2.0/docker-machine_linux-amd64 > /usr/local/bin/docker-machine'"
+        default: "'chmod +x '+path+''"
         overridable: false
   action:
     java_action:
