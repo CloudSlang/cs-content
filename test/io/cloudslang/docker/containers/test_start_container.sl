@@ -17,7 +17,7 @@ imports:
   print: io.cloudslang.base.print
 
 flow:
-  name: test_stop_container
+  name: test_start_container
   inputs:
     - host
     - port:
