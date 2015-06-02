@@ -46,8 +46,8 @@ flow:
                 default: docker_password
                 required: false
             - privateKeyFile:
-                default: private_key_file
-                required: false
+               default: private_key_file
+               required: false
             - port:
                 required: false
         publish:
@@ -63,8 +63,8 @@ flow:
                 default: docker_password
                 required: false
             - privateKeyFile:
-                default: private_key_file
-                required: false
+               default: private_key_file
+               required: false
             - port:
                 required: false
         publish:
