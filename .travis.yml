@@ -15,6 +15,7 @@ env:
  global:
    - UML_DOCKERCOMPOSE=0
    - UML_FIG=0
+   - JAVA_OPTS="-XX:MaxPermSize=512m"
 
 
 script:
