@@ -28,6 +28,7 @@
 #   - SUCCESS
 #   - FAILURE
 ####################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
