@@ -72,14 +72,14 @@ flow:
 
     - run_container:
         do:
-          containers.create_container:
+          containers.run_container:
             - host
             - port:
                 required: false
             - username
             - password
-            - containerName: "'xxx'"
-            - imageID: image_name_to_run
+            - container_name: "'xxx'"
+            - image_name: image_name_to_run
         publish:
           - return_result
           - error_message

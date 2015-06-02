@@ -6,41 +6,53 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of all the Docker container IDs.
+# Pulls and runs a Docker container.
 #
 # Inputs:
-#   - all_containers - adds all_container option to docker command. False by default, any input changes it to True
-#   - ps_params - option trigger to add all_containers option to docker command
+#   - image_name - Docker image that will be assigned to the container
+#   - container_name - container name
+#   - container_params - optional - command parameters
+#   - container_command - optional - container command
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - arguments - optional - arguments to pass to the command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
+#   - password - Docker machine password
+#   - privateKeyFile - absolute path to private key file - Default: none
+#   - arguments - optional - arguments to pass to command - Default: none
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_list - list containing container ID for all the Docker containers, separated by space
+#   - db_container_ID - ID of the container
+#   - error_message - error message
 # Results:
-#   - SUCCESS - SSH command succeeded
-#   - FAILURE - SSH command failed
+#   - SUCCESS
+#   - FAILURE
 ####################################################
-
 namespace: io.cloudslang.docker.containers
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
+  images: io.cloudslang.docker.images
 
 flow:
-  name: get_all_containers
+  name: run_container
   inputs:
-    - all_containers:
-        default: False
-    - ps_params:
-        default: " '-a' if bool(all_containers) else ''"
-    - command: "'docker ps -q ' + ps_params"
+    - container_name:
+        required: false
+    - container_params:
+        required: false
+    - container_command:
+        required: false
+    - image_name
+    - container_name_param:
+        default: "'--name ' + container_name + ' ' if bool(container_name) else ''"
+    - container_params_cmd:
+        default: "container_params + ' ' if bool(container_params) else ''"
+    - container_command_cmd:
+        default: "' ' + container_command if bool(container_command) else ''"
+    - command: "'docker run -d ' + container_name_param + container_params_cmd + image_name + container_command_cmd"
     - host
     - port:
         required: false
@@ -63,7 +75,7 @@ flow:
         required: false
 
   workflow:
-    - get_all_containers:
+    - run_container:
         do:
           ssh.ssh_flow:
             - host
@@ -89,7 +101,6 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - container_list: returnResult.replace("\n"," ").replace("CONTAINER","")
           - returnCode
         navigate:
           SUCCESS: SUCCESS
@@ -97,7 +108,7 @@ flow:
           FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - container_list
+    - result
   results:
     - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE

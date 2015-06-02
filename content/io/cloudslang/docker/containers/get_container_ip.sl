@@ -21,50 +21,78 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_ip - IP of the specified container
+#   - returnResult - IP of the specified container
 #   - error_message - error message
 # Results:
 #   - SUCCESS
 #   - FAILURE
 ####################################################
-
 namespace: io.cloudslang.docker.containers
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: get_container_ip
   inputs:
-    - containerName
-    - cmdParams:
-        default: "''"
-        overridable: false
+    - container_name
+    - command: >
+        "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
-    - privateKeyFile:
-        default: "''"
-    - command:
-        default: >
-            "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-        overridable: false
+    - password:
+        required: false
+    - private_key_file:
+        required: false
     - arguments:
-        default: "''"
+        required: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+    - agentForwarding:
+        required: false
+
+  workflow:
+    - get_container_ip:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+          - returnResult
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+          FAIL_VALIDATE_SSH: FAILURE
+
   outputs:
-    - container_ip: returnResult[:-1]
-    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+    - returnResult
   results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS: returnResult == '0' and (not 'Error' in STDERR)
     - FAILURE
