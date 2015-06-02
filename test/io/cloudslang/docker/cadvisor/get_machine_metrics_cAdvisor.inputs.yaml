@@ -11,6 +11,6 @@ test_get_machine_metrics_cAdvisor:
   testFlowPath: io.cloudslang.docker.cadvisor.test_get_machine_metrics_cAdvisor
   inputs:
     - host: localhost
-    - cadvisor_container_name: cadvisor1
-    - cadvisor_port: "32951"
+    - cadvisor_container_name: cadvisor2
+    - cadvisor_port: "32952"
   result: SUCCESS
