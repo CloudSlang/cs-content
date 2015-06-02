@@ -39,7 +39,7 @@ flow:
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
-          SUCCESS: validate_success_get_machine_metrics_cAdvisor
+          SUCCESS: validate_success_report_machine_metrics_cAdvisor
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - validate_success_report_machine_metrics_cAdvisor:
