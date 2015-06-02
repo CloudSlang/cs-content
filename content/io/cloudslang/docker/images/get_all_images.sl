@@ -27,12 +27,15 @@
 ####################################################
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: get_all_images
   inputs:
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password
     - privateKeyFile:
@@ -46,20 +49,42 @@ operation:
     - characterSet:
         required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'30000000'"
         required: false
     - closeSession:
         required: false
     - agentForwarding:
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+  workflow:
+    - get_images:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port
+            - username
+            - password
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+            - returnResult
+            - return_code
+            - standard_err
   outputs:
     - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
   results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR) and (not 'command not found' in STDERR) and (not 'deamon' in STDERR)
+    - SUCCESS: return_code == '0' and (not 'Error' in standard_err) and (not 'command not found' in standard_err) and (not 'deamon' in standard_err)
     - FAILURE
