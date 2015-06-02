@@ -7,10 +7,10 @@
 #
 ####################################################
 test_report_machine_metrics_cAdvisor:
-  testSuites: [cadvisor]
   description: Tests SUCCESS case
-  testFlowPath: io.cloudslang.docker.cadvisor.report_machine_metrics_cAdvisor
+  testFlowPath: io.cloudslang.docker.cadvisor.test_report_machine_metrics_cAdvisor
   inputs:
     - host: localhost
-    - cadvisor_port: "32951"
+    - cadvisor_container_name: cadvisor2
+    - cadvisor_port: "32952"
   result: SUCCESS
