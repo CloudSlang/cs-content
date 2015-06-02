@@ -23,6 +23,23 @@ flow:
 
   workflow:
 
+    - create_cAdvisor_container:
+        do:
+          cmd.run_command:
+            - command: >
+                'docker run --privileged -d --name ' + cadvisor_container_name + ' ' +
+                '--volume=/:/rootfs:ro ' +
+                '--volume=/var/run:/var/run:rw ' +
+                '--volume=/sys:/sys:ro ' +
+                '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
+                '--volume=/cgroup:/cgroup ' +
+                '--publish=' + cadvisor_port + ':8080 ' +
+                'google/cadvisor:latest'
+            - overridable: false
+        navigate:
+          SUCCESS: docker_ps
+          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+
     - docker_ps:
         do:
           cmd.run_command:
@@ -57,16 +74,6 @@ flow:
                 'docker inspect ' + cadvisor_container_name
             - overridable: false
         navigate:
-          SUCCESS: logs_container
-          FAILURE: logs_container
-
-    - logs_container:
-        do:
-          cmd.run_command:
-            - command: >
-                'docker logs ' + cadvisor_container_name
-            - overridable: false
-        navigate:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
           FAILURE: validate_success_get_container_metrics_cAdvisor
 
@@ -96,4 +103,5 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+    - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
     - PRINT_DETAILS_PROBLEM
