@@ -15,6 +15,7 @@ imports:
   maintenance: io.cloudslang.docker.maintenance
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_mysql_monitor
@@ -47,8 +48,16 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: check_mysql_is_up
+          SUCCESS: sleep
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: 5
+        navigate:
+          SUCCESS: check_mysql_is_up
+          FAILURE: FAILED_TO_SLEEP
 
     - check_mysql_is_up:
         do:
@@ -87,3 +96,4 @@ flow:
     - FAIL_TO_START_MYSQL_CONTAINER
     - MYSQL_CONTAINER_NOT_UP
     - MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
+    - FAILED_TO_SLEEP
