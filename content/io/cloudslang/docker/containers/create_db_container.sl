@@ -58,7 +58,7 @@ flow:
     - get_db_ip:
         do:
           docker_containers.get_container_ip:
-            - containerName: "'mysqldb'"
+            - container_name: "'mysqldb'"
             - host
             - username
             - password
