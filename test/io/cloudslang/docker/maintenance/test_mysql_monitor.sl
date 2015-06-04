@@ -54,7 +54,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: 8
         navigate:
           SUCCESS: check_mysql_is_up
           FAILURE: FAILED_TO_SLEEP
