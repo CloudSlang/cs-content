@@ -89,6 +89,17 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
+    - post_test_cleanup:
+             do:
+               maintenance.clear_docker_host:
+                 - docker_host: host
+                 - port:
+                     required: false
+                 - docker_username: username
+                 - docker_password: password
+             navigate:
+               SUCCESS: SUCCESS
+               FAILURE: MACHINE_IS_NOT_CLEAN
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
