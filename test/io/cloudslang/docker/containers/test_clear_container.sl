@@ -28,43 +28,43 @@ flow:
     - second_image_name
 
   workflow:
-#    - clear_docker_host_prereqeust:
-#       do:
-#         maintenance.clear_docker_host:
-#           - docker_host: host
-#           - port:
-#               required: false
-#           - docker_username: username
-#           - docker_password: password
-#       navigate:
-#         SUCCESS: pull_image
-#         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
-#
-#    - pull_image:
-#        do:
-#          images.pull_image:
-#            - host
-#            - port:
-#                required: false
-#            - username
-#            - password
-#            - image_name: first_image_name
-#        navigate:
-#          SUCCESS: pull_second
-#          FAILURE: FAIL_PULL_IMAGE
-#
-#    - pull_second:
-#        do:
-#          images.pull_image:
-#            - host
-#            - port:
-#                required: false
-#            - username
-#            - password
-#            - image_name: second_image_name
-#        navigate:
-#          SUCCESS: SUCCESS
-#          FAILURE: FAIL_PULL_IMAGE
+    - clear_docker_host_prereqeust:
+       do:
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
+       navigate:
+         SUCCESS: pull_image
+         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+
+    - pull_image:
+        do:
+          images.pull_image:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - image_name: first_image_name
+        navigate:
+          SUCCESS: pull_second
+          FAILURE: FAIL_PULL_IMAGE
+
+    - pull_second:
+        do:
+          images.pull_image:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - image_name: second_image_name
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAIL_PULL_IMAGE
 
     - run_first_container:
         do:
@@ -118,7 +118,7 @@ flow:
                 required: false
             - docker_username: username
             - docker_password: password
-            - container_ID: list
+            - container_id: list
         navigate:
           SUCCESS: verify
           FAILURE: FAILURE
@@ -143,17 +143,17 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
 
-#    - clear_docker_host:
-#        do:
-#         maintenance.clear_docker_host:
-#           - docker_host: host
-#           - port:
-#               required: false
-#           - docker_username: username
-#           - docker_password: password
-#        navigate:
-#         SUCCESS: SUCCESS
-#         FAILURE: MACHINE_IS_NOT_CLEAN
+    - clear_docker_host:
+        do:
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
+        navigate:
+         SUCCESS: SUCCESS
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
