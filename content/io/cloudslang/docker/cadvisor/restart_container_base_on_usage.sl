@@ -81,7 +81,7 @@ flow:
     - stop_container:
         do:
           docker_container.stop_container:
-            - containerID: container
+            - container_id: container
             - host
             - username
             - password
