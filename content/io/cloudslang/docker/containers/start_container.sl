@@ -57,9 +57,9 @@ flow:
     - characterSet:
         required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
         required: false
 
