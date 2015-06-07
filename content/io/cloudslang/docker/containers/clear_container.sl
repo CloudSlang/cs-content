@@ -56,7 +56,7 @@ flow:
     - delete_container:
         do:
           docker_containers.delete_container:
-            - containerID: container_ID
+            - container_id: container_ID
             - host: docker_host
             - username: docker_username
             - password:
