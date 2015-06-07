@@ -13,6 +13,7 @@ imports:
   images: io.cloudslang.docker.images
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
+  maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_pull_image
@@ -25,6 +26,17 @@ flow:
     - image_name
 
   workflow:
+    - clear_docker_host_prereqeust:
+       do:
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
+       navigate:
+         SUCCESS: pull_image
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images:
         do:
