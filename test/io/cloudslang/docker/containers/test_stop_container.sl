@@ -16,7 +16,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_run_container
+  name: test_stop_container
   inputs:
     - host
     - port:
@@ -60,44 +60,58 @@ flow:
                 required: false
             - username
             - password
-            - container_name: "'test_container'"
+            - container_name
             - image_name
+            - container_params:
+                default: "'-p 49165:22'"
+                overridable: false
         navigate:
-          SUCCESS: get_list
+          SUCCESS: stop_container
           FAILURE: FAIL_RUN_IMAGE
 
-    - get_list:
+    - stop_container:
         do:
-          images.get_used_images:
+          containers.stop_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - container_id: container_name
+        navigate:
+          SUCCESS: verify
+          FAILURE: FAILURE
+
+    - verify:
+        do:
+          containers.get_all_containers:
             - host
             - port:
                 required: false
             - username
             - password
         publish:
-          - list: image_list
-
-    - verify_output:
+          - all_containers: container_list
+    - compare:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
-            - second_string: list
+            - first_string: all_containers
+            - second_string: "''"
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: VEFIFYFAILURE
-
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
-            - docker_host: host
-            - port:
-                required: false
-            - docker_username: username
-            - docker_password: password
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: MACHINE_IS_NOT_CLEAN
+         SUCCESS: SUCCESS
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
@@ -106,8 +120,5 @@ flow:
     - PREREQUST_MACHINE_IS_NOT_CLEAN
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
-    - FAIL_GET_ALL_IMAGES
     - FAILURE
-    - FAIL_CLEAR_IMAGE
     - FAIL_RUN_IMAGE
-    - VEFIFYFAILURE
