@@ -75,7 +75,7 @@ flow:
                 required: false
             - username
             - password
-            - containerID: container_name
+            - container_id: container_name
         navigate:
           SUCCESS: get_container_names
           FAILURE: FAIL_STOP_CONTAINERS
