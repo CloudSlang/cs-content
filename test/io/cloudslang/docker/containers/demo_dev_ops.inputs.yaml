@@ -15,7 +15,7 @@ testDocker_demo_dev_ops:
     - docker_ssh_port: "49153"
     - docker_username: root
     - docker_password: screencast
-    - app_port: "39812"
+    - app_port: "49153"
     - email_host: sub-domain.domain
     - email_port: "25"
     - email_sender: user@domain
