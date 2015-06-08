@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-
 namespace: io.cloudslang.docker.containers
 
 imports:
+  maintenance: io.cloudslang.docker.maintenance
   images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
-  maintenance: io.cloudslang.docker.maintenance
+  print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_run_container
+  name: test_get_container_ip
   inputs:
     - host
     - port:
@@ -37,7 +37,7 @@ flow:
            - docker_password: password
        navigate:
          SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -60,32 +60,35 @@ flow:
                 required: false
             - username
             - password
-            - container_name: "'test_container'"
+            - container_name
             - image_name
         navigate:
-          SUCCESS: get_list
+          SUCCESS: get_ip
           FAILURE: FAIL_RUN_IMAGE
 
-    - get_list:
+    - get_ip:
         do:
-          images.get_used_images:
-            - host
-            - port:
-                required: false
-            - username
-            - password
+          containers.get_container_ip:
+           - host
+           - port:
+              required: false
+           - username
+           - password
+           - container_name
         publish:
-          - list: image_list
-
-    - verify_output:
-        do:
-          strings.string_equals:
-            - first_string: "image_name + ':latest '"
-            - second_string: list
+          - ip: returnResult
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: VEFIFYFAILURE
+          SUCCESS: validate
+          FAILURE: FAIL_GET_IP
 
+    - validate:
+        do:
+          strings.match_regex:
+            - regex: "'^\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}$'"
+            - text: ip
+        navigate:
+          MATCH: clear_docker_host
+          NO_MATCH: VEFIFYFAILURE
 
     - clear_docker_host:
         do:
@@ -101,13 +104,9 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
-    - PREREQUST_MACHINE_IS_NOT_CLEAN
+    - FAILURE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
-    - FAIL_GET_ALL_IMAGES
-    - FAILURE
-    - FAIL_CLEAR_IMAGE
     - FAIL_RUN_IMAGE
+    - FAIL_GET_IP
     - VEFIFYFAILURE

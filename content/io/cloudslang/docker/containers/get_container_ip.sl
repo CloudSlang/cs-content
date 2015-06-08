@@ -13,8 +13,8 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - privateKeyFile - optional - path to private key file
+#   - password - Docker machine password
+#   - privateKeyFile - optional - absolute path to private key file - Default: none
 #   - arguments - optional - arguments to pass to the command; Default: none
 #   - characterSet - optional - character encoding used for input stream encoding from target machine Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
@@ -43,12 +43,8 @@ operation:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
-    - command:
-        default: >
-            "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + containerName
-        overridable: false
     - arguments:
         default: "''"
     - characterSet:

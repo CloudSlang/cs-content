@@ -6,13 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_get_all_images:
+testDocker_stop_container_Success:
+  testSuites: [docker]
+  description: Tests that stop containers works
+  testFlowPath: io.cloudslang.docker.containers.test_stop_container
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
-  testSuites: [docker]
+    - container_name: test
+    - image_name: raskin/ubuntu-sshd
   result: SUCCESS

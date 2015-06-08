@@ -6,13 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_get_all_images:
+testGetImageNameFromId:
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
+    - image_id: 4d28ca7fae0c
+  description: Tests that get_image_name_from_id work correctly
+  testFlowPath: io.cloudslang.docker.images.test_get_image_name_from_id
   testSuites: [docker]
   result: SUCCESS
