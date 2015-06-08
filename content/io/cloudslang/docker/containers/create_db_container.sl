@@ -36,6 +36,8 @@ flow:
           docker_images.pull_image:
             - image_name: "'mysql'"
             - host
+            - port:
+                required: false
             - username
             - password
             - port:
@@ -50,6 +52,8 @@ flow:
             - container_name: "'mysqldb'"
             - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
+            - port:
+                required: false
             - username
             - password
         publish:
@@ -60,6 +64,8 @@ flow:
           docker_containers.get_container_ip:
             - container_name: "'mysqldb'"
             - host
+            - port:
+                required: false
             - username
             - password
         publish:
