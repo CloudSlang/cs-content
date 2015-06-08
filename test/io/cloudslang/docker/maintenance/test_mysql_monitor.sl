@@ -86,7 +86,7 @@ flow:
             - mysqlUsername: "'user'"
             - mysqlPassword: "'pass'"
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: post_test_cleanup
           FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
     - post_test_cleanup:
