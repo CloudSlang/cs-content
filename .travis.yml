@@ -17,6 +17,8 @@ env:
    - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
    - DOCKER_BACKEND_FS=host
+   - DOCKER_STORAGE_DRIVER=devicemapper
+   - BRANCH=develop
 
 
 script:
