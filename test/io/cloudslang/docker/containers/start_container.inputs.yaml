@@ -6,13 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_get_all_containers:
+testDocker_start_container_Success:
+  testSuites: [docker]
+  description: Tests that start containers works
+  testFlowPath: io.cloudslang.docker.containers.test_start_container
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
-  testSuites: [docker]
+    - image_name: raskin/ubuntu-sshd
+    - container_name: ubuntu
   result: SUCCESS

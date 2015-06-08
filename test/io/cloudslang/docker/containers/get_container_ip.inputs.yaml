@@ -6,13 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_get_all_containers:
+test_get_container_ip:
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-  description: Tests that it works
-  testFlowPath: io.cloudslang.docker.images.get_all_images
+    - image_name: raskin/ubuntu-sshd
+    - container_name: ip_test
+  description: Tests that itget_container_ip works
+  testFlowPath: io.cloudslang.docker.containers.test_get_container_ip
   testSuites: [docker]
   result: SUCCESS

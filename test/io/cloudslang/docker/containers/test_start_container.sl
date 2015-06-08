@@ -14,9 +14,10 @@ imports:
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
+  print: io.cloudslang.base.print
 
 flow:
-  name: test_run_container
+  name: test_start_container
   inputs:
     - host
     - port:
@@ -37,7 +38,7 @@ flow:
            - docker_password: password
        navigate:
          SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -60,51 +61,97 @@ flow:
                 required: false
             - username
             - password
-            - container_name: "'test_container'"
+            - container_name
             - image_name
         navigate:
-          SUCCESS: get_list
+          SUCCESS: stop_container
           FAILURE: FAIL_RUN_IMAGE
 
-    - get_list:
+    - stop_container:
         do:
-          images.get_used_images:
+          containers.stop_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - container_id: container_name
+        navigate:
+          SUCCESS: get_container_names
+          FAILURE: FAIL_STOP_CONTAINERS
+
+    - get_container_names:
+        do:
+          containers.get_container_names:
             - host
             - port:
                 required: false
             - username
             - password
         publish:
-          - list: image_list
+          - list: container_names
 
-    - verify_output:
+    - verify_all_stoped:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
+            - first_string: "''"
             - second_string: list
         navigate:
-          SUCCESS: clear_docker_host
+          SUCCESS: start_container
           FAILURE: VEFIFYFAILURE
+
+    - start_container:
+        do:
+          containers.start_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - container_id: container_name
+        navigate:
+          SUCCESS: get_running_container_names
+          FAILURE: FAILURE
+
+    - get_running_container_names:
+        do:
+          containers.get_container_names:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+        publish:
+          - list: container_names
+
+    - verify_running:
+        do:
+          strings.string_equals:
+            - first_string: container_name
+            - second_string: list
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
-            - docker_host: host
-            - port:
-                required: false
-            - docker_username: username
-            - docker_password: password
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: MACHINE_IS_NOT_CLEAN
+         SUCCESS: SUCCESS
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
-    - PREREQUST_MACHINE_IS_NOT_CLEAN
     - MACHINE_IS_NOT_CLEAN
+    - FAIL_STOP_CONTAINERS
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
     - FAILURE

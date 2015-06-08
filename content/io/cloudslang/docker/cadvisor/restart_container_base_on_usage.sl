@@ -81,7 +81,7 @@ flow:
     - stop_container:
         do:
           docker_container.stop_container:
-            - containerID: container
+            - container_id: container
             - host
             - username
             - password
@@ -96,7 +96,7 @@ flow:
         do:
           docker_container.start_container:
             - privateKeyFile
-            - containerID: container
+            - container_id: container
             - host
             - username
             - password
