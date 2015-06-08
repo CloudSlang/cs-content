@@ -31,19 +31,24 @@
 
 namespace: io.cloudslang.docker.maintenance
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+  strings: io.cloudslang.base.strings
+
+flow:
   name: check_mysql_is_up
   inputs:
     - container
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - arguments:
-        default: "''"
+        required: false
     - mysqlUsername
     - mysqlPassword
     - execCmd:
@@ -52,19 +57,44 @@ operation:
     - command:
         default: "'docker exec ' + container + ' ' + execCmd"
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
-  outputs:
-    - error_message:  STDERR if returnCode == '0' else returnResult
-  results:
-    - SUCCESS : returnCode == '0' and returnResult == 'mysqld is alive\n'
-    - FAILURE
+        required: false
+
+  workflow:
+    - check_mysql_is_up:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+          - returnResult
+
+    - verify:
+        do:
+          strings.string_equals:
+            - first_string: returnResult.replace("\n","")
+            - second_string: "'mysqld is alive'"
