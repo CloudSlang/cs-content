@@ -24,5 +24,6 @@ script:
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - df -h
-  - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -p 39812:39812 -e PORT=4444 --name docker_host_ssh bonczidai/dind-ssh &&
+  - ./run 'df -h &&
+     docker run --privileged -d -p 4444 -p 49153:22 -p 39812:39812 -e PORT=4444 --name docker_host_ssh bonczidai/dind-ssh &&
     ./cslang-builder/bin/cslang-builder -ts docker'
