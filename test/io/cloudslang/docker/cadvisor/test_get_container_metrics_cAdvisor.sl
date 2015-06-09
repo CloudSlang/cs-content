@@ -39,7 +39,11 @@ flow:
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
                 '--volume=/var/lib/docker/:/var/lib/docker:ro ' +
-                '--volume=/sys/fs/cgroup/:/cgroup ' +
+                '--volume=/sys/fs/cgroup/cpu:/cgroup/cpu ' +
+                '--volume=/sys/fs/cgroup/cpuacct:/cgroup/cpuacct ' +
+                '--volume=/sys/fs/cgroup/cpuset:/cgroup/cpuset ' +
+                '--volume=/sys/fs/cgroup/memory:/cgroup/memory ' +
+                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio ' +
                 '--publish=' + cadvisor_port + ':8080 ' +
                 'google/cadvisor:latest --logtostderr'
             - overridable: false
