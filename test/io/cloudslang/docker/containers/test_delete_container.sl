@@ -16,14 +16,13 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_run_container
+  name: test_delete_container
   inputs:
     - host
     - port:
         required: false
     - username
     - password
-    - image_name
     - container_name
 
   workflow:
@@ -37,7 +36,7 @@ flow:
            - docker_password: password
        navigate:
          SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -47,7 +46,7 @@ flow:
                 required: false
             - username
             - password
-            - image_name
+            - image_name: container_name
         navigate:
           SUCCESS: run_container
           FAILURE: FAIL_PULL_IMAGE
@@ -60,13 +59,13 @@ flow:
                 required: false
             - username
             - password
-            - container_name: "'test_container'"
-            - image_name
+            - container_name
+            - image_name: container_name
         navigate:
-          SUCCESS: get_list
+          SUCCESS: get_used_images
           FAILURE: FAIL_RUN_IMAGE
 
-    - get_list:
+    - get_used_images:
         do:
           images.get_used_images:
             - host
@@ -74,39 +73,64 @@ flow:
                 required: false
             - username
             - password
-        publish:
-          - list: image_list
+            - containerID: container_name
+        navigate:
+          SUCCESS: delete_container
+          FAILURE: FAIL_STOP_CONTAINER
 
-    - verify_output:
+    - delete_container:
+        do:
+          containers.delete_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - container_id: container_name
+        navigate:
+          SUCCESS: verify
+          FAILURE: FAILURE
+
+    - verify:
+        do:
+          containers.get_all_containers:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - all_containers: true
+        publish:
+          - all_containers: container_list
+    - compare:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
-            - second_string: list
+            - first_string: all_containers
+            - second_string: "''"
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: VEFIFYFAILURE
-
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
-            - docker_host: host
-            - port:
-                required: false
-            - docker_username: username
-            - docker_password: password
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: MACHINE_IS_NOT_CLEAN
+         SUCCESS: SUCCESS
+         FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
-    - PREREQUST_MACHINE_IS_NOT_CLEAN
+    - PREREQUISITE_MACHINE_IS_NOT_CLEAN
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
-    - FAIL_GET_ALL_IMAGES
+    - FAIL_STOP_CONTAINER
     - FAILURE
     - FAIL_CLEAR_IMAGE
     - FAIL_RUN_IMAGE
