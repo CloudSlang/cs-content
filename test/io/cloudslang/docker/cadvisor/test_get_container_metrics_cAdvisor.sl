@@ -23,6 +23,13 @@ flow:
 
   workflow:
 
+    - check_cgroup:
+        do:
+          cmd.run_command:
+            - command: >
+                'grep cgroup /proc/mounts'
+            - overridable: false
+
     - create_cAdvisor_container:
         do:
           cmd.run_command:
