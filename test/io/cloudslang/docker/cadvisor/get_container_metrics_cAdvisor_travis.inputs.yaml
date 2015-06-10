@@ -13,5 +13,5 @@ test_get_container_metrics_cAdvisor_travis:
   inputs:
     - host: localhost
     - cadvisor_port: "35769"
-    - cadvisor_container_name: cadvisor
+    - container: cadvisor
   result: SUCCESS
