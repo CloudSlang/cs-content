@@ -98,3 +98,13 @@ flow:
           strings.string_equals:
             - first_string: returnResult.replace("\n","")
             - second_string: "'mysqld is alive'"
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+
+  outputs:
+      - returnResult
+
+  results:
+    - SUCCESS
+    - FAILURE
