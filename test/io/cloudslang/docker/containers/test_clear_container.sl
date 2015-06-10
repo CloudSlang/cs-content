@@ -97,19 +97,6 @@ flow:
           SUCCESS: get_all_containers
           FAILURE: FAIL_RUN_IMAGE
 
-
-    - get_all_containers:
-        do:
-          containers.get_all_containers:
-            - host
-            - port:
-                required: false
-            - username
-            - password
-            - all_containers: true
-        publish:
-          - list: container_list
-
     - clear_container:
         do:
           containers.clear_container:
