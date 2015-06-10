@@ -25,4 +25,5 @@ script:
   - chmod +x cslang-builder/bin/cslang-builder
   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
     docker run --privileged -d -p 35769:8080 --name cadvisor --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro google/cadvisor:latest --logtostderr &&
+    docker ps -a &&
     ./cslang-builder/bin/cslang-builder -ts docker,cadvisor_travis'
