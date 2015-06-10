@@ -9,7 +9,7 @@
 test_get_container_metrics_cAdvisor_travis:
   testSuites: [cadvisor_travis]
   description: Tests SUCCESS case
-  testFlowPath: io.cloudslang.docker.cadvisor.get_container_metrics_cAdvisor
+  testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics_cAdvisor_travis
   inputs:
     - host: localhost
     - cadvisor_port: "35769"
