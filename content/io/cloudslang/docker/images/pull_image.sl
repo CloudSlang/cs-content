@@ -63,9 +63,11 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
             - command: "'docker pull ' + image_name"
