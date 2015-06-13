@@ -13,6 +13,7 @@
 #   - image_name - name of the created image from a construct like 'docker_user/image_name:tag'
 #   - tag - optional - tag of the created image from a construct like 'docker_user/image_name:tag' - Default: latest
 #   - workdir - optional - path to the directory that contains the Dockerfile
+#   - dockerfile_name - optional - name of the Dockerfile - Default: Dockerfile
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
@@ -41,6 +42,8 @@ operation:
         default: "'latest'"
     - workdir:
         default: "'.'"
+    - dockerfile_name:
+        default: "'Dockerfile'"
     - host
     - port:
         default: "'22'"
@@ -57,13 +60,17 @@ operation:
         default: "'3000000'"
     - closeSession:
         default: "'false'"
-    - docker_user_command:
+    - docker_user_expression:
         default: >
             '' if docker_user == '' else docker_user + "/"
         overridable: false
+    - dockerfile_name_expression:
+        default: >
+            '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' '
+        overridable: false
     - command:
         default: >
-            'docker build -t="' + docker_user_command + image_name + ':' + tag + '" ' + workdir
+            'docker build ' + dockerfile_name_expression + '-t="' + docker_user_expression + image_name + ':' + tag + '" ' + workdir
         overridable: false
   action:
     java_action:
