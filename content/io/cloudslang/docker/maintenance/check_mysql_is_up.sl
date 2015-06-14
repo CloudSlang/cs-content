@@ -56,6 +56,7 @@ flow:
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + execCmd"
+        overridable: false
     - characterSet:
         required: false
     - pty:
