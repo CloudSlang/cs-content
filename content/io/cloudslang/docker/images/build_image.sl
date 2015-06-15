@@ -9,20 +9,19 @@
 # Builds a Docker image based on a Dockerfile.
 #
 # Inputs:
-#   - docker_user - optional - Docker username of the created image from a construct like 'docker_user/image_name:tag' - Default: no username
-#   - image_name - name of the created image from a construct like 'docker_user/image_name:tag'
-#   - tag - optional - tag of the created image from a construct like 'docker_user/image_name:tag' - Default: latest
-#   - workdir - optional - path to the directory that contains the Dockerfile
+#   - docker_image - Docker image specifier e.g. 'docker_user/image_name:tag'
+#   - workdir - optional - path to the directory that contains the Dockerfile - Default: current directory
 #   - dockerfile_name - optional - name of the Dockerfile - Default: Dockerfile
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - path to the private key file
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
+#   - private_key_file - optional - path to the private key file
+#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - time in milliseconds to wait for command to complete - Default: 3000000 ms (50 min)
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - image_ID - ID of the created Docker image
 # Results:
@@ -32,56 +31,92 @@
 
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+  strings: io.cloudslang.base.strings
+
+flow:
   name: build_image
   inputs:
-    - docker_user:
-        default: "''"
-    - image_name
-    - tag:
-        default: "'latest'"
+    - docker_image
     - workdir:
         default: "'.'"
     - dockerfile_name:
         default: "'Dockerfile'"
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
-    - characterSet:
-        default: "'UTF-8'"
+    - character_set:
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
         default: "'3000000'"
-    - closeSession:
-        default: "'false'"
-    - docker_user_expression:
-        default: >
-            '' if docker_user == '' else docker_user + "/"
-        overridable: false
+    - close_session:
+        required: false
+    - agent_forwarding:
+        required: false
     - dockerfile_name_expression:
         default: >
             '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' '
         overridable: false
     - command:
         default: >
-            'docker build ' + dockerfile_name_expression + '-t="' + docker_user_expression + image_name + ':' + tag + '" ' + workdir
+            'docker build ' + dockerfile_name_expression + '-t="' + docker_image + '" ' + workdir
         overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+  workflow:
+    - build_image_command:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - command
+            - characterSet:
+                default: character_set
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                default: close_session
+                required: false
+            - agentForwarding:
+                default: agent_forwarding
+                required: false
+        publish:
+          - image_ID: >
+              standard_out.split('Successfully built ')[1].replace('\n', '')
+              if ('Successfully built' in standard_out) else ''
+          - standard_out
+
+    - check_occurrences:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_out
+            - string_to_find: "'Successfully built'"
+        publish:
+          - number_of_occurrences: str(return_result)
+
+    - validate_result:
+        do:
+          strings.string_equals:
+            - first_string: "'1'"
+            - second_string: number_of_occurrences
   outputs:
-    - image_ID: >
-        STDOUT.split('Successfully built ')[1].replace('\n', '')
-        if returnCode == '0' and ('Successfully built' in STDOUT)
-        else ''
+    - image_ID
   results:
-    - SUCCESS: >
-        returnCode == '0' and ('Successfully built' in STDOUT)
+    - SUCCESS
     - FAILURE
