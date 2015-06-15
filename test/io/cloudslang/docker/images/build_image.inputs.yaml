@@ -11,8 +11,7 @@ test_docker_build_image:
   description: Tests that build image operation works
   testFlowPath: io.cloudslang.docker.images.test_build_image
   inputs:
-    - docker_user: user
-    - image_name: busy
+    - docker_image: user/busy:latest # tag (e.g. :latest) needs to be specified explicitly for the wrapper flow
     - workdir: workdir
     - host: localhost
     - port: "49153"

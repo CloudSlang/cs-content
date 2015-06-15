@@ -19,17 +19,13 @@ imports:
 flow:
   name: test_build_image
   inputs:
-    - docker_user:
-        default: "''"
-    - image_name
-    - tag:
-        default: "'latest'"
+    - docker_image
+    - base_image:
+        default: "'busybox:latest'"
     - workdir:
         default: "'.'"
     - dockerfile_name:
         default: "'Dockerfile'"
-    - base_image:
-        default: "'busybox:latest'"
     - host
     - port:
         required: false
@@ -38,7 +34,15 @@ flow:
         required: false
     - private_key_file:
         required: false
+    - character_set:
+        required: false
+    - pty:
+        required: false
     - timeout:
+        required: false
+    - close_session:
+        required: false
+    - agent_forwarding:
         required: false
 
   workflow:
@@ -81,9 +85,7 @@ flow:
     - build_image:
         do:
           images.build_image:
-            - docker_user
-            - image_name
-            - tag
+            - docker_image
             - workdir
             - dockerfile_name
             - host
@@ -118,32 +120,21 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: subtract_image_set
+          SUCCESS: verify_image_exists
           FAILURE: GET_ALL_IMAGES_PROBLEM
 
-    - subtract_image_set:
-        do:
-          lists.subtract_sets:
-            - set_1: image_list
-            - set_1_delimiter: "' '"
-            - set_2: >
-                base_image + ' ' + ('' if docker_user == '' else docker_user + "/") + image_name + ':' + tag
-            - set_2_delimiter: "' '"
-            - result_set_delimiter: "' '"
-        publish:
-          - result_set
-        navigate:
-          SUCCESS: verify_empty_string
-          FAILURE: SUBTRACT_IMAGE_SET_PROBLEM
-
-    - verify_empty_string:
-        do:
-          strings.string_equals:
-            - first_string: "''"
-            - second_string: result_set
+    - verify_image_exists:
+        loop:
+          for: image in image_list.split()
+          do:
+            strings.string_equals:
+              - first_string: docker_image
+              - second_string: image
+          break:
+            - SUCCESS
         navigate:
           SUCCESS: remove_dockerfile
-          FAILURE: VERIFY_EMPTY_STRING_PROBLEM
+          FAILURE: VERIFY_IMAGE_EXISTS_PROBLEM
 
     - remove_dockerfile:
         do:
@@ -187,7 +178,6 @@ flow:
     - PRE_CLEAR_DOCKER_HOST_PROBLEM
     - CREATE_DOCKERFILE_PROBLEM
     - GET_ALL_IMAGES_PROBLEM
-    - SUBTRACT_IMAGE_SET_PROBLEM
-    - VERIFY_EMPTY_STRING_PROBLEM
+    - VERIFY_IMAGE_EXISTS_PROBLEM
     - REMOVE_DOCKERFILE_PROBLEM
     - POST_CLEAR_DOCKER_HOST_PROBLEM
