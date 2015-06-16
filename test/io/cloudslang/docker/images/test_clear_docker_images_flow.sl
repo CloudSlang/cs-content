@@ -46,7 +46,7 @@ flow:
             - port
             - username
             - password
-            - image_name1
+            - image_name: image_name1
         navigate:
           SUCCESS: pull_image2
           FAILURE: FAIL_PULL_IMAGE
@@ -58,7 +58,7 @@ flow:
             - port
             - username
             - password
-            - image_name2
+            - image_name: image_name2
         navigate:
           SUCCESS: run_container
           FAILURE: FAIL_PULL_IMAGE
@@ -71,7 +71,7 @@ flow:
             - username
             - password
             - container_name: "'test_container'"
-            - image_name1
+            - image_name: image_name1
         navigate:
           SUCCESS: get_list
           FAILURE: FAIL_RUN_CONTAINER
@@ -84,7 +84,7 @@ flow:
             - username
             - password
         publish:
-          - list: image_list
+          - image_list
         navigate:
           SUCCESS: verify_used_images
           FAILURE: FAIL_GET_USED_IMAGES
@@ -92,8 +92,8 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
-            - second_string: list
+            - first_string: "image_name1 + ':latest '"
+            - second_string: image_list
         navigate:
           SUCCESS: clear_unused_images
           FAILURE: VERIFY_USED_IMAGES_FAILURE
@@ -119,7 +119,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: amount_of_images_deleted
-            - second_string: 1
+            - second_string: 2
         navigate:
           SUCCESS: get_all_images
           FAILURE: AMOUNT_OF_IMAGES_DELETED_IS_WRONG
