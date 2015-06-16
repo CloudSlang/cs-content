@@ -18,12 +18,10 @@
 # Results:
 #   - SUCCESS - get_all_images performed successfully
 #   - FAILURE - get_all_images finished with an error
-#   - DOWNLOADFAIL - prerequest error - could not download dockerimage
-#   - VEFIFYFAILURE - failes ro verify downloaded images
-#   - DELETEFAIL - failes to delte downloaded image
+#   - DOWNLOAD_FAILURE - prerequest error - could not download dockerimage
+#   - VERIFY_FAILURE - failes ro verify downloaded images
+#   - DELETE_FAILURE - failes to delte downloaded image
 #   - MACHINE_IS_NOT_CLEAN - prerequest failes - machine is not clean
-#   - FAIL_VALIDATE_SSH - ssh connection failes
-#   - FAIL_GET_ALL_IMAGES_BEFORE - failes to verify machine images
 #
 ####################################################
 namespace: io.cloudslang.docker.images
@@ -32,6 +30,8 @@ imports:
   images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
   linux: io.cloudslang.base.os.linux
+  maintenance: io.cloudslang.docker.maintenance
+
 
 flow:
   name: test_inspect_image
@@ -43,20 +43,19 @@ flow:
     - password
     - image_name
   workflow:
-    - test_verify_no_images:
-        do:
-          images.test_verify_no_images:
-            - host
-            - port
-            - username
-            - password
-        navigate:
-          SUCCESS: hello_world_image_download
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+    - clear_docker_host_prereqeust:
+         do:
+           maintenance.clear_docker_host:
+             - docker_host: host
+             - port:
+                 required: false
+             - docker_username: username
+             - docker_password: password
+         navigate:
+           SUCCESS: pull_image
+           FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - hello_world_image_download:
+    - pull_image:
         do:
           images.pull_image:
             - host
@@ -65,32 +64,33 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: DOWNLOADFAIL
+          SUCCESS: inspect_image
+          FAILURE: DOWNLOAD_FAILURE
 
-    - get_all_images:
+    - inspect_image:
         do:
-          images.get_all_images:
+          images.inspect_image:
             - host
             - port
             - username
             - password
+            - image_name
         publish:
-            - list: image_list
+            - standard_out: standard_out
         navigate:
           SUCCESS: verify_output
           FAILURE: FAILURE
 
     - verify_output:
         do:
-          strings.string_equals:
-            - first_string: "image_name + ':latest '"
-            - second_string: list
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_out
+            - string_to_find: "'/hello'"
         navigate:
-          SUCCESS: delete_downloaded_image
-          FAILURE: VEFIFYFAILURE
+          SUCCESS: clear_after
+          FAILURE: VERIFY_FAILURE
 
-    - delete_downloaded_image:
+    - clear_after:
         do:
           images.clear_docker_images:
             - host
@@ -100,14 +100,14 @@ flow:
             - images: image_name
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: DELETEFAIL
+          FAILURE: DELETE_FAILURE
 
   results:
     - SUCCESS
     - FAILURE
-    - DOWNLOADFAIL
-    - VEFIFYFAILURE
-    - DELETEFAIL
+    - DOWNLOAD_FAILURE
+    - VERIFY_FAILURE
+    - DELETE_FAILURE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
