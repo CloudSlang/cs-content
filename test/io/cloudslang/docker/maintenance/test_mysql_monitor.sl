@@ -77,7 +77,7 @@ flow:
     - get_mysql_status:
         do:
           maintenance.get_mysql_status:
-            - container: "'mysqldb'"
+            - container: "'mysql'"
             - host
             - port:
                 required: false
