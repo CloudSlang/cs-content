@@ -12,7 +12,7 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
-#   - password - Docker machine password
+#   - password - optional - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
@@ -37,7 +37,8 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
         required: false
     - command:
@@ -61,9 +62,11 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
             - command

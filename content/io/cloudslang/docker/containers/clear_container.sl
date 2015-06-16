@@ -26,7 +26,7 @@ imports:
 flow:
   name: clear_container
   inputs:
-    - container_ID
+    - container_id
     - docker_host
     - docker_username
     - docker_password:

@@ -21,7 +21,7 @@
 #   - NOT_ENOUGH_DISKSPACE - disk space more than percentage
 ####################################################
 
-namespace: io.cloudslang.docker.maintenance
+namespace: io.cloudslang.base.os.linux
 
 imports:
  base_os_linux: io.cloudslang.base.os.linux

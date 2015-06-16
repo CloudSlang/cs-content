@@ -60,7 +60,7 @@ flow:
     - clear_all_containers:
         do:
           docker_containers.clear_container:
-            - container_ID: all_containers
+            - container_id: all_containers
             - docker_host
             - docker_username
             - docker_password:
