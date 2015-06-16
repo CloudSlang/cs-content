@@ -30,26 +30,31 @@ flow:
         required: false
     - username
     - password
+    - container_name:
+        default: "'mysql'"
+        overridable: false
+    - image_name:
+        default: "'mysql'"
+        overridable: false
   workflow:
     - pull_mysql_image:
         do:
           docker_images.pull_image:
-            - image_name: "'mysql'"
+            - image_name
             - host
             - port:
                 required: false
             - username
             - password
-            - port:
-                required: false
+
         publish:
           - error_message
 
     - create_mysql_container:
         do:
           docker_containers.run_container:
-            - image_name: "'mysql'"
-            - container_name: "'mysqldb'"
+            - image_name
+            - container_name
             - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
             - port:
@@ -62,7 +67,7 @@ flow:
     - get_db_ip:
         do:
           docker_containers.get_container_ip:
-            - container_name: "'mysqldb'"
+            - container_name
             - host
             - port:
                 required: false

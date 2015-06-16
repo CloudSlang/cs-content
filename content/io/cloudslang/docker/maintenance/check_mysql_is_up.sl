@@ -100,7 +100,7 @@ flow:
             - first_string: returnResult.replace("\n","")
             - second_string: "'mysqld is alive'"
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
           FAILURE: FAILURE
 
   outputs:
