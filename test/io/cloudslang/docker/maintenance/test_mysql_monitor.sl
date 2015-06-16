@@ -62,7 +62,7 @@ flow:
     - check_mysql_is_up:
         do:
           maintenance.check_mysql_is_up:
-            - container: "'mysqldb'"
+            - container: "'mysql'"
             - host
             - port:
                 required: false
