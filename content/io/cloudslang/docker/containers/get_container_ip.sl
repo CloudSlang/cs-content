@@ -92,7 +92,7 @@ flow:
           FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - returnResult
+    - returnResult: returnResult[:-1]
   results:
     - SUCCESS: returnResult == '0' and (not 'Error' in STDERR)
     - FAILURE

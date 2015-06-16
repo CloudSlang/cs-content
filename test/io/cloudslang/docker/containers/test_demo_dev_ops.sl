@@ -55,13 +55,8 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: SUCCESS # TODO: remove later - debugging scope
-          DB_CONTAINER_STARTUP_PROBLEM: DB_CONTAINER_STARTUP_PROBLEM
-          PULL_APP_IMAGE_PROBLEM: PULL_APP_IMAGE_PROBLEM
-          START_LINKED_CONTAINER_PROBLEM: START_LINKED_CONTAINER_PROBLEM
-          VERIFY_APP_IS_UP_PROBLEM: VERIFY_APP_IS_UP_PROBLEM
+          SUCCESS: clear_docker_host
           FAILURE: FAILURE
-          CONTAINER_DETAILS_PROBLEM: CONTAINER_DETAILS_PROBLEM
 
     - clear_docker_host:
         do:
@@ -82,8 +77,3 @@ flow:
     - SUCCESS
     - CLEAR_DOCKER_HOST_PROBLEM
     - FAILURE
-    - DB_CONTAINER_STARTUP_PROBLEM # TODO: remove later - debugging scope
-    - PULL_APP_IMAGE_PROBLEM
-    - START_LINKED_CONTAINER_PROBLEM
-    - VERIFY_APP_IS_UP_PROBLEM
-    - CONTAINER_DETAILS_PROBLEM

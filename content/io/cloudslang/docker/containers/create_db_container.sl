@@ -93,7 +93,7 @@ flow:
             - timeout:
                 required: false
         publish:
-          - container_ip
+          - container_ip: returnResult
           - error_message
 
   outputs:
