@@ -5,15 +5,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Install docker machine on Windows, OSX
+# Install docker machine 
 #
 # Inputs:
 #   - host - Docker machine host
 #   - username - Docker machine username
 #   - password - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - distro - distrebution to use can be one pf the follow: docker-machine_darwin-amd64,docker-machine_darwin-386,docker-machine_linux-amd64,docker-machine_linux-386
+#   - distro - optional - distrebution to use can be one pf the follow: docker-machine_darwin-amd64,docker-machine_darwin-386,docker-machine_linux-amd64,docker-machine_linux-386
 #   - version - docker machine version to install default v0.2.0
+#   - path - optional - path to save the docker installetion files
 # Results:
 #   - SUCCESS
 #   - FAILURE
