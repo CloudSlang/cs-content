@@ -81,15 +81,14 @@ flow:
     - get_db_ip:
         do:
           docker_containers.get_container_ip:
-            - containerName: container_name
+            - container_name
             - host
             - port:
                 required: false
             - username
             - password:
                 required: false
-            - privateKeyFile:
-                default: private_key_file
+            - private_key_file:
                 required: false
             - timeout:
                 required: false
