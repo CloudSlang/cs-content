@@ -22,7 +22,6 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- docker_maintenance: io.cloudslang.docker.maintenance
  base_os_linux: io.cloudslang.base.os.linux
  docker_images: io.cloudslang.docker.images
 
@@ -40,7 +39,7 @@ flow:
   workflow:
     - check_diskspace:
         do:
-          docker_maintenance.diskspace_health_check:
+          base_os_linux.diskspace_health_check:
             - docker_host
             - docker_username
             - docker_password
