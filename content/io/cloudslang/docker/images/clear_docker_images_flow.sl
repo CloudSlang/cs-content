@@ -63,11 +63,12 @@ flow:
           - all_images_list: image_list
     - get_used_images:
         do:
-          docker_images.get_used_images_flow:
-            - docker_host
-            - docker_username
-            - docker_password
-            - private_key_file:
+          docker_images.get_used_images:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - privateKeyFile:
+                default: private_key_file
                 required: false
             - port:
                 required: false
