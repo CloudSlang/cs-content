@@ -6,15 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_get_all_containers:
+test_report_machine_metrics_cAdvisor:
+  testSuites: [cadvisor]
+  description: Tests SUCCESS case
+  testFlowPath: io.cloudslang.docker.cadvisor.test_report_machine_metrics_cAdvisor
   inputs:
     - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - first_image_name: hello-world
-    - second_image_name: raskin/hello-world
-  description: Tests that get_all_containers operation works
-  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
-  testSuites: [docker]
+    - cadvisor_container_name: cadvisor
+    - cadvisor_port: "32951"
   result: SUCCESS

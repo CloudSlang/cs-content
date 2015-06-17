@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_get_all_containers:
+testDocker_run_container_Success:
+  testSuites: [docker]
+  description: Tests that clear containers works
+  testFlowPath: io.cloudslang.docker.containers.test_clear_container
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
     - first_image_name: hello-world
-    - second_image_name: raskin/hello-world
-  description: Tests that get_all_containers operation works
-  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
-  testSuites: [docker]
+    - second_image_name: raskin/ubuntu-sshd
   result: SUCCESS

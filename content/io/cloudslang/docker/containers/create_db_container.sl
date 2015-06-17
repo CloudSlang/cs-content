@@ -10,9 +10,14 @@
 #
 # Inputs:
 #   - host - Docker machine host
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
 #   - port - optional - SSH port
+#   - password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
+#   - container_name - optional - name of the DB container - Default: mysqldb
+#   - timeout - optional - time in milliseconds to wait for command to complete
 # Outputs:
 #   - db_IP - IP of newly created container
 #   - error_message - error message of failed operation
@@ -29,38 +34,49 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
+    - private_key_file:
+        required: false
     - container_name:
-        default: "'mysql'"
-        overridable: false
-    - image_name:
-        default: "'mysql'"
-        overridable: false
+        default: "'mysqldb'"
+    - timeout:
+        required: false
   workflow:
     - pull_mysql_image:
         do:
           docker_images.pull_image:
-            - image_name
+            - image_name: "'mysql'"
             - host
             - port:
                 required: false
             - username
-            - password
-
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout:
+                required: false
         publish:
           - error_message
 
     - create_mysql_container:
         do:
           docker_containers.run_container:
-            - image_name
+            - image_name: "'mysql'"
             - container_name
             - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
+            - timeout:
+                required: false
         publish:
           - error_message
 
@@ -72,9 +88,14 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
+            - timeout:
+                required: false
         publish:
-          - container_ip
+          - container_ip: returnResult
           - error_message
 
   outputs:
