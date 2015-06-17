@@ -41,20 +41,6 @@ flow:
 
   workflow:
 
-    - validate_linux_machine_ssh_access:
-        do:
-          base_os_linux.validate_linux_machine_ssh_access:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - port:
-                required: false
-            - timeout:
-                required: false
-
     - inspect_image:
         do:
           docker_images.inspect_image:
