@@ -107,5 +107,5 @@ flow:
       - returnResult
 
   results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS
     - FAILURE
