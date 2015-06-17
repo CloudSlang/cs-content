@@ -57,4 +57,3 @@ operation:
   results:
     - SUCCESS: return_result
     - FAILURE
-
