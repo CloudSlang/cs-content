@@ -10,15 +10,16 @@
 #
 # Inputs:
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - path to the private key file - Default: none
-#   - arguments - optional - arguments to pass to the command - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
+#   - privateKeyFile - optional - path to the private key file
+#   - arguments - optional - arguments to pass to the command
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 30000000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - dangling_image_list - list of IDs of dangling Docker images
 # Results:
@@ -28,27 +29,66 @@
 
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: get_dangling_images
   inputs:
     - host
-    - port: "'22'"
+    - port:
+        required: false
     - username
-    - password
-    - privateKeyFile: "''"
-    - command: >
-        "docker images -f \"dangling=true\" -q"
-    - arguments: "''"
-    - characterSet: "'UTF-8'"
-    - pty: "'false'"
-    - timeout: "'30000000'"
-    - closeSession: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+    - password:
+        required: false
+    - privateKeyFile:
+         required: false
+    - command:
+        default: >
+          "docker images -f \"dangling=true\" -q"
+        overridable: false
+    - arguments:
+        required: false
+    - characterSet:
+        required: false
+    - pty:
+        required: false
+    - timeout:
+        default: "'30000000'"
+        required: false
+    - closeSession:
+        required: false
+        required: false
+    - agentForwarding:
+        required: false
+
+  workflow:
+    - get_images:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+          - dangling_image_list: returnResult
+
   outputs:
-    - dangling_image_list: returnResult
-  results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
+    - dangling_image_list
