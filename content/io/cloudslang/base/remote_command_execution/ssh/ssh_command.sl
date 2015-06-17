@@ -23,6 +23,7 @@
 #    - agentForwarding - optional - the sessionObject that holds the connection if the close session is false
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#    - return_code - return code of the command
 #    - standard_out - STDOUT of the machine in case of successful request, null otherwise
 #    - standard_err - STDERR of the machine in case of successful request, null otherwise
 #    - exception - contains the stack trace in case of an exception
@@ -63,5 +64,5 @@ operation:
       - standard_err: "'' if 'STDERR' not in locals() else STDERR"
       - exception: "'' if 'exception' not in locals() else exception"
     results:
-      - SUCCESS: returnCode == '0'
+      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
       - FAILURE

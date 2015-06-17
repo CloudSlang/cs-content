@@ -20,43 +20,68 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request
+#   - standard_err - STDERR of the machine in case of successful request
 # Results:
 #   - SUCCESS
 #   - FAILURE
 ####################################################
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: inspect_image
   inputs:
-    - imageName
+    - image_name
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
-        default: "'docker inspect ' + imageName"
+        default: "'docker inspect ' + image_name"
         overridable: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+  workflow:
+    - get_used_images:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+            - standard_out
+            - standard_err
   outputs:
-     - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-     - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-  results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
+     - standard_out
+     - standard_err

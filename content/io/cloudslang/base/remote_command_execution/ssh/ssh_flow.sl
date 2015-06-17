@@ -114,12 +114,14 @@ flow:
                   required: false
           publish:
             - returnResult
+            - return_code
             - standard_out
             - standard_err
             - exception
 
     outputs:
       - returnResult
+      - return_code
       - standard_out
       - standard_err
       - exception
