@@ -12,6 +12,8 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   cmd: io.cloudslang.base.cmd
+  strings: io.cloudslang.base.strings
+
 
 flow:
   name: test_get_container_metrics_cAdvisor
@@ -50,8 +52,28 @@ flow:
             - host
             - cadvisor_port
             - container: cadvisor_container_name
+        publish:
+          - returnResult
+
+    - validate_reponse_is_not_empty:
+        do:
+          strings.string_occurrence_counter:
+              - string_in_which_to_search: returnResult
+              - string_to_find: "'cpu'"
+        navigate:
+          SUCCESS: clear_docker_host_after
+          FAILURE: VERIFY_FAILURE
+
+
+    - clear_docker_host_after:
+         do:
+           cmd.run_command:
+             - command: >
+                 'docker rm -f ' + cadvisor_container_name
+             - overridable: false
 
   results:
     - SUCCESS
     - FAILURE
     - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+    - VERIFY_FAILURE
