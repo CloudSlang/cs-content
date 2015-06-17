@@ -11,11 +11,11 @@ test_update_app_success:
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.marathon.test_update_app
   inputs:
-    - marathon_host: ec2-52-25-239-74.us-west-2.compute.amazonaws.com
-    - marathon_port: "8080"
-    - proxyHost: web-proxy.isr.hp.com
-    - proxyPort: "8080"
-    - json_file_for_creation: "C:/app.json"
-    - json_file_for_update: "C:/app.json"
-    - app_id: "test"
+    - marathon_host: [marathon host]
+    - marathon_port: [marathon port]
+    - proxyHost: [proxy host]
+    - proxyPort: [proxy port]
+    - json_file_for_creation: [path to json file that creates app]
+    - json_file_for_update: [path to json file that updates app]
+    - app_id: [app id]
   result: SUCCESS

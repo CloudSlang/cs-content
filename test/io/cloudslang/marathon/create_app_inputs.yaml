@@ -11,10 +11,10 @@ test_create_app_success:
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.marathon.test_create_app
   inputs:
-    - marathon_host: ec2-52-25-239-74.us-west-2.compute.amazonaws.com
-    - marathon_port: "8080"
-    - proxyHost: web-proxy.isr.hp.com
-    - proxyPort: "8080"
-    - json_file: "C:/app.json"
-    - app_id: "test"
+    - marathon_host: [marathon host]
+    - marathon_port: [marathon port]
+    - proxyHost: [proxy host]
+    - proxyPort: [proxy prot]
+    - json_file: [path to json file]
+    - app_id: [app id]
   result: SUCCESS

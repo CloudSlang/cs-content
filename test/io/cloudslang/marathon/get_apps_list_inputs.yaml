@@ -11,8 +11,8 @@ test_get_apps_list_success:
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.marathon.get_apps_list
   inputs:
-    - marathon_host: ec2-52-25-239-74.us-west-2.compute.amazonaws.com
-    - marathon_port: "8080"
-    - proxyHost: web-proxy.isr.hp.com
-    - proxyPort: "8080"
+    - marathon_host: [marathon host]
+    - marathon_port: [marathon port]
+    - proxyHost: [proxy host]
+    - proxyPort: [proxy port]
   result: SUCCESS
