@@ -13,6 +13,7 @@
 # Inputs:
 #   - url - URL to Jenkins
 #   - job_name - name of job to create
+#   - config_xml - configuration xml used to create a jenkins job, actual file must be passed not its path
 # Outputs:
 #   - result_message - operation results
 # Results:
@@ -27,49 +28,16 @@ operation:
   inputs:
     - url
     - job_name
+    - config_xml
   action:
     python_script: |
       try:
         from jenkinsapi.jenkins import Jenkins
+
         j = Jenkins(url, '', '')
         jobs = j.jobs
+        job = jobs.create(job_name, config_xml)
 
-        CONFIG_XML = '''<?xml version="1.0" encoding="UTF-8"?>
-        <project>
-          <actions/>
-          <description/>
-          <keepDependencies>false</keepDependencies>
-          <properties/>
-          <scm class="hudson.scm.SubversionSCM" plugin="subversion@1.54">
-            <locations>
-              <hudson.scm.SubversionSCM_-ModuleLocation>
-                <remote/>
-                <local>.</local>
-                <depthOption>infinity</depthOption>
-                <ignoreExternalsOption>false</ignoreExternalsOption>
-              </hudson.scm.SubversionSCM_-ModuleLocation>
-            </locations>
-            <excludedRegions/>
-            <includedRegions/>
-            <excludedUsers/>
-            <excludedRevprop/>
-            <excludedCommitMessages/>
-            <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
-            <ignoreDirPropChanges>false</ignoreDirPropChanges>
-            <filterChangelog>false</filterChangelog>
-          </scm>
-          <canRoam>true</canRoam>
-          <disabled>false</disabled>
-          <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-          <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-          <triggers/>
-          <concurrentBuild>false</concurrentBuild>
-          <builders/>
-          <publishers/>
-          <buildWrappers/>
-        </project>'''
-
-        job = jobs.create(job_name, CONFIG_XML)
         return_code = '0'
         result_message = 'Success'
       except:
