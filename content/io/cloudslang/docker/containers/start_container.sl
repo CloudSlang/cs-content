@@ -98,6 +98,3 @@ flow:
   outputs:
     - container_id: returnResult
     - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
-  results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
