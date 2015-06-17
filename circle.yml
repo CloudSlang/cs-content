@@ -29,7 +29,7 @@ test:
     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
     - unzip cslang-builder.zip -d cslang-builder
     - chmod +x cslang-builder/bin/cslang-builder
-    - ./cslang-builder/bin/cslang-builder
+    - ./cslang-builder/bin/cslang-builder -ts cadvisor
   post:
     - docker ps -a
 #    - docker stop $(docker ps -a -q)
