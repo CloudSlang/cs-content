@@ -75,7 +75,7 @@ flow:
             - timeout:
                 required: false
         publish:
-          - used_images_list
+          - used_images_list: image_list
 
     - subtract_used_images:
         do:
