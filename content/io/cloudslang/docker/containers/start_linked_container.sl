@@ -46,25 +46,25 @@ operation:
     - cmdParams
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password:
         required: false
     - privateKeyFile:
         required: false
     - arguments:
-        default: "''"
+        required: false
     - command:
         default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
         overridable: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
+        required: false
   action:
     java_action:
       className: io.cloudslang.content.ssh.actions.SSHShellCommandAction

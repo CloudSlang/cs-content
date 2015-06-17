@@ -45,6 +45,9 @@ flow:
         required: false
     - privateKeyFile:
         required: false
+    - command:
+        default: "'docker pull ' + image_name"
+        overridable: false
     - arguments:
         required: false
     - characterSet:
@@ -69,7 +72,7 @@ flow:
                 required: false
             - privateKeyFile:
                 required: false
-            - command: "'docker pull ' + image_name"
+            - command
             - arguments:
                 required: false
             - characterSet:

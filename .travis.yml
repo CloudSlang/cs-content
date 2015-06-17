@@ -16,9 +16,6 @@ env:
    - UML_DOCKERCOMPOSE=0
    - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
-   - BRANCH=develop
-   - DOCKER_BACKEND_FS=host
-   - DOCKER_STORAGE_DRIVER=devicemapper
 
 
 script:
@@ -26,6 +23,5 @@ script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - df -h
   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
     ./cslang-builder/bin/cslang-builder -ts docker'
