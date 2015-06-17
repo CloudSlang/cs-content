@@ -33,7 +33,7 @@ operation:
         required: false
     - container
     - url:
-        default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/docker/'+container"
+        default: "'http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/' + container"
         overridable: false
     - method:
         default: "'get'"
