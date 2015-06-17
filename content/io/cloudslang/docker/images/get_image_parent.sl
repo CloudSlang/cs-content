@@ -61,7 +61,7 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - imageName: image_name
+            - image_name
             - port:
                 required: false
             - privateKeyFile:
