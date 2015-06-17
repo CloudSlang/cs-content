@@ -14,7 +14,6 @@ imports:
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: test_get_all_containers
@@ -24,7 +23,8 @@ flow:
         required: false
     - username
     - password
-    - image_name
+    - first_image_name
+    - second_image_name
 
   workflow:
     - clear_docker_host_prereqeust:
@@ -36,10 +36,10 @@ flow:
            - docker_username: username
            - docker_password: password
        navigate:
-         SUCCESS: pull_image
+         SUCCESS: pull_first_image
          FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
-    - pull_image:
+    - pull_first_image:
         do:
           images.pull_image:
             - host
@@ -47,12 +47,26 @@ flow:
                 required: false
             - username
             - password
-            - image_name
+            - image_name: first_image_name
         navigate:
-          SUCCESS: run_container
+          SUCCESS: pull_second_image
           FAILURE: FAIL_PULL_IMAGE
 
-    - run_container:
+    - pull_second_image:
+        do:
+          images.pull_image:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - image_name: second_image_name
+        navigate:
+          SUCCESS: run_first_container
+          FAILURE: FAIL_PULL_IMAGE
+
+
+    - run_first_container:
         do:
           containers.run_container:
             - host
@@ -60,8 +74,24 @@ flow:
                 required: false
             - username
             - password
-            - container_name: "'test_container'"
-            - image_name
+            - container_name: "'first_test_container'"
+            - image_name: first_image_name
+        publish:
+          - standard_out
+        navigate:
+          SUCCESS: run_second_container
+          FAILURE: FAIL_RUN_IMAGE
+
+    - run_second_container:
+        do:
+          containers.run_container:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - container_name: "'second_test_container'"
+            - image_name: second_image_name
         publish:
           - standard_out
         navigate:
@@ -82,12 +112,13 @@ flow:
 
     - verify_list:
         do:
-          strings.match_regex:
-            - regex: "'^.............$'"
-            - text: list
+          strings.string_equals:
+            - first_string: >
+                len(list.rstrip().split(" "))
+            - second_string: 2
         navigate:
-          MATCH: clear_docker_host
-          NO_MATCH: FAILURE
+          SUCCESS: clear_docker_host
+          FAILURE: FAILURE
 
     - clear_docker_host:
         do:
