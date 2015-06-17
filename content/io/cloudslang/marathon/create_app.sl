@@ -39,7 +39,6 @@ flow:
         required: false
     - json_file
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
         default: "'8080'"

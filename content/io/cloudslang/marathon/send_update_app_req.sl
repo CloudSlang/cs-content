@@ -37,7 +37,6 @@ operation:
     - app_id
     - body
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
         default: "'8080'"

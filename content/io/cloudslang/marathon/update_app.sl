@@ -41,7 +41,6 @@ flow:
     - app_id
     - json_file
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
         default: "'8080'"
