@@ -11,14 +11,15 @@
 # Inputs:
 #   - imageID - ID of the image to be inspected
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - privateKeyFile - optional - absolute path to private key file
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - standard_out - STDOUT of the machine in case of successful request
 #   - standard_err - STDERR of the machine in case of successful request
@@ -54,6 +55,8 @@ flow:
         required: false
     - closeSession:
         required: false
+    - agent_forwarding:
+        required: false
   workflow:
     - get_used_images:
         do:
@@ -67,8 +70,6 @@ flow:
             - privateKeyFile:
                 required: false
             - command
-            - arguments:
-                required: false
             - characterSet:
                 required: false
             - pty:
