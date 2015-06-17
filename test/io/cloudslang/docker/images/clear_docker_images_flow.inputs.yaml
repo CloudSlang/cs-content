@@ -1,0 +1,21 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+test_clear_docker_images_flow_success:
+  testSuites: [docker]
+  description: Tests that clear docker images flow finishes with success
+  testFlowPath: io.cloudslang.docker.images.test_clear_docker_images_flow
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - username: root
+    - password: screencast
+    - image_name1: hello-world
+    - image_name2: busybox
+  result: SUCCESS

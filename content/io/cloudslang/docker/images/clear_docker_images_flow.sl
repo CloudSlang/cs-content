@@ -11,12 +11,14 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
-#   - private_key_file - optional - path to the private key file - Default: none
+#   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
+#   - all_parent_images
 # Outputs:
 #   - images_list_safe_to_delete - unused Docker images
 #   - amount_of_images_deleted - how many images where deleted
 #   - used_images_list - list of used Docker images
+#   - all_parent_images - list of parent images - will not be deleted
 # Results:
 #   SUCCESS - flow ends with SUCCES
 #   FAILURE - some step ended with FAILURE
@@ -26,7 +28,6 @@ namespace: io.cloudslang.docker.images
 imports:
  docker_images: io.cloudslang.docker.images
  docker_utils: io.cloudslang.docker.utils
- base_os_linux: io.cloudslang.base.os.linux
  base_lists: io.cloudslang.base.lists
  base_strings: io.cloudslang.base.strings
 
@@ -39,30 +40,21 @@ flow:
     - port:
         required: false
     - private_key_file:
-        default: "''"
+        required: false
     - timeout:
         required: false
     - all_parent_images:
-        default: "''"
+        required: false
   workflow:
-    - validate_linux_machine_ssh_access:
-        do:
-          base_os_linux.validate_linux_machine_ssh_access:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
-            - port:
-                required: false
-            - timeout:
-                required: false
     - get_all_images:
         do:
           docker_images.get_all_images:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - privateKeyFile: private_key_file
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - port:
                 required: false
             - timeout:
@@ -75,7 +67,8 @@ flow:
             - docker_host
             - docker_username
             - docker_password
-            - private_key_file
+            - private_key_file:
+                required: false
             - port:
                 required: false
             - timeout:
@@ -119,14 +112,15 @@ flow:
                 - docker_username
                 - docker_password
                 - image_name: image
-                - private_key_file
+                - private_key_file:
+                    required: false
                 - timeout:
                     required: false
                 - port:
                     required: false
             publish:
                 - all_parent_images: >
-                    fromInputs['all_parent_images'] + parent_image_name + " "
+                    fromInputs['all_parent_images'] if fromInputs['all_parent_images'] is not None else "" + parent_image_name + " "
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
@@ -144,7 +138,9 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - privateKeyFile: private_key_file
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - images: images_list_safe_to_delete
             - timeout:
                 required: false
