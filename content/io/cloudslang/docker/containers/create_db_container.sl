@@ -12,6 +12,8 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
+#   - password - Docker machine password
+#   - port - optional - SSH port
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - container_name - optional - name of the DB container - Default: mysqldb
