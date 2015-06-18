@@ -11,11 +11,10 @@ testJenkins_clone_job_for_branch_Success:
   description: Tests that clone job for branch meets its inteded purpose
   testFlowPath: io.cloudslang.jenkins.test_clone_job_for_branch
   inputs:
-    - host: 16.59.57.244 #188.166.102.7 #16.59.57.244 #localhost
-    - port: "22" #"49153"
-    - username: root #core
-    #- private_key_file: C:\id.rsa
-    - password: Xy6stqZ #screencast
+    - host: localhost
+    - port: "49153"
+    - username: root
+    - password: screencast
     - image_name: "jenkins"
     - container_name: "jenkins-container"
     - config_xml_path: "C:/config.xml"
