@@ -30,6 +30,7 @@ test:
      - unzip cslang-builder.zip -d cslang-builder
      - chmod +x cslang-builder/bin/cslang-builder
      - mkdir cslang-builder/lib/Lib
+     - sudo pip install -q -U pip
      - pip install jenkinsapi -r python-lib/requirements.txt -t cslang-builder/lib/Lib
   override:
     - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins
