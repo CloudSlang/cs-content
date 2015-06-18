@@ -98,6 +98,3 @@ flow:
 
   outputs:
     - container_list
-  results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE

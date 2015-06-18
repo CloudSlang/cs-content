@@ -40,17 +40,6 @@ flow:
         required: false
 
   workflow:
-    - validate_linux_machine_ssh_access:
-        do:
-          base_os_linux.validate_linux_machine_ssh_access:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
-            - timeout:
-                required: false
-            - port:
-                required: false
     - get_dangling_images:
         do:
           docker_images.get_dangling_images:
