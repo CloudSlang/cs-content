@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_create_app_success:
+test_create_marathon_app_success:
   testSuites: [local_marathon]
-  description: Tests SUCCESS case
+  description: Tests that a marathon application is created and that the flow finishes with SUCCESS
   testFlowPath: io.cloudslang.marathon.test_create_app
   inputs:
     - marathon_host: [marathon host]
     - marathon_port: [marathon port]
     - proxyHost: [proxy host]
-    - proxyPort: [proxy prot]
-    - json_file: [path to json file]
-    - app_id: [app id]
+    - proxyPort: [proxy port]
+    - json_file: [json file path]
+    - app_id: [app name]
   result: SUCCESS
