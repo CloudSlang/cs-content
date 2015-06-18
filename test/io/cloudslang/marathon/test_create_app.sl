@@ -12,7 +12,7 @@ namespace: io.cloudslang.marathon
 imports:
   marathon: io.cloudslang.marathon
   base_strings: io.cloudslang.base.strings
-
+  base_print: io.cloudslang.base.print
 flow:
   name: test_create_app
   inputs:
@@ -23,9 +23,57 @@ flow:
     - proxyPort:
         required: false
     - json_file
-    - app_id
+    - app_name
 
   workflow:
+    - list_initial_marathon_apps:
+        do:
+          marathon.get_apps_list:
+            - marathon_host
+            - marathon_port:
+                required: false
+            - proxyHost
+            - proxyPort:
+               required: false
+        publish:
+          - returnResult
+        navigate:
+          SUCCESS: parse_initial_response
+          FAILURE: APPS_NOT_RETRIEVED
+    - parse_initial_response:
+         do:
+           marathon.parse_get_app_list:
+             - operation_response: returnResult
+         publish:
+           - app_list
+         navigate:
+           SUCCESS: check_if_list_is_empty
+           FAILURE: PARSE_FAILURE
+    - check_if_list_is_empty:
+         do:
+            base_strings.string_equals:
+              - first_string: app_list
+              - second_string: "''"
+         navigate:
+           SUCCESS: create_marathon_app
+           FAILURE: delete_initial_apps
+    - delete_initial_apps:
+        loop:
+            for: app in app_list.split(",")
+            do:
+                marathon.delete_app:
+                    - marathon_host
+                    - marathon_port:
+                        required: false
+                    - proxyHost
+                    - proxyPort:
+                        required: false
+                    - app_id: app
+        navigate:
+          SUCCESS: create_marathon_app
+          FAILURE: FAIL_TO_DELETE
+
+
     - create_marathon_app:
          do:
            marathon.create_app:
@@ -66,7 +114,7 @@ flow:
         do:
           base_strings.string_occurrence_counter:
             - string_in_which_to_search: app_list
-            - string_to_find: app_id
+            - string_to_find: app_name
         publish:
           - return_result
         navigate:
@@ -81,7 +129,7 @@ flow:
              - proxyHost
              - proxyPort:
                 required: false
-             - app_id
+             - app_id: app_name
         navigate:
           SUCCESS: list_marathon_apps_again
           FAILURE: FAIL_TO_DELETE
