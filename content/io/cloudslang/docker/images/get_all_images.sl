@@ -19,6 +19,7 @@
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for command to complete
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - image_list - list containing REPOSITORY and TAG for all the Docker images
 # Results:
