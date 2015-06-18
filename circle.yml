@@ -32,7 +32,7 @@ test:
      - mkdir cslang-builder/lib/Lib
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
   override:
-    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins
+    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins -cov
   post:
     - docker ps -a
 #    - docker stop $(docker ps -a -q)
