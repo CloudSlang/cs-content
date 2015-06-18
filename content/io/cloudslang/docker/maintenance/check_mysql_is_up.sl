@@ -16,8 +16,8 @@
 #   - password - Docker machine password
 #   - privateKeyFile - optional - absolute path to private key file - Default: none
 #   - arguments - optional - arguments to pass to the command - Default: none
-#   - mysqlUsername - MySQL instance username
-#   - mysqlPassword - MySQL instance password
+#   - mysql_username - MySQL instance username
+#   - mysql_password - MySQL instance password
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
@@ -45,14 +45,14 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
-        required: false
     - arguments:
         required: false
-    - mysqlUsername
-    - mysqlPassword
+    - mysql_username
+    - mysql_password
+    - privateKeyFile:
+        required: false
     - execCmd:
-        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' ping'"
+        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' ping'"
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + execCmd"

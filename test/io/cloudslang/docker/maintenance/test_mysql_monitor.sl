@@ -10,11 +10,8 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
-  images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
 flow:
@@ -28,16 +25,16 @@ flow:
 
   workflow:
     - pre_test_cleanup:
-             do:
-               maintenance.clear_docker_host:
-                 - docker_host: host
-                 - port:
-                     required: false
-                 - docker_username: username
-                 - docker_password: password
-             navigate:
-               SUCCESS: start_mysql_container
-               FAILURE: MACHINE_IS_NOT_CLEAN
+         do:
+           maintenance.clear_docker_host:
+             - docker_host: host
+             - port:
+                 required: false
+             - docker_username: username
+             - docker_password: password
+         navigate:
+           SUCCESS: start_mysql_container
+           FAILURE: MACHINE_IS_NOT_CLEAN
 
     - start_mysql_container:
         do:
@@ -54,52 +51,37 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 20
-        navigate:
-          SUCCESS: check_mysql_is_up
-          FAILURE: FAILED_TO_SLEEP
-
-    - check_mysql_is_up:
-        do:
-          maintenance.check_mysql_is_up:
-            - container: "'mysql'"
-            - host
-            - port:
-                required: false
-            - username
-            - password
-            - mysqlUsername: "'user'"
-            - mysqlPassword: "'pass'"
+            - seconds: 10
         navigate:
           SUCCESS: get_mysql_status
-          FAILURE: MYSQL_CONTAINER_NOT_UP
+          FAILURE: FAILED_TO_SLEEP
 
     - get_mysql_status:
         do:
-          maintenance.get_mysql_status:
-            - container: "'mysql'"
-            - host
+          maintenance.retrieve_mysql_status:
+            - container: "'mysqldb'"
+            - host: host
             - port:
                 required: false
-            - username
-            - password
-            - mysqlUsername: "'user'"
-            - mysqlPassword: "'pass'"
+            - username: username
+            - password: password
+            - mysql_username: "'user'"
+            - mysql_password: "'pass'"
         navigate:
           SUCCESS: post_test_cleanup
           FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
     - post_test_cleanup:
-             do:
-               maintenance.clear_docker_host:
-                 - docker_host: host
-                 - port:
-                     required: false
-                 - docker_username: username
-                 - docker_password: password
-             navigate:
-               SUCCESS: SUCCESS
-               FAILURE: MACHINE_IS_NOT_CLEAN
+         do:
+           maintenance.clear_docker_host:
+             - docker_host: host
+             - port:
+                 required: false
+             - docker_username: username
+             - docker_password: password
+         navigate:
+           SUCCESS: SUCCESS
+           FAILURE: MACHINE_IS_NOT_CLEAN
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH
