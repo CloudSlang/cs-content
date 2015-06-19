@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Displays system-wide Docker information about the Swarm cluster.
+# Pulls and runs a Docker container in a Swarm cluster.
 #
 # Inputs:
 #   - swarm_manager_ip - IP address of the machine with the Swarm manager container
@@ -20,7 +20,6 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - arguments - optional - arguments to pass to command
 #   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete

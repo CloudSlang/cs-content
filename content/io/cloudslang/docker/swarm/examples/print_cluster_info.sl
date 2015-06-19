@@ -17,8 +17,8 @@
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
-#   - pty - whether to use PTY - Valid: true, false
-#   - timeout - time in milliseconds to wait for command to complete
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Results:
@@ -45,8 +45,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - arguments:
-        required: false
     - character_set:
         required: false
     - pty:
@@ -71,8 +69,6 @@ flow:
             - password:
                 required: false
             - private_key_file:
-                required: false
-            - arguments:
                 required: false
             - character_set:
                 required: false

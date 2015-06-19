@@ -17,7 +17,6 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - arguments - optional - arguments to pass to command
 #   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
@@ -52,8 +51,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - arguments:
-        required: false
     - character_set:
         required: false
     - pty:
@@ -83,8 +80,6 @@ flow:
                 required: false
             - private_key_file:
                 required: false
-            - arguments:
-                required: false
             - character_set:
                 required: false
             - pty:
@@ -108,10 +103,6 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - container_name: container_name_1
-            - container_params:
-                required: false
-            - container_command:
-                required: false
             - image_name: image_name_1
             - host
             - port:
@@ -145,8 +136,6 @@ flow:
                 required: false
             - private_key_file:
                 required: false
-            - arguments:
-                required: false
             - character_set:
                 required: false
             - pty:
@@ -170,10 +159,6 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - container_name: container_name_2
-            - container_params:
-                required: false
-            - container_command:
-                required: false
             - image_name: image_name_2
             - host
             - port:
@@ -206,8 +191,6 @@ flow:
             - password:
                 required: false
             - private_key_file:
-                required: false
-            - arguments:
                 required: false
             - character_set:
                 required: false
