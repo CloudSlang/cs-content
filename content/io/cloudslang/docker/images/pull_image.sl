@@ -66,7 +66,8 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port
+            - port:
+                required: false
             - username
             - password:
                 required: false

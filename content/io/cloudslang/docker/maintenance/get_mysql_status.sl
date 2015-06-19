@@ -16,8 +16,8 @@
 #   - password - Docker machine password
 #   - privateKeyFile - optional - absolute path to the private file - Default: none
 #   - arguments - optional - arguments to pass to the command - Default: none
-#   - mysqlUsername - MySQL instance username
-#   - mysqlPassword - MySQL instance password
+#   - mysql_username - MySQL instance username
+#   - mysql_password - MySQL instance password
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
@@ -39,39 +39,64 @@
 
 namespace: io.cloudslang.docker.maintenance
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: get_mysql_status
   inputs:
     - container
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
     - password
     - privateKeyFile:
-        default: "''"
+        required: false
     - arguments:
-        default: "''"
-    - mysqlUsername
-    - mysqlPassword
+        required: false
+    - mysql_username
+    - mysql_password
     - execCmd:
-        default: "'mysqladmin -u' + mysqlUsername + ' -p' + mysqlPassword + ' status'"
+        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' status'"
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + execCmd"
         overridable: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+  workflow:
+    - get_mysql_status:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - privateKeyFile:
+                required: false
+            - arguments:
+                required: false
+            - command
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+        publish:
+          - returnResult
+          - return_code
+          - standard_err
   outputs:
     - uptime: "returnResult.replace(':', ' ').split('  ')[1]"
     - threads: "returnResult.replace(':', ' ').split('  ')[3]"
@@ -81,7 +106,7 @@ operation:
     - flush_tables: "returnResult.replace(':', ' ').split('  ')[11]"
     - open_tables: "returnResult.replace(':', ' ').split('  ')[13]"
     - queries_per_second_AVG: "returnResult.replace(':', ' ').split('  ')[15]"
-    - error_message: STDERR if returnCode == '0' else returnResult
+    - error_message: standard_err if return_code == '0' else returnResult
   results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS
     - FAILURE

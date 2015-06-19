@@ -6,15 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_get_container_ip:
+testDocker_test_mysql_monitor:
+  testSuites: [docker]
+  description: Tests the operation that monitor a mysql container.
+  testFlowPath: io.cloudslang.docker.maintenance.test_mysql_monitor
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-    - image_name: raskin/ubuntu-sshd
-    - container_name: ip_test
-  description: Tests that get_container_ip works
-  testFlowPath: io.cloudslang.docker.containers.test_get_container_ip
-  testSuites: [docker]
   result: SUCCESS
