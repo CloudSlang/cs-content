@@ -27,7 +27,7 @@ operation:
   inputs:
     - host
     - port
-    - attempts
+    - attempts: 1
     - time_to_sleep:
         default: 1
         required: false
