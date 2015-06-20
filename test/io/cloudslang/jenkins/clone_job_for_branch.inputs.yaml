@@ -8,7 +8,7 @@
 ####################################################
 testJenkins_clone_job_for_branch_Success:
   testSuites: [jenkins]
-  description: Tests that clone job for branch meets its inteded purpose
+  description: Tests that clone job for branch meets its intended purpose
   testFlowPath: io.cloudslang.jenkins.test_clone_job_for_branch
   inputs:
     - host: localhost
