@@ -19,9 +19,9 @@
 #   - SUCCESS - get_all_images performed successfully
 #   - FAILURE - get_all_images finished with an error
 #   - DOWNLOAD_FAILURE - prerequest error - could not download dockerimage
-#   - VERIFY_FAILURE - failes ro verify downloaded images
-#   - DELETE_FAILURE - failes to delte downloaded image
-#   - MACHINE_IS_NOT_CLEAN - prerequest failes - machine is not clean
+#   - VERIFY_FAILURE - fails ro verify downloaded images
+#   - DELETE_FAILURE - fails to delete downloaded image
+#   - MACHINE_IS_NOT_CLEAN - prerequest fails - machine is not clean
 #
 ####################################################
 namespace: io.cloudslang.docker.images
