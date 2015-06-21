@@ -30,6 +30,7 @@ namespace: io.cloudslang.docker.images
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
+  strings: io.cloudslang.base.strings
 
 flow:
   name: get_all_images
@@ -87,8 +88,36 @@ flow:
             - returnResult
             - return_code
             - standard_err
+
+    - verify_no_error_in_stderr:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'Error'"
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: verify_no_command_not_found_in_stderr
+
+    - verify_no_command_not_found_in_stderr:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'command not found'"
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: verify_no_deamon_in_stderr
+
+    - verify_no_deamon_in_stderr:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'deamon'"
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: SUCCESS
+
   outputs:
     - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
   results:
-    - SUCCESS: return_code == '0' and (not 'Error' in standard_err) and (not 'command not found' in standard_err) and (not 'deamon' in standard_err)
+    - SUCCESS
     - FAILURE
