@@ -67,7 +67,9 @@ flow:
                   required: false
               - privateKeyFile:
                   required: false
-              - command: " "
+              - command:
+                  default: "' '"
+                  overridable: false
               - arguments:
                   required: false
               - characterSet:
@@ -112,12 +114,14 @@ flow:
                   required: false
           publish:
             - returnResult
+            - return_code
             - standard_out
             - standard_err
             - exception
 
     outputs:
       - returnResult
+      - return_code
       - standard_out
       - standard_err
       - exception

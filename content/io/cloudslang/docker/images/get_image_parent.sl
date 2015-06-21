@@ -12,8 +12,9 @@
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
 #   - image_name - image for which to check parents - ex: <repository>:<tag>
-#   - private_key_file - optional - path to the private key file - Default: none
+#   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
+#   - port - optional - port number for running the command
 # Outputs:
 #   - parents - parents of the specified containers
 ####################################################
@@ -32,50 +33,47 @@ flow:
     - docker_password
     - image_name
     - private_key_file:
-        default: "''"
+        required: false
     - timeout:
         required: false
     - port:
         required: false
+
   workflow:
-    - validate_linux_machine_ssh_access:
-        do:
-          base_os_linux.validate_linux_machine_ssh_access:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
-            - port:
-                required: false
-            - timeout:
-                required: false
+
     - inspect_image:
         do:
           docker_images.inspect_image:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - imageName: image_name
+            - image_name
             - port:
                 required: false
-            - privateKeyFile: private_key_file
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
         publish:
           - image_inspect_json: standard_out
+
     - get_parent:
         do:
            docker_utils.parse_inspect_for_parent:
              - json_response: image_inspect_json
         publish:
           - parent_image
+
     - get_parent_name:
         do:
            docker_images.get_image_name_from_id:
              - host: docker_host
              - username: docker_username
              - password: docker_password
-             - privateKeyFile: private_key_file
+             - privateKeyFile:
+                default: private_key_file
+                required: false
              - port:
                  required: false
              - timeout:

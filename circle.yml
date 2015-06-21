@@ -1,3 +1,12 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
 machine:
   services:
     - docker
@@ -13,14 +22,17 @@ dependencies:
 #    - mkdir -p ~/docker; docker save orius123/dind-ssh > ~/docker/image.tar
 
 test:
-#  pre:
+  pre:
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
+     - docker run -d -p 49165:8080 jenkins
+     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.38/cslang-builder.zip
+     - unzip cslang-builder.zip -d cslang-builder
+     - chmod +x cslang-builder/bin/cslang-builder
+     - mkdir cslang-builder/lib/Lib
+     - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
   override:
-    - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.28/cslang-builder.zip
-    - unzip cslang-builder.zip -d cslang-builder
-    - chmod +x cslang-builder/bin/cslang-builder
-    - ./cslang-builder/bin/cslang-builder
+    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins -cov
   post:
     - docker ps -a
 #    - docker stop $(docker ps -a -q)

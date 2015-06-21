@@ -39,58 +39,60 @@ flow:
 
   inputs:
     - container
-    - docker_host
-    - docker_username
-    - docker_password
-    - private_key_file:
-        default: "''"
+    - host
+    - port:
+        required: false
+    - username
+    - password:
+        required: false
+    - privateKeyFile:
+        required: false
     - mysql_username
     - mysql_password
 
   workflow:
-    - validate_linux_machine_ssh_access:
-            do:
-              base_os_linux.validate_linux_machine_ssh_access:
-                - host: docker_host
-                - username: docker_username
-                - password: docker_password
-                - privateKeyFile: private_key_file
-            publish:
-                - error_message
 
     - check_mysql_is_up:
-            do:
-              docker_maintenance.check_mysql_is_up:
-                - container
-                - host: docker_host
-                - username: docker_username
-                - password: docker_password
-                - privateKeyFile: private_key_file
-                - mysqlUsername: mysql_username
-                - mysqlPassword: mysql_password
-            publish:
-                - error_message
+        do:
+          docker_maintenance.check_mysql_is_up:
+            - container
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - mysql_username
+            - mysql_password
+        publish:
+            - error_message
 
     - get_mysql_status:
-            do:
-              docker_maintenance.get_mysql_status:
-                - container
-                - host: docker_host
-                - username: docker_username
-                - password: docker_password
-                - privateKeyFile: private_key_file
-                - mysqlUsername: mysql_username
-                - mysqlPassword: mysql_password
-            publish:
-                - uptime
-                - threads
-                - questions
-                - slow_queries
-                - opens
-                - flush_tables
-                - open_tables
-                - queries_per_second_AVG
-                - error_message
+        do:
+          docker_maintenance.get_mysql_status:
+            - container
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - mysql_username
+            - mysql_password
+        publish:
+            - uptime
+            - threads
+            - questions
+            - slow_queries
+            - opens
+            - flush_tables
+            - open_tables
+            - queries_per_second_AVG
+            - error_message
 
   outputs:
     - uptime
