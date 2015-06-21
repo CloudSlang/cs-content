@@ -10,9 +10,9 @@ testLinuxRestartService:
   inputs:
     - host: 16.60.201.45
     - username: alex
-    - password: 123456
+    - password: "123456"
     - service_name: rsync
   description: Tests that restart_service operation works correctly
-  testFlowPath: io.cloudslang.base.os.linux.test_restart_service
+  testFlowPath: io.cloudslang.base.os.linux.restart_service
   testSuites: [local]
   result: SUCCESS
