@@ -9,9 +9,6 @@
 namespace: io.cloudslang.base.os.linux
 
 imports:
-  images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
-  maintenance: io.cloudslang.docker.maintenance
   linux: io.cloudslang.base.os.linux
 
 flow:
@@ -25,7 +22,6 @@ flow:
     - service_name
 
   workflow:
-
     - restart_service:
         do:
           linux.restart_service:
