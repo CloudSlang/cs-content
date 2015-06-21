@@ -8,11 +8,11 @@
 ####################################################
 testLinuxRestartServer:
   inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
+    - host: # linux host to test
+    - username: # linux host username
+    - password: # linux host password
+    - sudo_user: True
   description: Tests that restart_server operation works correctly
-  testFlowPath: io.cloudslang.base.os.linux.test_restart_server
-#  testSuites: [linux]
+  testFlowPath: io.cloudslang.base.os.linux.restart_server
+  testSuites: [local]
   result: SUCCESS

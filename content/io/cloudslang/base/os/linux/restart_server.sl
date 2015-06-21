@@ -52,24 +52,23 @@ flow:
             - host
             - port:
                 required: False
-            - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + ' shutdown -r ' + timeout"
             - username
             - password
             - privateKeyFile:
                   required: false
-
         publish: 
           - STDERR: standard_err
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
-    
+
     - check_result:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: STDERR
-            - string_to_find: "'error'"
+            - string_to_find: "'shutdown'"
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
