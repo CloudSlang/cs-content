@@ -30,13 +30,11 @@ flow:
                required: false
             - username
             - password
-            - service_name: service_name
+            - service_name
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
 
   results:
     - SUCCESS
-    - FAIL_PULL_IMAGE
-    - FAIL_RUN_IMAGE
     - FAILURE
