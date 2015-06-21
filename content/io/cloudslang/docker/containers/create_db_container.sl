@@ -10,8 +10,14 @@
 #
 # Inputs:
 #   - host - Docker machine host
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
+#   - port - optional - SSH port
+#   - password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
+#   - container_name - optional - name of the DB container - Default: mysqldb
+#   - timeout - optional - time in milliseconds to wait for command to complete
 # Outputs:
 #   - db_IP - IP of newly created container
 #   - error_message - error message of failed operation
@@ -25,40 +31,71 @@ flow:
   name: create_db_container
   inputs:
     - host
+    - port:
+        required: false
     - username
-    - password
+    - password:
+        required: false
+    - private_key_file:
+        required: false
+    - container_name:
+        default: "'mysqldb'"
+    - timeout:
+        required: false
   workflow:
     - pull_mysql_image:
         do:
           docker_images.pull_image:
-            - imageName: "'mysql'"
+            - image_name: "'mysql'"
             - host
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - timeout:
+                required: false
         publish:
           - error_message
 
     - create_mysql_container:
         do:
-          docker_containers.create_container:
-            - imageID: "'mysql'"
-            - containerName: "'mysqldb'"
-            - cmdParams: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
+          docker_containers.run_container:
+            - image_name: "'mysql'"
+            - container_name
+            - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
+            - timeout:
+                required: false
         publish:
           - error_message
 
     - get_db_ip:
         do:
           docker_containers.get_container_ip:
-            - containerName: "'mysqldb'"
+            - container_name
             - host
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
+            - timeout:
+                required: false
         publish:
-          - container_ip
+          - container_ip: returnResult
           - error_message
 
   outputs:

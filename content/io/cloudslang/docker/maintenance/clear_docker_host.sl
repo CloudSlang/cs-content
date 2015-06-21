@@ -12,8 +12,8 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
+#   - private_key_file - optional - path to private key file
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
 ####################################################
@@ -46,6 +46,9 @@ flow:
             - password:
                 default: docker_password
                 required: false
+            - all_containers:
+                default: true
+                required: false
             - private_key_file:
                 required: false
             - timeout:
@@ -57,7 +60,7 @@ flow:
     - clear_all_containers:
         do:
           docker_containers.clear_container:
-            - container_ID: all_containers
+            - container_id: all_containers
             - docker_host
             - docker_username
             - docker_password:

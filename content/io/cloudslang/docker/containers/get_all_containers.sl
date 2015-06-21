@@ -6,16 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of all the Docker containers.
+# Retrieves a list of all the Docker container IDs.
 #
 # Inputs:
-#   - all_containers: adds all_container option to docker command. False by default, any input change it to True
-#   - ps_params: option trigger to add all_containers option to docker command
+#   - all_containers - adds all_container option to docker command. False by default, any input changes it to True
+#   - ps_params - option trigger to add all_containers option to docker command
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file
+#   - private_key_file - optional - path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - characterSet - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - whether to use PTY - Valid: true, false - Default: false
@@ -73,6 +73,7 @@ flow:
             - password:
                 required: false
             - privateKeyFile:
+                default: private_key_file
                 required: false
             - command
             - arguments:
@@ -97,6 +98,3 @@ flow:
 
   outputs:
     - container_list
-  results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE

@@ -14,7 +14,7 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file
+#   - privateKeyFile - optional - path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - characterSet - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
 #   - pty - whether to use PTY - Valid: true, false
@@ -45,6 +45,9 @@ flow:
         required: false
     - privateKeyFile:
         required: false
+    - command:
+        default: "'docker pull ' + image_name"
+        overridable: false
     - arguments:
         required: false
     - characterSet:
@@ -63,12 +66,14 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port
+            - port:
+                required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
-            - command: "'docker pull ' + image_name"
+            - command
             - arguments:
                 required: false
             - characterSet:
@@ -83,3 +88,6 @@ flow:
         publish:
             - return_result: returnResult
             - error_message: standard_err
+  outputs:
+    - return_result
+    - error_message

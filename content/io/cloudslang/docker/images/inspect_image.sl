@@ -11,52 +11,78 @@
 # Inputs:
 #   - imageID - ID of the image to be inspected
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - privateKeyFile - optional - absolute path to private key file
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request
+#   - standard_err - STDERR of the machine in case of successful request
 # Results:
 #   - SUCCESS
 #   - FAILURE
 ####################################################
 namespace: io.cloudslang.docker.images
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: inspect_image
   inputs:
-    - imageName
+    - image_name
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
-        default: "'docker inspect ' + imageName"
+        default: "'docker inspect ' + image_name"
         overridable: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+    - agent_forwarding:
+        required: false
+  workflow:
+    - get_used_images:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+            - agentForwarding:
+                required: false
+        publish:
+            - standard_out
+            - standard_err
   outputs:
-     - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-     - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-  results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
+     - standard_out
+     - standard_err
