@@ -14,7 +14,7 @@
 #   - email_sender - email sender
 #   - email_recipient - email recipient
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - marathon agent port - Defualt: 8080
+#   - marathon_port - optional - marathon agent port - Default: 8080
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
 #   - json_file - path to JSON of new app
