@@ -11,63 +11,36 @@ namespace: io.cloudslang.base.os.linux
 imports:
   images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
+  maintenance: io.cloudslang.docker.maintenance
   linux: io.cloudslang.base.os.linux
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  cmd: io.cloudslang.base.cmd
 
 flow:
   name: test_restart_service
   inputs:
     - host
-    - port
+    - port:
+        required: false
     - username
     - password
     - service_name
 
   workflow:
-    - start_docker:
-        do:
-          cmd.run_command:
-            - command:
-                default: "'docker run -d -p 49160:22 --name test_sshd rastasheep/ubuntu-sshd'"
-                overridable: false
-        navigate:
-          SUCCESS: restart_service
-          FAILURE: FAIL_START_DOCKER
 
     - restart_service:
         do:
           linux.restart_service:
-            - host:
-                default: "'localhost'"
-                overridable: false
+            - host
             - port:
-                default: "'49160'"
-                overridable: false
+               required: false
             - username
-            - password:
-                default: "'root'"
-                overridable: false
+            - password
             - service_name: service_name
         navigate:
-          SUCCESS: stop_test_container
-          FAILURE: FAILURE
-
-    - stop_test_container:
-        do:
-          cmd.run_command:
-            - command:
-                default: "'docker stop $(docker ps -a -q | grep -v $(docker ps -a -q -f name=docker_host_ssh))'"
-                overridable: false
-        navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAIL_STOP_CONTAINER
+          FAILURE: FAILURE
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
     - FAIL_PULL_IMAGE
-    - FAIL_START_DOCKER
-    - FAIL_STOP_CONTAINER
-    - FAIL_REMOVE_CONTAINER
+    - FAIL_RUN_IMAGE
     - FAILURE
