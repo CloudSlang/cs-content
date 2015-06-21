@@ -8,12 +8,12 @@
 ####################################################
 testLinuxRestartServer:
   inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - process_name:
-  description: Tests that restart_server operation works correctly
-  testFlowPath: io.cloudslang.base.os.linux.test_restart_server
-#  testSuites: [linux]
+    - host: 16.60.201.45
+    - username: alex
+    - password: "123456"
+    - process_name: rsyslogd
+    - sudo_user: True
+  description: Tests that restart_process operation works correctly
+  testFlowPath: io.cloudslang.base.os.linux.restart_process
+  testSuites: [local]
   result: SUCCESS

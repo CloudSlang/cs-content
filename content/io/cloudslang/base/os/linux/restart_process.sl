@@ -36,6 +36,9 @@ flow:
     - username
     - password
     - process_name
+    - sudo_user:
+        default: False
+        required: False
     - privateKeyFile:
         required: false
   
@@ -46,20 +49,20 @@ flow:
             - host
             - port:
                 required: false
-            - command: >
-                "pkill -HUP -e " + process_name
+            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - command: "sudo_command + 'pkill -HUP -e ' + process_name"
             - username
             - password
             - privateKeyFile:
                   required: false
-
-        publish: 
+        publish:
           - STDERR: standard_err
           - STDOUT: standard_out
+          - returnResult: returnResult
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
-    
+
     - check_result:
         do:
           strings.string_occurrence_counter:
