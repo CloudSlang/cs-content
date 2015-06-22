@@ -13,7 +13,7 @@
 #   - computePort - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
-#   - serverID - ID of server to be deleted
+#   - server_id - ID of server to be deleted
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -35,7 +35,7 @@ operation:
         default: "'8774'"
     - token
     - tenant
-    - serverID
+    - server_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -46,7 +46,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
+        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + server_id"
         overridable: false
     - method:
         default: "'delete'"

@@ -83,7 +83,7 @@ flow:
             - server_body: server_list
             - server_name: server_name
         publish:
-          - server_ID
+          - server_id
           - return_result
           - error_message
     - delete_server:
@@ -93,7 +93,7 @@ flow:
             - computePort: compute_port
             - token
             - tenant
-            - serverID: server_ID
+            - server_id
             - proxy_host:
                 required: false
             - proxy_port:
