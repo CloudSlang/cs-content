@@ -61,7 +61,9 @@ flow:
             - privateKeyFile:
                 required: false
         publish: 
-          - STDERR: standard_err
+          - standard_err
+          - standard_out
+          - return_result: returnResult
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
@@ -69,8 +71,13 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDERR
+            - string_in_which_to_search: standard_err
             - string_to_find: "'shutdown'"
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
+
+  outputs:
+    - standard_err
+    - standard_out
+    - return_result
