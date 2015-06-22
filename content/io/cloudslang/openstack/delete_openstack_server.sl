@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - computePort - optional - port used for OpenStack computations - Default: 8774
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - server_id - ID of server to be deleted
@@ -31,7 +31,7 @@ operation:
   name: delete_openstack_server
   inputs:
     - host
-    - computePort:
+    - compute_port:
         default: "'8774'"
     - token
     - tenant
@@ -40,13 +40,13 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host is not None else ''"
-    - proxyPort: "proxy_port if proxy_port is not None else ''"
+    - proxyHost: "proxy_host if proxy_host else ''"
+    - proxyPort: "proxy_port if proxy_port else ''"
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + server_id"
+        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant + '/servers/' + server_id"
         overridable: false
     - method:
         default: "'delete'"

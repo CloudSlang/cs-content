@@ -66,7 +66,7 @@ flow:
         do:
           openstack_content.get_openstack_servers:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
             - proxy_host:
@@ -90,7 +90,7 @@ flow:
         do:
           openstack_content.delete_openstack_server:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
             - server_id
