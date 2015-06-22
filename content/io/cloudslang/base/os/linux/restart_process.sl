@@ -71,5 +71,5 @@ flow:
             - string_in_which_to_search: STDOUT
             - string_to_find: process_name
         navigate:
-          SUCCESS
-          FAILURE
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
