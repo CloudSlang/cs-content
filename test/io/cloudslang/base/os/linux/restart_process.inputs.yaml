@@ -6,22 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Generates a new uuid.
-#
-# Outputs:
-#   - new_uuid - generated uuid
-# Results:
-#   - SUCCESS - always
-####################################################
-namespace: io.cloudslang.base.utils
-
-operation:
-  name: uuid_generator
-  action:
-    python_script: |
-      import uuid
-      new_uuid = str(uuid.uuid1())
-  outputs:
-    - new_uuid
-  results:
-    - SUCCESS
+testLinuxRestartServer:
+  inputs:
+    - host: # linux host to test
+    - username: # linux host username
+    - password: # linux host password
+    - process_name: rsyslogd
+    - sudo_user: True
+  description: Tests that restart_process operation works correctly
+  testFlowPath: io.cloudslang.base.os.linux.restart_process
+  testSuites: [linux-local]
+  result: SUCCESS

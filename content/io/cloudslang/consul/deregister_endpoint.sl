@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Defualt: 8500
+#   - consul_port - optional - Consul agent host port - Default: 8500
 #   - node - node name
 #   - address - node host
 #   - datacenter - optional - Default: matches that of the agent
