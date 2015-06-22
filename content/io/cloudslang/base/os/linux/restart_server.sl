@@ -64,9 +64,6 @@ flow:
           - standard_err
           - standard_out
           - return_result: returnResult
-        navigate:
-          SUCCESS: check_result
-          FAILURE: FAILURE
 
     - check_result:
         do:
