@@ -42,7 +42,7 @@ operation:
         return_result = 'No servers in list'
       except  ValueError:
         return_code = '-1'
-        return_result = 'Parsing error., '
+        return_result = 'Parsing error.'
 
   outputs:
     - server_id
