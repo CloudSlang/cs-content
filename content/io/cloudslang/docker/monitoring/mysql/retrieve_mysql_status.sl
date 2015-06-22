@@ -28,10 +28,10 @@
 #   - error_message - possible error message, may contain the STDERR of the machine or the cause of an exception
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.maintenance
+namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
- docker_maintenance: io.cloudslang.docker.maintenance
+ docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
  base_os_linux: io.cloudslang.base.os.linux
 
 flow:
@@ -54,7 +54,7 @@ flow:
 
     - check_mysql_is_up:
         do:
-          docker_maintenance.check_mysql_is_up:
+          docker_monitoring_mysql.check_mysql_is_up:
             - container
             - host
             - port:
@@ -71,7 +71,7 @@ flow:
 
     - get_mysql_status:
         do:
-          docker_maintenance.get_mysql_status:
+          docker_monitoring_mysql.get_mysql_status:
             - container
             - host
             - port:

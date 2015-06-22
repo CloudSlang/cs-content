@@ -22,10 +22,10 @@
 #   - email_recipient - email recipient
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.maintenance
+namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
- docker_maintenance: io.cloudslang.docker.maintenance
+ docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
  base_mail: io.cloudslang.base.mail
 
 flow:
@@ -48,7 +48,7 @@ flow:
   workflow:
     - retrieve_mysql_status:
             do:
-              docker_maintenance.retrieve_mysql_status:
+              docker_monitoring_mysql.retrieve_mysql_status:
                   - docker_host
                   - docker_username
                   - docker_password
