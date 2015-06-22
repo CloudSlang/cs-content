@@ -38,6 +38,7 @@ flow:
             - ignore_case: "'false'"
         publish:
           - return_result
+
   outputs:
     - return_result
     - error_message: "'Server was not created.' if return_result < 1 else ''"
