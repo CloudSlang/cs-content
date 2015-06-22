@@ -23,7 +23,7 @@
 namespace: io.cloudslang.base.os.linux
 
 imports:
-  ssh_command: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -46,7 +46,7 @@ flow:
   workflow:
     - process_restart:
         do:
-          ssh_command.ssh_flow:
+          ssh.ssh_flow:
             - host
             - port:
                 required: false
@@ -58,9 +58,9 @@ flow:
             - privateKeyFile:
                   required: false
         publish:
-          - STDERR: standard_err
-          - STDOUT: standard_out
-          - returnResult: returnResult
+          - standard_err
+          - standard_out
+          - return_result: returnResult
         navigate:
           SUCCESS: check_result
           FAILURE: FAILURE
@@ -68,8 +68,9 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDOUT
+            - string_in_which_to_search: standard_out
             - string_to_find: process_name
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+  outputs:
+    - standard_err
+    - standard_out
+    - return_result
