@@ -89,15 +89,6 @@ flow:
             - return_code
             - standard_err
 
-    - verify_no_error_in_stderr:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'Error'"
-        navigate:
-          SUCCESS: FAILURE
-          FAILURE: verify_no_command_not_found_in_stderr
-
     - verify_no_command_not_found_in_stderr:
         do:
           strings.string_occurrence_counter:
