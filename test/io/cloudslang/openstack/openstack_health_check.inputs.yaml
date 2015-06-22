@@ -7,7 +7,7 @@
 #
 ####################################################
 test_openstack_health_check_success:
-  testSuites: [openstack-local]
+  testSuites: [openstack]
   description: Tests that openstack health check works
   testFlowPath: io.cloudslang.openstack.openstack_health_check
   inputs:
