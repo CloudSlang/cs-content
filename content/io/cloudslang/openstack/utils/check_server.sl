@@ -41,7 +41,4 @@ flow:
   outputs:
     - return_result
     - error_message: "'Server was not created.' if return_result < 1 else ''"
-  results:
-    - SUCCESS: return_result > 0
-    - FAILURE
 
