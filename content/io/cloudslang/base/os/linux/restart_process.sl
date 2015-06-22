@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux process thrue ssh
+# This flow restart remote Linux process using ssh
 #
 #   Inputs:
 #       - host - hostname or IP address
@@ -34,7 +34,8 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
     - process_name
     - sudo_user:
         default: False
@@ -52,7 +53,8 @@ flow:
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'pkill -HUP -e ' + process_name"
             - username
-            - password
+            - password:
+                required: False
             - privateKeyFile:
                   required: false
         publish:
@@ -69,5 +71,5 @@ flow:
             - string_in_which_to_search: STDOUT
             - string_to_find: process_name
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          SUCCESS
+          FAILURE
