@@ -9,7 +9,7 @@
 # Generates a new uuid.
 #
 # Outputs:
-#   - new_uuid - genarated uuid
+#   - new_uuid - generated uuid
 # Results:
 #   - SUCCESS - always
 ####################################################

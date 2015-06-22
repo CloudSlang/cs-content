@@ -14,7 +14,7 @@
 #   - private_key_file - path to the private key file - Default: none
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
-#   - machines_public_ip_list: space delimeted list of public IP addresses of machines in cluster
+#   - machines_public_ip_list: space delimited list of public IP addresses of machines in cluster
 #####################################################
 
 namespace: io.cloudslang.coreos

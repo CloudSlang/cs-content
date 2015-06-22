@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - app_id - app ID to update
 #   - json_file - path to JSON of the app
 #   - proxyHost - optional - proxy host - Default: none
