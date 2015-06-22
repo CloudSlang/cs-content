@@ -29,7 +29,7 @@
 #   - FAILURE - some problem occurred, more information in errorMessage output
 ##################################################################################################################################################
 
-namespace: io.cloudslang.docker.maintenance
+namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh

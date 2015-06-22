@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux host thrue ssh
+# This flow restart remote Linux host using ssh
 #
 #   Inputs:
 #       - host - hostname or IP address
