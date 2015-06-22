@@ -14,5 +14,5 @@ testLinuxRestartServer:
     - sudo_user: True
   description: Tests that restart_server operation works correctly
   testFlowPath: io.cloudslang.base.os.linux.restart_server
-  testSuites: [local]
+  testSuites: [linux-local]
   result: SUCCESS

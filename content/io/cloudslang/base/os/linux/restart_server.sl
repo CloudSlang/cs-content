@@ -36,14 +36,15 @@ flow:
     - port:
         required: False
     - username
-    - password
+    - password:
+        required: false
     - timeout:
         default: "'now'"
     - sudo_user:
         default: False
         required: False
     - privateKeyFile:
-          required: false
+        required: false
   
   workflow:
     - server_restart:
@@ -55,9 +56,10 @@ flow:
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + ' shutdown -r ' + timeout"
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
-                  required: false
+                required: false
         publish: 
           - STDERR: standard_err
         navigate:
