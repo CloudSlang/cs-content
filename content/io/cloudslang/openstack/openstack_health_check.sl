@@ -51,9 +51,9 @@ flow:
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
     - server_name:
         default: "'test-server'"
     - email_host
@@ -73,10 +73,13 @@ flow:
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
+
     - validate_server_exists:
         do:
           openstack_content.validate_server_exists:
@@ -87,8 +90,10 @@ flow:
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
     - delete_server:
@@ -101,8 +106,10 @@ flow:
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"
     - on_failure:

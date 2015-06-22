@@ -42,9 +42,9 @@ flow:
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - get_token:
         do:
@@ -54,8 +54,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - response_body: return_result
           - return_code

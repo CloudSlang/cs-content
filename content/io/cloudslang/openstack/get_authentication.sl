@@ -38,11 +38,11 @@ operation:
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
-    - proxyHost: "proxy_host if proxy_host != '' else ''"
-    - proxyPort: "proxy_port if proxy_port != '' else ''"
+        required: false
+    - proxyHost: "proxy_host if proxy_host is not None else ''"
+    - proxyPort: "proxy_port if proxy_port is not None else ''"
     - url:
         default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
         overridable: false

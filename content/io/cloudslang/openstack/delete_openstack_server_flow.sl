@@ -41,9 +41,9 @@ flow:
     - tenant_name
     - server_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - authentication:
         do:
@@ -53,8 +53,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -67,8 +69,10 @@ flow:
             - computePort: compute_port
             - token
             - tenant
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - server_list: return_result
           - return_result
@@ -90,8 +94,10 @@ flow:
             - token
             - tenant
             - serverID: server_ID
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - return_result
           - error_message

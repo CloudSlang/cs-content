@@ -45,9 +45,9 @@ flow:
     - tenant_name
     - server_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - authentication:
         do:
@@ -57,8 +57,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -74,8 +76,10 @@ flow:
             - imgRef: img_ref
             - networkID: network_ID
             - serverName: server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - return_result
           - error_message
