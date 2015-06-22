@@ -44,9 +44,9 @@ flow:
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - authentication:
         do:
@@ -56,8 +56,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -68,11 +70,13 @@ flow:
         do:
           openstack_content.get_openstack_servers:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - response_body: return_result
           - return_result: return_result
