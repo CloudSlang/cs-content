@@ -10,7 +10,7 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
-  containers: io.cloudslang.docker.containers
+  docker_containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
   docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
   utils: io.cloudslang.base.utils
@@ -39,7 +39,7 @@ flow:
 
     - start_mysql_container:
         do:
-          containers.create_db_container:
+          docker_containers_examples.create_db_container:
             - host
             - port:
                 required: false
