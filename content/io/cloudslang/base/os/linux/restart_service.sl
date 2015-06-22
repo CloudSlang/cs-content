@@ -59,16 +59,19 @@ flow:
                 required: false
 
         publish: 
-          - STDERR: standard_err
-        navigate:
-          SUCCESS: check_result
-          FAILURE: FAILURE
-    
+          - standard_err
+          - standard_out
+          - return_result: returnResult
+
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDERR
+            - string_in_which_to_search: standard_err
             - string_to_find: service_name
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
+  outputs:
+    - standard_err
+    - standard_out
+    - return_result
