@@ -34,7 +34,8 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: False
     - service_name
     - sudo_user:
         default: False
@@ -52,9 +53,10 @@ flow:
             - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'service ' + service_name + ' restart'"
             - username
-            - password
+            - password:
+                required: False
             - privateKeyFile:
-                  required: false
+                required: false
 
         publish: 
           - STDERR: standard_err

@@ -14,5 +14,5 @@ testLinuxRestartService:
     - service_name: rsync
   description: Tests that restart_service operation works correctly
   testFlowPath: io.cloudslang.base.os.linux.restart_service
-  testSuites: [local]
+  testSuites: [linux-local]
   result: SUCCESS
