@@ -13,7 +13,7 @@
 #   - server_list - list of servers
 # Outputs:
 #   - return_result - string notifying if server was found or not
-#   - return_code - 0 if server was found, -1 otherwise
+#   - error_message - message of the error if exists
 # Results:
 #   - SUCCESS - server was found
 #   - FAILURE - otherwise
