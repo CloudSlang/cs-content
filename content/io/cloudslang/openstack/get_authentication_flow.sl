@@ -18,7 +18,7 @@
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - token - authentication token
-#   - tenant - tenantID
+#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
 # Results:
@@ -50,7 +50,7 @@ flow:
         do:
           openstack_content.get_authentication:
             - host
-            - identityPort: identity_port
+            - identity_port
             - username
             - password
             - tenant_name
