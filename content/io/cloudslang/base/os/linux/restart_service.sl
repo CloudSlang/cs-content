@@ -71,6 +71,7 @@ flow:
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
+
   outputs:
     - standard_err
     - standard_out
