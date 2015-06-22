@@ -37,7 +37,7 @@ flow:
         default: "'5000'"
     - compute_port:
         default: "'8774'"
-    - network_ID:
+    - network_id:
         default: "''"
     - img_ref
     - username
@@ -70,12 +70,13 @@ flow:
         do:
           openstack_content.create_openstack_server:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - imgRef: img_ref
-            - networkID: network_ID
-            - serverName: server_name
+            - img_ref
+            - network_id:
+                required: false
+            - server_name
             - proxy_host:
                 required: false
             - proxy_port:
