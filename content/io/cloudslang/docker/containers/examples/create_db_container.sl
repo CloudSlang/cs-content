@@ -22,7 +22,7 @@
 #   - db_IP - IP of newly created container
 #   - error_message - error message of failed operation
 ####################################################
-namespace: io.cloudslang.docker.containers
+namespace: io.cloudslang.docker.containers.examples
 
 imports:
  docker_images: io.cloudslang.docker.images
