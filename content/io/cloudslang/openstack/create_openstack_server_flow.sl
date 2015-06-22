@@ -38,7 +38,7 @@ flow:
     - compute_port:
         default: "'8774'"
     - network_id:
-        default: "''"
+        required: false
     - img_ref
     - username
     - password

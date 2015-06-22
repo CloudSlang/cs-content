@@ -41,11 +41,12 @@ flow:
   inputs:
     - host
     - identity_port:
-        default: "'5000'"
+        required: false
     - compute_port:
-        default: "'8774'"
+        required: false
     - network_id:
-        default: "''"
+        required: false
+    - server_name
     - img_ref
     - username
     - password
@@ -54,8 +55,6 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - server_name:
-        default: "'test-server'"
     - email_host
     - email_port
     - to
@@ -65,9 +64,12 @@ flow:
         do:
           openstack_content.create_openstack_server_flow:
             - host
-            - identity_port
-            - compute_port
-            - network_id
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
+            - network_id:
+                required: false
             - img_ref
             - username
             - password
@@ -84,8 +86,10 @@ flow:
         do:
           openstack_content.validate_server_exists:
             - host
-            - identity_port
-            - compute_port
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
             - username
             - password
             - tenant_name
@@ -100,8 +104,10 @@ flow:
         do:
           openstack_content.delete_openstack_server_flow:
             - host
-            - identity_port
-            - compute_port
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
             - username
             - password
             - tenant_name
