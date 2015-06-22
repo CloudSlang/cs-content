@@ -21,7 +21,7 @@
 #   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.docker.containers
+namespace: io.cloudslang.docker.containers.examples
 
 imports:
  docker_containers: io.cloudslang.docker.containers
