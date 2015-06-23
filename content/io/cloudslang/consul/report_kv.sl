@@ -10,7 +10,7 @@
 #
 #  Inputs:
 #    - host - Consul agent host
-#    - consul_port - optional - Consul agent port - Defualt: 8500
+#    - consul_port - optional - Consul agent port - Default: 8500
 #    - key_name - name of key to retrieve
 #  Outputs:
 #    - decoded - parsed response

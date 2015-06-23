@@ -19,11 +19,11 @@
 #   - SUCCESS - get_all_images performed successfully
 #   - FAILURE - get_all_images finished with an error
 #   - DOWNLOADFAIL - prerequest error - could not download dockerimage
-#   - VEFIFYFAILURE - failes ro verify downloaded images
-#   - DELETEFAIL - failes to delte downloaded image
-#   - MACHINE_IS_NOT_CLEAN - prerequest failes - machine is not clean
-#   - FAIL_VALIDATE_SSH - ssh connection failes
-#   - FAIL_GET_ALL_IMAGES_BEFORE - failes to verify machine images
+#   - VEFIFYFAILURE - fails ro verify downloaded images
+#   - DELETEFAIL - fails to delete downloaded image
+#   - MACHINE_IS_NOT_CLEAN - prerequest fails - machine is not clean
+#   - FAIL_VALIDATE_SSH - ssh connection fails
+#   - FAIL_GET_ALL_IMAGES_BEFORE - fails to verify machine images
 #
 ####################################################
 namespace: io.cloudslang.docker.images

@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status and performs restart to the container if the resourse usage is too high.
+# Retrieves cAdvisor status and performs restart to the container if the resource usage is too high.
 #
 # Inputs:
 #   - container - name or ID of Docker container that runs MySQL

@@ -41,21 +41,20 @@ flow:
   inputs:
     - host
     - identity_port:
-        default: "'5000'"
+        required: false
     - compute_port:
-        default: "'8774'"
-    - network_ID:
-        default: "''"
+        required: false
+    - network_id:
+        required: false
+    - server_name
     - img_ref
     - username
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
-    - server_name:
-        default: "'test-server'"
+        required: false
     - email_host
     - email_port
     - to
@@ -65,44 +64,58 @@ flow:
         do:
           openstack_content.create_openstack_server_flow:
             - host
-            - identity_port
-            - compute_port
-            - network_ID
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
+            - network_id:
+                required: false
             - img_ref
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
+
     - validate_server_exists:
         do:
           openstack_content.validate_server_exists:
             - host
-            - identity_port
-            - compute_port
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
     - delete_server:
         do:
           openstack_content.delete_openstack_server_flow:
             - host
-            - identity_port
-            - compute_port
+            - identity_port:
+                required: false
+            - compute_port:
+                required: false
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"
     - on_failure:

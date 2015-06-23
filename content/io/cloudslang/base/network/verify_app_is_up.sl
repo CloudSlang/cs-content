@@ -9,6 +9,7 @@
 # Checks if an application is up and running.
 #
 # Inputs:
+#   - ssl - specify whether the host is over SSL or not
 #   - host - IP where the application is running
 #   - port - port on which the application is listening
 #   - attempts - attempts to reach host
@@ -25,9 +26,10 @@ namespace: io.cloudslang.base.network
 operation:
   name: verify_app_is_up
   inputs:
+    - ssl: 0
     - host
     - port
-    - attempts
+    - attempts: 1
     - time_to_sleep:
         default: 1
         required: false
@@ -36,7 +38,10 @@ operation:
       import urllib2
       import time
       message = 'Application is not up after ' + str(attempts) + ' attempts to ping.'
-      url = "http://" + host + ":" + port
+      if ssl == '1':
+        url = "https://" + host + ":" + port
+      else:
+        url = "http://" + host + ":" + port
       count = 0
       return_result = False
       while (( count < int(attempts) ) and ( not return_result )):
@@ -57,4 +62,3 @@ operation:
   results:
     - SUCCESS: return_result
     - FAILURE
-

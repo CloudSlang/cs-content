@@ -20,7 +20,7 @@ testVerifyAppIsUp_Failure_unreachable_host:
     - host: 260.1.1.1
     - port: '80'
     - attempts: '1'
-  description: Tests that verify_app_is_up.sl operation failes with unreacheble input data
+  description: Tests that verify_app_is_up.sl operation fails with unreacheble input data
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: FAILURE
 
@@ -29,7 +29,7 @@ testVerifyAppIsUp_Failure_0_attepts:
     - host: 64.233.177.113
     - port: '80'
     - attempts: '0'
-  description: Tests that verify_app_is_up.sl operation failes with 0 attempts
+  description: Tests that verify_app_is_up.sl operation fails with 0 attempts
   testFlowPath: io.cloudslang.base.network.verify_app_is_up
   result: FAILURE
 

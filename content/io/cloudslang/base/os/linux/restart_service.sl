@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux service thrue ssh
+# This flow restart remote Linux service using ssh
 #
 #   Inputs:
 #       - host - hostname or IP address
@@ -31,35 +31,48 @@ flow:
 
   inputs:
     - host
+    - port:
+        required: false
     - username
-    - password
+    - password:
+        required: False
     - service_name
+    - sudo_user:
+        default: False
+        required: False
     - privateKeyFile:
-          required: false
+        required: false
   
   workflow:
     - service_restart:
         do:
-          ssh_command.ssh_command:
+          ssh_command.ssh_flow:
             - host
-            - command: >
-                "service " + service_name + " restart"
+            - port:
+                required: false
+            - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - command: "sudo_command + 'service ' + service_name + ' restart'"
             - username
-            - password
+            - password:
+                required: False
             - privateKeyFile:
-                  required: false
+                required: false
 
         publish: 
-          - STDERR: standard_err
-        navigate:
-          SUCCESS: check_result
-          FAILURE: FAILURE
-    
+          - standard_err
+          - standard_out
+          - return_result: returnResult
+
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDERR
+            - string_in_which_to_search: standard_err
             - string_to_find: service_name
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
+
+  outputs:
+    - standard_err
+    - standard_out
+    - return_result
