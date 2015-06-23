@@ -1,0 +1,23 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_consul_keys_Success:
+  testSuites: [consul]
+  description: Tests that a consul key can be created, retrieved, parsed and deleted. Test flow must end with SUCCESS and contain specified outputs
+  testFlowPath: io.cloudslang.consul.test_consul_keys
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - username: root
+    - password: screencast
+    - key_name: testkey
+  result: SUCCESS
+  outputs:
+    - key: "testkey"
+    - value: null
+    - flags: "0"
