@@ -9,12 +9,10 @@
 testDocker_run_container_Success:
   testSuites: [docker]
   description: Tests that demo_clear_containers_wrapper works
-  testFlowPath: io.cloudslang.docker.containers.demo_clear_containers_wrapper
+  testFlowPath: io.cloudslang.docker.containers.test_demo_clear_containers_wrapper
   inputs:
-    - db_container_ID
-    - linked_container_ID
-    - docker_host: localhost
+    - host: localhost
     - port: "49153"
-    - docker_username: root
-    - docker_password: screencast
+    - username: root
+    - password: screencast
   result: SUCCESS
