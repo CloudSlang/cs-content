@@ -13,6 +13,7 @@ imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   consul: io.cloudslang.consul
   base_utils: io.cloudslang.base.utils
+  maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_consul_keys
