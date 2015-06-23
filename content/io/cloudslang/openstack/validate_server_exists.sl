@@ -43,9 +43,9 @@ flow:
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
     - server_name
   workflow:
     - get_server_list:
@@ -57,8 +57,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - server_list
           - return_result

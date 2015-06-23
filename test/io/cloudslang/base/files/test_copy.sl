@@ -17,6 +17,14 @@ flow:
     - copy_source
     - copy_destination
   workflow:
+    - create_file_to_be_copied:
+        do:
+          files.write_to_file:
+            - file_path: copy_source
+            - text: "'text-to-be-copied'"
+        navigate:
+          SUCCESS: test_copy_operation
+          FAILURE: CREATEFAILURE
     - test_copy_operation:
         do:
           files.copy:
@@ -24,13 +32,27 @@ flow:
             - destination: copy_destination
         navigate:
           SUCCESS: delete_copied_file
-          FAILURE: COPYFAILURE
+          FAILURE: delete_created_file_after_copy_failure
         publish:
           - message
+    - delete_created_file_after_copy_failure:
+        do:
+          files.delete:
+            - source: copy_source
+        navigate:
+          SUCCESS: COPYFAILURE
+          FAILURE: DELETEFAILURE
     - delete_copied_file:
         do:
           files.delete:
             - source: copy_destination
+        navigate:
+          SUCCESS: delete_created_file
+          FAILURE: DELETEFAILURE
+    - delete_created_file:
+        do:
+          files.delete:
+            - source: copy_source
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
@@ -40,6 +62,7 @@ flow:
 
   results:
     - SUCCESS
+    - CREATEFAILURE
     - COPYFAILURE
     - DELETEFAILURE
 

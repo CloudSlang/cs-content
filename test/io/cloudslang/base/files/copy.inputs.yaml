@@ -8,54 +8,54 @@
 ####################################################
 #tests here fail when running from a different place that content repo root
 
-#testCopySuccess:
-#  inputs:
-#    - copy_source: README.md
-#    - copy_destination: README2.md
-#  description: Tests that copy.sl finishes with SUCCESS when inputs are valid file paths
-#  testFlowPath: io.cloudslang.base.files.test_copy
-#  result: SUCCESS
+testCopySuccess:
+  inputs:
+    - copy_source: will_be_created
+    - copy_destination: copied
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid file paths
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: SUCCESS
 
 testCopyFailure:
   inputs:
-    - copy_source: README1.md
-    - copy_destination: README2.md
+    - source: should_not_exist
+    - destination: wont_be_copied
   description: Tests that copy.sl finishes with FAILURE when source file does not exist
-  testFlowPath: io.cloudslang.base.files.test_copy
-  result: COPYFAILURE
+  testFlowPath: io.cloudslang.base.files.copy
+  result: FAILURE
 
 testCopyFailureIllegal:
   inputs:
-    - copy_source: README.md
+    - copy_source: will_be_created
     - copy_destination: abc/RE\0AD*ME2.md
   description: Tests that copy.sl finishes with FAILURE when destination file path contains unallowed characters
   testFlowPath: io.cloudslang.base.files.test_copy
   result: COPYFAILURE
 
-#testCopyFolderSuccess:
-#  inputs:
-#    - copy_source: test
-#    - copy_destination: test2
-#  description: Tests that copy.sl finishes with SUCCESS when inputs are valid folder paths
-#  testFlowPath: io.cloudslang.base.files.test_copy
-#  result: SUCCESS
+testCopyFolderSuccess:
+  inputs:
+    - copy_source: newfolder
+    - copy_destination: foldercopy
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid folder paths
+  testFlowPath: io.cloudslang.base.files.test_copy_folder
+  result: SUCCESS
 
 testCopyFolderFailure:
   inputs:
-    - copy_source: inexistentfolder
-    - copy_destination: path
+    - source: inexistentfolder
+    - destination: willnotbecopied
   description: Tests that copy.sl finishes with FAILURE when source folder does not exist
-  testFlowPath: io.cloudslang.base.files.test_copy
-  result: COPYFAILURE
+  testFlowPath: io.cloudslang.base.files.copy
+  result: FAILURE
 
 #fails on linux
 
 #testCopyFolderFailureIllegal:
 #  inputs:
-#    - copy_source: test
-#    - copy_destination: i/0nexist\0en*tpath/folder
+#    - copy_source: willbecreated
+#    - copy_destination: i/0nexist\0en*tpath/fol/der
 #  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
-#  testFlowPath: io.cloudslang.base.files.test_copy
+#  testFlowPath: io.cloudslang.base.files.test_copy_folder
 #  result: COPYFAILURE
 
 testCopyException:

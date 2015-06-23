@@ -13,10 +13,9 @@
 #   - coreos_username - CoreOS machine username
 #   - private_key_file - path to the private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50% - Default: 0%
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - number_of_deleted_images_per_host - how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
-#   - error_message - possible error message
 ####################################################
 
 namespace: io.cloudslang.coreos
@@ -54,7 +53,6 @@ flow:
             - timeout
         publish:
             - machines_public_ip_list
-            - error_message
 
     - loop_docker_images_maintenance:
           loop:
@@ -73,4 +71,3 @@ flow:
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]
-    - error_message

@@ -41,9 +41,9 @@ flow:
     - tenant_name
     - server_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - authentication:
         do:
@@ -53,8 +53,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -64,11 +66,13 @@ flow:
         do:
           openstack_content.get_openstack_servers:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - server_list: return_result
           - return_result
@@ -79,19 +83,21 @@ flow:
             - server_body: server_list
             - server_name: server_name
         publish:
-          - server_ID
+          - server_id
           - return_result
           - error_message
     - delete_server:
         do:
           openstack_content.delete_openstack_server:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - serverID: server_ID
-            - proxy_host
-            - proxy_port
+            - server_id
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - return_result
           - error_message

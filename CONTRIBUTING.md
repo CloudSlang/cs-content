@@ -10,7 +10,7 @@ There are many ways to help CloudSlang:
 
 ## Contributing Code
 
-The best way to directly collaborate with the project contributors is through GitHub: https://github.com/CloudSlang
+The best way to directly collaborate with the project contributors is through GitHub: https://github.com/CloudSlang.
 * If you want to contribute to our code by either fixing a problem or creating a new feature, please open a GitHub pull request.
 * If you want to raise an issue such as a defect, an enhancement request or a general issue, please open a GitHub issue.
 
@@ -21,6 +21,37 @@ When a pull request fails testing, the author is expected to update the pull req
 
 At least one review from a maintainer is required for all patches (even patches from maintainers).
 
+## Pull Requests
+We encourage and support contributions from the community. No fix is too small. We strive to process all pull requests as soon as possible and with constructive feedback. If your pull request is not accepted at first, please try again after addressing the feedback you received.
+To make a pull request you will need a GitHub account. For help, see GitHub's documentation on forking and pull requests. (https://help.github.com/articles/using-pull-requests/ )
+
+Normally, all pull requests must include tests that test your change. Tests can be run using the CloudSlang Build Tool. To learn more about testing your content and using the Build Tool, see the [project documentation](http://www.cloudslang.io/#/docs). Occasionally, a change will be very difficult to test. In those cases, please include a note in your commit message explaining why tests are not included.
+
+### Content Validation and Build Tool
+
+When contributing new CloudSlang content or changing existing content, the content must be written according to our content best practices, which can be found in the [project documentation](http://www.cloudslang.io/#/docs).
+
+All contributed CloudSlang content must pass our content validation and all tests must pass.
+
+In order to test that your content passes validation and to run tests, follow the instructions for using the CloudSlang Build Tool in the [project documentation](http://www.cloudslang.io/#/docs).
+
+##Conduct
+
+Whether you are a regular contributor or a newcomer, we care about making this community a safe place for you.
+
+We are committed to providing a friendly, safe and welcoming environment for all regardless of their background and the extent of their contributions.
+Please avoid using nicknames that might detract from a friendly, safe and welcoming environment for all.
+Be kind and courteous.
+Those who insult, demean or harass anyone will be excluded from interaction. In particular, behavior that excludes people in socially marginalized groups will not be tolerated.
+We welcome discussion about creating a welcoming, safe and productive environment for the community. If you have any questions, feedback or concerns please let us know. (info@cloudslang.io)
+
+
+## Sign your work
+
+To accept the DCO, simply add this line to each commit message with your name and email address (git commit -s will do this for you):
+
+Signed-off-by: Jane Example <jane@example.com>
+For legal reasons, no anonymous or pseudonymous contributions are accepted.
 
 ## Developer's Certificate of Origin
 
@@ -62,36 +93,3 @@ By making a contribution to this project, I certify that:
     personal information I submit with it, including my sign-off) is
     maintained indefinitely and may be redistributed consistent with
     this project or the open source license(s) involved.
-
-### Sign your work
-
-To accept the DCO, simply add this line to each commit message with your name and email address (git commit -s will do this for you):
-
-Signed-off-by: Jane Example <jane@example.com>
-For legal reasons, no anonymous or pseudonymous contributions are accepted.
-
-## Pull Requests
-We encourage and support contributions from the community. No fix is too small. We strive to process all pull requests as soon as possible and with constructive feedback. If your pull request is not accepted at first, please try again after addressing the feedback you received.
-To make a pull request you will need a GitHub account. For help, see GitHub's documentation on forking and pull requests. (https://help.github.com/articles/using-pull-requests/ )
-
-Normally, all pull requests must include tests that test your change. Occasionally, a change will be very difficult to test. In those cases, please include a note in your commit message explaining why tests are not included.
-
-
-### Content Validation
-
-When contributing new CloudSlang content or changing existing content, the content must be written according to our content best practices (http://www.cloudslang.io/#/docs).
-
-All CloudSlang content must pass our content validation.
-In order to test that your content passes validation, do the following:
-- Download the slang-content-validator.jar from: https://github.com/openscore/score-language/releases
-- Run `java -jar slang-content-verifier.jar directory_path`
-
-##Conduct
-
-Whether you are a regular contributor or a newcomer, we care about making this community a safe place for you.
-
-We are committed to providing a friendly, safe and welcoming environment for all regardless of their background and the extent of their contributions.
-Please avoid using nicknames that might detract from a friendly, safe and welcoming environment for all.
-Be kind and courteous.
-Those who insult, demean or harass anyone will be excluded from interaction. In particular, behavior that excludes people in socially marginalized groups will not be tolerated.
-We welcome discussion about creating a welcoming, safe and productive environment for the community. If you have any questions, feedback or concerns please let us know. (info@cloudslang.io)

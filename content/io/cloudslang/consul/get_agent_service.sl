@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent port -Defualt: 8500
+#   - consul_port - optional - Consul agent port - Default: 8500
 # Outputs:
 #   - returnResult - response of the operation
 #   - statusCode - normal status code is 200
@@ -38,7 +38,7 @@ operation:
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

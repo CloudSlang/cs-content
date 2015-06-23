@@ -20,7 +20,7 @@ flow:
         do:
           files.write_to_file:
             - file_path: delete_source
-            - text: "''"
+            - text: "'hello'"
         navigate:
           SUCCESS: test_delete_operation
           FAILURE: WRITEFAILURE

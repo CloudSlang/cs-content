@@ -37,17 +37,17 @@ flow:
         default: "'5000'"
     - compute_port:
         default: "'8774'"
-    - network_ID:
-        default: "''"
+    - network_id:
+        required: false
     - img_ref
     - username
     - password
     - tenant_name
     - server_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
+        required: false
   workflow:
     - authentication:
         do:
@@ -57,8 +57,10 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host
-            - proxy_port
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -68,14 +70,17 @@ flow:
         do:
           openstack_content.create_openstack_server:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - imgRef: img_ref
-            - networkID: network_ID
-            - serverName: server_name
-            - proxy_host
-            - proxy_port
+            - img_ref
+            - network_id:
+                required: false
+            - server_name
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - return_result
           - error_message

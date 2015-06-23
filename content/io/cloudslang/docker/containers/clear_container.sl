@@ -12,7 +12,8 @@
 #   - container_ID - ID of the container to be deleted
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
+#   - docker_password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
 # Outputs:
 #   - error_message - error message of the operation that failed
 ####################################################
@@ -25,28 +26,47 @@ imports:
 flow:
   name: clear_container
   inputs:
-    - container_ID
+    - container_id
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
+    - private_key_file:
+        required: false
+    - port:
+        required: false
   workflow:
     - stop_container:
         do:
           docker_containers.stop_container:
-            - containerID: container_ID
+            - container_id: container_ID
             - host: docker_host
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+               default: private_key_file
+               required: false
+            - port:
+                required: false
         publish:
           - error_message
 
     - delete_container:
         do:
           docker_containers.delete_container:
-            - containerID: container_ID
+            - container_id: container_ID
             - host: docker_host
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+               default: private_key_file
+               required: false
+            - port:
+                required: false
         publish:
           - error_message
   outputs:

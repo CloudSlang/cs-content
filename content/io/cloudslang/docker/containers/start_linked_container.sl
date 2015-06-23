@@ -18,8 +18,8 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username: Docker machine username
-#   - password: Docker machine password
-#   - privateKeyFile - optional - path to the private key file - Default: none
+#   - password - optional - Docker machine password
+#   - privateKeyFile - optional - path to private key file
 #   - arguments - optional - arguments to pass to command - Default: none
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
@@ -46,31 +46,32 @@ operation:
     - cmdParams
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - arguments:
-        default: "''"
+        required: false
     - command:
         default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
         overridable: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'90000'"
+        required: false
     - closeSession:
-        default: "'false'"
+        required: false
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - container_ID: returnResult
-    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+    - error_message: "STDERR if (returnCode == '0' and 'STDERR' in locals()) else returnResult"
   results:
     - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE

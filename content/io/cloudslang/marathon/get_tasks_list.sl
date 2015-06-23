@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - status - optional - return only those tasks whose status matches this parameter; if not specified, all tasks are returned - Valid: running, staging - Default: none
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
@@ -53,7 +53,7 @@ operation:
         required: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

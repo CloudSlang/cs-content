@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identityPort - optional - port used for OpenStack authentication - Default: 5000
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
@@ -32,22 +32,25 @@ operation:
   name: get_authentication
   inputs:
     - host
-    - identityPort:
+    - identity_port:
         default: "'5000'"
     - username
     - password
     - tenant_name
     - proxy_host:
-        default: "''"
+        required: false
     - proxy_port:
-        default: "''"
-    - proxyHost: "proxy_host if proxy_host != '' else ''"
-    - proxyPort: "proxy_port if proxy_port != '' else ''"
+        required: false
+    - proxyHost: "proxy_host if proxy_host is not None else ''"
+    - proxyPort: "proxy_port if proxy_port is not None else ''"
     - url:
-        default: "'http://'+ host + ':' + identityPort + '/v2.0/tokens'"
+        default: "'http://'+ host + ':' + identity_port + '/v2.0/tokens'"
         overridable: false
     - body:
-        default: "'{\"auth\": {\"tenantName\": \"' + tenant_name + '\",\"passwordCredentials\": {\"username\": \"' + username + '\", \"password\": \"' + password + '\"}}}'"
+        default: >
+          '{"auth": {"tenantName": "' + tenant_name +
+          '","passwordCredentials": {"username": "' + username +
+          '", "password": "' + password + '"}}}'
         overridable: false
     - method:
         default: "'post'"
@@ -57,7 +60,7 @@ operation:
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - return_result: returnResult
