@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testLinuxRestartServer:
+testLinuxRestartProcess:
   inputs:
     - host: # linux host to test
     - username: # linux host username
