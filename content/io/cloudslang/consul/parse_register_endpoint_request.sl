@@ -30,7 +30,9 @@ operation:
   name: parse_register_endpoint_request
   inputs:
     - node
-    - address
+    - address:
+        default: "''"
+        required: false
     - datacenter:
         default: "''"
         required: false
@@ -46,13 +48,14 @@ operation:
         import json
         data= {}
         data['Node'] = node
-        data['Address'] = address
+        if address != '':
+          data['Address'] = address
         if datacenter != '':
           data['Datacenter'] = datacenter
         if service != '':
-          data['Service'] = service
+          data['Service'] = json.loads(service)
         if check != '':
-          data['Check'] = check
+          data['Check'] = json.loads(check)
         json_request = json.dumps(data)
         returnCode = '0'
         returnResult = 'Parsing successful.'
