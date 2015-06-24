@@ -1,0 +1,21 @@
+# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+# The Apache License is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testPing_hosts_Success:
+  inputs:
+    - ip_list: localhost
+    - hostname: # enter smtp hostname
+    - port: '25' # change to needed port if needed
+    - from: # enter sender e-mail
+    - to: # enter destination e-mail
+    - username: # enter smtp username
+    - password: #enter smpt password
+  description: Tests that ping_hosts finished with SUCCESS
+  testSuites: [mail-local]
+  testFlowPath: io.cloudslang.base.network.example.ping_hosts
+  result: SUCCESS
