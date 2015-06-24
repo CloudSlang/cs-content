@@ -16,6 +16,7 @@
 #                     - e.g. swarm:latest,tomcat:7
 # Outputs:
 #   - container_names - comma separated list of container names
+#   - container_ids - comma separated list of container IDs
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
@@ -33,9 +34,13 @@ operation:
       def extract_container_name_from_line(line):
         return line.split()[-1]
 
+      def extract_container_id_from_line(line):
+        return line.split()[0]
+
       try:
         return_code = '0'
         container_names = ''
+        container_ids = ''
         if bool(excluded_images):
           excluded_images_list = excluded_images.split(',')
           filter_on_images = True
@@ -52,14 +57,19 @@ operation:
                   excluded = True
               if excluded == False:
                 container_names += extract_container_name_from_line(line) + ','
+                container_ids += extract_container_id_from_line(line) + ','
             else:
               container_names += extract_container_name_from_line(line) + ','
+              container_ids += extract_container_id_from_line(line) + ','
         if container_names != '':
           container_names = container_names[:-1]
+        if container_names != '':
+          container_ids = container_ids[:-1]
       except:
         return_code = '-1'
   outputs:
     - container_names
+    - container_ids
   results:
     - SUCCESS: return_code == '0'
     - FAILURE

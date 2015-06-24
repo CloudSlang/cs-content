@@ -9,6 +9,7 @@
 # Delete Docker images specified in the input.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - host - Docker machine host
 #   - port - optional - SSH port - required: false
 #   - username - Docker machine username
@@ -35,6 +36,11 @@ imports:
 flow:
   name: clear_docker_images
   inputs:
+    - docker_options:
+        required: false
+    - docker_options_expression:
+        default: docker_options + ' ' if bool(docker_options) else ''
+        overridable: false
     - host
     - port:
         required: false
@@ -44,7 +50,7 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker rmi ' + images"
+        default: "'docker ' + docker_options_expression + 'rmi ' + images"
         overridable: false
     - arguments:
         required: false

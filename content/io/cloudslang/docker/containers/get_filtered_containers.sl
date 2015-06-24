@@ -27,6 +27,7 @@
 #   - agent_forwarding - optional - enables or disables the forwarding of the authentication agent connection
 # Outputs:
 #   - container_names - comma separated list of container names
+#   - container_ids - comma separated list of container names
 # Results:
 #   - SUCCESS - container names retrieved successfully
 #   - FAILURE - otherwise
@@ -39,7 +40,7 @@ imports:
   utils: io.cloudslang.docker.utils
 
 flow:
-  name: get_filtered_container_names
+  name: get_filtered_containers
   inputs:
     - docker_options:
         required: false
@@ -101,8 +102,10 @@ flow:
             - excluded_images
         publish:
           - container_names
+          - container_ids
   outputs:
     - container_names
+    - container_ids
   results:
     - SUCCESS
     - FAILURE
