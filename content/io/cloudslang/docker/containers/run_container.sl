@@ -26,7 +26,7 @@
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agentForwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - db_container_ID - ID of the container
+#   - container_ID - ID of the container
 # Results:
 #   - SUCCESS - container created successfully
 #   - FAILURE - otherwise
@@ -112,9 +112,9 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - db_container_ID: standard_out[:-1]
+          - container_ID: standard_out[:-1]
   outputs:
-    - db_container_ID
+    - container_ID
   results:
     - SUCCESS
     - FAILURE

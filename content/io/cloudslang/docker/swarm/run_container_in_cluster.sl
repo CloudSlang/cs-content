@@ -106,7 +106,7 @@ flow:
                 default: agent_forwarding
                 required: false
         publish:
-          - container_ID: db_container_ID
+          - container_ID
   outputs:
     - container_ID
   results:

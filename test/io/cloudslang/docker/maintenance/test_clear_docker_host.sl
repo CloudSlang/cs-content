@@ -63,9 +63,6 @@ flow:
             - username
             - password
             - image_name: image_name_to_pull
-        publish:
-          - return_result
-          - error_message
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: FAIL_PULL_IMAGE
@@ -80,9 +77,6 @@ flow:
             - password
             - container_name: "'xxx'"
             - image_name: image_name_to_run
-        publish:
-          - return_result
-          - error_message
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: FAIL_RUN_IMAGE
