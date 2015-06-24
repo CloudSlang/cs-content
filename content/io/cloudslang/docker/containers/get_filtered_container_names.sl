@@ -9,6 +9,7 @@
 # Retrieves a list of Docker container names. Containers can be filtered based on the images they are created from.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - all_containers - optional - show all containers (both running and stopped) - Default: false, only running containers
 #                    - any input that is different than empty string or false (as boolean type) changes its value to True
 #   - excluded_images - comma separated list of Docker images
@@ -40,6 +41,8 @@ imports:
 flow:
   name: get_filtered_container_names
   inputs:
+    - docker_options:
+        required: false
     - all_containers:
         default: false
     - excluded_images
@@ -66,6 +69,8 @@ flow:
     - get_containers_raw_output:
         do:
           containers.get_container_names:
+            - docker_options:
+                required: false
             - all_containers:
                 required: false
             - host
