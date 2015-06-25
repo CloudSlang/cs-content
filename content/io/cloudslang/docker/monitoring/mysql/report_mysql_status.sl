@@ -35,7 +35,8 @@ flow:
     - container
     - host
     - username
-    - password
+    - password:
+        required: false
     - private_key_file:
         required: false
     - mysql_username

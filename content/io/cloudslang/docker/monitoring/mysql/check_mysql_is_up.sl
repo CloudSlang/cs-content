@@ -64,6 +64,8 @@ flow:
         required: false
     - close_session:
         required: false
+    - agentForwarding:
+        required: false
 
   workflow:
     - check_mysql_is_up:
@@ -88,6 +90,8 @@ flow:
                 required: false
             - closeSession:
                 default: close_session
+                required: false
+            - agentForwarding:
                 required: false
         publish:
           - returnResult
