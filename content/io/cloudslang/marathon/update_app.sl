@@ -43,7 +43,6 @@ flow:
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
   workflow:
     - read_from_file:
@@ -60,8 +59,10 @@ flow:
             - marathon_port
             - app_id
             - body: read_text
-            - proxyHost
-            - proxyPort
+            - proxyHost:
+                required: false
+            - proxyPort:
+                required: false
         publish:
           - returnResult
           - statusCode

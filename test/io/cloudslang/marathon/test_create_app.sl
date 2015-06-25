@@ -19,9 +19,6 @@ flow:
     - marathon_host
     - marathon_port:
         required: false
-    - proxyHost
-    - proxyPort:
-        required: false
     - json_file
     - app_name
 
@@ -32,14 +29,12 @@ flow:
             - marathon_host
             - marathon_port:
                 required: false
-            - proxyHost
-            - proxyPort:
-               required: false
         publish:
           - returnResult
         navigate:
           SUCCESS: parse_initial_response
           FAILURE: APPS_NOT_RETRIEVED
+
     - parse_initial_response:
          do:
            marathon.parse_get_app_list:
@@ -49,6 +44,7 @@ flow:
          navigate:
            SUCCESS: check_if_list_is_empty
            FAILURE: PARSE_FAILURE
+
     - check_if_list_is_empty:
          do:
             base_strings.string_equals:
@@ -57,22 +53,19 @@ flow:
          navigate:
            SUCCESS: create_marathon_app
            FAILURE: delete_initial_apps
+
     - delete_initial_apps:
         loop:
-            for: app in app_list.split(",")
+            for: 'app in app_list.split(",")'
             do:
-                marathon.delete_app:
-                    - marathon_host
-                    - marathon_port:
-                        required: false
-                    - proxyHost
-                    - proxyPort:
-                        required: false
-                    - app_id: app
+              marathon.delete_app:
+                - marathon_host
+                - marathon_port:
+                    required: false
+                - app_id: app
         navigate:
           SUCCESS: create_marathon_app
           FAILURE: FAIL_TO_DELETE
-
 
     - create_marathon_app:
          do:
@@ -80,27 +73,23 @@ flow:
              - marathon_host
              - marathon_port:
                 required: false
-             - proxyHost
-             - proxyPort:
-                required: false
              - json_file
          navigate:
            SUCCESS: list_marathon_apps
            FAILURE: FAIL_TO_CREATE
+
     - list_marathon_apps:
         do:
           marathon.get_apps_list:
             - marathon_host
             - marathon_port:
                 required: false
-            - proxyHost
-            - proxyPort:
-               required: false
         publish:
           - returnResult
         navigate:
           SUCCESS: parse_response
           FAILURE: APPS_NOT_RETRIEVED
+
     - parse_response:
          do:
            marathon.parse_get_app_list:
@@ -110,6 +99,7 @@ flow:
          navigate:
            SUCCESS: check_app_was_created
            FAILURE: PARSE_FAILURE
+
     - check_app_was_created:
         do:
           base_strings.string_occurrence_counter:
@@ -118,35 +108,54 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: delete_marathon_app
+          SUCCESS: list_mesos_tasks
           FAILURE: APP_NOT_CREATED
+
+    - list_mesos_tasks:
+        do:
+          marathon.get_tasks_list:
+            - marathon_host
+            - marathon_port:
+                required: false
+        publish:
+          - tasks_list: returnResult
+        navigate:
+          SUCCESS: check_task_was_created
+          FAILURE: TASKS_NOT_RETRIEVED
+
+
+    - check_task_was_created:
+        do:
+          base_strings.string_occurrence_counter:
+            - string_in_which_to_search: tasks_list
+            - string_to_find: app_name
+        navigate:
+          SUCCESS: delete_marathon_app
+          FAILURE: TASK_NOT_CREATED
+
     - delete_marathon_app:
         do:
           marathon.delete_app:
              - marathon_host
              - marathon_port:
                 required: false
-             - proxyHost
-             - proxyPort:
-                required: false
              - app_id: app_name
         navigate:
           SUCCESS: list_marathon_apps_again
           FAILURE: FAIL_TO_DELETE
+
     - list_marathon_apps_again:
         do:
           marathon.get_apps_list:
             - marathon_host
             - marathon_port:
                 required: false
-            - proxyHost
-            - proxyPort:
-               required: false
         publish:
           - returnResult
         navigate:
           SUCCESS: parse_second_response
           FAILURE: APPS_NOT_RETRIEVED
+
     - parse_second_response:
          do:
            marathon.parse_get_app_list:
@@ -156,6 +165,7 @@ flow:
          navigate:
            SUCCESS: verify_there_are_no_servers
            FAILURE: PARSE_FAILURE
+
     - verify_there_are_no_servers:
          do:
             base_strings.string_equals:
@@ -172,6 +182,8 @@ flow:
     - FAIL_TO_DELETE
     - APP_NOT_CREATED
     - APPS_NOT_RETRIEVED
+    - TASK_NOT_CREATED
+    - TASKS_NOT_RETRIEVED
     - FAIL_TO_CREATE
     - FAIL_TO_DELETE
     - APP_STILL_UP
