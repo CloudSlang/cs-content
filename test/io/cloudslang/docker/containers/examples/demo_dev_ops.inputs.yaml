@@ -9,7 +9,7 @@
 testDocker_demo_dev_ops:
   testSuites: [docker_local]
   description: Tests SUCCESS case - this test needs to be run on local machine by activating the test suite and supplying the inputs
-  testFlowPath: io.cloudslang.docker.containers.test_demo_dev_ops
+  testFlowPath: io.cloudslang.docker.containers.examples.test_demo_dev_ops
   inputs:
     - docker_host: localhost
     - docker_ssh_port: "49153"
