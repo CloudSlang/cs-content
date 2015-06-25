@@ -5,7 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################
+# Wrapper test flow - checks whether the Swarm cluster is clean (in that case starts a container in the
+# cluster so the cluster will contain at least one container that is not Swarm agent), clears the cluster
+# and verifies that the number of containers in the cluster is the number of agent containers.
+########################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
