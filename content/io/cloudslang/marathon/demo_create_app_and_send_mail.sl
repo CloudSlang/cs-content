@@ -50,6 +50,7 @@ flow:
     - proxyPort:
         required: false
     - json_file
+
   workflow:
     - create_app:
         do:
@@ -77,9 +78,6 @@ flow:
             - to: email_recipient
             - subject: "'New app '"
             - body: "'App creation succeeded.'"
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
 
     - on_failure:
         - send_error_mail:
@@ -92,6 +90,7 @@ flow:
                 - to: email_recipient
                 - subject: "'New app fail'"
                 - body: "'App creation failed '+errorMessage"
+
   outputs:
     - returnResult
     - statusCode

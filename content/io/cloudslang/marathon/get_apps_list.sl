@@ -47,7 +47,6 @@ operation:
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - method:
         default: "'get'"

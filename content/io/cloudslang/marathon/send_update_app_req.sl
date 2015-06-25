@@ -39,7 +39,6 @@ operation:
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - url:
         default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"

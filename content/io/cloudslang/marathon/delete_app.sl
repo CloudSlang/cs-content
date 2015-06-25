@@ -46,7 +46,6 @@ operation:
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
   action:
     java_action:
