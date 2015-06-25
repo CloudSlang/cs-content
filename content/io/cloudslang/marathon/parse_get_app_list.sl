@@ -32,22 +32,14 @@ operation:
         import sys
         import json
         decoded = json.loads(operation_response)
-        app_list_Json = decoded['apps']
-        nr_apps = len(app_list_Json)
-
-        app_list = ''
-        for index in range(nr_apps):
-          app_name = app_list_Json[index]['id']
-
-          app_list = app_list + app_name[1:] + ','
-        app_list = app_list[:-1]
-
+        apps = decoded['apps']
+        app_names = [app['id'] for app in apps]
+        app_list = ",".join(app_names)
         return_code = '0'
         return_result = 'Parsing successful.'
       except:
         return_code = '-1'
-        print "Unexpected error:", sys.exc_info()[0]
-        return_result = 'Parsing error.'
+        return_result = 'Parsing error. error ' + sys.exc_info()[0]
   outputs:
     - app_list
     - return_result
