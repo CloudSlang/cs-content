@@ -14,7 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50%
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Defualt: 6000000
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
 ####################################################

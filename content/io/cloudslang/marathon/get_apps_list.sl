@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - cmd - optional - filter apps to only those whose commands contain cmd - Default: none
 #   - embed - optional - embeds nested resources that match supplied path - Default: none -
 #     Valid: "apps.tasks" Apps' tasks are not embedded in response by default

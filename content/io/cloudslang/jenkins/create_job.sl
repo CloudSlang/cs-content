@@ -34,15 +34,15 @@ operation:
       try:
         from jenkinsapi.jenkins import Jenkins
 
-        j = Jenkins(url, '', '')
+        j = Jenkins(url)
         jobs = j.jobs
         job = jobs.create(job_name, config_xml)
 
         return_code = '0'
         result_message = 'Success'
-      except:
+      except IOError as e:
         import sys
-        print "Unexpected error:", sys.exc_info()[0]
+        print "Unexpected error:", e
         return_code = '-1'
         result_message = 'Error while creating job: ' + job_name
 

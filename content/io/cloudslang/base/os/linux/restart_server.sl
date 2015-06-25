@@ -6,14 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux host thrue ssh
+# This flow restart remote Linux host using ssh
 #
 #   Inputs:
 #       - host - hostname or IP address
+#       - port - optional - port number for running the command - Default: 22
 #       - username - username to connect as
 #       - password - password of user
 #       - timeout - time (in minutes) to postpone restart
 #       - privateKeyFile - the absolute path to the private key file
+#       - sudo_user - use 'sudo' prefix before command
 #
 # Results:
 #  SUCCESS: Linux host is restarted successfully
@@ -31,36 +33,48 @@ flow:
 
   inputs:
     - host
+    - port:
+        required: False
     - username
-    - password
+    - password:
+        required: false
     - timeout:
         default: "'now'"
+    - sudo_user:
+        default: False
+        required: False
     - privateKeyFile:
-          required: false
+        required: false
   
   workflow:
     - server_restart:
         do:
-          ssh_command.ssh_command:
+          ssh_command.ssh_flow:
             - host
-            - command: >
-                "shutdown -r " + timeout
+            - port:
+                required: False
+            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
+            - command: "sudo_command + ' shutdown -r ' + timeout"
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
-                  required: false
-
+                required: false
         publish: 
-          - STDERR: standard_err
-        navigate:
-          SUCCESS: check_result
-          FAILURE: FAILURE
-    
+          - standard_err
+          - standard_out
+          - return_result: returnResult
+
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: STDERR
-            - string_to_find: "'error'"
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'shutdown'"
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
+
+  outputs:
+    - standard_err
+    - standard_out
+    - return_result
