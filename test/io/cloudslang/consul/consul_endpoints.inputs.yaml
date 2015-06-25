@@ -1,0 +1,24 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_consul_endpoints_Success:
+  testSuites: [consul]
+  description: Tests that a consul endpoint can be registered/deregistered. Test flow must end with SUCCESS
+  testFlowPath: io.cloudslang.consul.test_consul_endpoints
+  inputs:
+    - host: 16.59.57.244
+    - port: "22"
+    - username: root
+    - password: Xy6stqZ
+    - address: 16.59.57.244
+    - service: '{"Service":"redis","ID":"redis1"}'
+    - node: foobar
+#  outputs:
+#    - services_after_register: '{"consul":[],"redis":[]}'
+#    - services_after_deregister: '{"consul":[]}'
+  result: SUCCESS
