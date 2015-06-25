@@ -6,13 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Low level mechanism for directly registering or updating entries in the catalog.
+# Low level mechanism for directly removing entries in the catalog.
 #
 # Inputs:
 #   - host - Consul agent host
 #   - consul_port - optional - Consul agent host port - Default: 8500
 #   - node - node name
-#   - address - node host
 #   - datacenter - optional - Default: matches that of the agent
 #   - service - optional - if Service key is provided, then service will also be registered
 #   - check - optional - if Check key is provided, then a health check will also be registered
