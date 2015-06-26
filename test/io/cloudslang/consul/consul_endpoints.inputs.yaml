@@ -6,15 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_consul_agent_services_Success:
+test_consul_endpoints_Success:
   testSuites: [consul]
-  description: Tests that a consul agent service can be registered/deregistered. Test flow must end with SUCCESS
-  testFlowPath: io.cloudslang.consul.test_consul_agent_services
+  description: Tests that a consul endpoint can be registered/deregistered. Test flow must end with SUCCESS
+  testFlowPath: io.cloudslang.consul.test_consul_endpoints
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
     - address: localhost
-    - service_name: redis
+    - service: '{"Service":"redis","ID":"redis1"}'
+    - node: foobar
+#  outputs:
+#    - services_after_register: '{"consul":[],"redis":[]}'
+#    - services_after_deregister: '{"consul":[]}'
   result: SUCCESS

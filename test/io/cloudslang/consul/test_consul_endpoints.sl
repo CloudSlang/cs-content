@@ -12,9 +12,10 @@ namespace: io.cloudslang.consul
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   consul: io.cloudslang.consul
+  base_utils: io.cloudslang.base.utils
 
 flow:
-  name: test_consul_agent_services
+  name: test_consul_endpoints
   inputs:
     - host
     - port:
@@ -24,55 +25,64 @@ flow:
         required: false
     - private_key_file:
         required: false
+    - node
     - address
-    - service_name
+    - service
+
   workflow:
-    - register_agent_service:
+
+    - register_endpoint:
         do:
-          consul.register_agent_service:
+          consul.register_endpoint:
             - host
+            - node
             - address
-            - service_name
+            - service
         navigate:
-          SUCCESS: get_agent_services
+          SUCCESS: get_catalog_services
           FAILURE: FAIL_TO_REGISTER
 
-    - get_agent_services:
+    - get_catalog_services:
         do:
-          consul.get_agent_service:
+          consul.get_catalog_services:
             - host
+            - node
+            - address
+            - service
         navigate:
-          SUCCESS: deregister_agent_service
+          SUCCESS: deregister_endpoint
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_register: returnResult
           - errorMessage
 
-    - deregister_agent_service:
+    - deregister_endpoint:
         do:
-          consul.send_deregister_agent_service_request:
+          consul.deregister_endpoint:
             - host
-            - service_id: service_name
+            - node
         navigate:
-          SUCCESS: get_agent_services2
+          SUCCESS: get_catalog_services2
           FAILURE: FAIL_TO_DEREGISTER
-    - get_agent_services2:
+
+    - get_catalog_services2:
         do:
-          consul.get_agent_service:
+          consul.get_catalog_services:
             - host
+            - node
+            - address
+            - service
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_deregister: returnResult
           - errorMessage
-
   outputs:
     - services_after_register: str(services_after_register)
     - services_after_deregister: str(services_after_deregister)
   results:
     - SUCCESS
-    - FAILURE
     - FAIL_TO_REGISTER
     - FAIL_TO_DEREGISTER
     - FAIL_TO_GET_SERVICES
