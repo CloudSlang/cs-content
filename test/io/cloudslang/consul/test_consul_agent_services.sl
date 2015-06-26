@@ -17,7 +17,7 @@ imports:
   base_print: io.cloudslang.base.print
 
 flow:
-  name: test_consul_endpoints
+  name: test_consul_agent_services
   inputs:
     - host
     - port:
@@ -27,63 +27,59 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - node
     - address
-    - service
-
+    - service_name
   workflow:
 
-    - register_endpoint:
+    - register_agent_service:
         do:
-          consul.register_endpoint:
+          consul.register_agent_service:
             - host
-            - node
             - address
-            - service
+            - service_name
         navigate:
-          SUCCESS: get_catalog_services
+          SUCCESS: get_agent_services
           FAILURE: FAIL_TO_REGISTER
 
-    - get_catalog_services:
+    - get_agent_services:
         do:
-          consul.get_catalog_services:
+          consul.get_agent_service:
             - host
-            - node
-            - address
-            - service
         navigate:
-          SUCCESS: deregister_endpoint
+          SUCCESS: deregister_agent_service
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_register: returnResult
           - errorMessage
 
-    - deregister_endpoint:
+    - deregister_agent_service:
         do:
-          consul.deregister_endpoint:
+          consul.send_deregister_agent_service_request:
             - host
-            - node
+            - service_id: service_name
         navigate:
-          SUCCESS: get_catalog_services2
+          SUCCESS: get_agent_services2
           FAILURE: FAIL_TO_DEREGISTER
-    - get_catalog_services2:
+    - get_agent_services2:
         do:
-          consul.get_catalog_services:
+          consul.get_agent_service:
             - host
-            - node
-            - address
-            - service
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: print
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_deregister: returnResult
           - errorMessage
+    - print:
+        do:
+          base_print.print_text:
+            - text: services_after_deregister
   outputs:
     - services_after_register: str(services_after_register)
     - services_after_deregister: str(services_after_deregister)
   results:
     - SUCCESS
+    - FAILURE
     - FAIL_TO_REGISTER
     - FAIL_TO_DEREGISTER
     - FAIL_TO_GET_SERVICES
