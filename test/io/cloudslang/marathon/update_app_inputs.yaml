@@ -1,0 +1,21 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_update_app_success:
+  testSuites: [marathon_local]
+  description: Tests SUCCESS case
+  testFlowPath: io.cloudslang.marathon.test_update_app
+  inputs:
+    - marathon_host: [marathon host]
+    - marathon_port: [marathon port]
+    - proxyHost: [proxy host]
+    - proxyPort: [proxy port]
+    - json_file_for_creation: [path to json file that creates app]
+    - json_file_for_update: [path to json file that updates app]
+    - created_app_id: [app id]
+  result: SUCCESS
