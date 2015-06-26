@@ -48,9 +48,9 @@ flow:
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - json_file
+
   workflow:
     - create_app:
         do:
@@ -58,8 +58,10 @@ flow:
             - marathon_host
             - marathon_port
             - json_file
-            - proxyHost
-            - proxyPort
+            - proxyHost:
+                required: false
+            - proxyPort:
+                required: false
         publish:
           - returnResult
           - statusCode
@@ -76,9 +78,6 @@ flow:
             - to: email_recipient
             - subject: "'New app '"
             - body: "'App creation succeeded.'"
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
 
     - on_failure:
         - send_error_mail:
@@ -91,6 +90,7 @@ flow:
                 - to: email_recipient
                 - subject: "'New app fail'"
                 - body: "'App creation failed '+errorMessage"
+
   outputs:
     - returnResult
     - statusCode
