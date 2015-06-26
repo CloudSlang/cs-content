@@ -11,7 +11,7 @@ namespace: io.cloudslang.jenkins
 
 imports:
   jenkins: io.cloudslang.jenkins
-
+  base_utils: io.cloudslang.base.utils
 flow:
   name: test_clone_job_for_branch
   inputs:
@@ -19,18 +19,45 @@ flow:
     - port:
         required: false
     - config_xml
+    - job_name:
+        default: "'job1'"
+        overridable: false
 
   workflow:
-
+#49165
     - create_jenkins_job:
         do:
           jenkins.create_job:
-            - url: "'http://' + host + ':49165'"
-            - job_name: "'job1'"
+            - url: "'http://' + host + ':49001'"
+            - job_name
             - config_xml
         navigate:
-          SUCCESS: clone_job
+          SUCCESS: build_jenkins_job
           FAILURE: FAIL_TO_CREATE_JOB
+    - build_jenkins_job:
+        do:
+          jenkins.invoke_job:
+            - url: "'http://' + host + ':49001'"
+            - job_name
+        navigate:
+          SUCCESS: wait
+          FAILURE: FAIL_TO_CREATE_JOB
+    - wait:
+        do:
+          base_utils.sleep:
+            - seconds: 5
+        navigate:
+          SUCCESS: get_last_buildnumber
+    - get_last_buildnumber:
+        do:
+          jenkins.get_last_buildnumber:
+            - url: "'http://' + host + ':49165'"
+            - job_name
+        publish:
+          - last_buildnumber
+        navigate:
+          SUCCESS: clone_job
+          FAILURE: FAIL_TO_GET_BUILDNUMBER
 
     - clone_job:
         do:
@@ -47,9 +74,11 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_CLONE_JOB
-
+  outputs:
+    - last_buildnumber
   results:
     - SUCCESS
     - FAILURE
     - FAIL_TO_CLONE_JOB
     - FAIL_TO_CREATE_JOB
+    - FAIL_TO_GET_BUILDNUMBER
