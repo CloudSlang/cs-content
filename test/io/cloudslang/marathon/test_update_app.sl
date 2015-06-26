@@ -21,7 +21,7 @@ flow:
         required: false
     - json_file_for_creation
     - json_file_for_update
-    - app_id
+    - created_app_id
   workflow:
     - create_marathon_app:
          do:
@@ -46,7 +46,7 @@ flow:
             - marathon_port:
                 required: false
             - json_file: json_file_for_update
-            - app_id
+            - app_id: created_app_id
         navigate:
           SUCCESS: delete_marathon_app
           FAILURE: FAIL_TO_UPDATE
@@ -57,7 +57,7 @@ flow:
              - marathon_host
              - marathon_port:
                 required: false
-             - app_id
+             - app_id: created_app_id
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_DELETE

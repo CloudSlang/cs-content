@@ -16,5 +16,5 @@ test_create_marathon_app_success:
     - proxyHost: [proxy host]
     - proxyPort: [proxy port]
     - json_file: [json file path]
-    - app_id: [app name]
+    - created_app_id: [app id]
   result: SUCCESS

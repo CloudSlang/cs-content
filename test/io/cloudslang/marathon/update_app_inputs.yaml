@@ -17,5 +17,5 @@ test_update_app_success:
     - proxyPort: [proxy port]
     - json_file_for_creation: [path to json file that creates app]
     - json_file_for_update: [path to json file that updates app]
-    - app_id: [app id]
+    - created_app_id: [app id]
   result: SUCCESS

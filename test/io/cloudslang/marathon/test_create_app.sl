@@ -20,7 +20,7 @@ flow:
     - marathon_port:
         required: false
     - json_file
-    - app_id
+    - created_app_id
 
   workflow:
     - list_initial_marathon_apps:
@@ -104,7 +104,7 @@ flow:
         do:
           base_strings.string_occurrence_counter:
             - string_in_which_to_search: app_list
-            - string_to_find: app_id
+            - string_to_find: created_app_id
         publish:
           - return_result
         navigate:
@@ -128,7 +128,7 @@ flow:
         do:
           base_strings.string_occurrence_counter:
             - string_in_which_to_search: tasks_list
-            - string_to_find: app_id
+            - string_to_find: created_app_id
         navigate:
           SUCCESS: delete_marathon_app
           FAILURE: TASK_NOT_CREATED
@@ -139,7 +139,7 @@ flow:
              - marathon_host
              - marathon_port:
                 required: false
-             - app_id
+             - app_id: created_app_id
         navigate:
           SUCCESS: list_marathon_apps_again
           FAILURE: FAIL_TO_DELETE
