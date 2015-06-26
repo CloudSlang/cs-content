@@ -57,7 +57,7 @@ flow:
             - host
             - key_name
         navigate:
-          SUCCESS: clear_docker_host
+          SUCCESS: SUCCESS
           FAILURE: FAIL_DELETING_KEY
 
   outputs:
