@@ -11,6 +11,7 @@
 #  Inputs:
 #    - host - hostname or IP address
 #    - port - optional - port number for running the command - Default: 22
+#    - mount - optional - mount to check disk space for - Default: '/'
 #    - command - command to execute
 #    - pty - optional - whether to use pty - Valid: true, false - Default: false
 #    - username - username to connect as
