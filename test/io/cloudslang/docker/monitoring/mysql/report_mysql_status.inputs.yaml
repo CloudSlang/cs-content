@@ -9,9 +9,9 @@ testDocker_report_mysql_status_SUCCESS:
     - password: screencast
     - mysql_username: user
     - mysql_password: pass
-    - email_host:
-    - email_port:
-    - email_sender:
-    - email_recipient:
-    - email_password:
+    - email_host: localhost
+    - email_port: 25
+    - email_sender: user@mail.example.com
+    - email_recipient: raskin.aleksandr@gmail.com,
+    - email_password: pwd
   result: SUCCESS

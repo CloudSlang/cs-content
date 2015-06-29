@@ -93,6 +93,7 @@ flow:
                 required: false
         publish:
           - returnResult
+          - error_message: standard_err
 
     - verify:
         do:
@@ -105,6 +106,7 @@ flow:
 
   outputs:
       - returnResult
+      - error_message
 
   results:
     - SUCCESS
