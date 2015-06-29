@@ -7,6 +7,10 @@
 #
 ####################################################
 
+general:
+  artifacts:
+    - "builder.log"
+    
 machine:
   services:
     - docker
