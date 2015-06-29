@@ -22,13 +22,15 @@ flow:
     - job_name:
         default: "'job1'"
         overridable: false
-
+    - jenkins_port:
+        default: "'49165'"
+        overridable: false
   workflow:
-#49165
+
     - create_jenkins_job:
         do:
           jenkins.create_job:
-            - url: "'http://' + host + ':49001'"
+            - url: "'http://' + host + ':' + jenkins_port"
             - job_name
             - config_xml
         navigate:
@@ -37,7 +39,7 @@ flow:
     - build_jenkins_job:
         do:
           jenkins.invoke_job:
-            - url: "'http://' + host + ':49001'"
+            - url: "'http://' + host + ':' jenkins_port"
             - job_name
         navigate:
           SUCCESS: wait
@@ -51,7 +53,7 @@ flow:
     - get_last_buildnumber:
         do:
           jenkins.get_last_buildnumber:
-            - url: "'http://' + host + ':49165'"
+            - url: "'http://' + host + ':' + jenkins_port"
             - job_name
         publish:
           - last_buildnumber
@@ -62,7 +64,7 @@ flow:
     - clone_job:
         do:
           jenkins.clone_job_for_branch:
-            - url: "'http://' + host + ':49165'"
+            - url: "'http://' + host + ':' + jenkins_port"
             - jnks_job_name: "'job1'"
             - jnks_new_job_name: "'job2'"
             - new_scm_url: "'123'"
