@@ -9,13 +9,13 @@
 # Retrieves cAdvisor status and performs restart to the container if the resource usage is too high.
 #
 # Inputs:
-#   - container - name or ID of Docker container that runs MySQL
-#   - Host - Docker machine host
+#   - container - name or ID of Docker container that runs cAdvisor
+#   - host - Docker machine host
 #   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: 22
 #   - username - Docker machine username
-#   - password - Docker machine password
-#   - privateKeyFile - optional - path to the private key file - Default: none
+#   - password - optional - Docker machine password
+#   - privateKeyFile - optional - path to the private key file
 #   - rule - optional - Python query to determine if the resource usages is high
 # Results:
 #   - SUCCESS - successful (returnCode == '0')
@@ -41,9 +41,10 @@ flow:
         default: "'22'"
         required: false
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - rule:
         default: "''"
         required: false
@@ -84,9 +85,11 @@ flow:
             - container_id: container
             - host
             - username
-            - password
+            - password:
+                required: false
             - port: machine_connect_port
-            - privateKeyFile
+            - privateKeyFile:
+                required: false
         publish:
           - errorMessage
         navigate:
@@ -95,11 +98,13 @@ flow:
     - start_container:
         do:
           docker_container.start_container:
-            - privateKeyFile
+            - privateKeyFile:
+                required: false
             - container_id: container
             - host
             - username
-            - password
+            - password:
+                required: false
             - port: machine_connect_port
         publish:
           - errorMessage

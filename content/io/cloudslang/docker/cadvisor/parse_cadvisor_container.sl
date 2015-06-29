@@ -81,9 +81,9 @@ operation:
         memory_usage=memory_usage/min
         returnCode = '0'
         returnResult = 'Parsing successful.'
-      except:
+      except Exception as ex:
         returnCode = '-1'
-        returnResult = 'Parsing error.'
+        returnResult = 'Parsing error: ' + str(ex)
   outputs:
     - decoded
     - spec
