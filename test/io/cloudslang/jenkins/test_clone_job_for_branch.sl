@@ -47,7 +47,7 @@ flow:
     - wait:
         do:
           base_utils.sleep:
-            - seconds: 5
+            - seconds: 10
         navigate:
           SUCCESS: get_last_buildnumber
     - get_last_buildnumber:
