@@ -27,76 +27,104 @@ namespace: io.cloudslang.docker.monitoring.mysql
 imports:
  docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
  base_mail: io.cloudslang.base.mail
+ print: io.cloudslang.base.print
 
 flow:
   name: report_mysql_status
 
   inputs:
     - container
-    - docker_host
-    - docker_username
-    - docker_password
+    - host
+    - port:
+        required: false
+    - username
+    - password:
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - mysql_username
     - mysql_password
     - email_host
     - email_port
+    - email_password
     - email_sender
     - email_recipient
 
   workflow:
     - retrieve_mysql_status:
-            do:
-              docker_monitoring_mysql.retrieve_mysql_status:
-                  - docker_host
-                  - docker_username
-                  - docker_password
-                  - private_key_file
-                  - container
-                  - mysql_username
-                  - mysql_password
-            publish:
-                - uptime
-                - threads
-                - questions
-                - slow_queries
-                - opens
-                - flush_tables
-                - open_tables
-                - queries_per_second_AVG
-                - error_message
+        do:
+          docker_monitoring_mysql.retrieve_mysql_status:
+            - host
+            - port:
+                required: false
+            - username
+            - password
+            - private_key_file:
+                required: false
+            - container
+            - mysql_username
+            - mysql_password
+        publish:
+            - uptime
+            - threads
+            - questions
+            - slow_queries
+            - opens
+            - flush_tables
+            - open_tables
+            - queries_per_second_AVG
+            - error_message
 
     - send_status_mail:
-            do:
-              base_mail.send_mail:
-                  - hostname: email_host
-                  - port: email_port
-                  - htmlEmail: "'false'"
-                  - from: email_sender
-                  - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
-                  - body: >
-                       'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
-                       + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
-                       + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
-                       + '\nQueries per second avg: ' + queries_per_second_AVG
-            navigate:
-              SUCCESS: SUCCESS
-              FAILURE: FAILURE
+        do:
+          base_mail.send_mail:
+              - hostname:
+                  default: email_host
+                  overridable: false
+              - port:
+                  default: email_port
+                  overridable: false
+              - username:
+                  default: email_sender
+                  overridable: false
+              - password:
+                  default: email_password
+                  overridable: false
+              - htmlEmail: "'false'"
+              - from: email_sender
+              - to: email_recipient
+              - subject: "'MySQL Server Status on ' + host"
+              - body: >
+                   'The MySQL server status on host ' + host + ' is detected as:\nUptime: ' + uptime
+                   + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
+                   + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
+                   + '\nQueries per second avg: ' + queries_per_second_AVG
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
     - on_failure:
       - send_error_mail:
           do:
               base_mail.send_mail:
-                  - hostname: email_host
-                  - port: email_port
+                  - hostname:
+                      default: email_host
+                      overridable: false
+                  - port:
+                      default: email_port
+                      overridable: false
+                  - username:
+                      default: email_sender
+                      overridable: false
+                  - password:
+                      default: email_password
+                      overridable: false
                   - from: email_sender
                   - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - subject: "'MySQL Server Status on ' + host"
                   - body: >
-                      'The MySQL server status checking on host ' + docker_host
+                      'The MySQL server status checking on host ' + host
                       + ' ended with the following error message: ' + error_message
           navigate:
-            SUCCESS: FAILURE
+            SUCCESS: SUCCESS
             FAILURE: FAILURE
