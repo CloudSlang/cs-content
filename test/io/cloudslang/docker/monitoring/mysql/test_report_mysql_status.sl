@@ -45,7 +45,7 @@ flow:
             - host
             - port: 25
         navigate:
-          SUCCESS: start_mysql_container
+          SUCCESS: pre_test_cleanup
           FAILURE: FAIL_TO_START_POSTFIX
 
     - pre_test_cleanup:
@@ -111,7 +111,7 @@ flow:
            SUCCESS: SUCCESS
            FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - postfix_cleanup
+    - postfix_cleanup:
         do:
           cmd.run_command:
             - command: "'sudo docker stop postfix && docker rm postfix'"
