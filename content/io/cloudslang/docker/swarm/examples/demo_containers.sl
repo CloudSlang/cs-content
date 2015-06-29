@@ -26,9 +26,6 @@
 #   - image_name_1 - Docker image for the first container - Default: tomcat
 #   - container_name_2 - name of the second container - Default: tomcat2
 #   - image_name_2 - Docker image for the second container - Default: tomcat
-# Results:
-#   - SUCCESS - tasks executed successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm.examples
@@ -202,6 +199,3 @@ flow:
                 required: false
             - agent_forwarding:
                 required: false
-  results:
-    - SUCCESS
-    - FAILURE

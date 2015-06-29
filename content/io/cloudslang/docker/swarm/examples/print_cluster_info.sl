@@ -21,9 +21,6 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
-# Results:
-#   - SUCCESS - information was retrieved and displayed successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm.examples
@@ -88,6 +85,3 @@ flow:
           print.print_text:
             - text: >
                 'Number of containers in cluster: ' + number_of_containers_in_cluster
-  results:
-    - SUCCESS
-    - FAILURE

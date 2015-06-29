@@ -28,9 +28,6 @@
 # Outputs:
 #   - container_names - comma separated list of container names
 #   - container_ids - comma separated list of container names
-# Results:
-#   - SUCCESS - container names retrieved successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -106,6 +103,3 @@ flow:
   outputs:
     - container_names
     - container_ids
-  results:
-    - SUCCESS
-    - FAILURE

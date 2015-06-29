@@ -28,9 +28,6 @@
 #   - amount_of_images_deleted - how many images (not including dangling) were deleted
 #   - amount_of_dangling_images_deleted - how many dangling images were deleted
 #   - total_amount_of_images_deleted - how many images (including dangling) were deleted
-# Results:
-#   - SUCCESS - Swarm cluster cleared successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
@@ -140,6 +137,3 @@ flow:
     - amount_of_images_deleted
     - amount_of_dangling_images_deleted
     - total_amount_of_images_deleted
-  results:
-    - SUCCESS
-    - FAILURE

@@ -27,10 +27,8 @@
 #   - agentForwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - container_ID - ID of the container
-# Results:
-#   - SUCCESS - container created successfully
-#   - FAILURE - otherwise
 ####################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -115,6 +113,3 @@ flow:
           - container_ID: standard_out[:-1]
   outputs:
     - container_ID
-  results:
-    - SUCCESS
-    - FAILURE

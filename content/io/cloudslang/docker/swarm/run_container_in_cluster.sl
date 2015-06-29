@@ -27,9 +27,6 @@
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - container_ID - ID of the container
-# Results:
-#   - SUCCESS - container created successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
@@ -109,6 +106,3 @@ flow:
           - container_ID
   outputs:
     - container_ID
-  results:
-    - SUCCESS
-    - FAILURE

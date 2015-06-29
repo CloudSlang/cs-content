@@ -22,9 +22,6 @@
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - docker_info - information returned by Docker
-# Results:
-#   - SUCCESS - information was retrieved successfully
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.utils
@@ -98,6 +95,3 @@ flow:
             - string_to_find: "'Containers'"
   outputs:
     - docker_info
-  results:
-    - SUCCESS
-    - FAILURE
