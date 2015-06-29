@@ -39,7 +39,7 @@ flow:
     - build_jenkins_job:
         do:
           jenkins.invoke_job:
-            - url: "'http://' + host + ':' jenkins_port"
+            - url: "'http://' + host + ':' + jenkins_port"
             - job_name
         navigate:
           SUCCESS: wait
