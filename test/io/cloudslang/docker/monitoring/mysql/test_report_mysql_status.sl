@@ -29,7 +29,7 @@ flow:
     - pull_postfix:
         do:
           cmd.run_command:
-            - command: "'sudo docker pull catatnight/postfix'"
+            - command: "'docker pull catatnight/postfix'"
         navigate:
           SUCCESS: run_postfix
           FAILURE: FIAL_TO_PULL_POSTFIX
@@ -37,7 +37,7 @@ flow:
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'sudo docker run -p 25:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: "'docker run -p 25:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
     - verify_postfix:
         do:
