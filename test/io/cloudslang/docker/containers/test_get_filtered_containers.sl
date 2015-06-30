@@ -37,13 +37,13 @@ flow:
         default: "'busybox:latest'"
         overridable: false
     - container_name_busybox:
-        default: "'busy'"
+        default: "'busybox'"
         overridable: false
     - image_name_tomcat:
         default: "'tomcat:latest'"
         overridable: false
     - container_name_tomcat:
-        default: "'tomi'"
+        default: "'tomcat'"
         overridable: false
     - expected_container_names:
         default: container_name_tomcat
