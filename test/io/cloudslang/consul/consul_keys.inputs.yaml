@@ -16,8 +16,9 @@ test_consul_keys_Success:
     - username: root
     - password: screencast
     - key_name: testkey
+    - key_value: testvalue
   result: SUCCESS
   outputs:
     - key: "testkey"
-    - value: null
+    - value: "testvalue"
     - flags: "0"

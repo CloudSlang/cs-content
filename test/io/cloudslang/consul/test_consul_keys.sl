@@ -25,6 +25,7 @@ flow:
     - private_key_file:
         required: false
     - key_name
+    - key_value
 
   workflow:
 
@@ -33,6 +34,7 @@ flow:
           consul.create_kv:
             - host
             - key_name
+            - key_value
         navigate:
           SUCCESS: get_key
           FAILURE: FAIL_CREATING_KEY
