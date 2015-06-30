@@ -52,4 +52,6 @@ testJenkins_clone_job_for_branch_Success:
            <publishers/>
            <buildWrappers/>
          </project>
+  outputs:
+    - last_buildnumber: 1
   result: SUCCESS

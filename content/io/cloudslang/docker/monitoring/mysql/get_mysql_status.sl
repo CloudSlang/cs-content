@@ -11,17 +11,16 @@
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to the private file - Default: none
-#   - arguments - optional - arguments to pass to the command - Default: none
+#   - private_key_file - optional - absolute path to the private file
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 # Outputs:
 #   - uptime - number of seconds MySQL server has been running
 #   - threads - number of active threads (clients)
@@ -51,25 +50,23 @@ flow:
         required: false
     - username
     - password
-    - privateKeyFile:
-        required: false
-    - arguments:
+    - private_key_file:
         required: false
     - mysql_username
     - mysql_password
-    - execCmd:
+    - exec_cmd:
         default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' status'"
         overridable: false
     - command:
-        default: "'docker exec ' + container + ' ' + execCmd"
+        default: "'docker exec ' + container + ' ' + exec_cmd"
         overridable: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
   workflow:
     - get_mysql_status:
@@ -81,17 +78,18 @@ flow:
             - username
             - password
             - privateKeyFile:
-                required: false
-            - arguments:
+                default: private_key_file
                 required: false
             - command
             - characterSet:
+                default: character_set
                 required: false
             - pty:
                 required: false
             - timeout:
                 required: false
             - closeSession:
+                default: close_session
                 required: false
         publish:
           - returnResult

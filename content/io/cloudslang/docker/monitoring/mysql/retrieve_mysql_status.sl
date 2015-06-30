@@ -10,10 +10,11 @@
 #
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - host - Docker machine host
+#   - port - optional - Docker machine port
+#   - username - Docker machine username
+#   - password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
 # Outputs:
@@ -45,7 +46,7 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - mysql_username
     - mysql_password
@@ -62,7 +63,7 @@ flow:
             - username
             - password:
                 required: false
-            - privateKeyFile:
+            - private_key_file:
                 required: false
             - mysql_username
             - mysql_password
@@ -79,7 +80,7 @@ flow:
             - username
             - password:
                 required: false
-            - privateKeyFile:
+            - private_key_file:
                 required: false
             - mysql_username
             - mysql_password
