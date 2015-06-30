@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_report_mysql_status_SUCCESS:
-  testSuites: [mysql-mail]
+  testSuites: [default]
   description: Tests that report mysql status works
   testFlowPath: io.cloudslang.docker.monitoring.mysql.test_report_mysql_status
   inputs:
