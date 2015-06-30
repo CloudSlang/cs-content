@@ -20,6 +20,6 @@ testDocker_report_mysql_status_SUCCESS:
     - email_host: localhost
     - email_port: "25"
     - email_sender: user@mail.example.com
-    - email_recipient: raskin.aleksandr@gmail.com,
+    - email_recipient: raskin.aleksandr@gmail.com
     - email_password: pwd
   result: SUCCESS
