@@ -39,6 +39,11 @@ flow:
           cmd.run_command:
             - command: "'docker run -p 25:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: 5
+
     - verify_postfix:
         do:
           network.verify_app_is_up:
