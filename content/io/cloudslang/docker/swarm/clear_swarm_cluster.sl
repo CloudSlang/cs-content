@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes all Docker images and containers from s Docker Swarm cluster.
+# Deletes all Docker images and containers from a Docker Swarm cluster.
 #
 # Inputs:
 #   - swarm_manager_ip - IP address of the machine with the Swarm manager container
