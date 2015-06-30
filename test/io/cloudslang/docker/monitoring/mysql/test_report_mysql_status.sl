@@ -77,7 +77,7 @@ flow:
           SUCCESS: sleep
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
-    - sleep:
+    - sleep_2:
         do:
           utils.sleep:
             - seconds: 20
