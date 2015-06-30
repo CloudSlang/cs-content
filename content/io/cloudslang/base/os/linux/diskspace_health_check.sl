@@ -32,9 +32,11 @@ flow:
   inputs:
     - docker_host
     - docker_username
-    - docker_password
-    - private_key_file:
+    - docker_password:
         default: "''"
+        required: false
+    - private_key_file:
+        required: false
     - percentage
     - timeout:
         required: false
@@ -46,7 +48,9 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - privateKeyFile: private_key_file
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
     - check_disk_space:
@@ -55,7 +59,9 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - privateKeyFile: private_key_file
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
         publish:
