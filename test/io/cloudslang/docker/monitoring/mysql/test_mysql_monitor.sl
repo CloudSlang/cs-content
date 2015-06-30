@@ -7,7 +7,7 @@
 #
 ####################################################
 
-namespace: io.cloudslang.docker.maintenance
+namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples

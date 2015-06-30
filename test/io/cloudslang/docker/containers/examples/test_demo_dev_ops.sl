@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.docker.containers
+namespace: io.cloudslang.docker.containers.examples
 
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples
