@@ -6,15 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Pulls and runs a Docker container in a Swarm cluster.
+# Deletes all Docker images and containers from a Docker Swarm cluster.
 #
 # Inputs:
 #   - swarm_manager_ip - IP address of the machine with the Swarm manager container
 #   - swarm_manager_port - port used by the Swarm manager container
-#   - container_name - optional - container name
-#   - container_params - optional - command parameters
-#   - container_command - optional - container command
-#   - image_name - Docker image that will be assigned to the container
+#   - excluded_images - optional - containers based on these images will not be deleted
+#                                - used for filtering out containers used by Swarm e.g. agent containers
+#                     - Default: swarm:latest
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
@@ -26,26 +25,23 @@
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - container_ID - ID of the container
+#   - amount_of_images_deleted - how many images (not including dangling) were deleted
+#   - amount_of_dangling_images_deleted - how many dangling images were deleted
+#   - total_amount_of_images_deleted - how many images (including dangling) were deleted
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
 
 imports:
   containers: io.cloudslang.docker.containers
+  images: io.cloudslang.docker.images
 
 flow:
-  name: run_container_in_cluster
+  name: clear_swarm_cluster
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
-    - container_name:
-        required: false
-    - container_params:
-        required: false
-    - container_command:
-        required: false
-    - image_name
+    - excluded_images: "'swarm:latest'"
     - host
     - port:
         required: false
@@ -70,17 +66,14 @@ flow:
         overridable: false
 
   workflow:
-    - run_container_in_cluster:
+    - get_containers_in_cluster:
         do:
-          containers.run_container:
+          containers.get_filtered_containers:
             - docker_options
-            - container_name:
-                required: false
-            - container_params:
-                required: false
-            - container_command:
-                required: false
-            - image_name
+            - all_containers:
+                default: true
+                overridable: false
+            - excluded_images
             - host
             - port:
                 required: false
@@ -89,20 +82,58 @@ flow:
                 required: false
             - private_key_file:
                 required: false
-            - characterSet:
-                default: character_set
+            - character_set:
                 required: false
             - pty:
                 required: false
             - timeout:
                 required: false
-            - closeSession:
-                default: close_session
+            - close_session:
                 required: false
-            - agentForwarding:
-                default: agent_forwarding
+            - agent_forwarding:
                 required: false
         publish:
-          - container_ID
+          - container_ids
+
+    - clear_containers:
+        do:
+          containers.clear_container:
+            - container_id: container_ids.replace(",", " ")
+            - docker_options
+            - docker_host: host
+            - port:
+                required: false
+            - docker_username: username
+            - docker_password:
+                default: password
+                required: false
+            - private_key_file:
+                default: private_key_file
+                required: false
+            - timeout:
+                required: false
+
+    - clear_unused_images:
+        do:
+          images.clear_unused_docker_images:
+            - docker_options
+            - docker_host: host
+            - docker_username: username
+            - docker_password:
+                default: password
+                required: false
+            - private_key_file:
+                default: private_key_file
+                required: false
+            - timeout:
+                required: false
+            - port:
+                required: false
+        publish:
+          - amount_of_images_deleted
+          - amount_of_dangling_images_deleted
+          - total_amount_of_images_deleted: amount_of_images_deleted + amount_of_dangling_images_deleted
   outputs:
-    - container_ID
+    - amount_of_images_deleted
+    - amount_of_dangling_images_deleted
+    - total_amount_of_images_deleted

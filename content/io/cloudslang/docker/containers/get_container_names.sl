@@ -9,6 +9,7 @@
 # Retrieves a list of all the Docker container names.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - all_containers - optional - show all containers (both running and stopped) - Default: false, only running containers
 #                    - any input that is different than empty string or false (as boolean type) changes its value to True
 #   - host - Docker machine host
@@ -23,6 +24,7 @@
 #   - agent_forwarding - optional - enables or disables the forwarding of the authentication agent connection
 # Outputs:
 #   - container_names - list of container names separated by space
+#   - raw_output - unparsed return result from the machine
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -33,11 +35,13 @@ imports:
 flow:
   name: get_container_names
   inputs:
+    - docker_options:
+        required: false
     - all_containers:
         default: false
     - ps_parameters:
         default: >
-          ' -a' if bool(all_containers) else ''
+          '-a' if bool(all_containers) else ''
         overridable: false
     - host
     - port:
@@ -59,7 +63,6 @@ flow:
         required: false
 
   workflow:
-
     - get_containers:
         do:
           ssh.ssh_flow:
@@ -68,7 +71,7 @@ flow:
                 required: false
             - command:
                 default: >
-                  'docker ps' + ps_parameters
+                  'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'ps ' + ps_parameters
                 overridable: false
             - pty: "'false'"
             - username
@@ -90,6 +93,7 @@ flow:
         publish:
           - container_names: >
               ' '.join(map(lambda line : line.split()[-1], filter(lambda line : line != '', returnResult.split('\n')[1:])))
-
+          - raw_output: returnResult
   outputs:
     - container_names
+    - raw_output

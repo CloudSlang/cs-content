@@ -6,11 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Prints information about the Swarm cluster - for now only the total number of containers in the cluster (including agent containers).
+# Retrieves a list of Docker container names. Containers can be filtered based on the images they are created from.
 #
 # Inputs:
-#   - swarm_manager_ip - IP address of the machine with the Swarm manager container
-#   - swarm_manager_port - port used by the Swarm manager container
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#   - all_containers - optional - show all containers (both running and stopped) - Default: false, only running containers
+#                    - any input that is different than empty string or false (as boolean type) changes its value to True
+#   - excluded_images - comma separated list of Docker images
+#                     - the containers based on these images will not be included in the result list
+#                     - e.g. swarm:latest,tomcat:7
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
@@ -18,22 +22,28 @@
 #   - private_key_file - optional - path to private key file
 #   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 600000 ms (10 min)
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
-#   - agent_forwarding - optional - whether to forward the user authentication agent
+#   - agent_forwarding - optional - enables or disables the forwarding of the authentication agent connection
+# Outputs:
+#   - container_names - comma separated list of container names
+#   - container_ids - comma separated list of container names
 ####################################################
 
-namespace: io.cloudslang.docker.swarm.examples
+namespace: io.cloudslang.docker.containers
 
 imports:
-  swarm: io.cloudslang.docker.swarm
-  print: io.cloudslang.base.print
+  containers: io.cloudslang.docker.containers
+  utils: io.cloudslang.docker.utils
 
 flow:
-  name: print_cluster_info
+  name: get_filtered_containers
   inputs:
-    - swarm_manager_ip
-    - swarm_manager_port
+    - docker_options:
+        required: false
+    - all_containers:
+        default: false
+    - excluded_images
     - host
     - port:
         required: false
@@ -54,11 +64,13 @@ flow:
         required: false
 
   workflow:
-    - retrieve_cluster_info:
+    - get_containers_raw_output:
         do:
-          swarm.get_cluster_info:
-            - swarm_manager_ip
-            - swarm_manager_port
+          containers.get_container_names:
+            - docker_options:
+                required: false
+            - all_containers:
+                required: false
             - host
             - port:
                 required: false
@@ -78,10 +90,16 @@ flow:
             - agent_forwarding:
                 required: false
         publish:
-          - number_of_containers_in_cluster
+          - raw_output
 
-    - print_number_of_containers:
+    - filter_containers_on_images:
         do:
-          print.print_text:
-            - text: >
-                'Number of containers in cluster: ' + number_of_containers_in_cluster
+          utils.filter_containers_raw_output:
+            - raw_output
+            - excluded_images
+        publish:
+          - container_names
+          - container_ids
+  outputs:
+    - container_names
+    - container_ids

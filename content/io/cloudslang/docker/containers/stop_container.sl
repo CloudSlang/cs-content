@@ -10,6 +10,7 @@
 #
 # Inputs:
 #   - container_id - ID of the container to be deleted
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - cmd_params - optional - command parameters - Default: none
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
@@ -36,6 +37,11 @@ flow:
   name: stop_container
   inputs:
     - container_id
+    - docker_options:
+        required: false
+    - docker_options_expression:
+        default: docker_options + ' ' if bool(docker_options) else ''
+        overridable: false
     - cmd_params:
         required: false
     - params:
@@ -51,7 +57,7 @@ flow:
     - arguments:
         required: false
     - command:
-        default: "'docker stop ' + params + container_id"
+        default: "'docker ' + docker_options_expression + 'stop ' + params + container_id"
         overridable: false
     - characterSet:
         required: false
@@ -97,7 +103,6 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - result

@@ -9,6 +9,7 @@
 #  Deletes unused and Dangling Docker images.
 #
 #  Inputs:
+#    - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #    - docker_host - Docker machine host
 #    - docker_username - Docker machine username
 #    - docker_password - optional - Docker machine password - Default: none
@@ -30,6 +31,8 @@ imports:
 flow:
   name: clear_unused_docker_images
   inputs:
+    - docker_options:
+        required: false
     - docker_host
     - docker_username
     - docker_password:
@@ -44,6 +47,8 @@ flow:
      - clear_docker_images:
           do:
             docker_images.clear_docker_images_flow:
+              - docker_options:
+                  required: false
               - docker_host
               - docker_username
               - docker_password
@@ -59,6 +64,8 @@ flow:
      - clear_docker_dangling_images:
           do:
             docker_images.clear_docker_dangling_images_flow:
+              - docker_options:
+                  required: false
               - docker_host
               - docker_username
               - docker_password
