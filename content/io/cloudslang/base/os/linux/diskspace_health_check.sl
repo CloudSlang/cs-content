@@ -32,9 +32,10 @@ flow:
   inputs:
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - percentage
     - timeout:
         required: false
@@ -45,8 +46,12 @@ flow:
           base_os_linux.validate_linux_machine_ssh_access:
             - host: docker_host
             - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
     - check_disk_space:
@@ -54,8 +59,12 @@ flow:
           base_os_linux.check_linux_disk_space:
             - host: docker_host
             - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
         publish:
