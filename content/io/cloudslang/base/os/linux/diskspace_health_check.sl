@@ -11,8 +11,8 @@
 # Inputs:
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - path to the private key file - Default: none
+#   - docker_password - optional - Docker machine password
+#   - private_key_file - optional - path to the private key file - Default: none
 #   - percentage - Example: 50%
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Results:
