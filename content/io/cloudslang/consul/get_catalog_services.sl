@@ -32,8 +32,11 @@ operation:
         default: "'8500'"
         required: false
     - datacenter:
+        default: "''"
         required: false
-    - dc: "'?dc=' + datacenter if bool(datacenter) else ''"
+    - dc:
+        default: "'?dc=' + datacenter if bool(datacenter) else ''"
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + consul_port +'/v1/catalog/services' + dc"
         overridable: false

@@ -10,7 +10,8 @@
 #
 # Inputs:
 #   - address - optional - will default to that of the agent
-#   - service - optional - if Service key is provided, then service will also be registered
+#   - service_name - name of the service to be registered
+#   - service_id - optional - service_name will be used if not specified
 #   - check - optional - if the Check key is provided, then a health check will also be registered
 # Outputs:
 #   - json_request - JSON request for registering endpoint
@@ -34,26 +35,25 @@ operation:
     - service_id:
         required: false
     - check:
-        default: "''"
         required: false
   action:
     python_script: |
       try:
         import json
         data= {}
-        if address != '':
+        if address:
           data['Address'] = address
         if service_id != '':
           data['ID'] = service_id
         data['Name'] = service_name
-        if check != '':
+        if check:
           data['Check'] = json.loads(check)
         json_request = json.dumps(data)
         returnCode = '0'
         returnResult = 'Parsing successful.'
-      except:
+      except Exception as ex:
         returnCode = '-1'
-        returnResult = 'Parsing error'
+        returnResult = 'Parsing error: ' + str(ex)
   outputs:
     - json_request
     - returnCode

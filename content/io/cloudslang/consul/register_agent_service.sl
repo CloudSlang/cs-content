@@ -61,10 +61,5 @@ flow:
               - json_request
         publish:
             - errorMessage
-            - returnResult
   outputs:
       - errorMessage
-      - returnResult
-  results:
-      - SUCCESS
-      - FAILURE
