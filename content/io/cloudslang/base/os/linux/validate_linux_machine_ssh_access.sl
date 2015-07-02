@@ -19,7 +19,7 @@
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
-#   - agentForwarding - optional - the sessionObject that holds the connection if the close session is false
+#   - agentForwarding - optional  - the sessionObject that holds the connection if the close session is false
 # Outputs:
 #   - response - Linux welcome message
 #   - error_message
