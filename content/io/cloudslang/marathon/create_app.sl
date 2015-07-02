@@ -39,11 +39,10 @@ flow:
         required: false
     - json_file
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
+
   workflow:
     - read_from_file:
         do:
@@ -58,8 +57,10 @@ flow:
             - marathon_host
             - marathon_port
             - body: read_text
-            - proxyHost
-            - proxyPort
+            - proxyHost:
+                required: false
+            - proxyPort:
+                required: false
         publish:
           - returnResult
           - statusCode

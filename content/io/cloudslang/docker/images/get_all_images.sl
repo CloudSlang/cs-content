@@ -9,6 +9,7 @@
 # Retrieves a list of all the Docker images.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
@@ -35,6 +36,11 @@ imports:
 flow:
   name: get_all_images
   inputs:
+    - docker_options:
+        required: false
+    - docker_options_expression:
+        default: docker_options + ' ' if bool(docker_options) else ''
+        overridable: false
     - host
     - port:
         required: false
@@ -45,7 +51,7 @@ flow:
         required: false
     - command:
         default: >
-            "docker images | awk '{print $1 \":\" $2}'"
+            "docker " + docker_options_expression + "images | awk '{print $1 \":\" $2}'"
         overridable: false
     - arguments:
         required: false

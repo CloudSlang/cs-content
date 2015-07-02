@@ -37,7 +37,6 @@ operation:
         default: "'8080'"
         required: false
     - cmd:
-        default: "''"
         required: false
     - embed:
         default: "'none'"
@@ -46,10 +45,8 @@ operation:
         default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
         overridable: false
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - method:
         default: "'get'"

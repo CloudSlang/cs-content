@@ -10,6 +10,7 @@
 #
 # Inputs:
 #   - container_ID - ID of the container to be deleted
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
@@ -27,6 +28,8 @@ flow:
   name: clear_container
   inputs:
     - container_id
+    - docker_options:
+        required: false
     - docker_host
     - docker_username
     - docker_password:
@@ -40,6 +43,8 @@ flow:
         do:
           docker_containers.stop_container:
             - container_id: container_ID
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password:
@@ -57,6 +62,8 @@ flow:
         do:
           docker_containers.delete_container:
             - container_id: container_ID
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password:

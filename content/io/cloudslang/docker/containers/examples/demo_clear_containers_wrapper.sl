@@ -32,6 +32,8 @@ flow:
     - db_container_ID
     - linked_container_ID
     - docker_host
+    - port:
+        required: false
     - docker_username
     - docker_password
   workflow:
@@ -40,6 +42,8 @@ flow:
           docker_containers.clear_container:
             - container_id: db_container_ID
             - docker_host
+            - port:
+                required: false
             - docker_username
             - docker_password
         publish:
@@ -49,6 +53,8 @@ flow:
           docker_containers.clear_container:
             - container_id: linked_container_ID
             - docker_host
+            - port:
+                required: false
             - docker_username
             - docker_password
         publish:
