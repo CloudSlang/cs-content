@@ -16,6 +16,8 @@ flow:
     - port:
         required: false
     - username
+    - verify_port:
+        default: 25
     - password
     - mysql_username
     - mysql_password
@@ -48,7 +50,9 @@ flow:
         do:
           network.verify_app_is_up:
             - host
-            - port: 25
+            - port:
+                default: verify_port
+                overridable: false
         navigate:
           SUCCESS: pre_test_cleanup
           FAILURE: FAIL_TO_START_POSTFIX
