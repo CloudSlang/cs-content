@@ -12,10 +12,7 @@
 #   - first_percentage - string which represents a percentage - Example: 50%
 #   - second_percentage - string which represents a percentage - Example: 50%
 # Outputs:
-#   - first_percentage_nr - first input string without "%"
-#   - second_percentage_nr - second input string without "%"
 #   - error_message - error message if error occurred
-#   - result - true if first_percentage < second_percentage, false otherwise
 # Results:
 #   - LESS - first_percentage < second_percentage
 #   - MORE - first_percentage >= second_percentage
@@ -38,14 +35,11 @@ operation:
       try:
           int_value1 = int(first_percentage_nr)
           int_value2 = int(second_percentage_nr)
-          result = error_message == "" and int_value1 < int_value2
+          result = int_value1 < int_value2
       except ValueError:
           error_message = "Both inputs have to be integers"
   outputs:
-    - first_percentage_nr
-    - second_percentage_nr
     - error_message
-    - result
   results:
     - LESS: error_message == "" and result
     - MORE: error_message == "" and not result

@@ -11,10 +11,10 @@
 # Inputs:
 #   - server_body - response of get_openstack_servers operation
 # Outputs:
-#   - server_list - list of server names
+#   - server_list - comma seperated list of server names
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - returnResult if there was an error
+#   - error_message - return_result if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
@@ -30,14 +30,9 @@ operation:
     python_script: |
       try:
         import json
-        decoded = json.loads(server_body)
-        server_list_Json = decoded['servers']
-        nr_servers = len(server_list_Json)
-        server_list = ''
-        for index in range(nr_servers):
-          server_name = server_list_Json[index]['name']
-          server_list = server_list + server_name + ','
-        server_list = server_list[:-1]
+        servers = json.loads(server_body)['servers']
+        server_names = [server['name'] for server in servers]
+        server_list = ",".join(server_names)
         return_code = '0'
         return_result = 'Parsing successful.'
       except:

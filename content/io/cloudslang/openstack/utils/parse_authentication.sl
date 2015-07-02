@@ -32,11 +32,9 @@ operation:
       try:
         import json
         decoded = json.loads(json_authentication_response)
-        access_Json = decoded['access']
-        token_Json = access_Json['token']
-        token = token_Json['id']
-        tenant_Json = token_Json['tenant']
-        tenant = tenant_Json['id']
+        token_entry = decoded['access']['token']
+        token = token_entry['id']
+        tenant = token_entry['tenant']['id']
         return_code = '0'
         return_result = 'Parsing successful.'
       except:

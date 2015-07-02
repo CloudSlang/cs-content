@@ -10,10 +10,12 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - computePort - optional - port used for OpenStack computations - Default: 8774
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
-#   - serverID - ID of server to be deleted
+#   - server_id - ID of server to be deleted
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 204
@@ -29,28 +31,34 @@ operation:
   name: delete_openstack_server
   inputs:
     - host
-    - computePort:
+    - compute_port:
         default: "'8774'"
     - token
     - tenant
-    - serverID
+    - server_id
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxyHost: "proxy_host if proxy_host else ''"
+    - proxyPort: "proxy_port if proxy_port else ''"
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + computePort + '/v2/' + tenant + '/servers/' + serverID"
+        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant + '/servers/' + server_id"
         overridable: false
     - method:
         default: "'delete'"
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
+    - return_result: "'' if 'returnResult' not in locals() else returnResult"
     - status_code: statusCode
     - error_message: returnResult if statusCode != '204' else ''
   results:
-    - SUCCESS: statusCode == '204'
+    - SUCCESS: "'statusCode' in locals() and statusCode == '204'"
     - FAILURE

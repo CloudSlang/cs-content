@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Defualt: 8500
+#   - consul_port - optional - Consul agent host port - Default: 8500
 #   - json_request - the request JSON
 # Outputs:
 #   - returnResult - response of the operation
@@ -43,7 +43,7 @@ operation:
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

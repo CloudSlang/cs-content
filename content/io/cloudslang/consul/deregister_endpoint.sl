@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Defualt: 8500
+#   - consul_port - optional - Consul agent host port - Default: 8500
 #   - node - node name
 #   - address - node host
 #   - datacenter - optional - Default: matches that of the agent
@@ -35,7 +35,6 @@ flow:
         default: "'8500'"
         required: false
     - node
-    - address
     - datacenter:
         default: "''"
         required: false
@@ -50,7 +49,6 @@ flow:
         do:
           consul.parse_register_endpoint_request:
             - node
-            - address
             - datacenter
             - service
             - check

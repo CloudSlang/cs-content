@@ -33,14 +33,14 @@ operation:
         required: false
     - container
     - url:
-        default: "'http://'+ host + ':' + cadvisor_port +'/api/v1.2/docker/'+container"
+        default: "'http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/' + container"
         overridable: false
     - method:
         default: "'get'"
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

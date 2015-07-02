@@ -14,6 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50%
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
 ####################################################
@@ -21,7 +22,6 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- docker_maintenance: io.cloudslang.docker.maintenance
  base_os_linux: io.cloudslang.base.os.linux
  docker_images: io.cloudslang.docker.images
 
@@ -34,15 +34,19 @@ flow:
     - private_key_file:
         default: "''"
     - percentage
+    - timeout:
+        default: "'6000000'"
   workflow:
     - check_diskspace:
         do:
-          docker_maintenance.diskspace_health_check:
+          base_os_linux.diskspace_health_check:
             - docker_host
             - docker_username
             - docker_password
             - private_key_file
             - percentage
+            - timeout:
+                required: false
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
@@ -54,6 +58,8 @@ flow:
             - docker_username
             - docker_password
             - private_key_file
+            - timeout:
+                required: false
         publish:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted

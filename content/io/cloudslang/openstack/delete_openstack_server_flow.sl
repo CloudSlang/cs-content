@@ -15,6 +15,9 @@
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - server_name - name of server to delete
+#   - tenant_name - name of the project on OpenStack
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
@@ -35,7 +38,12 @@ flow:
         default: "'8774'"
     - username
     - password
+    - tenant_name
     - server_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:
@@ -44,6 +52,11 @@ flow:
             - identity_port
             - username
             - password
+            - tenant_name
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -53,9 +66,13 @@ flow:
         do:
           openstack_content.get_openstack_servers:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - server_list: return_result
           - return_result
@@ -66,17 +83,21 @@ flow:
             - server_body: server_list
             - server_name: server_name
         publish:
-          - server_ID
+          - server_id
           - return_result
           - error_message
     - delete_server:
         do:
           openstack_content.delete_openstack_server:
             - host
-            - computePort: compute_port
+            - compute_port
             - token
             - tenant
-            - serverID: server_ID
+            - server_id
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - return_result
           - error_message

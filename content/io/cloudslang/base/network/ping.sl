@@ -16,8 +16,10 @@
 # Outputs:
 #   - message - error message if error occurred
 # Results:
-#   - SUCCESS - address is up
-#   - FAILURE - address is down
+#   - UP - address is up
+#   - DOWN - address is down
+#   - FAILURE - ping cannot be performed due to an error
+#
 ####################################################
 namespace: io.cloudslang.base.network
 

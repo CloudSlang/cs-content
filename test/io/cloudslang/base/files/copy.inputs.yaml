@@ -1,0 +1,64 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+#tests here fail when running from a different place that content repo root
+
+testCopySuccess:
+  inputs:
+    - copy_source: will_be_created
+    - copy_destination: copied
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid file paths
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: SUCCESS
+
+testCopyFailure:
+  inputs:
+    - source: should_not_exist
+    - destination: wont_be_copied
+  description: Tests that copy.sl finishes with FAILURE when source file does not exist
+  testFlowPath: io.cloudslang.base.files.copy
+  result: FAILURE
+
+testCopyFailureIllegal:
+  inputs:
+    - copy_source: will_be_created
+    - copy_destination: abc/RE\0AD*ME2.md
+  description: Tests that copy.sl finishes with FAILURE when destination file path contains unallowed characters
+  testFlowPath: io.cloudslang.base.files.test_copy
+  result: COPYFAILURE
+
+testCopyFolderSuccess:
+  inputs:
+    - copy_source: newfolder
+    - copy_destination: foldercopy
+  description: Tests that copy.sl finishes with SUCCESS when inputs are valid folder paths
+  testFlowPath: io.cloudslang.base.files.test_copy_folder
+  result: SUCCESS
+
+testCopyFolderFailure:
+  inputs:
+    - source: inexistentfolder
+    - destination: willnotbecopied
+  description: Tests that copy.sl finishes with FAILURE when source folder does not exist
+  testFlowPath: io.cloudslang.base.files.copy
+  result: FAILURE
+
+#fails on linux
+
+#testCopyFolderFailureIllegal:
+#  inputs:
+#    - copy_source: willbecreated
+#    - copy_destination: i/0nexist\0en*tpath/fol/der
+#  description: Tests that copy.sl finishes with FAILURE when folder path contains unallowed characters
+#  testFlowPath: io.cloudslang.base.files.test_copy_folder
+#  result: COPYFAILURE
+
+testCopyException:
+  description: Tests that copy.sl throws exception when there are missing inputs
+  testFlowPath: io.cloudslang.base.files.test_copy
+  throwsException: true

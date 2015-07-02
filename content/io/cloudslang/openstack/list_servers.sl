@@ -9,11 +9,14 @@
 # Retrieves a list of servers on an OpenStack machine.
 #
 # Inputs:
-#   - openstack_host - OpenStack machine host
-#   - openstack_identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - openstack_compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - openstack_username - OpenStack username
-#   - openstack_password - OpenStack password
+#   - host - OpenStack machine host
+#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - username - OpenStack username
+#   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - server_list - list of server names
 #   - return_result - response of the last operation executed
@@ -32,21 +35,31 @@ imports:
 flow:
   name: list_servers
   inputs:
-    - openstack_host
-    - openstack_identity_port:
+    - host
+    - identity_port:
         default: "'5000'"
-    - openstack_compute_port:
+    - compute_port:
         default: "'8774'"
-    - openstack_username
-    - openstack_password
+    - username
+    - password
+    - tenant_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:
           openstack_content.get_authentication_flow:
-            - host: openstack_host
-            - identity_port: openstack_identity_port
-            - username: openstack_username
-            - password: openstack_password
+            - host
+            - identity_port
+            - username
+            - password
+            - tenant_name
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - tenant
@@ -56,10 +69,14 @@ flow:
     - get_openstack_servers:
         do:
           openstack_content.get_openstack_servers:
-            - host: openstack_host
-            - computePort: openstack_compute_port
+            - host
+            - compute_port
             - token
             - tenant
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - response_body: return_result
           - return_result: return_result

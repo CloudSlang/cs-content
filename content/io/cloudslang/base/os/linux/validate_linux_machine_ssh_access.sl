@@ -36,9 +36,10 @@ operation:
     - port:
         default: "'22'"
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
         default: "' '"
         overridable: false
@@ -54,7 +55,7 @@ operation:
         default: "'false'"
   action:
     java_action:
-      className: org.openscore.content.ssh.actions.SSHShellCommandAction
+      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
     - response: "'' if 'STDOUT' not in locals() else STDOUT"

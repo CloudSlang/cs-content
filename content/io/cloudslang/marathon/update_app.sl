@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - app_id - app ID to update
 #   - json_file - path to JSON of the app
 #   - proxyHost - optional - proxy host - Default: none
@@ -41,10 +41,8 @@ flow:
     - app_id
     - json_file
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
   workflow:
     - read_from_file:
@@ -61,8 +59,10 @@ flow:
             - marathon_port
             - app_id
             - body: read_text
-            - proxyHost
-            - proxyPort
+            - proxyHost:
+                required: false
+            - proxyPort:
+                required: false
         publish:
           - returnResult
           - statusCode

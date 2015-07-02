@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - cmd - optional - filter apps to only those whose commands contain cmd - Default: none
 #   - embed - optional - embeds nested resources that match supplied path - Default: none -
 #     Valid: "apps.tasks" Apps' tasks are not embedded in response by default
@@ -37,7 +37,6 @@ operation:
         default: "'8080'"
         required: false
     - cmd:
-        default: "''"
         required: false
     - embed:
         default: "'none'"
@@ -46,10 +45,8 @@ operation:
         default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
         overridable: false
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - method:
         default: "'get'"
@@ -59,7 +56,7 @@ operation:
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

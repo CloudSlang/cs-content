@@ -12,9 +12,9 @@
 #   - coreos_host - CoreOS machine host; can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
 #   - private_key_file - path to the private key file - Default: none
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
-#   - machines_public_ip_list: space delimeted list of public IP addresses of machines in cluster
-#   - error_Message - possible error message
+#   - machines_public_ip_list: space delimited list of public IP addresses of machines in cluster
 #####################################################
 
 namespace: io.cloudslang.coreos
@@ -36,6 +36,8 @@ flow:
     - machines_public_ip_list:
         default: "''"
         overridable: false
+    - timeout:
+        required: false
 
   workflow:
     - list_machines_id:
@@ -45,9 +47,10 @@ flow:
             - username: coreos_username
             - password: coreos_password
             - privateKeyFile: private_key_file
+            - timeout:
+                required: false
         publish:
             - machines_id_list
-            - error_message
 
     - get_machine_public_ip:
             loop:
@@ -59,10 +62,10 @@ flow:
                     - username: coreos_username
                     - password: coreos_password
                     - privateKeyFile: private_key_file
+                    - timeout:
+                        required: false
                 publish:
                     - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
-                    - error_message
 
   outputs:
     - machines_public_ip_list: machines_public_ip_list[:-1]
-    - error_message

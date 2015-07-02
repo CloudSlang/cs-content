@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - appId - app ID to delete
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
@@ -44,14 +44,12 @@ operation:
         default: "'application/json'"
         overridable: false
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

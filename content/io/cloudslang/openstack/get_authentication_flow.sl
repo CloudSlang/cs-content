@@ -13,9 +13,12 @@
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - tenant_name - name of the project on OpenStack
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - token - authentication token
-#   - tenant - tenantID
+#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
 # Results:
@@ -37,14 +40,24 @@ flow:
         default: "'5000'"
     - username
     - password
+    - tenant_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - get_token:
         do:
           openstack_content.get_authentication:
             - host
-            - identityPort: identity_port
+            - identity_port
             - username
             - password
+            - tenant_name
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - response_body: return_result
           - return_code

@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Defualt: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - appId - app ID to update
 #   - body - application resource JSON
 #   - proxyHost - optional - proxy host - Default: none
@@ -37,10 +37,8 @@ operation:
     - app_id
     - body
     - proxyHost:
-        default: "''"
         required: false
     - proxyPort:
-        default: "'8080'"
         required: false
     - url:
         default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
@@ -53,7 +51,7 @@ operation:
         overridable: false
   action:
     java_action:
-      className: org.openscore.content.httpclient.HttpClientAction
+      className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
     - returnResult

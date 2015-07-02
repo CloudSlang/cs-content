@@ -1,0 +1,114 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testStringOccurrenceCounterSuccess:
+  inputs:
+    - string_in_which_to_search: long string IniN which to search
+    - string_to_find: in
+    - ignore_case: "true"
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - return_result: 3
+    - error_message: ""
+
+testStringOccurrenceCounterFailure:
+  inputs:
+    - string_in_which_to_search: long string in which to search
+    - string_to_find: stringthatisnotfound
+    - ignore_case: "true"
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when inputs are valid
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: FAILURE
+  outputs:
+    - return_code: 0
+    - return_result: 0
+    - error_message: 0
+
+testStringOccurrenceCounterMissingInputs:
+  inputs:
+    - string_in_which_to_search: long string in which to search
+  description: Tests that string_occurrence_counter.sl operation throws an exception when a required input is missing
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  throwsException: true
+
+testStringOccurrenceCounterEmptyStringInWhichToSearch:
+  inputs:
+    - string_in_which_to_search: ""
+    - string_to_find: stringthatisnotfound
+  description: Tests that string_occurrence_counter.sl operation finishes with FAILURE when string_in_which_to_search is empty and string_to_find is not
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: FAILURE
+  outputs:
+    - return_code: 0
+    - return_result: 0
+    - error_message: 0
+
+testStringOccurrenceCounterEmptyStringToFind:
+  inputs:
+    - string_in_which_to_search: long string in which to search
+    - string_to_find: ""
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when string_to_find is empty and string_in_which_to_search is not having as output the length of string_in_which_to_search
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - return_result: 31
+    - error_message: ""
+
+testStringOccurrenceCounterBothStringsEmpty:
+  inputs:
+    - string_in_which_to_search: ""
+    - string_to_find: ""
+    - expected_output: 1
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS having output 1 when both strings are empty
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - return_result: 1
+    - error_message: ""
+
+testStringOccurrenceCounterCaseFailure:
+  inputs:
+    - string_in_which_to_search: long String in which to search
+    - string_to_find: string
+    - ignore_case: "false"
+  description: Tests that string_occurrence_counter.sl operation finishes with FAILURE if the string was found but has different case and ignore_case is false
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: FAILURE
+  outputs:
+    - return_code: 0
+    - return_result: 0
+    - error_message: 0
+
+testStringOccurrenceDefaultIgnoreCase:
+  inputs:
+    - string_in_which_to_search: long String in which to search
+    - string_to_find: string
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS finding the string but with a different case and ignore_case default
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - return_result: 1
+    - error_message: ""
+
+testStringOccurrenceSpecialCharacters:
+  inputs:
+    - string_in_which_to_search: long St*()ring in\" whi^ch to search
+    - string_to_find: In\"
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS finding a string among special characters
+  testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - return_result: 1
+    - error_message: ""

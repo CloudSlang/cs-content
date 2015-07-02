@@ -6,13 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  Deletes unused Docker images.
+#  Deletes unused and Dangling Docker images.
 #
 #  Inputs:
+#    - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #    - docker_host - Docker machine host
 #    - docker_username - Docker machine username
-#    - docker_password - Docker machine password
-#    - private_key_file - path to the private key file; Default: none
+#    - docker_password - optional - Docker machine password - Default: none
+#    - private_key_file - optional - path to the private key file - Default: none
+#    - timeout - optional - time in milliseconds to wait for the command to complete
 #  Outputs:
 #    - amount_of_images_deleted - number of images deleted
 #    - amount_of_dangling_images_deleted - number of dangling images deleted
@@ -29,19 +31,32 @@ imports:
 flow:
   name: clear_unused_docker_images
   inputs:
+    - docker_options:
+        required: false
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        default: "''"
     - private_key_file:
         default: "''"
+    - timeout:
+        required: false
+    - port:
+        required: false
   workflow:
      - clear_docker_images:
           do:
             docker_images.clear_docker_images_flow:
+              - docker_options:
+                  required: false
               - docker_host
               - docker_username
               - docker_password
               - private_key_file
+              - port:
+                  required: false
+              - timeout:
+                  required: false
           publish:
             - images_list_safe_to_delete
             - amount_of_images_deleted
@@ -49,16 +64,22 @@ flow:
      - clear_docker_dangling_images:
           do:
             docker_images.clear_docker_dangling_images_flow:
+              - docker_options:
+                  required: false
               - docker_host
               - docker_username
               - docker_password
               - private_key_file
               - used_images: used_images_list
+              - port:
+                  required: false
+              - timeout:
+                  required: false
           publish:
             - dangling_images_list_safe_to_delete
             - amount_of_dangling_images_deleted
   outputs:
-    - amount_of_images_deleted
-    - amount_of_dangling_images_deleted
+    - amount_of_images_deleted: "0 if 'amount_of_images_deleted' not in locals() else amount_of_images_deleted"
+    - amount_of_dangling_images_deleted: "0 if 'amount_of_images_deleted' not in locals() else amount_of_dangling_images_deleted"
     - dangling_images_list_safe_to_delete
     - images_list_safe_to_delete
