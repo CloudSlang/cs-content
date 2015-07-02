@@ -51,7 +51,7 @@ flow:
           network.verify_app_is_up:
             - host
             - port:
-                default: verify_port
+                default: int(verify_port)
                 overridable: false
         navigate:
           SUCCESS: pre_test_cleanup
