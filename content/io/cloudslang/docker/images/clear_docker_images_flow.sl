@@ -8,6 +8,7 @@
 # Deletes unused Docker images.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
@@ -34,6 +35,8 @@ imports:
 flow:
   name: clear_docker_images_flow
   inputs:
+    - docker_options:
+        required: false
     - docker_host
     - docker_username
     - docker_password
@@ -49,6 +52,8 @@ flow:
     - get_all_images:
         do:
           docker_images.get_all_images:
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password: docker_password
@@ -64,6 +69,8 @@ flow:
     - get_used_images:
         do:
           docker_images.get_used_images:
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password: docker_password
@@ -109,6 +116,8 @@ flow:
             for: image in used_images_list.split()
             do:
               docker_images.get_image_parent:
+                - docker_options:
+                    required: false
                 - docker_host
                 - docker_username
                 - docker_password
@@ -136,6 +145,8 @@ flow:
     - delete_images:
         do:
           docker_images.clear_docker_images:
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password: docker_password
