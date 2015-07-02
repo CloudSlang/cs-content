@@ -11,7 +11,7 @@
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
+#   - docker_password - optional - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - used_images - list of used images - Format: space delimited list of strings
 #   - timeout - optional - time in milliseconds to wait for the command to complete
@@ -33,9 +33,10 @@ flow:
         required: false
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - used_images
     - port:
         required: false
@@ -50,8 +51,12 @@ flow:
                 required: false
             - host: docker_host
             - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 required: false
             - port:
@@ -76,8 +81,12 @@ flow:
                 required: false
             - host: docker_host
             - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - password:
+                default: docker_password
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - images: images_list_safe_to_delete
             - timeout:
                 required: false

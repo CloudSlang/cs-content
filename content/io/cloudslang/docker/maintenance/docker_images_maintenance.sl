@@ -11,7 +11,7 @@
 # Inputs:
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
+#   - docker_password - optional - Docker machine password
 #   - private_key_file - optional - absolute path to private key file - Default: none
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50%
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
@@ -30,9 +30,10 @@ flow:
   inputs:
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - percentage
     - timeout:
         default: "'6000000'"
@@ -42,8 +43,10 @@ flow:
           base_os_linux.diskspace_health_check:
             - docker_host
             - docker_username
-            - docker_password
-            - private_key_file
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
             - percentage
             - timeout:
                 required: false
@@ -56,8 +59,10 @@ flow:
           docker_images.clear_unused_docker_images:
             - docker_host
             - docker_username
-            - docker_password
-            - private_key_file
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
             - timeout:
                 required: false
         publish:
