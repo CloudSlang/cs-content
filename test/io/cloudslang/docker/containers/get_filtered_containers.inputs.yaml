@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_test_mysql_monitor:
+test_get_filtered_containers_success:
   testSuites: [docker]
-  description: Tests the operation that monitor a mysql container.
-  testFlowPath: io.cloudslang.docker.maintenance.test_mysql_monitor
+  description: "Tests SUCCESS case - filters out containers based on busybox:latest image"
+  testFlowPath: io.cloudslang.docker.containers.test_get_filtered_containers
   inputs:
     - host: localhost
     - port: "49153"

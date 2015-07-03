@@ -36,9 +36,10 @@ operation:
     - port:
         default: "'22'"
     - username
-    - password
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
         default: "' '"
         overridable: false

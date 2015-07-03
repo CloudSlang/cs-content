@@ -7,6 +7,10 @@
 #
 ####################################################
 
+general:
+  artifacts:
+    - "builder.log"
+    
 machine:
   services:
     - docker
@@ -26,7 +30,7 @@ test:
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
      - docker run -d -p 49165:8080 jenkins
-     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.38/cslang-builder.zip
+     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
      - unzip cslang-builder.zip -d cslang-builder
      - chmod +x cslang-builder/bin/cslang-builder
      - mkdir cslang-builder/lib/Lib

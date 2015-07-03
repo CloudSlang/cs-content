@@ -10,15 +10,16 @@
 #
 # Inputs:
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username  - Docker machine username
-#   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - arguments - optional - arguments to pass to the command - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - mount - optional - mount to check disk space for - Default: '/'
+#   - password - optional - Docker machine password
+#   - privateKeyFile - optional - path to private key file
+#   - arguments - optional - arguments to pass to the command
+#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - - optional - time in milliseconds to wait for command to complete
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 # Outputs:
 #   - disk_space - percentage - Example: 50%
 #   - error_message - error message if error occurred
@@ -29,37 +30,68 @@
 
 namespace: io.cloudslang.base.os.linux
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
+flow:
   name: check_linux_disk_space
   inputs:
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
+    - mount:
+        required: false
+        default: "'/'"
+    - password:
+        required: false
     - privateKeyFile:
-        default: "''"
+        required: false
     - command:
-        default: |
-            'df -kh | grep -v "Filesystem" | awk \'NR==1{print $5}\''
+        default: >
+            "df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"
         overridable: false
     - arguments:
-        default: "''"
+        required: false
     - characterSet:
-        default: "'UTF-8'"
+        required: false
     - pty:
-        default: "'false'"
+        required: false
     - timeout:
-        default: "'30000000'"
+        required: false
     - closeSession:
-        default: "'false'"
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+        required: false
+  workflow:
+    - check_linux_disk_space:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+        publish:
+          - standard_out
+          - standard_err
+          - return_code
+          - returnResult
   outputs:
-    - disk_space: "'' if 'STDOUT' not in locals() else STDOUT"
-    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+    - disk_space: "'' if 'standard_out' not in locals() else standard_out.strip()"
+    - error_message: "'' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult"
   results:
-    - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS
     - FAILURE

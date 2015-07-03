@@ -9,6 +9,7 @@
 # Retrieves a list of all the dangling Docker images.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
@@ -21,7 +22,7 @@
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - dangling_image_list - list of IDs of dangling Docker images
+#   - dangling_image_list - list of names of dangling Docker images
 # Results:
 #   - SUCCESS
 #   - FAILURE
@@ -35,6 +36,11 @@ imports:
 flow:
   name: get_dangling_images
   inputs:
+    - docker_options:
+        required: false
+    - docker_options_expression:
+        default: docker_options + ' ' if bool(docker_options) else ''
+        overridable: false
     - host
     - port:
         required: false
@@ -45,7 +51,7 @@ flow:
          required: false
     - command:
         default: >
-          "docker images -f \"dangling=true\" -q"
+          "docker " + docker_options_expression + "images -f \"dangling=true\""
         overridable: false
     - arguments:
         required: false
@@ -88,7 +94,8 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - dangling_image_list: returnResult
+          - dangling_image_list: >
+              ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:])))
 
   outputs:
     - dangling_image_list
