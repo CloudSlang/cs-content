@@ -12,13 +12,11 @@ imports:
 flow:
   name: test_report_mysql_status
   inputs:
-    - host
-    - port:
+    - docker_host
+    - docker_port:
         required: false
-    - username
-    - verify_port:
-        default: 25
-    - password
+    - docker_username
+    - docker_password
     - mysql_username
     - mysql_password
     - email_host
@@ -28,18 +26,30 @@ flow:
     - email_recipient
 
   workflow:
+
+    - pre_test_cleanup:
+         do:
+           maintenance.clear_docker_host:
+             - docker_host
+             - port:
+                 required: false
+             - docker_username: username
+             - docker_password: password
+         navigate:
+           SUCCESS: pull_postfix
+           FAILURE: MACHINE_IS_NOT_CLEAN
     - pull_postfix:
         do:
           cmd.run_command:
             - command: "'docker pull catatnight/postfix'"
         navigate:
           SUCCESS: run_postfix
-          FAILURE: FIAL_TO_PULL_POSTFIX
+          FAILURE: FAIL_TO_PULL_POSTFIX
 
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p 25:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: "'docker run -p ' + email_port + ':' + email_port + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
     - sleep:
         do:
@@ -49,36 +59,23 @@ flow:
     - verify_postfix:
         do:
           network.verify_app_is_up:
-            - host
-            - port:
-                default: int(verify_port)
-                overridable: false
+            - host: docker_host
+            - port: email_port
         navigate:
-          SUCCESS: pre_test_cleanup
+          SUCCESS: start_mysql_container
           FAILURE: FAIL_TO_START_POSTFIX
-
-    - pre_test_cleanup:
-         do:
-           maintenance.clear_docker_host:
-             - docker_host: host
-             - port:
-                 required: false
-             - docker_username: username
-             - docker_password: password
-         navigate:
-           SUCCESS: start_mysql_container
-           FAILURE: MACHINE_IS_NOT_CLEAN
 
     - start_mysql_container:
         do:
           docker_containers_examples.create_db_container:
-            - host
+            - host: docker_host
             - port:
+                default: docker_port
                 required: false
-            - username
-            - password
+            - username: docker_username
+            - password: docker_password
         navigate:
-          SUCCESS: sleep
+          SUCCESS: sleep_2
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - sleep_2:
@@ -87,23 +84,21 @@ flow:
             - seconds: 20
         navigate:
           SUCCESS: report_mysql_status
-          FAILURE: FAILED_TO_SLEEP
 
     - report_mysql_status:
         do:
           mysql.report_mysql_status:
             - container: "'mysqldb'"
-            - host
-            - port
-            - username
-            - password
+            - host: docker_host
+            - port: docker_port
+            - username: docker_username
+            - password: docker_password
             - mysql_username
             - mysql_password
             - email_host
             - email_port
             - email_sender
             - email_recipient
-            - email_password
         navigate:
           SUCCESS: post_test_cleanup
           FAILURE: FAILURE
@@ -111,31 +106,21 @@ flow:
     - post_test_cleanup:
          do:
            maintenance.clear_docker_host:
-             - docker_host: host
+             - docker_host
              - port:
+                 default: docker_port
                  required: false
-             - docker_username: username
-             - docker_password: password
+             - docker_username
+             - docker_password
          navigate:
            SUCCESS: SUCCESS
            FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - postfix_cleanup:
-        do:
-          cmd.run_command:
-            - command: "'sudo docker stop postfix && docker rm postfix'"
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FIAL_TO_CLEAN_POSTFIX
+
   results:
     - SUCCESS
-    - FIAL_TO_PULL_POSTFIX
+    - FAIL_TO_PULL_POSTFIX
     - FAIL_TO_START_POSTFIX
-    - FAIL_VALIDATE_SSH
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER
-    - MYSQL_CONTAINER_NOT_UP
-    - MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
-    - FAILED_TO_SLEEP
-    - FIAL_TO_CLEAN_POSTFIX
     - FAILURE

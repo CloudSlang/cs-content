@@ -13,8 +13,8 @@ testDocker_report_mysql_status_SUCCESS:
   inputs:
     - host: localhost
     - port: "49153"
-    - username: root
-    - password: screencast
+    - docker_username: root
+    - docker_password: screencast
     - mysql_username: user
     - mysql_password: pass
     - email_host: localhost
