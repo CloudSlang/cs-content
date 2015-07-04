@@ -66,11 +66,11 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: service_name
+            - string_in_which_to_search: standard_out
+            - string_to_find: "'done'"
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
   outputs:
     - standard_err
