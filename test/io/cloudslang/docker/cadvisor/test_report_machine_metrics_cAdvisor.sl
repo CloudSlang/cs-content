@@ -12,6 +12,7 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   cmd: io.cloudslang.base.cmd
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_report_machine_metrics_cAdvisor
@@ -39,8 +40,13 @@ flow:
                 'google/cadvisor:latest'
             - overridable: false
         navigate:
-          SUCCESS: validate_success_report_machine_metrics_cAdvisor
+          SUCCESS: sleep
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: 5
 
     - validate_success_report_machine_metrics_cAdvisor:
         do:

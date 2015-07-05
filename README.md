@@ -10,13 +10,15 @@ CloudSlang is a YAML based language for writing human-readable workflows for the
 
 ###### Pre-Requisite: Java JRE >= 7
 
-1. Download the CloudSlang CLI from [here](https://github.com/CloudSlang/cloud-slang/releases/latest).
+1. Download the CloudSlang CLI file named cslang-cli-with-content.zip:
+    + [Stable release](http://www.cloudslang.io/download)
+    + [Latest snapshot](https://github.com/CloudSlang/cloud-slang/releases/latest)
 2. Unzip it.
 3. Go to the folder /cslang/bin/
 4. Run the executable :
   - For Windows : cslang.bat 
   - For Linux : bash cslang
-5. Run a flow: `cslang>run --f c:/.../your_flow.sl --i input1=root,input2=25 --cp c:/.../dependencies/`
+5. Run a simple example print text flow:  run --f ../content/io/cloudslang/base/print/print_text.sl --i text=first_flow
 
 **Note:** Some of the content is dependent on external python modules. If you are using the CLI  to run your flows, you can import external modules by doing one of the following:
 
@@ -48,5 +50,7 @@ Prerequisite: **pip** - see **pip**'s [documentation](https://pip.pypa.io/en/lat
 All documentation is available on the [CloudSlang website](http://www.cloudslang.io/#/docs).
 
 #### Get Involved
+
+Read our contributing guide [here](CONTRIBUTING.md).
 
 Contact us at [here](mailto:support@cloudslang.io).

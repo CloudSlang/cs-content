@@ -10,10 +10,10 @@
 #
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - host - Docker machine host
+#   - username - Docker machine username
+#   - password - optional - Docker machine password
+#   - private_key_file - optional - path to private key file
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
 #   - email_host - email server host
@@ -33,11 +33,12 @@ flow:
 
   inputs:
     - container
-    - docker_host
-    - docker_username
-    - docker_password
+    - host
+    - username
+    - password:
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - mysql_username
     - mysql_password
     - email_host
@@ -49,10 +50,12 @@ flow:
     - retrieve_mysql_status:
             do:
               docker_monitoring_mysql.retrieve_mysql_status:
-                  - docker_host
-                  - docker_username
-                  - docker_password
-                  - private_key_file
+                  - host
+                  - username
+                  - password:
+                      required: false
+                  - private_key_file:
+                      required: false
                   - container
                   - mysql_username
                   - mysql_password
@@ -75,9 +78,9 @@ flow:
                   - htmlEmail: "'false'"
                   - from: email_sender
                   - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - subject: "'MySQL Server Status on ' + host"
                   - body: >
-                       'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
+                       'The MySQL server status on host ' + host + ' is detected as:\nUptime: ' + uptime
                        + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
                        + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
                        + '\nQueries per second avg: ' + queries_per_second_AVG
@@ -93,9 +96,9 @@ flow:
                   - port: email_port
                   - from: email_sender
                   - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - subject: "'MySQL Server Status on ' + host"
                   - body: >
-                      'The MySQL server status checking on host ' + docker_host
+                      'The MySQL server status checking on host ' + host
                       + ' ended with the following error message: ' + error_message
           navigate:
             SUCCESS: FAILURE

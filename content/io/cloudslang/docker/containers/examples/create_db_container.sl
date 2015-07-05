@@ -77,8 +77,6 @@ flow:
                 required: false
             - timeout:
                 required: false
-        publish:
-          - error_message
 
     - get_db_ip:
         do:

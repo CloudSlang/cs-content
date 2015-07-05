@@ -8,6 +8,7 @@
 # Inspects specified image and gets parent.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
@@ -28,6 +29,8 @@ imports:
 flow:
   name: get_image_parent
   inputs:
+    - docker_options:
+        required: false
     - docker_host
     - docker_username
     - docker_password
@@ -44,6 +47,8 @@ flow:
     - inspect_image:
         do:
           docker_images.inspect_image:
+            - docker_options:
+                required: false
             - host: docker_host
             - username: docker_username
             - password: docker_password
@@ -68,6 +73,8 @@ flow:
     - get_parent_name:
         do:
            docker_images.get_image_name_from_id:
+             - docker_options:
+                required: false
              - host: docker_host
              - username: docker_username
              - password: docker_password

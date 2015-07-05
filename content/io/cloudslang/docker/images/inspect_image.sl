@@ -9,6 +9,7 @@
 # Inspects Docker image.
 #
 # Inputs:
+#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - imageID - ID of the image to be inspected
 #   - host - Docker machine host
 #   - port - optional - SSH port
@@ -35,6 +36,11 @@ imports:
 flow:
   name: inspect_image
   inputs:
+    - docker_options:
+        required: false
+    - docker_options_expression:
+        default: docker_options + ' ' if bool(docker_options) else ''
+        overridable: false
     - image_name
     - host
     - port:
@@ -45,7 +51,7 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker inspect ' + image_name"
+        default: "'docker ' + docker_options_expression + 'inspect ' + image_name"
         overridable: false
     - characterSet:
         required: false
