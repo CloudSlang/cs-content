@@ -13,6 +13,7 @@
 #       - username - username to connect as
 #       - password - password of user
 #       - service_name - linux service name to be restarted
+#       - sudo_user - optional - 'true' or 'false' whether to execute the command on behalf of username with sudo. Default: false
 #       - privateKeyFile - optional - path to the private key file
 #
 # Results:
