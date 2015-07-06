@@ -34,16 +34,20 @@ flow:
 
   inputs:
     - container
-    - host
-    - username
-    - password:
+    - docker_host
+    - docker_port:
         required: false
-    - private_key_file:
+    - docker_username
+    - docker_password:
+        required: false
+    - docker_private_key_file:
         required: false
     - mysql_username
     - mysql_password
     - email_host
     - email_port
+    - email_username:
+        required: false
     - email_password:
         required: false
     - email_sender
@@ -53,12 +57,17 @@ flow:
     - retrieve_mysql_status:
             do:
               docker_monitoring_mysql.retrieve_mysql_status:
-                  - host
-                  - username
+                  - host: docker_host
+                  - port:
+                      default: docker_port
+                      required: false
+                  - username: docker_username
                   - password:
                       required: false
+                      default: docker_password
                   - private_key_file:
                       required: false
+                      default: docker_private_key_file
                   - container
                   - mysql_username
                   - mysql_password
@@ -81,12 +90,18 @@ flow:
                   - htmlEmail: "'false'"
                   - from: email_sender
                   - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + host"
+                  - subject: "'MySQL Server Status on ' + docker_host"
                   - body: >
-                       'The MySQL server status on host ' + host + ' is detected as:\nUptime: ' + uptime
+                       'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
                        + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
                        + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
                        + '\nQueries per second avg: ' + queries_per_second_AVG
+                  - username:
+                        default: email_username
+                        required: false
+                  - password:
+                        default: email_password
+                        required: false
             navigate:
               SUCCESS: SUCCESS
               FAILURE: FAILURE
@@ -98,16 +113,16 @@ flow:
                   - hostname: email_host
                   - port: email_port
                   - username:
-                        default: email_sender
+                        default: email_username
                         required: false
-                  - passoword: 
+                  - password:
                         default: email_password
                         required: false
                   - from: email_sender
                   - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + host"
+                  - subject: "'MySQL Server Status on ' + docker_host"
                   - body: >
-                      'The MySQL server status checking on host ' + host
+                      'The MySQL server status checking on host ' + docker_host
                       + ' ended with the following error message: ' + error_message
           navigate:
             SUCCESS: SUCCESS

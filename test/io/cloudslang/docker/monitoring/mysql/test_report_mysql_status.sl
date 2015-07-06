@@ -20,6 +20,7 @@ flow:
     - mysql_username
     - mysql_password
     - email_host
+    - email_username
     - email_port
     - email_sender
     - email_password
@@ -33,11 +34,13 @@ flow:
              - docker_host
              - port:
                  required: false
+                 default: docker_port
              - docker_username: username
              - docker_password: password
          navigate:
            SUCCESS: pull_postfix
            FAILURE: MACHINE_IS_NOT_CLEAN
+
     - pull_postfix:
         do:
           cmd.run_command:
@@ -51,16 +54,12 @@ flow:
           cmd.run_command:
             - command: "'docker run -p ' + email_port + ':' + email_port + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
-    - sleep:
-        do:
-          utils.sleep:
-            - seconds: 5
-
     - verify_postfix:
         do:
           network.verify_app_is_up:
             - host: docker_host
             - port: email_port
+            - attempts: 10
         navigate:
           SUCCESS: start_mysql_container
           FAILURE: FAIL_TO_START_POSTFIX
@@ -75,10 +74,10 @@ flow:
             - username: docker_username
             - password: docker_password
         navigate:
-          SUCCESS: sleep_2
+          SUCCESS: sleep
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
-    - sleep_2:
+    - sleep:
         do:
           utils.sleep:
             - seconds: 20
@@ -89,13 +88,15 @@ flow:
         do:
           mysql.report_mysql_status:
             - container: "'mysqldb'"
-            - host: docker_host
-            - port: docker_port
-            - username: docker_username
-            - password: docker_password
+            - docker_host
+            - docker_port
+            - docker_username
+            - docker_password
             - mysql_username
             - mysql_password
             - email_host
+            - email_username
+            - email_password
             - email_port
             - email_sender
             - email_recipient
@@ -113,14 +114,23 @@ flow:
              - docker_username
              - docker_password
          navigate:
-           SUCCESS: SUCCESS
+           SUCCESS: postfix_cleanup
            FAILURE: MACHINE_IS_NOT_CLEAN
+
+    - postfix_cleanup:
+           do:
+             cmd.run_command:
+               - command: "'docker rm -f postfix'"
+           navigate:
+             SUCCESS: SUCCESS
+             FAILURE: FAIL_TO_CLEAN_POSTFIX
 
 
   results:
     - SUCCESS
     - FAIL_TO_PULL_POSTFIX
     - FAIL_TO_START_POSTFIX
+    - FAIL_TO_CLEAN_POSTFIX
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER
     - FAILURE
