@@ -8,7 +8,10 @@
 ########################################################################################################
 test_restart_container_base_on_usage_success:
   testSuites: [cadvisor_local]
-  description: Tests SUCCESS case - this test needs to be run on the local machine by activating the test suite and supplying the inputs
+  description: >
+    Tests SUCCESS case - starts a cadvisor container, waits for the container to start up and runs
+    the restart_container_base_on_usage flow against it. The Docker host is cleared before and after
+    the actual test logic.
   testFlowPath: io.cloudslang.docker.cadvisor.test_restart_container_base_on_usage
   inputs:
     - cadvisor_port: "23569"
