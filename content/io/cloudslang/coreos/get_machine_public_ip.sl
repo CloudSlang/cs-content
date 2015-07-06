@@ -11,14 +11,16 @@
 # Inputs:
 #   - machine_id - ID of the machine
 #   - host - CoreOS machine host; can be any machine from the cluster
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - CoreOS machine username
-#   - password - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
-#   - privateKeyFile - optional - path to the private key file - Default: none
-#   - arguments - optional - arguments to pass to the command - Default: none
-#   - pty - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - time in milliseconds to wait for the command to complete - Default: 90000
-#   - closeSession - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false - Default: false
+#   - password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - private_key_file - optional - path to the private key file
+#   - arguments - optional - arguments to pass to the command
+#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - whether to use PTY - Valid: true, false
+#   - timeout - time in milliseconds to wait for the command to complete
+#   - close_session - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - public_ip: public IP address of the machine based on its ID
 # Results:
@@ -28,41 +30,88 @@
 
 namespace: io.cloudslang.coreos
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+  strings: io.cloudslang.base.strings
+
+flow:
   name: get_machine_public_ip
   inputs:
     - machine_id
     - host
     - port:
-        default: "'22'"
+        required: false
     - username
-    - password
-    - privateKeyFile:
-        default: "''"
+    - password:
+        required: false
+    - private_key_file:
+        required: false
     - arguments:
-        default: "''"
+        required: false
+    - character_set:
+        required: false
+    - pty:
+        required: false
+    - timeout:
+        required: false
+    - close_session:
+        required: false
+    - agent_forwarding:
+        default: "'true'"
+        overridable: false
     - command:
         default: >
           "fleetctl --strict-host-key-checking=false  ssh " + machine_id + " cat /etc/environment"
         overridable: false
-    - characterSet:
-        default: "'UTF-8'"
-    - pty:
-        default: "'false'"
-    - timeout:
-        default: "'90000'"
-    - closeSession:
-        default: "'false'"
-    - agentForwarding:
-        default: "'true'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+
+  workflow:
+    - get_machine_public_ip:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                default: character_set
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                default: close_session
+                required: false
+            - agentForwarding: agent_forwarding
+        publish:
+          - public_ip: >
+              returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
+          - standard_err
+
+    - check_ssh_agent_in_stdout:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'ssh-agent'"
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: check_unable_in_stdout
+
+    - check_unable_in_stdout:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: standard_err
+            - string_to_find: "'Unable'"
+        navigate:
+          SUCCESS: FAILURE
+          FAILURE: SUCCESS
   outputs:
-    - public_ip: >
-        returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
-  results:
-    - SUCCESS: (returnCode == '0') and (not 'ssh-agent' in STDERR) and (not 'ERROR' in STDERR)
-    - FAILURE
+    - public_ip
