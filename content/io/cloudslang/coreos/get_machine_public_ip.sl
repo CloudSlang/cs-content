@@ -20,7 +20,6 @@
 #   - pty - whether to use PTY - Valid: true, false
 #   - timeout - time in milliseconds to wait for the command to complete
 #   - close_session - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
-#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - public_ip: public IP address of the machine based on its ID
 # Results:
@@ -96,16 +95,16 @@ flow:
               returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
           - standard_err
 
-    - check_ssh_agent_in_stdout:
+    - check_ssh_agent_in_stderr:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: standard_err
             - string_to_find: "'ssh-agent'"
         navigate:
           SUCCESS: FAILURE
-          FAILURE: check_unable_in_stdout
+          FAILURE: check_unable_in_stderr
 
-    - check_unable_in_stdout:
+    - check_unable_in_stderr:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: standard_err
