@@ -24,6 +24,7 @@
 # Outputs:
 #   - docker_info - information returned by Docker
 #   - number_of_containers_in_cluster - number of containers in the Swarm cluster (including agent containers)
+#   - number_of_nodes_in_cluster - number of nodes in the Swarm cluster
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
@@ -87,6 +88,9 @@ flow:
           - docker_info
           - number_of_containers_in_cluster: >
               docker_info.split(': ')[1].split('\n')[0]
+          - number_of_nodes_in_cluster: >
+              docker_info.split('Nodes: ')[1].split('\n')[0]
   outputs:
     - docker_info
     - number_of_containers_in_cluster
+    - number_of_nodes_in_cluster
