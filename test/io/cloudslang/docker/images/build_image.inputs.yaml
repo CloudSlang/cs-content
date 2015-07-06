@@ -7,7 +7,7 @@
 #
 ####################################################
 test_docker_build_image:
-  testSuites: [docker]
+  testSuites: [docker,images]
   description: Tests that build image operation works
   testFlowPath: io.cloudslang.docker.images.test_build_image
   inputs:
