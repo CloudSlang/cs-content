@@ -7,7 +7,7 @@
 #
 ####################################################
 test_get_filtered_containers_success:
-  testSuites: [ignore]
+  testSuites: [docker]
   description: "Tests SUCCESS case - filters out containers based on busybox:latest image"
   testFlowPath: io.cloudslang.docker.containers.test_get_filtered_containers
   inputs:
