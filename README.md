@@ -16,9 +16,9 @@ CloudSlang is a YAML based language for writing human-readable workflows for the
 2. Unzip it.
 3. Go to the folder /cslang/bin/
 4. Run the executable :
-  - For Windows : cslang.bat 
-  - For Linux : bash cslang
-5. Run a simple example print text flow:  run --f ../content/io/cloudslang/base/print/print_text.sl --i text=first_flow
+  - For Windows : `cslang.bat`
+  - For Linux : `bash cslang`
+5. Run a simple example print text flow:  `run --f ../content/io/cloudslang/base/print/print_text.sl --i text=first_flow`
 
 **Note:** Some of the content is dependent on external python modules. If you are using the CLI  to run your flows, you can import external modules by doing one of the following:
 
