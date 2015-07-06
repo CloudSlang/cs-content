@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_report_mysql_status_SUCCESS:
-  testSuites: [default]
+  testSuites: [docker]
   description: Tests that report mysql status works
   testFlowPath: io.cloudslang.docker.monitoring.mysql.test_report_mysql_status
   inputs:
@@ -20,6 +20,8 @@ testDocker_report_mysql_status_SUCCESS:
     - email_host: localhost
     - email_port: "25"
     - email_sender: user@mail.example.com
-    - email_recipient: raskin.aleksandr@gmail.com
+    - email_recipient: other.user@ububububububub.dada
     - email_password: pwd
+    - email_username: user
+
   result: SUCCESS
