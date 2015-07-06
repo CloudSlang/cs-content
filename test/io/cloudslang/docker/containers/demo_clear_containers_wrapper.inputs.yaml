@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_run_container_Success:
+testClear_containers_wrapper_Success:
   testSuites: [docker]
   description: Tests that demo_clear_containers_wrapper works
   testFlowPath: io.cloudslang.docker.containers.test_demo_clear_containers_wrapper
