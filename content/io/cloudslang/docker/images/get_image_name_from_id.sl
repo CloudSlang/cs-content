@@ -13,7 +13,7 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
-#   - password - Docker machine password
+#   - password - optional - Docker machine password
 #   - image_id - Docker image ID
 #   - privateKeyFile - optional - absolute path to private key file - Default: none, required: false
 #   - arguments - optional - arguments to pass to the command - Default: none, required: false
@@ -44,7 +44,8 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
     - image_id
     - privateKeyFile:
         required: false
@@ -71,7 +72,8 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
             - command
