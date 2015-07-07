@@ -9,13 +9,14 @@
 testPing_hosts_Success:
   inputs:
     - ip_list: localhost
-    - hostname: # enter smtp hostname
-    - port: '25' # change to needed port if needed
-    - from: # enter sender e-mail
-    - to: # enter destination e-mail
-    - username: # enter smtp username
-    - password: #enter smpt password
+    - docker_host: localhost
+    - docker_port: "49153"
+    - docker_username: root
+    - docker_password: screencast
+    - email_host: localhost
+    - email_port: "25"
   description: Tests that ping_hosts finished with SUCCESS
   testSuites: [mail-local]
-  testFlowPath: io.cloudslang.base.network.example.ping_hosts
+  testFlowPath: io.cloudslang.base.network.example.test_ping_hosts
+  systemPropertiesFile: ${project_path}\content\io\cloudslang\base\properties\mail.yaml
   result: SUCCESS
