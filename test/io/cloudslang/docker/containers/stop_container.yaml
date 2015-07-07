@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_stop_container_Success:
-  testSuites: [docker]
+  testSuites: [docker,containers]
   description: Tests that stop containers works
   testFlowPath: io.cloudslang.docker.containers.test_stop_container
   inputs:

@@ -6,38 +6,34 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Displays system-wide Docker information about the Swarm cluster.
+# Creates a Swarm cluster.
 #
 # Inputs:
-#   - swarm_manager_ip - IP address of the machine with the Swarm manager container
-#   - swarm_manager_port - port used by the Swarm manager container
+#   - swarm_image - optional - Docker image used by the Swarm container - Default: swarm (latest)
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - docker_info - information returned by Docker
-#   - number_of_containers_in_cluster - number of containers in the Swarm cluster (including agent containers)
-#   - number_of_nodes_in_cluster - number of nodes in the Swarm cluster
+#   - cluster_id - ID of the created cluster
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  docker_utils: io.cloudslang.docker.utils
-  strings: io.cloudslang.base.strings
+  containers: io.cloudslang.docker.containers
 
 flow:
-  name: get_cluster_info
+  name: create_cluster
   inputs:
-    - swarm_manager_ip
-    - swarm_manager_port
+    - swarm_image:
+        default: "'swarm'"
     - host
     - port:
         required: false
@@ -56,16 +52,15 @@ flow:
         required: false
     - agent_forwarding:
         required: false
-    - docker_options:
-        default: >
-          '-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port
-        overridable: false
 
   workflow:
-    - get_cluster_info:
+    - create_cluster:
         do:
-          docker_utils.get_info:
-            - docker_options
+          containers.run_container:
+            - detach: false
+            - container_params: "'--rm'"
+            - container_command: "'create'"
+            - image_name: swarm_image
             - host
             - port:
                 required: false
@@ -74,23 +69,20 @@ flow:
                 required: false
             - private_key_file:
                 required: false
-            - character_set:
+            - characterSet:
+                default: character_set
                 required: false
             - pty:
                 required: false
             - timeout:
                 required: false
-            - close_session:
+            - closeSession:
+                default: close_session
                 required: false
-            - agent_forwarding:
+            - agentForwarding:
+                default: agent_forwarding
                 required: false
         publish:
-          - docker_info
-          - number_of_containers_in_cluster: >
-              docker_info.split(': ')[1].split('\n')[0]
-          - number_of_nodes_in_cluster: >
-              docker_info.split('Nodes: ')[1].split('\n')[0]
+          - cluster_id: container_ID
   outputs:
-    - docker_info
-    - number_of_containers_in_cluster
-    - number_of_nodes_in_cluster
+    - cluster_id

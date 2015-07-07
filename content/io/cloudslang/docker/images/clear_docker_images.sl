@@ -13,7 +13,7 @@
 #   - host - Docker machine host
 #   - port - optional - SSH port - required: false
 #   - username - Docker machine username
-#   - password - Docker machine password
+#   - password - optional - Docker machine password
 #   - images - list of Docker images to be deleted - Format: space delimited
 #   - privateKeyFile - optional - absolute path to private key file - required: false
 #   - arguments - optional - arguments to pass to the command - required: false
@@ -45,7 +45,8 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
     - images
     - privateKeyFile:
         required: false
@@ -70,7 +71,8 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
             - privateKeyFile:
                 required: false
             - command

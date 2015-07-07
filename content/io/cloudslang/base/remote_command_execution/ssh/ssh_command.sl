@@ -52,7 +52,7 @@ operation:
       - characterSet: "'UTF-8'"
       - closeSession: "'false'"
       - agentForwarding:
-            required: false
+          required: false
     action:
       java_action:
         className: io.cloudslang.content.ssh.actions.SSHShellCommandAction

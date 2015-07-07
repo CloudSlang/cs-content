@@ -11,7 +11,7 @@
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
+#   - docker_password - optional - Docker machine password
 #   - image_name - image for which to check parents - ex: <repository>:<tag>
 #   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
@@ -33,7 +33,8 @@ flow:
         required: false
     - docker_host
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
     - image_name
     - private_key_file:
         required: false
@@ -51,7 +52,9 @@ flow:
                 required: false
             - host: docker_host
             - username: docker_username
-            - password: docker_password
+            - password:
+                default: docker_password
+                required: false
             - image_name
             - port:
                 required: false
@@ -77,7 +80,9 @@ flow:
                 required: false
              - host: docker_host
              - username: docker_username
-             - password: docker_password
+             - password:
+                default: docker_password
+                required: false
              - privateKeyFile:
                 default: private_key_file
                 required: false

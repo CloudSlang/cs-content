@@ -6,18 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses a JSON response holding Consul key information.
+# Creates JSON for request to register new agent service.
 #
 # Inputs:
-#   - json_response - response holding Consul key information
+#   - address - optional - will default to that of the agent
+#   - service_name - name of the service to be registered
+#   - service_id - optional - service_name will be used if not specified
+#   - check - optional - if the Check key is provided, then a health check will also be registered
 # Outputs:
-#   - decoded - parsed response
-#   - key -key name
-#   - flags - key flags
-#   - create_index- key create index
-#   - value - key value
-#   - modify_index - key modify index
-#   - lock_index - key lock index
+#   - json_request - JSON request for registering endpoint
 #   - returnCode - 0 if parsing was successful, -1 otherwise
 #   - returnResult - response of the operation
 #   - errorMessage - returnResult if there was an error
@@ -29,36 +26,36 @@
 namespace: io.cloudslang.consul
 
 operation:
-  name: parse_key
+  name: parse_register_agent_service_request
   inputs:
-    - json_response
+    - address:
+        default: "''"
+        required: false
+    - service_name
+    - service_id:
+        required: false
+    - check:
+        required: false
   action:
     python_script: |
       try:
         import json
-        import base64
-
-        decoded = json.loads(json_response)
-        decoded= decoded[0]
-        key=decoded['Key']
-        flags=decoded['Flags']
-        create_index=decoded['CreateIndex']
-        value=encoded = base64.b64decode(decoded['Value'])
-        modify_index=decoded['ModifyIndex']
-        lock_index=decoded['LockIndex']
+        data= {}
+        if address:
+          data['Address'] = address
+        if service_id != '':
+          data['ID'] = service_id
+        data['Name'] = service_name
+        if check:
+          data['Check'] = json.loads(check)
+        json_request = json.dumps(data)
         returnCode = '0'
         returnResult = 'Parsing successful.'
-      except:
+      except Exception as ex:
         returnCode = '-1'
-        returnResult = 'Parsing error or key does not exist.'
+        returnResult = 'Parsing error: ' + str(ex)
   outputs:
-    - decoded
-    - key
-    - flags
-    - create_index
-    - value
-    - modify_index
-    - lock_index
+    - json_request
     - returnCode
     - returnResult
     - errorMessage: returnResult if returnCode == '-1' else ''
