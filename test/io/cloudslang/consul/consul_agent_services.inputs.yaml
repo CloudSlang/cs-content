@@ -6,14 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_delete_container_Success:
-  testSuites: [docker,containers]
-  description: Tests that delete containers works
-  testFlowPath: io.cloudslang.docker.containers.test_delete_container
+test_consul_agent_services_Success:
+  testSuites: [consul]
+  description: Tests that a consul agent service can be registered/deregistered. Test flow must end with SUCCESS
+  testFlowPath: io.cloudslang.consul.test_consul_agent_services
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-    - container_name: hello-world
+    - address: localhost
+    - service_name: redis
   result: SUCCESS

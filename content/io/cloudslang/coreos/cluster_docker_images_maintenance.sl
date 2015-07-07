@@ -11,9 +11,10 @@
 # Inputs:
 #   - coreos_host - CoreOS machine host; can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
-#   - private_key_file - path to the private key file - Default: none
+#   - coreos_password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - private_key_file - optional - path to the private key file
+#   - timeout - optional - time in milliseconds to wait for the command to complete
 #   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50% - Default: 0%
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - number_of_deleted_images_per_host - how many images were deleted for every host - Format: "ip1: number1, ip2: number2"
 ####################################################
@@ -31,16 +32,16 @@ flow:
     - coreos_host
     - coreos_username
     - coreos_password:
-        default: "''"
-        overridable: false
-    - private_key_file
+        required: false
+    - private_key_file:
+        required: false
+    - timeout:
+        required: false
     - percentage:
         default: "'0%'"
     - number_of_deleted_images_per_host:
         default: "''"
         overridable: false
-    - timeout:
-        default: "'6000000'"
 
   workflow:
     - list_machines_public_ip:
@@ -48,23 +49,30 @@ flow:
           coreos.list_machines_public_ip:
             - coreos_host
             - coreos_username
-            - coreos_password
-            - private_key_file
-            - timeout
+            - coreos_password:
+                required: false
+            - private_key_file:
+                required: false
+            - timeout:
+                required: false
         publish:
             - machines_public_ip_list
 
     - loop_docker_images_maintenance:
           loop:
-              for: machine_public_ip in machines_public_ip_list.split(' ')
+              for: machine_public_ip in machines_public_ip_list.split()
               do:
                   maintenance.docker_images_maintenance:
                     - docker_host: machine_public_ip
                     - docker_username: coreos_username
-                    - docker_password: coreos_password
-                    - private_key_file
+                    - docker_password:
+                        default: coreos_password
+                        required: false
+                    - private_key_file:
+                        required: false
                     - percentage
-                    - timeout
+                    - timeout:
+                        required: false
               publish:
                     - number_of_deleted_images_per_host: >
                         fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','

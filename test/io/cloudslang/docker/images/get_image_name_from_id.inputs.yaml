@@ -15,5 +15,5 @@ testGetImageNameFromId:
     - image_id: 4d28ca7fae0c
   description: Tests that get_image_name_from_id work correctly
   testFlowPath: io.cloudslang.docker.images.test_get_image_name_from_id
-  testSuites: [docker]
+  testSuites: [docker,images]
   result: SUCCESS
