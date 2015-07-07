@@ -8,7 +8,7 @@
 ####################################################
 
 test_clear_docker_images_flow_success:
-  testSuites: [docker]
+  testSuites: [docker,images]
   description: Tests that clear docker images flow finishes with success
   testFlowPath: io.cloudslang.docker.images.test_clear_docker_images_flow
   inputs:
