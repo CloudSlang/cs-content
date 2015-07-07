@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_clear_docker_host_Success:
-  testSuites: [docker]
+  testSuites: [docker,docker-misc]
   description: Tests that clear docker host, remove all containers and images from host
   testFlowPath: io.cloudslang.docker.maintenance.test_clear_docker_host
   inputs:

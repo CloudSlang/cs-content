@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_delete_container_Success:
-  testSuites: [docker]
+  testSuites: [docker,containers]
   description: Tests that delete containers works
   testFlowPath: io.cloudslang.docker.containers.test_delete_container
   inputs:
