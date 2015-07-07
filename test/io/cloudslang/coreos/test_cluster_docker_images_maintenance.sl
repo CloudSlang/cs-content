@@ -31,7 +31,8 @@ flow:
     - coreos_username
     - coreos_password:
         required: false
-    - private_key_file
+    - private_key_file:
+        required: false
     - percentage:
         required: false
     - timeout:
@@ -52,7 +53,8 @@ flow:
             - coreos_username
             - coreos_password:
                 required: false
-            - private_key_file
+            - private_key_file:
+                required: false
             - timeout:
                 required: false
         publish:
@@ -73,7 +75,8 @@ flow:
                      - docker_password:
                         default: coreos_password
                         required: false
-                     - private_key_file
+                     - private_key_file:
+                        required: false
               navigate:
                 SUCCESS: pull_unused_image
                 FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
@@ -124,7 +127,8 @@ flow:
             - coreos_username
             - coreos_password:
                 required: false
-            - private_key_file
+            - private_key_file:
+                required: false
             - percentage:
                 required: false
             - timeout:
@@ -176,7 +180,8 @@ flow:
             - docker_password:
                default: coreos_password
                required: false
-            - private_key_file
+            - private_key_file:
+                required: false
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEAR_DOCKER_HOST_PROBLEM
