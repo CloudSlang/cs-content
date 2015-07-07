@@ -105,6 +105,9 @@ flow:
             - privateKeyFile:
                 default: private_key_file
                 required: false
+        navigate:
+          SUCCESS: post_clear_machine
+          FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
 
     - post_clear_machine:
         do:
@@ -128,5 +131,6 @@ flow:
     - FAILURE
     - PRE_CLEAR_MACHINE_PROBLEM
     - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+    - CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
     - POST_CLEAR_MACHINE_PROBLEM
     - FAILED_TO_SLEEP
