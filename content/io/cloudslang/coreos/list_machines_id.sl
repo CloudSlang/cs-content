@@ -16,9 +16,9 @@
 #   - private_key_file - optional - path to the private key file
 #   - arguments - optional - arguments to pass to the command
 #   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
-#   - pty - whether to use PTY - Valid: true, false
-#   - timeout - time in milliseconds to wait for the command to complete
-#   - close_session - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for the command to complete
+#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - machines_id_list  - space delimited list of IDs of machines deployed in the CoreOS cluster
