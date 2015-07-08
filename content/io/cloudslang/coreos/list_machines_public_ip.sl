@@ -6,15 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #####################################################
-# Retrieves the public IPs of machines deployed in a CoreOS cluster.
+# Retrieves the public IPs of machines in a CoreOS cluster.
 #
 # Inputs:
 #   - coreos_host - CoreOS machine host; can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
-#   - private_key_file - path to the private key file - Default: none
+#   - coreos_password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
-#   - machines_public_ip_list: space delimited list of public IP addresses of machines in cluster
+#   - machines_public_ip_list: list of public IP addresses of the machines in the cluster (delimiter: space)
 #####################################################
 
 namespace: io.cloudslang.coreos
@@ -29,24 +30,26 @@ flow:
     - coreos_host
     - coreos_username
     - coreos_password:
-        default: "''"
-        overridable: false
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
+    - timeout:
+        required: false
     - machines_public_ip_list:
         default: "''"
         overridable: false
-    - timeout:
-        required: false
 
   workflow:
-    - list_machines_id:
+    - list_ids_of_the_machines:
         do:
           coreos.list_machines_id:
             - host: coreos_host
             - username: coreos_username
-            - password: coreos_password
-            - privateKeyFile: private_key_file
+            - password:
+                default: coreos_password
+                required: false
+            - private_key_file:
+                required: false
             - timeout:
                 required: false
         publish:
@@ -54,18 +57,21 @@ flow:
 
     - get_machine_public_ip:
             loop:
-                for: machine_id in machines_id_list.split(' ')
+                for: machine_id in machines_id_list.split()
                 do:
                   coreos.get_machine_public_ip:
                     - machine_id
                     - host: coreos_host
                     - username: coreos_username
-                    - password: coreos_password
-                    - privateKeyFile: private_key_file
+                    - password:
+                        default: coreos_password
+                        required: false
+                    - private_key_file:
+                        required: false
                     - timeout:
                         required: false
                 publish:
                     - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
 
   outputs:
-    - machines_public_ip_list: machines_public_ip_list[:-1]
+    - machines_public_ip_list: machines_public_ip_list.strip()
