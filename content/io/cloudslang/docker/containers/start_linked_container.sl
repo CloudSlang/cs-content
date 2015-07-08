@@ -35,7 +35,10 @@
 
 namespace: io.cloudslang.docker.containers
 
-operation:
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+  consul2: aa
+flow:
   name: start_linked_container
   inputs:
     - dbContainerIp
@@ -65,13 +68,34 @@ operation:
         required: false
     - closeSession:
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-      methodName: runSshShellCommand
+
+  workflow:
+    - start_linked_container:
+        do:
+          ssh.ssh_flow:
+            - host
+            - port:
+                required: false
+            - username
+            - password:
+                required: false
+            - privateKeyFile:
+                required: false
+            - command
+            - arguments:
+                required: false
+            - characterSet:
+                required: false
+            - pty:
+                required: false
+            - timeout:
+                required: false
+            - closeSession:
+                required: false
+        publish:
+          - returnResult
+          - standard_err
+          - return_code
   outputs:
     - container_ID: returnResult
-    - error_message: "STDERR if (returnCode == '0' and 'STDERR' in locals()) else returnResult"
-  results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
-    - FAILURE
+    - error_message: standard_err if(return_code == '0' and standard_err != '') else returnResult
