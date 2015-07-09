@@ -76,7 +76,7 @@ flow:
            - password
            - container_name
         publish:
-          - ip: returnResult
+          - ip: container_ip
         navigate:
           SUCCESS: validate
           FAILURE: FAIL_GET_IP
