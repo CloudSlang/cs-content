@@ -37,7 +37,7 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  consul2: aa
+
 flow:
   name: start_linked_container
   inputs:
