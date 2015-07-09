@@ -28,7 +28,7 @@ flow:
   workflow:
     - pre_test_cleanup:
          do:
-           containers.clear_docker_containers:
+           maintenance.clear_docker_host:
              - docker_host: host
              - port:
                  required: false
