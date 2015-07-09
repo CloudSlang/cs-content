@@ -52,7 +52,7 @@ flow:
             - port:
                 required: false
             - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + 'service ' + service_name + ' restart'"
+            - command: "sudo_command + 'service ' + service_name + ' restart' + ' && echo CMD_SUCCESS'"
             - username
             - password:
                 required: False
@@ -68,7 +68,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: standard_out
-            - string_to_find: "'done'"
+            - string_to_find: "'CMD_SUCCESS'"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
