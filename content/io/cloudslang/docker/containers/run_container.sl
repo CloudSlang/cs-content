@@ -28,6 +28,7 @@
 #   - agentForwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - container_ID - ID of the container
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -117,5 +118,7 @@ flow:
                 required: false
         publish:
           - container_ID: standard_out[:-1]
+          - standard_err
   outputs:
     - container_ID
+    - standard_err
