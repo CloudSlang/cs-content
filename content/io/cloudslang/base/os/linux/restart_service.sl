@@ -13,6 +13,7 @@
 #       - username - username to connect as
 #       - password - password of user
 #       - service_name - linux service name to be restarted
+#       - sudo_user - optional - 'true' or 'false' whether to execute the command on behalf of username with sudo. Default: false
 #       - privateKeyFile - optional - path to the private key file
 #
 # Results:
@@ -51,7 +52,7 @@ flow:
             - port:
                 required: false
             - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + 'service ' + service_name + ' restart'"
+            - command: "sudo_command + 'service ' + service_name + ' restart' + ' && echo CMD_SUCCESS'"
             - username
             - password:
                 required: False
@@ -66,11 +67,11 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: service_name
+            - string_in_which_to_search: standard_out
+            - string_to_find: "'CMD_SUCCESS'"
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
 
   outputs:
     - standard_err
