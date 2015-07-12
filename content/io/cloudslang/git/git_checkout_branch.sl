@@ -23,14 +23,14 @@
 #  FAILURE: an error when trying to clone a git repository
 #
 ####################################################
-namespace: io.cloudslang.base.os.linux
+namespace: io.cloudslang.git
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
 flow:
-  name: git_clone_repository
+  name: git_checkout_branch
 
   inputs:
     - host
