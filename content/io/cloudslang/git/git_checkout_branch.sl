@@ -13,6 +13,7 @@
 #       - username - username to connect as
 #       - password - password of user
 #       - sudo_user - true or false, whether the command should execute using sudo
+#       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from
 #       - git_branch - the git branch to checkout to
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
 #       - privateKeyFile - the absolute path to the private key file
@@ -43,6 +44,9 @@ flow:
     - git_repository_localdir:
         default: "'/tmp/repo.git'"
         required: true
+    - git_pull_remote:
+        default: "'origin"
+        required: false
     - sudo_user:
         default: false
         required: false
@@ -57,7 +61,8 @@ flow:
             - port:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' && echo GIT_SUCCESS'"
+            - git_pull: "' && git pull ' + git_pull_remote + ' ' + git_branch"
+            - command: "sudo_command + ' cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS'"
             - username
             - password:
                 required: false
@@ -66,6 +71,7 @@ flow:
         publish:
           - standard_err
           - standard_out
+          - command
 
     - check_result:
         do:
@@ -76,3 +82,4 @@ flow:
   outputs:
     - standard_err
     - standard_out
+    - command
