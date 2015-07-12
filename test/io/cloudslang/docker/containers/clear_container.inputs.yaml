@@ -6,8 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_run_container_Success:
-  testSuites: [docker]
+testDocker_clear_container_Success:
+  testSuites: [docker,containers]
   description: Tests that clear containers works
   testFlowPath: io.cloudslang.docker.containers.test_clear_container
   inputs:

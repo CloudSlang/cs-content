@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_pull_image_Success:
-  testSuites: [docker]
+  testSuites: [docker,images]
   description: Tests that pull image flow finishes with success
   testFlowPath: io.cloudslang.docker.images.test_pull_image
   inputs:

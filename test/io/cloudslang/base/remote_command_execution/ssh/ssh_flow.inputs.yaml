@@ -21,5 +21,5 @@ testSSHBasicallyWorks:
 
 #the newline after the 'testing' string is required for this test to pass
 #don't remove it
-  testSuites: [docker]
+  testSuites: [docker,docker-misc]
   result: SUCCESS

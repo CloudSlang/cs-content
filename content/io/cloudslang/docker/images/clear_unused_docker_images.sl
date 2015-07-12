@@ -36,9 +36,9 @@ flow:
     - docker_host
     - docker_username
     - docker_password:
-        default: "''"
+        required: false
     - private_key_file:
-        default: "''"
+        required: false
     - timeout:
         required: false
     - port:
@@ -51,8 +51,10 @@ flow:
                   required: false
               - docker_host
               - docker_username
-              - docker_password
-              - private_key_file
+              - docker_password:
+                  required: false
+              - private_key_file:
+                  required: false
               - port:
                   required: false
               - timeout:
@@ -68,8 +70,10 @@ flow:
                   required: false
               - docker_host
               - docker_username
-              - docker_password
-              - private_key_file
+              - docker_password:
+                  required: false
+              - private_key_file:
+                  required: false
               - used_images: used_images_list
               - port:
                   required: false
