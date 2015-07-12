@@ -11,7 +11,8 @@ language: java
 
 addons:
   artifacts: true
-
+    paths:
+      - $HOME/builder.log
   
 sudo: required
 
