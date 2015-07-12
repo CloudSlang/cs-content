@@ -16,9 +16,9 @@
 # io.cloudslang.base.password: sender password
 #
 ####################################################
-io.cloudslang.base.hostname:
-io.cloudslang.base.port:
-io.cloudslang.base.from:
-io.cloudslang.base.to:
-io.cloudslang.base.username:
-io.cloudslang.base.password:
+io.cloudslang.base.hostname: localhost
+io.cloudslang.base.port: '25'
+io.cloudslang.base.from: user@example.com
+io.cloudslang.base.to: otheruser@example.com
+io.cloudslang.base.username: user
+io.cloudslang.base.password: pwd

@@ -40,10 +40,8 @@ operation:
     - from
     - to
     - cc:
-        default: "''"
         required: false
     - bcc:
-        default: "''"
         required: false
     - subject
     - body
@@ -54,22 +52,17 @@ operation:
         default: "'false'"
         required: false
     - attachments:
-        default: "''"
         required: false
     - username:
-        default: "''"
         required: false
     - password:
-        default: "''"
         required: false
     - characterSet:
-        default: "'UTF-8'"
         required: false
     - contentTransferEncoding:
         default: "'base64'"
         required: false
     - delimiter:
-        default: "''"
         required: false
   action:
     java_action:
