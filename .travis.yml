@@ -10,7 +10,7 @@
 language: java
 
 addons:
-  artifacts: true
+  artifacts:
     paths:
     - $HOME/builder.log
   
