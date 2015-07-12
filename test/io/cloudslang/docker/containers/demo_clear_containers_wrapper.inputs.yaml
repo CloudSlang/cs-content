@@ -7,7 +7,7 @@
 #
 ####################################################
 test_demo_clear_containers_wrapper:
-  testSuites: [ignore]
+  testSuites: [docker,containers]
   description: Tests that demo_clear_containers_wrapper works
   testFlowPath: io.cloudslang.docker.containers.test_demo_clear_containers_wrapper
   inputs:
