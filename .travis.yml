@@ -9,6 +9,11 @@
 
 language: java
 
+addons:
+  artifacts:
+    paths:
+    - $HOME/builder.log
+  
 sudo: required
 
 env:
