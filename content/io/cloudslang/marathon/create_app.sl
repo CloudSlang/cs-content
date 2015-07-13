@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Creates a new app.
+# Creates a new Marathon app.
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - json_file - path to JSON of new app
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
+#   - proxyHost - optional - proxy host
+#   - proxyPort - optional - proxy port
 # Outputs:
 #   - returnResult - response of the operation
 #   - statusCode - normal status code is 200
 #   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
+#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise

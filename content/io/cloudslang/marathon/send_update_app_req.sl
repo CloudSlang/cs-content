@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Sends an HTTP request to update an app.
+# Sends an HTTP request to update a Marathon app.
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - app_id - app ID to update
 #   - body - application resource JSON
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
+#   - proxyHost - optional - proxy host
+#   - proxyPort - optional - proxy port
 # Outputs:
 #   - returnResult - response of the operation
 #   - statusCode - normal status code is 200
