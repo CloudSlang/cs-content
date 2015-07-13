@@ -14,7 +14,7 @@ addons:
     paths:
     - $HOME/builder.log
   
-sudo: required
+sudo: true
 
 env:
  global:
@@ -28,12 +28,13 @@ env:
    - SUITE=containers
    - SUITE=images
    - SUITE=docker-misc
-
-
-script:
-  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+   
+install:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
+  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+
+script:
   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
     ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
