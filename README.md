@@ -18,7 +18,14 @@ CloudSlang is a YAML based language for writing human-readable workflows for the
 4. Run the executable :
   - For Windows : cslang.bat 
   - For Linux : bash cslang
-5. Run a simple example print text flow:  run --f ../content/io/cloudslang/base/print/print_text.sl --i text=first_flow
+5. Run a simple example print text flow: run --f ../content/io/cloudslang/base/print/print_text.sl --i text=first_flow --cp ../content/
+
+```
+Command line arguments in the example:
+--f  = specify the location of the flow to run
+--i  = specify the arguments the flow takes as input. For multiple arguments specify them with comma and no space between, i.e: var1=value1,var2=value2
+--cp = specify the classpath for the location of the content. This is required because some content imports from other content, and specifying classpath helps resolving directory/file location for imports.
+```
 
 **Note:** Some of the content is dependent on external python modules. If you are using the CLI  to run your flows, you can import external modules by doing one of the following:
 
