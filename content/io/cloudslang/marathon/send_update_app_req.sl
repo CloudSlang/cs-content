@@ -11,7 +11,7 @@
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - appId - app ID to update
+#   - app_id - app ID to update
 #   - body - application resource JSON
 #   - proxyHost - optional - proxy host - Default: none
 #   - proxyPort - optional - proxy port - Default: 8080
@@ -19,7 +19,7 @@
 #   - returnResult - response of the operation
 #   - statusCode - normal status code is 200
 #   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode is == -1 or statusCode != 200
+#   - errorMessage - returnResult if returnCode is == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise

@@ -19,10 +19,10 @@
 #   - proxyPort - optional - proxy port - Default: 8080
 #   - json_file - path to JSON of new app
 # Outputs:
-#   - return_result - operation response
-#   - status_code - normal status code is 200
-#   - return_code - if returnCode == -1 then there was an error
-#   - error_message: returnResult if returnCode == -1 or statusCode != 200
+#   - returnResult - operation response
+#   - statusCode - normal status code is 200
+#   - returnCode - if returnCode == -1 then there was an error
+#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
