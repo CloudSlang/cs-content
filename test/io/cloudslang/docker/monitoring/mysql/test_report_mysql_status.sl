@@ -114,7 +114,7 @@ flow:
              - docker_username
              - docker_password
          navigate:
-           SUCCESS: postfix_cleanup
+           SUCCESS: SUCCESS
            FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
