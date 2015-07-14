@@ -16,6 +16,7 @@ imports:
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
+  print: io.cloudslang.base.print
 
 flow:
   name: test_get_filtered_containers
@@ -52,7 +53,7 @@ flow:
   workflow:
     - pre_clear_machine:
         do:
-          containers.clear_docker_containers:
+          maintenance.clear_docker_host:
             - docker_host: host
             - docker_username: username
             - docker_password:
@@ -111,9 +112,17 @@ flow:
                 required: false
        publish:
           - expected_container_ids:  container_ID
+          - standard_err
        navigate:
          SUCCESS: execute_get_filtered_containers
-         FAILURE: RUN_CONTAINER_TOMCAT_PROBLEM
+         FAILURE: print_error
+
+    - print_error:
+        do:
+          print.print_text:
+            - text: standard_err
+        navigate:
+          SUCCESS: RUN_CONTAINER_TOMCAT_PROBLEM
 
     - execute_get_filtered_containers:
        do:

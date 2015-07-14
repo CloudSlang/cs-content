@@ -21,7 +21,7 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - returnResult - IP of the specified container
+#   - container_ip - IP of the specified container
 #   - error_message - error message
 # Results:
 #   - SUCCESS
@@ -86,10 +86,12 @@ flow:
                 required: false
         publish:
           - returnResult
+          - standard_err
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
           FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - returnResult: returnResult[:-1]
+    - container_ip: returnResult[:-1]
+    - error_message: standard_err
