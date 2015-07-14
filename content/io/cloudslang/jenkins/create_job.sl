@@ -40,7 +40,8 @@ operation:
 
         return_code = '0'
         result_message = 'Success'
-      except:
+      except IOError as e:
+        print "Unexpected error:", e
         return_code = '-1'
         result_message = 'Error while creating job: ' + job_name
 
