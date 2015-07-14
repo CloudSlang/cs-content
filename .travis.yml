@@ -23,7 +23,7 @@ env:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
    - BRANCH=develop 
    - DOCKER_BACKEND_FS=host  
-   - DOCKER_STORAGE_DRIVER=zfs
+   - DOCKER_STORAGE_DRIVER=overlay
   # - QUIET=1
  matrix:
    - SUITE=containers
