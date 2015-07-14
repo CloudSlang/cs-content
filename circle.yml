@@ -12,6 +12,9 @@ general:
     - "builder.log"
     
 machine:
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
+
   services:
     - docker
 
@@ -31,12 +34,13 @@ test:
 #    - docker port docker_host_ssh 22
      - docker run -d -p 49165:8080 jenkins
      - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
+     - docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
      - unzip cslang-builder.zip -d cslang-builder
      - chmod +x cslang-builder/bin/cslang-builder
      - mkdir cslang-builder/lib/Lib
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
   override:
-    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins -cov
+    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,consul -cov
   post:
     - docker ps -a
 #    - docker stop $(docker ps -a -q)

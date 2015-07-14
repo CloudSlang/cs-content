@@ -89,12 +89,7 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - container_list: returnResult.replace("\n"," ").replace("CONTAINER","")
-          - returnCode
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - container_list: returnResult.replace("\n"," ").strip()
 
   outputs:
     - container_list

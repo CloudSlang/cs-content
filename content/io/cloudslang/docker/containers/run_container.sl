@@ -10,6 +10,7 @@
 #
 # Inputs:
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#   - detach - optional - run container in background (detached / daemon mode) - Default: true
 #   - container_name - optional - container name
 #   - container_params - optional - command parameters
 #   - container_command - optional - container command
@@ -27,6 +28,7 @@
 #   - agentForwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - container_ID - ID of the container
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -40,6 +42,8 @@ flow:
   inputs:
     - docker_options:
         required: false
+    - detach:
+        default: true
     - container_name:
         required: false
     - container_params:
@@ -70,6 +74,9 @@ flow:
     - docker_options_expression:
         default: "(docker_options + ' ') if bool(docker_options) else ''"
         overridable: false
+    - detach_expression:
+        default: "'-d ' if detach else ''"
+        overridable: false
     - container_name_param:
         default: "'--name ' + container_name + ' ' if bool(container_name) else ''"
         overridable: false
@@ -80,7 +87,7 @@ flow:
         default: "' ' + container_command if bool(container_command) else ''"
         overridable: false
     - command:
-        default: "'docker ' + docker_options_expression + 'run -d ' + container_name_param + container_params_cmd + image_name + container_command_cmd"
+        default: "'docker ' + docker_options_expression + 'run ' + detach_expression + container_name_param + container_params_cmd + image_name + container_command_cmd"
         overridable: false
 
   workflow:
@@ -111,5 +118,7 @@ flow:
                 required: false
         publish:
           - container_ID: standard_out[:-1]
+          - standard_err
   outputs:
     - container_ID
+    - standard_err
