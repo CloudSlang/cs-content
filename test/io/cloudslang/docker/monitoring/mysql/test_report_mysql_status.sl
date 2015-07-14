@@ -117,15 +117,6 @@ flow:
            SUCCESS: postfix_cleanup
            FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - postfix_cleanup:
-           do:
-             cmd.run_command:
-               - command: "'docker rm -f postfix'"
-           navigate:
-             SUCCESS: SUCCESS
-             FAILURE: FAIL_TO_CLEAN_POSTFIX
-
-
   results:
     - SUCCESS
     - FAIL_TO_PULL_POSTFIX
