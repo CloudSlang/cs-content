@@ -41,7 +41,6 @@ operation:
         return_code = '0'
         result_message = 'Success'
       except:
-        import sys
         return_code = '-1'
         result_message = 'Error while modifying scm url for job: ' + job_name + ' to ' + new_scm_url
 
