@@ -36,8 +36,7 @@ operation:
     python_script: |
       try:
         import json
-        import base64
-        decoded = json.loads(json_response)
+        import base64        decoded = json.loads(json_response)
         decoded= decoded[0]
         key=decoded['Key']
         flags=decoded['Flags']
