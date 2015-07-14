@@ -77,9 +77,10 @@ flow:
             - docker_username
             - docker_password:
                 required: false
-            - port: docker_ssh_port
             - private_key_file:
                 required: false
+            - timeout
+            - port: docker_ssh_port
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEAR_DOCKER_HOST_PROBLEM

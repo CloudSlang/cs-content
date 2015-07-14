@@ -28,15 +28,13 @@ flow:
 
   workflow:
     - clear_docker_host_prereqeust:
-        do:
-          maintenance.clear_docker_host:
-            - docker_host: host
-            - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - port:
-                required: false
+       do:
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
        navigate:
          SUCCESS: pull_first_image
          FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -124,14 +122,12 @@ flow:
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
-            - docker_host: host
-            - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - port:
-                required: false
+         maintenance.clear_docker_host:
+           - docker_host: host
+           - port:
+               required: false
+           - docker_username: username
+           - docker_password: password
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

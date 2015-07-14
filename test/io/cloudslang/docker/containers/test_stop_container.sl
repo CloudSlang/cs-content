@@ -102,7 +102,7 @@ flow:
           FAILURE: FAILURE
 
     - clear_docker_host:
-       do:
+        do:
          maintenance.clear_docker_host:
            - docker_host: host
            - port:
