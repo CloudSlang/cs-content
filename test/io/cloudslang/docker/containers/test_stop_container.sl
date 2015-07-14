@@ -102,8 +102,8 @@ flow:
           FAILURE: FAILURE
 
     - clear_docker_host:
-        do:
-         containers.clear_docker_containers:
+       do:
+         maintenance.clear_docker_host:
            - docker_host: host
            - port:
                required: false

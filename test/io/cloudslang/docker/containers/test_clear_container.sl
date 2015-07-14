@@ -29,13 +29,15 @@ flow:
 
   workflow:
     - clear_docker_host_prereqeust:
-       do:
-         containers.clear_docker_containers:
-           - docker_host: host
-           - port:
-               required: false
-           - docker_username: username
-           - docker_password: password
+        do:
+          maintenance.clear_docker_host:
+            - docker_host: host
+            - docker_username: username
+            - docker_password:
+                default: password
+                required: false
+            - port:
+                required: false
        navigate:
          SUCCESS: pull_image
          FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
@@ -132,12 +134,14 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_docker_containers:
-           - docker_host: host
-           - port:
-               required: false
-           - docker_username: username
-           - docker_password: password
+          maintenance.clear_docker_host:
+            - docker_host: host
+            - docker_username: username
+            - docker_password:
+                default: password
+                required: false
+            - port:
+                required: false
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

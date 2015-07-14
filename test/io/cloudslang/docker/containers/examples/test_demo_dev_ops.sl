@@ -38,13 +38,13 @@ flow:
         default: "'30000000'"
   workflow:
     - clear_docker_host_prereqeust:
-         do:
-           containers.clear_docker_containers:
-             - docker_host
-             - port: docker_ssh_port
-             - docker_username
-             - docker_password:
-                  required: false
+        do:
+          maintenance.clear_docker_host:
+            - docker_host
+            - docker_username
+            - docker_password:
+                required: false
+            - port: docker_ssh_port
          navigate:
            SUCCESS: execute_demo_dev_ops
            FAILURE: CLEAR_DOCKER_HOST_PROBLEM
@@ -72,15 +72,14 @@ flow:
 
     - clear_docker_host:
         do:
-          containers.clear_docker_containers:
+          maintenance.clear_docker_host:
             - docker_host
             - docker_username
             - docker_password:
                 required: false
+            - port: docker_ssh_port
             - private_key_file:
                 required: false
-            - timeout
-            - port: docker_ssh_port
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEAR_DOCKER_HOST_PROBLEM

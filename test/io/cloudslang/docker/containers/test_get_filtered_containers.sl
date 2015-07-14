@@ -166,7 +166,7 @@ flow:
 
     - post_clear_machine:
         do:
-          containers.clear_docker_containers:
+          maintenance.clear_docker_host:
             - docker_host: host
             - docker_username: username
             - docker_password:
