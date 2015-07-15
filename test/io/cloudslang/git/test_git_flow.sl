@@ -10,28 +10,29 @@ namespace: io.cloudslang.git
 
 imports:
   git: io.cloudslang.git
+  files: io.cloudslang.base.files
 
 flow:
   name: test_git_flow
   inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - repository: "'https://github.com/CloudSlang/cloud-slang-content.git'"
-    - repository_localdir: "'/tmp/cloud-slang-content'"
-    - remote: "'origin'"
-    - branch: "'master'"
+    - host
+    - port
+    - username
+    - password
+    - git_repository
+    - git_repository_localdir
+    - git_pull_remote
+    - git_branch
   workflow:
     - clone_a_git_repository:
         do:
           git.git_clone_repository:
-            - host: localhost
-            - port: "49153"
-            - username: root
-            - password: screencast
-            - git_repository: repository
-            - git_repository_localdir: repository_localdir
+            - host
+            - port
+            - username
+            - password
+            - git_repository
+            - git_repository_localdir
         navigate:
           SUCCESS: checkout_git_branch
           FAILURE: CLONEFAILURE
@@ -39,16 +40,26 @@ flow:
     - checkout_git_branch:
         do:
           git.git_checkout_branch:
-            - host: localhost
-            - port: port
-            - username: superman
-            - password: superman
-            - git_pull_remote: remote
-            - git_branch: branch
-            - git_repository_localdir: repository_localdir
+            - host
+            - port
+            - username
+            - password
+            - git_pull_remote
+            - git_branch
+            - git_repository_localdir: git_repository_localdir
+        navigate:
+          SUCCESS: git_cleanup
+          FAILURE: CHECKOUTFAILURE
+        publish:
+          - standard_out
+
+    - git_cleanup:
+        do:
+          files.delete:
+            - source: git_repository_localdir
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECKOUTFAILURE
+          FAILURE: CLEANUPFAILURE
         publish:
           - standard_out
 
@@ -59,4 +70,5 @@ flow:
     - SUCCESS
     - CLONEFAILURE
     - CHECKOUTFAILURE
+    - CLEANUPFAILURE
 

@@ -9,11 +9,13 @@
 testGitCloneRepository:
   inputs:
     - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
+    - port: "22"
+    - username: superman
+    - password: superman
     - git_repository: "https://github.com/CloudSlang/cloud-slang-content.git"
     - git_repository_localdir: "/tmp"
+    - git_branch: "master"
+    - git_pull_remote: "origin"
     - sudo_user: False
   description: Test that git is successfully able to clone a remote repository and pull code
   testFlowPath: io.cloudslang.git.test_git_flow
