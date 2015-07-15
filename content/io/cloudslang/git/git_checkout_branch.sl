@@ -10,12 +10,13 @@
 #
 #   Inputs:
 #       - host - hostname or IP address
+#       - port - optional - port number for running the command - Default: 22
 #       - username - username to connect as
 #       - password - password of user
 #       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from
+#       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #       - git_branch - the git branch to checkout to
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
+#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
 #       - privateKeyFile - the absolute path to the private key file
 #
 # Results:
