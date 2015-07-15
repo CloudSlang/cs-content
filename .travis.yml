@@ -32,7 +32,6 @@ env:
    
 install:
   - sudo apt-get update
-  - sudo apt-get install -y slirp lxc aufs-tools cgroup-lite
   - curl -s https://get.docker.com/ | sh
   - sudo usermod -aG docker $USER
   - sudo chown -R $USER /etc/docker
