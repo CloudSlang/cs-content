@@ -31,15 +31,15 @@ env:
    - SUITE=docker-misc
    
 install:
-  - wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.18-vivid/linux-headers-3.18.0-031800-generic_3.18.0-031800.201412071935_amd64.deb
-  - wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.18-vivid/linux-headers-3.18.0-031800_3.18.0-031800.201412071935_all.deb
-  - wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.18-vivid/linux-image-3.18.0-031800-generic_3.18.0-031800.201412071935_amd64.deb
-  - sudo dpkg -i linux-headers-3.18.0-*.deb linux-image-3.18.0-*.deb
-  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+  -sudo apt-get update
+  - sudo apt-get install -y slirp lxc aufs-tools cgroup-lite
+  - curl -s https://get.docker.com/ | sh
+  - sudo usermod -aG docker $USER
+  - sudo chown -R $USER /etc/docker
 
 script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
-      ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
+  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
+      ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
