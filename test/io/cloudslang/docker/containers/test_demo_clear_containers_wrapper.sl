@@ -15,6 +15,7 @@ imports:
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
+  print: io.cloudslang.base.print
 
 flow:
   name: test_demo_clear_containers_wrapper
@@ -23,7 +24,10 @@ flow:
     - port:
         required: false
     - username
-    - password
+    - password:
+        required: false
+    - private_key_file:
+        required: false
 
   workflow:
     - pre_test_cleanup:
@@ -33,7 +37,11 @@ flow:
              - port:
                  required: false
              - docker_username: username
-             - docker_password: password
+             - docker_password:
+                 default: password
+                 required: false
+             - private_key_file:
+                 required: false
          navigate:
            SUCCESS: start_mysql_container
            FAILURE: MACHINE_IS_NOT_CLEAN
@@ -45,7 +53,10 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
         publish:
           - db_IP
         navigate:
@@ -60,10 +71,23 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
+        publish:
+          - error_message
         navigate:
           SUCCESS: start_linked_container
-          FAILURE: FAIL_TO_PULL_LINKED_CONTAINER
+          FAILURE: print_pull_linked_image_error
+
+    - print_pull_linked_image_error:
+        do:
+          print.print_text:
+            - text: error_message
+        navigate:
+          SUCCESS: FAIL_TO_PULL_LINKED_CONTAINER
 
     - start_linked_container:
         do:
@@ -80,6 +104,9 @@ flow:
             - username
             - password:
                 required: false
+            - privateKeyFile:
+                default: private_key_file
+                required: false
             - timeout:
                 default: "'30000000'"
         publish:
@@ -95,7 +122,11 @@ flow:
             - port:
                 required: false
             - docker_username: username
-            - docker_password: password
+            - docker_password:
+                default: password
+                required: false
+            - private_key_file:
+                required: false
         navigate:
           SUCCESS: verify
           FAILURE: FAILURE
@@ -107,10 +138,14 @@ flow:
             - port:
                 required: false
             - username
-            - password
+            - password:
+                required: false
+            - private_key_file:
+                required: false
             - all_containers: true
         publish:
           - all_containers: container_list
+
     - compare:
         do:
           strings.string_equals:
@@ -127,7 +162,11 @@ flow:
            - port:
                required: false
            - docker_username: username
-           - docker_password: password
+           - docker_password:
+               default: password
+               required: false
+           - private_key_file:
+               required: false
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN
