@@ -13,7 +13,8 @@
 #   - linked_container_ID - ID of the linked container
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine host password
+#   - docker_password - optional - Docker machine host password
+#   - private_key_file - optional - path to private key file
 # Outputs:
 #   - error_message - error message
 # Results:
@@ -35,7 +36,10 @@ flow:
     - port:
         required: false
     - docker_username
-    - docker_password
+    - docker_password:
+        required: false
+    - private_key_file:
+        required: false
   workflow:
     - clear_db_container:
         do:
@@ -45,7 +49,10 @@ flow:
             - port:
                 required: false
             - docker_username
-            - docker_password
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
         publish:
           - error_message
     - clear_linked_container:
@@ -56,7 +63,10 @@ flow:
             - port:
                 required: false
             - docker_username
-            - docker_password
+            - docker_password:
+                required: false
+            - private_key_file:
+                required: false
         publish:
           - error_message
   outputs:
