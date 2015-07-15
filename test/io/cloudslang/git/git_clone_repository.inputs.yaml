@@ -9,9 +9,9 @@
 testGitCloneRepository:
   inputs:
     - host: localhost
-    - port: "22"
-    - username: superman
-    - password: superman
+    - port: "49153"
+    - username: root
+    - password: screencast
     - git_repository: "https://github.com/CloudSlang/cloud-slang-content.git"
     - git_repository_localdir: "/tmp/cloud-slang-content"
     - git_branch: "master"
