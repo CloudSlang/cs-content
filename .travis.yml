@@ -36,6 +36,7 @@ install:
   - sudo usermod -aG docker $USER
   - sudo chown -R $USER /etc/docker
   - sudo service docker restart
+  - lsmod
   - sudo docker info
 
 script:
