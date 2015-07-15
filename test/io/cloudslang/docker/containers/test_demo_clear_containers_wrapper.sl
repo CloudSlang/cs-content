@@ -28,6 +28,10 @@ flow:
         required: false
     - private_key_file:
         required: false
+    - linked_image: "'meirwa/spring-boot-tomcat-mysql-app'"
+    - linked_container_cmd:
+        required: false
+    - linked_container_name: "'spring-boot-tomcat-mysql-app'"
 
   workflow:
     - pre_test_cleanup:
@@ -66,7 +70,7 @@ flow:
     - pull_linked_image:
         do:
           images.pull_image:
-            - image_name: "'meirwa/spring-boot-tomcat-mysql-app'"
+            - image_name: linked_image
             - host
             - port:
                 required: false
@@ -94,10 +98,13 @@ flow:
           containers.start_linked_container:
             - dbContainerIp: db_IP
             - dbContainerName: "'mysqldb'"
-            - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-            - containerName: "'spring-boot-tomcat-mysql-app'"
+            - imageName: linked_image
+            - containerName: linked_container_name
             - linkParams: "dbContainerName + ':mysql'"
             - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p ' + '8080' + ':8080'"
+            - container_cmd:
+                default: linked_container_cmd
+                required: false
             - host
             - port:
                 required: false
@@ -117,7 +124,7 @@ flow:
         do:
           docker_containers_examples.demo_clear_containers_wrapper:
             - db_container_ID: "'mysqldb'"
-            - linked_container_ID: "'spring-boot-tomcat-mysql-app'"
+            - linked_container_ID: linked_container_name
             - docker_host: host
             - port:
                 required: false
