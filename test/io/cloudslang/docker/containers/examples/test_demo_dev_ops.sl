@@ -10,6 +10,7 @@ namespace: io.cloudslang.docker.containers.examples
 
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples
+  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
 
 flow:
@@ -38,7 +39,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
          do:
-           maintenance.clear_docker_host:
+           containers.clear_docker_containers:
              - docker_host
              - port: docker_ssh_port
              - docker_username
@@ -71,7 +72,7 @@ flow:
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
+          containers.clear_docker_containers:
             - docker_host
             - docker_username
             - docker_password:

@@ -1,0 +1,22 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################
+test_restart_container_base_on_usage_success:
+  testSuites: [cadvisor_local]
+  description: >
+    Tests SUCCESS case - starts a cadvisor container, waits for the container to start up and runs
+    the restart_container_base_on_usage flow against it. The Docker host is cleared before and after
+    the actual test logic.
+  testFlowPath: io.cloudslang.docker.cadvisor.test_restart_container_base_on_usage
+  inputs:
+    - cadvisor_port: "23569"
+    - cadvisor_container_name: cadvisor
+    - host: 111.111.111.111
+    - username: root
+    - private_key_file: "c:/.../id_rsa"
+  result: SUCCESS

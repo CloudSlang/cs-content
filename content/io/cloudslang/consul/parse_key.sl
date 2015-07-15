@@ -36,12 +36,14 @@ operation:
     python_script: |
       try:
         import json
+        import base64
+
         decoded = json.loads(json_response)
         decoded= decoded[0]
         key=decoded['Key']
         flags=decoded['Flags']
         create_index=decoded['CreateIndex']
-        value=decoded['Value']
+        value=encoded = base64.b64decode(decoded['Value'])
         modify_index=decoded['ModifyIndex']
         lock_index=decoded['LockIndex']
         returnCode = '0'

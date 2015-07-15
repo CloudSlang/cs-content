@@ -14,5 +14,5 @@ test_docker_get_container_names:
     - password: screencast
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.docker.containers.test_get_container_names
-  testSuites: [docker]
+  testSuites: [docker,containers]
   result: SUCCESS

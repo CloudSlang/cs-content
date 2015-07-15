@@ -9,6 +9,11 @@
 
 language: java
 
+addons:
+  artifacts:
+    paths:
+    - $HOME/builder.log
+  
 sudo: required
 
 env:
@@ -16,6 +21,10 @@ env:
    - UML_DOCKERCOMPOSE=0
    - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
+ matrix:
+   - SUITE=containers
+   - SUITE=images
+   - SUITE=docker-misc
 
 
 script:
@@ -24,4 +33,4 @@ script:
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
-    ./cslang-builder/bin/cslang-builder -ts docker,\!default -cov'
+    ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'

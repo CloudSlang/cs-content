@@ -40,7 +40,6 @@ operation:
         exists = j.has_job(job_name)
         expected_status2 = expected_status in ['true', 'True', 'TRUE']
 
-        return_code = '0'
         result_message = 'Success'
 
         result = ''
@@ -52,8 +51,6 @@ operation:
           result = 'NOT_EXISTS'
 
       except:
-        import sys
-        return_code = '-1'
         result_message = 'Error checking job\'s existence: ' + job_name
         result = 'FAILURE'
 
