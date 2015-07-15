@@ -36,7 +36,7 @@ install:
   - sudo usermod -aG docker $USER
   - sudo chown -R $USER /etc/docker
   - sudo service docker restart
-  - docker info
+  - sudo docker info
 
 script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
