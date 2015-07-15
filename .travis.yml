@@ -32,6 +32,7 @@ env:
    
 install:
   - sudo apt-get update
+  - sudo apt-get install -y linux-image-virtual linux-image-extra-virtual
   - curl -s https://get.docker.com/ | sh
   - sudo usermod -aG docker $USER
   - sudo chown -R $USER /etc/docker
