@@ -19,15 +19,19 @@ env:
    - SUITE=images
    - SUITE=docker-misc
    
-before_script:
-   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/master/scripts/start_docker.sh)
-   - docker info
+install:
+  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+  - sudo apt-get update -qq
+  - sudo apt-get install -y slirp shunit2 lxc-docker-1.6.0 slirp
+  - sudo sudo usermod -aG docker "$USER"
+  - git clone git://github.com/cptactionhank/sekexe
 
 script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
-      ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
+  - sekexe/run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
+      ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
       
 after_failure: cat builder.log
