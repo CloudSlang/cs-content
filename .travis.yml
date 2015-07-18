@@ -1,37 +1,35 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-####################################################
+ #   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+ #   All rights reserved. This program and the accompanying materials
+ #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+ #
+ #   The Apache License is available at
+ #   http://www.apache.org/licenses/LICENSE-2.0
+ #
+ ####################################################
+ 
+ language: java
 
-language: java
-
-sudo: true
-
-env:
- global:
-   - JAVA_OPTS="-XX:MaxPermSize=512m"
- matrix:
-   - SUITE=containers
-   - SUITE=images
-   - SUITE=docker-misc
-   
-install:
-  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
-  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
-  - sudo apt-get update -qq
-  - sudo apt-get install -y slirp shunit2 lxc-docker-1.6.0 slirp
-  - sudo sudo usermod -aG docker "$USER"
-  - git clone git://github.com/cptactionhank/sekexe
-
-script:
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
-  - unzip cslang-builder.zip -d cslang-builder
-  - chmod +x cslang-builder/bin/cslang-builder
-  - sekexe/run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
-      ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
-      
-after_failure: cat builder.log
+ sudo: true
+ 
+ env:
+  global:
+    - UML_DOCKERCOMPOSE=0
+    - UML_FIG=0
+    - JAVA_OPTS="-XX:MaxPermSize=512m"
+    - BRANCH=develop 
+    - DOCKER_BACKEND_FS=host  
+    - DOCKER_STORAGE_DRIVER=devicemapper --storage-opt dm.override_udev_sync_check=true
+  matrix:
+    - SUITE=containers
+    - SUITE=images
+    - SUITE=docker-misc
+ 
+ script:
+   - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
+   - unzip cslang-builder.zip -d cslang-builder
+   - chmod +x cslang-builder/bin/cslang-builder
+   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
+     ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
+     
+ after_failure: cat builder.log
