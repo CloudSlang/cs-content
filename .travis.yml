@@ -13,27 +13,16 @@ sudo: true
 
 env:
  global:
-   - UML_DOCKERCOMPOSE=0
-   - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
-   - BRANCH=develop 
-   - DOCKER_BACKEND_FS=host  
-   - DOCKER_STORAGE_DRIVER='devicemapper --storage-opt dm.override_udev_sync_check=true'
-  # - QUIET=1
  matrix:
    - SUITE=containers
    - SUITE=images
    - SUITE=docker-misc
    
-install:
-  - sudo apt-get update
-  - sudo apt-get install -y linux-image-virtual linux-image-extra-virtual
-  - curl -s https://get.docker.com/ | sh
-  - sudo usermod -aG docker $USER
-  - sudo chown -R $USER /etc/docker
-  - sudo service docker restart
-  - lsmod
-  - sudo docker info
+before_script:
+   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/master/scripts/start_docker.sh)
+   - docker info
+
 
 script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
