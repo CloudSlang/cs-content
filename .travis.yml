@@ -9,11 +9,6 @@ I#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 
 language: java
 
-addons:
-  artifacts:
-    paths:
-    - $HOME/builder.log
-  
 sudo: true
 
 env:
