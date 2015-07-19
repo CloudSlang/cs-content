@@ -18,14 +18,13 @@
     - JAVA_OPTS="-XX:MaxPermSize=512m"
     - BRANCH=develop 
     - DOCKER_BACKEND_FS=host  
-    - DOCKER_STORAGE_DRIVER=devicemapper --storage-opt dm.override_udev_sync_check=true
+    - DOCKER_STORAGE_DRIVER=devicemapper
   matrix:
     - SUITE=containers
     - SUITE=images
     - SUITE=docker-misc
  
  script:
-   - cat /proc/meminfo
    - curl -sLo - http://j.mp/install-travis-docker | sh -xe
    - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
    - unzip cslang-builder.zip -d cslang-builder
