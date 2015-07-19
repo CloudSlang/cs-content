@@ -25,7 +25,7 @@
     - SUITE=docker-misc
  
  script:
-   - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+   - curl -sLo - https://github.com/orius123/travis-docker/blob/develop/install.sh | sh -xe
    - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
    - unzip cslang-builder.zip -d cslang-builder
    - chmod +x cslang-builder/bin/cslang-builder
