@@ -17,8 +17,8 @@
     - UML_FIG=0
     - JAVA_OPTS="-XX:MaxPermSize=512m"
     - BRANCH=develop 
-    - DOCKER_BACKEND_FS=host  
-    - DOCKER_STORAGE_DRIVER=devicemapper
+    - DOCKER_BACKEND_FS=tmpfs  
+    - DOCKER_STORAGE_DRIVER=aufs
     - SKIP_BRANCH_CHECKING=true
   matrix:
     - SUITE=containers
