@@ -19,6 +19,7 @@
     - BRANCH=develop 
     - DOCKER_BACKEND_FS=host  
     - DOCKER_STORAGE_DRIVER=devicemapper
+    - SKIP_BRANCH_CHECKING=true
   matrix:
     - SUITE=containers
     - SUITE=images
