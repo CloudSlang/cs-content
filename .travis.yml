@@ -20,6 +20,8 @@
     - SUITE=docker-misc
  
  script:
+   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/master/scripts/start_docker.sh)
+   - docker info
    - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
    - unzip cslang-builder.zip -d cslang-builder
    - chmod +x cslang-builder/bin/cslang-builder
