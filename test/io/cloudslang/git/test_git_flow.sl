@@ -10,7 +10,7 @@ namespace: io.cloudslang.git
 
 imports:
   git: io.cloudslang.git
-  files: io.cloudslang.base.files
+  ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
   name: test_git_flow
@@ -55,8 +55,14 @@ flow:
 
     - git_cleanup:
         do:
-          files.delete:
-            - source: git_repository_localdir
+          ssh.ssh_flow:
+            - host
+            - port
+            - command:
+                default: "'rm -r ' + git_repository_localdir"
+                overridable: false
+            - username
+            - password
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEANUPFAILURE
@@ -71,4 +77,3 @@ flow:
     - CLONEFAILURE
     - CHECKOUTFAILURE
     - CLEANUPFAILURE
-
