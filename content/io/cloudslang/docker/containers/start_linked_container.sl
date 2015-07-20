@@ -15,6 +15,7 @@
 #   - containerName - linked container name
 #   - linkParams - link parameters
 #   - cmdParams - command Parameters
+#   - container_cmd - optional - command to be executed in the container
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username: Docker machine username
@@ -47,6 +48,8 @@ flow:
     - containerName
     - linkParams
     - cmdParams
+    - container_cmd:
+        required: false
     - host
     - port:
         required: false
@@ -57,9 +60,6 @@ flow:
         required: false
     - arguments:
         required: false
-    - command:
-        default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName"
-        overridable: false
     - characterSet:
         required: false
     - pty:
@@ -68,6 +68,12 @@ flow:
         required: false
     - closeSession:
         required: false
+    - container_cmd_expression:
+        default: "' ' + container_cmd if container_cmd else ''"
+        overridable: false
+    - command:
+        default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName + container_cmd_expression"
+        overridable: false
 
   workflow:
     - start_linked_container:
