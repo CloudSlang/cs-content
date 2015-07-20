@@ -25,6 +25,7 @@ env:
    - SUITE=containers
    - SUITE=images
    - SUITE=docker-misc
+   - SUITE=git
 
 
 script:
