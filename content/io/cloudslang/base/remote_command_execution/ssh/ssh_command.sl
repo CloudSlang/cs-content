@@ -27,6 +27,8 @@
 #    - standard_out - STDOUT of the machine in case of successful request, null otherwise
 #    - standard_err - STDERR of the machine in case of successful request, null otherwise
 #    - exception - contains the stack trace in case of an exception
+#    - exitStatus - The exit status of the remote command corresponding to the SSH channel. The exit status is only available for certain types of channels, and only after the channel was closed (more exactly, just before the channel is closed).
+#	Examples: 0 for a successful command, -1 if the command was not yet terminated (or this channel type has no command), 126 if the command cannot execute.
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
 #    - FAILURE - otherwise
@@ -63,6 +65,7 @@ operation:
       - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
       - standard_err: "'' if 'STDERR' not in locals() else STDERR"
       - exception: "'' if 'exception' not in locals() else exception"
+      - exitStatus: "'' if 'exitStatus' not in locals() else exitStatus"
     results:
       - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
       - FAILURE
