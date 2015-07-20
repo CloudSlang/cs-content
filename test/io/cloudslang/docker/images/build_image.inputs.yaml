@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_docker_build_image:
+test_build_image:
   testSuites: [docker,images]
   description: Tests that build image operation works
   testFlowPath: io.cloudslang.docker.images.test_build_image

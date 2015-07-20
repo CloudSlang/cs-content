@@ -92,7 +92,7 @@ flow:
 
     - delete_downloaded_image:
         do:
-          images.clear_docker_images:
+          images.clear_images:
             - host
             - port
             - username

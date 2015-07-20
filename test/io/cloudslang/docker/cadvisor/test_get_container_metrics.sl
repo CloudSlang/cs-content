@@ -16,7 +16,7 @@ imports:
 
 
 flow:
-  name: test_get_container_metrics_cAdvisor
+  name: test_get_container_metrics
 
   inputs:
     - host
@@ -46,16 +46,16 @@ flow:
           SUCCESS: validate_success_get_container_metrics_cAdvisor
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
-    - validate_success_get_container_metrics_cAdvisor:
+    - validate_success_get_container_metrics:
         do:
-          cadvisor.get_container_metrics_cAdvisor:
+          cadvisor.get_container_metrics:
             - host
             - cadvisor_port
             - container: cadvisor_container_name
         publish:
           - returnResult
 
-    - validate_reponse_is_not_empty:
+    - validate_response_is_not_empty:
         do:
           strings.string_occurrence_counter:
               - string_in_which_to_search: returnResult
@@ -63,7 +63,6 @@ flow:
         navigate:
           SUCCESS: clear_docker_host_after
           FAILURE: VERIFY_FAILURE
-
 
     - clear_docker_host_after:
          do:

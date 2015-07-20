@@ -25,6 +25,9 @@
 #   - docker_info - information returned by Docker
 #   - number_of_containers_in_cluster - number of containers in the Swarm cluster (including agent containers)
 #   - number_of_nodes_in_cluster - number of nodes in the Swarm cluster
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm

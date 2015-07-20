@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_GetAllImages_Success_output:
+test_get_all_images_success:
   inputs:
     - host: localhost
     - port: "49153"

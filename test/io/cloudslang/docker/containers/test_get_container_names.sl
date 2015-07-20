@@ -123,7 +123,7 @@ flow:
 
     - clear_machine:
         do:
-          containers.clear_docker_containers:
+          containers.clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:

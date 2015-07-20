@@ -15,7 +15,7 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: test_report_machine_metrics_cAdvisor
+  name: test_report_machine_metrics
 
   inputs:
     - host
@@ -48,9 +48,9 @@ flow:
           utils.sleep:
             - seconds: 5
 
-    - validate_success_report_machine_metrics_cAdvisor:
+    - validate_success_report_machine_metrics:
         do:
-          cadvisor.report_machine_metrics_cAdvisor:
+          cadvisor.report_machine_metrics:
             - host
             - cadvisor_port
 

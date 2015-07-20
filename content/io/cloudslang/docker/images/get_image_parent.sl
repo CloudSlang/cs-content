@@ -44,7 +44,6 @@ flow:
         required: false
 
   workflow:
-
     - inspect_image:
         do:
           docker_images.inspect_image:

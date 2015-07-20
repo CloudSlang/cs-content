@@ -18,6 +18,9 @@
 # Outputs:
 #   - images_list_safe_to_delete - unused Docker images (including dangling ones)
 #   - amount_of_dangling_images_deleted - number of dangling images that where deleted
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 namespace: io.cloudslang.docker.images
 
@@ -27,7 +30,7 @@ imports:
  base_lists: io.cloudslang.base.lists
 
 flow:
-  name: clear_docker_dangling_images_flow
+  name: clear_dangling_images
   inputs:
     - docker_options:
         required: false
@@ -76,7 +79,7 @@ flow:
           - amount_of_dangling_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_docker_images:
+          docker_images.clear_images:
             - docker_options:
                 required: false
             - host: docker_host

@@ -16,6 +16,9 @@
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.maintenance
@@ -25,7 +28,7 @@ imports:
  docker_images: io.cloudslang.docker.images
 
 flow:
-  name: clear_docker_host
+  name: clear_host
   inputs:
     - docker_host
     - docker_username
@@ -71,9 +74,9 @@ flow:
                 required: false
             - port:
                 required: false
-    - clear_all_docker_images:
+    - clear_all_images:
         do:
-          docker_images.clear_unused_docker_images:
+          docker_images.clear_unused_images:
             - docker_host
             - docker_username
             - docker_password:

@@ -20,6 +20,9 @@
 #   - email_port - email server port
 #   - email_sender - email sender
 #   - email_recipient - email recipient
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

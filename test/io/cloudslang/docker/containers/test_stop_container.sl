@@ -29,7 +29,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         maintenance.clear_docker_host:
+         maintenance.clear_host:
            - docker_host: host
            - port:
                required: false
@@ -103,7 +103,7 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_docker_containers:
+         containers.clear_containers:
            - docker_host: host
            - port:
                required: false

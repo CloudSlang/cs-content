@@ -6,16 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-
-test_clear_docker_images_flow_success:
-  testSuites: [docker,images]
-  description: Tests that clear docker images flow finishes with success
-  testFlowPath: io.cloudslang.docker.images.test_clear_docker_images_flow
+test_get_container_metrics:
+  testSuites: [cadvisor_local]
+  description: Tests SUCCESS case - this test needs to be run on the Docker machine by activating the test suite and supplying the inputs
+  testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics
   inputs:
     - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name1: hello-world
-    - image_name2: busybox
+    - cadvisor_port: "32952"
+    - cadvisor_container_name: cadvisor
   result: SUCCESS
