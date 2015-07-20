@@ -6,21 +6,21 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testPing_UP_requied_inputs:
+testPing_UP_required_inputs:
   inputs:
     - address: localhost
   description: Tests that ping.sl operation finishes with UP
   testFlowPath: io.cloudslang.base.network.ping
   result: UP
 
-testPing_DOWN_requied_inputs:
+testPing_DOWN_required_inputs:
   inputs:
     - address: 400.1.1.1
   description: Tests that ping.sl operation finishes with DOWN
   testFlowPath: io.cloudslang.base.network.ping
   result: DOWN
 
-testPing_UP_requied_inputs_and_ttl:
+testPing_UP_required_inputs_and_ttl:
   inputs:
     - address: localhost
     - ttl: '100'
@@ -28,7 +28,7 @@ testPing_UP_requied_inputs_and_ttl:
   testFlowPath: io.cloudslang.base.network.ping
   result: UP
 
-testPing_DOWN_requied_inputs_and_ttl:
+testPing_DOWN_required_inputs_and_ttl:
   inputs:
     - address: localhost
     - ttl: '256'
@@ -36,7 +36,7 @@ testPing_DOWN_requied_inputs_and_ttl:
   testFlowPath: io.cloudslang.base.network.ping
   result: DOWN
 
-testPing_UP_requied_inputs_and_size:
+testPing_UP_required_inputs_and_size:
   inputs:
     - address: localhost
     - size: '1024'
@@ -44,7 +44,7 @@ testPing_UP_requied_inputs_and_size:
   testFlowPath: io.cloudslang.base.network.ping
   result: UP
 
-testPing_DOWN_requied_inputs_and_size:
+testPing_DOWN_required_inputs_and_size:
   inputs:
     - address: localhost
     - size: '69000'
@@ -52,7 +52,7 @@ testPing_DOWN_requied_inputs_and_size:
   testFlowPath: io.cloudslang.base.network.ping
   result: DOWN
 
-testPing_UP_requied_inputs_and_timeout:
+testPing_UP_required_inputs_and_timeout:
   inputs:
     - address: localhost
     - timeout: '100'
@@ -60,7 +60,7 @@ testPing_UP_requied_inputs_and_timeout:
   testFlowPath: io.cloudslang.base.network.ping
   result: UP
 
-testPing_DOWN_requied_inputs_and_timeout:
+testPing_DOWN_required_inputs_and_timeout:
   inputs:
     - address: localhost
     - timeout: '-1'
@@ -69,7 +69,7 @@ testPing_DOWN_requied_inputs_and_timeout:
   result: DOWN
 
 
-testPing_Failure_requied_inputs:
+testPing_Failure_required_inputs:
   inputs:
     - address: 1
   description: Tests that ping.sl operation finishes with FAILURE

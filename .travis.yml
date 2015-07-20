@@ -9,11 +9,6 @@
 
 language: java
 
-addons:
-  artifacts:
-    paths:
-    - $HOME/builder.log
-  
 sudo: required
 
 env:
@@ -25,6 +20,7 @@ env:
    - SUITE=containers
    - SUITE=images
    - SUITE=docker-misc
+   - SUITE=git
 
 
 script:

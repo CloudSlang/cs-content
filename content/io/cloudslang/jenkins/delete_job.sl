@@ -38,7 +38,6 @@ operation:
         return_code = '0'
         result_message = 'Success'
       except:
-        import sys
         return_code = '-1'
         result_message = 'Error deleting job: ' + job_name
 
