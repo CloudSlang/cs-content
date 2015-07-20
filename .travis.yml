@@ -35,4 +35,6 @@ script:
   - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
     ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
     
-after_script: cat builder.log
+after_script: 
+  - cat builder.log
+  - echo done
