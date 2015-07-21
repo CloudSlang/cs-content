@@ -12,8 +12,8 @@
 #       - sourcePath - path of the file on the local machine
 #       - destinationHost - host of the machine where the file will be copied
 #       - destinationPath - path where the file will be copied
-#       - username - username to connect as
-#       - password - password of user
+#       - destinationUsername - username to connect as
+#       - destinationPassword - password of user
 #   Results:
 #       - SUCCESS - file copied successfully
 #       - FAILURE - copy failed
@@ -27,11 +27,11 @@ operation:
       - sourcePath
       - destinationHost
       - destinationPath
-      - username
-      - password
+      - destinationUsername
+      - destinationPassword
     action:
           java_action:
-            className: org.openscore.content.rft.actions.RemoteSecureCopyAction
+            className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
             methodName: copyTo
     outputs:
       - return_result: returnResult
