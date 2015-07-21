@@ -61,6 +61,8 @@ flow:
             - username
             - password
             - container_name
+            - container_command: >
+                  '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
             - image_name
         navigate:
           SUCCESS: get_ip
