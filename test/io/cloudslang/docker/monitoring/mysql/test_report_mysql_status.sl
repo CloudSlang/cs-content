@@ -52,7 +52,7 @@ flow:
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p ' + email_port + ':' + email_port + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: "'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
     - verify_postfix:
         do:
