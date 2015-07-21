@@ -43,7 +43,7 @@ flow:
                 'google/cadvisor:latest --logtostderr'
             - overridable: false
         navigate:
-          SUCCESS: validate_success_get_container_metrics_cAdvisor
+          SUCCESS: validate_success_get_container_metrics
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - validate_success_get_container_metrics:

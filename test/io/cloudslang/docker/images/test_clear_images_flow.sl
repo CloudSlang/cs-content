@@ -143,7 +143,7 @@ flow:
             - first_string: "image_name1 + ':latest '"
             - second_string: image_list
         navigate:
-          SUCCESS: clear_docker_host
+          SUCCESS: clear_host
           FAILURE: VERIFY_FAILURE
 
     - clear_host:
