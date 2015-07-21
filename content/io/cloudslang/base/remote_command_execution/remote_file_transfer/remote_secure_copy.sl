@@ -28,7 +28,10 @@ operation:
       - destinationHost
       - destinationPath
       - destinationUsername
-      - destinationPassword
+      - destinationPassword:
+          required: false
+      - destinationPrivateKeyFile:
+          required: false
     action:
           java_action:
             className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
