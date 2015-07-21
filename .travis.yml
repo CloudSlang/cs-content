@@ -28,7 +28,7 @@ env:
 script:
   #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - docker info
-  - docker -version
+  - docker version
   - sudo apt-get update -qq
   - sudo apt-get install default-jre-headless -y -q
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
