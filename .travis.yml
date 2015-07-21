@@ -7,7 +7,7 @@
 #
 ####################################################
 
-#language: java
+language: java
 
 sudo: required
 
@@ -27,10 +27,12 @@ env:
 
 script:
   #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
+  - docker info
+  - docker -version
   - sudo apt-get update -qq
-  - sudo apt-get install default-jre-headless -y
+  - sudo apt-get install default-jre-headless -y -q
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
-  - unzip cslang-builder.zip -d cslang-builder
+  - unzip cslang-builder.zip -d cslang-builder -q
   - chmod +x cslang-builder/bin/cslang-builder
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
