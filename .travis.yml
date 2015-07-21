@@ -27,13 +27,13 @@ env:
 
 script:
   #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
-  - sudo apt-get update
-  - sudo apt-get install default-jre
+  - sudo apt-get update -qq
+  - sudo apt-get install default-jre-headless -y
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
   - unzip cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
-  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
+  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < builder.log
