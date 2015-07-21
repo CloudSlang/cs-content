@@ -16,7 +16,7 @@ imports:
   maintenance: io.cloudslang.docker.maintenance
 
 flow:
-  name: test_clear_images_flow
+  name: test_clear_unused_images
   inputs:
     - host
     - port:
