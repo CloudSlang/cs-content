@@ -63,6 +63,8 @@ flow:
             - password
             - container_name
             - image_name
+            - container_command: >
+                  '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
         navigate:
           SUCCESS: stop_container
           FAILURE: FAIL_RUN_IMAGE
