@@ -32,7 +32,7 @@ script:
   - df -kh
   - sudo apt-get update -qq
   - sudo apt-get install default-jre-headless -y -q
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.46/cslang-builder.zip
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.47/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
