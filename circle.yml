@@ -39,6 +39,8 @@ test:
      - chmod +x cslang-builder/bin/cslang-builder
      - mkdir cslang-builder/lib/Lib
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
+     - chmod +x ci-env/prepare_env.sh
+     - ci-env/prepare_env.sh
   override:
     - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,consul -cov
   post:
