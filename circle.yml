@@ -30,6 +30,8 @@ dependencies:
 
 test:
   pre:
+     - chmod +x ci-env/prepare_env.sh
+     - ci-env/prepare_env.sh
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
      - docker run -d -p 49165:8080 jenkins
@@ -39,10 +41,8 @@ test:
      - chmod +x cslang-builder/bin/cslang-builder
      - mkdir cslang-builder/lib/Lib
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
-     - chmod +x ci-env/prepare_env.sh
-     - ci-env/prepare_env.sh
   override:
-    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,consul -cov
+#    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,consul -cov
   post:
     - docker ps -a
 #    - docker stop $(docker ps -a -q)

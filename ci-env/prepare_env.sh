@@ -23,10 +23,10 @@ do
   units:\n    - name: etcd.service\n      command: start\n    - name: fleet.service\n      command: start\",\"private_networking\":true}" \
   "https://api.digitalocean.com/v2/droplets" | grep "HTTP/1.1" | awk '{print $2}')
 
-  if [ "$STATUS_CODE" = "200" ]
+  if [ "$STATUS_CODE" = "202" ]
   then
-    echo "$COREOS_MACHINE created"
+    echo "$COREOS_MACHINE droplet creation request accepted"
   else
-    echo "$COREOS_MACHINE NOT created - status code: $STATUS_CODE"
+    echo "Problem occurred: $COREOS_MACHINE droplet creation request - status code: $STATUS_CODE"
   fi
 done
