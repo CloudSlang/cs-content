@@ -44,6 +44,8 @@ test:
   override:
 #    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,consul -cov
   post:
+    - chmod +x ci-env/cleanup_env.sh
+    - ci-env/cleanup_env.sh
     - docker ps -a
 #    - docker stop $(docker ps -a -q)
 #    - docker rm $(docker ps -a -q)

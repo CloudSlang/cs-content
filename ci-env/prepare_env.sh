@@ -1,8 +1,10 @@
 #!/bin/bash
 
+DROPLET_ID_ACC=""
 COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in $COREOS_MACHINE_NAMES
 do
+  # TODO: extract json
   CURL_OUTPUT=$(curl -i -s -L -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
   -d "{\"name\":\"$COREOS_MACHINE\",\"region\":\"ams3\",\"size\":\"512mb\",\
   \"image\":\"coreos-stable\",\"ssh_keys\":[774367],\"backups\":false,\"ipv6\":false,\
@@ -26,8 +28,17 @@ do
     DROPLET_ID_ARRAY=(${DROPLET_ID_JUNK//,/ })
     DROPLET_ID=${DROPLET_ID_ARRAY[0]}
 
+    DROPLET_ID_ACC+="${DROPLET_ID} "
+
     echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted"
   else
     echo "Problem occurred: $COREOS_MACHINE droplet creation request - status code: $STATUS_CODE"
   fi
 done
+
+# store droplet IDs in a file to be accessible in cleanup script
+echo $DROPLET_ID_ACC
+echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
+
+# TODO: add waiting loop for droplet startup
+# sleep 20
