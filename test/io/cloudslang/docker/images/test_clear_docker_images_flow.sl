@@ -92,7 +92,7 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ':latest '"
+            - first_string: "image_name1 + ' '"
             - second_string: image_list
         navigate:
           SUCCESS: clear_unused_images
@@ -140,7 +140,7 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ':latest '"
+            - first_string: "image_name1 + ' '"
             - second_string: image_list
         navigate:
           SUCCESS: clear_docker_host

@@ -16,5 +16,5 @@ testDocker_clear_container_Success:
     - username: root
     - password: screencast
     - first_image_name: hello-world
-    - second_image_name: raskin/ubuntu-sshd
+    - second_image_name: busybox
   result: SUCCESS

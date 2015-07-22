@@ -114,7 +114,11 @@ flow:
           FAILURE: SUCCESS
 
   outputs:
-    - image_list: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
+    - image_list: >
+          returnResult.replace("\n"," ")
+          .replace("<none>:<none> ","")
+          .replace(":latest", "")
+          .replace("REPOSITORY:TAG ","")
   results:
     - SUCCESS
     - FAILURE
