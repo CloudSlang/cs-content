@@ -1,18 +1,6 @@
 #!/bin/bash
 
-# test CircleCI env vars
-echo $CIRCLE_PR_NUMBER
-echo $CIRCLE_BRANCH # first part
-echo $CIRCLE_SHA1
-echo $CIRCLE_BUILD_NUM # second part
-
-# test CircleCI env vars
-echo ${CIRCLE_PR_NUMBER}
-echo ${CIRCLE_BRANCH} # first part
-echo ${CIRCLE_SHA1}
-echo ${CIRCLE_BUILD_NUM} # second part
-
-COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1" # ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
+COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in $COREOS_MACHINE_NAMES
 do
   CURL_OUTPUT=$(curl -i -s -L -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
@@ -23,25 +11,22 @@ do
   units:\n    - name: etcd.service\n      command: start\n    - name: fleet.service\n      command: start\",\"private_networking\":true}" \
   "https://api.digitalocean.com/v2/droplets")
 
-  echo "CURL_OUTPUT: $CURL_OUTPUT"
+#  echo "CURL_OUTPUT: $CURL_OUTPUT"
 
   STATUS_CODE=$(echo $CURL_OUTPUT | awk '{print $2}')
 
-  DROPLET_DETAILS=$(echo "$CURL_OUTPUT" | grep "droplet")
-  echo "DROPLET_DETAILS: $DROPLET_DETAILS"
-
-  DROPLET_ID_JUNK_ARRAY=(${DROPLET_DETAILS//:/ })
-  DROPLET_ID_JUNK=${DROPLET_ID_JUNK_ARRAY[2]}
-
-  DROPLET_ID_ARRAY=(${DROPLET_ID_JUNK//,/ })
-  DROPLET_ID=${DROPLET_ID_ARRAY[0]}
-
-  echo "STATUS_CODE: $STATUS_CODE"
-  echo "DROPLET_ID: $DROPLET_ID"
-
   if [ "$STATUS_CODE" = "202" ]
   then
-    echo "$COREOS_MACHINE droplet creation request accepted"
+    DROPLET_DETAILS=$(echo "$CURL_OUTPUT" | grep "droplet")
+    #  echo "DROPLET_DETAILS: $DROPLET_DETAILS"
+
+    # split after `:` and `,` characters and extract the droplet ID
+    DROPLET_ID_JUNK_ARRAY=(${DROPLET_DETAILS//:/ })
+    DROPLET_ID_JUNK=${DROPLET_ID_JUNK_ARRAY[2]}
+    DROPLET_ID_ARRAY=(${DROPLET_ID_JUNK//,/ })
+    DROPLET_ID=${DROPLET_ID_ARRAY[0]}
+
+    echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted"
   else
     echo "Problem occurred: $COREOS_MACHINE droplet creation request - status code: $STATUS_CODE"
   fi
