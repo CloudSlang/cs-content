@@ -23,16 +23,18 @@ do
   units:\n    - name: etcd.service\n      command: start\n    - name: fleet.service\n      command: start\",\"private_networking\":true}" \
   "https://api.digitalocean.com/v2/droplets")
 
-  echo $CURL_OUTPUT
+  echo "CURL_OUTPUT: $CURL_OUTPUT"
 
-  STATUS_CODE=$(echo $CURL_OUTPUT | grep "HTTP/1.1" | awk '{print $2}')
-  INTERMEDIATE_RESULT=$(echo $CURL_OUTPUT | grep "id")
-  echo $INTERMEDIATE_RESULT
-  DROPLET_ID=$(echo $INTERMEDIATE_RESULT | awk 'NR==1{print $1; print $2; print $3; print $4; print $5; print $16;}')
+  STATUS_CODE=$(echo $CURL_OUTPUT | awk '{print $2}')
 
-  echo $STATUS_CODE
+#  INTERMEDIATE_RESULT=$(echo $CURL_OUTPUT | grep "id")
+#  echo $INTERMEDIATE_RESULT
+#  DROPLET_ID=$(echo $INTERMEDIATE_RESULT | awk 'NR==1{print $1; print $2; print $3; print $4; print $5; print $16;}')
 
-  echo $DROPLET_ID
+  DROPLET_ID=$(echo $CURL_OUTPUT | awk '{print $20;}')
+
+  echo "STATUS_CODE: $STATUS_CODE"
+  echo "DROPLET_ID: $DROPLET_ID"
 
   if [ "$STATUS_CODE" = "202" ]
   then
