@@ -26,9 +26,12 @@ do
   echo $CURL_OUTPUT
 
   STATUS_CODE=$(echo $CURL_OUTPUT | grep "HTTP/1.1" | awk '{print $2}')
-  DROPLET_ID=$(echo $CURL_OUTPUT | grep "id" | awk 'NR==1{print $2}')
+  INTERMEDIATE_RESULT=$(echo $CURL_OUTPUT | grep "id")
+  echo $INTERMEDIATE_RESULT
+  DROPLET_ID=$(echo $INTERMEDIATE_RESULT | awk 'NR==1{print $1; print $2; print $3; print $4; print $5; print $16;}')
 
   echo $STATUS_CODE
+
   echo $DROPLET_ID
 
   if [ "$STATUS_CODE" = "202" ]
