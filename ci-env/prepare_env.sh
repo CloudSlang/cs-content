@@ -27,11 +27,9 @@ do
 
   STATUS_CODE=$(echo $CURL_OUTPUT | awk '{print $2}')
 
-#  INTERMEDIATE_RESULT=$(echo $CURL_OUTPUT | grep "id")
-#  echo $INTERMEDIATE_RESULT
-#  DROPLET_ID=$(echo $INTERMEDIATE_RESULT | awk 'NR==1{print $1; print $2; print $3; print $4; print $5; print $16;}')
-
-  DROPLET_ID=$(echo $CURL_OUTPUT | awk '{print $20;}')
+  DROPLET_DETAILS=$(echo "$CURL_OUTPUT" | grep "droplet")
+  DROPLET_ID_JUNK=(${DROPLET_DETAILS//:/ })[2]
+  DROPLET_ID=(${DROPLET_ID_JUNK//,/ })[0]
 
   echo "STATUS_CODE: $STATUS_CODE"
   echo "DROPLET_ID: $DROPLET_ID"
