@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_run_container_Success:
+test_run_container_success:
   testSuites: [docker,containers]
   description: Tests that run containers works
   testFlowPath: io.cloudslang.docker.containers.test_run_container

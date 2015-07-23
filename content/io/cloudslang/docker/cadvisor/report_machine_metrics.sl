@@ -9,18 +9,17 @@
 # Retrieves cAdvisor status of a Docker container.
 #
 # Inputs:
-#   - container - name or ID of Docker container that runs MySQL
 #   - host - Docker machine host
 #   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 # Outputs:
 #   - decoded - parsed response
-#   - timestamp - time used to calculate stat
-#   - memory_usage- calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
-#   - cpu_usage - calculated CPU usage of the container
-#   - throughput_rx - calculated network Throughput Rx bytes
-#   - throughput_tx - calculated network Throughput Tx bytes
-#   - error_rx- calculated network error Rx
-#   - error_tx- calculated network error Tx
+#   - num_cores - machine number of cores
+#   - cpu_frequency_khz - machine CPU
+#   - memory_capacity - machine memory
+#   - file_systems - parsed cAdvisor machine filesystems
+#   - disk_map - parsed cAdvisor machine disk map
+#   - network_devices- parsed cAdvisor machine network devices
+#   - topology- parsed cAdvisor machine topology
 #   - errorMessage - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
@@ -33,55 +32,45 @@ imports:
   docker_cadvisor: io.cloudslang.docker.cadvisor
 
 flow:
-  name: report_container_metrics_cAdvisor
+  name: report_machine_metrics
   inputs:
-    - container
     - host
     - cadvisor_port:
         default: "'8080'"
         required: false
   workflow:
-    - retrieve_container_metrics_cAdvisor:
+    - retrieve_machine_metrics:
         do:
-          docker_cadvisor.get_container_metrics_cAdvisor:
-              - container
+          docker_cadvisor.get_machine_metrics:
               - host
               - cadvisor_port
         publish:
           - response_body: returnResult
           - returnCode
           - errorMessage
-    - retrieve_machine_memory:
+    - parse_machine_metrics:
         do:
-          docker_cadvisor.report_machine_metrics_cAdvisor:
-            - host
-            - cadvisor_port
-        publish:
-          - memory_capacity
-    - parse_container_metrics_cAdvisor:
-        do:
-          docker_cadvisor.parse_cadvisor_container:
+          docker_cadvisor.parse_machine:
             - json_response: response_body
-            - machine_memory_limit: memory_capacity
         publish:
           - decoded
-          - timestamp
-          - memory_usage
-          - cpu_usage
-          - throughput_rx
-          - throughput_tx
-          - error_rx
-          - error_tx
+          - num_cores
+          - cpu_frequency_khz
+          - memory_capacity
+          - file_systems
+          - disk_map
+          - network_devices
+          - topology
           - errorMessage
   outputs:
     - decoded
-    - timestamp
-    - memory_usage
-    - cpu_usage
-    - throughput_rx
-    - throughput_tx
-    - error_rx
-    - error_tx
+    - num_cores
+    - cpu_frequency_khz
+    - memory_capacity
+    - file_systems
+    - disk_map
+    - network_devices
+    - topology
     - errorMessage
   results:
     - SUCCESS

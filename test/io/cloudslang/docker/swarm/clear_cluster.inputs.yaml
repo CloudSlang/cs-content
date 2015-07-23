@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_clear_swarm_cluster_success:
+test_clear_cluster_success:
   testSuites: [swarm_local]
   description: Tests SUCCESS case - this test needs to be run on the local machine by activating the test suite and supplying the inputs
-  testFlowPath: io.cloudslang.docker.swarm.test_clear_swarm_cluster
+  testFlowPath: io.cloudslang.docker.swarm.test_clear_cluster
   inputs:
     - swarm_manager_ip: 111.111.111.111
     - swarm_manager_port: "2375"

@@ -63,6 +63,7 @@ flow:
         required: false
     - agent_forwarding:
         required: false
+
   workflow:
     - get_used_images:
         do:

@@ -61,6 +61,7 @@ flow:
         required: false
     - agentForwarding:
         required: false
+
   workflow:
     - pull_image:
         do:
