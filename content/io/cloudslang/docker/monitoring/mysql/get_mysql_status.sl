@@ -55,7 +55,7 @@ flow:
     - mysql_username
     - mysql_password
     - exec_cmd:
-        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' status'"
+        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp status'"
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + exec_cmd"
