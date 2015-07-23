@@ -7,7 +7,7 @@
 #
 ####################################################
 testDocker_test_mysql_monitor:
-  testSuites: [docker,docker-misc-ignore]
+  testSuites: [docker,docker-misc]
   description: Tests the operation that monitor a mysql container.
   testFlowPath: io.cloudslang.docker.monitoring.mysql.test_mysql_monitor
   inputs:
