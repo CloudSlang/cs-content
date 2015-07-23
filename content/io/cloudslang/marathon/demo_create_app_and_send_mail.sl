@@ -15,14 +15,14 @@
 #   - email_recipient - email recipient
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - marathon agent port - Default: 8080
-#   - proxyHost - optional - proxy host
-#   - proxyPort - optional - proxy port
+#   - proxy_host - optional - proxy host
+#   - proxy_port - optional - proxy port
 #   - json_file - path to JSON of new app
 # Outputs:
-#   - returnResult - operation response
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
+#   - return_result - operation response
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message - returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -46,8 +46,10 @@ flow:
         default: "'8080'"
         required: false
     - proxyHost:
+        default: proxy_host
         required: false
     - proxyPort:
+        default: proxy_port
         required: false
     - json_file
 
@@ -58,15 +60,15 @@ flow:
             - marathon_host
             - marathon_port
             - json_file
-            - proxyHost:
+            - proxy_host:
                 required: false
-            - proxyPort:
+            - proxy_port:
                 required: false
         publish:
-          - returnResult
-          - statusCode
-          - returnCode
-          - errorMessage
+          - return_result
+          - status_code
+          - return_code
+          - error_message
 
     - send_status_mail:
         do:
@@ -92,10 +94,10 @@ flow:
                 - body: "'App creation failed '+errorMessage"
 
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage
+    - return_result
+    - status_code
+    - return_code
+    - error_message
   results:
     - SUCCESS
     - FAILURE

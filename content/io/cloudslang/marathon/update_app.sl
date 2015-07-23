@@ -13,13 +13,13 @@
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - app_id - app ID to update
 #   - json_file - path to JSON of the app
-#   - proxyHost - optional - proxy host
-#   - proxyPort - optional - proxy port
+#   - proxy_host - optional - proxy host
+#   - proxy_port - optional - proxy port
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message - returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - app updated successfully
 #   - FAILURE - otherwise
@@ -40,9 +40,9 @@ flow:
         required: false
     - app_id
     - json_file
-    - proxyHost:
+    - proxy_host:
         required: false
-    - proxyPort:
+    - proxy_port:
         required: false
   workflow:
     - read_from_file:
@@ -59,21 +59,21 @@ flow:
             - marathon_port
             - app_id
             - body: read_text
-            - proxyHost:
+            - proxy_host:
                 required: false
-            - proxyPort:
+            - proxy_port:
                 required: false
         publish:
-          - returnResult
-          - statusCode
-          - returnCode
-          - errorMessage
+          - return_result
+          - status_code
+          - return_code
+          - error_message
 
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage
+    - return_result
+    - status_code
+    - return_code
+    - error_message
   results:
     - SUCCESS
     - FAILURE

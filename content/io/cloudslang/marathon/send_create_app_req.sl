@@ -12,13 +12,13 @@
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - body - application resource JSON
-#   - proxyHost - optional - proxy host
-#   - proxyPort - optional - proxy port
+#   - proxy_host - optional - proxy host
+#   - proxy_port - optional - proxy port
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message - returnResult if returnCode == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -44,18 +44,20 @@ operation:
         default: "'application/json'"
         overridable: false
     - proxyHost:
+        default: proxy_host
         required: false
     - proxyPort:
+        default: proxy_port
         required: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '201' else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - return_code: returnCode
+    - error_message: returnResult if returnCode == '-1' or statusCode != '201' else ''
   results:
     - SUCCESS: returnCode != '-1' and statusCode == '201'
     - FAILURE
