@@ -37,7 +37,7 @@ do
 done
 
 # store droplet IDs in a file to be accessible in cleanup script
-echo $DROPLET_ID_ACC
+# echo $DROPLET_ID_ACC
 echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
 
 # TODO: add waiting loop for droplet startup
