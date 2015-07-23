@@ -84,7 +84,7 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
+            - first_string: "image_name + ' '"
             - second_string: list
         navigate:
           SUCCESS: delete_downloaded_image
@@ -92,7 +92,7 @@ flow:
 
     - delete_downloaded_image:
         do:
-          images.clear_docker_images:
+          images.clear_images:
             - host
             - port
             - username

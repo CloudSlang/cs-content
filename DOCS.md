@@ -7,11 +7,13 @@ The following is an overview of what is included in the ready-made content:
 + **cloudslang**
   + **base:** This folder contains general purpose content.
     + **cmd:** Shell command content.
+    + **comparisons:** Comparison content.
     + **files:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.
+    + **lists:** List manipulation.
     + **mail:** Email related content. 
     + **network:** Network related actions, such as: pinging and performing REST calls. 
-    + **os**
-      + **linux:** Content for working with Linux, such as: checking disk space and validating SSH access.   
+    + **os** Content for working with operating systems, such as determining the OS, checking disk space and validating SSH access. 
+    + **print:** Printing text.
     + **remote_command_execution**
       + **ssh:** SSH command related content.
     + **strings:** String actions and manipulations, such as: match, replace, occurrence counter. 
@@ -23,6 +25,10 @@ The following is an overview of what is included in the ready-made content:
     + **containers:** In Docker terminology, a container is a read-write layer, plus the information about its Parent Image and some additional information like its unique id, networking configuration, and resource limits. This folder contains content for working with Docker containers, such as: start, stop and delete.
     + **images:** In Docker terminology, an image is a read-only layer. This folder contains content for working with and maintaining Docker images, such as: pulling, listing, and deleting images.
     + **maintenance:** This folder contains content for maintaining a clean Docker environment, such as: retrieving and acting upon the status of MySQL and Linux checks.
+    + **monitoring:** Content that check, report etc. the status of certain containers such as MySQL container.
+    + **swarm:** [Swarm](https://www.docker.com/docker-swarm) provides native clustering capabilities to turn a group of Docker engines into a single, virtual Docker Engine. This folder contains content for interacting with a Swarm cluster.
+    + **utils:** Utility content that pertains to Docker.
+  + **git:** [Git](https://git-scm.com/) is a distributed version control system. This folder contains content for interacting with Git.
   + **jenkins:** [Jenkins](http://jenkins-ci.org/) is an application that monitors executions of repeated jobs, such as building a software project or jobs run by cron. This folder contains content for working with Jenkins jobs, such as: enable,  disable, copy and delete.
   + **marathon:** [Marathon](https://mesosphere.github.io/marathon/) is cluster-wide init and control system for services in cgroups or Docker containers. This folder contains content for working with apps, such as: creating, deleting, updating and listing.
   + **openstack:** [OpenStack](https://www.openstack.org/) is a cloud operating system that controls large pools of compute, storage, and networking resources throughout a datacenter.This folder contains content for working with servers, such as: create, delete, authenticate and check.  

@@ -25,7 +25,7 @@
 namespace: io.cloudslang.docker.cadvisor
 
 operation:
-  name: get_container_metrics_cAdvisor
+  name: get_container_metrics
   inputs:
     - host
     - cadvisor_port:

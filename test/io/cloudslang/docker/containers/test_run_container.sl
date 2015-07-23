@@ -29,7 +29,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         maintenance.clear_docker_host:
+         maintenance.clear_host:
            - docker_host: host
            - port:
                required: false
@@ -80,7 +80,7 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: "image_name + ':latest '"
+            - first_string: 'image_name + " "'
             - second_string: list
         navigate:
           SUCCESS: clear_docker_host
@@ -89,7 +89,7 @@ flow:
 
     - clear_docker_host:
         do:
-          containers.clear_docker_containers:
+          containers.clear_containers:
             - docker_host: host
             - port:
                 required: false

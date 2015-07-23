@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_get_all_containers:
+test_get_all_containers:
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
     - first_image_name: hello-world
-    - second_image_name: raskin/hello-world
+    - second_image_name: busybox
   description: Tests that get_all_containers operation works
   testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
   testSuites: [docker,containers]

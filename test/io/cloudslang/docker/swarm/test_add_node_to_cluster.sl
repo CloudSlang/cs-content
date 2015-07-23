@@ -52,7 +52,7 @@ flow:
 
     - pre_clear_manager_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: manager_machine_ip
             - docker_username: manager_machine_username
             - docker_password:
@@ -67,7 +67,7 @@ flow:
 
     - pre_clear_agent_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: agent_machine_ip
             - docker_username: agent_machine_username
             - docker_password:
@@ -79,10 +79,10 @@ flow:
         navigate:
           SUCCESS: start_manager_container
           FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM
-          
+
     - start_manager_container:
         do:
-          swarm.start_swarm_manager:
+          swarm.start_manager:
             - swarm_port: swarm_manager_port
             - cluster_id
             - host: manager_machine_ip
@@ -115,10 +115,10 @@ flow:
         navigate:
           SUCCESS: add_node_to_the_cluster
           FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
-          
+
     - add_node_to_the_cluster:
         do:
-          swarm.register_swarm_agent:
+          swarm.register_agent:
             - node_ip: agent_machine_ip
             - cluster_id
             - host: agent_machine_ip
@@ -139,7 +139,7 @@ flow:
             - seconds: 10
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster_after
-          
+
     - get_number_of_nodes_in_cluster_after:
         do:
           swarm.get_cluster_info:
@@ -170,7 +170,7 @@ flow:
 
     - post_clear_manager_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: manager_machine_ip
             - docker_username: manager_machine_username
             - docker_password:
@@ -182,10 +182,10 @@ flow:
         navigate:
           SUCCESS: post_clear_agent_machine
           FAILURE: POST_CLEAR_MANAGER_MACHINE_PROBLEM
-          
+
     - post_clear_agent_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: agent_machine_ip
             - docker_username: agent_machine_username
             - docker_password:
@@ -197,7 +197,7 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: POST_CLEAR_AGENT_MACHINE_PROBLEM
-          
+
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM

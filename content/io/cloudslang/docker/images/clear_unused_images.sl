@@ -21,7 +21,7 @@
 #   - used_images_list - list of used Docker images
 #   - all_parent_images - list of parent images - will not be deleted
 # Results:
-#   SUCCESS - flow ends with SUCCES
+#   SUCCESS - flow ends with SUCCESS
 #   FAILURE - some step ended with FAILURE
 ####################################################
 namespace: io.cloudslang.docker.images
@@ -33,7 +33,7 @@ imports:
  base_strings: io.cloudslang.base.strings
 
 flow:
-  name: clear_docker_images_flow
+  name: clear_unused_images
   inputs:
     - docker_options:
         required: false
@@ -49,6 +49,7 @@ flow:
         required: false
     - all_parent_images:
         required: false
+
   workflow:
     - get_all_images:
         do:
@@ -150,7 +151,7 @@ flow:
           - amount_of_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_docker_images:
+          docker_images.clear_images:
             - docker_options:
                 required: false
             - host: docker_host
