@@ -13,7 +13,7 @@ test_get_all_containers:
     - username: root
     - password: screencast
     - first_image_name: hello-world
-    - second_image_name: raskin/hello-world
+    - second_image_name: busybox
   description: Tests that get_all_containers operation works
   testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
   testSuites: [docker,containers]

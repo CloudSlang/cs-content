@@ -15,6 +15,6 @@ test_start_container_success:
     - port: "49153"
     - username: root
     - password: screencast
-    - image_name: raskin/ubuntu-sshd
-    - container_name: ubuntu
+    - image_name: busybox
+    - container_name: busybox
   result: SUCCESS

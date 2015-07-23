@@ -6,8 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_test_mysql_monitor:
-  testSuites: [docker,docker-misc]
+testDocker_test_mysql_monitor:
+  testSuites: [docker,docker-misc-ignore]
   description: Tests the operation that monitor a mysql container.
   testFlowPath: io.cloudslang.docker.monitoring.mysql.test_mysql_monitor
   inputs:
