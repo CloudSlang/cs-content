@@ -15,8 +15,6 @@ dist: trusty
 
 env:
  global:
-#   - UML_DOCKERCOMPOSE=0
-#   - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
  matrix:
    - SUITE=containers
@@ -26,10 +24,11 @@ env:
 
 
 script:
-  #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - docker info
   - docker version
   - df -kh
+  - docker run -p 49161:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix
+  - docker logs -f postfix
   - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
   - bash equip_java7_64.sh
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip
@@ -37,6 +36,6 @@ script:
   - chmod +x cslang-builder/bin/cslang-builder
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
-    
+
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < builder.log
