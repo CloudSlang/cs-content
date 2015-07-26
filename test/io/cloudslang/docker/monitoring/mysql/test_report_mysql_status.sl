@@ -46,7 +46,7 @@ flow:
           cmd.run_command:
             - command: "'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
-    - sleep:
+    - wait_for_postfix:
         do:
           utils.sleep:
             - seconds: 10
@@ -64,7 +64,7 @@ flow:
           SUCCESS: sleep
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
-    - sleep:
+    - wait_for_mysql:
         do:
           utils.sleep:
             - seconds: 20
