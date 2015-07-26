@@ -32,7 +32,7 @@ script:
   - df -kh
   - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
   - bash equip_java7_64.sh
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.47/cslang-builder.zip
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.49/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
