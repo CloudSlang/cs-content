@@ -46,15 +46,10 @@ flow:
           cmd.run_command:
             - command: "'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
-    - verify_postfix:
+    - sleep:
         do:
-          network.verify_app_is_up:
-            - host: docker_host
-            - port: email_port
-            - attempts: 20
-        navigate:
-          SUCCESS: start_mysql_container
-          FAILURE: FAIL_TO_START_POSTFIX
+          utils.sleep:
+            - seconds: 10
 
     - start_mysql_container:
         do:
@@ -73,8 +68,6 @@ flow:
         do:
           utils.sleep:
             - seconds: 20
-        navigate:
-          SUCCESS: report_mysql_status
 
     - report_mysql_status:
         do:
@@ -116,7 +109,6 @@ flow:
            navigate:
              SUCCESS: SUCCESS
              FAILURE: FAIL_TO_CLEAN_POSTFIX
-
 
   results:
     - SUCCESS
