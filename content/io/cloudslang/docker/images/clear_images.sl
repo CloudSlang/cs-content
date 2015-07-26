@@ -34,7 +34,7 @@ imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: clear_docker_images
+  name: clear_images
   inputs:
     - docker_options:
         required: false
@@ -63,6 +63,7 @@ flow:
         required: false
     - closeSession:
         required: false
+
   workflow:
     - clear_images:
         do:

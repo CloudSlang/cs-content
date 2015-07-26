@@ -22,6 +22,9 @@
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - cluster_id - ID of the created cluster
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm

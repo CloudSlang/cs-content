@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Starts the Swarm manager.
+# Registers the Swarm agent to the discovery service.
 #
 # Inputs:
-#   - swarm_port - port of the host used by the Swarm manager
+#   - node_ip - IP address of the node the agent is running on. The node’s IP must be accessible from the Swarm Manager.
 #   - cluster_id - ID of the Swarm cluster
 #   - swarm_image - optional - Docker image the Swarm agent container is created from - Default: swarm (latest)
 #   - host - Docker machine host
@@ -25,7 +25,10 @@
 #                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - manager_container_ID - ID of the created manager container
+#   - agent_container_ID - ID of the created agent container
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ########################################################################################################
 
 namespace: io.cloudslang.docker.swarm
@@ -34,9 +37,9 @@ imports:
   containers: io.cloudslang.docker.containers
 
 flow:
-  name: start_swarm_manager
+  name: register_agent
   inputs:
-    - swarm_port
+    - node_ip
     - cluster_id
     - swarm_image:
         default: "'swarm'"
@@ -60,13 +63,11 @@ flow:
         required: false
 
   workflow:
-    - run_manager_container:
+    - run_agent_container:
         do:
           containers.run_container:
-            - container_params: >
-                '-p ' + swarm_port + ':2375'
             - container_command: >
-                'manage token://' + cluster_id
+                'join --addr=' + node_ip + ':2375' + ' token://' + cluster_id
             - image_name: swarm_image
             - host
             - port:
@@ -90,6 +91,6 @@ flow:
                 default: agent_forwarding
                 required: false
         publish:
-          - manager_container_ID: container_ID
+          - agent_container_ID: container_ID
   outputs:
-    - manager_container_ID
+    - agent_container_ID

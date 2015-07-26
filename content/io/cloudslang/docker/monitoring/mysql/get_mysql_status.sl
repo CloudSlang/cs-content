@@ -31,9 +31,9 @@
 #   - open_tables - number of tables that are currently open
 #   - queries_per_second_AVG - average value of number of queries per second
 #   - error_message - STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
-#   Results:
-#       - SUCCESS - action was executed successfully and STDERR of the machine contains no errors
-#       - FAILURE
+# Results:
+#   - SUCCESS - action was executed successfully and STDERR of the machine contains no errors
+#   - FAILURE
 ##################################################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

@@ -21,6 +21,9 @@
 # Outputs:
 #   - db_IP - IP of newly created container
 #   - error_message - error message of failed operation
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
 

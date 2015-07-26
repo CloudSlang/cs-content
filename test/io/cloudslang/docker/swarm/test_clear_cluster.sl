@@ -18,7 +18,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_clear_swarm_cluster
+  name: test_clear_cluster
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -90,7 +90,7 @@ flow:
 
     - clear_cluster:
        do:
-         swarm.clear_swarm_cluster:
+         swarm.clear_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - host

@@ -6,26 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes all Docker images and containers from Docker Host.
+# Deletes unused Docker images if disk space usage is greater than a given value.
 #
 # Inputs:
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - optional - path to private key file
+#   - docker_password - optional - Docker machine password
+#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - percentage - if disk space is greater than this value then unused images will be deleted - Example: 50%
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 # Outputs:
 #   - total_amount_of_images_deleted - number of deleted images
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- docker_containers: io.cloudslang.docker.containers
+ base_os_linux: io.cloudslang.base.os.linux
  docker_images: io.cloudslang.docker.images
 
 flow:
-  name: clear_docker_host
+  name: images_maintenance
   inputs:
     - docker_host
     - docker_username
@@ -33,34 +37,29 @@ flow:
         required: false
     - private_key_file:
         required: false
+    - percentage
     - timeout:
         default: "'6000000'"
-    - port:
-        required: false
   workflow:
-    - get_all_containers:
+    - check_diskspace:
         do:
-          docker_containers.get_all_containers:
-            - host: docker_host
-            - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - all_containers:
-                default: true
+          base_os_linux.diskspace_health_check:
+            - docker_host
+            - docker_username
+            - docker_password:
                 required: false
             - private_key_file:
                 required: false
+            - percentage
             - timeout:
                 required: false
-            - port:
-                required: false
-        publish:
-          - all_containers: container_list
-    - clear_all_containers:
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: FAILURE
+          NOT_ENOUGH_DISKSPACE: clear_unused_images
+    - clear_unused_images:
         do:
-          docker_containers.clear_container:
-            - container_id: all_containers
+          docker_images.clear_unused_images:
             - docker_host
             - docker_username
             - docker_password:
@@ -69,24 +68,11 @@ flow:
                 required: false
             - timeout:
                 required: false
-            - port:
-                required: false
-    - clear_all_docker_images:
-        do:
-          docker_images.clear_unused_docker_images:
-            - docker_host
-            - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
         publish:
-          - amount_of_dangling_images_deleted
           - amount_of_images_deleted
+          - amount_of_dangling_images_deleted
+          - dangling_images_list_safe_to_delete
+          - images_list_safe_to_delete
           - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
   outputs:
     - total_amount_of_images_deleted: "'' if 'total_amount' not in locals() else total_amount"

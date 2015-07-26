@@ -53,7 +53,7 @@ flow:
   workflow:
     - pre_clear_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: host
             - docker_username: username
             - docker_password:
@@ -166,7 +166,7 @@ flow:
 
     - post_clear_machine:
         do:
-          containers.clear_docker_containers:
+          containers.clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:

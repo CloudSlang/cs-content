@@ -49,9 +49,9 @@ flow:
         default: "''"
         required: false
   workflow:
-    - retrieve_container_usage_cAdvisor:
+    - retrieve_container_usage:
         do:
-          docker_cadvisor.report_container_metrics_cAdvisor:
+          docker_cadvisor.report_container_metrics:
             - container
             - host
             - cadvisor_port
