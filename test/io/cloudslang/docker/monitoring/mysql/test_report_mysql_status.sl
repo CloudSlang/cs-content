@@ -38,16 +38,8 @@ flow:
              - docker_username: username
              - docker_password: password
          navigate:
-           SUCCESS: pull_postfix
+           SUCCESS: run_postfix
            FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - pull_postfix:
-        do:
-          cmd.run_command:
-            - command: "'docker pull catatnight/postfix'"
-        navigate:
-          SUCCESS: run_postfix
-          FAILURE: FAIL_TO_PULL_POSTFIX
 
     - run_postfix:
         do:
@@ -59,7 +51,7 @@ flow:
           network.verify_app_is_up:
             - host: docker_host
             - port: email_port
-            - attempts: 10
+            - attempts: 20
         navigate:
           SUCCESS: start_mysql_container
           FAILURE: FAIL_TO_START_POSTFIX

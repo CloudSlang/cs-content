@@ -24,17 +24,20 @@ env:
 
 
 script:
+  # Print info
   - docker info
   - docker version
   - df -kh
-  - docker run -p 49161:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix
-  - docker logs -f postfix
+  # This is a temp fix to install java
   - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
   - bash equip_java7_64.sh
+  # Install builder
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
+  # Start dind
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
+  # Run tests
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
 
 # cat prints only part of the file for some reason so we print ourselves
