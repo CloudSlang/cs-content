@@ -34,7 +34,7 @@ flow:
   workflow:
     - pre_clear_swarm_cluster:
        do:
-         swarm.clear_swarm_cluster:
+         swarm.clear_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -122,7 +122,7 @@ flow:
 
     - post_clear_swarm_cluster:
        do:
-         swarm.clear_swarm_cluster:
+         swarm.clear_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - host

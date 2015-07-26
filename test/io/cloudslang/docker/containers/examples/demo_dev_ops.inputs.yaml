@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_demo_dev_ops:
+test_demo_dev_ops:
   testSuites: [docker_local]
   description: Tests SUCCESS case - this test needs to be run on local machine by activating the test suite and supplying the inputs
   testFlowPath: io.cloudslang.docker.containers.examples.test_demo_dev_ops

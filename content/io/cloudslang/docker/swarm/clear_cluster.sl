@@ -28,6 +28,9 @@
 #   - amount_of_images_deleted - how many images (not including dangling) were deleted
 #   - amount_of_dangling_images_deleted - how many dangling images were deleted
 #   - total_amount_of_images_deleted - how many images (including dangling) were deleted
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.swarm
@@ -37,7 +40,7 @@ imports:
   images: io.cloudslang.docker.images
 
 flow:
-  name: clear_swarm_cluster
+  name: clear_cluster
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -115,7 +118,7 @@ flow:
 
     - clear_unused_images:
         do:
-          images.clear_unused_docker_images:
+          images.clear_unused_images:
             - docker_options
             - docker_host: host
             - docker_username: username

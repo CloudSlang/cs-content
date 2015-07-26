@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_docker_get_container_names:
+test_get_container_names:
   inputs:
     - host: localhost
     - port: "49153"

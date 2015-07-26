@@ -29,7 +29,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         maintenance.clear_docker_host:
+         containers.clear_containers:
            - docker_host: host
            - port:
                required: false
@@ -61,6 +61,8 @@ flow:
             - username
             - password
             - container_name
+            - container_command: >
+                  '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
             - image_name
         navigate:
           SUCCESS: get_ip
@@ -92,7 +94,7 @@ flow:
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
+          containers.clear_containers:
             - docker_host: host
             - port:
                 required: false

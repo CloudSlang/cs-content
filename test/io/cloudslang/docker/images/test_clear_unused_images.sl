@@ -16,7 +16,7 @@ imports:
   maintenance: io.cloudslang.docker.maintenance
 
 flow:
-  name: test_clear_docker_images_flow
+  name: test_clear_unused_images
   inputs:
     - host
     - port:
@@ -30,7 +30,7 @@ flow:
 
     - clear_docker_host_prereqeust:
        do:
-         maintenance.clear_docker_host:
+         maintenance.clear_host:
            - docker_host: host
            - port
            - docker_username: username
@@ -92,7 +92,7 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ':latest '"
+            - first_string: "image_name1 + ' '"
             - second_string: image_list
         navigate:
           SUCCESS: clear_unused_images
@@ -100,7 +100,7 @@ flow:
 
     - clear_unused_images:
         do:
-          images.clear_docker_images_flow:
+          images.clear_unused_images:
             - docker_host: host
             - docker_username: username
             - docker_password: password
@@ -140,15 +140,15 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ':latest '"
+            - first_string: "image_name1 + ' '"
             - second_string: image_list
         navigate:
-          SUCCESS: clear_docker_host
+          SUCCESS: clear_host
           FAILURE: VERIFY_FAILURE
 
-    - clear_docker_host:
+    - clear_host:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: host
             - port
             - docker_username: username

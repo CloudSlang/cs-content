@@ -39,7 +39,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
          do:
-           maintenance.clear_docker_host:
+           containers.clear_containers:
              - docker_host
              - port: docker_ssh_port
              - docker_username
@@ -72,7 +72,7 @@ flow:
 
     - clear_docker_host:
         do:
-          maintenance.clear_docker_host:
+          containers.clear_containers:
             - docker_host
             - docker_username
             - docker_password:

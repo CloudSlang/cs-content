@@ -123,7 +123,7 @@ flow:
 
     - clear_machine:
         do:
-          maintenance.clear_docker_host:
+          containers.clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:
@@ -132,10 +132,8 @@ flow:
             - private_key_file:
                 default: private_key_file
                 required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - timeout
+            - port
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEAR_DOCKER_HOST_PROBLEM

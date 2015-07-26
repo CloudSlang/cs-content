@@ -51,7 +51,7 @@ flow:
     - private_key_file:
         required: false
     - exec_cmd:
-        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' ping'"
+        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp ping'"
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + exec_cmd"

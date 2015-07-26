@@ -28,7 +28,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         maintenance.clear_docker_host:
+         maintenance.clear_host:
            - docker_host: host
            - port:
                required: false
@@ -83,14 +83,14 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: image_list
-            - string_to_find: image_name + ":latest"
+            - string_to_find: image_name
         navigate:
           SUCCESS: clear_image
           FAILURE: FAILURE
 
     - clear_image:
         do:
-          images.clear_docker_images:
+          images.clear_images:
             - host
             - port
             - username

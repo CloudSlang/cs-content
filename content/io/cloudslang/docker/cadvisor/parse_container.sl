@@ -36,7 +36,7 @@
 namespace: io.cloudslang.docker.cadvisor
 
 operation:
-  name: parse_cadvisor_container
+  name: parse_container
   inputs:
     - json_response
     - machine_memory_limit:

@@ -62,7 +62,7 @@ flow:
           loop:
               for: machine_public_ip in machines_public_ip_list.split()
               do:
-                  maintenance.docker_images_maintenance:
+                  maintenance.images_maintenance:
                     - docker_host: machine_public_ip
                     - docker_username: coreos_username
                     - docker_password:
