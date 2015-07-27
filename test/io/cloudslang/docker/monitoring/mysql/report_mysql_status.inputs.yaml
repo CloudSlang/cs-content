@@ -11,13 +11,13 @@ testDocker_report_mysql_status_SUCCESS:
   description: Tests that report mysql status works
   testFlowPath: io.cloudslang.docker.monitoring.mysql.test_report_mysql_status
   inputs:
-    - docker_host: 127.0.0.1
+    - docker_host: localhost
     - docker_port: "49153"
     - docker_username: root
     - docker_password: screencast
     - mysql_username: user
     - mysql_password: pass
-    - email_host: localhost
+    - email_host: 127.0.0.1
     - email_port: "49161"
     - email_sender: user@mail.example.com
     - email_recipient: other.user@ububububububub.dada
