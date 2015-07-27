@@ -28,15 +28,6 @@ script:
   - docker info
   - docker version
   - df -kh
-  # Test postfix
-  - ifconfig -a
-  - docker run -p 49161:25 -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix
-  - exec 6<>/dev/tcp/localhost/49161
-  - exec 6>&-
-  - exec 6<&-
-  - exec 6<>/dev/tcp/127.0.0.1/49161
-  - exec 6>&-
-  - exec 6<&-
   # This is a temp fix to install java
   - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
   - bash equip_java7_64.sh
