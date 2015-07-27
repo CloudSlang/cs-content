@@ -53,20 +53,16 @@ do
   # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
-  echo "STATUS_CODE: $STATUS_CODE"
+  # echo "STATUS_CODE: $STATUS_CODE"
 
   if [ "$STATUS_CODE" = "200" ]
   then
     echo "Droplet($DROPLET_ID) information retrieved successfully"
 
     RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
-    echo "IP_ADDRESS_JUNK: $RESPONSE_BODY_JSON"
+    # echo "IP_ADDRESS_JUNK: $RESPONSE_BODY_JSON"
 
     IP_ADDRESS=$(echo "$RESPONSE_BODY_JSON" | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["droplet"]["networks"]["v4"][0]["ip_address"]')
-
-    # IP_ADDRESS_ARRAY=(${IP_ADDRESS_JUNK//\"/ })
-    # echo "IP_ADDRESS_ARRAY: $IP_ADDRESS_ARRAY"
-    # IP_ADDRESS=${IP_ADDRESS_ARRAY[2]}
     echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
     DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
