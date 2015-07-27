@@ -1,6 +1,8 @@
 #!/bin/bash
 
 DROPLET_ID_ACC=""
+DROPLET_IP_ADDRESS_ACC=""
+
 COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in $COREOS_MACHINE_NAMES
 do
@@ -41,4 +43,30 @@ done
 echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
 
 # TODO: add waiting loop for droplet startup
-# sleep 20
+sleep 20
+
+# retrieve IPv4 addresses of droplets
+for DROPLET_ID in $DROPLET_ID_ACC
+do
+  CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
+  "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
+  echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
+
+  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
+  echo "STATUS_CODE: $STATUS_CODE"
+
+  if [ "$STATUS_CODE" = "200" ]
+  then
+    echo "Droplet($DROPLET_ID) information retrieved successfully"
+
+    IP_ADDRESS_JUNK=$(echo "$CURL_OUTPUT" | grep "ip_address")
+    IP_ADDRESS_ARRAY=(${IP_ADDRESS_JUNK//\"/ })
+    IP_ADDRESS=${IP_ADDRESS_ARRAY[2]}
+    echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
+
+    DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
+    echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
+  else
+    echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+  fi
+done
