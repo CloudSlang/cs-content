@@ -77,9 +77,9 @@ DROPLET_IP_ARRAY=($DROPLET_IP_ADDRESS_ACC)
 sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
 
 # create ssh private key
-SSH_KEY_PATH='/root/.ssh/droplets_rsa'
+SSH_KEY_PATH=droplets_rsa
 echo "$SSH_PRIVATE_KEY_CI_ENV_TEMP" > $SSH_KEY_PATH
-ls -l /root/.ssh/
+ls -l .
 
 # update inputs files to use actual ssh key
 sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
