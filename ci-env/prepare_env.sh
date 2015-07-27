@@ -43,7 +43,7 @@ done
 echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
 
 # TODO: add waiting loop for droplet startup
-sleep 20
+sleep 60
 
 # retrieve IPv4 addresses of droplets
 for DROPLET_ID in $DROPLET_ID_ACC

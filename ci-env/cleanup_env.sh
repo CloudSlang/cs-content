@@ -6,7 +6,7 @@
 DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}.txt")
 # echo "DROPLET_ID_ACC: $DROPLET_ID_ACC"
 
-DROPLET_ID_ACC='' # TODO: remove this - temporary disable droplet cleanup
+# DROPLET_ID_ACC='' # TODO: remove this - temporary disable droplet cleanup
 for DROPLET_ID in $DROPLET_ID_ACC
 do
   CURL_OUTPUT=$(curl -i -s -L -X DELETE -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
