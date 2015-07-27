@@ -9,7 +9,7 @@ do
   # TODO: extract json
   CURL_OUTPUT=$(curl -i -s -L -X POST -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
   -d "{\"name\":\"$COREOS_MACHINE\",\"region\":\"ams3\",\"size\":\"512mb\",\
-  \"image\":\"coreos-stable\",\"ssh_keys\":[774367],\"backups\":false,\"ipv6\":false,\
+  \"image\":\"coreos-stable\",\"ssh_keys\":[993143],\"backups\":false,\"ipv6\":false,\
   \"user_data\":\"#cloud-config\n\ncoreos:\n  etcd:\n    discovery: https://discovery.etcd.io/84b281229d938ba03540624f0252f894\n    \
   addr: $private_ipv4:4001\n    peer-addr: $private_ipv4:7001\n  fleet:\n    public-ip: $private_ipv4\n    metadata: public_ip=$public_ipv4\n  \
   units:\n    - name: etcd.service\n      command: start\n    - name: fleet.service\n      command: start\",\"private_networking\":true}" \
@@ -71,3 +71,17 @@ do
     echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
   fi
 done
+
+# update inputs files to use actual IP addresses
+DROPLET_IP_ARRAY=($DROPLET_IP_ADDRESS_ACC)
+sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
+
+# create ssh private key
+SSH_KEY_PATH='/root/.ssh/droplets_rsa'
+echo "$SSH_PRIVATE_KEY_CI_ENV_TEMP" > $SSH_KEY_PATH
+ls -l /root/.ssh/
+
+# update inputs files to use actual ssh key
+sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
+
+cat test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
