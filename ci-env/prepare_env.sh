@@ -15,8 +15,8 @@ do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
                 -H 'Content-Type: application/json' \
                 -H "Authorization: Bearer $DO_API_TOKEN" \
-                -d '{
-                  "name":"${COREOS_MACHINE}",
+                -d "{
+                  \"name\":\"${COREOS_MACHINE}\","'
                   "region":"ams3",
                   "size":"512mb",
                   "image":"coreos-stable",
