@@ -11,7 +11,7 @@ test_access_coreos_machine:
   description: test stuff
   testFlowPath: io.cloudslang.coreos.test_access_coreos_machine
   inputs:
-    - coreos_host: 188.166.96.176 # <coreos_host> # ip address of one host from the cluster
+    - coreos_host: 188.166.43.167 # <coreos_host> # ip address of one host from the cluster
     - coreos_username: core # username for the machine
-    - private_key_file: <private_key_file> # path to private key file
+    - private_key_file: ./droplets_rsa # path to private key file
   result: SUCCESS
