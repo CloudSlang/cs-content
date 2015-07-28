@@ -5,7 +5,8 @@ DROPLET_IP_ADDRESS_ACC=""
 
 DISCOVERY_URL=$(curl -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: $DISCOVERY_URL"
-sed -i "s/<discovery_url>/${DISCOVERY_URL}/g" ci-env/cloud-config.yaml
+DISCOVERY_URL_ESCAPED=$(echo $DISCOVERY_URL | sed 's/\//\\\//g')
+sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/cloud-config.yaml
 cat ci-env/cloud-config.yaml
 
 COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1" # ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
