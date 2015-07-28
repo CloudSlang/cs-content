@@ -6,14 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ###############################################################################################################################################################################
-#   Copies a file on the remote machine using the SCP protocol.
+#   Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using the SCP protocol.
 #
 #   Inputs:
-#       - sourcePath - path of the file on the local machine
-#       - destinationHost - host of the machine where the file will be copied
-#       - destinationPath - path where the file will be copied
-#       - destinationUsername - username to connect as
-#       - destinationPassword - password of user
+#       - srcHost - optional - host of the source machine (only if remote to remote)
+#       - srcPath - path of the file about to be copied
+#       - srcUsername - optional - username of the source machine (only if remote to remote)
+#       - srcPassword - optional -  password of the source machine (only if remote to remote)
+#       - srcPrivateKeyFile - optional - path to the private key file on the source machine (only if remote to remote)
+#       - destHost - host of the destination machine
+#       - destPath - path where the file will be copied
+#       - destUsername - username of the destination machine
+#       - destPassword - optional - password of the destination machine
+#       - destPrivateKeyFile optional - path to the private key file on the destination machine
+#       - knownHostsPolicy - optional - policy used for managing known_hosts file - Default: allow - Possible: allow, strict, add
+#       - knownHostsPath - path to the known_hosts file
+#       - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#   Outputs:
+#       - return_result - confirmation message
+#       - return_code - is equal to 0 if operation finished with SUCCESS and different than 0 otherwise
+#       - exception - exception description
 #   Results:
 #       - SUCCESS - file copied successfully
 #       - FAILURE - copy failed
@@ -24,14 +36,30 @@ namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer
 operation:
     name: remote_secure_copy
     inputs:
-      - sourcePath
-      - destinationHost
-      - destinationPath
-      - destinationUsername
-      - destinationPassword:
+      - srcHost:
           required: false
-      - destinationPrivateKeyFile:
+      - srcPath
+      - srcUsername:
           required: false
+      - srcPassword:
+          required: false
+      - srcPrivateKeyFile:
+          required: false
+      - destHost
+      - destPath
+      - destUsername
+      - destPassword:
+          required: false
+      - destPrivateKeyFile:
+          required: false
+      - knownHostsPolicy:
+          required: false
+          default: "'allow'"
+      - knownHostsPath:
+          required: false
+      - timeout:
+          required: false
+          default: "'90000'"
     action:
           java_action:
             className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
