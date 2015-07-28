@@ -30,38 +30,38 @@
 namespace: io.cloudslang.docker.cadvisor
 
 operation:
-      name: parse_cadvisor_machine
-      inputs:
-        - json_response
-      action:
-        python_script: |
-          try:
-            import json
-            decoded = json.loads(json_response)
-            num_cores=int(decoded['num_cores'])
-            cpu_frequency_khz=int(decoded['cpu_frequency_khz'])
-            memory_capacity=int(decoded['memory_capacity'])
-            file_systems=decoded['filesystems']
-            disk_map=decoded['disk_map']
-            network_devices=decoded['network_devices']
-            topology=decoded['topology']
-            returnCode = '0'
-            returnResult = 'Parsing successful.'
-          except:
-            returnCode = '-1'
-            returnResult = 'Parsing error.'
-      outputs:
-        - decoded
-        - num_cores
-        - cpu_frequency_khz
-        - memory_capacity
-        - file_systems
-        - disk_map
-        - network_devices
-        - topology
-        - returnCode
-        - returnResult
-        - errorMessage: returnResult if returnCode == '-1' else ''
-      results:
-        - SUCCESS: returnCode == '0'
-        - FAILURE
+  name: parse_machine
+  inputs:
+    - json_response
+  action:
+    python_script: |
+      try:
+        import json
+        decoded = json.loads(json_response)
+        num_cores=int(decoded['num_cores'])
+        cpu_frequency_khz=int(decoded['cpu_frequency_khz'])
+        memory_capacity=int(decoded['memory_capacity'])
+        file_systems=decoded['filesystems']
+        disk_map=decoded['disk_map']
+        network_devices=decoded['network_devices']
+        topology=decoded['topology']
+        returnCode = '0'
+        returnResult = 'Parsing successful.'
+      except:
+        returnCode = '-1'
+        returnResult = 'Parsing error.'
+  outputs:
+    - decoded
+    - num_cores
+    - cpu_frequency_khz
+    - memory_capacity
+    - file_systems
+    - disk_map
+    - network_devices
+    - topology
+    - returnCode
+    - returnResult
+    - errorMessage: returnResult if returnCode == '-1' else ''
+  results:
+    - SUCCESS: returnCode == '0'
+    - FAILURE

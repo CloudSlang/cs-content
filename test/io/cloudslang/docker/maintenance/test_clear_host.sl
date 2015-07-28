@@ -17,7 +17,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_clear_docker_host
+  name: test_clear_host
   inputs:
     - host
     - port:
@@ -30,7 +30,7 @@ flow:
   workflow:
     - pre_test_cleanup:
              do:
-               maintenance.clear_docker_host:
+               maintenance.clear_host:
                  - docker_host: host
                  - port:
                      required: false
@@ -83,7 +83,7 @@ flow:
 
     - clear_docker_host:
              do:
-               maintenance.clear_docker_host:
+               maintenance.clear_host:
                  - docker_host: host
                  - port:
                      required: false

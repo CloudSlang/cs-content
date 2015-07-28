@@ -27,6 +27,9 @@
 #   - open_tables - number of tables that are currently open
 #   - queries_per_second_AVG - average value of number of queries per second
 #   - error_message - possible error message, may contain the STDERR of the machine or the cause of an exception
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ##################################################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql
@@ -52,7 +55,6 @@ flow:
     - mysql_password
 
   workflow:
-
     - check_mysql_is_up:
         do:
           docker_monitoring_mysql.check_mysql_is_up:

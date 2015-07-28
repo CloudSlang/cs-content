@@ -40,20 +40,20 @@ flow:
     - container_name_busybox:
         default: "'busybox'"
         overridable: false
-    - image_name_tomcat:
-        default: "'tomcat:latest'"
+    - image_name_staticpython:
+        default: "'elyase/staticpython:latest'"
         overridable: false
-    - container_name_tomcat:
-        default: "'tomcat'"
+    - container_name_staticpython:
+        default: "'staticpython'"
         overridable: false
     - expected_container_names:
-        default: container_name_tomcat
+        default: container_name_staticpython
         overridable: false
 
   workflow:
     - pre_clear_machine:
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: host
             - docker_username: username
             - docker_password:
@@ -90,14 +90,14 @@ flow:
             - timeout:
                 required: false
        navigate:
-         SUCCESS: run_container_tomcat
+         SUCCESS: run_container_staticpython
          FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
 
-    - run_container_tomcat:
+    - run_container_staticpython:
        do:
          containers.run_container:
-            - container_name: container_name_tomcat
-            - image_name: image_name_tomcat
+            - container_name: container_name_staticpython
+            - image_name: image_name_staticpython
             - host
             - port:
                 required: false
@@ -122,7 +122,7 @@ flow:
           print.print_text:
             - text: standard_err
         navigate:
-          SUCCESS: RUN_CONTAINER_TOMCAT_PROBLEM
+          SUCCESS: RUN_CONTAINER_PYTHON_PROBLEM
 
     - execute_get_filtered_containers:
        do:
@@ -166,7 +166,7 @@ flow:
 
     - post_clear_machine:
         do:
-          containers.clear_docker_containers:
+          containers.clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:
@@ -187,7 +187,7 @@ flow:
     - FAILURE
     - PRE_CLEAR_MACHINE_PROBLEM
     - RUN_CONTAINER_BUSYBOX_PROBLEM
-    - RUN_CONTAINER_TOMCAT_PROBLEM
+    - RUN_CONTAINER_PYTHON_PROBLEM
     - CHECK_CONTAINER_NAMES_PROBLEM
     - CHECK_CONTAINER_IDS_PROBLEM
     - POST_CLEAR_MACHINE_PROBLEM

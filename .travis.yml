@@ -11,10 +11,12 @@ language: java
 
 sudo: required
 
+dist: trusty
+
 env:
  global:
-   - UML_DOCKERCOMPOSE=0
-   - UML_FIG=0
+#   - UML_DOCKERCOMPOSE=0
+#   - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
  matrix:
    - SUITE=containers
@@ -24,12 +26,17 @@ env:
 
 
 script:
-  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.42/cslang-builder.zip
-  - unzip cslang-builder.zip -d cslang-builder
+  #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
+  - docker info
+  - docker version
+  - df -kh
+  - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
+  - bash equip_java7_64.sh
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip
+  - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - ./run 'docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh &&
-    ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov'
+  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
+  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < builder.log

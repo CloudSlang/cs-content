@@ -17,6 +17,9 @@
 #   - private_key_file - optional - path to private key file
 # Outputs:
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS - successful
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers

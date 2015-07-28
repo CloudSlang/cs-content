@@ -6,15 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_clear_docker_host_Success:
-  testSuites: [docker,docker-misc]
-  description: Tests that clear docker host, remove all containers and images from host
-  testFlowPath: io.cloudslang.docker.maintenance.test_clear_docker_host
+
+test_clear_unused_images_success:
+  testSuites: [docker,images]
+  description: Tests that clear docker images flow finishes with success
+  testFlowPath: io.cloudslang.docker.images.test_clear_unused_images
   inputs:
     - host: localhost
     - port: "49153"
     - username: root
     - password: screencast
-    - image_name_to_pull: "hello-world"
-    - image_name_to_run: "meirwah/hello-world"
+    - image_name1: hello-world
+    - image_name2: busybox
   result: SUCCESS
