@@ -47,7 +47,7 @@ flow:
         do:
           ssh.ssh_flow:
             - host: coreos_host
-            - command: "'pwd'"
+            - command: "'fleetctl list-machines'"
             - username: coreos_username
             - privateKeyFile:
                 default: private_key_file
