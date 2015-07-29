@@ -76,17 +76,18 @@ do
 
     IP_ADDRESS=$(\
     echo "$RESPONSE_BODY_JSON" | python -c \
-    '
-    import json,sys;
-    obj = json.load(sys.stdin);
-    ipv4_list = obj["droplet"]["networks"]["v4"];
-    ip = ""
-    for ip_obj in ipv4_list:
-      if ip_obj["type"] == "public":
-        ip = ip_obj["ip_address"];
-        break;
-    print ip;
-    ')
+'
+import json,sys;
+obj = json.load(sys.stdin);
+ipv4_list = obj["droplet"]["networks"]["v4"];
+ip = ""
+for ip_obj in ipv4_list:
+  if ip_obj["type"] == "public":
+    ip = ip_obj["ip_address"];
+    break;
+print ip;
+'\
+    )
     echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
     DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
