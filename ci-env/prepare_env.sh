@@ -9,7 +9,7 @@ DISCOVERY_URL_ESCAPED=$(echo $DISCOVERY_URL | sed 's/\//\\\//g')
 sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/cloud-config.yaml
 cat ci-env/cloud-config.yaml
 
-COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1" # ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
+COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in $COREOS_MACHINE_NAMES
 do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
