@@ -5,12 +5,12 @@ DROPLET_IP_ADDRESS_ACC=""
 
 DISCOVERY_URL=$(curl -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: $DISCOVERY_URL"
-DISCOVERY_URL_ESCAPED=$(echo $DISCOVERY_URL | sed 's/\//\\\//g')
+DISCOVERY_URL_ESCAPED=$(echo ${DISCOVERY_URL} | sed 's/\//\\\//g')
 sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/cloud-config.yaml
 cat ci-env/cloud-config.yaml
 
 COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
-for COREOS_MACHINE in $COREOS_MACHINE_NAMES
+for COREOS_MACHINE in ${COREOS_MACHINE_NAMES}
 do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
                 -H 'Content-Type: application/json' \
@@ -29,7 +29,7 @@ do
 
   echo "CURL_OUTPUT: $CURL_OUTPUT"
 
-  STATUS_CODE=$(echo $CURL_OUTPUT | awk '{print $2}')
+  STATUS_CODE=$(echo ${CURL_OUTPUT} | awk '{print $2}')
 
   if [ "$STATUS_CODE" = "202" ]
   then
