@@ -54,28 +54,42 @@ done
 # echo $DROPLET_ID_ACC
 echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
 
-# TODO: add waiting loop for droplet startup
-sleep 60
+SLEEP_INTERVAL=5 # 5 sec
+TIMEOUT=300 # 5 mins
 
 # retrieve IPv4 addresses of droplets
-for DROPLET_ID in $DROPLET_ID_ACC
+for DROPLET_ID in ${DROPLET_ID_ACC}
 do
-  CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer $DO_API_TOKEN" \
-  "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
-  # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
+  DROPLET_STATUS=''
+  WAITING_TIME=0
+  while [ "$DROPLET_STATUS" != "active" ] && [ "$WAITING_TIME" -lt "$TIMEOUT" ]
+  do
+    CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer ${DO_API_TOKEN}" \
+    "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
+    # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
 
-  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
-  # echo "STATUS_CODE: $STATUS_CODE"
+    STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
+    # echo "STATUS_CODE: $STATUS_CODE"
 
-  if [ "$STATUS_CODE" = "200" ]
-  then
-    echo "Droplet($DROPLET_ID) information retrieved successfully"
+    if [ "$STATUS_CODE" = "200" ]
+    then
+      echo "Droplet($DROPLET_ID) information retrieved successfully"
 
-    RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
-    # echo "IP_ADDRESS_JUNK: $RESPONSE_BODY_JSON"
+      RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
+      DROPLET_STATUS=$(\
+      echo "$RESPONSE_BODY_JSON" | python -c \
+'
+import json,sys;
+obj = json.load(sys.stdin);
+print obj["droplet"]["status"];
+'\
+      )
+      echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
 
-    IP_ADDRESS=$(\
-    echo "$RESPONSE_BODY_JSON" | python -c \
+      if [ "$DROPLET_STATUS" = "active" ]
+      then
+        IP_ADDRESS=$(\
+        echo "$RESPONSE_BODY_JSON" | python -c \
 '
 import json,sys;
 obj = json.load(sys.stdin);
@@ -87,13 +101,23 @@ for ip_obj in ipv4_list:
     break;
 print ip;
 '\
-    )
-    echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
+        )
+        echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
-    DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
-    echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
-  else
-    echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+        DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
+        # echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
+      else
+        ((WAITING_TIME+=SLEEP_INTERVAL))
+        sleep ${SLEEP_INTERVAL}
+      fi
+    else
+      echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+    fi
+  done
+  if [ "$DROPLET_STATUS" != "active" ]
+  then
+    echo "Droplet($DROPLET_ID) is not active after ${WAITING_TIME}"
+    exit 1
   fi
 done
 
