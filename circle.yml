@@ -44,7 +44,7 @@ test:
      - chmod +x ci-env/prepare_env.sh
      - ci-env/prepare_env.sh
   override:
-    - ./cslang-builder/bin/cslang-builder -ts cadvisor,jenkins,coreos,!default -cov
+    - ./cslang-builder/bin/cslang-builder -ts jenkins,coreos,!default -cov
   post:
     - chmod +x ci-env/cleanup_env.sh
     - ci-env/cleanup_env.sh
