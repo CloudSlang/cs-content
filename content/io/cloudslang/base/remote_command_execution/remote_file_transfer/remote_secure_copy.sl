@@ -38,27 +38,27 @@ namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer
 operation:
     name: remote_secure_copy
     inputs:
-      - srcHost:
+      - sourceHost:
           required: false
-      - srcPath
-      - srcPort:
-          required: false
-          default: "'22'"
-      - srcUsername:
-          required: false
-      - srcPassword:
-          required: false
-      - srcPrivateKeyFile:
-          required: false
-      - destHost
-      - destPath
-      - destPort:
+      - sourcePath
+      - sourcePort:
           required: false
           default: "'22'"
-      - destUsername
-      - destPassword:
+      - sourceUsername:
           required: false
-      - destPrivateKeyFile:
+      - sourcePassword:
+          required: false
+      - sourcePrivateKeyFile:
+          required: false
+      - destinationHost
+      - destinationPath
+      - destinationPort:
+          required: false
+          default: "'22'"
+      - destinationUsername
+      - destinationPassword:
+          required: false
+      - destinationPrivateKeyFile:
           required: false
       - knownHostsPolicy:
           required: false
