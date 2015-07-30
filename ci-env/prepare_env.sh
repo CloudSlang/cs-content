@@ -1,5 +1,11 @@
 #!/bin/bash
 
+inc_and_sleep()
+{
+  ((WAITING_TIME+=SLEEP_INTERVAL))
+  sleep ${SLEEP_INTERVAL}
+}
+
 # generate discovery URL for the new CoreOS cluster and update the cloud-config file
 DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: $DISCOVERY_URL"
@@ -77,22 +83,26 @@ do
       echo "Droplet($DROPLET_ID) information retrieved successfully"
 
       RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
-      echo "RESPONSE_BODY_JSON: ${RESPONSE_BODY_JSON}"
+      # echo "RESPONSE_BODY_JSON: ${RESPONSE_BODY_JSON}"
 
-      DROPLET_STATUS=$(\
-      echo "$RESPONSE_BODY_JSON" | python -c \
+      if [ "${RESPONSE_BODY_JSON}" = "" ]
+      then
+        inc_and_sleep
+      else
+        DROPLET_STATUS=$(\
+        echo "$RESPONSE_BODY_JSON" | python -c \
 '
 import json,sys;
 obj = json.load(sys.stdin);
 print obj["droplet"]["status"];
 '\
       )
-      echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
+        echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
 
-      if [ "$DROPLET_STATUS" = "active" ]
-      then
-        IP_ADDRESS=$(\
-        echo "$RESPONSE_BODY_JSON" | python -c \
+        if [ "$DROPLET_STATUS" = "active" ]
+        then
+          IP_ADDRESS=$(\
+          echo "$RESPONSE_BODY_JSON" | python -c \
 '
 import json,sys;
 obj = json.load(sys.stdin);
@@ -105,13 +115,13 @@ for ip_obj in ipv4_list:
 print ip;
 '\
         )
-        echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
+          echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
-        DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
-        # echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
-      else
-        ((WAITING_TIME+=SLEEP_INTERVAL))
-        sleep ${SLEEP_INTERVAL}
+          DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
+          # echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
+        else
+          inc_and_sleep
+        fi
       fi
     else
       echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
