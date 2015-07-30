@@ -1,15 +1,16 @@
 #!/bin/bash
 
-DROPLET_ID_ACC=""
-DROPLET_IP_ADDRESS_ACC=""
-
-DISCOVERY_URL=$(curl -X GET "https://discovery.etcd.io/new")
+# generate discovery URL for the new CoreOS cluster and update the cloud-config file
+DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: $DISCOVERY_URL"
 DISCOVERY_URL_ESCAPED=$(echo ${DISCOVERY_URL} | sed 's/\//\\\//g')
 sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/cloud-config.yaml
-cat ci-env/cloud-config.yaml
+# cat ci-env/cloud-config.yaml
 
-COREOS_MACHINE_NAMES="ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
+COREOS_MACHINE_NAMES="\
+ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-1 \
+ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-2 \
+ci-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in ${COREOS_MACHINE_NAMES}
 do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
@@ -52,7 +53,7 @@ done
 
 # store droplet IDs in a file to be accessible in cleanup script
 # echo $DROPLET_ID_ACC
-echo $DROPLET_ID_ACC > "droplets_${CIRCLE_BUILD_NUM}.txt"
+echo ${DROPLET_ID_ACC} > "droplets_${CIRCLE_BUILD_NUM}.txt"
 
 SLEEP_INTERVAL=5 # 5 sec
 TIMEOUT=300 # 5 mins
@@ -66,7 +67,7 @@ do
   do
     CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer ${DO_API_TOKEN}" \
     "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
-    # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
+    echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
 
     STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
     # echo "STATUS_CODE: $STATUS_CODE"
@@ -76,6 +77,8 @@ do
       echo "Droplet($DROPLET_ID) information retrieved successfully"
 
       RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
+      echo "RESPONSE_BODY_JSON: ${RESPONSE_BODY_JSON}"
+
       DROPLET_STATUS=$(\
       echo "$RESPONSE_BODY_JSON" | python -c \
 '
@@ -117,7 +120,6 @@ print ip;
   if [ "$DROPLET_STATUS" != "active" ]
   then
     echo "Droplet($DROPLET_ID) is not active after ${WAITING_TIME}"
-    exit 1
   fi
 done
 
