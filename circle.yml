@@ -30,6 +30,7 @@ dependencies:
 
 test:
   pre:
+     - echo "*${DO_DROPLET_SSH_PUBLIC_KEY_ID}*"
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
      - docker run -d -p 49165:8080 jenkins
