@@ -23,18 +23,18 @@ do
                 -H 'Content-Type: application/json' \
                 -H "Authorization: Bearer $DO_API_TOKEN" \
                 -d "{
-                  \"name\":\"${COREOS_MACHINE}\","'
+                  \"name\":\"${COREOS_MACHINE}\",
+                  \"ssh_keys\":[${DO_DROPLET_SSH_PUBLIC_KEY_ID}],"'
                   "region":"ams3",
                   "size":"512mb",
                   "image":"coreos-stable",
-                  "ssh_keys":[993143],
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
                   "user_data": "'"$(cat ci-env/cloud-config.yaml | sed 's/"/\\"/g')"'"
                 }')
 
-  echo "CURL_OUTPUT: $CURL_OUTPUT"
+  # echo "CURL_OUTPUT: $CURL_OUTPUT"
 
   STATUS_CODE=$(echo ${CURL_OUTPUT} | awk '{print $2}')
 
@@ -73,7 +73,7 @@ do
   do
     CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer ${DO_API_TOKEN}" \
     "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
-    echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
+    # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
 
     STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
     # echo "STATUS_CODE: $STATUS_CODE"
@@ -134,13 +134,14 @@ print ip;
 done
 
 # update inputs files to use actual IP addresses
-DROPLET_IP_ARRAY=($DROPLET_IP_ADDRESS_ACC)
+DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
 sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/test_access_coreos_machine.inputs.yaml
 sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
 
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
-echo -e "$SSH_PRIVATE_KEY_CI_ENV_TEMP2" > $SSH_KEY_PATH
+echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
+cat "${SSH_KEY_PATH}"
 # ls -l .
 
 # update inputs files to use actual ssh key
