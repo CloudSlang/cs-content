@@ -81,11 +81,11 @@ done
 
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" *
+sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
 
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
 # update inputs files to use actual ssh key
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" *
+sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
