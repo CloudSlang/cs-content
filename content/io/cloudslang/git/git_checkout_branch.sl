@@ -46,7 +46,7 @@ flow:
         default: "'/tmp/repo.git'"
         required: true
     - git_pull_remote:
-        default: "'origin"
+        default: "'origin'"
         required: false
     - sudo_user:
         default: false
