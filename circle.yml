@@ -44,7 +44,11 @@ test:
      - chmod +x ci-env/prepare_env.sh
      - ci-env/prepare_env.sh
   override:
-    - ./cslang-builder/bin/cslang-builder -ts coreos -cov
+    - ./cslang-builder/bin/cslang-builder -cov -ts :
+        parallel: true
+        files:
+          - default
+          - coreos
   post:
     - chmod +x ci-env/cleanup_env.sh
     - ci-env/cleanup_env.sh
