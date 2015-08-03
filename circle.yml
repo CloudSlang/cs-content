@@ -30,7 +30,8 @@ test:
   pre:
      - chmod +x ci-env/create_droplets.sh
      - ci-env/create_droplets.sh
-     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then docker run -d -p 49165:8080 jenkins; fi
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then docker run -d -p 49165:8080 jenkins; fi:
+          parallel: true
      - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip:
           parallel: true
      - docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
