@@ -44,7 +44,7 @@ test:
      - chmod +x ci-env/prepare_env.sh
      - ci-env/prepare_env.sh
   override:
-    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts coreos,!default -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts default -cov ;; esac:
+    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts coreos,!default -cov ;; 1) ls -l && ./cslang-builder/bin/cslang-builder -cov ;; esac:
         parallel: true
   post:
     - chmod +x ci-env/cleanup_env.sh
