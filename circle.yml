@@ -25,14 +25,12 @@ dependencies:
     - docker info
     - docker images
 #    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-#    - docker pull orius123/dind-ssh
-#    - mkdir -p ~/docker; docker save orius123/dind-ssh > ~/docker/image.tar
 
 test:
   pre:
      - chmod +x ci-env/create_droplets.sh
      - ci-env/create_droplets.sh
-     - docker run -d -p 49165:8080 jenkins
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then docker run -d -p 49165:8080 jenkins; fi
      - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip:
           parallel: true
      - docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
@@ -47,7 +45,7 @@ test:
      - chmod +x ci-env/prepare_env.sh
      - ci-env/prepare_env.sh
   override:
-    - case $CIRCLE_NODE_INDEX in 0) ls -l && ./cslang-builder/bin/cslang-builder -ts coreos,!default -cov ;; 1) ls -l && ./cslang-builder/bin/cslang-builder -cov ;; esac:
+    - case $CIRCLE_NODE_INDEX in 0) ls -l && ./cslang-builder/bin/cslang-builder -ts coreos,!default -cov ;; 1) ls -l && ./cslang-builder/bin/cslang-builder -ts default,jenkins -cov ;; esac: # TODO: remove ls
         parallel: true
   post:
     - chmod +x ci-env/cleanup_env.sh
