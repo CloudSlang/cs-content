@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  cadvisor: io.cloudslang.docker.cadvisor
   strings: io.cloudslang.base.strings
   containers: io.cloudslang.docker.containers
   utils: io.cloudslang.base.utils
@@ -69,7 +68,7 @@ flow:
 
     - call_get_container_metrics:
         do:
-          cadvisor.get_container_metrics:
+          get_container_metrics:
             - host
             - cadvisor_port
             - container: cadvisor_container_name
