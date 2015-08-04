@@ -64,6 +64,8 @@ flow:
         do:
           utils.sleep:
             - seconds: 5
+        navigate:
+          SUCCESS: call_get_container_metrics
 
     - call_get_container_metrics:
         do:
@@ -88,7 +90,6 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
     - CLEAR_DOCKER_CONTAINERS_PROBLEM
     - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
     - CALL_GET_CONTAINER_METRICS_PROBLEM
