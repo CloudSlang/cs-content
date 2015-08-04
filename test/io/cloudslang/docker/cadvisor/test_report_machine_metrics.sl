@@ -80,7 +80,7 @@ flow:
     - validate_response_is_not_empty:
         do:
           strings.string_equals:
-              - first_string: str(len(memory_capacity.strip()))
+              - first_string: str(memory_capacity)
               - second_string: "'0'"
         navigate:
           SUCCESS: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
