@@ -25,7 +25,8 @@ dependencies:
 
 test:
   pre:
-     - chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
+          parallel: true
      - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 49165:8080 jenkins; fi:
           parallel: true
      - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul; fi:
@@ -40,9 +41,11 @@ test:
           parallel: true
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib:
           parallel: true
-     - chmod +x ci-env/prepare_env.sh && ci-env/prepare_env.sh
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
+          parallel: true
   override:
     - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts !default,coreos -cov ;; esac:
         parallel: true
   post:
-    - chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh
+    - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh; fi:
+         parallel: true
