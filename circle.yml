@@ -44,7 +44,7 @@ test:
      - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
           parallel: true
   override:
-    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts !default,coreos -cov ;; esac:
+    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts !default,coreos,cadvisor -cov ;; esac:
         parallel: true
   post:
     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh; fi:

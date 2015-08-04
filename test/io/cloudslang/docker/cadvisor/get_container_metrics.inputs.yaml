@@ -7,11 +7,15 @@
 #
 ####################################################
 test_get_container_metrics:
-  testSuites: [cadvisor_local]
-  description: Tests SUCCESS case - this test needs to be run on the Docker machine by activating the test suite and supplying the inputs
+  testSuites: [cadvisor]
+  description: >
+    This test clears the docker containers on the host, starts up a cadvisor container,
+    calls the get_container_metrics flow and validates the result.
   testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics
   inputs:
-    - host: localhost
-    - cadvisor_port: "32952"
+    - host: <cadvisor_host>
+    - username: core
+    - private_key_file: <private_key_file>
+    - cadvisor_port: "32541"
     - cadvisor_container_name: cadvisor
   result: SUCCESS

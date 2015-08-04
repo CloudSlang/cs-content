@@ -11,8 +11,8 @@ namespace: io.cloudslang.docker.cadvisor
 
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
-  cmd: io.cloudslang.base.cmd
   strings: io.cloudslang.base.strings
+  containers: io.cloudslang.docker.containers
 
 
 flow:
@@ -20,16 +20,28 @@ flow:
 
   inputs:
     - host
+    - username
+    - private_key_file
     - cadvisor_port
     - cadvisor_container_name
 
   workflow:
+    - clear_docker_containers:
+       do:
+         containers.clear_containers:
+           - docker_host: host
+           - docker_username: username
+           - private_key_file
+       navigate:
+         SUCCESS: create_cAdvisor_container
+         FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - create_cAdvisor_container:
         do:
-          cmd.run_command:
-            - command: >
-                'docker run --privileged -d --name ' + cadvisor_container_name + ' ' +
+          containers.run_container:
+            - container_name: cadvisor_container_name
+            - container_params: >
+                '--privileged --publish=' + cadvisor_port + ':8080 ' +
                 '--volume=/:/rootfs:ro ' +
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
@@ -38,15 +50,16 @@ flow:
                 '--volume=/sys/fs/cgroup/cpuacct:/cgroup/cpuacct ' +
                 '--volume=/sys/fs/cgroup/cpuset:/cgroup/cpuset ' +
                 '--volume=/sys/fs/cgroup/memory:/cgroup/memory ' +
-                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio ' +
-                '--publish=' + cadvisor_port + ':8080 ' +
-                'google/cadvisor:latest --logtostderr'
-            - overridable: false
+                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio'
+            - image_name: "'google/cadvisor:latest'"
+            - host
+            - username
+            - private_key_file
         navigate:
-          SUCCESS: validate_success_get_container_metrics
+          SUCCESS: call_get_container_metrics
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
-    - validate_success_get_container_metrics:
+    - call_get_container_metrics:
         do:
           cadvisor.get_container_metrics:
             - host
@@ -54,6 +67,9 @@ flow:
             - container: cadvisor_container_name
         publish:
           - returnResult
+        navigate:
+          SUCCESS: validate_response_is_not_empty
+          FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
 
     - validate_response_is_not_empty:
         do:
@@ -61,18 +77,12 @@ flow:
               - string_in_which_to_search: returnResult
               - string_to_find: "'cpu'"
         navigate:
-          SUCCESS: clear_docker_host_after
-          FAILURE: VERIFY_FAILURE
-
-    - clear_docker_host_after:
-         do:
-           cmd.run_command:
-             - command: >
-                 'docker rm -f ' + cadvisor_container_name
-             - overridable: false
+          SUCCESS: SUCCESS
+          FAILURE: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
 
   results:
     - SUCCESS
-    - FAILURE
+    - CLEAR_DOCKER_CONTAINERS_PROBLEM
     - C_ADVISOR_CONTAINER_STARTUP_PROBLEM
-    - VERIFY_FAILURE
+    - CALL_GET_CONTAINER_METRICS_PROBLEM
+    - VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM

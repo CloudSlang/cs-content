@@ -7,7 +7,7 @@
 #
 ####################################################
 test_report_machine_metrics:
-  testSuites: [cadvisor]
+  testSuites: [cadvisor_local]
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.docker.cadvisor.test_report_machine_metrics
   inputs:
