@@ -64,7 +64,7 @@ flow:
           utils.sleep:
             - seconds: 5
         navigate:
-          SUCCESS: call_get_container_metrics
+          SUCCESS: call_report_machine_metrics
 
     - call_report_machine_metrics:
         do:
