@@ -52,7 +52,7 @@ operation:
           required: false
       - timeout: "'90000'"
       - characterSet: "'UTF-8'"
-      - closeSession: "'true'"
+      - closeSession: "'false'"
       - agentForwarding:
           required: false
     action:
