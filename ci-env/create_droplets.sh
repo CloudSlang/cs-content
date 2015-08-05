@@ -29,9 +29,9 @@ do
                 }')
   # echo "CURL_OUTPUT: $CURL_OUTPUT"
 
-  STATUS_CODE=$(echo ${CURL_OUTPUT} | awk '{print $2}')
+  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
 
-  if [ "$STATUS_CODE" = "202" ] || [ "$STATUS_CODE" = "100" ]
+  if [ "$STATUS_CODE" = "202" ] || [ "$STATUS_CODE" = "100" ] # TODO: remove 100
   then
     echo "CURL_OUTPUT: $CURL_OUTPUT"
 
@@ -46,9 +46,9 @@ do
 
     DROPLET_ID_ACC+="${DROPLET_ID} "
 
-    echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted"
+    echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted - status code: ${STATUS_CODE}"
   else
-    echo "Problem occurred: $COREOS_MACHINE droplet creation request - status code: $STATUS_CODE"
+    echo "Problem occurred: $COREOS_MACHINE droplet creation request - status code: ${STATUS_CODE}"
   fi
 done
 
