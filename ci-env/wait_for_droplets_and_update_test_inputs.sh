@@ -91,9 +91,8 @@ do
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
   && sudo systemctl start docker \
-  && echo -e "\nSUCCESS"')
+  && echo -e "\nSUCCESS"' | tail -n 1)
 
-  echo "SSH output: ${LAST_LINE}"
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
     echo "Droplet($DROPLET_ID) - TCP socket activated for Docker"
