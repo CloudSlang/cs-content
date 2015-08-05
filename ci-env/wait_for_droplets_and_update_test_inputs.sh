@@ -87,7 +87,9 @@ chmod 0600 ${SSH_KEY_PATH}
 for DROPLET_ID in ${DROPLET_IP_ADDRESS_ACC}
 do
   LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_ID} \
-  sudo cat /etc/systemd/system/docker-tcp.socket \
+  echo 'cmd start' \
+  && sudo echo 'sudo start' \
+  && sudo cat /etc/systemd/system/docker-tcp.socket \
   && sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
