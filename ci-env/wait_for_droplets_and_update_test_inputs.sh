@@ -83,7 +83,7 @@ done
 SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
-for DROPLET_ID in ${DROPLET_ID_ACC}
+for DROPLET_ID in ${DROPLET_IP_ADDRESS_ACC}
 do
   LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_ID} \
   sudo systemctl enable docker-tcp.socket \
