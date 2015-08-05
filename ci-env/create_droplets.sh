@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# don't run script in PRs from forks
-echo "CIRCLE_PR_NUMBER: ${CIRCLE_PR_NUMBER}"
-if [ "${CIRCLE_PR_NUMBER}" != "" ]
-then
-  exit 0
-fi
-
 # generate discovery URL for the new CoreOS cluster and update the cloud-config file
 DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: $DISCOVERY_URL"

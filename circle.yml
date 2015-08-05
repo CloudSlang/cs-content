@@ -12,6 +12,10 @@ general:
     - "builder.log"
     
 machine:
+  environment:
+    # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
+    # ignore test suites on node 1 in fork builds
+    ACTIVE_CI_TEST_SUITES_NODE_1: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor'; else echo '!default'; fi)
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
 
@@ -25,7 +29,7 @@ dependencies:
 
 test:
   pre:
-     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
           parallel: true
      - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 49165:8080 jenkins; fi:
           parallel: true
@@ -41,11 +45,11 @@ test:
           parallel: true
      - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib:
           parallel: true
-     - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
           parallel: true
   override:
-    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts !default,coreos,cadvisor -cov ;; esac:
+    - case $CIRCLE_NODE_INDEX in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_NODE_1} -cov ;; esac:
         parallel: true
   post:
-    - if [ "${CIRCLE_NODE_INDEX}" = "1" ]; then chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh; fi:
+    - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh; fi:
          parallel: true
