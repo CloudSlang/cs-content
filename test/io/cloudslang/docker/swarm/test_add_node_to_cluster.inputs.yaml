@@ -7,17 +7,17 @@
 #
 ####################################################
 test_add_node_to_cluster_success:
-  testSuites: [swarm_local]
+  testSuites: [swarm]
   description: >
     Tests SUCCESS case - creates a Swarm cluster, registers a manager, adds a node to the cluster
     and verifies that the node was created.
   testFlowPath: io.cloudslang.docker.swarm.test_add_node_to_cluster
   inputs:
-    - manager_machine_ip: 111.111.111.111
-    - manager_machine_username: user
-    - manager_machine_private_key_file: c:/.../id_rsa
+    - manager_machine_ip: <manager_machine_ip>
+    - manager_machine_username: core
+    - manager_machine_private_key_file: <private_key_file>
     - swarm_manager_port: "2375"
-    - agent_machine_ip: 111.111.111.111
-    - agent_machine_username: user
-    - agent_machine_private_key_file: c:/.../id_rsa
+    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_username: core
+    - agent_machine_private_key_file: <private_key_file>
   result: SUCCESS

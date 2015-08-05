@@ -79,15 +79,35 @@ print ip;
   fi
 done
 
-# update inputs files to use actual IP addresses
-DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
-sed -i "s/<cadvisor_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
-
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
+for DROPLET_ID in ${DROPLET_ID_ACC}
+do
+  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_ID} \
+  sudo systemctl enable docker-tcp.socket \
+  && sudo systemctl stop docker \
+  && sudo systemctl start docker-tcp.socket \
+  && sudo systemctl start docker \
+  && echo 'SUCCESS' | tail -n 1)
+
+  if [ "${LAST_LINE}" = "SUCCESS" ]
+  then
+    echo "Droplet($DROPLET_ID) - TCP socket activated for Docker"
+  else
+    echo "Problem occurred: Droplet($DROPLET_ID) - TCP socket activatation for Docker"
+  fi
+done
+
+# update inputs files to use actual IP addresses
+DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
+sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
+sed -i "s/<cadvisor_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
+sed -i "s/<manager_machine_ip>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
+sed -i "s/<agent_machine_ip>/${DROPLET_IP_ARRAY[1]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
+
 # update inputs files to use actual ssh key
 sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
 sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
+sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
