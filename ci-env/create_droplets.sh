@@ -31,9 +31,9 @@ do
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
 
-  if [ "$STATUS_CODE" = "202" ] || [ "$STATUS_CODE" = "100" ] # TODO: remove 100
+  if [ "$STATUS_CODE" = "202" ]
   then
-    echo "CURL_OUTPUT: $CURL_OUTPUT"
+    # echo "CURL_OUTPUT: $CURL_OUTPUT"
 
     DROPLET_DETAILS=$(echo "$CURL_OUTPUT" | grep "droplet")
     #  echo "DROPLET_DETAILS: $DROPLET_DETAILS"

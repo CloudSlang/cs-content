@@ -82,6 +82,7 @@ done
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
+chmod 0600 ${SSH_KEY_PATH}
 
 for DROPLET_ID in ${DROPLET_IP_ADDRESS_ACC}
 do
