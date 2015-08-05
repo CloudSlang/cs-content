@@ -32,6 +32,8 @@ test:
   pre:
 #    - docker run --privileged --lxc-conf="lxc.aa_profile=unconfined" -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 #    - docker port docker_host_ssh 22
+     - echo "try to print"
+     - echo $DO_DROPLET_SSH_PUBLIC_KEY_ID
      - docker run -d -p 49165:8080 jenkins
      - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip
      - docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
