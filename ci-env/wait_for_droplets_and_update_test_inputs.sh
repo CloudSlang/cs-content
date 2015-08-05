@@ -84,8 +84,18 @@ SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 chmod 0600 ${SSH_KEY_PATH}
 
+# enable Docker Remote API on a New Socket - open TCP port
+ITER_NR=0
 for DROPLET_ID in ${DROPLET_IP_ADDRESS_ACC}
 do
+  # skip for the first machine because manager needs to use that port
+  if [ "${ITER_NR}" = "0" ]
+  then
+    continue
+  else
+    ((ITER_NR+=1))
+  fi
+
   LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_ID} \
   'sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
