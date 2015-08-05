@@ -7,14 +7,14 @@
 #
 ####################################################
 test_get_cluster_info_success:
-  testSuites: [swarm_local]
-  description: Tests SUCCESS case - this test needs to be run on the local machine by activating the test suite and supplying the inputs
+  testSuites: [swarm]
+  description: This flow claers the Swarm cluster and verifies that get_cluster_info works by checking the number of containers in the cluster.
   testFlowPath: io.cloudslang.docker.swarm.test_get_cluster_info
   inputs:
-    - swarm_manager_ip: 111.111.111.111
+    - swarm_manager_ip: <manager_machine_ip>
     - swarm_manager_port: "2375"
     - number_of_agent_containers_in_cluster: "2"
-    - host: 111.111.111.111
-    - username: user
-    - private_key_file: c:/.../id_rsa
+    - host: <manager_machine_ip>
+    - username: core
+    - private_key_file: <private_key_file>
   result: SUCCESS
