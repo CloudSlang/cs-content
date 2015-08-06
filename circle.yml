@@ -29,11 +29,9 @@ dependencies:
 
 test:
   pre:
-     - |
-        if [ "${CIRCLE_NODE_INDEX}" = "0" ]
-        then
-          docker run -d -p 49165:8080 jenkins
-        fi:
+     - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; \
+       then docker run -d -p 49165:8080 jenkins; \
+       fi:
           parallel: true
      - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
           parallel: true
