@@ -3,7 +3,7 @@
 # print droplets
 # cat < "droplets_${CIRCLE_BUILD_NUM}.txt"
 
-DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}.txt")
+# DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}.txt")
 # echo "DROPLET_ID_ACC: $DROPLET_ID_ACC"
 
 for DROPLET_ID in ${DROPLET_ID_ACC}
