@@ -30,11 +30,12 @@ dependencies:
 test:
   pre:
      - |
-        echo "1"
-        echo "2"
-     - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
+        if [ "${CIRCLE_NODE_INDEX}" = "0" ]
+        then
+          docker run -d -p 49165:8080 jenkins
+        fi:
           parallel: true
-     - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 49165:8080 jenkins; fi:
+     - if [ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
           parallel: true
      - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul; fi:
           parallel: true
