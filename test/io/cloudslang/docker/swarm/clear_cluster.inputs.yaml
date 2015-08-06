@@ -15,7 +15,7 @@ test_clear_cluster_success:
   inputs:
     - swarm_manager_ip: <manager_machine_ip>
     - swarm_manager_port: "2375"
-    - number_of_agent_containers_in_cluster: "2"
+    - number_of_agent_containers_in_cluster: "1"
     - host: <manager_machine_ip>
     - username: core
     - private_key_file: <private_key_file>

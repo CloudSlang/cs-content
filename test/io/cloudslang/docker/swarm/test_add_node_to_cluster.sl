@@ -136,7 +136,7 @@ flow:
     - wait_for_node_to_join:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: 20
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster_after
 
