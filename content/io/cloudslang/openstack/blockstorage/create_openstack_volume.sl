@@ -26,7 +26,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 operation:
   name: create_openstack_volume

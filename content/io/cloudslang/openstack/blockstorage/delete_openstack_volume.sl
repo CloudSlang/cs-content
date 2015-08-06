@@ -25,7 +25,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 operation:
   name: delete_openstack_volume

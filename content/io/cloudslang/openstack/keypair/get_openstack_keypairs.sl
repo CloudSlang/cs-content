@@ -24,7 +24,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.keypair
 
 operation:
   name: get_openstack_keypairs

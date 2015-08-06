@@ -24,10 +24,10 @@
 #   - error_message - error message of the operation that failed
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.keypair
 
 imports:
- openstack_content: io.cloudslang.openstack
+ openstack_content: io.cloudslang.openstack.keypair
 
 flow:
   name: create_openstack_keypair_flow

@@ -24,10 +24,10 @@
 #   - error_message - error message of the operation that failed
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
- openstack_content: io.cloudslang.openstack
+ openstack_content: io.cloudslang.openstack.blockstorage
  openstack_utils: io.cloudslang.openstack.utils
 flow:
   name: delete_openstack_volume_flow
