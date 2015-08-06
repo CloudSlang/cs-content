@@ -7,7 +7,7 @@
 #
 ####################################################
 test_demo_containers_success:
-  testSuites: [swarm]
+  testSuites: [swarm_local]
   description: >
     This flow clears the Swarm cluster, invokes the demo_containers flow
     and verifies that it works by checking the number of containers in the cluster.
