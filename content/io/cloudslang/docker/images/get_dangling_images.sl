@@ -95,7 +95,7 @@ flow:
                 required: false
         publish:
           - dangling_image_list: >
-              ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:])))
+              ' '.join(map(lambda line : line.split()[0], filter(lambda line : line != '', returnResult.split('\n')[1:])))
 
   outputs:
     - dangling_image_list
