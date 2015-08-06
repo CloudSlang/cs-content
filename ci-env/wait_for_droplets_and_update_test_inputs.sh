@@ -54,7 +54,7 @@ import json,sys;
 obj = json.load(sys.stdin);
 ipv4_list = obj["droplet"]["networks"]["v4"];
 public_ipv4_list = filter(lambda x : x["type"] == "public", ipv4_list);
-print public_ipv4_list[0] if len(public_ipv4_list) > 0 else '';
+print public_ipv4_list[0] if len(public_ipv4_list) > 0 else "";
 '\
         )
           echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
@@ -86,5 +86,3 @@ echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
 # update inputs files to use actual ssh key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +
-
-cat test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml # TODO remove
