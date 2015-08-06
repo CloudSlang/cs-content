@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an OpenStack keypair.
+# Creates an OpenStack keypair for the instance
 #
 # Inputs:
 #   - host - OpenStack machine host
