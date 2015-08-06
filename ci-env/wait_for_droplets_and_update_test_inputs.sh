@@ -86,7 +86,7 @@ chmod 0600 ${SSH_KEY_PATH}
 
 # enable Docker Remote API on a New Socket - open TCP port
 ITER_NR=0
-for DROPLET_ID in ${DROPLET_IP_ADDRESS_ACC}
+for DROPLET_IP in ${DROPLET_IP_ADDRESS_ACC}
 do
   # skip for the first machine because manager needs to use that port
   if [ "${ITER_NR}" = "0" ]
@@ -96,7 +96,7 @@ do
     ((ITER_NR+=1))
   fi
 
-  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_ID} \
+  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_IP} \
   'sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
@@ -105,10 +105,15 @@ do
 
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
-    echo "Droplet($DROPLET_ID) - TCP socket activated for Docker"
+    echo "Droplet($DROPLET_IP) - TCP socket activated for Docker"
   else
-    echo "Problem occurred: Droplet($DROPLET_ID) - TCP socket activatation for Docker"
+    echo "Problem occurred: Droplet($DROPLET_IP) - TCP socket activatation for Docker"
   fi
+
+  SSH_OUPUT=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_IP} \
+  'docker -H tcp://'${DROPLET_IP}':2375 info')
+
+  echo "DEBUG - SSH_OUPUT: ${SSH_OUPUT}"
 done
 
 # update inputs files to use actual IP addresses
