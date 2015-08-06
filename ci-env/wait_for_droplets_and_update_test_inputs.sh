@@ -53,12 +53,8 @@ print obj["droplet"]["status"];
 import json,sys;
 obj = json.load(sys.stdin);
 ipv4_list = obj["droplet"]["networks"]["v4"];
-ip = ""
-for ip_obj in ipv4_list:
-  if ip_obj["type"] == "public":
-    ip = ip_obj["ip_address"];
-    break;
-print ip;
+public_ipv4_list = filter(lambda x : x["type"] == "public", ipv4_list);
+print public_ipv4_list[0] if len(public_ipv4_list) > 0 else '';
 '\
         )
           echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
@@ -76,18 +72,17 @@ print ip;
   if [ "$DROPLET_STATUS" != "active" ]
   then
     echo "Droplet($DROPLET_ID) is not active after ${WAITING_TIME}"
+    exit 1
   fi
 done
 
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
-sed -i "s/<cadvisor_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
+find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
 
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
 echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
 # update inputs files to use actual ssh key
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
+find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +

@@ -13,7 +13,7 @@ test_get_container_metrics:
     calls the get_container_metrics flow and validates the result.
   testFlowPath: io.cloudslang.docker.cadvisor.test_get_container_metrics
   inputs:
-    - host: <cadvisor_host>
+    - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
     - cadvisor_port: "32541"
