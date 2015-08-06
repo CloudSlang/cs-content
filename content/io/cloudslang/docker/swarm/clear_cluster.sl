@@ -44,7 +44,7 @@ flow:
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
-    - excluded_images: "'swarm:latest'"
+    - excluded_images: "'swarm'"
     - host
     - port:
         required: false
