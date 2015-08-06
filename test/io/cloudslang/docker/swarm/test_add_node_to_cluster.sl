@@ -136,7 +136,7 @@ flow:
     - wait_for_node_to_join:
         do:
           utils.sleep:
-            - seconds: 20
+            - seconds: 10
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster_after
 
@@ -165,38 +165,8 @@ flow:
             - first_string: str(int(number_of_nodes_in_cluster_before) + 1)
             - second_string: number_of_nodes_in_cluster_after
         navigate:
-          SUCCESS: post_clear_manager_machine
-          FAILURE: VERIFY_NODE_IS_ADDED_PROBLEM
-
-    - post_clear_manager_machine:
-        do:
-          maintenance.clear_host:
-            - docker_host: manager_machine_ip
-            - docker_username: manager_machine_username
-            - docker_password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
-        navigate:
-          SUCCESS: post_clear_agent_machine
-          FAILURE: POST_CLEAR_MANAGER_MACHINE_PROBLEM
-
-    - post_clear_agent_machine:
-        do:
-          maintenance.clear_host:
-            - docker_host: agent_machine_ip
-            - docker_username: agent_machine_username
-            - docker_password:
-                default: agent_machine_password
-                required: false
-            - private_key_file:
-                default: agent_machine_private_key_file
-                required: false
-        navigate:
           SUCCESS: SUCCESS
-          FAILURE: POST_CLEAR_AGENT_MACHINE_PROBLEM
+          FAILURE: VERIFY_NODE_IS_ADDED_PROBLEM
 
   results:
     - SUCCESS
@@ -208,5 +178,3 @@ flow:
     - ADD_NODE_TO_THE_CLUSTER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
     - VERIFY_NODE_IS_ADDED_PROBLEM
-    - POST_CLEAR_MANAGER_MACHINE_PROBLEM
-    - POST_CLEAR_AGENT_MACHINE_PROBLEM
