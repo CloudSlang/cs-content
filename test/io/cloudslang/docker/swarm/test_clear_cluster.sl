@@ -136,7 +136,7 @@ flow:
                 required: false
        navigate:
          SUCCESS: get_number_of_containers_in_cluster_after
-         FAILURE: FAILURE
+         FAILURE: CLEAR_CLUSTER_PROBLEM
 
     - get_number_of_containers_in_cluster_after:
         do:
@@ -169,7 +169,7 @@ flow:
           FAILURE: VERIFY_CLUSTER_IS_CLEARED_PROBLEM
   results:
     - SUCCESS
-    - FAILURE
+    - CLEAR_CLUSTER_PROBLEM
     - SETUP_CLUSTER_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_BEFORE_PROBLEM
     - RUN_CONTAINER_IN_CLUSTER_PROBLEM
