@@ -46,7 +46,7 @@ do
 
     DROPLET_ID_ACC+="${DROPLET_ID} "
 
-    echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted - status code: ${STATUS_CODE}""
+    echo "$COREOS_MACHINE (ID: $DROPLET_ID) droplet creation request accepted - status code: ${STATUS_CODE}"
 
     # store droplet IDs in a file to be accessible in other script
     echo ${DROPLET_ID_ACC} > "droplets_${CIRCLE_BUILD_NUM}.txt"
