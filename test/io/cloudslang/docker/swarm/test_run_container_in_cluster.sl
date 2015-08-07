@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  swarm: io.cloudslang.docker.swarm
   strings: io.cloudslang.base.strings
 
 flow:
@@ -66,7 +65,7 @@ flow:
 
     - get_number_of_containers_in_cluster_before:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -87,7 +86,7 @@ flow:
 
     - run_container_in_cluster:
         do:
-          swarm.run_container_in_cluster:
+          run_container_in_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - container_name
@@ -105,7 +104,7 @@ flow:
 
     - get_number_of_containers_in_cluster_after:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
