@@ -38,11 +38,12 @@ do
         DROPLET_STATUS=$(\
         echo "$RESPONSE_BODY_JSON" | python -c \
 '
-import json,sys;
-obj = json.load(sys.stdin);
-print obj["droplet"]["status"];
+if True:
+        import json,sys;
+        obj = json.load(sys.stdin);
+        print obj["droplet"]["status"];
 '\
-      )
+        )
         echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
 
         if [ "$DROPLET_STATUS" = "active" ]
@@ -50,17 +51,14 @@ print obj["droplet"]["status"];
           IP_ADDRESS=$(\
           echo "$RESPONSE_BODY_JSON" | python -c \
 '
-import json,sys;
-obj = json.load(sys.stdin);
-ipv4_list = obj["droplet"]["networks"]["v4"];
-ip = ""
-for ip_obj in ipv4_list:
-  if ip_obj["type"] == "public":
-    ip = ip_obj["ip_address"];
-    break;
-print ip;
+if True:
+          import json,sys;
+          obj = json.load(sys.stdin);
+          ipv4_container_list = obj["droplet"]["networks"]["v4"];
+          public_ipv4_container_list = filter(lambda x : x["type"] == "public", ipv4_container_list);
+          print public_ipv4_container_list[0]["ip_address"] if len(public_ipv4_container_list) > 0 else "";
 '\
-        )
+          )
           echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
           DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
@@ -76,6 +74,7 @@ print ip;
   if [ "$DROPLET_STATUS" != "active" ]
   then
     echo "Droplet($DROPLET_ID) is not active after ${WAITING_TIME}"
+    exit 1
   fi
 done
 
@@ -117,12 +116,9 @@ done
 
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-sed -i "s/<coreos_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
-sed -i "s/<cadvisor_host>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
+find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
 sed -i "s/<manager_machine_ip>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
 sed -i "s/<agent_machine_ip>/${DROPLET_IP_ARRAY[1]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
 
 # update inputs files to use actual ssh key
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/docker/cadvisor/*.inputs.yaml
-sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
+find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +

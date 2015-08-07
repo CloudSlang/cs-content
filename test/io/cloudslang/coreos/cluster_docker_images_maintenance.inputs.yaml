@@ -16,7 +16,7 @@ test_cluster_docker_images_maintenance_success:
     cleans up in the cluster.
   testFlowPath: io.cloudslang.coreos.test_cluster_docker_images_maintenance
   inputs:
-    - coreos_host: <coreos_host> # ip address of one host from the cluster
+    - coreos_host: <coreos_host_1> # ip address of one host from the cluster
     - coreos_username: core # username for the machine
     - private_key_file: <private_key_file> # path to private key file
   result: SUCCESS
