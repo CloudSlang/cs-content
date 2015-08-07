@@ -86,3 +86,5 @@ echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 
 # update inputs files to use actual ssh key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +
+
+cat test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml # TODO remove
