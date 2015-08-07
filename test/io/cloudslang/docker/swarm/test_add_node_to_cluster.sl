@@ -10,7 +10,7 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  maintenance: io.cloudslang.docker.maintenance
+  containers: io.cloudslang.docker.containers
   swarm: io.cloudslang.docker.swarm
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
@@ -51,34 +51,28 @@ flow:
           FAILURE: CREATE_SWARM_CLUSTER_PROBLEM
 
     - pre_clear_manager_machine:
-        do:
-          maintenance.clear_host:
-            - docker_host: manager_machine_ip
-            - docker_username: manager_machine_username
-            - docker_password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
-        navigate:
-          SUCCESS: pre_clear_agent_machine
-          FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
+       do:
+         containers.clear_containers:
+           - docker_host: manager_machine_ip
+           - docker_username: username
+           - private_key_file:
+              default: manager_machine_private_key_file
+              required: false
+       navigate:
+         SUCCESS: pre_clear_agent_machine
+         FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
 
     - pre_clear_agent_machine:
-        do:
-          maintenance.clear_host:
-            - docker_host: agent_machine_ip
-            - docker_username: agent_machine_username
-            - docker_password:
-                default: agent_machine_password
-                required: false
-            - private_key_file:
-                default: agent_machine_private_key_file
-                required: false
-        navigate:
-          SUCCESS: start_manager_container
-          FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM
+       do:
+         containers.clear_containers:
+           - docker_host: agent_machine_ip
+           - docker_username: agent_machine_username
+           - private_key_file:
+              default: agent_machine_private_key_file
+              required: false
+       navigate:
+         SUCCESS: start_manager_container
+         FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM
 
     - start_manager_container:
         do:
