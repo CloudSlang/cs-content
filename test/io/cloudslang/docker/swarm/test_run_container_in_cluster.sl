@@ -54,7 +54,7 @@ flow:
                 default: private_key_file
                 required: false
         navigate:
-          SUCCESS: pre_clear_swarm_cluster
+          SUCCESS: get_number_of_containers_in_cluster_before
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_AGENT_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
@@ -63,25 +63,6 @@ flow:
           ADD_NODE_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
-
-    - pre_clear_swarm_cluster:
-       do:
-         swarm.clear_cluster:
-            - swarm_manager_ip
-            - swarm_manager_port
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-       navigate:
-         SUCCESS: get_number_of_containers_in_cluster_before
-         FAILURE: PRE_CLEAR_SWARM_CLUSTER_PROBLEM
 
     - get_number_of_containers_in_cluster_before:
         do:
@@ -149,33 +130,12 @@ flow:
             - first_string: str(int(number_of_containers_in_cluster_before) + 1)
             - second_string: str(number_of_containers_in_cluster_after)
         navigate:
-          SUCCESS: post_clear_swarm_cluster
+          SUCCESS: SUCCESS
           FAILURE: VERIFY_CONTAINER_CREATED_IN_CLUSTER_PROBLEM
-
-    - post_clear_swarm_cluster:
-       do:
-         swarm.clear_cluster:
-            - swarm_manager_ip
-            - swarm_manager_port
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-       navigate:
-         SUCCESS: SUCCESS
-         FAILURE: POST_CLEAR_SWARM_CLUSTER_PROBLEM
   results:
     - SUCCESS
     - SETUP_CLUSTER_PROBLEM
     - FAILURE
-    - PRE_CLEAR_SWARM_CLUSTER_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_BEFORE_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_AFTER_PROBLEM
     - VERIFY_CONTAINER_CREATED_IN_CLUSTER_PROBLEM
-    - POST_CLEAR_SWARM_CLUSTER_PROBLEM

@@ -53,7 +53,7 @@ flow:
                 default: private_key_file
                 required: false
         navigate:
-          SUCCESS: clear_swarm_cluster
+          SUCCESS: get_cluster_info
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_AGENT_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
@@ -62,25 +62,6 @@ flow:
           ADD_NODE_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
-
-    - clear_swarm_cluster:
-       do:
-         swarm.clear_cluster:
-            - swarm_manager_ip
-            - swarm_manager_port
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-       navigate:
-         SUCCESS: get_cluster_info
-         FAILURE: CLEAR_SWARM_CLUSTER_PROBLEM
 
     - get_cluster_info:
         do:
@@ -112,5 +93,4 @@ flow:
     - SUCCESS
     - SETUP_CLUSTER_PROBLEM
     - FAILURE
-    - CLEAR_SWARM_CLUSTER_PROBLEM
     - VERIFY_NUMBER_OF_CONTAINERS_IN_CLUSTER_PROBLEM

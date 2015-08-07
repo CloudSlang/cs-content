@@ -54,7 +54,7 @@ flow:
        do:
          containers.clear_containers:
            - docker_host: manager_machine_ip
-           - docker_username: username
+           - docker_username: manager_machine_username
            - private_key_file:
               default: manager_machine_private_key_file
               required: false
