@@ -118,7 +118,7 @@ flow:
 
     - clear_unused_images:
         do:
-          images.clear_unused_images:
+          images.clear_unused_and_dangling_images:
             - docker_options
             - docker_host: host
             - docker_username: username

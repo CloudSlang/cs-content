@@ -7,16 +7,15 @@
 #
 ########################################################################################################
 test_restart_container_base_on_usage_success:
-  testSuites: [cadvisor_local]
+  testSuites: [cadvisor]
   description: >
-    Tests SUCCESS case - starts a cAdvisor container, waits for the container to start up and runs
-    the restart_container_base_on_usage flow against it. The Docker host is cleared before and after
-    the actual test logic.
+    This test clears the docker containers on the host, starts up a cadvisor container,
+    calls the restart_container_base_on_usage flow and validates the result.
   testFlowPath: io.cloudslang.docker.cadvisor.test_restart_container_base_on_usage
   inputs:
-    - cadvisor_port: "23569"
+    - host: <coreos_host_1>
+    - username: core
+    - private_key_file: <private_key_file>
+    - cadvisor_port: "32541"
     - cadvisor_container_name: cadvisor
-    - host: 111.111.111.111
-    - username: root
-    - private_key_file: "c:/.../id_rsa"
   result: SUCCESS

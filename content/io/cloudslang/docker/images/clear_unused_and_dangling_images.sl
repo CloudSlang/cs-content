@@ -88,6 +88,6 @@ flow:
             - amount_of_dangling_images_deleted
   outputs:
     - amount_of_images_deleted: "0 if 'amount_of_images_deleted' not in locals() else amount_of_images_deleted"
-    - amount_of_dangling_images_deleted: "0 if 'amount_of_images_deleted' not in locals() else amount_of_dangling_images_deleted"
+    - amount_of_dangling_images_deleted: "0 if 'amount_of_dangling_images_deleted' not in locals() else amount_of_dangling_images_deleted"
     - dangling_images_list_safe_to_delete
     - images_list_safe_to_delete

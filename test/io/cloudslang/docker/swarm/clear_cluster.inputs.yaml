@@ -7,14 +7,17 @@
 #
 ####################################################
 test_clear_cluster_success:
-  testSuites: [swarm_local]
-  description: Tests SUCCESS case - this test needs to be run on the local machine by activating the test suite and supplying the inputs
+  testSuites: [swarm]
+  description: >
+    This flow assures that the Swarm cluster is not empty,
+    calls the clear_cluster flow and validates its effect.
   testFlowPath: io.cloudslang.docker.swarm.test_clear_cluster
   inputs:
-    - swarm_manager_ip: 111.111.111.111
+    - swarm_manager_ip: <coreos_host_1>
     - swarm_manager_port: "2375"
-    - number_of_agent_containers_in_cluster: "2"
-    - host: 111.111.111.111
-    - username: user
-    - private_key_file: c:/.../id_rsa
+    - number_of_agent_containers_in_cluster: "1"
+    - host: <coreos_host_1>
+    - username: core
+    - private_key_file: <private_key_file>
+    - agent_machine_ip: <coreos_host_2>
   result: SUCCESS

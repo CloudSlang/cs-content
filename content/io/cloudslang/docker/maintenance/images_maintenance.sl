@@ -59,7 +59,7 @@ flow:
           NOT_ENOUGH_DISKSPACE: clear_unused_images
     - clear_unused_images:
         do:
-          docker_images.clear_unused_images:
+          docker_images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
             - docker_password:
@@ -69,8 +69,10 @@ flow:
             - timeout:
                 required: false
         publish:
-          - amount_of_images_deleted
-          - amount_of_dangling_images_deleted
+          - amount_of_images_deleted: >
+              amount_of_images_deleted if 'amount_of_images_deleted' in locals() and amount_of_images_deleted else 0
+          - amount_of_dangling_images_deleted: >
+              amount_of_dangling_images_deleted if 'amount_of_dangling_images_deleted' in locals() and amount_of_dangling_images_deleted else 0
           - dangling_images_list_safe_to_delete
           - images_list_safe_to_delete
           - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
