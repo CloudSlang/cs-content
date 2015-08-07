@@ -105,13 +105,9 @@ do
   then
     echo "Droplet($DROPLET_IP) - TCP socket activated for Docker"
   else
-    echo "Problem occurred: Droplet($DROPLET_IP) - TCP socket activatation for Docker"
+    echo "Problem occurred: Droplet($DROPLET_IP) - TCP socket activation for Docker"
+    exit 1
   fi
-
-  SSH_OUPUT=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_IP} \
-  'docker -H tcp://'${DROPLET_IP}':2375 info')
-
-  echo "DEBUG - SSH_OUPUT: ${SSH_OUPUT}"
 done
 
 # update inputs files to use actual IP addresses
