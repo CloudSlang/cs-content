@@ -30,24 +30,26 @@ dependencies:
 
 test:
   pre:
-     - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
-          parallel: true
-     - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 49165:8080 jenkins; fi:
-          parallel: true
-     - if [ "${CIRCLE_NODE_INDEX}" = "0" ]; then docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul; fi:
-          parallel: true
-     - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip:
-          parallel: true
-     - unzip cslang-builder.zip -d cslang-builder:
-          parallel: true
-     - chmod +x cslang-builder/bin/cslang-builder:
-          parallel: true
-     - mkdir cslang-builder/lib/Lib:
-          parallel: true
-     - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib:
-          parallel: true
-     - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
-          parallel: true
+    - ? >
+        if [ "${CIRCLE_NODE_INDEX}" = "0" ];
+        then docker run -d -p 49165:8080 jenkins
+        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul;
+        fi
+      : parallel: true
+    - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
+        parallel: true
+    - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.RC1/cslang-builder.zip:
+        parallel: true
+    - unzip cslang-builder.zip -d cslang-builder:
+        parallel: true
+    - chmod +x cslang-builder/bin/cslang-builder:
+        parallel: true
+    - mkdir cslang-builder/lib/Lib:
+        parallel: true
+    - pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib:
+        parallel: true
+    - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh && ci-env/wait_for_droplets_and_update_test_inputs.sh; fi:
+        parallel: true
   override:
     - case ${CIRCLE_NODE_INDEX} in 0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;; 1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_NODE_1} -cov ;; esac:
         parallel: true
