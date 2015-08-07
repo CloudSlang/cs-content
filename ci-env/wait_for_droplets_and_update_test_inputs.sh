@@ -117,8 +117,7 @@ done
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
 find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
-sed -i "s/<manager_machine_ip>/${DROPLET_IP_ARRAY[0]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
-sed -i "s/<agent_machine_ip>/${DROPLET_IP_ARRAY[1]}/g" test/io/cloudslang/docker/swarm/*.inputs.yaml
+find test -type f -exec sed -i "s/<coreos_host_2>/${DROPLET_IP_ARRAY[1]}/g" {} +
 
 # update inputs files to use actual ssh key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +

@@ -11,11 +11,11 @@ test_get_cluster_info_success:
   description: This flow claers the Swarm cluster and verifies that get_cluster_info works by checking the number of containers in the cluster.
   testFlowPath: io.cloudslang.docker.swarm.test_get_cluster_info
   inputs:
-    - swarm_manager_ip: <manager_machine_ip>
+    - swarm_manager_ip: <coreos_host_1>
     - swarm_manager_port: "2375"
     - number_of_agent_containers_in_cluster: "1"
-    - host: <manager_machine_ip>
+    - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_ip: <coreos_host_2>
   result: SUCCESS

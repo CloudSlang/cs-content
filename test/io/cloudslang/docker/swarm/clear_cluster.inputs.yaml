@@ -13,11 +13,11 @@ test_clear_cluster_success:
     calls the clear_cluster flow and validates its effect.
   testFlowPath: io.cloudslang.docker.swarm.test_clear_cluster
   inputs:
-    - swarm_manager_ip: <manager_machine_ip>
+    - swarm_manager_ip: <coreos_host_1>
     - swarm_manager_port: "2375"
     - number_of_agent_containers_in_cluster: "1"
-    - host: <manager_machine_ip>
+    - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_ip: <coreos_host_2>
   result: SUCCESS

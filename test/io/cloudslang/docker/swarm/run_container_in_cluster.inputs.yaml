@@ -11,10 +11,10 @@ test_run_container_in_cluster_success:
   description: This flow clears the Swarm cluster, runs a contaniner in the cluster and verifies that it was created.
   testFlowPath: io.cloudslang.docker.swarm.test_run_container_in_cluster
   inputs:
-    - swarm_manager_ip: <manager_machine_ip>
+    - swarm_manager_ip: <coreos_host_1>
     - swarm_manager_port: "2375"
-    - host: <manager_machine_ip>
+    - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_ip: <coreos_host_2>
   result: SUCCESS

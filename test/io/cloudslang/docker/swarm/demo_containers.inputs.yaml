@@ -13,10 +13,10 @@ test_demo_containers_success:
     and verifies that it works by checking the number of containers in the cluster.
   testFlowPath: io.cloudslang.docker.swarm.test_demo_containers
   inputs:
-    - swarm_manager_ip: <manager_machine_ip>
+    - swarm_manager_ip: <coreos_host_1>
     - swarm_manager_port: "2375"
-    - host: <manager_machine_ip>
+    - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_ip: <coreos_host_2>
   result: SUCCESS

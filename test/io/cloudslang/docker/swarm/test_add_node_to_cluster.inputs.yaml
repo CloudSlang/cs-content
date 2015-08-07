@@ -13,11 +13,11 @@ test_add_node_to_cluster_success:
     and verifies that the node was created.
   testFlowPath: io.cloudslang.docker.swarm.test_add_node_to_cluster
   inputs:
-    - manager_machine_ip: <manager_machine_ip>
+    - manager_machine_ip: <coreos_host_1>
     - manager_machine_username: core
     - manager_machine_private_key_file: <private_key_file>
     - swarm_manager_port: "2375"
-    - agent_machine_ip: <agent_machine_ip>
+    - agent_machine_ip: <coreos_host_2>
     - agent_machine_username: core
     - agent_machine_private_key_file: <private_key_file>
   result: SUCCESS
