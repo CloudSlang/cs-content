@@ -69,6 +69,7 @@ if True:
       fi
     else
       echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+      exit 1
     fi
   done
   if [ "$DROPLET_STATUS" != "active" ]
