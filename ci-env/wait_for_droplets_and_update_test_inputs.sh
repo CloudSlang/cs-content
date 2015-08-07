@@ -52,9 +52,9 @@ print obj["droplet"]["status"];
 '
 import json,sys;
 obj = json.load(sys.stdin);
-ipv4_list = obj["droplet"]["networks"]["v4"];
-public_ipv4_list = filter(lambda x : x["type"] == "public", ipv4_list);
-print public_ipv4_list[0] if len(public_ipv4_list) > 0 else "";
+ipv4_container_list = obj["droplet"]["networks"]["v4"];
+public_ipv4_container_list = filter(lambda x : x["type"] == "public", ipv4_container_list);
+print public_ipv4_container_list[0]["ip_address"] if len(public_ipv4_container_list) > 0 else "";
 '\
         )
           echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
