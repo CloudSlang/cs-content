@@ -38,11 +38,12 @@ do
         DROPLET_STATUS=$(\
         echo "$RESPONSE_BODY_JSON" | python -c \
 '
-import json,sys;
-obj = json.load(sys.stdin);
-print obj["droplet"]["status"];
+if True:
+        import json,sys;
+        obj = json.load(sys.stdin);
+        print obj["droplet"]["status"];
 '\
-      )
+        )
         echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
 
         if [ "$DROPLET_STATUS" = "active" ]
@@ -50,13 +51,14 @@ print obj["droplet"]["status"];
           IP_ADDRESS=$(\
           echo "$RESPONSE_BODY_JSON" | python -c \
 '
-import json,sys;
-obj = json.load(sys.stdin);
-ipv4_container_list = obj["droplet"]["networks"]["v4"];
-public_ipv4_container_list = filter(lambda x : x["type"] == "public", ipv4_container_list);
-print public_ipv4_container_list[0]["ip_address"] if len(public_ipv4_container_list) > 0 else "";
+if True:
+          import json,sys;
+          obj = json.load(sys.stdin);
+          ipv4_container_list = obj["droplet"]["networks"]["v4"];
+          public_ipv4_container_list = filter(lambda x : x["type"] == "public", ipv4_container_list);
+          print public_ipv4_container_list[0]["ip_address"] if len(public_ipv4_container_list) > 0 else "";
 '\
-        )
+          )
           echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
 
           DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
