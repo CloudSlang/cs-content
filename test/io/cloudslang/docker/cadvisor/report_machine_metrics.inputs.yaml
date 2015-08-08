@@ -8,10 +8,14 @@
 ####################################################
 test_report_machine_metrics:
   testSuites: [cadvisor]
-  description: Tests SUCCESS case
+  description: >
+    This test clears the docker containers on the host, starts up a cadvisor container,
+    calls the report_machine_metrics flow and validates the result.
   testFlowPath: io.cloudslang.docker.cadvisor.test_report_machine_metrics
   inputs:
-    - host: localhost
+    - host: <coreos_host_1>
+    - username: core
+    - private_key_file: <private_key_file>
+    - cadvisor_port: "32541"
     - cadvisor_container_name: cadvisor
-    - cadvisor_port: "32951"
   result: SUCCESS

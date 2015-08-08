@@ -59,7 +59,7 @@ flow:
           NOT_ENOUGH_DISKSPACE: clear_unused_images
     - clear_unused_images:
         do:
-          docker_images.clear_unused_images:
+          docker_images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
             - docker_password:
