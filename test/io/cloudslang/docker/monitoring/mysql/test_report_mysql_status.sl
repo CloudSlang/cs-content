@@ -33,8 +33,8 @@ flow:
              - port:
                  required: false
                  default: docker_port
-             - docker_username: username
-             - docker_password: password
+             - docker_username
+             - docker_password
          navigate:
            SUCCESS: run_postfix
            FAILURE: MACHINE_IS_NOT_CLEAN
