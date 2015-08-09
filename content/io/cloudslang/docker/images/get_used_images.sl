@@ -93,7 +93,7 @@ flow:
             - agentForwarding:
                 required: false
         publish:
-          - image_list: returnResult.replace("\n"," ")
+          - image_list: returnResult.replace("\n"," ").replace(":latest", "")
 
   outputs:
     - image_list
