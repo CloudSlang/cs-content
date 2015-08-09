@@ -10,14 +10,17 @@
 #
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
-#   - host - Docker machine host
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
+#   - docker_host - Docker machine host
+#   - docker_port - optional - Dpcker machine port
+#   - docker_username - Docker machine username
+#   - docker_password - optional - Docker machine password
+#   - docker_private_key_file - optional - path to private key file
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
 #   - email_host - email server host
 #   - email_port - email server port
+#   - email_username - optional - email user name
+#   - email_password - optional - email password
 #   - email_sender - email sender
 #   - email_recipient - email recipient
 # Results:

@@ -11,7 +11,7 @@
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
 #   - host - Docker machine host
-#   - port - optional - optional - SSH port - Default: 22
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - absolute path to private key file
@@ -21,6 +21,7 @@
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
 # Results:

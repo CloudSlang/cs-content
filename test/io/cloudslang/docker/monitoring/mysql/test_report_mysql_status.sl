@@ -3,9 +3,7 @@ namespace: io.cloudslang.docker.monitoring.mysql
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
   utils: io.cloudslang.base.utils
-  mysql: io.cloudslang.docker.monitoring.mysql
   cmd: io.cloudslang.base.cmd
   network: io.cloudslang.base.network
 
@@ -71,7 +69,7 @@ flow:
 
     - report_mysql_status:
         do:
-          mysql.report_mysql_status:
+          report_mysql_status:
             - container: "'mysqldb'"
             - docker_host
             - docker_port
