@@ -24,6 +24,7 @@
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
+#   - returnResult - the return result of the command
 # Results:
 #   - SUCCESS - action was executed successfully and MySQL server state is alive
 #   - FAILURE - some problem occurred, more information in errorMessage output
