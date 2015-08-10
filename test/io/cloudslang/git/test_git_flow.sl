@@ -47,7 +47,7 @@ flow:
             - password
             - git_pull_remote
             - git_branch
-            - git_repository_localdir: git_repository_localdir
+            - git_repository_localdir
         navigate:
           SUCCESS: reset_git_branch
           FAILURE: CHECKOUTFAILURE
@@ -62,7 +62,7 @@ flow:
             - username
             - password
             - git_reset_target
-            - git_repository_localdir: git_repository_localdir
+            - git_repository_localdir
         navigate:
           SUCCESS: git_cleanup
           FAILURE: RESETFAILURE
