@@ -10,7 +10,7 @@
 #
 #   Inputs:
 #       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
+#       - port - optional - port number for running the command
 #       - username - username to connect as
 #       - password - password of user
 #       - sudo_user - true or false, whether the command should execute using sudo
