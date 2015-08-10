@@ -114,6 +114,7 @@ done
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
 find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
 find test -type f -exec sed -i "s/<coreos_host_2>/${DROPLET_IP_ARRAY[1]}/g" {} +
+find test -type f -exec sed -i "s/<coreos_host_3>/${DROPLET_IP_ARRAY[2]}/g" {} +
 
 # update inputs files to use actual ssh key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +
