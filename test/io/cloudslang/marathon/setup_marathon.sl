@@ -26,6 +26,7 @@ flow:
     - username
     - private_key_file
     - marathon_port: "'8080'"
+    - timeout: "'3000000'"
   workflow:
     - clear_containers_on_host:
        do:
@@ -49,6 +50,7 @@ flow:
            - host
            - username
            - private_key_file
+           - timeout
        navigate:
          SUCCESS: start_mesos_master
          FAILURE: START_ZOOKEEPER_PROBLEM
@@ -68,6 +70,7 @@ flow:
            - host
            - username
            - private_key_file
+           - timeout
        navigate:
          SUCCESS: start_mesos_slave
          FAILURE: START_MESOS_MASTER_PROBLEM
@@ -88,6 +91,7 @@ flow:
            - host
            - username
            - private_key_file
+           - timeout
        navigate:
          SUCCESS: start_marathon
          FAILURE: START_MESOS_SLAVE_PROBLEM
@@ -107,6 +111,7 @@ flow:
            - host
            - username
            - private_key_file
+           - timeout
        navigate:
          SUCCESS: SUCCESS
          FAILURE: START_MARATHON_PROBLEM
