@@ -108,9 +108,6 @@ flow:
                   - password:
                         default: email_password
                         required: false
-            navigate:
-              SUCCESS: SUCCESS
-              FAILURE: FAILURE
 
     - on_failure:
       - send_error_mail:
@@ -131,5 +128,5 @@ flow:
                       'The MySQL server status checking on host ' + docker_host
                       + ' ended with the following error message: ' + error_message
           navigate:
-            SUCCESS: SUCCESS
+            SUCCESS: FAILURE
             FAILURE: FAILURE
