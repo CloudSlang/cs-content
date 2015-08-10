@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+#######################################################################################################################
 # Sets up a simple marathon infrastructure on one host.
 #
 # Inputs:
@@ -13,7 +13,8 @@
 #   - username - username of the Docker host
 #   - private_key_file - private key file used for host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
-########################################################################################################
+#   - timeout - optional - time in milliseconds to wait for one ssh command to complete - Default: 3000000 ms (50 min)
+#######################################################################################################################
 
 namespace: io.cloudslang.marathon
 
