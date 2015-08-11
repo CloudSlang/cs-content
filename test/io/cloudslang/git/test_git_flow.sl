@@ -23,6 +23,7 @@ flow:
     - git_repository_localdir
     - git_pull_remote
     - git_branch
+    - git_reset_target
   workflow:
     - clone_a_git_repository:
         do:
@@ -46,10 +47,25 @@ flow:
             - password
             - git_pull_remote
             - git_branch
-            - git_repository_localdir: git_repository_localdir
+            - git_repository_localdir
+        navigate:
+          SUCCESS: reset_git_branch
+          FAILURE: CHECKOUTFAILURE
+        publish:
+          - standard_out
+
+    - reset_git_branch:
+        do:
+          git.git_reset:
+            - host
+            - port
+            - username
+            - password
+            - git_reset_target
+            - git_repository_localdir
         navigate:
           SUCCESS: git_cleanup
-          FAILURE: CHECKOUTFAILURE
+          FAILURE: RESETFAILURE
         publish:
           - standard_out
 
@@ -77,3 +93,4 @@ flow:
     - CLONEFAILURE
     - CHECKOUTFAILURE
     - CLEANUPFAILURE
+    - RESETFAILURE
