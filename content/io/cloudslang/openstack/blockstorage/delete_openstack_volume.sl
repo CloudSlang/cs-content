@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a REST call which deletes an OpenStack volume.
+# Deletes an OpenStack volume.
 #
 # Inputs:
 #   - host - OpenStack machine host
