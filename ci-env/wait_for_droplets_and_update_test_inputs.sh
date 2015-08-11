@@ -69,6 +69,7 @@ if True:
       fi
     else
       echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+      exit 1
     fi
   done
   if [ "$DROPLET_STATUS" != "active" ]
@@ -84,12 +85,12 @@ echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 chmod 0600 ${SSH_KEY_PATH}
 
 # enable Docker Remote API on a New Socket - open TCP port
-ITER_NR=-1
+ITER_NR=0
 for DROPLET_IP in ${DROPLET_IP_ADDRESS_ACC}
 do
-  # skip for the first machine because manager needs to use that port
+  # skip the first machine because manager needs to use that port
   ((ITER_NR+=1))
-  if [ "${ITER_NR}" = "0" ]
+  if [ "${ITER_NR}" = "1" ]
   then
     continue
   fi
