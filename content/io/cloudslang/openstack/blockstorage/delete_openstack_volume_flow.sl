@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes an OpenStack volume.
+# Authenticates and deletes OpenStack volume.
 #
 # Inputs:
 #   - host - OpenStack machine host
