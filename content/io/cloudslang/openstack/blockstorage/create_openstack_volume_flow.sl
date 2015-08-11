@@ -14,7 +14,6 @@
 #   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
 #   - size - size of the volume to be created
 #   - tenant_name - name of the project on OpenStack
 #   - volume_name - volume name
