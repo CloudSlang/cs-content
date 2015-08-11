@@ -119,3 +119,7 @@ find test -type f -exec sed -i "s/<coreos_host_3>/${DROPLET_IP_ARRAY[2]}/g" {} +
 
 # update inputs files to use actual ssh key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +
+
+cat test/io/cloudslang/coreos/cluster_docker_images_maintenance.inputs.yaml
+cat test/io/cloudslang/docker/cadvisor/report_machine_metrics.inputs.yaml
+cat test/io/cloudslang/docker/swarm/demo_containers.inputs.yaml
