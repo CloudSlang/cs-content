@@ -46,7 +46,8 @@ flow:
         required: false
     - network_id:
         required: false
-    - server_name
+    - server_name:
+        default: "'test-server'"
     - img_ref
     - username
     - password
