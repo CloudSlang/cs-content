@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a REST call which deletes an OpenStack server.
+# Deletes an OpenStack server.
 #
 # Inputs:
 #   - host - OpenStack machine host
@@ -40,8 +40,12 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host else ''"
-    - proxyPort: "proxy_port if proxy_port else ''"
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
+        overridable: false
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
