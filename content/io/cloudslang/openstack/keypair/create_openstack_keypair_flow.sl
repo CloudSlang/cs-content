@@ -15,7 +15,7 @@
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
-#   - keypair_name - keypair name
+#   - keypair_name - name of the keypair that will be created
 #   - public_key - optional - public ssh key to import. If not provided, a key is generated
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none

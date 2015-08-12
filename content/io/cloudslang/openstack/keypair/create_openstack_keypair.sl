@@ -13,7 +13,7 @@
 #   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
-#   - keypair_name - keypair name
+#   - keypair_name - name of the keypair that will be created
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 #   - public_key - optional - public ssh key to import. If not provided, a key is generated
@@ -41,10 +41,17 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host else ''"
-    - proxyPort: "proxy_port if proxy_port else ''"
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
+        overridable: false
     - public_key:
         required: false
+    - public_key_expression:
+        default: "', \"public_key\": \"' + public_key if public_key else ''"
+        overridable: false
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
@@ -53,7 +60,7 @@ operation:
         overridable: false
     - body:
         default: >
-          '{"keypair": { "name": "' + keypair_name + '" }}'
+          '{"keypair": { "name": "' + keypair_name + '\"' + public_key_expression + '" }}'
         overridable: false
     - contentType:
         default: "'application/json'"

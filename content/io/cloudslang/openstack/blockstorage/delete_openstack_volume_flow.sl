@@ -11,7 +11,7 @@
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
+#   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
