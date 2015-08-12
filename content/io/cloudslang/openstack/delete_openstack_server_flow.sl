@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes an OpenStack server.
+# Authenticates and deletes an OpenStack server.
 #
 # Inputs:
 #   - host - OpenStack machine host

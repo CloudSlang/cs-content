@@ -41,8 +41,12 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host else ''"
-    - proxyPort: "proxy_port if proxy_port else ''"
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
+        overridable: false
     - img_ref
     - network_id:
         required: false
