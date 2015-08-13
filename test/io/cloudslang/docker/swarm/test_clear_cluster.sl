@@ -14,7 +14,6 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  swarm: io.cloudslang.docker.swarm
   strings: io.cloudslang.base.strings
 
 flow:
@@ -35,11 +34,43 @@ flow:
     - container_name: "'tomi'"
     - image_name: "'tomcat'"
     - number_of_agent_containers_in_cluster
+    - agent_machine_ip
 
   workflow:
+    - setup_cluster:
+        do:
+          test_add_node_to_cluster:
+            - manager_machine_ip: swarm_manager_ip
+            - manager_machine_username: username
+            - manager_machine_password:
+                default: password
+                required: false
+            - manager_machine_private_key_file:
+                default: private_key_file
+                required: false
+            - swarm_manager_port
+            - agent_machine_ip
+            - agent_machine_username: username
+            - agent_machine_password:
+                default: password
+                required: false
+            - agent_machine_private_key_file:
+                default: private_key_file
+                required: false
+        navigate:
+          SUCCESS: get_number_of_containers_in_cluster_before
+          CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_AGENT_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          ADD_NODE_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
+
     - get_number_of_containers_in_cluster_before:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -69,7 +100,7 @@ flow:
 
     - run_container_in_cluster:
         do:
-          swarm.run_container_in_cluster:
+          run_container_in_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - container_name
@@ -90,7 +121,7 @@ flow:
 
     - clear_cluster:
        do:
-         swarm.clear_cluster:
+         clear_cluster:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -105,11 +136,11 @@ flow:
                 required: false
        navigate:
          SUCCESS: get_number_of_containers_in_cluster_after
-         FAILURE: FAILURE
+         FAILURE: CLEAR_CLUSTER_PROBLEM
 
     - get_number_of_containers_in_cluster_after:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -138,7 +169,8 @@ flow:
           FAILURE: VERIFY_CLUSTER_IS_CLEARED_PROBLEM
   results:
     - SUCCESS
-    - FAILURE
+    - CLEAR_CLUSTER_PROBLEM
+    - SETUP_CLUSTER_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_BEFORE_PROBLEM
     - RUN_CONTAINER_IN_CLUSTER_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_AFTER_PROBLEM
