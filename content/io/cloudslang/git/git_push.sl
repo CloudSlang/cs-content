@@ -20,7 +20,7 @@
 #       - privateKeyFile - the absolute path to the private key file
 #
 # Results:
-#  SUCCESS: git repository successfully cleaned up using git reset
+#  SUCCESS: git branch was successfully pushed to repository
 #  FAILURE: an error when trying to clone a git repository
 #
 ####################################################
