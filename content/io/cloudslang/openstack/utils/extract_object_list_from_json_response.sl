@@ -6,12 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Builds a list of server names from the response of the get_openstack_servers operation.
+# Builds a list of object names from the response of the OpenStack GET operations.
 #
 # Inputs:
-#   - server_body - response of get_openstack_servers operation
+#   - response_body - response of a GET operation
+#   - object_name - name of the object that is contained in the list
 # Outputs:
-#   - server_list - comma seperated list of server names
+#   - object_list - comma seperated list of object names
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - return_result if there was an error
@@ -23,23 +24,29 @@
 namespace: io.cloudslang.openstack.utils
 
 operation:
-  name: extract_servers
+  name: extract_object_list_from_json_response
   inputs:
-    - server_body
+    - response_body
+    - object_name
   action:
     python_script: |
       try:
         import json
-        servers = json.loads(server_body)['servers']
-        server_names = [server['name'] for server in servers]
-        server_list = ",".join(server_names)
+        json_list = json.loads(response_body)[object_name]
+
+        if object_name == 'keypairs':
+            object_names = [object['keypair']['name'] for object in json_list]
+        else:
+            object_names = [object['name'] for object in json_list]
+
+        object_list = ",".join(object_names)
         return_code = '0'
         return_result = 'Parsing successful.'
       except:
         return_code = '-1'
         return_result = 'Parsing error.'
   outputs:
-    - server_list
+    - object_list
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''

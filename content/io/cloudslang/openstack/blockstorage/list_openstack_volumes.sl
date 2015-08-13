@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of servers on an OpenStack machine.
+# Retrieves the list of volumes from an OpenStack machine.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
@@ -26,20 +26,21 @@
 #   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
+ openstack_blockstorage: io.cloudslang.openstack.blockstorage
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: list_servers
+  name: list_openstack_volumes
   inputs:
     - host
     - identity_port:
         default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - blockstorage_port:
+        default: "'8776'"
     - username
     - password
     - tenant_name
@@ -66,11 +67,11 @@ flow:
           - return_result
           - error_message
 
-    - get_openstack_servers:
+    - get_openstack_volumes:
         do:
-          openstack_content.get_openstack_servers:
+          openstack_blockstorage.get_openstack_volumes:
             - host
-            - compute_port
+            - blockstorage_port
             - token
             - tenant
             - proxy_host:
@@ -86,12 +87,12 @@ flow:
         do:
           openstack_utils.extract_object_list_from_json_response:
             - response_body
-            - object_name: "'servers'"
+            - object_name: "'volumes'"
         publish:
           - object_list
           - error_message
 
   outputs:
-    - server_list: object_list
+    - volume_list: object_list
     - return_result
     - error_message

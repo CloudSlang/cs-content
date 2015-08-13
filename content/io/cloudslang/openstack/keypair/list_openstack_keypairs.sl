@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of servers on an OpenStack machine.
+# Retrieves the list of keypairs from an OpenStack machine.
 #
 # Inputs:
 #   - host - OpenStack machine host
@@ -26,14 +26,15 @@
 #   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.keypair
 
 imports:
  openstack_content: io.cloudslang.openstack
+ openstack_keypair: io.cloudslang.openstack.keypair
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: list_servers
+  name: list_openstack_keypairs
   inputs:
     - host
     - identity_port:
@@ -66,9 +67,9 @@ flow:
           - return_result
           - error_message
 
-    - get_openstack_servers:
+    - get_openstack_keypairs:
         do:
-          openstack_content.get_openstack_servers:
+          openstack_keypair.get_openstack_keypairs:
             - host
             - compute_port
             - token
@@ -86,12 +87,12 @@ flow:
         do:
           openstack_utils.extract_object_list_from_json_response:
             - response_body
-            - object_name: "'servers'"
+            - object_name: "'keypairs'"
         publish:
           - object_list
           - error_message
 
   outputs:
-    - server_list: object_list
+    - keypair_list: object_list
     - return_result
     - error_message

@@ -50,7 +50,7 @@ operation:
     - public_key:
         required: false
     - public_key_expression:
-        default: "', \"public_key\": \"' + public_key if public_key else ''"
+        default: "', \"public_key\": \"' + public_key + '\" }}' if public_key else ' }}'"
         overridable: false
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
@@ -60,7 +60,7 @@ operation:
         overridable: false
     - body:
         default: >
-          '{"keypair": { "name": "' + keypair_name + '\"' + public_key_expression + '" }}'
+          '{"keypair": { "name": "' + keypair_name + '\"' + public_key_expression
         overridable: false
     - contentType:
         default: "'application/json'"
