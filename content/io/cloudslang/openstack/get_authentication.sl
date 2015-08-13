@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a REST call to retrieve an unparsed OpenStack authentication token and tenantID.
+# Retrieves an unparsed OpenStack authentication token and tenantID.
 #
 # Inputs:
 #   - host - OpenStack machine host
@@ -41,8 +41,12 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host is not None else ''"
-    - proxyPort: "proxy_port if proxy_port is not None else ''"
+    - proxyHost:
+        default: "proxy_host if proxy_host is not None else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port is not None else ''"
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + identity_port + '/v2.0/tokens'"
         overridable: false
