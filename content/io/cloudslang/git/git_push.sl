@@ -13,9 +13,9 @@
 #       - port - optional - port number for running the command
 #       - username - username to connect as
 #       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_push_branch - the branch you want to push - Defaults: master
-#       - git_push_remote - the remote you want to push to - Defaults: origin
+#       - sudo_user - true or false, whether the command should execute using sudo - Default: false
+#       - git_push_branch - the branch you want to push - Default: master
+#       - git_push_remote - the remote you want to push to - Default: origin
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
 #       - privateKeyFile - the absolute path to the private key file
 #
