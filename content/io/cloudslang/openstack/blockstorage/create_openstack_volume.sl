@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
+#   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: 8776
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - volume_name - volume name
@@ -41,8 +41,12 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host else ''"
-    - proxyPort: "proxy_port if proxy_port else ''"
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
+        overridable: false
     - size
     - headers:
         default: "'X-AUTH-TOKEN:' + token"

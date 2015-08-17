@@ -6,44 +6,44 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates and creates an OpenStack keypair.
+# Retrieves the list of volumes from an OpenStack machine.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
-#   - keypair_name - name of the keypair that will be created
-#   - public_key - optional - public ssh key to import. If not provided, a key is generated
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - return_result - response of the last operation that was executed
+#   - server_list - list of server names
+#   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS
+#   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack.keypair
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_keypair: io.cloudslang.openstack.keypair
+ openstack_blockstorage: io.cloudslang.openstack.blockstorage
+ openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: create_openstack_keypair_flow
+  name: list_openstack_volumes
   inputs:
     - host
     - identity_port:
         default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - blockstorage_port:
+        default: "'8776'"
     - username
     - password
     - tenant_name
-    - keypair_name
-    - public_key:
-        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -66,25 +66,33 @@ flow:
           - tenant
           - return_result
           - error_message
-    - create_keypair:
+
+    - get_openstack_volumes:
         do:
-          openstack_keypair.create_openstack_keypair:
+          openstack_blockstorage.get_openstack_volumes:
             - host
-            - compute_port
+            - blockstorage_port
             - token
             - tenant
-            - keypair_name
-            - public_key:
-                required: false
             - proxy_host:
                 required: false
             - proxy_port:
                 required: false
         publish:
-          - return_result
+          - response_body: return_result
+          - return_result: return_result
           - error_message
+
+    - extract_servers:
+        do:
+          openstack_utils.extract_object_list_from_json_response:
+            - response_body
+            - object_name: "'volumes'"
+        publish:
+          - object_list
+          - error_message
+
   outputs:
+    - volume_list: object_list
     - return_result
     - error_message
-
-
