@@ -6,43 +6,44 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of servers on an OpenStack machine.
+# Authenticates and creates an OpenStack volume.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
+#   - size - size of the volume to be created
 #   - tenant_name - name of the project on OpenStack
+#   - volume_name - volume name
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - server_list - list of server names
-#   - return_result - response of the last operation executed
+#   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_utils: io.cloudslang.openstack.utils
+ openstack_blockstorage: io.cloudslang.openstack.blockstorage
+
 
 flow:
-  name: list_servers
+  name: create_openstack_volume_flow
   inputs:
     - host
     - identity_port:
         default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - blockstorage_port:
+        default: "'8776'"
+    - size
     - username
     - password
     - tenant_name
+    - volume_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -65,33 +66,24 @@ flow:
           - tenant
           - return_result
           - error_message
-
-    - get_openstack_servers:
+    - create_volume:
         do:
-          openstack_content.get_openstack_servers:
+          openstack_blockstorage.create_openstack_volume:
             - host
-            - compute_port
+            - blockstorage_port
             - token
             - tenant
+            - size
+            - volume_name
             - proxy_host:
                 required: false
             - proxy_port:
                 required: false
         publish:
-          - response_body: return_result
-          - return_result: return_result
+          - return_result
           - error_message
-
-    - extract_servers:
-        do:
-          openstack_utils.extract_object_list_from_json_response:
-            - response_body
-            - object_name: "'servers'"
-        publish:
-          - object_list
-          - error_message
-
   outputs:
-    - server_list: object_list
     - return_result
     - error_message
+
+
