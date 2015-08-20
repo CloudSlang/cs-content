@@ -84,13 +84,14 @@ flow:
 
     - extract_servers:
         do:
-          openstack_utils.extract_servers:
-            - server_body: response_body
+          openstack_utils.extract_object_list_from_json_response:
+            - response_body
+            - object_name: "'servers'"
         publish:
-          - server_list
+          - object_list
           - error_message
 
   outputs:
-    - server_list
+    - server_list: object_list
     - return_result
     - error_message

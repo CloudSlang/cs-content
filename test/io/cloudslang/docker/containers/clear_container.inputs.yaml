@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_clear_container_Success:
+test_clear_container_success:
   testSuites: [docker,containers]
   description: Tests that clear containers works
   testFlowPath: io.cloudslang.docker.containers.test_clear_container
@@ -16,5 +16,5 @@ testDocker_clear_container_Success:
     - username: root
     - password: screencast
     - first_image_name: hello-world
-    - second_image_name: raskin/ubuntu-sshd
+    - second_image_name: busybox
   result: SUCCESS

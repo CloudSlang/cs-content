@@ -34,7 +34,7 @@ flow:
 
     - pre_test_cleanup:
          do:
-           maintenance.clear_docker_host:
+           maintenance.clear_host:
              - docker_host
              - port:
                  required: false
@@ -80,7 +80,7 @@ flow:
           FAILURE: FAILURE
     - post_test_cleanup:
          do:
-           maintenance.clear_docker_host:
+           maintenance.clear_host:
              - docker_host
              - port:
                  default: docker_port

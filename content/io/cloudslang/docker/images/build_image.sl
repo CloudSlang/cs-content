@@ -69,6 +69,7 @@ flow:
         default: >
             'docker build ' + dockerfile_name_expression + '-t="' + docker_image + '" ' + workdir
         overridable: false
+
   workflow:
     - build_image_command:
         do:

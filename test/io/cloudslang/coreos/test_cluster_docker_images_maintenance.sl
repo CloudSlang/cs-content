@@ -67,7 +67,7 @@ flow:
           loop:
               for: machine_public_ip in machines_public_ip_list.split(' ')
               do:
-                  maintenance.clear_docker_host:
+                  maintenance.clear_host:
                      - docker_host: machine_public_ip
                      - port:
                          required: false
@@ -172,7 +172,7 @@ flow:
 
     - clear_docker_host: # at this stage only one machine from the cluster is not clean
         do:
-          maintenance.clear_docker_host:
+          maintenance.clear_host:
             - docker_host: coreos_host
             - port:
                 required: false

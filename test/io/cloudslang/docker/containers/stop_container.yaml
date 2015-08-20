@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testDocker_stop_container_Success:
+test_stop_container_success:
   testSuites: [docker,containers]
   description: Tests that stop containers works
   testFlowPath: io.cloudslang.docker.containers.test_stop_container
@@ -16,5 +16,5 @@ testDocker_stop_container_Success:
     - username: root
     - password: screencast
     - container_name: test
-    - image_name: raskin/ubuntu-sshd
+    - image_name: busybox
   result: SUCCESS
