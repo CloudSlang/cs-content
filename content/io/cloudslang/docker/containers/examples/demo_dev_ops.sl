@@ -126,7 +126,7 @@ flow:
             - port: app_port
             - attempts: 20
         publish:
-          - error_message
+          - error_message: output_message
 
     - on_failure:
         - send_error_mail:

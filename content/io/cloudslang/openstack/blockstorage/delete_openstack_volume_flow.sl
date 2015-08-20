@@ -6,43 +6,41 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of servers on an OpenStack machine.
+# Authenticates and deletes OpenStack volume.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
+#   - volume_name - name of server to delete
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - server_list - list of server names
-#   - return_result - response of the last operation executed
+#   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
+ openstack_blockstorage: io.cloudslang.openstack.blockstorage
  openstack_utils: io.cloudslang.openstack.utils
-
 flow:
-  name: list_servers
+  name: delete_openstack_volume_flow
   inputs:
     - host
     - identity_port:
         default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - blockstorage_port:
+        default: "'8776'"
     - username
     - password
     - tenant_name
+    - volume_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -65,12 +63,11 @@ flow:
           - tenant
           - return_result
           - error_message
-
-    - get_openstack_servers:
+    - get_volumes:
         do:
-          openstack_content.get_openstack_servers:
+          openstack_blockstorage.get_openstack_volumes:
             - host
-            - compute_port
+            - blockstorage_port
             - token
             - tenant
             - proxy_host:
@@ -78,20 +75,33 @@ flow:
             - proxy_port:
                 required: false
         publish:
-          - response_body: return_result
-          - return_result: return_result
+          - volume_list: return_result
+          - return_result
           - error_message
-
-    - extract_servers:
+    - get_volume_id:
         do:
-          openstack_utils.extract_object_list_from_json_response:
-            - response_body
-            - object_name: "'servers'"
+          openstack_utils.get_volume_id:
+            - volume_body: volume_list
+            - volume_name: volume_name
         publish:
-          - object_list
+          - volume_id
+          - return_result
           - error_message
-
+    - delete_volume:
+        do:
+          openstack_blockstorage.delete_openstack_volume:
+            - host
+            - blockstorage_port
+            - token
+            - tenant
+            - volume_id
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
+        publish:
+          - return_result
+          - error_message
   outputs:
-    - server_list: object_list
     - return_result
     - error_message
