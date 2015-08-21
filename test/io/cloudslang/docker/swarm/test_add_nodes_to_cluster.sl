@@ -141,7 +141,7 @@ flow:
                 default: agent_machine_private_key_file_1
                 required: false
         navigate:
-          SUCCESS: wait_for_nodes_to_join
+          SUCCESS: add_node_to_the_cluster_2
           FAILURE: ADD_NODE_TO_THE_CLUSTER_PROBLEM_1
 
     - add_node_to_the_cluster_2:
