@@ -12,16 +12,16 @@
 #      - host - hostname or IP address
 #      - port - optional - port number for running the command
 #      - username - username to connect as
-#      - password - password of user
-#      - sudo_user - true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - the absolute path to the private key file
+#      - password - optional - password of user
+#      - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#      - private_key_file - optional - the absolute path to the private key file
 #      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_commit_files - the files that has to be committed - Default: all
-#      - git_commit_message - the message for the commit
+#      - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
+#      - git_commit_message - optional - the message for the commit - Default: "''"
 #
 # Results:
 #  SUCCESS: the commit was successfully made on local repository
-#  FAILURE: an error occur when trying to commit
+#  FAILURE: an error occurred when trying to commit
 #
 ####################################################
 namespace: io.cloudslang.git
@@ -49,8 +49,10 @@ flow:
           default: "'/tmp/repo.git'"
           required: true
       - git_commit_files:
+          default: "'-a'"
           required: false
       - git_commit_message:
+          default: "''"
           required: false
 
   workflow:
@@ -66,8 +68,8 @@ flow:
               - private_key_file:
                   required: false
               - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-              - git_files: "' git commit ' + (git_commit_files if git_commit_files else '-a')"
-              - git_message: "' -m ' + (git_commit_message if git_commit_message else '')"
+              - git_files: "' git commit ' + git_commit_files"
+              - git_message: "' -m ' + git_commit_message"
               - command: "sudo_command + ' cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS'"
 
           publish:

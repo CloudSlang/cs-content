@@ -6,17 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git command to add files as a staged files for a later local commit
+# This flow performs a git command to add files as staged files for a later local commit
 #
 #    Inputs:
 #      - host - hostname or IP address
 #      - port - optional - port number for running the command
 #      - username - username to connect as
-#      - password - password of user
-#      - sudo_user - true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - the absolute path to the private key file
+#      - password - optional - password of user
+#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
+#      - private_key_file - optional - the path to the private key file
 #      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_add_files - the files that has to be added/staged - Default: "'all'"
+#      - git_add_files - optional - the files that has to be added/staged - Default: "'*'"
 #
 # Results:
 #  SUCCESS: the files was successfully added
@@ -48,6 +48,7 @@ flow:
           default: "'/tmp/repo.git'"
           required: true
       - git_add_files:
+          default: "'*'"
           required: false
 
   workflow:
@@ -63,7 +64,7 @@ flow:
               - private_key_file:
                   required: false
               - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-              - git_add: "' git add ' + (git_add_files if git_add_files else '*')"
+              - git_add: "' git add ' + git_add_files"
               - command: "sudo_command + ' cd ' + git_repository_localdir + ' && ' + git_add + ' && echo GIT_SUCCESS'"
 
           publish:

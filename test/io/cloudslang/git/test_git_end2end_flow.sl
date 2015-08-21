@@ -8,47 +8,50 @@
 ####################################################
 #  This flow performs a end to end scenario and will:
 #    - clone an existing git repository;
-#    - checkout that repository;
+#    - checkout a branch;
 #    - write to a file that will be committed;
 #    - add the file for local commit;
 #    - commit the file;
 #    - push the file to git;
 #    - clone again the repository;
-#    - checkout the repository to verify if the newly committed file exists;
+#    - checkout a branch to verify if the newly committed file exists;
 #    - read the file;
 #    - cleanup repositories;
+#
+#  Prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
 #
 #  Inputs:
 #    - host - hostname or IP address
 #    - port - optional - port number for running the command
 #    - username - username to connect as
-#    - password - password of user
-#    - private_key_file - the absolute path to the private key file
-#    - sudo_user - true or false, whether the command should execute using sudo - Default: false
+#    - password - optional - password of user
+#    - private_key_file - optional - the path to the private key file
+#    - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
 #    - git_repository - the URL for cloning a git repository from
-#    - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#    - git_pull_remote - optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #    - git_branch - the git branch to checkout to
 #    - git_repository_localdir - target directory the git repository will be cloned to - Default: /tmp/repo.git
 #    - file_name - the name of the file - if the file doesn't exist then will be created
-#    - text - text to write to the file
-#    - git_add_files - the files that has to be added/staged - Default: all
-#    - git_commit_files - the files that has to be committed - Default: all
-#    - git_commit_message - the message for the commit
+#    - text - optional - text to write to the file
+#    - git_add_files - optional - the files that has to be added/staged - Default: "'*'"
+#    - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
+#    - git_commit_message - optional - the message for the commit - Default: "''"
 #    - git_push_branch - the branch you want to push - Default: master
 #    - git_push_remote - the remote you want to push to - Default: origin
 #    - second_git_repository_localdir - test target directory where the git repository will be cloned to
 #
 #  Results:
 #    SUCCESS: the whole scenario was successfully completed
-#    CLONEFAILURE: an error when trying to clone a git repository
-#    CHECKOUTFAILURE: an error when trying to checkout a git repository
-#    WRITEIOERROR: an error when text could not be written to the file
-#    ADDFAILURE: an error when trying to add files
-#    COMMITFAILURE: an error occur when trying to commit
-#    PUSHFAILURE: an error occur when trying to commit
-#    SECONDCLONEFAILURE: an error when trying to clone a git repository
-#    SECONDCHECKOUTFAILURE: an error when trying to checkout a git repository
-#    COMPAREIOERROR: an error when either one of the files to compare could not be read
+#    CLONE_FAILURE: an error when trying to clone a git repository
+#    CHECKOUT_FAILURE: an error when trying to checkout a git repository
+#    WRITE_IO_ERROR: an error when text could not be written to the file
+#    ADD_FAILURE: an error when trying to add files
+#    COMMIT_FAILURE: an error occur when trying to commit
+#    PUSH_FAILURE: an error occur when trying to commit
+#    SECOND_CLONE_FAILURE: an error when trying to clone a git repository
+#    SECOND_CHECKOUT_FAILURE: an error when trying to checkout a git repository
+#    COMPARE_IO_ERROR: an error when either one of the files to compare could not be read
+#    COMPARE_FAILURE: the compared files are not identical
 #
 ####################################################
 
@@ -84,8 +87,10 @@ flow:
     - git_repository_localdir:
         default: "'/tmp/repo.git'"
         required: true
-    - file_name
-    - text
+    - file_name:
+        required: true
+    - text:
+        required: false
     - git_add_files:
         required: false
     - git_commit_files:
@@ -114,7 +119,7 @@ flow:
             - git_repository_localdir
         navigate:
           SUCCESS: checkout_git_branch
-          FAILURE: CLONEFAILURE
+          FAILURE: CLONE_FAILURE
 
     - checkout_git_branch:
         do:
@@ -128,7 +133,7 @@ flow:
             - git_repository_localdir
         navigate:
           SUCCESS: write_in_file_to_be_committed
-          FAILURE: CHECKOUTFAILURE
+          FAILURE: CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -142,10 +147,10 @@ flow:
             - private_key_file:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name "
+            - command: "sudo_command + ' cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name"
         navigate:
           SUCCESS: add_files_to_stage_area
-          FAILURE: WRITEIOERROR
+          FAILURE: WRITE_IO_ERROR
 
     - add_files_to_stage_area:
         do:
@@ -161,7 +166,7 @@ flow:
             - git_add_files
         navigate:
           SUCCESS: commit_staged_files
-          FAILURE: ADDFAILURE
+          FAILURE: ADD_FAILURE
 
     - commit_staged_files:
         do:
@@ -178,7 +183,7 @@ flow:
             - git_commit_message
         navigate:
           SUCCESS: git_push
-          FAILURE: COMMITFAILURE
+          FAILURE: COMMIT_FAILURE
 
     - git_push:
         do:
@@ -195,7 +200,7 @@ flow:
             - git_push_remote
         navigate:
           SUCCESS: second_clone_a_git_repository
-          FAILURE: PUSHFAILURE
+          FAILURE: PUSH_FAILURE
 
     - second_clone_a_git_repository:
         do:
@@ -210,7 +215,7 @@ flow:
                 overridable: false
         navigate:
           SUCCESS: second_checkout_git_branch
-          FAILURE: SECONDCLONEFAILURE
+          FAILURE: SECOND_CLONE_FAILURE
 
     - second_checkout_git_branch:
         do:
@@ -226,7 +231,7 @@ flow:
                 overridable: false
         navigate:
           SUCCESS: compare_files
-          FAILURE: SECONDCHECKOUTFAILURE
+          FAILURE: SECOND_CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -243,7 +248,7 @@ flow:
             - command: "sudo_command + ' cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name"
         navigate:
           SUCCESS: check_result
-          FAILURE: COMPAREIOERROR
+          FAILURE: COMPARE_IO_ERROR
         publish:
           - standard_err
           - standard_out
@@ -255,21 +260,69 @@ flow:
             - string_in_which_to_search: standard_out
             - string_to_find: "'are identical'"
         navigate:
+          SUCCESS: git_cleanup_first_repository
+          FAILURE: COMPARE_FAILURE
+
+    - git_cleanup_first_repository:
+        do:
+          git.git_cleanup_local_repository:
+            - host
+            - port
+            - username
+            - password
+            - private_key_file:
+                required: false
+            - git_repository_localdir
+            - change_path:
+                default: false
+                overridable: false
+            - new_path:
+                default: "''"
+                overridable: false
+        navigate:
+          SUCCESS: git_cleanup_second_repository
+          FAILURE: FIRST_CLEANUP_FAILURE
+        publish:
+          - standard_out
+
+    - git_cleanup_second_repository:
+        do:
+          git.git_cleanup_local_repository:
+            - host
+            - port
+            - username
+            - password
+            - private_key_file:
+                required: false
+            - git_repository_localdir:
+                default: second_git_repository_localdir
+                overridable: false
+            - change_path:
+                default: true
+                overridable: false
+            - new_path:
+                default: second_git_repository_localdir
+                overridable: false
+        navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
+        publish:
+          - standard_out
 
   outputs:
     - standard_out
 
   results:
     - SUCCESS
-    - CLONEFAILURE
-    - CHECKOUTFAILURE
-    - WRITEIOERROR
-    - ADDFAILURE
-    - COMMITFAILURE
-    - PUSHFAILURE
-    - SECONDCLONEFAILURE
-    - SECONDCHECKOUTFAILURE
-    - COMPAREIOERROR
+    - CLONE_FAILURE
+    - CHECKOUT_FAILURE
+    - WRITE_IO_ERROR
+    - ADD_FAILURE
+    - COMMIT_FAILURE
+    - PUSH_FAILURE
+    - SECOND_CLONE_FAILURE
+    - SECOND_CHECKOUT_FAILURE
+    - COMPARE_IO_ERROR
+    - COMPARE_FAILURE
+    - FIRST_CLEANUP_FAILURE
     - FAILURE
