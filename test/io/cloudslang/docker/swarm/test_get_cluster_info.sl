@@ -28,7 +28,8 @@ flow:
         required: false
     - timeout:
         required: false
-    - agent_machine_ip
+    - agent_machine_ip_1
+    - agent_machine_ip_2
 
   workflow:
     - setup_cluster:
@@ -43,12 +44,20 @@ flow:
                 default: private_key_file
                 required: false
             - swarm_manager_port
-            - agent_machine_ip
-            - agent_machine_username: username
-            - agent_machine_password:
+            - agent_machine_ip_1
+            - agent_machine_username_1: username
+            - agent_machine_password_1:
                 default: password
                 required: false
-            - agent_machine_private_key_file:
+            - agent_machine_private_key_file_1:
+                default: private_key_file
+                required: false
+            - agent_machine_ip_2
+            - agent_machine_username_2: username
+            - agent_machine_password_2:
+                default: password
+                required: false
+            - agent_machine_private_key_file_2:
                 default: private_key_file
                 required: false
         navigate:

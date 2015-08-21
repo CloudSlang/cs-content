@@ -7,7 +7,7 @@
 #
 ####################################################
 test_add_nodes_to_cluster_success:
-  testSuites: [swarm-updated]
+  testSuites: [swarm]
   description: >
     Tests SUCCESS case - creates a Swarm cluster, registers a manager, adds a node to the cluster
     and verifies that the node was created.

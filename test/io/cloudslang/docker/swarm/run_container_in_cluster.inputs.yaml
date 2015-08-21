@@ -16,5 +16,6 @@ test_run_container_in_cluster_success:
     - host: <coreos_host_1>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_machine_ip: <coreos_host_2>
+    - agent_machine_ip_1: <coreos_host_2>
+    - agent_machine_ip_2: <coreos_host_3>
   result: SUCCESS
