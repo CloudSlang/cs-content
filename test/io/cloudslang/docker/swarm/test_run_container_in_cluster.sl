@@ -34,7 +34,7 @@ flow:
   workflow:
     - setup_cluster:
         do:
-          test_add_node_to_cluster:
+          test_add_nodes_to_cluster:
             - manager_machine_ip: swarm_manager_ip
             - manager_machine_username: username
             - manager_machine_password:
@@ -56,10 +56,12 @@ flow:
           SUCCESS: get_number_of_containers_in_cluster_before
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
-          PRE_CLEAR_AGENT_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_AGENT_MACHINE_PROBLEM_1: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_AGENT_MACHINE_PROBLEM_2: SETUP_CLUSTER_PROBLEM
           START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM: SETUP_CLUSTER_PROBLEM
-          ADD_NODE_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          ADD_NODE_TO_THE_CLUSTER_PROBLEM_1: SETUP_CLUSTER_PROBLEM
+          ADD_NODE_TO_THE_CLUSTER_PROBLEM_2: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
 
