@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_add_node_to_cluster_success:
+test_add_nodes_to_cluster_success:
   testSuites: [swarm-updated]
   description: >
     Tests SUCCESS case - creates a Swarm cluster, registers a manager, adds a node to the cluster
     and verifies that the node was created.
-  testFlowPath: io.cloudslang.docker.swarm.test_add_node_to_cluster
+  testFlowPath: io.cloudslang.docker.swarm.test_add_nodes_to_cluster
   inputs:
     - manager_machine_ip: <coreos_host_1>
     - manager_machine_username: core
