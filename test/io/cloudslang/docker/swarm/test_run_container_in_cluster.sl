@@ -29,8 +29,7 @@ flow:
         required: false
     - container_name: "'tomi'"
     - image_name: "'tomcat'"
-    - agent_machine_ip_1
-    - agent_machine_ip_2
+    - agent_ip_addresses
 
   workflow:
     - setup_cluster:

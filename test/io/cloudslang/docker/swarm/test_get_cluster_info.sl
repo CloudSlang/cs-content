@@ -28,8 +28,7 @@ flow:
         required: false
     - timeout:
         required: false
-    - agent_machine_ip_1
-    - agent_machine_ip_2
+    - agent_ip_addresses
 
   workflow:
     - setup_cluster:
