@@ -53,7 +53,7 @@ flow:
                 default: [private_key_file, private_key_file]
                 required: false
         navigate:
-          SUCCESS: get_number_of_containers_in_cluster_before
+          SUCCESS: get_cluster_info
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
