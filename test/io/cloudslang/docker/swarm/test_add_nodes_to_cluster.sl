@@ -24,19 +24,12 @@ flow:
     - manager_machine_private_key_file:
         required: false
     - swarm_manager_port
-    - agent_machine_ip_1
-    - agent_machine_username_1
-    - agent_machine_password_1:
+    - agent_ip_addresses
+    - agent_usernames
+    - agent_passwords:
         required: false
-    - agent_machine_private_key_file_1:
+    - agent_private_key_files:
         required: false
-    - agent_machine_ip_2
-    - agent_machine_username_2
-    - agent_machine_password_2:
-        required: false
-    - agent_machine_private_key_file_2:
-        required: false
-        
   workflow:
     - create_swarm_cluster:
         do:
@@ -64,32 +57,22 @@ flow:
               default: manager_machine_private_key_file
               required: false
        navigate:
-         SUCCESS: pre_clear_agent_machine_1
+         SUCCESS: pre_clear_agent_machines
          FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
 
-    - pre_clear_agent_machine_1:
-       do:
-         containers.clear_containers:
-           - docker_host: agent_machine_ip_1
-           - docker_username: agent_machine_username_1
-           - private_key_file:
-              default: agent_machine_private_key_file_1
-              required: false
-       navigate:
-         SUCCESS: pre_clear_agent_machine_2
-         FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM_1
-
-    - pre_clear_agent_machine_2:
-       do:
-         containers.clear_containers:
-           - docker_host: agent_machine_ip_2
-           - docker_username: agent_machine_username_2
-           - private_key_file:
-              default: agent_machine_private_key_file_2
-              required: false
-       navigate:
-         SUCCESS: start_manager_container
-         FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM_2
+    - pre_clear_agent_machines:
+        async_loop:
+          for: ip in agent_ip_addresses
+          do:
+            containers.clear_containers:
+              - docker_host: ip
+              - docker_username: agent_usernames[0]
+              - private_key_file:
+                  default: agent_private_key_files[0]
+                  required: false
+        navigate:
+          SUCCESS: start_manager_container
+          FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
          
     - start_manager_container:
         do:
@@ -124,43 +107,25 @@ flow:
         publish:
           - number_of_nodes_in_cluster_before: number_of_nodes_in_cluster
         navigate:
-          SUCCESS: add_node_to_the_cluster_1
+          SUCCESS: add_nodes_to_the_cluster
           FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
 
-    - add_node_to_the_cluster_1:
-        do:
-          register_agent:
-            - node_ip: agent_machine_ip_1
-            - cluster_id
-            - host: agent_machine_ip_1
-            - username: agent_machine_username_1
-            - password:
-                default: agent_machine_password_1
-                required: false
-            - private_key_file:
-                default: agent_machine_private_key_file_1
-                required: false
-        navigate:
-          SUCCESS: add_node_to_the_cluster_2
-          FAILURE: ADD_NODE_TO_THE_CLUSTER_PROBLEM_1
-
-    - add_node_to_the_cluster_2:
-        do:
-          register_agent:
-            - node_ip: agent_machine_ip_2
-            - cluster_id
-            - host: agent_machine_ip_2
-            - username: agent_machine_username_2
-            - password:
-                default: agent_machine_password_2
-                required: false
-            - private_key_file:
-                default: agent_machine_private_key_file_2
-                required: false
+    - add_nodes_to_the_cluster:
+        async_loop:
+          for: ip in agent_ip_addresses
+          do:
+            register_agent:
+              - node_ip: ip
+              - cluster_id
+              - host: ip
+              - username: agent_usernames[0]
+              - private_key_file:
+                  default: agent_private_key_files[0]
+                  required: false
         navigate:
           SUCCESS: wait_for_nodes_to_join
-          FAILURE: ADD_NODE_TO_THE_CLUSTER_PROBLEM_2
-          
+          FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
+
     - wait_for_nodes_to_join:
         do:
           utils.sleep:
@@ -200,11 +165,9 @@ flow:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
     - PRE_CLEAR_MANAGER_MACHINE_PROBLEM
-    - PRE_CLEAR_AGENT_MACHINE_PROBLEM_1
-    - PRE_CLEAR_AGENT_MACHINE_PROBLEM_2
+    - PRE_CLEAR_AGENT_MACHINES_PROBLEM
     - START_MANAGER_CONTAINER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
-    - ADD_NODE_TO_THE_CLUSTER_PROBLEM_1
-    - ADD_NODE_TO_THE_CLUSTER_PROBLEM_2
+    - ADD_NODES_TO_THE_CLUSTER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
     - VERIFY_NODE_IS_ADDED_PROBLEM

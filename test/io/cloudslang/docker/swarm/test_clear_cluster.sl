@@ -34,8 +34,7 @@ flow:
     - container_name: "'tomi'"
     - image_name: "'tomcat'"
     - number_of_agent_containers_in_cluster
-    - agent_machine_ip_1
-    - agent_machine_ip_2
+    - agent_ip_addresses
 
   workflow:
     - setup_cluster:
@@ -50,32 +49,22 @@ flow:
                 default: private_key_file
                 required: false
             - swarm_manager_port
-            - agent_machine_ip_1
-            - agent_machine_username_1: username
-            - agent_machine_password_1:
-                default: password
+            - agent_ip_addresses
+            - agent_usernames: [username, username]
+            - agent_passwords:
+                default: [password, password]
                 required: false
-            - agent_machine_private_key_file_1:
-                default: private_key_file
-                required: false
-            - agent_machine_ip_2
-            - agent_machine_username_2: username
-            - agent_machine_password_2:
-                default: password
-                required: false
-            - agent_machine_private_key_file_2:
-                default: private_key_file
+            - agent_private_key_files:
+                default: [private_key_file, private_key_file]
                 required: false
         navigate:
           SUCCESS: get_number_of_containers_in_cluster_before
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
-          PRE_CLEAR_AGENT_MACHINE_PROBLEM_1: SETUP_CLUSTER_PROBLEM
-          PRE_CLEAR_AGENT_MACHINE_PROBLEM_2: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
           START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM: SETUP_CLUSTER_PROBLEM
-          ADD_NODE_TO_THE_CLUSTER_PROBLEM_1: SETUP_CLUSTER_PROBLEM
-          ADD_NODE_TO_THE_CLUSTER_PROBLEM_2: SETUP_CLUSTER_PROBLEM
+          ADD_NODES_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
 
