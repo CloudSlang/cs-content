@@ -38,6 +38,7 @@
 #    - git_commit_message - optional - the message for the commit - Default: "''"
 #    - git_push_branch - the branch you want to push - Default: master
 #    - git_push_remote - the remote you want to push to - Default: origin
+#    - user - the user to be added to sudoers group
 #    - second_git_repository_localdir - test target directory where the git repository will be cloned to
 #
 #  Results:
@@ -48,6 +49,7 @@
 #    ADD_FAILURE: an error when trying to add files
 #    COMMIT_FAILURE: an error occur when trying to commit
 #    PUSH_FAILURE: an error occur when trying to commit
+#    ADD_TO_SUDOERS_FAILURE: an error when trying to add a user to sudoers group
 #    SECOND_CLONE_FAILURE: an error when trying to clone a git repository
 #    SECOND_CHECKOUT_FAILURE: an error when trying to checkout a git repository
 #    COMPARE_IO_ERROR: an error when either one of the files to compare could not be read
@@ -62,6 +64,7 @@ imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
   files: io.cloudslang.base.files
+  linux: io.cloudslang.base.os.linux
 
 flow:
   name: test_git_end2end_flow
@@ -102,6 +105,10 @@ flow:
         required: true
     - git_push_remote:
         default: "'origin'"
+        required: true
+    - user:
+        required: true
+    - root_password:
         required: true
     - second_git_repository_localdir:
         default: "'/tmp/repo.git'"
@@ -146,8 +153,7 @@ flow:
             - password
             - private_key_file:
                 required: false
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name"
+            - command: "'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name"
         navigate:
           SUCCESS: add_files_to_stage_area
           FAILURE: WRITE_IO_ERROR
@@ -192,15 +198,39 @@ flow:
             - port
             - username
             - password
-            - sudo_user
+            - sudo_user:
+                default: false
+                overridable: false
             - private_key_file:
                 required: false
             - git_repository_localdir
             - git_push_branch
             - git_push_remote
         navigate:
-          SUCCESS: second_clone_a_git_repository
+          SUCCESS: add_user_to_sudoers_list
           FAILURE: PUSH_FAILURE
+
+    - add_user_to_sudoers_list:
+        do:
+          linux.add_user_to_sudoers_list:
+            - host
+            - port
+            - username:
+                default: "'root'"
+                overridable: false
+            - password:
+                default: root_password
+                overridable: false
+            - sudo_user:
+                default: false
+                overridable: false
+            - private_key_file:
+                required: false
+            - user:
+                required: true
+        navigate:
+          SUCCESS: second_clone_a_git_repository
+          FAILURE: ADD_TO_SUDOERS_FAILURE
 
     - second_clone_a_git_repository:
         do:
@@ -209,6 +239,9 @@ flow:
             - port
             - username
             - password
+            - sudo_user:
+                default: true
+                overridable: false
             - git_repository
             - git_repository_localdir:
                 default: second_git_repository_localdir
@@ -224,6 +257,9 @@ flow:
             - port
             - username
             - password
+            - sudo_user:
+                default: true
+                overridable: false
             - git_pull_remote
             - git_branch
             - git_repository_localdir:
@@ -245,7 +281,7 @@ flow:
             - private_key_file:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name"
+            - command: "sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name"
         navigate:
           SUCCESS: check_result
           FAILURE: COMPARE_IO_ERROR
@@ -320,6 +356,7 @@ flow:
     - ADD_FAILURE
     - COMMIT_FAILURE
     - PUSH_FAILURE
+    - ADD_TO_SUDOERS_FAILURE
     - SECOND_CLONE_FAILURE
     - SECOND_CHECKOUT_FAILURE
     - COMPARE_IO_ERROR

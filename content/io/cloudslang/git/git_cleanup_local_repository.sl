@@ -65,8 +65,8 @@ flow:
             - private_key_file:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - change_path_command: "' cd ' + new_path + ' && ' if bool(change_path) else ''"
-            - git_init_command: "' && git init ' + git_repository_localdir[ 0 : 0 + git_repository_localdir.index('.')] if bool(change_path) else ' && git init .'"
+            - change_path_command: "'cd ' + new_path + ' && ' if bool(change_path) else ''"
+            - git_init_command: "' && git reset --hard HEAD'"
             - command: "sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command"
         navigate:
           SUCCESS: SUCCESS

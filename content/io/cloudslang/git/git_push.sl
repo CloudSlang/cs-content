@@ -64,7 +64,7 @@ flow:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - git_push: "' && git push ' + git_push_remote + ' ' + git_push_branch "
-            - command: "sudo_command + ' cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS'"
+            - command: "sudo_command + 'cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS'"
             - username
             - password:
                 required: false

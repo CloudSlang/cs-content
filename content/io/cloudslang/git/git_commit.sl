@@ -70,7 +70,7 @@ flow:
               - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
               - git_files: "' git commit ' + git_commit_files"
               - git_message: "' -m ' + git_commit_message"
-              - command: "sudo_command + ' cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS'"
+              - command: "sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS'"
 
           publish:
             - standard_err
