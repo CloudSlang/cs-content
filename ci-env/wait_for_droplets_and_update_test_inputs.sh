@@ -15,28 +15,25 @@ for DROPLET_ID in ${DROPLET_ID_ACC}
 do
   DROPLET_STATUS=''
   WAITING_TIME=0
-  while [ "$DROPLET_STATUS" != "active" ] && [ "$WAITING_TIME" -lt "$TIMEOUT" ]
+  while [ "${DROPLET_STATUS}" != "active" ] && [ "${WAITING_TIME}" -lt "${TIMEOUT}" ]
   do
     CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer ${DO_API_TOKEN}" \
-    "https://api.digitalocean.com/v2/droplets/$DROPLET_ID")
-    # echo "CURL_OUTPUT - GET DROPLET BY ID: $CURL_OUTPUT"
+    "https://api.digitalocean.com/v2/droplets/${DROPLET_ID}")
 
-    STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
-    # echo "STATUS_CODE: $STATUS_CODE"
+    STATUS_CODE=$(echo "${CURL_OUTPUT}" | grep "Status" | awk '{print $2}')
 
-    if [ "$STATUS_CODE" = "200" ]
+    if [ "${STATUS_CODE}" = "200" ]
     then
-      echo "Droplet($DROPLET_ID) information retrieved successfully"
+      echo "Droplet(${DROPLET_ID}) information retrieved successfully"
 
-      RESPONSE_BODY_JSON=$(echo "$CURL_OUTPUT" | grep "ip_address")
-      # echo "RESPONSE_BODY_JSON: ${RESPONSE_BODY_JSON}"
+      RESPONSE_BODY_JSON=$(echo "${CURL_OUTPUT}" | grep "ip_address")
 
       if [ "${RESPONSE_BODY_JSON}" = "" ]
       then
         inc_and_sleep
       else
         DROPLET_STATUS=$(\
-        echo "$RESPONSE_BODY_JSON" | python -c \
+        echo "${RESPONSE_BODY_JSON}" | python -c \
 '
 if True:
         import json,sys;
@@ -44,12 +41,12 @@ if True:
         print obj["droplet"]["status"];
 '\
         )
-        echo "Droplet($DROPLET_ID) status: ${DROPLET_STATUS}"
+        echo "Droplet(${DROPLET_ID}) status: ${DROPLET_STATUS}"
 
-        if [ "$DROPLET_STATUS" = "active" ]
+        if [ "${DROPLET_STATUS}" = "active" ]
         then
           IP_ADDRESS=$(\
-          echo "$RESPONSE_BODY_JSON" | python -c \
+          echo "${RESPONSE_BODY_JSON}" | python -c \
 '
 if True:
           import json,sys;
@@ -59,22 +56,21 @@ if True:
           print public_ipv4_container_list[0]["ip_address"] if len(public_ipv4_container_list) > 0 else "";
 '\
           )
-          echo "Droplet($DROPLET_ID) IPv4 address: $IP_ADDRESS"
+          echo "Droplet(${DROPLET_ID}) IPv4 address: ${IP_ADDRESS}"
 
           DROPLET_IP_ADDRESS_ACC+="${IP_ADDRESS} "
-          # echo "DROPLET_IP_ADDRESS_ACC: $DROPLET_IP_ADDRESS_ACC"
         else
           inc_and_sleep
         fi
       fi
     else
-      echo "Problem occurred: retrieving droplet($DROPLET_ID) information - status code: $STATUS_CODE"
+      echo "Problem occurred: retrieving droplet(${DROPLET_ID}) information - status code: ${STATUS_CODE}"
       exit 1
     fi
   done
-  if [ "$DROPLET_STATUS" != "active" ]
+  if [ "${DROPLET_STATUS}" != "active" ]
   then
-    echo "Droplet($DROPLET_ID) is not active after ${WAITING_TIME}"
+    echo "Droplet(${DROPLET_ID}) is not active after ${WAITING_TIME}"
     exit 1
   fi
 done
@@ -95,7 +91,10 @@ do
     continue
   fi
 
-  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no core@${DROPLET_IP} \
+  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} \
+  -o UserKnownHostsFile=/dev/null \
+  -o StrictHostKeyChecking=no \
+  core@${DROPLET_IP} \
   'sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
@@ -104,9 +103,9 @@ do
 
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
-    echo "Droplet($DROPLET_IP) - TCP socket activated for Docker"
+    echo "Droplet(${DROPLET_IP}) - TCP socket activated for Docker"
   else
-    echo "Problem occurred: Droplet($DROPLET_IP) - TCP socket activation for Docker"
+    echo "Problem occurred: Droplet(${DROPLET_IP}) - TCP socket activation for Docker"
     exit 1
   fi
 done
