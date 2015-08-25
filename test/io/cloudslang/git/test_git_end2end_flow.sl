@@ -40,6 +40,7 @@
 #    - git_push_remote - the remote you want to push to - Default: origin
 #    - user - the user to be added to sudoers group
 #    - second_git_repository_localdir - test target directory where the git repository will be cloned to
+#    - new_path - path to the secondary local repository to be cleaned up
 #
 #  Results:
 #    SUCCESS: the whole scenario was successfully completed
@@ -113,6 +114,8 @@ flow:
     - second_git_repository_localdir:
         default: "'/tmp/repo.git'"
         required: true
+    - new_path:
+        required: false
 
   workflow:
     - clone_a_git_repository:
@@ -239,9 +242,6 @@ flow:
             - port
             - username
             - password
-            - sudo_user:
-                default: true
-                overridable: false
             - git_repository
             - git_repository_localdir:
                 default: second_git_repository_localdir
@@ -257,9 +257,6 @@ flow:
             - port
             - username
             - password
-            - sudo_user:
-                default: true
-                overridable: false
             - git_pull_remote
             - git_branch
             - git_repository_localdir:
@@ -339,9 +336,6 @@ flow:
             - new_path:
                 default: second_git_repository_localdir
                 overridable: false
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
         publish:
           - standard_out
 
