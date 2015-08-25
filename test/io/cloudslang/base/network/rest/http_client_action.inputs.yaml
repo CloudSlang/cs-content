@@ -6,21 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testHttpClientActionGET_Success:
-  inputs:
-    - url: http://188.166.83.244:8080/
-    - username: admin
-    - password: changeit
-    - method: 'GET'
-    - attempts: '1'
-  description: Tests that http_client_action.sl operation
-  testFlowPath: io.cloudslang.base.network.rest.http_client_action
-  result: SUCCESS
-  outputs:
-    - return_code: 0
-    - status_code: 200
-
-testHttpClientActionPUT_Success:
+testHttpClientActionPUTGETAndDELETE_Success:
   inputs:
     - url: http://188.166.83.244:8080/myfirstdb
     - username: admin
@@ -28,33 +14,11 @@ testHttpClientActionPUT_Success:
     - contentType: application/json
     - method: 'PUT'
     - attempts: '1'
-  description: Tests that http_client_action.sl operation
-  testFlowPath: io.cloudslang.base.network.rest.http_client_action
-  result: SUCCESS
-  outputs:
-    - return_code: 0
-    - status_code: 201
-
-testHttpClientActionPUTConfilct_Success:
-  inputs:
-    - url: http://188.166.83.244:8080/myfirstdb
-    - username: admin
-    - password: changeit
-    - contentType: application/json
-    - method: 'PUT'
-    - attempts: '1'
-  description: Tests that http_client_action.sl operation
-  testFlowPath: io.cloudslang.base.network.rest.http_client_action
-  result: SUCCESS
-  outputs:
-    - return_code: 0
-    - status_code: 409
-
-
-
-
-
-
-#the newline after the 'testing' string is required for this test to pass
-#don't remove it
+  description: Tests http_client_action.sl PUT then GET and parses the ETAG_ID from the returned JSON than uses that to perform DELETE
   testSuites: [http-client-action]
+  testFlowPath: io.cloudslang.base.network.rest.test_http_client_action_get_and_delete
+  result: SUCCESS
+  outputs:
+    - return_code: 0
+    - status_code: 204
+
