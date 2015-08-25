@@ -26,9 +26,6 @@
 
 namespace: io.cloudslang.openstack
 
-imports:
- openstack_content: io.cloudslang.openstack
-
 flow:
   name: create_openstack_server_flow
   inputs:
@@ -51,7 +48,7 @@ flow:
   workflow:
     - authentication:
         do:
-          openstack_content.get_authentication_flow:
+          get_authentication_flow:
             - host
             - identity_port
             - username
@@ -68,7 +65,7 @@ flow:
           - error_message
     - create_server:
         do:
-          openstack_content.create_openstack_server:
+          create_openstack_server:
             - host
             - compute_port
             - token

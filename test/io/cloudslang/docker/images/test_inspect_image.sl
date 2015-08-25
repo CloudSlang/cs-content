@@ -27,7 +27,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
   linux: io.cloudslang.base.os.linux
   maintenance: io.cloudslang.docker.maintenance
@@ -57,7 +56,7 @@ flow:
 
     - pull_image:
         do:
-          images.pull_image:
+          pull_image:
             - host
             - port
             - username
@@ -69,7 +68,7 @@ flow:
 
     - inspect_image:
         do:
-          images.inspect_image:
+          inspect_image:
             - host
             - port
             - username
@@ -92,7 +91,7 @@ flow:
 
     - clear_after:
         do:
-          images.clear_images:
+          clear_images:
             - host
             - port
             - username

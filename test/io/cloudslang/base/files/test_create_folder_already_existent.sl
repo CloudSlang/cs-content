@@ -8,9 +8,6 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
-imports:
-  files: io.cloudslang.base.files
-
 flow:
   name: test_create_folder_already_existent
   inputs:
@@ -18,28 +15,28 @@ flow:
   workflow:
     - create_folder:
         do:
-          files.create_folder:
+          create_folder:
             - folder_name
         navigate:
           SUCCESS: test_create_folder_already_existent
           FAILURE: FOLDERFAILURE
     - test_create_folder_already_existent:
         do:
-          files.create_folder:
+          create_folder:
             - folder_name
         navigate:
           SUCCESS: delete_folder_from_success
           FAILURE: delete_folder_from_failure
     - delete_folder_from_success:
         do:
-          files.delete:
+          delete:
             - source: folder_name
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
     - delete_folder_from_failure:
         do:
-          files.delete:
+          delete:
             - source: folder_name
         navigate:
           SUCCESS: FAILURE

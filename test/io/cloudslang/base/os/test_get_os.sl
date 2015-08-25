@@ -10,7 +10,7 @@ namespace: io.cloudslang.base.os
 
 imports:
   strings: io.cloudslang.base.strings
-  os: io.cloudslang.base.os
+
 flow:
   name: test_get_os
   inputs:
@@ -18,7 +18,7 @@ flow:
   workflow:
     - test_get_os_operation:
         do:
-          os.get_os:
+          get_os:
         publish:
           - message
         navigate:

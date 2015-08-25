@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   lists: io.cloudslang.base.lists
@@ -41,7 +40,7 @@ flow:
   workflow:
     - run_container1:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name1
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
@@ -62,7 +61,7 @@ flow:
 
     - run_container2:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name2
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
@@ -83,7 +82,7 @@ flow:
 
     - get_container_names:
        do:
-         containers.get_container_names:
+         get_container_names:
             - host
             - port
             - username
@@ -123,7 +122,7 @@ flow:
 
     - clear_machine:
         do:
-          containers.clear_containers:
+          clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:

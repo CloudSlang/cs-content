@@ -35,7 +35,6 @@ namespace: io.cloudslang.docker.swarm.examples
 
 imports:
   swarm: io.cloudslang.docker.swarm
-  swarm_examples: io.cloudslang.docker.swarm.examples
   print: io.cloudslang.base.print
 
 flow:
@@ -69,7 +68,7 @@ flow:
   workflow:
     - print_cluster_info_1:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -125,7 +124,7 @@ flow:
 
     - print_cluster_info_2:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -181,7 +180,7 @@ flow:
 
     - print_cluster_info_3:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host

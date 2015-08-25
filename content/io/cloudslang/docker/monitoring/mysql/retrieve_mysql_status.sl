@@ -35,7 +35,6 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
- docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
  base_os_linux: io.cloudslang.base.os.linux
 
 flow:
@@ -57,7 +56,7 @@ flow:
   workflow:
     - check_mysql_is_up:
         do:
-          docker_monitoring_mysql.check_mysql_is_up:
+          check_mysql_is_up:
             - container
             - host
             - port:
@@ -74,7 +73,7 @@ flow:
 
     - get_mysql_status:
         do:
-          docker_monitoring_mysql.get_mysql_status:
+          get_mysql_status:
             - container
             - host
             - port:

@@ -10,8 +10,8 @@
 namespace: io.cloudslang.openstack.blockstorage
 
 imports:
-  openstack_blockstorage: io.cloudslang.openstack.blockstorage
   openstack_content: io.cloudslang.openstack
+
 flow:
   name: test_openstack_volumes
   inputs:
@@ -46,7 +46,7 @@ flow:
 
     - create_volume:
         do:
-          openstack_blockstorage.create_openstack_volume:
+          create_openstack_volume:
             - host
             - token
             - tenant
@@ -59,7 +59,7 @@ flow:
 
     - list_volumes:
         do:
-          openstack_blockstorage.list_openstack_volumes:
+          list_openstack_volumes:
             - host
             - username
             - password
@@ -73,7 +73,7 @@ flow:
           FAILURE: GET_FAILURE
     - delete_volume:
         do:
-          openstack_blockstorage.delete_openstack_volume_flow:
+          delete_openstack_volume_flow:
             - host
             - username
             - password

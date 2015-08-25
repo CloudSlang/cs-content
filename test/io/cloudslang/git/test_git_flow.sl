@@ -9,7 +9,6 @@
 namespace: io.cloudslang.git
 
 imports:
-  git: io.cloudslang.git
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
@@ -27,7 +26,7 @@ flow:
   workflow:
     - clone_a_git_repository:
         do:
-          git.git_clone_repository:
+          git_clone_repository:
             - host
             - port
             - username
@@ -40,7 +39,7 @@ flow:
 
     - checkout_git_branch:
         do:
-          git.git_checkout_branch:
+          git_checkout_branch:
             - host
             - port
             - username
@@ -56,7 +55,7 @@ flow:
 
     - reset_git_branch:
         do:
-          git.git_reset:
+          git_reset:
             - host
             - port
             - username

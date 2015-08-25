@@ -14,7 +14,6 @@ imports:
   utils: io.cloudslang.base.utils
   cmd: io.cloudslang.base.cmd
   network: io.cloudslang.base.network
-  example: io.cloudslang.base.network.example
 
 flow:
   name: test_ping_hosts
@@ -73,7 +72,7 @@ flow:
           FAILURE: FAIL_TO_START_POSTFIX
     - ping_hosts:
         do:
-          example.ping_hosts:
+          ping_hosts:
             - ip_list
         navigate:
           SUCCESS: post_test_cleanup

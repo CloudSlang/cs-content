@@ -8,9 +8,6 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
-imports:
-  files: io.cloudslang.base.files
-
 flow:
   name: test_copy_folder
   inputs:
@@ -19,14 +16,14 @@ flow:
   workflow:
     - create_folder_to_be_copied:
         do:
-          files.create_folder:
+          create_folder:
             - folder_name: copy_source
         navigate:
           SUCCESS: test_copy_operation
           FAILURE: CREATEFAILURE
     - test_copy_operation:
         do:
-          files.copy:
+          copy:
             - source: copy_source
             - destination: copy_destination
         navigate:
@@ -36,21 +33,21 @@ flow:
           - message
     - delete_created_folder_after_copy_failure:
         do:
-          files.delete:
+          delete:
             - source: copy_source
         navigate:
           SUCCESS: COPYFAILURE
           FAILURE: DELETEFAILURE
     - delete_copied_folder:
         do:
-          files.delete:
+          delete:
             - source: copy_destination
         navigate:
           SUCCESS: delete_created_folder
           FAILURE: DELETEFAILURE
     - delete_created_folder:
         do:
-          files.delete:
+          delete:
             - source: copy_source
         navigate:
           SUCCESS: SUCCESS
