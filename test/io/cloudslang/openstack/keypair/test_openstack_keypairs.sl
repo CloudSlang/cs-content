@@ -10,7 +10,6 @@
 namespace: io.cloudslang.openstack.keypair
 
 imports:
-  openstack_keypair: io.cloudslang.openstack.keypair
   openstack_content: io.cloudslang.openstack
 
 flow:
