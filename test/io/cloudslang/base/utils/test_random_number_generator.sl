@@ -9,7 +9,6 @@
 namespace: io.cloudslang.base.utils
 
 imports:
-  utils: io.cloudslang.base.utils
   comparisons: io.cloudslang.base.comparisons
   files: io.cloudslang.base.files
 
@@ -21,7 +20,7 @@ flow:
   workflow:
     - execute_random_number_generator:
         do:
-          utils.random_number_generator:
+          random_number_generator:
             - min
             - max
         publish:

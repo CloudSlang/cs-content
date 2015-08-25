@@ -30,7 +30,6 @@ namespace: io.cloudslang.docker.images
 
 imports:
   maintenance: io.cloudslang.docker.maintenance
-  images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
   linux: io.cloudslang.base.os.linux
 
@@ -58,7 +57,7 @@ flow:
 
     - hello_world_image_download:
         do:
-          images.pull_image:
+          pull_image:
             - host
             - port
             - username
@@ -70,7 +69,7 @@ flow:
 
     - get_image_name_from_id:
         do:
-          images.get_image_name_from_id:
+          get_image_name_from_id:
             - host
             - port
             - username
@@ -93,7 +92,7 @@ flow:
 
     - delete_downloaded_image:
         do:
-          images.clear_images:
+          clear_images:
             - host
             - port
             - username

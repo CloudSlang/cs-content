@@ -28,7 +28,6 @@ namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_blockstorage: io.cloudslang.openstack.blockstorage
 
 
 flow:
@@ -68,7 +67,7 @@ flow:
           - error_message
     - create_volume:
         do:
-          openstack_blockstorage.create_openstack_volume:
+          create_openstack_volume:
             - host
             - blockstorage_port
             - token

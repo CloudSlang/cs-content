@@ -24,8 +24,6 @@
 
 namespace: io.cloudslang.consul
 
-imports:
-  consul: io.cloudslang.consul
 flow:
   name: deregister_endpoint
   inputs:
@@ -46,7 +44,7 @@ flow:
   workflow:
     - parse_register_endpoint_request:
         do:
-          consul.parse_register_endpoint_request:
+          parse_register_endpoint_request:
             - node
             - datacenter
             - service
@@ -56,7 +54,7 @@ flow:
 
     - send_register_endpoint_request:
         do:
-          consul.send_deregister_endpoint_request:
+          send_deregister_endpoint_request:
             - host
             - consul_port
             - json_request

@@ -9,7 +9,6 @@
 namespace: io.cloudslang.base.files
 
 imports:
-  files: io.cloudslang.base.files
   strings: io.cloudslang.base.strings
 
 flow:
@@ -20,7 +19,7 @@ flow:
   workflow:
     -  create_file_to_be_zipped:
         do:
-          files.write_to_file:
+          write_to_file:
             - file_path: folder_path
             - text: "'text-to-be-copied'"
         navigate:
@@ -29,7 +28,7 @@ flow:
 
     - test_zip_folder_operation:
         do:
-          files.zip_folder:
+          zip_folder:
             - archive_name
             - folder_path
         navigate:
@@ -37,21 +36,21 @@ flow:
           FAILURE: delete_created_file_from_zip_failure
     - delete_archive:
         do:
-          files.delete:
+          delete:
             - source: "'./' + folder_path + '/' + archive_name + '.zip'"
         navigate:
           SUCCESS: delete_created_file_from_zip_success
           FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_failure:
         do:
-          files.delete:
+          delete:
             - source: folder_path
         navigate:
           SUCCESS: ZIPFAILURE
           FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_success:
         do:
-          files.delete:
+          delete:
             - source: folder_path
         navigate:
           SUCCESS: SUCCESS

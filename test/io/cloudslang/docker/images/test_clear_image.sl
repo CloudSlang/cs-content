@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  images: io.cloudslang.docker.images
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
@@ -27,7 +26,7 @@ flow:
   workflow:
     - pull_image_and_clear:
         do:
-          images.test_pull_image:
+          test_pull_image:
             - host
             - port
             - username
@@ -45,7 +44,7 @@ flow:
 
     - get_all_images_after:
         do:
-          images.get_all_images:
+          get_all_images:
             - host
             - port
             - username

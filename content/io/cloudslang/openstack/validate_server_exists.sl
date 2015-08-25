@@ -29,7 +29,6 @@ namespace: io.cloudslang.openstack
 
 imports:
  openstack_utils: io.cloudslang.openstack.utils
- openstack_content: io.cloudslang.openstack
 
 flow:
   name: validate_server_exists
@@ -50,7 +49,7 @@ flow:
   workflow:
     - get_server_list:
         do:
-          openstack_content.list_servers:
+          list_servers:
             - host
             - identity_port
             - compute_port

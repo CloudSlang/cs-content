@@ -29,9 +29,6 @@
 
 namespace: io.cloudslang.docker.cadvisor
 
-imports:
-  docker_cadvisor: io.cloudslang.docker.cadvisor
-
 flow:
   name: report_container_metrics
   inputs:
@@ -43,7 +40,7 @@ flow:
   workflow:
     - retrieve_container_metrics:
         do:
-          docker_cadvisor.get_container_metrics:
+          get_container_metrics:
               - container
               - host
               - cadvisor_port
@@ -53,14 +50,14 @@ flow:
           - errorMessage
     - retrieve_machine_memory:
         do:
-          docker_cadvisor.report_machine_metrics:
+          report_machine_metrics:
             - host
             - cadvisor_port
         publish:
           - memory_capacity
     - parse_container_metrics:
         do:
-          docker_cadvisor.parse_container:
+          parse_container:
             - json_response: response_body
             - machine_memory_limit: memory_capacity
         publish:

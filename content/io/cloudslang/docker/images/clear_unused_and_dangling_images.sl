@@ -28,7 +28,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  base_os_linux: io.cloudslang.base.os.linux
 
 flow:
@@ -50,7 +49,7 @@ flow:
   workflow:
      - clear_images:
           do:
-            docker_images.clear_unused_images:
+            clear_unused_images:
               - docker_options:
                   required: false
               - docker_host
@@ -69,7 +68,7 @@ flow:
             - used_images_list
      - clear_docker_dangling_images:
           do:
-            docker_images.clear_dangling_images:
+            clear_dangling_images:
               - docker_options:
                   required: false
               - docker_host
