@@ -59,6 +59,24 @@ flow:
         publish:
           - return_result
         navigate:
+          SUCCESS: test_http_client_action_post_create_document_inside_collection
+          FAILURE: FAILURE
+    - test_http_client_action_post_create_document_inside_collection:
+        do:
+          http_client_action:
+            - url:
+                default: "url + '/myfirstcoll'"
+                overridable: false
+            - username
+            - password
+            - contentType
+            - method:
+                default: "'POST'"
+                overridable: false
+            - attempts
+        publish:
+          - return_result
+        navigate:
           SUCCESS: sleep1
           FAILURE: FAILURE
     - sleep1:
@@ -166,13 +184,6 @@ flow:
           - return_result
           - status_code
           - return_code
-        navigate:
-          SUCCESS: sleep3
-          FAILURE: FAILURE
-    - sleep3:
-        do:
-          utils.sleep:
-            - seconds: 10
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
