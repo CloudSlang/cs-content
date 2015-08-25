@@ -29,7 +29,7 @@ testGitEnd2EndLocal:
     - root_password: <root_password>
     - second_git_repository_localdir: <second_git_repository_localdir>
     - new_path: <new_path>
-  description: Test the complete scenario using git operations: clone, checkout, add, commit, push.
+  description: "Test the complete scenario using git operations: clone, checkout, add, commit, push."
   testFlowPath: io.cloudslang.git.test_git_end2end_flow
   testSuites: [git-local]
   result: SUCCESS
