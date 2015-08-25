@@ -14,9 +14,9 @@ testHttpClientActionPUTGETAndDELETE_Success:
     - contentType: application/json
     - method: 'PUT'
     - attempts: '1'
-  description: Tests http_client_action.sl PUT then GET and parses the ETAG_ID from the returned JSON than uses that to perform DELETE
+  description: Tests http_client_action.sl
   testSuites: [http-client-action]
-  testFlowPath: io.cloudslang.base.network.rest.test_http_client_action_get_and_delete
+  testFlowPath: io.cloudslang.base.network.rest.test_http_client_action
   result: SUCCESS
   outputs:
     - return_code: 0
