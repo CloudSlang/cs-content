@@ -22,7 +22,7 @@
 #  FAILURE: an error occurred when trying to add user
 #
 ####################################################
-namespace: io.cloudslang.base.os.linux
+namespace: io.cloudslang.base.os.linux.users
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
