@@ -12,7 +12,7 @@ imports:
   parser: io.cloudslang.base.network.rest.utils
   utils: io.cloudslang.base.utils
 flow:
-  name: test_http_client_action_get_and_delete
+  name: test_http_client_action
   inputs:
     - url
     - username:
