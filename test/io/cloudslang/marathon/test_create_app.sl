@@ -104,7 +104,7 @@ flow:
     - wait_for_app_startup:
         do:
           utils.sleep:
-              - seconds: 5
+              - seconds: 10
 
     - list_marathon_apps:
         do:
