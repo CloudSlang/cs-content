@@ -24,8 +24,11 @@ env:
 
 
 script:
+  - sudo apt-get install sshpass ### TODO: remove - debug step
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
-  - sleep 2 ### configuration time for dind conatainer
+  - sshpass -p screencast ssh -p 49153 root@localhost pwd ### TODO: remove - debug step
+  - sleep 10 ### configuration time for dind conatainer
+  - sshpass -p screencast ssh -p 49153 root@localhost pwd ### TODO: remove - debug step
   - docker info
   - docker version
   - df -kh
