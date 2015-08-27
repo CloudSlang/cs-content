@@ -14,8 +14,6 @@ sudo: required
 services:
   - docker
 
-dist: trusty
-
 env:
  global:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
