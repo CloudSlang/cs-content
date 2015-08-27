@@ -33,7 +33,8 @@ script:
   - ls -l # sshpass -p screencast ssh -p 49153 root@localhost pwd ### TODO: remove - debug step
   - sleep 10 ### configuration time for dind conatainer
   - docker logs docker_host_ssh ### TODO: remove - debug step
-  - ls -l sshpass -p screencast ssh -p 49153 root@localhost pwd ### TODO: remove - debug step
+  - ls -l # sshpass -p screencast ssh -p 49153 root@localhost pwd ### TODO: remove - debug step
+  - docker ps -a ### TODO: remove - debug step
   - docker info
   - docker version
   - df -kh
