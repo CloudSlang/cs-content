@@ -14,20 +14,6 @@ sudo: required
 dist: trusty
 
 before_install: ### TODO: remove - debug step
-  - ls -l # sudo apt-get update -qq
-  - ls -l # sudo apt-get install -y sshpass
-
-env:
- global:
-   - JAVA_OPTS="-XX:MaxPermSize=512m"
- matrix:
-   - SUITE=containers
-   - SUITE=images
-   - SUITE=docker-misc
-   - SUITE=git
-
-
-script:
   - sudo iptables -t nat -nvL ### TODO: remove --- debug step
   - docker run --privileged -d -p 32123:4444 -p 49153:22 -e PORT=32123 --name docker_host_ssh orius123/dind-ssh
   - docker logs docker_host_ssh ### TODO: remove -- debug step
@@ -43,6 +29,20 @@ script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.0/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
+  - ls -l # sudo apt-get update -qq
+  - ls -l # sudo apt-get install -y sshpass
+
+env:
+ global:
+   - JAVA_OPTS="-XX:MaxPermSize=512m"
+ matrix:
+   - SUITE=containers
+   - SUITE=images
+   - SUITE=docker-misc
+   - SUITE=git
+
+
+script:
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
