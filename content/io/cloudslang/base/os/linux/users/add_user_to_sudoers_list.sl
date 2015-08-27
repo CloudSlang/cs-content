@@ -74,10 +74,3 @@ flow:
             strings.string_occurrence_counter:
               - string_in_which_to_search: command_return_code
               - string_to_find: "'0'"
-          navigate:
-            SUCCESS: SUCCESS
-            FAILURE: FAILURE
-
-  results:
-    - SUCCESS
-    - FAILURE
