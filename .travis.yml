@@ -25,7 +25,7 @@ env:
 
 script:
   - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
-  - sleep 10 ### TODO: remove - testing purposes
+  - sleep 2 ### configuration time for dind conatainer
   - docker info
   - docker version
   - df -kh
