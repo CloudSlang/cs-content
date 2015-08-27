@@ -17,7 +17,7 @@
 #      - private_key_file - optional - the path to the private key file
 #      - git_repository_localdir - the target local directory where is the repository to be cleaned up - Default: /tmp/repo.git
 #      - change_path - optional - true or false, whether the command should execute in local path or not - Default: false
-#      - new_path - optional - the new path to the directory where is the repository to be cleaned up - Default: "''"
+#      - new_path - optional - the new path to the directory where is the repository to be cleaned up
 #
 # Results:
 #  SUCCESS: the files was successfully added

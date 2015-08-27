@@ -35,7 +35,7 @@
 #    - text - optional - text to write to the file
 #    - git_add_files - optional - the files that has to be added/staged - Default: "'*'"
 #    - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
-#    - git_commit_message - optional - the message for the commit - Default: "''"
+#    - git_commit_message - optional - the message for the commit
 #    - git_push_branch - the branch you want to push - Default: master
 #    - git_push_remote - the remote you want to push to - Default: origin
 #    - user - the user to be added to sudoers group

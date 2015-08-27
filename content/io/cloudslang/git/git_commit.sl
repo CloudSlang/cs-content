@@ -17,7 +17,7 @@
 #      - private_key_file - optional - the absolute path to the private key file
 #      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
 #      - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
-#      - git_commit_message - optional - the message for the commit - Default: "''"
+#      - git_commit_message - optional - the message for the commit
 #
 # Results:
 #  SUCCESS: the commit was successfully made on local repository
@@ -52,7 +52,6 @@ flow:
           default: "'-a'"
           required: false
       - git_commit_message:
-          default: "''"
           required: false
 
   workflow:
@@ -69,7 +68,7 @@ flow:
                   required: false
               - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
               - git_files: "' git commit ' + git_commit_files"
-              - git_message: "' -m ' + git_commit_message"
+              - git_message: "' -m ' + git_commit_message if git_commit_message else ''"
               - command: "sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS'"
 
           publish:
