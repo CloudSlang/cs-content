@@ -7,5 +7,6 @@ RESULT=$((docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name doc
 if [ "${RESULT}" != "SUCCESS" ]
 then
   echo "Container startup failed.. retrying"
+  docker stop docker_host_ssh && docker rm docker_host_ssh
   docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 fi
