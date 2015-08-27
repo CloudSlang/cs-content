@@ -24,6 +24,7 @@ env:
 
 
 script:
+  - chmod +x ci-env/run_containers.sh && ci-env/run_containers.sh
   - docker info
   - docker version
   - df -kh
