@@ -58,7 +58,7 @@ flow:
             - port:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS'"
+            - command: "sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS'"
             - username
             - password:
                 required: false
