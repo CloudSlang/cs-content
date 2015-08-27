@@ -14,8 +14,8 @@ sudo: required
 dist: trusty
 
 before_install: ### TODO: remove - debug step
-  - sudo apt-get update -qq
-  - sudo apt-get install -y sshpass
+  - ls -l # sudo apt-get update -qq
+  - ls -l # sudo apt-get install -y sshpass
 
 env:
  global:
