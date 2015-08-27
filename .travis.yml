@@ -11,6 +11,9 @@ language: java
 
 sudo: required
 
+services:
+  - docker
+
 dist: trusty
 
 env:
