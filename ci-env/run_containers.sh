@@ -6,7 +6,7 @@ RESULT=$((docker run --privileged -d -p 127.0.0.1:32123:4444 -p 127.0.0.1:32124:
 
 if [ "${RESULT}" != "SUCCESS" ]
 then
-  echo "*** Container startup failed.. retrying **"
+  echo "*** Container startup failed.. retrying ***"
   docker ps -a
   docker stop docker_host_ssh && docker rm docker_host_ssh
   echo "*** Restart Docker ***"
