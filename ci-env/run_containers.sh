@@ -9,7 +9,7 @@ then
   echo "*** Container startup failed.. retrying ***"
   docker ps -a
   docker stop docker_host_ssh && docker rm docker_host_ssh
-  echo "*** Resetting iptable ***"
+  echo "*** Resetting iptable **"
   sudo iptables -F
   docker run --privileged -d -p 4444 -p 22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 fi
