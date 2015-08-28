@@ -2,7 +2,7 @@
 
 echo 'Hello from script!'
 
-RESULT=$((docker run --privileged -d -p 4444 -p 22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh && echo -e "\nSUCCESS") | tail -n 1)
+RESULT=$((docker run --privileged -d -p 127.0.0.1:32123:4444 -p 127.0.0.1:32124:22 -e PORT=32123 --name docker_host_ssh orius123/dind-ssh && echo -e "\nSUCCESS") | tail -n 1)
 
 if [ "${RESULT}" != "SUCCESS" ]
 then
