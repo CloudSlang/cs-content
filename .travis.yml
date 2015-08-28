@@ -25,8 +25,8 @@ env:
 
 script:
   - sudo iptables -t nat -nvL
-  - docker logs docker_host_ssh
   - chmod +x ci-env/run_containers.sh && ci-env/run_containers.sh
+  - docker inspect docker_host_ssh
   - docker logs docker_host_ssh
   - sudo iptables -t nat -nvL
   - docker info
