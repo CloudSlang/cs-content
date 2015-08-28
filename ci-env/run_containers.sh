@@ -8,7 +8,7 @@ if [ "${RESULT}" != "SUCCESS" ]
 then
   echo "*** Container startup failed.. retrying **"
   docker ps -a
-  echo "*** Removing container **"
+  echo "*** Removing container ***"
   docker stop docker_host_ssh && docker rm docker_host_ssh
   echo "*** Restart Docker ***"
   sudo restart docker
