@@ -26,6 +26,7 @@ env:
 script:
   - sudo iptables -t nat -nvL
   - chmod +x ci-env/run_containers.sh && ci-env/run_containers.sh
+  - docker ps -a
   - docker inspect docker_host_ssh
   - docker logs docker_host_ssh
   - sudo iptables -t nat -nvL
@@ -35,7 +36,7 @@ script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.0/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
+  - ./cslang-builder/bin/cslang-builder -ts \!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < builder.log

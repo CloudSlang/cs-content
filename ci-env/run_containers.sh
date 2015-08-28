@@ -7,6 +7,7 @@ RESULT=$((docker run --privileged -d -p 4444 -p 22 -e PORT=4444 --name docker_ho
 if [ "${RESULT}" != "SUCCESS" ]
 then
   echo "*** Container startup failed.. retrying ***"
+  docker ps -a
   docker stop docker_host_ssh && docker rm docker_host_ssh
   echo "*** Resetting iptable ***"
   sudo iptables -F
