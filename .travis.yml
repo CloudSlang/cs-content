@@ -24,14 +24,19 @@ env:
 
 
 script:
+  - sudo iptables -t nat -nvL # TODO: remove - debug step
+  - chmod +x ci-env/run_containers.sh && ci-env/run_containers.sh
+  - docker ps -a
+  - docker inspect docker_host_ssh # TODO: remove - debug step
+  - docker logs docker_host_ssh # TODO: remove - debug step
+  - sudo iptables -t nat -nvL # TODO: remove - debug step
   - docker info
   - docker version
   - df -kh
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.0/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
-  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
+  - ./cslang-builder/bin/cslang-builder -ts \!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < builder.log
