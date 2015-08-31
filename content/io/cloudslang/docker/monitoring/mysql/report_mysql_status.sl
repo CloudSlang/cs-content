@@ -31,7 +31,6 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
- docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
  base_mail: io.cloudslang.base.mail
  print: io.cloudslang.base.print
 
@@ -62,7 +61,7 @@ flow:
   workflow:
     - retrieve_mysql_status:
             do:
-              docker_monitoring_mysql.retrieve_mysql_status:
+              retrieve_mysql_status:
                   - host: docker_host
                   - port:
                       default: docker_port

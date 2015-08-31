@@ -98,8 +98,13 @@ flow:
                 required: false
              - json_file
          navigate:
-           SUCCESS: list_marathon_apps
+           SUCCESS: wait_for_app_startup
            FAILURE: FAIL_TO_CREATE
+
+    - wait_for_app_startup:
+        do:
+          utils.sleep:
+              - seconds: 10
 
     - list_marathon_apps:
         do:

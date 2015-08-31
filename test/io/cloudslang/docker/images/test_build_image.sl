@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   ssh: io.cloudslang.base.remote_command_execution.ssh
   lists: io.cloudslang.base.lists
@@ -84,7 +83,7 @@ flow:
 
     - build_image:
         do:
-          images.build_image:
+          build_image:
             - docker_image
             - workdir
             - dockerfile_name
@@ -105,7 +104,7 @@ flow:
 
     - get_all_images:
         do:
-          images.get_all_images:
+          get_all_images:
             - host
             - port:
                 required: false

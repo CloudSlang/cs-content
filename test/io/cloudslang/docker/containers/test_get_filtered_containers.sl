@@ -13,7 +13,6 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
@@ -72,7 +71,7 @@ flow:
 
     - run_container_busybox:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name_busybox
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
@@ -95,7 +94,7 @@ flow:
 
     - run_container_staticpython:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name_staticpython
             - image_name: image_name_staticpython
             - host
@@ -126,7 +125,7 @@ flow:
 
     - execute_get_filtered_containers:
        do:
-         containers.get_filtered_containers:
+         get_filtered_containers:
             - all_containers: true
             - excluded_images
             - host
@@ -166,7 +165,7 @@ flow:
 
     - post_clear_machine:
         do:
-          containers.clear_containers:
+          clear_containers:
             - docker_host: host
             - docker_username: username
             - docker_password:

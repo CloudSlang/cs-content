@@ -15,7 +15,7 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: test_add_node_to_cluster
+  name: test_add_nodes_to_cluster
   inputs:
     - manager_machine_ip
     - manager_machine_username
@@ -24,13 +24,12 @@ flow:
     - manager_machine_private_key_file:
         required: false
     - swarm_manager_port
-    - agent_machine_ip
-    - agent_machine_username
-    - agent_machine_password:
+    - agent_ip_addresses
+    - agent_usernames
+    - agent_passwords:
         required: false
-    - agent_machine_private_key_file:
+    - agent_private_key_files:
         required: false
-
   workflow:
     - create_swarm_cluster:
         do:
@@ -58,21 +57,23 @@ flow:
               default: manager_machine_private_key_file
               required: false
        navigate:
-         SUCCESS: pre_clear_agent_machine
+         SUCCESS: pre_clear_agent_machines
          FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
 
-    - pre_clear_agent_machine:
-       do:
-         containers.clear_containers:
-           - docker_host: agent_machine_ip
-           - docker_username: agent_machine_username
-           - private_key_file:
-              default: agent_machine_private_key_file
-              required: false
-       navigate:
-         SUCCESS: start_manager_container
-         FAILURE: PRE_CLEAR_AGENT_MACHINE_PROBLEM
-
+    - pre_clear_agent_machines:
+        async_loop:
+          for: ip in agent_ip_addresses
+          do:
+            containers.clear_containers:
+              - docker_host: ip
+              - docker_username: agent_usernames[0]
+              - private_key_file:
+                  default: agent_private_key_files[0]
+                  required: false
+        navigate:
+          SUCCESS: start_manager_container
+          FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
+         
     - start_manager_container:
         do:
           start_manager:
@@ -106,27 +107,26 @@ flow:
         publish:
           - number_of_nodes_in_cluster_before: number_of_nodes_in_cluster
         navigate:
-          SUCCESS: add_node_to_the_cluster
+          SUCCESS: add_nodes_to_the_cluster
           FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
 
-    - add_node_to_the_cluster:
-        do:
-          register_agent:
-            - node_ip: agent_machine_ip
-            - cluster_id
-            - host: agent_machine_ip
-            - username: agent_machine_username
-            - password:
-                default: agent_machine_password
-                required: false
-            - private_key_file:
-                default: agent_machine_private_key_file
-                required: false
+    - add_nodes_to_the_cluster:
+        async_loop:
+          for: ip in agent_ip_addresses
+          do:
+            register_agent:
+              - node_ip: ip
+              - cluster_id
+              - host: ip
+              - username: agent_usernames[0]
+              - private_key_file:
+                  default: agent_private_key_files[0]
+                  required: false
         navigate:
-          SUCCESS: wait_for_node_to_join
-          FAILURE: ADD_NODE_TO_THE_CLUSTER_PROBLEM
+          SUCCESS: wait_for_nodes_to_join
+          FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
 
-    - wait_for_node_to_join:
+    - wait_for_nodes_to_join:
         do:
           utils.sleep:
             - seconds: 20
@@ -155,7 +155,7 @@ flow:
     - verify_node_is_added:
         do:
           strings.string_equals:
-            - first_string: str(int(number_of_nodes_in_cluster_before) + 1)
+            - first_string: str(int(number_of_nodes_in_cluster_before) + 2)
             - second_string: number_of_nodes_in_cluster_after
         navigate:
           SUCCESS: SUCCESS
@@ -165,9 +165,9 @@ flow:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
     - PRE_CLEAR_MANAGER_MACHINE_PROBLEM
-    - PRE_CLEAR_AGENT_MACHINE_PROBLEM
+    - PRE_CLEAR_AGENT_MACHINES_PROBLEM
     - START_MANAGER_CONTAINER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
-    - ADD_NODE_TO_THE_CLUSTER_PROBLEM
+    - ADD_NODES_TO_THE_CLUSTER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
     - VERIFY_NODE_IS_ADDED_PROBLEM

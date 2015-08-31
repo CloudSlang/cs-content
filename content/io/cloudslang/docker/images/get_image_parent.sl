@@ -22,7 +22,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  docker_utils: io.cloudslang.docker.utils
  base_os_linux: io.cloudslang.base.os.linux
 
@@ -46,7 +45,7 @@ flow:
   workflow:
     - inspect_image:
         do:
-          docker_images.inspect_image:
+          inspect_image:
             - docker_options:
                 required: false
             - host: docker_host
@@ -74,7 +73,7 @@ flow:
 
     - get_parent_name:
         do:
-           docker_images.get_image_name_from_id:
+           get_image_name_from_id:
              - docker_options:
                 required: false
              - host: docker_host

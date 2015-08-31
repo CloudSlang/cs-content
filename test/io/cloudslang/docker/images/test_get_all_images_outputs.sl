@@ -29,7 +29,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
   linux: io.cloudslang.base.os.linux
 
@@ -45,7 +44,7 @@ flow:
   workflow:
     - test_verify_no_images:
         do:
-          images.test_verify_no_images:
+          test_verify_no_images:
             - host
             - port
             - username
@@ -58,7 +57,7 @@ flow:
 
     - hello_world_image_download:
         do:
-          images.pull_image:
+          pull_image:
             - host
             - port
             - username
@@ -70,7 +69,7 @@ flow:
 
     - get_all_images:
         do:
-          images.get_all_images:
+          get_all_images:
             - host
             - port
             - username
@@ -92,7 +91,7 @@ flow:
 
     - delete_downloaded_image:
         do:
-          images.clear_images:
+          clear_images:
             - host
             - port
             - username

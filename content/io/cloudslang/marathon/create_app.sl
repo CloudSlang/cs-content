@@ -28,7 +28,6 @@ namespace: io.cloudslang.marathon
 
 imports:
   files: io.cloudslang.base.files
-  marathon: io.cloudslang.marathon
 
 flow:
   name: create_app
@@ -53,7 +52,7 @@ flow:
 
     - send_create_app_req:
         do:
-          marathon.send_create_app_req:
+          send_create_app_req:
             - marathon_host
             - marathon_port
             - body: read_text

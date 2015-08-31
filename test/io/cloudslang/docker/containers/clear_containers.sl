@@ -21,7 +21,6 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
- docker_containers: io.cloudslang.docker.containers
  docker_images: io.cloudslang.docker.images
 
 flow:
@@ -40,7 +39,7 @@ flow:
   workflow:
     - get_all_containers:
         do:
-          docker_containers.get_all_containers:
+          get_all_containers:
             - host: docker_host
             - username: docker_username
             - password:
@@ -60,7 +59,7 @@ flow:
 
     - clear_all_containers:
         do:
-          docker_containers.clear_container:
+          clear_container:
             - container_id: all_containers
             - docker_host
             - docker_username

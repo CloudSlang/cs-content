@@ -35,9 +35,6 @@
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
-imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-
 flow:
     name: ssh_flow
     inputs:
@@ -60,7 +57,7 @@ flow:
     workflow:
       - validate_ssh_access:
           do:
-            ssh.ssh_command:
+            ssh_command:
               - host
               - port:
                   required: false
@@ -93,7 +90,7 @@ flow:
 
       - ssh_command:
           do:
-            ssh.ssh_command:
+            ssh_command:
               - host
               - port:
                   required: false

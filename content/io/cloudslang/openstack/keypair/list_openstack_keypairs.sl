@@ -30,7 +30,6 @@ namespace: io.cloudslang.openstack.keypair
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_keypair: io.cloudslang.openstack.keypair
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
@@ -69,7 +68,7 @@ flow:
 
     - get_openstack_keypairs:
         do:
-          openstack_keypair.get_openstack_keypairs:
+          get_openstack_keypairs:
             - host
             - compute_port
             - token

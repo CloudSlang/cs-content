@@ -28,7 +28,6 @@ namespace: io.cloudslang.openstack.keypair
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_keypair: io.cloudslang.openstack.keypair
 
 flow:
   name: create_openstack_keypair_flow
@@ -68,7 +67,7 @@ flow:
           - error_message
     - create_keypair:
         do:
-          openstack_keypair.create_openstack_keypair:
+          create_openstack_keypair:
             - host
             - compute_port
             - token

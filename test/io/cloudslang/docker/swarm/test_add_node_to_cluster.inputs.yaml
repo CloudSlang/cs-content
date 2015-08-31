@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_add_node_to_cluster_success:
+test_add_nodes_to_cluster_success:
   testSuites: [swarm]
   description: >
     Tests SUCCESS case - creates a Swarm cluster, registers a manager, adds a node to the cluster
     and verifies that the node was created.
-  testFlowPath: io.cloudslang.docker.swarm.test_add_node_to_cluster
+  testFlowPath: io.cloudslang.docker.swarm.test_add_nodes_to_cluster
   inputs:
     - manager_machine_ip: <coreos_host_1>
     - manager_machine_username: core
     - manager_machine_private_key_file: <private_key_file>
     - swarm_manager_port: "2375"
-    - agent_machine_ip: <coreos_host_2>
-    - agent_machine_username: core
-    - agent_machine_private_key_file: <private_key_file>
+    - agent_ip_addresses: [<coreos_host_2>, <coreos_host_3>]
+    - agent_usernames: [core, core]
+    - agent_private_key_files: ['<private_key_file>', '<private_key_file>']
   result: SUCCESS

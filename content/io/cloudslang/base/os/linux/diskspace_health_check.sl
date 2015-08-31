@@ -24,7 +24,6 @@
 namespace: io.cloudslang.base.os.linux
 
 imports:
- base_os_linux: io.cloudslang.base.os.linux
  base_comparisons: io.cloudslang.base.comparisons
 
 flow:
@@ -43,7 +42,7 @@ flow:
   workflow:
     - validate_linux_machine_ssh_access:
         do:
-          base_os_linux.validate_linux_machine_ssh_access:
+          validate_linux_machine_ssh_access:
             - host: docker_host
             - username: docker_username
             - password:
@@ -56,7 +55,7 @@ flow:
                 required: false
     - check_disk_space:
         do:
-          base_os_linux.check_linux_disk_space:
+          check_linux_disk_space:
             - host: docker_host
             - username: docker_username
             - password:

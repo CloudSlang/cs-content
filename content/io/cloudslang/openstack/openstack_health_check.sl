@@ -33,7 +33,6 @@
 namespace: io.cloudslang.openstack
 
 imports:
-  openstack_content: io.cloudslang.openstack
   email: io.cloudslang.base.mail
 
 flow:
@@ -63,7 +62,7 @@ flow:
   workflow:
     - create_server:
         do:
-          openstack_content.create_openstack_server_flow:
+          create_openstack_server_flow:
             - host
             - identity_port:
                 required: false
@@ -85,7 +84,7 @@ flow:
 
     - validate_server_exists:
         do:
-          openstack_content.validate_server_exists:
+          validate_server_exists:
             - host
             - identity_port:
                 required: false
@@ -103,7 +102,7 @@ flow:
           - subflow_error : "'\"Validate Server\": ' + error_message"
     - delete_server:
         do:
-          openstack_content.delete_openstack_server_flow:
+          delete_openstack_server_flow:
             - host
             - identity_port:
                 required: false

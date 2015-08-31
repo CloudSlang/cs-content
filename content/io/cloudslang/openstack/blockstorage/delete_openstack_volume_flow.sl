@@ -27,8 +27,8 @@ namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
- openstack_blockstorage: io.cloudslang.openstack.blockstorage
  openstack_utils: io.cloudslang.openstack.utils
+
 flow:
   name: delete_openstack_volume_flow
   inputs:
@@ -65,7 +65,7 @@ flow:
           - error_message
     - get_volumes:
         do:
-          openstack_blockstorage.get_openstack_volumes:
+          get_openstack_volumes:
             - host
             - blockstorage_port
             - token
@@ -89,7 +89,7 @@ flow:
           - error_message
     - delete_volume:
         do:
-          openstack_blockstorage.delete_openstack_volume:
+          delete_openstack_volume:
             - host
             - blockstorage_port
             - token
