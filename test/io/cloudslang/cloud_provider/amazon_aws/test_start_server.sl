@@ -35,7 +35,7 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: test_stop_server
+  name: test_start_server
   inputs:
     - provider: "'amazon'"
     - endpoint: "'https://ec2.amazonaws.com'"
