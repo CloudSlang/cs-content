@@ -1,0 +1,10 @@
+provider: <provider>
+endpoint: <endpoint>
+identity: <identity>
+credential: <credential>
+region: <region>
+serverId: <serverId>
+proxyHost: <proxyHost>
+proxyPort: <proxyPort>
+delimiter: <delimiter>
+seconds: <seconds>
