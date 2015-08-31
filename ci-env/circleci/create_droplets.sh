@@ -24,7 +24,7 @@ do
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
-                  "user_data": "'"$(cat ci-env/cloud-config.yaml | sed 's/"/\\"/g')"'"
+                  "user_data": "'"$(cat ci-env/circleci/cloud-config.yaml | sed 's/"/\\"/g')"'"
                 }')
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')

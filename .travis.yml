@@ -22,14 +22,9 @@ env:
    - SUITE=docker-misc
    - SUITE=git
 
-
 script:
-  - sudo iptables -t nat -nvL # TODO: remove - debug step
-  - chmod +x ci-env/run_containers.sh && ci-env/run_containers.sh
+  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
   - docker ps -a
-  - docker inspect docker_host_ssh # TODO: remove - debug step
-  - docker logs docker_host_ssh # TODO: remove - debug step
-  - sudo iptables -t nat -nvL # TODO: remove - debug step
   - docker info
   - docker version
   - df -kh

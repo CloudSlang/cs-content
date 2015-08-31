@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo 'Hello from script!'
-
 RESULT=$(docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh && echo -e "\nSUCCESS")
 LAST_LINE=$(echo "${RESULT}" | tail -n 1)
 
@@ -14,7 +12,7 @@ then
 
   echo "Restart Docker:"
   sudo restart docker
-  echo "Resetting iptable:"
+  echo "Resetting iptables:"
   sudo iptables -F
 
   echo "Docker status:"
