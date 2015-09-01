@@ -30,12 +30,11 @@ imports:
  stackato_utils: io.cloudslang.stackato.utils
 
 flow:
-  name: retrieve_space_details_flow
+  name: get_users_flow
   inputs:
     - host
     - username
     - password
-    - name
   workflow:
     - authentication:
         do:
@@ -47,47 +46,17 @@ flow:
           - token
           - return_result
           - error_message
-    - listspaces:
+    - listusers:
         do:
-          get_space_guid:
+          get_users:
             - host
             - token
         publish:
           - return_result
           - error_message
           - response_body: return_result
-    - parse_spaces:
-        do:
-          stackato_utils.parse_spaces:
-            - json_authentication_response: response_body
-            - spacename: name
-        publish:
-          - guid
-          - error_message
-    - getDetails:
-        do:
-          retrieve_space_details:
-            - token
-            - guid
-            - host
-        publish: 
-          - return_result
-          - space_details: return_result
-    - parse_spacedetails:
-        do:
-          stackato_utils.parse_spacedetails:
-            - space_json: space_details
-          publish:
-            - name
-            - url
-            - org_url
-
   outputs:
-    - space_details
     - return_result
     - error_message
-    - org_url
-    - url
-
 
 

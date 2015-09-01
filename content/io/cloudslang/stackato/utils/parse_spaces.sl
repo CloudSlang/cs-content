@@ -35,7 +35,11 @@ operation:
         decoded = json.loads(json_authentication_response)
         for i in decoded['resources']:
           if i['entity']['name'] == spacename:
+            name = i['entity']['name']
             guid = i['metadata']['guid']
+            create_date = i['metadata']['created_at']
+            url = i['metadata']['url']
+            org_guid = i['entity']['organization_guid']
         return_code = '0'
         return_result = 'Parsing successful.'
       except:
@@ -43,6 +47,10 @@ operation:
         return_result = 'Parsing error.'
   outputs:
     - guid
+    - create_date
+    - name
+    - url
+    - org_guid
     - return_code
     - return_result
     - error_message: return_result if return_code == '-1' else ''

@@ -29,13 +29,12 @@
 namespace: io.cloudslang.stackato
 
 operation:
-  name: retrieve_space_details
+  name: get_apps
   inputs:
     - host
     - token
-    - guid
     - url:
-        default: "'https://' + host + '/v2/spaces/' + guid"
+        default: "'https://' + host + '/v2/apps'"
         overridable: false
     - headers:
         default: "'Authorization: bearer ' + token"
