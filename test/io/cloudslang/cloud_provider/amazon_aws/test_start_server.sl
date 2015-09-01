@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Liran Tal
+#   (c) Copyright 2015 Tusa Mihai
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs Amazon Web Services Elastic Compute Cloud (EC2) commands to verify if the targeted server (instance) is ACTIVE.
+# This flow performs Amazon Web Services Elastic Compute Cloud (EC2) commands to verify if the targeted server (instance) is running.
 #
 #    Inputs:
 #      - provider - the cloud provider on which the instance is - Default: "'amazon'"
@@ -18,19 +18,18 @@
 #      - proxyHost - optional - the proxy server used to access the provider services
 #      - proxyPort - optional - the proxy server port used to access the provider services
 #      - delimiter - optional - the delimiter used to separate the list of servers
-#      - seconds - optional - time to wait (seconds) until the check server (instance) state is made
+#      - seconds - optional - time to wait (seconds) until the check server (instance) state is made - Default: 45
 #
 # Results:
 #  SUCCESS: the server (instance) was successfully started
 #  START_FAILURE: the start_server operation fails
 #  LIST_FAILURE: the list_server operation fails
-#  FAILURE: the server (instance) was not started
+#  RUNNING_FAILURE: the server (instance) is not running
 #
 ####################################################
 namespace: io.cloudslang.cloud_provider.amazon_aws
 
 imports:
-  amazon: io.cloudslang.cloud_provider.amazon_aws
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
@@ -55,12 +54,13 @@ flow:
     - delimiter:
         required: false
     - seconds:
+        default: '45'
         required: false
 
   workflow:
     - start_server:
         do:
-          amazon.start_server:
+          start_server:
             - provider
             - endpoint
             - identity
@@ -82,7 +82,7 @@ flow:
 
     - list_amazon_instances:
         do:
-          amazon.list_servers:
+          list_servers:
             - provider
             - endpoint
             - identity
@@ -104,9 +104,12 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: return_result
             - string_to_find: "serverId + ', state=running'"
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: RUNNING_FAILURE
 
   results:
     - SUCCESS
     - START_FAILURE
     - LIST_FAILURE
-    - FAILURE
+    - RUNNING_FAILURE
