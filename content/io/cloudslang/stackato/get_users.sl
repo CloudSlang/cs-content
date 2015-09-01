@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves an unparsed OpenStack authentication token and tenantID.
+# Retrieves an unparsed list of all
 #
 # Inputs:
 #   - host - OpenStack machine host
@@ -46,6 +46,16 @@ operation:
         overridable: false
     - contentType:
         default: "'application/json'"
+        overridable: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
         overridable: false
   action:
     java_action:

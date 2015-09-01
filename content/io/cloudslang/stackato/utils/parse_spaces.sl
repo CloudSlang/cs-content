@@ -6,13 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the get_authentication operation to retrieve the token and tenantID.
+# Parses the response of the space retrieval operation to retrieve the space details
 #
 # Inputs:
 #   - json_authentication_response - response of get_authentication operation
+#   - spacename - name of the space to filter on
 # Outputs:
-#   - token - authentication token ID
-#   - tenant - tenant ID
+#   - GUID - GUID of the space
+#   - create_date - Creation date of the space
+#   - name - Name of the space
+#   - url - URL of the space
+#   - org_guid - GUID of the parent organization
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - returnResult if there was an error

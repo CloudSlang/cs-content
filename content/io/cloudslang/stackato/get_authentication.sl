@@ -6,14 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves an unparsed OpenStack authentication token and tenantID.
+# Retrieves an unparsed Helion Development Platform / Stackato authentication token.
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
+#   - host - Helion Development Platform / Stackato host
+#   - username - HDP/Stackato username
+#   - password - HDP/Stackato password
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -49,6 +47,16 @@ operation:
         overridable: false
     - headers:
         default: "'Authorization: Basic Y2Y6'"
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
+        overridable: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

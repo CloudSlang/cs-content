@@ -6,22 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates and creates an OpenStack server.
+# Authenticates and retrieves details about a specific Helion Development Platform / Stackato space (filtered by name)
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - img_ref - image reference for server to be created
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - server_name - server name
+#   - host - Helion Development Platform / Stackato instance
+#   - username - HDP / Stackato username
+#   - password - HDP / Stackato password
+#   - name - Name of the space to filter on
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+#   - guid - GUID of the Space
 ####################################################
 
 namespace: io.cloudslang.stackato
@@ -36,6 +33,10 @@ flow:
     - username
     - password
     - name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:

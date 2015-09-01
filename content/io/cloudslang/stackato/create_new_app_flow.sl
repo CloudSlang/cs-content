@@ -6,20 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates and creates an OpenStack server.
+# Authenticates and creates a Helion Development Platform / Stackato application
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - img_ref - image reference for server to be created
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - server_name - server name
+#   - host - Helion Development Platform / Stackato host
+#   - name - Name of the application to create
+#   - username - HDP / Stackato Username
+#   - password - HDP / Stackato Password
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
+#   - guid - GUID of the newly created Application
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
 ####################################################
@@ -36,6 +33,10 @@ flow:
     - username
     - password
     - name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:

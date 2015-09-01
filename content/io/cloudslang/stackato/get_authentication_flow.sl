@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates an OpenStack machine.
+# Authenticates to a Helion Development Platform / Stackato instance.
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
+#   - host - Helion Development Platform / Stackato instance
+#   - username - HDP/Stackato username
+#   - password - HDP/Stackato password
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - token - authentication token
-#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
 # Results:
@@ -37,6 +34,10 @@ flow:
     - host
     - username
     - password
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - get_token:
         do:

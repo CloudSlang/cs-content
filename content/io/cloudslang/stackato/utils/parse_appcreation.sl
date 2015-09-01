@@ -6,13 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the get_authentication operation to retrieve the token and tenantID.
+# Parses the response of the create_app operation to retrieve the Application GUID
 #
 # Inputs:
 #   - json_authentication_response - response of get_authentication operation
 # Outputs:
-#   - token - authentication token ID
-#   - tenant - tenant ID
+#   - GUID - Application GUID of newly created app
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - returnResult if there was an error

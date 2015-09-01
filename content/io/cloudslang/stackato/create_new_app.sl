@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an OpenStack server.
+# Creates an application in Helion Development Platform / Stackato
+# NOTE: This is experimental and while the app is created it cannot run yet
+# WIP
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - token - OpenStack token obtained after authentication
-#   - tenant - OpenStack tenantID obtained after authentication
-#   - server_name - server name
+#   - host - Helion Development Platform / Stackato host
+#   - token - HDP / Stackato authorisation token
+#   - name - Name of the application to create
+#   - space_guid - GUID of the HDP / Stackato space to deploy to
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
-#   - img_ref - image reference for server to be created
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202
@@ -51,10 +51,18 @@ operation:
         overridable: false
     - trustAllRoots:
         default: "'true'"
-    #- formParams:
-    #    default: "'name=' + name + '&memory=1024'"
     - method:
         default: "'post'"
+        overridable: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxyHost:
+        default: "proxy_host if proxy_host else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port else ''"
         overridable: false
   action:
     java_action:
