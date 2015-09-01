@@ -12,15 +12,15 @@
 #
 # Inputs:
 #   - ip_list - list of IPs to be checked
-#   - message_body - the message to be sent in e-mails
-#   - all_nodes_are_up - whether if the nodes are up or not - Default: True
+#   - message_body - the message to be sent in emails
+#   - all_nodes_are_up - whether the nodes are up or not - Default: True
 #   - hostname - email host
 #   - port - email port
 #   - from - email sender
 #   - to - email recipient
 #   - subject - email subject
-#   - username - optional - the username to connect to email host - Default: none
-#   - password - optional - the password for the username to connect to email host - Default: none
+#   - username - optional - username to connect to email host - Default: none
+#   - password - optional - password for the username to connect to email host - Default: none
 #
 # Results:
 #   - SUCCESS - addressee will get an email with result
