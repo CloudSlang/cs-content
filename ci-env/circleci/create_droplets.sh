@@ -4,7 +4,7 @@
 DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: ${DISCOVERY_URL}"
 DISCOVERY_URL_ESCAPED=$(echo ${DISCOVERY_URL} | sed 's/\//\\\//g')
-sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/cloud-config.yaml
+sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/circleci/cloud-config.yaml
 
 COREOS_MACHINE_NAMES="\
 ci-${CIRCLE_BUILD_NUM}-coreos-1 \
@@ -24,7 +24,7 @@ do
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
-                  "user_data": "'"$(cat ci-env/cloud-config.yaml | sed 's/"/\\"/g')"'"
+                  "user_data": "'"$(cat ci-env/circleci/cloud-config.yaml | sed 's/"/\\"/g')"'"
                 }')
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
