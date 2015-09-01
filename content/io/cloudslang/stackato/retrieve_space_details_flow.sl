@@ -6,74 +6,67 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates an OpenStack machine.
+# Authenticates and creates an OpenStack server.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - img_ref - image reference for server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
+#   - server_name - server name
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - token - authentication token
-#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.stackato
 
 imports:
- openstack_utils: io.cloudslang.openstack.utils
+ stackato_utils: io.cloudslang.stackato.utils
 
 flow:
-  name: get_authentication_flow
+  name: retrieve_space_details_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
     - username
     - password
-    - tenant_name
-    - proxy_host:
-        required: false
-    - proxy_port:
-        required: false
+    - name
   workflow:
-    - get_token:
+    - authentication:
         do:
-          get_authentication:
+          get_authentication_flow:
             - host
-            - identity_port
             - username
             - password
-            - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
-        publish:
-          - response_body: return_result
-          - return_code
-          - error_message
-
-    - parse_authentication:
-        do:
-          openstack_utils.parse_authentication:
-            - json_authentication_response: response_body
         publish:
           - token
-          - tenant
+          - return_result
           - error_message
-
+    - listspaces:
+        do:
+          get_space_guid:
+            - host
+            - token
+        publish:
+          - return_result
+          - error_message
+          - response_body: return_result
+    - parse_spaces:
+        do:
+          stackato_utils.parse_spaces:
+            - json_authentication_response: response_body
+            - spacename: name
+        publish:
+          - guid
+          - error_message
   outputs:
-    - token
-    - tenant
-    - return_result: response_body
+    - guid
+    - return_result
     - error_message
-
+
+
