@@ -1,14 +1,17 @@
 #!/bin/bash
 
-RESULT=$(docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh && echo -e "\nSUCCESS")
+SUCCESS_TOKEN='SUCCESS'
+CONTAINER_NAME='docker_host_ssh'
+
+RESULT=$(docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name ${CONTAINER_NAME} orius123/dind-ssh && echo -e "\n${SUCCESS_TOKEN}")
 LAST_LINE=$(echo "${RESULT}" | tail -n 1)
 
-if [ "${LAST_LINE}" != "SUCCESS" ]
+if [ "${LAST_LINE}" != "${SUCCESS_TOKEN}" ]
 then
   echo "Container startup failed.. retrying"
 
   echo "Removing container:"
-  docker stop docker_host_ssh && docker rm docker_host_ssh
+  docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME}
 
   echo "Restart Docker:"
   sudo restart docker
@@ -24,5 +27,5 @@ then
   echo "Docker status:"
   sudo service docker status
 
-  docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
+  docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name ${CONTAINER_NAME} orius123/dind-ssh
 fi
