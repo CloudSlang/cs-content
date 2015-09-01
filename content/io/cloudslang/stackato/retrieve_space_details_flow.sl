@@ -64,9 +64,30 @@ flow:
         publish:
           - guid
           - error_message
+    - getDetails:
+        do:
+          retrieve_space_details:
+            - token
+            - guid
+            - host
+        publish: 
+          - return_result
+          - space_details: return_result
+    - parse_spacedetails:
+        do:
+          stackato_utils.parse_spacedetails:
+            - space_json: space_details
+          publish:
+            - name
+            - url
+            - org_url
+
   outputs:
-    - guid
+    - space_details
     - return_result
     - error_message
+    - org_url
+    - url
+
 
 
