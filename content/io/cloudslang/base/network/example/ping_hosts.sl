@@ -12,7 +12,7 @@
 #
 # Inputs:
 #   - ip_list - list of IPs to be checked
-#   - message_body - optional - the message to be sent in e-mails
+#   - message_body - the message to be sent in e-mails
 #   - all_nodes_are_up - whether if the nodes are up or not - Default: True
 #   - hostname - email host
 #   - port - email port
@@ -40,7 +40,6 @@ flow:
   inputs:
     - ip_list
     - message_body: []
-        required: false
     - all_nodes_are_up: True
     - hostname:
         system_property: io.cloudslang.base.hostname
