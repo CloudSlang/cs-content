@@ -14,4 +14,5 @@ testRemoteSecureCopySucess:
     - password: screencast
   description: Tests rft successfully transfers a file from one remote to another
   testFlowPath: io.cloudslang.base.remote_command_execution.remote_file_transfer.test_remote_secure_copy
+  testSuites: [docker,docker-misc]
   result: SUCCESS
