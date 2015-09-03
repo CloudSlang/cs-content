@@ -26,6 +26,19 @@ flow:
     - port
 
   workflow:
+    - pre_clear_machine:
+        do:
+          containers.clear_containers:
+            - docker_host: host
+            - docker_username: username
+            - docker_password:
+                default: password
+                required: false
+            - port:
+                required: false
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: PREREQUEST_MACHINE_IS_NOT_CLEAN
 
     - pull_scp_image:
         do:
@@ -147,7 +160,7 @@ flow:
                 required: false
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: POSTREQUST_MACHINE_IS_NOT_CLEAN
+          FAILURE: POSTREQUEST_MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
@@ -162,5 +175,6 @@ flow:
     - FILE_REACHING_DEST_HOST_FAIL
     - FILE_READ_FAIL
     - FILE_CHECK_FAIL
-    - POSTREQUST_MACHINE_IS_NOT_CLEAN
+    - POSTREQUEST_MACHINE_IS_NOT_CLEAN
+    - PREREQUEST_MACHINE_IS_NOT_CLEAN
     - KEY_STORE_FAIL
