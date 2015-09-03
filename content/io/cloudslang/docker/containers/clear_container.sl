@@ -43,18 +43,12 @@ flow:
         do:
           stop_container:
             - container_id: container_ID
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-               default: private_key_file
-               required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
         publish:
           - error_message
 
@@ -62,18 +56,12 @@ flow:
         do:
           delete_container:
             - container_id: container_ID
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-               default: private_key_file
-               required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
         publish:
           - error_message
   outputs:

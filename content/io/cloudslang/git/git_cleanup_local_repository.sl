@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Tusa Mihai
+# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -44,9 +44,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - git_repository_localdir:
-        default: "'/tmp/repo.git'"
-        required: true
+    - git_repository_localdir: "'/tmp/repo.git'"
     - change_path:
         default: false
         required: false
@@ -61,8 +59,7 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
+            - privateKeyFile: private_key_file
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - change_path_command: "'cd ' + (new_path if new_path else '') + ' && ' if bool(change_path) else ''"
             - git_init_command: "' && git reset --hard HEAD'"

@@ -57,37 +57,26 @@ flow:
         required: false
     - characterSet:
         required: false
-    - pty:
-        default: "'false'"
-    - timeout:
-        default: "'30000000'"
-    - closeSession:
-        default: "'false'"
+    - pty: "'false'"
+    - timeout: "'30000000'"
+    - closeSession: "'false'"
 
   workflow:
     - get_image_name_from_id:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
+            - arguments
+            - characterSet
+            - pty
             - timeout
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - closeSession
+            - agentForwarding
         publish:
           - image_name: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
         navigate:

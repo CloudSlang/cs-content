@@ -39,11 +39,8 @@ flow:
     - username
     - password:
         required: false
-    - git_repository:
-        required: true
-    - git_repository_localdir:
-        default: "'/tmp/repo.git'"
-        required: true
+    - git_repository
+    - git_repository_localdir: "'/tmp/repo.git'"
     - sudo_user:
         default: false
         required: false
@@ -55,15 +52,12 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                  required: false
+            - password
+            - privateKeyFile
         publish:
           - standard_err
           - standard_out

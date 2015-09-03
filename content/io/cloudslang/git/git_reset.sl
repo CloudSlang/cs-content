@@ -39,9 +39,7 @@ flow:
     - username
     - password:
         required: false
-    - git_repository_localdir:
-        default: "'/tmp/repo.git'"
-        required: true
+    - git_repository_localdir: "'/tmp/repo.git'"
     - git_reset_target:
         default: "'HEAD'"
         required: false
@@ -56,16 +54,13 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - git_reset: "' && git reset --hard ' + git_reset_target "
             - command: "sudo_command + ' cd ' + git_repository_localdir + git_reset + ' && echo GIT_SUCCESS'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                  required: false
+            - password
+            - privateKeyFilee
         publish:
           - standard_err
           - standard_out

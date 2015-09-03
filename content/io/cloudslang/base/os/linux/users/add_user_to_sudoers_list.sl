@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Tusa Mihai
+# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -42,25 +42,18 @@ flow:
           required: false
       - private_key_file:
           required: false
-      - user:
-          required: true
+      - user
 
   workflow:
       - add_user:
           do:
             ssh.ssh_flow:
               - host
-              - port:
-                  required: false
-              - username:
-                  default: "'root'"
-                  overridable: false
-              - password:
-                  required: true
-              - private_key_file:
-                  required: false
-              - user:
-                  required: true
+              - port
+              - username: "'root'"
+              - password
+              - private_key_file
+              - user
               - command: "'echo \"' + user + ' ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers'"
 
           publish:

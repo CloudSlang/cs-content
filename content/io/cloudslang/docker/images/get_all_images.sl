@@ -71,26 +71,17 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - arguments
+            - characterSet
+            - pty
+            - timeout
+            - closeSession
+            - agentForwarding
         publish:
             - returnResult
             - return_code
@@ -103,13 +94,13 @@ flow:
             - string_to_find: "'command not found'"
         navigate:
           SUCCESS: FAILURE
-          FAILURE: verify_no_deamon_in_stderr
+          FAILURE: verify_no_daemon_in_stderr
 
-    - verify_no_deamon_in_stderr:
+    - verify_no_daemon_in_stderr:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: standard_err
-            - string_to_find: "'deamon'"
+            - string_to_find: "'daemon'"
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS

@@ -87,8 +87,7 @@ flow:
             - password:
                 required: false
             - port: machine_connect_port
-            - privateKeyFile:
-                required: false
+            - privateKeyFile
         publish:
           - errorMessage
         navigate:
@@ -97,13 +96,11 @@ flow:
     - start_container:
         do:
           docker_container.start_container:
-            - privateKeyFile:
-                required: false
+            - privateKeyFile
             - container_id: container
             - host
             - username
-            - password:
-                required: false
+            - password
             - port: machine_connect_port
         publish:
           - errorMessage

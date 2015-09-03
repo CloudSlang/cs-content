@@ -42,13 +42,9 @@ flow:
           list_machines_id:
             - host: coreos_host
             - username: coreos_username
-            - password:
-                default: coreos_password
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password: coreos_password
+            - private_key_file
+            - timeout
         publish:
             - machines_id_list
 
@@ -60,13 +56,8 @@ flow:
                     - machine_id
                     - host: coreos_host
                     - username: coreos_username
-                    - password:
-                        default: coreos_password
-                        required: false
-                    - private_key_file:
-                        required: false
-                    - timeout:
-                        required: false
+                    - password: coreos_password
+                    - timeout
                 publish:
                     - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
 

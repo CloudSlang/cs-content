@@ -36,8 +36,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - timeout:
-        default: "'6000000'"
+    - timeout: "'6000000'"
     - port:
         required: false
   workflow:
@@ -46,9 +45,7 @@ flow:
           docker_containers.get_all_containers:
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
+            - password: docker_password
             - all_containers:
                 default: true
                 required: false
@@ -66,27 +63,19 @@ flow:
             - container_id: all_containers
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password
+            - private_key_file
+            - timeout
+            - port
     - clear_all_images:
         do:
           docker_images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password
+            - private_key_file
+            - timeout
+            - port
         publish:
           - amount_of_dangling_images_deleted
           - amount_of_images_deleted
