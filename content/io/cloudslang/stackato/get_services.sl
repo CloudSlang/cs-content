@@ -62,7 +62,7 @@ operation:
     - return_result: returnResult
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
     - return_code: returnCode
-    - error_message: returnResult if returnCode == '-1' or statusCode != 200 else ''
+    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
   results:
     - SUCCESS: "'statusCode' in locals() and returnCode != '-1' and statusCode == '200'"
     - FAILURE
