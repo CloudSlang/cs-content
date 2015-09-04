@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves an unparsed list of all
+# Retrieves an unparsed list of all Helion Development Platform / Stackato Users
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
+#   - token - Helion Development Platform / Stackato authorization token
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
+#   - trustAllRoots - allows use of self signed certificates
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200

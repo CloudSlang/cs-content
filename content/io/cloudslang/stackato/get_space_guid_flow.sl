@@ -69,5 +69,3 @@ flow:
     - guid
     - return_result
     - error_message
-
-

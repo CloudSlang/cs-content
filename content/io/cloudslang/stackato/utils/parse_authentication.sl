@@ -34,9 +34,9 @@ operation:
         token = decoded['access_token']
         return_code = '0'
         return_result = 'Parsing successful.'
-      except:
+      except Exception as ex:
         return_code = '-1'
-        return_result = 'Parsing error.'
+        return_result = ex
   outputs:
     - token
     - return_code

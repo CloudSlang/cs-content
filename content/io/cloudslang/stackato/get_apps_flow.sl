@@ -30,6 +30,10 @@ flow:
     - host
     - username
     - password
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:
@@ -37,6 +41,10 @@ flow:
             - host
             - username
             - password
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
         publish:
           - token
           - return_result
@@ -49,9 +57,6 @@ flow:
         publish:
           - return_result
           - error_message
-          - response_body: return_result
   outputs:
     - return_result
     - error_message
-
-
