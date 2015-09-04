@@ -12,13 +12,13 @@
 #   - json_authentication_response - response of get_authentication operation
 #   - spacename - name of the space to filter on
 # Outputs:
-#   - GUID - GUID of the space
+#   - guid - GUID of the space
 #   - create_date - Creation date of the space
 #   - name - Name of the space
 #   - url - URL of the space
 #   - org_guid - GUID of the parent organization
-#   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
+#   - return_result - was parsing was successful or not
 #   - error_message - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')

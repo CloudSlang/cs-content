@@ -34,9 +34,9 @@ flow:
     - host
     - username
     - password
-    - proxy_host:
+    - proxyHost:
         required: false
-    - proxy_port:
+    - proxyPort:
         required: false
   workflow:
     - get_token:
@@ -57,7 +57,6 @@ flow:
         publish:
           - token
           - error_message
-
   outputs:
     - token
     - return_result: response_body

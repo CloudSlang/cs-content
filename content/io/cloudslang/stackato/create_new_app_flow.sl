@@ -10,9 +10,10 @@
 #
 # Inputs:
 #   - host - Helion Development Platform / Stackato host
-#   - name - Name of the application to create
 #   - username - HDP / Stackato Username
 #   - password - HDP / Stackato Password
+#   - name - Name of the application to create
+#   - space_name - Name of the space to deploy to
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -33,6 +34,7 @@ flow:
     - username
     - password
     - name
+    - space_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -48,6 +50,16 @@ flow:
           - token
           - return_result
           - error_message
+    - getspaceguid:
+        do:
+          get_space_guid_flow:
+            - host
+            - username
+            - password
+            - space_name
+        publish:
+          - guid
+          - error_message
     - createapp:
         do:
           create_new_app:
@@ -55,7 +67,7 @@ flow:
             - token
             - name
             - space_guid:
-                default: "'6be70afd-92e8-41f5-bae1-e633b665bc20'"
+                default: guid
         publish:
           - return_result
           - error_message

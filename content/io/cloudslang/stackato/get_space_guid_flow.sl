@@ -12,7 +12,7 @@
 #   - host - Helion Development Platform / Stackato instance
 #   - username - HDP / Stackato username
 #   - password - HDP / Stackato password
-#   - name - Name of the space to filter on
+#   - space_name - Name of the space to filter on
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -32,7 +32,7 @@ flow:
     - host
     - username
     - password
-    - name
+    - space_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -61,7 +61,7 @@ flow:
         do:
           stackato_utils.parse_spaces:
             - json_authentication_response: response_body
-            - spacename: name
+            - spacename: space_name
         publish:
           - guid
           - error_message

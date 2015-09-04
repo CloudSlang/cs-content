@@ -57,5 +57,3 @@ flow:
   outputs:
     - return_result
     - error_message
-
-
