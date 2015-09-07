@@ -13,7 +13,7 @@
 #   - token - Helion Development Platform / Stackato authorisation token
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
-#   - trustAllRoots - allows use of self signed certificates
+#   - trustAllRoots - optional - allows use of self signed certificates - Default: true
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200

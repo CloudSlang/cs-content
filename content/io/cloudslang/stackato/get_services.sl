@@ -11,7 +11,7 @@
 # Inputs:
 #   - host - Helion Development Platform / Stackato instance
 #   - token - Helion Development Platform / Stackato authorisation token
-#   - trustAllRoots - allows the use of self signed certificates
+#   - trustAllRoots - optional - allows the use of self signed certificates - Default: true
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:

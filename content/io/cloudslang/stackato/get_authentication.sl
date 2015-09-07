@@ -14,9 +14,10 @@
 #   - password - HDP/Stackato password
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
-#   - trustAllRoots - accepts the use of self signed certificates
-#   - queryParams - parameters for the API call
-#   - headers - Sets the headers value for the API call - using Basic Y2Y6 authorization as per the Stackato API
+#   - trustAllRoots - optional - accepts the use of self signed certificates - Default: true
+#   - queryParams - optional - parameters for the API call
+#   - headers - optional - sets the headers value for the API call
+#             - Default: using Basic Y2Y6 authorization as per the Stackato API
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200

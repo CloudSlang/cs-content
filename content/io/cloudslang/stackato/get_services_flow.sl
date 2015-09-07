@@ -12,8 +12,8 @@
 #   - host - Helion Development Platform / Stackato instance
 #   - username - HDP / Stackato username
 #   - password - HDP / Stackato password
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxyHost - optional - proxy server used to access the web site - Default: none
+#   - proxyPort - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - response of the last operation that was executed - unparsed list of services
 #   - error_message - error message of the operation that failed
