@@ -12,6 +12,13 @@ testRemoteSecureCopySucess:
     - port: "49153"
     - username: root
     - password: screencast
+    - first_scp_host_port: "22022"
+    - second_scp_host_port: "22023"
+    - key_name: key
+    - scp_username: data
+    - scp_path: /home/data/
+    - scp_file: file.txt
+    - text_to_check: "hello world"
   description: Tests rft successfully transfers a file from one remote to another
   testFlowPath: io.cloudslang.base.remote_command_execution.remote_file_transfer.test_remote_secure_copy
   testSuites: [docker,docker-misc]
