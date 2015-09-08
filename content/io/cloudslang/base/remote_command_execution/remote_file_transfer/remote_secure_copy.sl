@@ -9,18 +9,18 @@
 #   Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using the SCP protocol.
 #
 #   Inputs:
-#       - srcHost - optional - host of the source machine (only if remote to remote)
-#       - srcPath - absolute or relative path of the file about to be copied
-#       - srcUsername - optional - username of the source machine (only if remote to remote)
-#       - srcPassword - optional -  password of the source machine (only if remote to remote)
-#       - srcPort - optional - port number for the source machine (only if remote to remote) - Default: 22
-#       - srcPrivateKeyFile - optional - path to the private key file on the source machine (only if remote to remote)
-#       - destHost - host of the destination machine
-#       - destPath - absolute or relative path where the file will be copied
-#       - destPort - optional - port number for the destination machine - Default: 22
-#       - destUsername - username of the destination machine
-#       - destPassword - optional - password of the destination machine
-#       - destPrivateKeyFile optional - path to the private key file on the destination machine
+#       - sourceHost - optional - host of the source machine (only if remote to remote)
+#       - sourcePath - absolute or relative path of the file about to be copied
+#       - sourceUsername - optional - username of the source machine (only if remote to remote)
+#       - sourcePassword - optional -  password of the source machine (only if remote to remote)
+#       - sourcePort - optional - port number for the source machine (only if remote to remote) - Default: 22
+#       - sourcePrivateKeyFile - optional - path to the private key file on the source machine (only if remote to remote)
+#       - destinationHost - host of the destination machine
+#       - destinationPath - absolute or relative path where the file will be copied
+#       - destinationPort - optional - port number for the destination machine - Default: 22
+#       - destinationUsername - username of the destination machine
+#       - destinationPassword - optional - password of the destination machine
+#       - destinationPrivateKeyFile optional - path to the private key file on the destination machine
 #       - knownHostsPolicy - optional - policy used for managing known_hosts file - Default: allow - Possible: allow, strict, add
 #       - knownHostsPath - path to the known_hosts file
 #       - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms

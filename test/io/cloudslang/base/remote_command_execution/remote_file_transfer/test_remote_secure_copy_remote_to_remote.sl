@@ -39,19 +39,6 @@ flow:
         overridable: false
 
   workflow:
-    - pre_clear_machine:
-        do:
-          containers.clear_containers:
-            - docker_host: host
-            - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - port:
-                required: false
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: PREREQUEST_MACHINE_IS_NOT_CLEAN
 
     - pull_scp_image:
         do:
@@ -132,7 +119,7 @@ flow:
             - destinationPrivateKeyFile: key_name
         navigate:
           SUCCESS: get_file_from_dest_host
-          FAILURE: FAILURE
+          FAILURE: RFT_FAILURE
 
     - get_file_from_dest_host:
         do:
@@ -158,26 +145,12 @@ flow:
             - first_string: text_to_check
             - second_string: read_text
         navigate:
-          SUCCESS: post_clear_machine
-          FAILURE: FILE_CHECK_FAIL
-
-    - post_clear_machine:
-        do:
-          containers.clear_containers:
-            - docker_host: host
-            - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - port:
-                required: false
-        navigate:
           SUCCESS: SUCCESS
-          FAILURE: POSTREQUEST_MACHINE_IS_NOT_CLEAN
+          FAILURE: FILE_CHECK_FAIL
 
   results:
     - SUCCESS
-    - FAILURE
+    - RFT_FAILURE
     - SCP_IMAGE_NOT_PULLED
     - KEY_GENERATION_FAIL
     - KEY_ADDITION_FAIL
@@ -188,6 +161,4 @@ flow:
     - FILE_REACHING_DEST_HOST_FAIL
     - FILE_READ_FAIL
     - FILE_CHECK_FAIL
-    - POSTREQUEST_MACHINE_IS_NOT_CLEAN
-    - PREREQUEST_MACHINE_IS_NOT_CLEAN
     - KEY_STORE_FAIL
