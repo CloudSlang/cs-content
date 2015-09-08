@@ -18,7 +18,7 @@ imports:
   containers: io.cloudslang.docker.containers
 
 flow:
-  name: test_remote_secure_copy
+  name: test_remote_secure_copy_remote_to_remote
   inputs:
     - host
     - username
