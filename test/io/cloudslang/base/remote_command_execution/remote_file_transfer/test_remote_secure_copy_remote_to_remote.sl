@@ -101,8 +101,16 @@ flow:
           base_cmd.run_command:
             - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' ' + docker_scp_image"
         navigate:
-          SUCCESS: create_file_and_copy_it_to_src_host
+          SUCCESS: echo_authorized_keys
           FAILURE: SECOND_HOST_NOT_STARTED
+
+    - echo_authorized_keys:
+        do:
+          base_cmd.run_command:
+            - command: "'echo $AUTHORIZED_KEYS'"
+        navigate:
+          SUCCESS: create_file_and_copy_it_to_src_host
+          FAILURE: FAILURE
 
     - create_file_and_copy_it_to_src_host:
         do:
@@ -171,3 +179,4 @@ flow:
     - FILE_CHECK_FAIL
     - KEY_STORE_FAIL
     - KNOWN_HOSTS_DELETION_FAIL
+    - FAILURE

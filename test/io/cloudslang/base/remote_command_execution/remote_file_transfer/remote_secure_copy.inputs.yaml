@@ -14,7 +14,7 @@ testRemoteSecureCopySucessRemoteToRemote:
     - password: screencast
     - first_scp_host_port: "22022"
     - second_scp_host_port: "22023"
-    - key_name: key
+    - key_name: key_r2r
     - scp_username: data
     - scp_path: /home/data/
     - scp_file: file.txt
@@ -31,7 +31,7 @@ testRemoteSecureCopySucessLocalToRemote:
     - username: root
     - password: screencast
     - scp_host_port: "22024"
-    - key_name: key
+    - key_name: key_l2r
     - scp_username: data
     - scp_path: /home/data/
     - scp_file: file.txt
