@@ -13,7 +13,7 @@ testHttpClientAction:
     - proxy_port: <proxy_port>
     - input_id: <input_id>
     - input_name: <input_name>
-  description: Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against an REST API
+  description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against an REST API"
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_action
   testSuites: [http-local]
   result: SUCCESS
