@@ -8,7 +8,7 @@ inc_and_sleep()
 
 DROPLET_ID_ACC=$(cat "droplets_${CIRCLE_BUILD_NUM}.txt")
 SLEEP_INTERVAL=5 # 5 sec
-TIMEOUT=300 # 5 mins
+TIMEOUT=600 # 5 mins
 
 # retrieve IPv4 addresses of droplets
 for DROPLET_ID in ${DROPLET_ID_ACC}
@@ -70,7 +70,7 @@ if True:
   done
   if [ "${DROPLET_STATUS}" != "active" ]
   then
-    echo "Droplet(${DROPLET_ID}) is not active after ${WAITING_TIME}"
+    echo "Droplet(${DROPLET_ID}) is not active after ${WAITING_TIME} seconds."
     exit 1
   fi
 done
