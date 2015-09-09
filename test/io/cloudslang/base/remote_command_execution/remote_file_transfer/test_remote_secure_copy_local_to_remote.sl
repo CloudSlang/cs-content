@@ -49,7 +49,7 @@ flow:
 
     - remove_known_hosts:
         do:
-          base_cmd:run_command:
+          base_cmd.run_command:
             - command: "'rm ~/.ssh/known_hosts'"
         navigate:
           SUCCESS: generate_key
