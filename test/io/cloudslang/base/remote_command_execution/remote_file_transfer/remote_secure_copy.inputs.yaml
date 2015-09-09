@@ -30,7 +30,7 @@ testRemoteSecureCopySucessLocalToRemote:
     - port: "49153"
     - username: root
     - password: screencast
-    - scp_host_port: "22022"
+    - scp_host_port: "22024"
     - key_name: key
     - scp_username: data
     - scp_path: /home/data/
