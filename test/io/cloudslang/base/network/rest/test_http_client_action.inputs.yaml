@@ -1,0 +1,19 @@
+#   (c) Copyright 2015 Liran Tal
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testHttpClientAction:
+  inputs:
+    - url: <url>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - input_id: <input_id>
+    - input_name: <input_name>
+  description: Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against an REST API
+  testFlowPath: io.cloudslang.base.network.rest.test_http_client_action
+  testSuites: [http-local]
+  result: SUCCESS

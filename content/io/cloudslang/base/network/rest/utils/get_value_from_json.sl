@@ -6,12 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the http_client_action operation to retrieve the etag_id.
+# Parses the response of the http_client_action operation to retrieve the corresponding value addressed by the keys_list input.
 #
 # Inputs:
-#   - json_response - response of http_client_action operation
+#   - json_input - response of http_client_action operation
+#   - key_list - the keys list to retrieve value for - ex. = ['tags', 1, 'name']
 # Outputs:
-#   - etag_id - etag ID
+#   - value - the corresponding value of the key that results from key_list input - ex. = decode['tags'][1]['name']
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - returnResult if there was an error
@@ -23,24 +24,27 @@
 namespace: io.cloudslang.base.network.rest.utils
 
 operation:
-  name: parse_etag
+  name: get_value_from_json
   inputs:
-    - json_response
+    - json_input
+    - key_list
   action:
     python_script: |
       try:
         import json
-        decoded = json.loads(json_response)
-        etag_id = decoded['_etag']['$oid']
+        decoded = json.loads(json_input)
+        for key in key_list:
+          value = decoded[key]
+          decoded = value
         return_code = '0'
         return_result = 'Parsing successful.'
-      except:
+      except Exception as ex:
+        return_result = ex
         return_code = '-1'
-        return_result = 'Parsing error.'
   outputs:
-    - etag_id
-    - return_code
+    - value
     - return_result
+    - return_code
     - error_message: return_result if return_code == '-1' else ''
   results:
     - SUCCESS: return_code == '0'

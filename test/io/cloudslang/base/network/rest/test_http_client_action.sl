@@ -9,188 +9,312 @@
 namespace: io.cloudslang.base.network.rest
 
 imports:
-  parser: io.cloudslang.base.network.rest.utils
-  utils: io.cloudslang.base.utils
+  json: io.cloudslang.base.network.rest.utils
+  lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
+
 flow:
   name: test_http_client_action
+
   inputs:
     - url
-    - username:
-        required: false
-    - password:
-        required: false
+    - method: "'POST'"
+    - body: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '\",\"status\":\"available\"}'"
     - contentType:
-        default: "'text/plain'"
-    - method
-    - attempts
+        default: "'application/json'"
+        overridable: false
+    - proxyHost:
+        required: false
+    - proxyPort:
+        required: false
+    - input_id
+    - input_name
+
   workflow:
-    - test_http_client_action_put_create_db:
+    - post_create_pet:
         do:
           http_client_action:
             - url
-            - username
-            - password
-            - contentType
             - method
-            - attempts
+            - body
+            - contentType
+            - proxyHost
+            - proxyPort
         publish:
           - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
-          SUCCESS: sleep0
-          FAILURE: FAILURE
-    - sleep0:
+          SUCCESS: verify_post_create_pet
+          FAILURE: HTTP_CLIENT_POST_FAILURE
+
+    - verify_post_create_pet:
         do:
-          utils.sleep:
-            - seconds: 10
+          lists.compare_lists:
+            - list_1: [str(error_message), int(return_code), int(status_code)]
+            - list_2: ["''", 0, 200]
         navigate:
-          SUCCESS: test_http_client_action_put_create_collection
-          FAILURE: FAILURE
-    - test_http_client_action_put_create_collection:
+          SUCCESS: get_pet_details
+          FAILURE: VERIFY_POST_CREATE_PET_FAILURE
+
+    - get_pet_details:
         do:
           http_client_action:
             - url:
-                default: "url + '/myfirstcoll'"
+                default: "url + '/' + input_id"
                 overridable: false
-            - username
-            - password
-            - contentType
-            - method
-            - attempts
-        publish:
-          - return_result
-        navigate:
-          SUCCESS: test_http_client_action_post_create_document_inside_collection
-          FAILURE: FAILURE
-    - test_http_client_action_post_create_document_inside_collection:
-        do:
-          http_client_action:
-            - url:
-                default: "url + '/myfirstcoll'"
-                overridable: false
-            - username
-            - password
-            - contentType
-            - method:
-                default: "'POST'"
-                overridable: false
-            - attempts
-        publish:
-          - return_result
-        navigate:
-          SUCCESS: sleep1
-          FAILURE: FAILURE
-    - sleep1:
-        do:
-          utils.sleep:
-            - seconds: 10
-        navigate:
-          SUCCESS: test_http_client_action_get_collection
-          FAILURE: FAILURE
-    - test_http_client_action_get_collection:
-        do:
-          http_client_action:
-            - url:
-                default: "url + '/myfirstcoll'"
-                overridable: false
-            - username
-            - password
-            - contentType
             - method:
                 default: "'GET'"
                 overridable: false
-            - attempts
+            - contentType
+            - proxyHost
+            - proxyPort
         publish:
           - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
-          SUCCESS: parse_etag_collection
-          FAILURE: FAILURE
-    - parse_etag_collection:
+          SUCCESS: verify_get_pet_details
+          FAILURE: GET_PET_DETAILS_FAILURE
+
+    - verify_get_pet_details:
         do:
-          parser.parse_etag:
-            - json_response: return_result
-        publish:
-          - etag_id
+          lists.compare_lists:
+            - list_1: [str(error_message), int(return_code), int(status_code)]
+            - list_2: ["''", 0, 200]
         navigate:
-          SUCCESS: test_http_client_action_delete_collection
-          FAILURE: FAILURE
-    - test_http_client_action_delete_collection:
+          SUCCESS: get_id
+          FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
+
+    - get_id:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list:
+                default: ["'id'"]
+                overridable: false
+        publish:
+          - value
+        navigate:
+          SUCCESS: verify_id
+          FAILURE: GET_ID_FAILURE
+
+    - verify_id:
+        do:
+          strings.string_equals:
+            - first_string: input_id
+            - second_string: str(value)
+        navigate:
+          SUCCESS: get_name
+          FAILURE: VERIFY_ID_FAILURE
+
+    - get_name:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list:
+                default: ["'name'"]
+                overridable: false
+        publish:
+          - value
+        navigate:
+          SUCCESS: verify_name
+          FAILURE: GET_NAME_FAILURE
+
+    - verify_name:
+        do:
+          strings.string_equals:
+            - first_string: input_name
+            - second_string: str(value)
+        navigate:
+          SUCCESS: put_update_pet
+          FAILURE: VERIFY_NAME_FAILURE
+
+    - put_update_pet:
+        do:
+          http_client_action:
+            - url
+            - method:
+                default: "'PUT'"
+                overridable: false
+            - body:
+                default: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '_updated\",\"status\":\"sold\"}'"
+                overridable: false
+            - contentType
+            - proxyHost
+            - proxyPort
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+        navigate:
+          SUCCESS: verify_put_update_pet
+          FAILURE: HTTP_CLIENT_PUT_FAILURE
+
+    - verify_put_update_pet:
+        do:
+          lists.compare_lists:
+            - list_1: [str(error_message), int(return_code), int(status_code)]
+            - list_2: ["''", 0, 200]
+        navigate:
+          SUCCESS: get_updated_pet_details
+          FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE
+
+    - get_updated_pet_details:
         do:
           http_client_action:
             - url:
-                default: "url + '/myfirstcoll'"
+                default: "url + '/' + input_id"
                 overridable: false
-            - username
-            - password
-            - headers: "'If-Match:' + etag_id"
-            - contentType
-            - method:
-                default: "'DELETE'"
-                overridable: false
-            - attempts
-        publish:
-          - return_result
-          - status_code
-          - return_code
-        navigate:
-          SUCCESS: test_http_client_action_get_db
-          FAILURE: FAILURE
-    - test_http_client_action_get_db:
-        do:
-          http_client_action:
-            - url
-            - username
-            - password
-            - contentType
             - method:
                 default: "'GET'"
                 overridable: false
-            - attempts
+            - contentType
+            - proxyHost
+            - proxyPort
         publish:
           - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
-          SUCCESS: parse_etag_db
-          FAILURE: FAILURE
-    - parse_etag_db:
+          SUCCESS: get_updated_name
+          FAILURE: GET_UPDATED_PET_DETAILS_FAILURE
+
+    - get_updated_name:
         do:
-          parser.parse_etag:
-            - json_response: return_result
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list:
+                default: ["'name'"]
+                overridable: false
         publish:
-          - etag_id
+          - value
         navigate:
-          SUCCESS: sleep2
-          FAILURE: FAILURE
-    - sleep2:
+          SUCCESS: verify_updated_name
+          FAILURE: GET_UPDATED_NAME_FAILURE
+
+    - verify_updated_name:
         do:
-          utils.sleep:
-            - seconds: 10
+          strings.string_equals:
+            - first_string: "input_name + '_updated'"
+            - second_string: str(value)
         navigate:
-          SUCCESS: test_http_client_action_delete_db
-          FAILURE: FAILURE
-    - test_http_client_action_delete_db:
+          SUCCESS: get_updated_status
+          FAILURE: VERIFY_UPDATED_NAME_FAILURE
+
+    - get_updated_status:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list:
+                default: ["'status'"]
+                overridable: false
+        publish:
+          - value
+        navigate:
+          SUCCESS: verify_updated_status
+          FAILURE: GET_UPDATED_STATUS_FAILURE
+
+    - verify_updated_status:
+        do:
+          strings.string_equals:
+            - first_string: "'sold'"
+            - second_string: str(value)
+        navigate:
+          SUCCESS: delete_pet
+          FAILURE: VERIFY_UPDATED_STATUS_FAILURE
+
+    - delete_pet:
         do:
           http_client_action:
-            - url
-            - username
-            - password
-            - headers: "'If-Match:' + etag_id"
-            - contentType
-            - connectTimeout: "'9'"
-            - socketTimeout: "'9000'"
+            - url:
+                default: "url + '/' + input_id"
+                overridable: false
             - method:
                 default: "'DELETE'"
                 overridable: false
-            - attempts
+            - contentType
+            - proxyHost
+            - proxyPort
         publish:
           - return_result
-          - status_code
+          - error_message
           - return_code
+          - status_code
+        navigate:
+          SUCCESS: get_pet_after_delete
+          FAILURE: HTTP_CLIENT_DELETE_FAILURE
+
+    - get_pet_after_delete:
+        do:
+          http_client_action:
+            - url:
+                default: "url + '/' + input_id"
+                overridable: false
+            - method:
+                default: "'GET'"
+                overridable: false
+            - contentType
+            - proxyHost
+            - proxyPort
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+        navigate:
+          SUCCESS: get_message
+          FAILURE: GET_PET_AFTER_DELETE_FAILURE
+
+    - get_message:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list:
+                default: ["'message'"]
+                overridable: false
+        publish:
+          - value
+        navigate:
+          SUCCESS: verify_not_found_message
+          FAILURE: GET_MESSAGE_FAILURE
+
+    - verify_not_found_message:
+        do:
+          strings.string_equals:
+            - first_string: "'Pet not found'"
+            - second_string: str(value)
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE
+
   outputs:
+    - return_result
+    - error_message
     - status_code
     - return_code
-    - return_result
   results:
     - SUCCESS
-    - FAILURE
+    - HTTP_CLIENT_POST_FAILURE
+    - VERIFY_POST_CREATE_PET_FAILURE
+    - GET_PET_DETAILS_FAILURE
+    - VERIFY_GET_PET_DETAILS_FAILURE
+    - GET_ID_FAILURE
+    - VERIFY_ID_FAILURE
+    - GET_NAME_FAILURE
+    - VERIFY_NAME_FAILURE
+    - HTTP_CLIENT_PUT_FAILURE
+    - VERIFY_PUT_UPDATE_PET_FAILURE
+    - GET_UPDATED_PET_DETAILS_FAILURE
+    - GET_UPDATED_NAME_FAILURE
+    - VERIFY_UPDATED_NAME_FAILURE
+    - GET_UPDATED_STATUS_FAILURE
+    - VERIFY_UPDATED_STATUS_FAILURE
+    - HTTP_CLIENT_DELETE_FAILURE
+    - GET_PET_AFTER_DELETE_FAILURE
+    - GET_MESSAGE_FAILURE
+    - VERIFY_NOT_FOUND_MESSAGE_FAILURE
