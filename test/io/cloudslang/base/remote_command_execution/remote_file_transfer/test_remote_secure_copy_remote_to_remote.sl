@@ -51,7 +51,7 @@ flow:
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name"
+            - command: "'if [ ! -f ' + key_name + ' ]; then echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + '; fi'"
         navigate:
           SUCCESS: add_key_to_authorized
           FAILURE: KEY_GENERATION_FAIL
@@ -59,7 +59,7 @@ flow:
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
-            - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
+            - command: "'if [ ! -f ' + key_name + ']; then echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path + '; fi'"
         navigate:
           SUCCESS: encrypt_and_store_authorized_keys
           FAILURE: KEY_ADDITION_FAIL
@@ -67,7 +67,7 @@ flow:
     - encrypt_and_store_authorized_keys:
         do:
           base_cmd.run_command:
-            - command: "'AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path"
+            - command: "'AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ')'"
         navigate:
           SUCCESS: create_needed_folders
           FAILURE: KEY_STORE_FAIL
@@ -83,7 +83,7 @@ flow:
     - create_first_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + first_scp_host_port + ':22 -v /data1:' + scp_path + ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + first_scp_host_port + ':22 -v /data1:' + scp_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_second_host
           FAILURE: FIRST_HOST_NOT_STARTED
@@ -91,7 +91,7 @@ flow:
     - create_second_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_file_and_copy_it_to_src_host
           FAILURE: SECOND_HOST_NOT_STARTED

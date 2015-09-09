@@ -82,7 +82,7 @@ flow:
     - create_scp_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + scp_host_port + ':22 -v /data:' + scp_path + ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + scp_host_port + ':22 -v /data:' + scp_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_file_to_be_copied
           FAILURE: SCP_HOST_NOT_STARTED
