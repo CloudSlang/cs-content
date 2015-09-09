@@ -44,8 +44,16 @@ flow:
           base_cmd.run_command:
             - command: "'docker pull ' + docker_scp_image"
         navigate:
-          SUCCESS: generate_key
+          SUCCESS: remove_known_hosts
           FAILURE: SCP_IMAGE_NOT_PULLED
+
+    - remove_known_hosts:
+        do:
+          base_cmd:run_command:
+            - command: "'rm ~/.ssh/known_hosts'"
+        navigate:
+          SUCCESS: generate_key
+          FAILURE: KNOWN_HOSTS_DELETION_FAIL
 
     - generate_key:
         do:
@@ -148,3 +156,4 @@ flow:
     - FILE_CHECK_FAIL
     - FILE_REACHING_SCP_HOST_FAIL
     - KEY_STORE_FAIL
+    - KNOWN_HOSTS_DELETION_FAIL
