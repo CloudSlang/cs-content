@@ -51,7 +51,7 @@ flow:
     - remove_known_hosts:
         do:
           base_cmd.run_command:
-            - command: "'rm ~/.ssh/known_hosts'"
+            - command: "'rm -f ~/.ssh/known_hosts'"
         navigate:
           SUCCESS: generate_key
           FAILURE: KNOWN_HOSTS_DELETION_FAIL
