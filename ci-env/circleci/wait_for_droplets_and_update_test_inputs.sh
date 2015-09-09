@@ -8,7 +8,7 @@ inc_and_sleep()
 
 DROPLET_ID_ACC=$(cat "droplets_${CIRCLE_BUILD_NUM}.txt")
 SLEEP_INTERVAL=5 # 5 sec
-TIMEOUT=600 # 5 mins
+TIMEOUT=600 # 10 mins
 
 # retrieve IPv4 addresses of droplets
 for DROPLET_ID in ${DROPLET_ID_ACC}
