@@ -44,21 +44,13 @@ flow:
           base_cmd.run_command:
             - command: "'docker pull ' + docker_scp_image"
         navigate:
-          SUCCESS: remove_known_hosts
-          FAILURE: SCP_IMAGE_NOT_PULLED
-
-    - remove_known_hosts:
-        do:
-          base_cmd.run_command:
-            - command: "'rm -f ~/.ssh/known_hosts'"
-        navigate:
           SUCCESS: generate_key
-          FAILURE: KNOWN_HOSTS_DELETION_FAIL
+          FAILURE: SCP_IMAGE_NOT_PULLED
 
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'if [ ! -f ' + key_name + ' ]; then echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + '; fi'"
+            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name"
         navigate:
           SUCCESS: add_key_to_authorized
           FAILURE: KEY_GENERATION_FAIL
@@ -66,18 +58,10 @@ flow:
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
-            - command: "'if [ ! -f ' + key_name + ']; then echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path + '; fi'"
-        navigate:
-          SUCCESS: encrypt_and_store_authorized_keys
-          FAILURE: KEY_ADDITION_FAIL
-
-    - encrypt_and_store_authorized_keys:
-        do:
-          base_cmd.run_command:
-            - command: "'AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ')'"
+            - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
         navigate:
           SUCCESS: create_needed_folder
-          FAILURE: KEY_STORE_FAIL
+          FAILURE: KEY_ADDITION_FAIL
 
     - create_needed_folder:
         do:
@@ -155,5 +139,3 @@ flow:
     - FILE_READ_FAIL
     - FILE_CHECK_FAIL
     - FILE_REACHING_SCP_HOST_FAIL
-    - KEY_STORE_FAIL
-    - KNOWN_HOSTS_DELETION_FAIL
