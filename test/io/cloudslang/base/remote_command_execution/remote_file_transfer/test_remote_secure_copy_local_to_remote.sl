@@ -50,7 +50,7 @@ flow:
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name"
+            - command: "'if [ ! -f ' + key_name + ' ]; then echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + '; fi'"
         navigate:
           SUCCESS: add_key_to_authorized
           FAILURE: KEY_GENERATION_FAIL
@@ -58,7 +58,7 @@ flow:
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
-            - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
+            - command: "'if [ ! -f ' + key_name + ']; then echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path + '; fi'"
         navigate:
           SUCCESS: encrypt_and_store_authorized_keys
           FAILURE: KEY_ADDITION_FAIL
