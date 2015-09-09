@@ -91,7 +91,7 @@ flow:
     - create_first_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + first_scp_host_port + ':22 -v /data1:' + scp_path + ' ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + first_scp_host_port + ':22 -v /data1:' + scp_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_second_host
           FAILURE: FIRST_HOST_NOT_STARTED
@@ -99,7 +99,7 @@ flow:
     - create_second_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$AUTHORIZED_KEYS -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: echo_authorized_keys
           FAILURE: SECOND_HOST_NOT_STARTED
@@ -107,7 +107,7 @@ flow:
     - echo_authorized_keys:
         do:
           base_cmd.run_command:
-            - command: "'echo $AUTHORIZED_KEYS'"
+            - command: "'echo $(base64 -w0 ' + authorized_keys_path + ')'"
         navigate:
           SUCCESS: create_file_and_copy_it_to_src_host
           FAILURE: FAILURE
