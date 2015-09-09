@@ -42,7 +42,7 @@ flow:
     - pull_scp_image:
         do:
           base_cmd.run_command:
-            - command: "'docker pull' + docker_scp_image"
+            - command: "'docker pull ' + docker_scp_image"
         navigate:
           SUCCESS: generate_key
           FAILURE: SCP_IMAGE_NOT_PULLED
