@@ -26,7 +26,6 @@
 namespace: io.cloudslang.openstack
 
 imports:
- openstack_content: io.cloudslang.openstack
  openstack_utils: io.cloudslang.openstack.utils
 flow:
   name: delete_openstack_server_flow
@@ -47,7 +46,7 @@ flow:
   workflow:
     - authentication:
         do:
-          openstack_content.get_authentication_flow:
+          get_authentication_flow:
             - host
             - identity_port
             - username
@@ -64,7 +63,7 @@ flow:
           - error_message
     - get_servers:
         do:
-          openstack_content.get_openstack_servers:
+          get_openstack_servers:
             - host
             - compute_port
             - token
@@ -88,7 +87,7 @@ flow:
           - error_message
     - delete_server:
         do:
-          openstack_content.delete_openstack_server:
+          delete_openstack_server:
             - host
             - compute_port
             - token

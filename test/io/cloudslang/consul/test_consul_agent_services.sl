@@ -11,7 +11,6 @@ namespace: io.cloudslang.consul
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  consul: io.cloudslang.consul
 
 flow:
   name: test_consul_agent_services
@@ -29,7 +28,7 @@ flow:
   workflow:
     - register_agent_service:
         do:
-          consul.register_agent_service:
+          register_agent_service:
             - host
             - address
             - service_name
@@ -39,7 +38,7 @@ flow:
 
     - get_agent_services:
         do:
-          consul.get_agent_service:
+          get_agent_service:
             - host
         navigate:
           SUCCESS: deregister_agent_service
@@ -50,7 +49,7 @@ flow:
 
     - deregister_agent_service:
         do:
-          consul.send_deregister_agent_service_request:
+          send_deregister_agent_service_request:
             - host
             - service_id: service_name
         navigate:
@@ -58,7 +57,7 @@ flow:
           FAILURE: FAIL_TO_DEREGISTER
     - get_agent_services2:
         do:
-          consul.get_agent_service:
+          get_agent_service:
             - host
         navigate:
           SUCCESS: SUCCESS

@@ -9,7 +9,6 @@
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
 
@@ -51,7 +50,7 @@ flow:
 
     - execute_demo_dev_ops:
         do:
-          docker_containers_examples.demo_dev_ops:
+          demo_dev_ops:
             - docker_host
             - docker_ssh_port
             - docker_username

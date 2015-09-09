@@ -28,7 +28,6 @@
 namespace: io.cloudslang.jenkins
 
 imports:
-  jenkins_ops: io.cloudslang.jenkins
   base_mail: io.cloudslang.base.mail
 
 flow:
@@ -46,7 +45,7 @@ flow:
   workflow:
     - check_job_exists:
         do:
-          jenkins_ops.check_job_exists:
+          check_job_exists:
             - url
             - job_name: jnks_new_job_name
             - expected_status: delete_job_if_existing
@@ -58,13 +57,13 @@ flow:
 
     - delete_job:
         do:
-          jenkins_ops.delete_job:
+          delete_job:
             - url
             - job_name: jnks_new_job_name
 
     - copy_job:
         do:
-          jenkins_ops.copy_job:
+          copy_job:
             - url
             - job_name: jnks_job_name
             - new_job_name: jnks_new_job_name
@@ -73,7 +72,7 @@ flow:
 
     - modify_scm_url:
         do:
-          jenkins_ops.modify_scm_url:
+          modify_scm_url:
             - url
             - job_name: jnks_new_job_name
             - new_scm_url
@@ -82,7 +81,7 @@ flow:
 
     - fix_job:
         do:
-          jenkins_ops.fix_job:
+          fix_job:
             - url
             - job_name: jnks_new_job_name
         publish:

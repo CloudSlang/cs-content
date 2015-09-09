@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples
-  containers: io.cloudslang.docker.containers
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
@@ -95,7 +94,7 @@ flow:
 
     - start_linked_container:
         do:
-          containers.start_linked_container:
+          start_linked_container:
             - dbContainerIp: db_IP
             - dbContainerName: "'mysqldb'"
             - imageName: linked_image
@@ -140,7 +139,7 @@ flow:
 
     - verify:
         do:
-          containers.get_all_containers:
+          get_all_containers:
             - host
             - port:
                 required: false
@@ -164,7 +163,7 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
            - port:
                required: false

@@ -8,9 +8,6 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
-imports:
-  files: io.cloudslang.base.files
-
 flow:
   name: test_move
   inputs:
@@ -19,7 +16,7 @@ flow:
   workflow:
     - create_file_to_be_moved:
         do:
-          files.write_to_file:
+          write_to_file:
             - file_path: move_source
             - text: "'text-to-be-copied'"
         navigate:
@@ -27,14 +24,14 @@ flow:
           FAILURE: create_folder_to_be_moved
     - create_folder_to_be_moved:
         do:
-          files.create_folder:
+          create_folder:
             - folder_name: move_source
         navigate:
           SUCCESS: test_move_operation
           FAILURE: CREATEFAILURE
     - test_move_operation:
         do:
-          files.move:
+          move:
             - source: move_source
             - destination: move_destination
         navigate:
@@ -42,14 +39,14 @@ flow:
           FAILURE: delete_moved_file_after_move_failure
     - delete_moved_file_after_move_failure:
         do:
-          files.delete:
+          delete:
             - source: move_source
         navigate:
           SUCCESS: FAILURE
           FAILURE: DELETEFAILURE
     - delete_moved_file:
         do:
-          files.delete:
+          delete:
             - source: move_destination
         navigate:
           SUCCESS: SUCCESS

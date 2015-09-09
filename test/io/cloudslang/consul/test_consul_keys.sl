@@ -11,7 +11,6 @@ namespace: io.cloudslang.consul
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  consul: io.cloudslang.consul
 
 flow:
   name: test_consul_keys
@@ -31,7 +30,7 @@ flow:
 
     - create_key:
         do:
-          consul.create_kv:
+          create_kv:
             - host
             - key_name
             - key_value
@@ -40,7 +39,7 @@ flow:
           FAILURE: FAIL_CREATING_KEY
     - get_key:
         do:
-          consul.report_kv:
+          report_kv:
             - host
             - key_name
         publish:
@@ -55,7 +54,7 @@ flow:
           FAILURE: FAIL_GETTING_KEY
     - delete_key:
         do:
-          consul.delete_kv:
+          delete_kv:
             - host
             - key_name
         navigate:

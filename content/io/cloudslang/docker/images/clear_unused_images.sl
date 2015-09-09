@@ -27,7 +27,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  docker_utils: io.cloudslang.docker.utils
  base_lists: io.cloudslang.base.lists
  base_strings: io.cloudslang.base.strings
@@ -53,7 +52,7 @@ flow:
   workflow:
     - get_all_images:
         do:
-          docker_images.get_all_images:
+          get_all_images:
             - docker_options:
                 required: false
             - host: docker_host
@@ -72,7 +71,7 @@ flow:
           - all_images_list: image_list
     - get_used_images:
         do:
-          docker_images.get_used_images:
+          get_used_images:
             - docker_options:
                 required: false
             - host: docker_host
@@ -121,7 +120,7 @@ flow:
         loop:
             for: image in used_images_list.split()
             do:
-              docker_images.get_image_parent:
+              get_image_parent:
                 - docker_options:
                     required: false
                 - docker_host
@@ -151,7 +150,7 @@ flow:
           - amount_of_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_images:
+          clear_images:
             - docker_options:
                 required: false
             - host: docker_host

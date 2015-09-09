@@ -20,9 +20,6 @@
 
 namespace: io.cloudslang.jenkins
 
-imports:
-  jenkins_ops: io.cloudslang.jenkins
-
 flow:
   name: fix_job
   inputs:
@@ -33,13 +30,13 @@ flow:
 
     - disable_job:
         do:
-          jenkins_ops.disable_job:
+          disable_job:
             - url: url
             - job_name: job_name
 
     - enable_job:
         do:
-          jenkins_ops.enable_job:
+          enable_job:
             - url: url
             - job_name: job_name
 

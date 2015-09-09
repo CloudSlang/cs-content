@@ -11,7 +11,6 @@ namespace: io.cloudslang.consul
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  consul: io.cloudslang.consul
   base_utils: io.cloudslang.base.utils
 
 flow:
@@ -33,7 +32,7 @@ flow:
 
     - register_endpoint:
         do:
-          consul.register_endpoint:
+          register_endpoint:
             - host
             - node
             - address
@@ -44,7 +43,7 @@ flow:
 
     - get_catalog_services:
         do:
-          consul.get_catalog_services:
+          get_catalog_services:
             - host
             - node
             - address
@@ -58,7 +57,7 @@ flow:
 
     - deregister_endpoint:
         do:
-          consul.deregister_endpoint:
+          deregister_endpoint:
             - host
             - node
         navigate:
@@ -67,7 +66,7 @@ flow:
 
     - get_catalog_services2:
         do:
-          consul.get_catalog_services:
+          get_catalog_services:
             - host
             - node
             - address

@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
 
@@ -29,7 +28,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
            - port:
                required: false
@@ -68,7 +67,7 @@ flow:
 
     - run_first_container:
         do:
-          containers.run_container:
+          run_container:
             - host
             - port:
                 required: false
@@ -84,7 +83,7 @@ flow:
 
     - run_second_container:
         do:
-          containers.run_container:
+          run_container:
             - host
             - port:
                 required: false
@@ -100,7 +99,7 @@ flow:
 
     - get_all_containers:
         do:
-          containers.get_all_containers:
+          get_all_containers:
             - host
             - port:
                 required: false
@@ -122,7 +121,7 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
            - port:
                required: false

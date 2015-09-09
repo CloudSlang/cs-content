@@ -25,7 +25,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  base_os_linux: io.cloudslang.base.os.linux
  base_lists: io.cloudslang.base.lists
 
@@ -49,7 +48,7 @@ flow:
   workflow:
     - get_dangling_images:
         do:
-          docker_images.get_dangling_images:
+          get_dangling_images:
             - docker_options:
                 required: false
             - host: docker_host
@@ -79,7 +78,7 @@ flow:
           - amount_of_dangling_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_images:
+          clear_images:
             - docker_options:
                 required: false
             - host: docker_host

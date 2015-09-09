@@ -29,7 +29,6 @@
 namespace: io.cloudslang.openstack
 
 imports:
- openstack_content: io.cloudslang.openstack
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
@@ -48,7 +47,7 @@ flow:
   workflow:
     - get_token:
         do:
-          openstack_content.get_authentication:
+          get_authentication:
             - host
             - identity_port
             - username

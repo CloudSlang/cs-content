@@ -12,7 +12,6 @@ namespace: io.cloudslang.docker.maintenance
 imports:
   images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
-  maintenance: io.cloudslang.docker.maintenance
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
@@ -30,7 +29,7 @@ flow:
   workflow:
     - pre_test_cleanup:
              do:
-               maintenance.clear_host:
+               clear_host:
                  - docker_host: host
                  - port:
                      required: false
@@ -83,7 +82,7 @@ flow:
 
     - clear_docker_host:
              do:
-               maintenance.clear_host:
+               clear_host:
                  - docker_host: host
                  - port:
                      required: false

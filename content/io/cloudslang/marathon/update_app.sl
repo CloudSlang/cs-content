@@ -29,7 +29,6 @@ namespace: io.cloudslang.marathon
 
 imports:
   files: io.cloudslang.base.files
-  marathon: io.cloudslang.marathon
 
 flow:
   name: update_app
@@ -54,7 +53,7 @@ flow:
 
     - send_update_app_req:
         do:
-          marathon.send_update_app_req:
+          send_update_app_req:
             - marathon_host
             - marathon_port
             - app_id

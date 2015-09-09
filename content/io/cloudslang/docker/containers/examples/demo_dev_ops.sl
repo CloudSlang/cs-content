@@ -32,7 +32,6 @@ namespace: io.cloudslang.docker.containers.examples
 
 imports:
  docker_containers: io.cloudslang.docker.containers
- docker_containers_examples: io.cloudslang.docker.containers.examples
  docker_images: io.cloudslang.docker.images
  base_mail: io.cloudslang.base.mail
  base_network: io.cloudslang.base.network
@@ -64,7 +63,7 @@ flow:
 
     - create_db_container:
         do:
-          docker_containers_examples.create_db_container:
+          create_db_container:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
