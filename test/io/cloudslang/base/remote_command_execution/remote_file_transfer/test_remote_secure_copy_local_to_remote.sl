@@ -66,7 +66,7 @@ flow:
     - encrypt_and_store_authorized_keys:
         do:
           base_cmd.run_command:
-            - command: "'AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ')"
+            - command: "'AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ')'"
         navigate:
           SUCCESS: create_needed_folder
           FAILURE: KEY_STORE_FAIL
