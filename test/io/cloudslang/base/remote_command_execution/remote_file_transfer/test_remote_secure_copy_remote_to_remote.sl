@@ -126,16 +126,11 @@ flow:
             - destinationUsername: scp_username
             - destinationPrivateKeyFile: key_name
         navigate:
-          SUCCESS: print
+          SUCCESS: get_file_from_dest_host
           FAILURE: RFT_FAILURE
         publish:
           - return_result
-    - print:
-        do:
-          base_print.print_text:
-            - text: return_result
-        navigate:
-          SUCCESS: get_file_from_dest_host
+
     - get_file_from_dest_host:
         do:
           base_cmd.run_command:
@@ -162,6 +157,14 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FILE_CHECK_FAIL
+
+    - on_failure:
+        - print:
+            do:
+              base_print.print_text:
+                - text: return_result
+            navigate:
+              SUCCESS: get_file_from_dest_host
 
   results:
     - SUCCESS
