@@ -157,7 +157,12 @@ flow:
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FILE_CHECK_FAIL
-
+    - print:
+        do:
+          base_print.print_text:
+            - text: return_result
+        navigate:
+          SUCCESS: RFT_FAILURE
 
   results:
     - SUCCESS
