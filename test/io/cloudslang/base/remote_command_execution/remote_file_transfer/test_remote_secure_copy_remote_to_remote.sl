@@ -51,7 +51,7 @@ flow:
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name"
+            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + '&& rm -f ~/.ssh/known_hosts && rm -f ' + authorized_keys_path"
         navigate:
           SUCCESS: cat1
           FAILURE: KEY_GENERATION_FAIL
