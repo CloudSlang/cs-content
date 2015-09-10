@@ -127,7 +127,7 @@ flow:
             - destinationPrivateKeyFile: key_name
         navigate:
           SUCCESS: get_file_from_dest_host
-          FAILURE: print
+          FAILURE: RFT_FAILURE
         publish:
           - return_result
 
@@ -158,13 +158,6 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: FILE_CHECK_FAIL
 
-
-    - print:
-        do:
-          base_print.print_text:
-            - text: return_result
-        navigate:
-          SUCCESS: get_file_from_dest_host
 
   results:
     - SUCCESS
