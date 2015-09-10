@@ -134,7 +134,7 @@ flow:
     - get_file_from_dest_host:
         do:
           base_cmd.run_command:
-            - command: "'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + scp_path + scp_file"
+            - command: "'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  + scp_username + '@' + host + ':' + scp_path + scp_file + ' ' + scp_file"
         navigate:
           SUCCESS: read_file
           FAILURE: FILE_REACHING_DEST_HOST_FAIL
