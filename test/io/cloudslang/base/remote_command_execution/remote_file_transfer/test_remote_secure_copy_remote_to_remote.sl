@@ -68,7 +68,7 @@ flow:
           base_cmd.run_command:
             - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
         navigate:
-          SUCCESS: cat1
+          SUCCESS: cat2
           FAILURE: KEY_ADDITION_FAIL
 
     - cat2:
