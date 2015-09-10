@@ -53,16 +53,31 @@ flow:
           base_cmd.run_command:
             - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name"
         navigate:
-          SUCCESS: add_key_to_authorized
+          SUCCESS: cat1
           FAILURE: KEY_GENERATION_FAIL
+    - cat1:
+        do:
+          base_cmd.run_command:
+            - command: "'cat key_r2r.pub'"
+        navigate:
+          SUCCESS: add_key_to_authorized
+          FAILURE: FAILURE
 
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
             - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
         navigate:
-          SUCCESS: create_needed_folders
+          SUCCESS: cat1
           FAILURE: KEY_ADDITION_FAIL
+
+    - cat2:
+        do:
+          base_cmd.run_command:
+            - command: "'cat ' + authorized_keys_path"
+        navigate:
+          SUCCESS: create_needed_folders
+          FAILURE: FAILURE
 
     - create_needed_folders:
         do:
@@ -153,3 +168,4 @@ flow:
     - FILE_REACHING_DEST_HOST_FAIL
     - FILE_READ_FAIL
     - FILE_CHECK_FAIL
+    - FAILURE
