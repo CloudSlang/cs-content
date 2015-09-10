@@ -16,6 +16,7 @@ imports:
   base_strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
   containers: io.cloudslang.docker.containers
+  base_print: io.cloudslang.docker.print
 
 flow:
   name: test_remote_secure_copy_remote_to_remote
@@ -125,9 +126,16 @@ flow:
             - destinationUsername: scp_username
             - destinationPrivateKeyFile: key_name
         navigate:
-          SUCCESS: get_file_from_dest_host
+          SUCCESS: print
           FAILURE: RFT_FAILURE
-
+        publish:
+          - return_result
+    - print:
+        do:
+          base_print.print_text:
+            - text: return_result
+        navigate:
+          SUCCESS: get_file_from_dest_host
     - get_file_from_dest_host:
         do:
           base_cmd.run_command:
