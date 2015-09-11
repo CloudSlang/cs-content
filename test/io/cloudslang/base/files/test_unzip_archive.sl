@@ -73,9 +73,7 @@ flow:
     - unzip_folder:
         do:
           unzip_archive:
-            - archive_path:
-                default: "path + '/' + name"
-                overridable: false
+            - archive_path: "path + '/' + name"
             - output_folder: out_folder
         publish:
             - unzip_message: message
@@ -86,9 +84,7 @@ flow:
     - delete_output_folder:
         do:
           delete:
-            - source:
-                default: out_folder
-                overridable: false
+            - source: out_folder
         navigate:
           SUCCESS: delete_test_folder
           FAILURE: DELETEFAILURE
@@ -96,9 +92,7 @@ flow:
     - delete_test_folder:
         do:
           delete:
-            - source:
-                default: path
-                overridable: false
+            - source: path
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

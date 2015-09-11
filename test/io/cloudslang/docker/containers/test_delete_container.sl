@@ -29,8 +29,7 @@ flow:
        do:
          maintenance.clear_host:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -41,8 +40,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: container_name
@@ -54,8 +52,7 @@ flow:
         do:
           run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name
@@ -68,8 +65,7 @@ flow:
         do:
           images.get_used_images:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - containerID: container_name
@@ -81,21 +77,19 @@ flow:
         do:
           delete_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
         navigate:
           SUCCESS: verify
-          FAILURE: FAILURE
+          FAILURE: DELETE_CONTAINER_FAILURE
 
     - verify:
         do:
           get_all_containers:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - all_containers: true
@@ -108,14 +102,13 @@ flow:
             - second_string: "''"
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          FAILURE: VERIFY_FAILURE
 
     - clear_docker_host:
         do:
          clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:
@@ -124,13 +117,10 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - PREREQUISITE_MACHINE_IS_NOT_CLEAN
-    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
-    - FAIL_STOP_CONTAINER
-    - FAILURE
-    - FAIL_CLEAR_IMAGE
     - FAIL_RUN_IMAGE
-    - VEFIFYFAILURE
+    - FAIL_STOP_CONTAINER
+    - DELETE_CONTAINER_FAILURE
+    - VERIFY_FAILURE
+    - MACHINE_IS_NOT_CLEAN

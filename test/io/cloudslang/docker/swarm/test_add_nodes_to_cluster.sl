@@ -36,12 +36,8 @@ flow:
           create_cluster:
             - host: manager_machine_ip
             - username: manager_machine_username
-            - password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
+            - password: manager_machine_password
+            - private_key_file: manager_machine_private_key_file
         publish:
            - cluster_id
         navigate:
@@ -53,9 +49,7 @@ flow:
          containers.clear_containers:
            - docker_host: manager_machine_ip
            - docker_username: manager_machine_username
-           - private_key_file:
-              default: manager_machine_private_key_file
-              required: false
+           - private_key_file: manager_machine_private_key_file
        navigate:
          SUCCESS: pre_clear_agent_machines
          FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
@@ -67,9 +61,7 @@ flow:
             containers.clear_containers:
               - docker_host: ip
               - docker_username: agent_usernames[0]
-              - private_key_file:
-                  default: agent_private_key_files[0]
-                  required: false
+              - private_key_file: agent_private_key_files[0]
         navigate:
           SUCCESS: start_manager_container
           FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
@@ -81,12 +73,8 @@ flow:
             - cluster_id
             - host: manager_machine_ip
             - username: manager_machine_username
-            - password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
+            - password: manager_machine_password
+            - private_key_file: manager_machine_private_key_file
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster_before
           FAILURE: START_MANAGER_CONTAINER_PROBLEM
@@ -98,12 +86,8 @@ flow:
             - swarm_manager_port: swarm_port
             - host: manager_machine_ip
             - username: manager_machine_username
-            - password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
+            - password: manager_machine_password
+            - private_key_file: manager_machine_private_key_file
         publish:
           - number_of_nodes_in_cluster_before: number_of_nodes_in_cluster
         navigate:
@@ -119,9 +103,7 @@ flow:
               - cluster_id
               - host: ip
               - username: agent_usernames[0]
-              - private_key_file:
-                  default: agent_private_key_files[0]
-                  required: false
+              - private_key_file: agent_private_key_files[0]
         navigate:
           SUCCESS: wait_for_nodes_to_join
           FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
@@ -140,12 +122,8 @@ flow:
             - swarm_manager_port: swarm_port
             - host: manager_machine_ip
             - username: manager_machine_username
-            - password:
-                default: manager_machine_password
-                required: false
-            - private_key_file:
-                default: manager_machine_private_key_file
-                required: false
+            - password: manager_machine_password
+            - private_key_file: manager_machine_private_key_file
         publish:
           - number_of_nodes_in_cluster_after: number_of_nodes_in_cluster
         navigate:

@@ -37,14 +37,10 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host: host
-             - port:
-                 required: false
+             - port
              - docker_username: username
-             - docker_password:
-                 default: password
-                 required: false
-             - private_key_file:
-                 required: false
+             - docker_password: password
+             - private_key_file
          navigate:
            SUCCESS: start_mysql_container
            FAILURE: MACHINE_IS_NOT_CLEAN
@@ -53,13 +49,10 @@ flow:
         do:
           docker_containers_examples.create_db_container:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
+            - password
+            - private_key_file
         publish:
           - db_IP
         navigate:
@@ -71,14 +64,10 @@ flow:
           images.pull_image:
             - image_name: linked_image
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
         publish:
           - error_message
         navigate:
@@ -101,20 +90,13 @@ flow:
             - containerName: linked_container_name
             - linkParams: "dbContainerName + ':mysql'"
             - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p ' + '8080' + ':8080'"
-            - container_cmd:
-                default: linked_container_cmd
-                required: false
+            - container_cmd: linked_container_cmd
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                default: "'30000000'"
+            - password
+            - privateKeyFile: private_key_file
+            - timeout: "'30000000'"
         publish:
           - container_ID
           - error_message
@@ -125,14 +107,10 @@ flow:
             - db_container_ID: "'mysqldb'"
             - linked_container_ID: linked_container_name
             - docker_host: host
-            - port:
-                required: false
+            - port
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password: password
+            - private_key_file
         navigate:
           SUCCESS: verify
           FAILURE: FAILURE
@@ -141,13 +119,10 @@ flow:
         do:
           get_all_containers:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
+            - password
+            - private_key_file
             - all_containers: true
         publish:
           - all_containers: container_list
@@ -165,14 +140,10 @@ flow:
         do:
          clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
-           - docker_password:
-               default: password
-               required: false
-           - private_key_file:
-               required: false
+           - docker_password: password
+           - private_key_file
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

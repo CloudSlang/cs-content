@@ -84,8 +84,7 @@ flow:
             - container_id: container
             - host
             - username
-            - password:
-                required: false
+            - password
             - port: machine_connect_port
             - privateKeyFile
         publish:
