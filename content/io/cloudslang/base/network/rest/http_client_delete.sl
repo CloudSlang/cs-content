@@ -42,7 +42,7 @@ flow:
         required: false
     - proxyHost:
         required: false
-    - proxyPort: '8080'"
+    - proxyPort: "'8080'"
     - proxyUsername:
         required: false
     - proxyPassword:
@@ -62,14 +62,14 @@ flow:
             - username
             - password
             - proxyHost
-            - proxyPort "'8080'"
+            - proxyPort
             - proxyUsername
             - proxyPassword
             - connectTimeout
             - socketTimeout
             - headers
             - queryParams
-            - contentType: "'text/plain'"
+            - contentType
             - method: "'DELETE'"
         publish:
             - return_result
