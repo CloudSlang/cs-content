@@ -27,6 +27,8 @@ do
                   "user_data": "'"$(cat ci-env/circleci/cloud-config.yaml | sed 's/"/\\"/g')"'"
                 }')
 
+  echo "${CURL_OUTPUT}" # TODO: remove debug step
+
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
 
   if [ "${STATUS_CODE}" = "202" ]
