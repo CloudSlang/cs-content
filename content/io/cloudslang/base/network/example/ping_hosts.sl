@@ -14,13 +14,13 @@
 #   - ip_list - list of IPs to be checked
 #   - message_body - the message to be sent in emails
 #   - all_nodes_are_up - whether the nodes are up or not - Default: True
-#   - hostname - email host
-#   - port - email port
-#   - from - email sender
-#   - to - email recipient
-#   - subject - email subject
-#   - username - optional - username to connect to email host - Default: none
-#   - password - optional - password for the username to connect to email host - Default: none
+#   - hostname - email host - System Property: io.cloudslang.base.hostname
+#   - port - email port - System Property: io.cloudslang.base.port
+#   - from - email sender - System Property: io.cloudslang.base.from
+#   - to - email recipient - System Property: io.cloudslang.base.to
+#   - subject - email subject - Default: "'Ping Result'"
+#   - username - optional - username to connect to email host - System Property: io.cloudslang.base.username
+#   - password - optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
 #
 # Results:
 #   - SUCCESS - addressee will get an email with result
@@ -49,9 +49,7 @@ flow:
         system_property: io.cloudslang.base.from
     - to:
         system_property: io.cloudslang.base.to
-    - subject:
-        default: "'Ping Result'"
-        overridable: false
+    - subject: "'Ping Result'"
     - username:
         system_property: io.cloudslang.base.username
         required: false
@@ -93,7 +91,7 @@ flow:
             - from
             - to
             - subject
-            - body: "'Result: ' + ' ' + .join(message_body)"
+            - body: "'Result: ' + ' '.join(message_body)"
             - username
             - password
 
@@ -106,6 +104,6 @@ flow:
                 - from
                 - to
                 - subject
-                - body: "'Result: ' + ' ' + .join(message_body)"
+                - body: "'Result: Failure to ping: ' + ' '.join(message_body)"
                 - username
                 - password

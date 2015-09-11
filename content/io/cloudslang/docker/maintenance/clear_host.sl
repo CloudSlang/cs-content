@@ -46,15 +46,10 @@ flow:
             - host: docker_host
             - username: docker_username
             - password: docker_password
-            - all_containers:
-                default: true
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - all_containers: true
+            - private_key_file
+            - timeout
+            - port
         publish:
           - all_containers: container_list
     - clear_all_containers:

@@ -57,6 +57,7 @@ flow:
                     - host: coreos_host
                     - username: coreos_username
                     - password: coreos_password
+                    - private_key_file
                     - timeout
                 publish:
                     - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
