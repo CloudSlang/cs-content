@@ -117,6 +117,7 @@ flow:
 
   results:
     - SUCCESS
+    - FAILURE
     - PREREQUISITE_MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_RUN_IMAGE
