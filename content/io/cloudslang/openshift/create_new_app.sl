@@ -6,17 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an application in Helion Development Platform / openshift
+# Creates an application in OpenShift
 # NOTE: This is experimental and while the app is created it cannot run yet
 # WIP
 #
 # Inputs:
-#   - host - Helion Development Platform / openshift host
-#   - token - HDP / openshift authorisation token
-#   - name - Name of the application to create
-#   - space_guid - GUID of the HDP / openshift space to deploy to
+#   - cartridgeName - cartridge name
+#   - applicationName - OpenShift application name
+#   - scale - optional - Mark application as scalable. Value : true, false
+#   - gear_profile - optional - Size of the gear. Value : small, medium
+#   - host - OpenShift host
+#   - username - OpenShift username
+#   - password - OpenShift username
+#   - domain - OpenShift domain
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
+#   - timeout - optional - Timeout - Default: 0
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202
@@ -25,22 +30,8 @@
 #   - SUCCESS - operation succeeded (statusCode == '202')
 #   - FAILURE - otherwise
 ####################################################
-#####################################################
-# Create OpenShift Application
-#
-# Inputs:
-#   - cartridgeName - OpenShift machine host; can be any machine from the cluster
-#   - restUrl - optional - path to the private key file
-#   - username - OpenShift machine username
-#   - password - optional - OpenShift machine password; can be empty since OpenShift machines use private key file authentication
-# Outputs:
-#   - cartbridgeName: cartbridgeName
-#####################################################
 
 namespace: io.cloudslang.openshift
-
-imports:
-  print: io.cloudslang.base.print
 
 operation:
   name: create_new_app
@@ -49,19 +40,28 @@ operation:
         default: "'jbosseap'"
     - applicationName:
         default: "'mbeApp'"
+    - scale:
+        default: "'false'"
+    - gear_profile:
+        default: "'small'"
     - host:
         default: "'openshift.redhat.com'"
     - username:
         default: "'bettan.michael@gmail.com'"
     - password:
         default: "'HP1nvent'"
+    - domain:
+        default: "'mbe0042'"
     - url:
-        default: "'https://' + host + '/broker/rest/domain/mbe0042/applications'"
+        default: "'https://' + host + '/broker/rest/domain/' + domain + '/applications'"
+        overridable: false
+    - headers:
+        default: "'Accept: application/json'"
         overridable: false
     - body:
         default: >
-          '{ "name": "' + applicationName + '" , "cartridges": "' + cartridgeName +
-          '"}'
+          '{ "name": "' + applicationName + '" , "cartridges": "' + cartridgeName + '" ,
+          "scale": "' + scale + '" , "gear_profile": "' + gear_profile + '"}'
         overridable: false
     - contentType:
         default: "'application/json'"
@@ -80,6 +80,9 @@ operation:
         overridable: false
     - proxyPort:
         default: "proxy_port if proxy_port else ''"
+        overridable: false
+    - timeout:
+        default: "0"
         overridable: false
   action:
     java_action:
