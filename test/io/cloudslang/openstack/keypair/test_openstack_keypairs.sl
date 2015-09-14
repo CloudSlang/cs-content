@@ -71,10 +71,11 @@ flow:
           FAILURE: GET_FAILURE
     - delete_keypair:
         do:
-          delete_openstack_keypair:
+          delete_openstack_keypair_flow:
             - host
-            - token
-            - tenant
+            - username
+            - password
+            - tenant_name
             - identity_port
             - compute_port
             - keypair_name
