@@ -70,6 +70,7 @@ if True:
   done
   if [ "${DROPLET_STATUS}" != "active" ]
   then
+    echo "Droplet(${DROPLET_ID}) is not active after ${WAITING_TIME} seconds"
     echo "Droplet(${DROPLET_ID}) is not active after ${WAITING_TIME} seconds."
     exit 1
   fi
