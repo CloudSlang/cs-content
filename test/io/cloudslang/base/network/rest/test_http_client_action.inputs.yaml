@@ -8,12 +8,10 @@
 ####################################################
 testHttpClientAction:
   inputs:
-    - url: <url>
-    - proxy_host: <proxy_host>
-    - proxy_port: <proxy_port>
-    - resource_id: <input_id>
-    - resource_name: <input_name>
+    - url: "http://petstore.swagger.io/v2/pet"
+    - resource_id: "123"
+    - resource_name: "cloud_slang_test_CI"
   description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_action
-  testSuites: [http-local]
+  testSuites: [http]
   result: SUCCESS
