@@ -9,8 +9,8 @@
 testHttpClientDeleteLocal:
   inputs:
     - url: <url>
-    - input_id: <input_id>
-  description: "Test the Http Client Delete against an REST API."
+    - resource_id: <resource_id>
+  description: "Test the Http Client Delete against a REST API."
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_delete
   testSuites: [rest-local]
   result: SUCCESS

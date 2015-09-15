@@ -9,8 +9,8 @@
 testHttpClientGetLocal:
   inputs:
     - url: <url>
-    - input_id: <input_id>
-  description: "Test the Http Client Get against an REST API."
+    - resource_id: <resource_id>
+  description: "Test the Http Client Get against a REST API."
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_get
   testSuites: [rest-local]
   result: SUCCESS

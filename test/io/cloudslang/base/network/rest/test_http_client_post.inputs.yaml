@@ -9,9 +9,9 @@
 testHttpClientPostLocal:
   inputs:
     - url: <url>
-    - input_id: <input_id>
-    - input_name: <input_name>
-  description: "Test the Http Client Post against an REST API."
+    - resource_id: <resource_id>
+    - resource_name: <resource_name>
+  description: "Test the Http Client Post against a REST API."
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_post
   testSuites: [rest-local]
   result: SUCCESS
