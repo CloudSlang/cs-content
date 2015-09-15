@@ -17,6 +17,7 @@ machine:
     # ignore test suites on node 1 in fork builds
     ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,swarm,marathon'; else echo '!default'; fi)
     RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]'
+    JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
 
@@ -36,8 +37,12 @@ test:
         && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul;
         fi
       : parallel: true
-    - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
-        parallel: true ### machine 1
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK}";
+        then chmod +x ci-env/circleci/create_droplets.sh
+        && ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
     - ? > ### every machine # TODO: replace with proper release before merge
         wget https://www.dropbox.com/s/slrvccwv8ig94ue/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
@@ -47,8 +52,8 @@ test:
       : parallel: true
     - ? > ### machine 1
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK}";
-        then chmod +x ci-env/wait_for_droplets_and_update_test_inputs.sh
-        && ci-env/wait_for_droplets_and_update_test_inputs.sh;
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
   override:
@@ -59,5 +64,9 @@ test:
         esac
       : parallel: true
   post:
-    - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/cleanup_env.sh && ci-env/cleanup_env.sh; fi:
-         parallel: true ### machine 1
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK}";
+        then chmod +x ci-env/circleci/cleanup_env.sh
+        && ci-env/circleci/cleanup_env.sh;
+        fi
+      : parallel: true
