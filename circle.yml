@@ -38,8 +38,8 @@ test:
       : parallel: true
     - if eval "${RULE_DROPLET_MACHINE_NOT_FORK}"; then chmod +x ci-env/create_droplets.sh && ci-env/create_droplets.sh; fi:
         parallel: true ### machine 1
-    - ? > ### every machine
-        wget https://www.dropbox.com/s/slrvccwv8ig94ue/cslang-builder.zip # TODO: replace with proper release before merge
+    - ? > ### every machine # TODO: replace with proper release before merge
+        wget https://www.dropbox.com/s/slrvccwv8ig94ue/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
