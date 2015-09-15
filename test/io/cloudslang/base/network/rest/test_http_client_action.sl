@@ -18,28 +18,30 @@ flow:
 
   inputs:
     - url
-    - method: "'POST'"
-    - body: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '\",\"status\":\"available\"}'"
-    - contentType:
+    - content_type:
         default: "'application/json'"
         overridable: false
-    - proxyHost:
+    - proxy_host:
         required: false
-    - proxyPort:
+    - proxy_port:
         required: false
-    - input_id
-    - input_name
+    - resource_id
+    - resource_name
 
   workflow:
     - post_create_pet:
         do:
           http_client_action:
             - url
-            - method
-            - body
-            - contentType
-            - proxyHost
-            - proxyPort
+            - method:
+                default: "'POST'"
+                overridable: false
+            - body:
+                default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
+                overridable: false
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -62,14 +64,14 @@ flow:
         do:
           http_client_action:
             - url:
-                default: "url + '/' + input_id"
+                default: "url + '/' + resource_id"
                 overridable: false
             - method:
                 default: "'GET'"
                 overridable: false
-            - contentType
-            - proxyHost
-            - proxyPort
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -104,7 +106,7 @@ flow:
     - verify_id:
         do:
           strings.string_equals:
-            - first_string: input_id
+            - first_string: resource_id
             - second_string: str(value)
         navigate:
           SUCCESS: get_name
@@ -126,7 +128,7 @@ flow:
     - verify_name:
         do:
           strings.string_equals:
-            - first_string: input_name
+            - first_string: resource_name
             - second_string: str(value)
         navigate:
           SUCCESS: put_update_pet
@@ -140,11 +142,11 @@ flow:
                 default: "'PUT'"
                 overridable: false
             - body:
-                default: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '_updated\",\"status\":\"sold\"}'"
+                default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
                 overridable: false
-            - contentType
-            - proxyHost
-            - proxyPort
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -167,14 +169,14 @@ flow:
         do:
           http_client_action:
             - url:
-                default: "url + '/' + input_id"
+                default: "url + '/' + resource_id"
                 overridable: false
             - method:
                 default: "'GET'"
                 overridable: false
-            - contentType
-            - proxyHost
-            - proxyPort
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -200,7 +202,7 @@ flow:
     - verify_updated_name:
         do:
           strings.string_equals:
-            - first_string: "input_name + '_updated'"
+            - first_string: "resource_name + '_updated'"
             - second_string: str(value)
         navigate:
           SUCCESS: get_updated_status
@@ -232,14 +234,14 @@ flow:
         do:
           http_client_action:
             - url:
-                default: "url + '/' + input_id"
+                default: "url + '/' + resource_id"
                 overridable: false
             - method:
                 default: "'DELETE'"
                 overridable: false
-            - contentType
-            - proxyHost
-            - proxyPort
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -253,14 +255,14 @@ flow:
         do:
           http_client_action:
             - url:
-                default: "url + '/' + input_id"
+                default: "url + '/' + resource_id"
                 overridable: false
             - method:
                 default: "'GET'"
                 overridable: false
-            - contentType
-            - proxyHost
-            - proxyPort
+            - contentType: content_type
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message

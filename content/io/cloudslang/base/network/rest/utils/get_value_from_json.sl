@@ -13,11 +13,11 @@
 #   - key_list - the keys list to retrieve value for - ex. = ['tags', 1, 'name']
 # Outputs:
 #   - value - the corresponding value of the key that results from key_list input - ex. = decode['tags'][1]['name']
-#   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - returnResult if there was an error
+#   - return_result - parsing was successful or not
+#   - return_code - "0" if parsing was successful, "-1" otherwise
+#   - error_message - the corresponding error message if there was an error when executing otherwise left blank
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -34,15 +34,14 @@ operation:
         import json
         decoded = json.loads(json_input)
         for key in key_list:
-          value = decoded[key]
-          decoded = value
+          decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value
+    - value: decoded
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''

@@ -12,7 +12,7 @@
 #   - list_1 - first list - ex. [123, 'xyz']
 #   - list_2 - second list - ex. [456, 'abc']
 # Outputs:
-#   - result - if '0' first list is identical with the second list
+#   - result - if "true" first list is identical with the second list
 # Results:
 #   - SUCCESS - list are identical
 #   - FAILURE - list are not identical
@@ -27,7 +27,7 @@ operation:
     - list_2
   action:
     python_script: |
-      result =  cmp(list_1, list_2)
+      result = list_1 == list_2
   results:
-    - SUCCESS: result == 0
+    - SUCCESS: result
     - FAILURE
