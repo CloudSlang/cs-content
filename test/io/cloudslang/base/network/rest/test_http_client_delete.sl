@@ -15,16 +15,23 @@ flow:
   name: test_http_client_delete
 
   inputs:
-    - url: "url + '/' + resource_id"
+    - url:
+        default: "url + '/' + resource_id"
+        overridable: false
     - username:
         required: false
     - password:
         required: false
-    - content_type: "'application/json'"
-    - attempts: "'1'"
-    - proxy_host: "'proxy.houston.hp.com'"
-    - proxy_port: "'8080'"
-    - auth_type: "'basic'"
+    - content_type:
+        default: "'application/json'"
+        overridable: false
+    - method:
+        default: "'DELETE'"
+        overridable: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
   workflow:
     - delete:
@@ -34,13 +41,13 @@ flow:
             - username
             - password
             - contentType: content_type
-            - method:
-                default: "'DELETE'"
-                overridable: false
-            - attempts
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
-            - authType: auth_type
+            - method
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message

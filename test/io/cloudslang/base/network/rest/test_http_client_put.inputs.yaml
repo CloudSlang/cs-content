@@ -8,10 +8,10 @@
 ####################################################
 testHttpClientPutLocal:
   inputs:
-    - url: <url>
-    - resource_id: <resource_id>
-    - resource_name: <resource_name>
+    - url: "http://petstore.swagger.io/v2/pet"
+    - resource_id: "0"
+    - resource_name: "cloudslang_test_http_client_updated"
   description: "Test the Http Client Put against a REST API."
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_put
-  testSuites: [rest-local]
+  testSuites: [rest]
   result: SUCCESS

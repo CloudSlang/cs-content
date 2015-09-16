@@ -8,9 +8,8 @@
 ####################################################
 testHttpClientGetLocal:
   inputs:
-    - url: <url>
-    - resource_id: <resource_id>
+    - url: "http://petstore.swagger.io/v2/pet/findByStatus?status=available"
   description: "Test the Http Client Get against a REST API."
   testFlowPath: io.cloudslang.base.network.rest.test_http_client_get
-  testSuites: [rest-local]
+  testSuites: [rest]
   result: SUCCESS

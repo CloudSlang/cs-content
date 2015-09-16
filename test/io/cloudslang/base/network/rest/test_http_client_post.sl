@@ -20,12 +20,19 @@ flow:
         required: false
     - password:
         required: false
-    - content_type: "'application/json'"
-    - body: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
-    - attempts: "'1'"
-    - proxy_host: "'proxy.houston.hp.com'"
-    - proxy_port: "'8080'"
-    - auth_type: "'basic'"
+    - content_type:
+        default: "'application/json'"
+        overridable: false
+    - method:
+        default: "'POST'"
+        overridable: false
+    - body:
+        default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
+        overridable: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
   workflow:
     - post:
@@ -35,14 +42,14 @@ flow:
             - username
             - password
             - contentType: content_type
-            - method:
-                default: "'POST'"
-                overridable: false
+            - method
             - body
-            - attempts
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
-            - authType: auth_type
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message

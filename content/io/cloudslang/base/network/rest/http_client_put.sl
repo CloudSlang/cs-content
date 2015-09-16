@@ -54,6 +54,9 @@ flow:
     - body:
         required: false
     - content_type: "'application/json'"
+    - method:
+        default: "'PUT'"
+        overridable: false
   workflow:
     - http_client_action_put:
         do:
@@ -61,19 +64,33 @@ flow:
             - url
             - username
             - password
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
-            - proxyUsername: proxy_username
-            - proxyPassword: proxy_password
-            - connectTimeout: connect_timeout
-            - socketTimeout: socket_timeout
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
+            - proxyUsername:
+                default: proxy_username
+                required: false
+            - proxyPassword:
+                default: proxy_password
+                required: false
+            - connectTimeout:
+                default: connect_timeout
+                required: false
+            - socketTimeout:
+                default: socket_timeout
+                required: false
             - headers
-            - queryParams: query_params
+            - queryParams:
+                default: query_params
+                required: false
             - body
-            - contentType: content_type
-            - method:
-                default: "'PUT'"
-                overridable: false
+            - contentType:
+                default: content_type
+                required: false
+            - method
         publish:
           - return_result
           - error_message

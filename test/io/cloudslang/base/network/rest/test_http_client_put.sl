@@ -20,12 +20,19 @@ flow:
         required: false
     - password:
         required: false
-    - content_type: "'application/json'"
-    - body: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '_updated\",\"status\":\"sold\"}'"
-    - attempts: "'1'"
-    - proxy_host: "'proxy.houston.hp.com'"
-    - proxy_port: "'8080'"
-    - auth_type: "'basic'"
+    - content_type:
+        default: "'application/json'"
+        overridable: false
+    - method:
+        default: "'PUT'"
+        overridable: false
+    - body:
+        default: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '_updated\",\"status\":\"sold\"}'"
+        overridable: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
   workflow:
     - put:
@@ -35,13 +42,14 @@ flow:
             - username
             - password
             - contentType: content_type
-            - method:
-                default: "'PUT'"
-                overridable: false
-            - attempts
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
-            - authType: auth_type
+            - method
+            - body
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
