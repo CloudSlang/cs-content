@@ -165,9 +165,10 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
+    - return_result: "'' if 'returnResult' not in locals() else returnResult"
     - error_message: returnResult if returnCode != '0' else ''
     - return_code: returnCode
+    - status_code: "'' if 'statusCode' not in locals() else statusCode"
   results:
     - SUCCESS : returnCode == '0'
     - FAILURE
