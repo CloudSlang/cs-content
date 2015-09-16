@@ -59,7 +59,7 @@ flow:
             - port:
                 required: false
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_fetch: "' && https_proxy= http_proxy= git fetch ' + git_fetch_remote "
+            - git_fetch: "' && git fetch ' + git_fetch_remote "
             - command: "sudo_command + 'cd ' + git_repository_localdir + git_fetch + ' && echo GIT_SUCCESS'"
             - username
             - password:
