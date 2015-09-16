@@ -40,8 +40,12 @@ flow:
                 default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
@@ -70,8 +74,12 @@ flow:
                 default: "'GET'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
@@ -145,8 +153,12 @@ flow:
                 default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
@@ -175,8 +187,12 @@ flow:
                 default: "'GET'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
@@ -240,8 +256,12 @@ flow:
                 default: "'DELETE'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message
@@ -261,8 +281,12 @@ flow:
                 default: "'GET'"
                 overridable: false
             - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - proxyHost:
+                default: proxy_host
+                required: false
+            - proxyPort:
+                default: proxy_port
+                required: false
         publish:
           - return_result
           - error_message

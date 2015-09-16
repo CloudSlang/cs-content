@@ -9,8 +9,6 @@
 testHttpClientAction:
   inputs:
     - url: "http://petstore.swagger.io/v2/pet"
-    - proxy_host: "proxy.houston.hp.com"
-    - proxy_port: "8080"
     - resource_id: "123"
     - resource_name: "cloud_slang_test_CI"
   description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
