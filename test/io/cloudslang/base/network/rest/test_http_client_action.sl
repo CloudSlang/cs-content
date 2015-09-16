@@ -9,7 +9,7 @@
 namespace: io.cloudslang.base.network.rest
 
 imports:
-  json: io.cloudslang.base.network.rest.utils
+  json: io.cloudslang.base.json
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 

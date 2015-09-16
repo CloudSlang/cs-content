@@ -21,7 +21,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.base.network.rest.utils
+namespace: io.cloudslang.base.json
 
 operation:
   name: get_value_from_json
@@ -41,7 +41,7 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: decoded
+    - value: decoded if return_code == '0' else ''
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''
