@@ -52,7 +52,7 @@ flow:
         required: false
 
   workflow:
-    - git_clone:
+    - git_fetch:
         do:
           ssh.ssh_flow:
             - host
