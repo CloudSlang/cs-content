@@ -27,7 +27,7 @@ flow:
         default: "'PUT'"
         overridable: false
     - body:
-        default: "'{\"id\":' + input_id + ',\"name\":\"' + input_name + '_updated\",\"status\":\"sold\"}'"
+        default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
         overridable: false
     - proxy_host:
         required: false
