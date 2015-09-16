@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testHttpClientDeleteLocal:
+testHttpClientDelete:
   inputs:
     - url: "http://petstore.swagger.io/v2/pet"
     - resource_id: "1008"

@@ -36,8 +36,10 @@ flow:
         do:
           http_client_action:
             - url
-            - username
-            - password
+            - username:
+                required: false
+            - password:
+                required: false
             - contentType: content_type
             - method
             - proxyHost:

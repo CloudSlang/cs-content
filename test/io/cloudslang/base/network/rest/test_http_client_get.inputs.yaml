@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testHttpClientGetLocal:
+testHttpClientGet:
   inputs:
     - url: "http://petstore.swagger.io/v2/pet/findByStatus?status=available"
   description: "Test the Http Client Get against a REST API."
