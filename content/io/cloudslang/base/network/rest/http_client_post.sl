@@ -78,7 +78,7 @@ flow:
             - username:
                 required: false
             - password:
-                required: falsed
+                required: false
             - proxyHost:
                 default: proxy_host
                 required: false
