@@ -69,7 +69,7 @@ flow:
     - start_manager_container:
         do:
           start_manager:
-            - swarm_manager_port
+            - swarm_port: swarm_manager_port
             - cluster_id
             - host: manager_machine_ip
             - username: manager_machine_username
