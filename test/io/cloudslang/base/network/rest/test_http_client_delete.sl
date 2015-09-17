@@ -44,9 +44,9 @@ flow:
                 required: false
             - content_type
             - method
-            - proxy_host
+            - proxy_host:
                 required: false
-            - proxy_port
+            - proxy_port:
                 required: false
         publish:
           - return_result
