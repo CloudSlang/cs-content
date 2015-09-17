@@ -43,14 +43,12 @@ flow:
                 required: false
             - password:
                 required: false
-            - contentType: content_type
+            - content_type
             - method
             - body
-            - proxyHost:
-                default: proxy_host
+            - proxy_host:
                 required: false
-            - proxyPort:
-                default: proxy_port
+            - proxy_port:
                 required: false
         publish:
           - return_result
