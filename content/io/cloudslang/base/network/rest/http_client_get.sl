@@ -18,11 +18,15 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 #   - connect_timeout - optional - time to wait for a connection to be established, in seconds - Default: 0
 #   - socket_timeout - optional - time to wait for data to be retrieved, in milliseconds - Default: 0
-#   - headers - optional - list containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616) - Examples: Accept:text/plain
-#   - query_params - optional - list containing query parameters to append to the URL - Examples: parameterName1=parameterValue1&parameterName2=parameterValue2;
-#   - content_type - optional - content type that should be set in the request header, representing the MIME-type of the data in the message body - Default: text/plain
+#   - headers - optional - list containing the headers to use for the request separated by new line (CRLF);
+#       header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616)
+#       Examples: Accept:text/plain
+#   - query_params - optional - list containing query parameters to append to the URL
+#       Examples: parameterName1=parameterValue1&parameterName2=parameterValue2;
+#   - content_type - optional - content type that should be set in the request header, representing the MIME-type
+#       of the data in the message body - Default: text/plain
 # Outputs:
-#   - return_result - response of the operation
+#   - return_result - the response of the operation in case of success or the error message otherwise
 #   - error_message - returnResult if statusCode different than "200"
 #   - return_code - "0" if success, "-1" otherwise
 ################################################
@@ -40,6 +44,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: "'8080'"
         required: false
     - proxy_username:
         required: false
@@ -56,7 +61,7 @@ flow:
     - query_params:
         required: false
     - content_type:
-        default: "'application/json'"
+        default: "'text/plain'"
         required: false
     - method:
         default: "'GET'"
