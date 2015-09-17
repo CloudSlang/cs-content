@@ -94,7 +94,8 @@ flow:
             - socketTimeout:
                 default: socket_timeout
                 required: false
-            - headers
+            - headers:
+                required: false
             - queryParams:
                 default: query_params
                 required: false
