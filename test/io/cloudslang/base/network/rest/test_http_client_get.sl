@@ -34,7 +34,7 @@ flow:
   workflow:
     - get:
         do:
-          http_client_action_get:
+          http_client_get:
             - url
             - username:
                 required: false

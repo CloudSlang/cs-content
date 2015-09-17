@@ -36,7 +36,7 @@ flow:
   workflow:
     - delete:
         do:
-          http_client_action_delete:
+          http_client_delete:
             - url
             - username:
                 required: false
