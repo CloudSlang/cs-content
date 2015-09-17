@@ -10,13 +10,14 @@
 #
 #   Inputs:
 #       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
+#       - port - optional - port number for running the command
 #       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_fetch_remote - specify the remote branch to fetch from - Default: origin
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+#       - password - optional - password of user
+#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
+#                                 - Default: /tmp/repo.git
+#       - git_fetch_remote - optional - specify the remote repository to fetch from - Default: origin
+#       - sudo_user - optional - true or false, whether the command should execute using sudo
+#       - private_key_file - relative or absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully fetched
@@ -48,7 +49,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
 
   workflow:
@@ -65,6 +66,7 @@ flow:
             - password:
                 required: false
             - privateKeyFile:
+                  default: private_key_file
                   required: false
         publish:
           - standard_err
@@ -76,7 +78,6 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: standard_out
             - string_to_find: "'GIT_SUCCESS'"
-
   outputs:
     - standard_err
     - standard_out
