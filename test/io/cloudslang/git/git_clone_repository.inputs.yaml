@@ -16,6 +16,7 @@ testGitCloneRepository:
     - git_repository_localdir: "/tmp/cloud-slang-content"
     - git_branch: "master"
     - git_pull_remote: "origin"
+    - git_fetch_remote: "origin"
     - git_reset_target: "d4a770d3ffa6906f58e1f45a304fc285f635fa0a"
     - sudo_user: False
   description: Test that git is successfully able to clone a remote repository and pull code
