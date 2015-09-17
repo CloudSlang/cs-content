@@ -69,7 +69,7 @@ flow:
     - start_manager_container:
         do:
           start_manager:
-            - swarm_port: swarm_manager_port
+            - swarm_manager_port
             - cluster_id
             - host: manager_machine_ip
             - username: manager_machine_username
@@ -83,7 +83,7 @@ flow:
         do:
           get_cluster_info:
             - swarm_manager_ip: manager_machine_ip
-            - swarm_manager_port: swarm_port
+            - swarm_manager_port
             - host: manager_machine_ip
             - username: manager_machine_username
             - password: manager_machine_password
@@ -119,7 +119,7 @@ flow:
         do:
           get_cluster_info:
             - swarm_manager_ip: manager_machine_ip
-            - swarm_manager_port: swarm_port
+            - swarm_manager_port
             - host: manager_machine_ip
             - username: manager_machine_username
             - password: manager_machine_password
