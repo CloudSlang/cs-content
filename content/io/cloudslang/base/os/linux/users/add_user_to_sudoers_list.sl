@@ -11,7 +11,6 @@
 #    Inputs:
 #      - host - hostname or IP address
 #      - port - optional - port number for running the command
-#      - username - username to connect as
 #      - password - optional - password of user
 #      - private_key_file - optional - the path to the private key file
 #      - user: - the user to be added in sudoers group

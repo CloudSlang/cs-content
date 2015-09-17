@@ -28,8 +28,6 @@ flow:
         system_property: io.cloudslang.base.hostname
     - email_port:
         system_property: io.cloudslang.base.port
-    - port:
-        system_property: io.cloudslang.base.port
 
   workflow:
 
@@ -54,7 +52,7 @@ flow:
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p ' + port + ':' + email_port + ' -e maildomain=' + email_host + ' -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: "'docker run -p ' + docker_port + ':' + email_port + ' -e maildomain=' + email_host + ' -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
 
     - sleep:
         do:
@@ -65,7 +63,7 @@ flow:
         do:
           network.verify_app_is_up:
             - host: docker_host
-            - port
+            - port: docker_port
         navigate:
           SUCCESS: ping_hosts
           FAILURE: FAIL_TO_START_POSTFIX
@@ -86,7 +84,6 @@ flow:
          navigate:
            SUCCESS: SUCCESS
            FAILURE: MACHINE_IS_NOT_CLEAN
-
 
   results:
     - SUCCESS

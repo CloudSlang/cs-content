@@ -81,8 +81,7 @@ flow:
             do:
               delete_app:
                 - marathon_host
-                - marathon_port:
-                    required: false
+                - marathon_port
                 - app_id: app
         navigate:
           SUCCESS: create_marathon_app
