@@ -75,8 +75,10 @@ flow:
         do:
           http_client_action:
             - url
-            - username
-            - password
+            - username:
+                required: false
+            - password:
+                required: falsed
             - proxyHost:
                 default: proxy_host
                 required: false
