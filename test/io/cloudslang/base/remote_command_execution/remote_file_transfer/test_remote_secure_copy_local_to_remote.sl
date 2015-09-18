@@ -84,7 +84,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: 30
         navigate:
           SUCCESS: test_remote_secure_copy
           FAILURE: SLEEP_FAIL

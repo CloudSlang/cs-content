@@ -17,6 +17,7 @@ imports:
   maintenance: io.cloudslang.docker.maintenance
   containers: io.cloudslang.docker.containers
   base_print: io.cloudslang.base.print
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_remote_secure_copy_remote_to_remote
@@ -94,8 +95,16 @@ flow:
           base_cmd.run_command:
             - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image"
         navigate:
-          SUCCESS: create_file_and_copy_it_to_src_host
+          SUCCESS: sleep
           FAILURE: SECOND_HOST_NOT_STARTED
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: 30
+        navigate:
+          SUCCESS: create_file_and_copy_it_to_src_host
+          FAILURE: SLEEP_FAIL
 
     - create_file_and_copy_it_to_src_host:
         do:
@@ -165,6 +174,7 @@ flow:
     - KEY_ADDITION_FAIL
     - FIRST_HOST_NOT_STARTED
     - SECOND_HOST_NOT_STARTED
+    - SLEEP_FAIL
     - FILE_REACHING_SRC_HOST_FAIL
     - FILE_REACHING_DEST_HOST_FAIL
     - FILE_READ_FAIL
