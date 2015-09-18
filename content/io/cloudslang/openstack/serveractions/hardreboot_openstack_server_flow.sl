@@ -35,7 +35,7 @@ imports:
 
 
 flow:
-  name: stop_openstack_server_flow
+  name: hardreboot_openstack_server_flow
   inputs:
     - host
     - identity_port:
