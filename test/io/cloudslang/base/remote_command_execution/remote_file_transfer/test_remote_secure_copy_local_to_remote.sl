@@ -22,7 +22,6 @@ flow:
   inputs:
     - host
     - username
-    - password
     - port
     - scp_host_port
     - scp_file

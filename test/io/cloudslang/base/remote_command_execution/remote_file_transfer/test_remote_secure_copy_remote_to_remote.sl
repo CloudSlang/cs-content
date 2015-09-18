@@ -23,7 +23,6 @@ flow:
   inputs:
     - host
     - username
-    - password
     - port
     - first_scp_host_port
     - second_scp_host_port
