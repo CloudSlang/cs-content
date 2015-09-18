@@ -19,6 +19,7 @@ flow:
     - username
     - password
     - git_repository
+    - git_fetch_remote
     - git_repository_localdir
     - git_pull_remote
     - git_branch
@@ -48,8 +49,24 @@ flow:
             - git_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: reset_git_branch
+          SUCCESS: fetch_git_branch
           FAILURE: CHECKOUTFAILURE
+        publish:
+          - standard_out
+
+    - fetch_git_branch:
+        do:
+          git_fetch:
+            - host
+            - port
+            - username
+            - password
+            - git_fetch_remote
+            - git_branch
+            - git_repository_localdir
+        navigate:
+          SUCCESS: reset_git_branch
+          FAILURE: FETCHFAILURE
         publish:
           - standard_out
 
@@ -93,3 +110,4 @@ flow:
     - CHECKOUTFAILURE
     - CLEANUPFAILURE
     - RESETFAILURE
+    - FETCHFAILURE
