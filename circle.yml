@@ -34,7 +34,8 @@ test:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
-        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul;
+        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
+        && docker run -d -p 3000:80 --name swagger -e "URL=http://petstore.swagger.io/v2/swagger.json" ianneub/swagger-ui;
         fi
       : parallel: true
     - ? > ### machine 1
@@ -59,7 +60,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest -cov ;;
         1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE} -cov ;;
         esac
       : parallel: true

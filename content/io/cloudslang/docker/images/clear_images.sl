@@ -93,5 +93,5 @@ flow:
             - return_result: returnResult
             - error_message: standard_err
   outputs:
-    - reposnse: return_result
+    - response: return_result
     - error_message: error_message
