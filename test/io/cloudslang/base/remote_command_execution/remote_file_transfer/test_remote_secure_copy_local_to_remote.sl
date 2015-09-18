@@ -16,6 +16,7 @@ imports:
   base_strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
   containers: io.cloudslang.docker.containers
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_remote_secure_copy_local_to_remote
@@ -77,8 +78,16 @@ flow:
           base_cmd.run_command:
             - command: "'echo ' + text_to_check + ' >> ' + scp_file"
         navigate:
-          SUCCESS: test_remote_secure_copy
+          SUCCESS: sleep
           FAILURE: FILE_CREATION_FAIL
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: 5
+        navigate:
+          SUCCESS: test_remote_secure_copy
+          FAILURE: SLEEP_FAIL
 
     - test_remote_secure_copy:
         do:
@@ -127,6 +136,7 @@ flow:
     - KEY_GENERATION_FAIL
     - KEY_ADDITION_FAIL
     - SCP_HOST_NOT_STARTED
+    - SLEEP_FAIL
     - FILE_CREATION_FAIL
     - FILE_READ_FAIL
     - FILE_CHECK_FAIL
