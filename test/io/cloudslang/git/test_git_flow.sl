@@ -22,6 +22,7 @@ flow:
     - git_fetch_remote
     - git_repository_localdir
     - git_pull_remote
+    - git_merge_branch
     - git_branch
     - git_reset_target
   workflow:
@@ -62,11 +63,25 @@ flow:
             - username
             - password
             - git_fetch_remote
-            - git_branch
+            - git_repository_localdir
+        navigate:
+          SUCCESS: merge_git_branch
+          FAILURE: FETCHFAILURE
+        publish:
+          - standard_out
+
+    - merge_git_branch:
+        do:
+          git_merge:
+            - host
+            - port
+            - username
+            - password
+            - git_merge_branch
             - git_repository_localdir
         navigate:
           SUCCESS: reset_git_branch
-          FAILURE: FETCHFAILURE
+          FAILURE: MERGEFAILURE
         publish:
           - standard_out
 
@@ -109,5 +124,6 @@ flow:
     - CLONEFAILURE
     - CHECKOUTFAILURE
     - CLEANUPFAILURE
+    - MERGEFAILURE
     - RESETFAILURE
     - FETCHFAILURE
