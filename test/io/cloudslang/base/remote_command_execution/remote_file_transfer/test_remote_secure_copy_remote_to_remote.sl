@@ -27,7 +27,6 @@ flow:
     - port
     - first_scp_host_port
     - second_scp_host_port
-    - scp_path
     - scp_file
     - scp_username
     - key_name
@@ -37,6 +36,9 @@ flow:
         overridable: false
     - authorized_keys_path:
         default: "'~/.ssh/authorized_keys'"
+        overridable: false
+    - container_path:
+        default: "'/home/data/'"
         overridable: false
 
   workflow:
@@ -52,14 +54,14 @@ flow:
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + '&& rm -f ~/.ssh/known_hosts && rm -f ' + authorized_keys_path"
+            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts'"
         navigate:
           SUCCESS: cat1
           FAILURE: KEY_GENERATION_FAIL
     - cat1:
         do:
           base_cmd.run_command:
-            - command: "'cat key_r2r.pub'"
+            - command: "'cat ' + key_name + '.pub'"
         navigate:
           SUCCESS: add_key_to_authorized
           FAILURE: FAILURE
@@ -67,7 +69,7 @@ flow:
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
-            - command: "'echo \"$(cat ' + key_name + '.pub)\" >> ' + authorized_keys_path"
+            - command: "'cat ' + key_name + '.pub >> ' + authorized_keys_path"
         navigate:
           SUCCESS: cat2
           FAILURE: KEY_ADDITION_FAIL
@@ -77,21 +79,13 @@ flow:
           base_cmd.run_command:
             - command: "'cat ' + authorized_keys_path"
         navigate:
-          SUCCESS: create_needed_folders
-          FAILURE: FAILURE
-
-    - create_needed_folders:
-        do:
-          base_cmd.run_command:
-            - command: "'mkdir data1 data2'"
-        navigate:
           SUCCESS: create_first_host
-          FAILURE: FOLDER_CREATION_FAIL
+          FAILURE: FAILURE
 
     - create_first_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + first_scp_host_port + ':22 -v /data1:' + scp_path + ' ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + first_scp_host_port + ':22 -v /data1:' + container_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_second_host
           FAILURE: FIRST_HOST_NOT_STARTED
@@ -99,7 +93,7 @@ flow:
     - create_second_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + second_scp_host_port + ':22 -v /data2:' + scp_path + ' ' + docker_scp_image"
+            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image"
         navigate:
           SUCCESS: create_file_and_copy_it_to_src_host
           FAILURE: SECOND_HOST_NOT_STARTED
@@ -107,7 +101,7 @@ flow:
     - create_file_and_copy_it_to_src_host:
         do:
           base_cmd.run_command:
-            - command: "'echo ' + text_to_check + ' >> ' + scp_file + ' && scp -vvv -P ' + first_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + scp_path + scp_file"
+            - command: "'echo ' + text_to_check + ' >> ' + scp_file + ' && scp -vvv -P ' + first_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file"
         navigate:
           SUCCESS: test_remote_secure_copy
           FAILURE: FILE_REACHING_SRC_HOST_FAIL
@@ -116,12 +110,12 @@ flow:
         do:
           base_rft.remote_secure_copy:
             - sourceHost: host
-            - sourcePath: "scp_path + scp_file"
+            - sourcePath: "container_path + scp_file"
             - sourcePort: first_scp_host_port
             - sourceUsername: scp_username
             - sourcePrivateKeyFile: key_name
             - destinationHost: host
-            - destinationPath: "scp_path + scp_file"
+            - destinationPath: "container_path + scp_file"
             - destinationPort: second_scp_host_port
             - destinationUsername: scp_username
             - destinationPrivateKeyFile: key_name
@@ -134,7 +128,7 @@ flow:
     - get_file_from_dest_host:
         do:
           base_cmd.run_command:
-            - command: "'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  + scp_username + '@' + host + ':' + scp_path + scp_file + ' ' + scp_file"
+            - command: "'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  + scp_username + '@' + host + ':' + container_path + scp_file + ' ' + scp_file"
         navigate:
           SUCCESS: read_file
           FAILURE: FILE_REACHING_DEST_HOST_FAIL
@@ -153,7 +147,7 @@ flow:
         do:
           base_strings.string_equals:
             - first_string: text_to_check
-            - second_string: read_text
+            - second_string: read_text.strip()
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FILE_CHECK_FAIL
@@ -170,7 +164,6 @@ flow:
     - SCP_IMAGE_NOT_PULLED
     - KEY_GENERATION_FAIL
     - KEY_ADDITION_FAIL
-    - FOLDER_CREATION_FAIL
     - FIRST_HOST_NOT_STARTED
     - SECOND_HOST_NOT_STARTED
     - FILE_REACHING_SRC_HOST_FAIL
