@@ -15,7 +15,7 @@
 #       - password - optional - password of user
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
 #                                 - Default: /tmp/repo.git
-#       - git_merge_branch - specify the branch to merge to
+#       - git_merge_branch - specify the branch to merge from
 #       - sudo_user - optional - true or false, whether the command should execute using sudo
 #       - private_key_file - relative or absolute path to the private key file
 #

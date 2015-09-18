@@ -63,7 +63,6 @@ flow:
             - username
             - password
             - git_fetch_remote
-            - git_branch
             - git_repository_localdir
         navigate:
           SUCCESS: merge_git_branch
