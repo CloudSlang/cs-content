@@ -31,7 +31,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openshift..examples
+namespace: io.cloudslang.openshift
 
 operation:
   name: create_new_app
