@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an application in OpenShift
+# Create an application in OpenShift
 # NOTE: This is experimental and while the app is created it cannot run yet
 # WIP
 #

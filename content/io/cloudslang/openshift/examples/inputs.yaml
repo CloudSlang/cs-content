@@ -7,10 +7,10 @@
 #
 ####################################################
 cartridgeName: "jbosseap"
-applicationName: "yourApplicationName"
+applicationName: "mbeApp"
 scale: "true"
 gear_size: "small"
 host: "openshift.redhat.com"
-username: "yourAccount"
-password: "yourPassword"
-domain: "yourDomainName"
+username: "bettan.michael@gmail.com"
+password: "HP1nvent"
+domain: "mbe0042"

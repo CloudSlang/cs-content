@@ -6,14 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Delete an application in OpenShift
-# NOTE: This is experimental and while the app is created it cannot run yet
-# WIP
+# Start a cartridge in OpenShift
 #
 # Inputs:
 #   - ApplicationId - OpenShift Application Identifier. Example : 55f771c589f5cffd48000015
-#   - scale - optional - Mark application as scalable. Value : true, false
-#   - gear_profile - optional - Size of the gear. Value : small, medium
+#   - cartridgeName - OpenShift cartridge Name. 
 #   - host - OpenShift host
 #   - username - OpenShift username
 #   - password - OpenShift username
@@ -23,19 +20,21 @@
 #   - timeout - optional - Timeout - Default: 0
 # Outputs:
 #   - return_result - response of the operation
-#   - status_code - normal status code is 202
-#   - error_message: returnResult if statusCode != '202'
+#   - status_code - normal status code is 200
+#   - error_message: returnResult if statusCode != '200'
 # Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
+#   - SUCCESS - operation succeeded (statusCode == '200')
 #   - FAILURE - otherwise
-###############################################
+####################################################
 
 namespace: io.cloudslang.openshift
 
 operation:
-  name: delete_app
+  name: start_cartridge
   inputs:
     - applicationId:
+        required: true
+    - cartridgeName:
         required: true
     - host:
         required: true
@@ -43,18 +42,25 @@ operation:
         required: true
     - password:
         required: true
-    - domain:
-        required: true
+    - statusApp:
+        default: "'start'"
     - url:
-        default: "'https://' + host + '/broker/rest/application/' + applicationId"
+        default: "'https://' + host + '/broker/rest/application/' + applicationId + '/cartridge/' + cartridgeName + '/events'"
         overridable: false
     - headers:
         default: "'Accept: application/json'"
         overridable: false
+    - body:
+        default: >
+          '{"event": "' + statusApp + '"}'
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
     - trustAllRoots:
         default: "'true'"
     - method:
-        default: "'delete'"
+        default: "'post'"
         overridable: false
     - proxy_host:
         required: false
@@ -67,7 +73,7 @@ operation:
         default: "proxy_port if proxy_port else ''"
         overridable: false
     - timeout:
-        default: "120"
+        default: "0"
         overridable: false
   action:
     java_action:
@@ -76,8 +82,8 @@ operation:
   outputs:
     - return_result: returnResult
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '201' else ''
+    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '200' else ''
 
   results:
-    - SUCCESS: "'statusCode' in locals() and statusCode == '201'"
+    - SUCCESS: "'statusCode' in locals() and statusCode == '200'"
     - FAILURE
