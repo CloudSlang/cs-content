@@ -6,14 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Delete an application in OpenShift
-# NOTE: This is experimental and while the app is created it cannot run yet
-# WIP
+# Delete a cartridge in OpenShift
 #
 # Inputs:
 #   - ApplicationId - OpenShift Application Identifier. Example : 55f771c589f5cffd48000015
-#   - scale - optional - Mark application as scalable. Value : true, false
-#   - gear_profile - optional - Size of the gear. Value : small, medium
+#   - cartridgeName - OpenShift cartridge Name. 
 #   - host - OpenShift host
 #   - username - OpenShift username
 #   - password - OpenShift username
@@ -23,19 +20,21 @@
 #   - timeout - optional - Timeout - Default: 0
 # Outputs:
 #   - return_result - response of the operation
-#   - status_code - normal status code is 202
-#   - error_message: returnResult if statusCode != '202'
+#   - status_code - normal status code is 200
+#   - error_message: returnResult if statusCode != '200'
 # Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
+#   - SUCCESS - operation succeeded (statusCode == '200')
 #   - FAILURE - otherwise
-###############################################
+####################################################
 
 namespace: io.cloudslang.openshift
 
 operation:
-  name: delete_app
+  name: delete_cartridge
   inputs:
     - applicationId:
+        required: true
+    - cartridgeName:
         required: true
     - host:
         required: true
@@ -46,7 +45,7 @@ operation:
     - domain:
         required: true
     - url:
-        default: "'https://' + host + '/broker/rest/application/' + applicationId"
+        default: "'https://' + host + '/broker/rest/application/' + applicationId + '/cartridge/' + cartridgeName"
         overridable: false
     - headers:
         default: "'Accept: application/json'"

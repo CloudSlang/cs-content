@@ -6,12 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Delete an application in OpenShift
+# Creates an embedded cartridge in OpenShift
 # NOTE: This is experimental and while the app is created it cannot run yet
 # WIP
 #
 # Inputs:
-#   - ApplicationId - OpenShift Application Identifier. Example : 55f771c589f5cffd48000015
+#   - cartridgeName - cartridge name
+#   - applicationName - OpenShift application name
 #   - scale - optional - Mark application as scalable. Value : true, false
 #   - gear_profile - optional - Size of the gear. Value : small, medium
 #   - host - OpenShift host
@@ -28,15 +29,23 @@
 # Results:
 #   - SUCCESS - operation succeeded (statusCode == '202')
 #   - FAILURE - otherwise
-###############################################
+####################################################
 
-namespace: io.cloudslang.openshift
+namespace: io.cloudslang.openshift..examples
 
 operation:
-  name: delete_app
+  name: create_new_app
   inputs:
-    - applicationId:
+    - cartridgeName:
         required: true
+    - scales_from:
+        required: false
+    - scales_to:
+        required: false
+    - gear_size:
+        required: true
+    - additional_storage:
+        required: false
     - host:
         required: true
     - username:
@@ -46,15 +55,22 @@ operation:
     - domain:
         required: true
     - url:
-        default: "'https://' + host + '/broker/rest/application/' + applicationId"
+        default: "'https://' + host + '/broker/rest/domain/' + domain + '/applications'"
         overridable: false
     - headers:
         default: "'Accept: application/json'"
         overridable: false
+    - body:
+        default: >
+          '{ "name": "' + cartridgeName + '" , "gear_size": "' + gear_size + '"}'
+        overridable: false
+    - contentType:
+        default: "'application/json'"
+        overridable: false
     - trustAllRoots:
         default: "'true'"
     - method:
-        default: "'delete'"
+        default: "'post'"
         overridable: false
     - proxy_host:
         required: false
@@ -67,7 +83,7 @@ operation:
         default: "proxy_port if proxy_port else ''"
         overridable: false
     - timeout:
-        default: "120"
+        default: "0"
         overridable: false
   action:
     java_action:
