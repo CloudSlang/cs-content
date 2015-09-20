@@ -34,7 +34,7 @@
 namespace: io.cloudslang.openshift
 
 operation:
-  name: create_new_app
+  name: create_cartridge
   inputs:
     - cartridgeName:
         required: true
