@@ -44,8 +44,8 @@ test:
         && ci-env/circleci/create_droplets.sh;
         fi
       : parallel: true
-    - ? > ### every machine # TODO: replace with proper release before merge
-        wget https://www.dropbox.com/s/slrvccwv8ig94ue/cslang-builder.zip
+    - ? > ### every machine
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.2/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
