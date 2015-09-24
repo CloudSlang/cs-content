@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.platform_as_a_service.openshift.applications
+namespace: io.cloudslang.paas.openshift.applications
 
 imports:
   lists: io.cloudslang.base.lists
