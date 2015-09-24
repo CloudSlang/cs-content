@@ -39,7 +39,8 @@ flow:
         required: false
     - proxy_host:
         required: false
-    - proxy_port: "'8080'"
+    - proxy_port:
+        default: "'8080'"
         required: false
     - proxy_username:
         required: false
