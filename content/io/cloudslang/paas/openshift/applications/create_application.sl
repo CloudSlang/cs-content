@@ -57,7 +57,8 @@ flow:
     - domain
     - application_name
     - cartridge
-    - scale: False
+    - scale:
+        default: False
         required: false
     - gear_profile:
         required: false
