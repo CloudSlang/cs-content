@@ -49,20 +49,13 @@ flow:
     - get_dangling_images:
         do:
           get_dangling_images:
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - timeout
+            - port
         publish:
           - all_dangling_images: dangling_image_list
     - substract_used_dangling_images:
@@ -79,21 +72,14 @@ flow:
     - delete_images:
         do:
           clear_images:
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - timeout
+            - port
         publish:
           - response
   outputs:

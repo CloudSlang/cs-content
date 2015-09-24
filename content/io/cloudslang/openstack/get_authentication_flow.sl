@@ -35,8 +35,7 @@ flow:
   name: get_authentication_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
+    - identity_port: "'5000'"
     - username
     - password
     - tenant_name
@@ -53,10 +52,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - response_body: return_result
           - return_code

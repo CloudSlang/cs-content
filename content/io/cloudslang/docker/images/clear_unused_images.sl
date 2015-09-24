@@ -53,39 +53,25 @@ flow:
     - get_all_images:
         do:
           get_all_images:
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - port:
-                required: false
-            - timeout:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
+            - timeout
         publish:
           - all_images_list: image_list
     - get_used_images:
         do:
           get_used_images:
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - port:
-                required: false
-            - timeout:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
+            - timeout
         publish:
           - used_images_list: image_list
 
@@ -121,19 +107,14 @@ flow:
             for: image in used_images_list.split()
             do:
               get_image_parent:
-                - docker_options:
-                    required: false
+                - docker_options
                 - docker_host
                 - docker_username
-                - docker_password:
-                    required: false
+                - docker_password
                 - image_name: image
-                - private_key_file:
-                    required: false
-                - timeout:
-                    required: false
-                - port:
-                    required: false
+                - private_key_file
+                - timeout
+                - port
             publish:
                 - all_parent_images: >
                     fromInputs['all_parent_images'] if fromInputs['all_parent_images'] is not None else "" + parent_image_name + " "
@@ -151,21 +132,14 @@ flow:
     - delete_images:
         do:
           clear_images:
-            - docker_options:
-                required: false
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - timeout
+            - port
         publish:
           - response
 

@@ -34,10 +34,8 @@ flow:
   name: validate_server_exists
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - identity_port: "'5000'"
+    - compute_port: "'8774'"
     - username
     - password
     - tenant_name
@@ -56,10 +54,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - server_list
           - return_result

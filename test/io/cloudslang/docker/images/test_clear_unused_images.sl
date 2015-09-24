@@ -103,8 +103,7 @@ flow:
             - docker_host: host
             - docker_username: username
             - docker_password: password
-            - port:
-                required: false
+            - port
         publish:
           - images_list_safe_to_delete
           - amount_of_images_deleted

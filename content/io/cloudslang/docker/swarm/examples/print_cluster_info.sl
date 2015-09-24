@@ -63,23 +63,15 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
         publish:
           - number_of_containers_in_cluster
 

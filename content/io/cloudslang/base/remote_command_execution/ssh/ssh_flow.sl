@@ -59,28 +59,17 @@ flow:
           do:
             ssh_command:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - privateKeyFile:
-                  required: false
-              - command:
-                  default: "' '"
-                  overridable: false
-              - arguments:
-                  required: false
-              - characterSet:
-                  required: false
-              - pty:
-                  required: false
-              - timeout:
-                  required: false
-              - closeSession:
-                  required: false
-              - agentForwarding:
-                  required: false
+              - password
+              - privateKeyFile
+              - command: "' '"
+              - arguments
+              - characterSet
+              - pty
+              - timeout
+              - closeSession
+              - agentForwarding
           publish:
             - returnResult
             - standard_out
@@ -92,26 +81,17 @@ flow:
           do:
             ssh_command:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - privateKeyFile:
-                  required: false
+              - password
+              - privateKeyFile
               - command
-              - arguments:
-                  required: false
-              - characterSet:
-                  required: false
-              - pty:
-                  required: false
-              - timeout:
-                  required: false
-              - closeSession:
-                  required: false
-              - agentForwarding:
-                  required: false
+              - arguments
+              - characterSet
+              - pty
+              - timeout
+              - closeSession
+              - agentForwarding
           publish:
             - returnResult
             - return_code

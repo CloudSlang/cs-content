@@ -46,13 +46,10 @@ flow:
           docker_containers.clear_container:
             - container_id: db_container_ID
             - docker_host
-            - port:
-                required: false
+            - port
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password
+            - private_key_file
         publish:
           - error_message
     - clear_linked_container:
@@ -60,13 +57,10 @@ flow:
           docker_containers.clear_container:
             - container_id: linked_container_ID
             - docker_host
-            - port:
-                required: false
+            - port
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password
+            - private_key_file
         publish:
           - error_message
   outputs:
