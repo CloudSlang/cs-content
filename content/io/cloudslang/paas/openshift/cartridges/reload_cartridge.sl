@@ -62,8 +62,10 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username
-            - proxy_password
+            - proxy_username:
+                required: false
+            - proxy_password:
+                required: false
             - content_type: "'application/json'"
             - body: "'{\"event\":\"reload\"}'"
             - headers: "'Accept: application/json'"

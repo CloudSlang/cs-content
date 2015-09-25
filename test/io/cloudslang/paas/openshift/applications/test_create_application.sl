@@ -51,14 +51,17 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username
-            - proxy_password
+            - proxy_username:
+                required: false
+            - proxy_password:
+                required: false
             - domain
             - application_name
             - cartridge
             - scale
             - gear_profile
-            - initial_git_url
+            - initial_git_url:
+                required: false
 
         publish:
           - return_result

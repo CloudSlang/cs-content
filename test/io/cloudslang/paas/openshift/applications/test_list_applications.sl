@@ -42,8 +42,10 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username
-            - proxy_password
+            - proxy_username:
+                required: false
+            - proxy_password:
+                required: false
             - domain
         publish:
           - return_result
