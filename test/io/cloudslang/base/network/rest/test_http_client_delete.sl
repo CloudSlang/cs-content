@@ -38,16 +38,12 @@ flow:
         do:
           http_client_delete:
             - url
-            - username:
-                required: false
-            - password:
-                required: false
+            - username
+            - password
             - content_type
             - method
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

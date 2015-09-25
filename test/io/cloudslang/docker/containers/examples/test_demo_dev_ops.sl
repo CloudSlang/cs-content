@@ -42,8 +42,7 @@ flow:
              - docker_host
              - port: docker_ssh_port
              - docker_username
-             - docker_password:
-                  required: false
+             - docker_password
          navigate:
            SUCCESS: execute_demo_dev_ops
            FAILURE: CLEAR_DOCKER_HOST_PROBLEM
@@ -54,10 +53,8 @@ flow:
             - docker_host
             - docker_ssh_port
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password
+            - private_key_file
             - db_container_name
             - app_container_name
             - app_port
@@ -74,10 +71,8 @@ flow:
           containers.clear_containers:
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password
+            - private_key_file
             - timeout
             - port: docker_ssh_port
         navigate:

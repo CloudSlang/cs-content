@@ -42,13 +42,10 @@ flow:
     - parse_register_agent_service_request:
           do:
             parse_register_agent_service_request:
-                - address:
-                    required: false
+                - address
                 - service_name
-                - service_id:
-                    required: false
-                - check:
-                    required: false
+                - service_id
+                - check
           publish:
             - json_request
     - send_register_agent_service_request:

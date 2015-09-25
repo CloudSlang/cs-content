@@ -63,16 +63,10 @@ flow:
             do:
               retrieve_mysql_status:
                   - host: docker_host
-                  - port:
-                      default: docker_port
-                      required: false
+                  - port: docker_port
                   - username: docker_username
-                  - password:
-                      required: false
-                      default: docker_password
-                  - private_key_file:
-                      required: false
-                      default: docker_private_key_file
+                  - password: docker_password
+                  - private_key_file: docker_private_key_file
                   - container
                   - mysql_username
                   - mysql_password
@@ -92,6 +86,8 @@ flow:
               base_mail.send_mail:
                   - hostname: email_host
                   - port: email_port
+                  - username: email_username
+                  - password: email_password
                   - htmlEmail: "'false'"
                   - from: email_sender
                   - to: email_recipient
@@ -101,12 +97,6 @@ flow:
                        + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
                        + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
                        + '\nQueries per second avg: ' + queries_per_second_AVG
-                  - username:
-                        default: email_username
-                        required: false
-                  - password:
-                        default: email_password
-                        required: false
 
     - on_failure:
       - send_error_mail:
@@ -114,12 +104,8 @@ flow:
               base_mail.send_mail:
                   - hostname: email_host
                   - port: email_port
-                  - username:
-                        default: email_username
-                        required: false
-                  - password:
-                        default: email_password
-                        required: false
+                  - username: email_username
+                  - password: email_password
                   - from: email_sender
                   - to: email_recipient
                   - subject: "'MySQL Server Status on ' + docker_host"

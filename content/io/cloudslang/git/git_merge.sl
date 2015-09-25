@@ -56,17 +56,13 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - git_merge: "' && git merge ' + git_merge_branch "
             - command: "sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                  default: private_key_file
-                  required: false
+            - password
+            - privateKeyFile: private_key_file
         publish:
           - standard_err
           - standard_out

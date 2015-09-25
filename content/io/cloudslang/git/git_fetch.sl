@@ -57,17 +57,13 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - git_fetch: "' && git fetch ' + git_fetch_remote "
             - command: "sudo_command + 'cd ' + git_repository_localdir + git_fetch + ' && echo GIT_SUCCESS'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                  default: private_key_file
-                  required: false
+            - password
+            - privateKeyFile: private_key_file
         publish:
           - standard_err
           - standard_out

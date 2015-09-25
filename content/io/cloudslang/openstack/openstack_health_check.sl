@@ -45,8 +45,7 @@ flow:
         required: false
     - network_id:
         required: false
-    - server_name:
-        default: "'test-server'"
+    - server_name: "'test-server'"
     - img_ref
     - username
     - password
@@ -64,21 +63,16 @@ flow:
         do:
           create_openstack_server_flow:
             - host
-            - identity_port:
-                required: false
-            - compute_port:
-                required: false
-            - network_id:
-                required: false
+            - identity_port
+            - compute_port
+            - network_id
             - img_ref
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
 
@@ -86,36 +80,28 @@ flow:
         do:
           validate_server_exists:
             - host
-            - identity_port:
-                required: false
-            - compute_port:
-                required: false
+            - identity_port
+            - compute_port
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
     - delete_server:
         do:
           delete_openstack_server_flow:
             - host
-            - identity_port:
-                required: false
-            - compute_port:
-                required: false
+            - identity_port
+            - compute_port
             - username
             - password
             - tenant_name
             - server_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"
     - on_failure:

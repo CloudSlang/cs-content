@@ -40,15 +40,9 @@ flow:
     - username
     - password:
         required: false
-    - git_repository_localdir:
-        default: "'/tmp/repo.git'"
-        required: true
-    - git_push_branch:
-        default: "'master'"
-        required: true
-    - git_push_remote:
-        default: "'origin'"
-        required: true
+    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_push_branch: "'master'"
+    - git_push_remote: "'origin'"
     - sudo_user:
         default: false
         required: false
@@ -60,16 +54,13 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - git_push: "' && git push ' + git_push_remote + ' ' + git_push_branch "
             - command: "sudo_command + 'cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                  required: false
+            - password
+            - privateKeyFile
         publish:
           - standard_err
           - standard_out

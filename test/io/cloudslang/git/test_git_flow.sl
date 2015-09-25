@@ -105,9 +105,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - command:
-                default: "'rm -r ' + git_repository_localdir"
-                overridable: false
+            - command: "'rm -r ' + git_repository_localdir"
             - username
             - password
         navigate:

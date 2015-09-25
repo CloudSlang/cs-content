@@ -77,34 +77,20 @@ flow:
         do:
           containers.run_container:
             - docker_options
-            - container_name:
-                required: false
-            - container_params:
-                required: false
-            - container_command:
-                required: false
+            - container_name
+            - container_params
+            - container_command
             - image_name
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - password
+            - private_key_file
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
           - container_ID
   outputs:
