@@ -28,7 +28,10 @@
 
 namespace: io.cloudslang.openstack.serveractions
 
-operation:
+imports:
+ rest: io.cloudslang.base.network.rest
+
+flow:
   name: softreboot_openstack_server
   inputs:
     - host
@@ -41,37 +44,35 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port else ''"
-        overridable: false
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'http://' + host + ':' + compute_port + '/v2/' + tenant + '/servers/'+ server_id + '/action'"
-        overridable: false
-    - body:
-        default: >
-          '{"reboot": { "type": "SOFT" } }'
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-    - method:
-        default: "'post'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
-  outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '202' else ''
+  workflow:
+    - execute_post:
+        do:
+          rest.http_client_post:
+              - url:
+                  default: "'http://' + host + ':' + compute_port + '/v2/' + tenant + '/servers/'+ server_id + '/action'"
+                  overridable: false
+              - proxy_host:
+                  required: false
+              - proxy_port:
+                  required: false
+              - headers:
+                  default: "'X-AUTH-TOKEN:' + token"
+                  overridable: false
+              - body:
+                  default: >
+                    '{"reboot": { "type": "SOFT" } }'
+                  overridable: false
+              - content_type:
+                  default: "'application/json'"
+                  overridable: false
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
 
-  results:
-    - SUCCESS: "'statusCode' in locals() and statusCode == '202'"
-    - FAILURE
+  outputs:
+      - return_result
+      - error_message
+      - return_code
+      - status_code

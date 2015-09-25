@@ -27,7 +27,10 @@
 
 namespace: io.cloudslang.openstack
 
-operation:
+imports:
+ rest: io.cloudslang.base.network.rest
+
+flow:
   name: get_openstack_server_details
   inputs:
     - host
@@ -40,25 +43,30 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host else ''"
-    - proxyPort: "proxy_port if proxy_port else ''"
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant + '/servers/' + server_id "
-        overridable: false
-    - method:
-        default: "'get'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+
+  workflow:
+    - execute_get:
+        do:
+          rest.http_client_get:
+            - url:
+                default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant + '/servers/' + server_id "
+                overridable: false
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
+            - headers:
+                default: "'X-AUTH-TOKEN:' + token"
+                overridable: false
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
   outputs:
-    - return_result: returnResult
-    - status_code: statusCode
-    - error_message: returnResult if statusCode != '200' else ''
-  results:
-    - SUCCESS : "'statusCode' in locals() and statusCode == '200'"
-    - FAILURE
+      - return_result
+      - error_message
+      - return_code
+      - status_code
+
+
