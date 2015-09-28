@@ -19,17 +19,22 @@ flow:
   inputs:
     - host
     - username:
+        default: "''"
         required: false
     - password:
+        default: "''"
         required: false
     - proxy_host:
+        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
         required: false
     - proxy_username:
+        default: "''"
         required: false
     - proxy_password:
+        default: "''"
         required: false
     - domain
     - application_name
@@ -43,10 +48,8 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
+            - proxy_username
+            - proxy_password
             - domain
             - application_name
         publish:
