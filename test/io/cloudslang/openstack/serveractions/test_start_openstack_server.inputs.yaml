@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testStartServerLocal:
+testStartOpenStackServerLocal:
   testSuites: [openstack-local]
   description: "Test that it starts an stopped OpenStack server (instance) and changes its status to ACTIVE."
   testFlowPath: io.cloudslang.openstack.serveractions.test_start_openstack_server
