@@ -30,50 +30,97 @@ namespace: io.cloudslang.openstack.serveractions
 
 imports:
  rest: io.cloudslang.base.network.rest
+ auth: io.cloudslang.openstack
+ json: io.cloudslang.base.json
 
 flow:
   name: resume_openstack_server
   inputs:
     - host
-    - compute_port:
-        default: "'8774'"
-    - token
-    - tenant
+    - compute_port: "'8774'"
+    - tenant_name
+    - tenant_id
     - server_id
+    - username:
+        default: "''"
+        required: false
+    - password:
+        default: "''"
+        required: false
     - proxy_host:
+        default: "''"
         required: false
     - proxy_port:
+        default: "'8080'"
+        required: false
+    - proxy_username:
+        default: "''"
+        required: false
+    - proxy_password:
+        default: "''"
         required: false
 
   workflow:
-    - execute_post:
+    - get_authentication:
+        do:
+          auth.get_authentication:
+            - host
+            - tenant_name
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - auth_response: return_result
+          - error_message
+          - return_code
+          - status_code
+        navigate:
+          SUCCESS: get_authentication_token
+          FAILURE: GET_AUTHENTICATION_FAILURE
+
+    - get_authentication_token:
+        do:
+          json.get_value_from_json:
+            - json_input: auth_response
+            - key_list: ["'access'", "'token'", "'id'"]
+        publish:
+          - token: value
+        navigate:
+          SUCCESS: resume_server
+          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+
+    - resume_server:
         do:
           rest.http_client_post:
-              - url:
-                  default: "'http://' + host + ':' + compute_port + '/v2/' + tenant + '/servers/'+ server_id + '/action'"
-                  overridable: false
-              - proxy_host:
-                  required: false
-              - proxy_port:
-                  required: false
-              - headers:
-                  default: "'X-AUTH-TOKEN:' + token"
-                  overridable: false
-              - body:
-                  default: >
-                    '{"resume": "null"}'
-                  overridable: false
-              - content_type:
-                  default: "'application/json'"
-                  overridable: false
+            - url: "'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'"
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers: "'X-AUTH-TOKEN:' + token"
+            - body: "'{\"resume\":null}'"
+            - content_type: "'application/json'"
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: RESUME_SERVER_FAILURE
 
   outputs:
-      - return_result
-      - error_message
-      - return_code
-      - status_code
+    - return_result
+    - error_message
+    - return_code
+    - status_code
+    - token
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_FAILURE
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - RESUME_SERVER_FAILURE
