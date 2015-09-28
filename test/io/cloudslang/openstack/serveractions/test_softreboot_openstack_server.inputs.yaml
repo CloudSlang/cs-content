@@ -4,8 +4,12 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
-testSuspendOpenStackServerLocal:
+testSoftrebootOpenStackServerLocal:
+  testSuites: [openstack-local]
+  description: "Test that it sends a signal to reboot to an specified OpenStack server (instance)."
+  testFlowPath: io.cloudslang.openstack.serveractions.softreboot_openstack_server
   inputs:
     - host: <host>
     - compute_port: <compute_port>
@@ -18,7 +22,4 @@ testSuspendOpenStackServerLocal:
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
-  description: "Test that it suspends an running OpenStack server (instance) and changes its status to SUSPENDED."
-  testFlowPath: io.cloudslang.openstack.serveractions.suspend_openstack_server
-  testSuites: [openstack-local]
   result: SUCCESS

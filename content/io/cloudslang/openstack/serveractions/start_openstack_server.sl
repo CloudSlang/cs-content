@@ -17,7 +17,7 @@
 #
 # Inputs:
 #   - host - OpenStack host (instance)
-#   - compute_port - port used for OpenStack computations - Default: 8774
+#   - compute_port - port used for OpenStack computations - Default: "'8774'"
 #   - tenant_name - name of the OpenStack project that contains the server (instance) to be stopped
 #   - tenant_id - the id corresponding to tenant_name
 #   - server_id - the id of the server (instance) to be stopped
@@ -42,9 +42,9 @@
 namespace: io.cloudslang.openstack.serveractions
 
 imports:
- rest: io.cloudslang.base.network.rest
- auth: io.cloudslang.openstack
- json: io.cloudslang.base.json
+  rest: io.cloudslang.base.network.rest
+  auth: io.cloudslang.openstack
+  json: io.cloudslang.base.json
 
 flow:
   name: start_openstack_server

@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
 #   - token - OpenStack token obtained after authentication
 #   - tenant - OpenStack tenantID obtained after authentication
 #   - server_id - OpenStack Server ID
@@ -22,16 +22,18 @@
 #   - status_code - normal status code is 202
 #   - error_message: returnResult if statusCode != '202'
 # Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
-#   - FAILURE - otherwise
+#   - SUCCESS - OpenStack server (instance) was successfully suspended
+#   - GET_AUTHENTICATION_FAILURE - the authentication step fail
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
+#   - RESUME_SERVER_FAILURE - OpenStack server (instance) cannot be resumed
 ####################################################
 
 namespace: io.cloudslang.openstack.serveractions
 
 imports:
- rest: io.cloudslang.base.network.rest
- auth: io.cloudslang.openstack
- json: io.cloudslang.base.json
+  rest: io.cloudslang.base.network.rest
+  auth: io.cloudslang.openstack
+  json: io.cloudslang.base.json
 
 flow:
   name: resume_openstack_server

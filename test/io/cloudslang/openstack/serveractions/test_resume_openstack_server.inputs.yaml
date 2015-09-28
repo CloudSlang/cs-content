@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_resume_openstack_server_flow_success:
+testResumeOpenStackServerLocal:
   testSuites: [openstack-local]
   description: "Test that it resumes an suspended OpenStack server (instance) and changes its status to ACTIVE."
   testFlowPath: io.cloudslang.openstack.serveractions.resume_openstack_server
