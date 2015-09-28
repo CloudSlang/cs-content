@@ -28,8 +28,10 @@ flow:
         default: "'8080'"
         required: false
     - proxy_username:
+        default: "''"
         required: false
     - proxy_password:
+        default: "''"
         required: false
     - domain
     - application_name
@@ -40,6 +42,7 @@ flow:
     - gear_profile:
         required: false
     - initial_git_url:
+        default: "''"
         required: false
 
   workflow:
@@ -51,17 +54,14 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
+            - proxy_username
+            - proxy_password
             - domain
             - application_name
             - cartridge
             - scale
             - gear_profile
-            - initial_git_url:
-                required: false
+            - initial_git_url
 
         publish:
           - return_result
