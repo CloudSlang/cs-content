@@ -6,14 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_get_openstack_server_details_success:
+testGetOpenStackServerDetailsLocal:
   testSuites: [openstack-local]
-  description: Tests that get openstack server details works
+  description: "Test that retrieves with success details of a specified OpenStack server (instance)."
   testFlowPath: io.cloudslang.openstack.get_openstack_server_details
   inputs:
-    - host: # openstack server host
-    - username: # openstack username
-    - password: # openstack password
-    - tenant_name: # openstack required tenant
-    - server_id: # openstack instance id
+    - host: <host>
+    - compute_port: <compute_port>
+    - tenant_name: <tenant_name>
+    - tenant_id: <tenant_id>
+    - server_id: <server_id>
+    - username: <username>
+    - password: <password>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
   result: SUCCESS

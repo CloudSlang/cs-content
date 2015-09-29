@@ -16,7 +16,7 @@
 #       on the compute node that Compute service manages
 #
 # Inputs:
-#   - host - OpenStack host (instance)
+#   - host - OpenStack host
 #   - compute_port - port used for OpenStack computations - Default: "'8774'"
 #   - tenant_name - name of the OpenStack project that contains the server (instance) to be stopped
 #   - tenant_id - the id corresponding to tenant_name
@@ -55,22 +55,17 @@ flow:
     - tenant_id
     - server_id
     - username:
-        default: "''"
         required: false
     - password:
-        default: "''"
         required: false
     - proxy_host:
-        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
         required: false
     - proxy_username:
-        default: "''"
         required: false
     - proxy_password:
-        default: "''"
         required: false
 
   workflow:

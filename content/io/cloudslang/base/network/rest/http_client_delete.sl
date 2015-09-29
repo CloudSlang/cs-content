@@ -38,13 +38,10 @@ flow:
   inputs:
     - url
     - username:
-        default: "''"
         required: false
     - password:
-        default: "''"
         required: false
     - proxy_host:
-        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
@@ -52,7 +49,6 @@ flow:
     - proxy_username:
         required: false
     - proxy_password:
-        default: "''"
         required: false
     - connect_timeout:
         default: "'0'"
@@ -61,10 +57,8 @@ flow:
         default: "'0'"
         required: false
     - headers:
-        default: "''"
         required: false
     - query_params:
-        default: "''"
         required: false
     - content_type:
         default: "'text/plain'"

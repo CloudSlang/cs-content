@@ -49,22 +49,17 @@ flow:
     - tenant_id
     - server_id
     - username:
-        default: "''"
         required: false
     - password:
-        default: "''"
         required: false
     - proxy_host:
-        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
         required: false
     - proxy_username:
-        default: "''"
         required: false
     - proxy_password:
-        default: "''"
         required: false
 
   workflow:
