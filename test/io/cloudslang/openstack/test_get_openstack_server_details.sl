@@ -9,47 +9,70 @@
 
 namespace: io.cloudslang.openstack
 
+imports:
+  lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
+
 flow:
   name: test_get_openstack_server_details
   inputs:
     - host
-    - username
-    - password
+    - compute_port: "'8774'"
     - tenant_name
+    - tenant_id
     - server_id
+    - username:
+        required: false
+    - password:
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: "'8080'"
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
 
   workflow:
-    - get_authentication:
-        do:
-          get_authentication_flow:
-            - host
-            - username
-            - password
-            - tenant_name
-        publish:
-          - token
-          - tenant
-          - return_result
-          - error_message
-        navigate:
-          SUCCESS: get_server_details
-          FAILURE: AUTHENTICATION_FAILURE
     - get_server_details:
         do:
           get_openstack_server_details:
             - host
-            - token
-            - tenant: tenant_name
+            - compute_port
+            - tenant_name
+            - tenant_id
             - server_id
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
-          - token
-          - tenant
           - return_result
           - error_message
+          - return_code
+          - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_OPENSTACK_SERVER_DETAILS_FAILURE
+          SUCCESS: check_get_server_details_result
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
+
+    - check_get_server_details_result:
+        do:
+          lists.compare_lists:
+            - list_1: [str(error_message), int(return_code), int(status_code)]
+            - list_2: ["''", 0, 200]
+        navigate:
+          SUCCESS: get_status
+          FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
+
   results:
     - SUCCESS
-    - AUTHENTICATION_FAILURE
-    - GET_OPENSTACK_SERVER_DETAILS_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_SERVER_DETAILS_FAILURE
+    - CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
