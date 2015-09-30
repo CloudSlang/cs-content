@@ -71,16 +71,18 @@ flow:
             - list_2: ["''", 0, 202]
         navigate:
           SUCCESS: get_server_details
-          FAILURE: CHECK_HARDREBOOT_SERVER_RESPONSES_FAILURE
+          FAILURE: CHECK_HARD_REBOOT_SERVER_RESPONSES_FAILURE
 
     - get_server_details:
         do:
           openstack.get_openstack_server_details:
             - host
             - compute_port
-            - token
-            - tenant: tenant_id
+            - tenant_name
+            - tenant_id
             - server_id
+            - username
+            - password
             - proxy_host
             - proxy_port
             - proxy_username
@@ -92,7 +94,9 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_get_server_details_result
-          FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
         do:
@@ -137,7 +141,7 @@ flow:
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - HARD_REBOOT_SERVER_FAILURE
-    - CHECK_HARDREBOOT_SERVER_RESPONSES_FAILURE
+    - CHECK_HARD_REBOOT_SERVER_RESPONSES_FAILURE
     - GET_SERVER_DETAILS_FAILURE
     - CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
     - GET_STATUS_FAILURE

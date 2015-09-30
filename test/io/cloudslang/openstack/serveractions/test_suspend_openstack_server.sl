@@ -86,9 +86,11 @@ flow:
           openstack.get_openstack_server_details:
             - host
             - compute_port
-            - token
-            - tenant: tenant_id
+            - tenant_name
+            - tenant_id
             - server_id
+            - username
+            - password
             - proxy_host
             - proxy_port
             - proxy_username
@@ -100,7 +102,9 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_get_server_details_result
-          FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
         do:
