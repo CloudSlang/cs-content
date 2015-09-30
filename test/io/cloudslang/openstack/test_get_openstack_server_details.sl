@@ -67,7 +67,7 @@ flow:
             - list_1: [str(error_message), int(return_code), int(status_code)]
             - list_2: ["''", 0, 200]
         navigate:
-          SUCCESS: get_status
+          SUCCESS: SUCCESS
           FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
 
   results:
