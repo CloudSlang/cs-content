@@ -19,3 +19,4 @@ testAddCartridgeLocal:
   testSuites: [openshift-local]
   result: SUCCESS
 
+

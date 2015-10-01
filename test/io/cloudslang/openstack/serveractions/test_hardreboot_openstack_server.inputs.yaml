@@ -23,7 +23,4 @@ testHardrebootOpenStackServerLocal:
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
-  description: "Test scale-down a specified RedHat OpenShift online application."
-  testFlowPath: io.cloudslang.paas.openshift.applications.test_scale_down_application
-  testSuites: [openshift-local]
   result: SUCCESS

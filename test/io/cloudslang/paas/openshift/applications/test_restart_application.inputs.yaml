@@ -18,3 +18,4 @@ testRestartApplicationLocal:
   testSuites: [openshift-local]
   result: SUCCESS
 
+

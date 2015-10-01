@@ -19,3 +19,4 @@ testStopCartridgeLocal:
   testSuites: [openshift-local]
   result: SUCCESS
 
+

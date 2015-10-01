@@ -18,3 +18,4 @@ testDeleteApplicationLocal:
   testSuites: [openshift-local]
   result: SUCCESS
 
+

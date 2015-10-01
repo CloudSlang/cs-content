@@ -19,3 +19,4 @@ testDeleteCartridgeLocal:
   testSuites: [openshift-local]
   result: SUCCESS
 
+
