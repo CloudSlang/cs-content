@@ -29,3 +29,5 @@ then
 
   docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name ${CONTAINER_NAME} orius123/dind-ssh
 fi
+
+docker exec ${CONTAINER_NAME} echo "KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1" >> /etc/ssh/sshd_config
