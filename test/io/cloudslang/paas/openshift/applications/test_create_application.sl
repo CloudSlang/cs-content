@@ -39,8 +39,7 @@ flow:
         required: false
     - gear_profile:
         required: false
-    - initial_git_url:
-        required: false
+    - initial_git_url
 
   workflow:
     - create_app:
