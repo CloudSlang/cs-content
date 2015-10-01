@@ -57,8 +57,7 @@ flow:
             - cartridge
             - scale
             - gear_profile
-            - initial_git_url:
-                required: false
+            - initial_git_url
 
         publish:
           - return_result
