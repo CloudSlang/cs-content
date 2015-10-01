@@ -70,16 +70,8 @@ flow:
           base_cmd.run_command:
             - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port + ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image"
         navigate:
-          SUCCESS: add_algorithms_to_scp_host
-          FAILURE: SCP_HOST_NOT_STARTED
-
-    - add_algorithms_to_scp_host:
-        do:
-          base_cmd.run_command:
-            - command: "'docker exec test1 sudo echo \"KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1\" >> /etc/ssh/sshd_config'"
-        navigate:
           SUCCESS: create_file_to_be_copied
-          FAILURE: ADD_ALGORITHMS_FAIL
+          FAILURE: SCP_HOST_NOT_STARTED
 
     - create_file_to_be_copied:
         do:
