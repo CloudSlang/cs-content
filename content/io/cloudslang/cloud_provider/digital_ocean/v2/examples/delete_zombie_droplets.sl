@@ -62,7 +62,7 @@ flow:
           - droplets
 
     - process_droplets_information:
-        async_loop:
+        loop:
           for: droplet in droplets
           do:
             delete_droplet_if_zombie:
@@ -79,7 +79,6 @@ flow:
               - connect_timeout
               - socket_timeout
           navigate:
-            SUCCESS: SUCCESS
             DELETED: SUCCESS
             NOT_DELETED: SUCCESS
             FAILURE: FAILURE
