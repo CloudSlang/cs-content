@@ -42,21 +42,13 @@ flow:
           test_add_nodes_to_cluster:
             - manager_machine_ip: swarm_manager_ip
             - manager_machine_username: username
-            - manager_machine_password:
-                default: password
-                required: false
-            - manager_machine_private_key_file:
-                default: private_key_file
-                required: false
+            - manager_machine_password: password
+            - manager_machine_private_key_file: private_key_file
             - swarm_manager_port
             - agent_ip_addresses
             - agent_usernames: [username, username]
-            - agent_passwords:
-                default: [password, password]
-                required: false
-            - agent_private_key_files:
-                default: [private_key_file, private_key_file]
-                required: false
+            - agent_passwords: [password, password]
+            - agent_private_key_files: [private_key_file, private_key_file]
         navigate:
           SUCCESS: get_number_of_containers_in_cluster_before
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
@@ -74,15 +66,11 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         publish:
           - number_of_containers_in_cluster_before: number_of_containers_in_cluster
         navigate:
@@ -106,15 +94,11 @@ flow:
             - container_name
             - image_name
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         navigate:
           SUCCESS: clear_cluster
           FAILURE: RUN_CONTAINER_IN_CLUSTER_PROBLEM
@@ -125,15 +109,11 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
        navigate:
          SUCCESS: get_number_of_containers_in_cluster_after
          FAILURE: CLEAR_CLUSTER_PROBLEM
@@ -144,15 +124,11 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         publish:
           - number_of_containers_in_cluster_after: number_of_containers_in_cluster
         navigate:

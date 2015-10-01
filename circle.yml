@@ -17,6 +17,7 @@ machine:
     # ignore test suites on node 1 in fork builds
     ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,swarm,marathon'; else echo '!default'; fi)
     RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]'
+    JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
 
@@ -33,7 +34,8 @@ test:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
-        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul;
+        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
+        && docker run -d -p 3000:80 --name swagger -e "URL=http://petstore.swagger.io/v2/swagger.json" ianneub/swagger-ui;
         fi
       : parallel: true
     - ? > ### machine 1
@@ -43,7 +45,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.1/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.2/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -58,7 +60,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul -cov ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest -cov ;;
         1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE} -cov ;;
         esac
       : parallel: true

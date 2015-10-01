@@ -39,10 +39,8 @@ flow:
   name: build_image
   inputs:
     - docker_image
-    - workdir:
-        default: "'.'"
-    - dockerfile_name:
-        default: "'Dockerfile'"
+    - workdir: "'.'"
+    - dockerfile_name: "'Dockerfile'"
     - host
     - port:
         required: false
@@ -55,8 +53,7 @@ flow:
         required: false
     - pty:
         required: false
-    - timeout:
-        default: "'3000000'"
+    - timeout: "'3000000'"
     - close_session:
         required: false
     - agent_forwarding:
@@ -75,28 +72,16 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
             - command
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
           - image_ID: >
               standard_out.split('Successfully built ')[1].replace('\n', '')

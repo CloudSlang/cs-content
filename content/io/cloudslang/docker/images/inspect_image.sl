@@ -69,24 +69,16 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - characterSet
+            - pty
+            - timeout
+            - closeSession
+            - agentForwarding
         publish:
             - standard_out
             - standard_err

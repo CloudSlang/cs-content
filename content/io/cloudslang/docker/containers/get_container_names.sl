@@ -40,8 +40,7 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - all_containers:
-        default: false
+    - all_containers: false
     - ps_parameters:
         default: >
           '-a' if bool(all_containers) else ''
@@ -58,8 +57,7 @@ flow:
         required: false
     - pty:
         required: false
-    - timeout:
-        default: "'600000'"
+    - timeout: "'600000'"
     - close_session:
         required: false
     - agent_forwarding:
@@ -70,29 +68,16 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
-            - command:
-                default: >
-                  'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'ps ' + ps_parameters
-                overridable: false
+            - port
+            - command: "'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'ps ' + ps_parameters"
             - pty: "'false'"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
             - timeout
-            - characterSet:
-                default: character_set
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - characterSet: character_set
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
           - container_names: >
               ' '.join(map(lambda line : line.split()[-1], filter(lambda line : line != '', returnResult.split('\n')[1:])))

@@ -45,9 +45,7 @@ flow:
           required: false
       - private_key_file:
           required: false
-      - git_repository_localdir:
-          default: "'/tmp/repo.git'"
-          required: true
+      - git_repository_localdir: "'/tmp/repo.git'"
       - git_commit_files:
           default: "'-a'"
           required: false
@@ -59,13 +57,10 @@ flow:
           do:
             ssh.ssh_flow:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - private_key_file:
-                  required: false
+              - password
+              - privateKeyFile: private_key_file
               - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
               - git_files: "' git commit ' + git_commit_files"
               - git_message: "' -m ' + git_commit_message if git_commit_message else ''"

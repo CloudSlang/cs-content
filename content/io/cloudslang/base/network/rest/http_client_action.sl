@@ -57,10 +57,11 @@
 #   - httpClientPoolingConnectionManager - optional - GlobalSessionObject that holds the http client pooling connection manager
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message - returnResult if statusCode different than '202'
-#   - return_code - 0 if success, -1 otherwise
+#   - error_message - returnResult if statusCode is not contained in interval between "200" and "299"
+#   - return_code - "0" if success, "-1" otherwise
+#   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
+#   - SUCCESS - operation succeeded (statusCode is contained in interval between "200" and "299")
 #   - FAILURE - otherwise
 ################################################
 
@@ -165,9 +166,10 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
+    - return_result: "'' if 'returnResult' not in locals() else returnResult"
     - error_message: returnResult if returnCode != '0' else ''
     - return_code: returnCode
+    - status_code: "'' if 'statusCode' not in locals() else statusCode"
   results:
     - SUCCESS : returnCode == '0'
     - FAILURE
