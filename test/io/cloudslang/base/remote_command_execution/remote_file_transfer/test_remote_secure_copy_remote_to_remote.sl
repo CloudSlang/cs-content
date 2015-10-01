@@ -109,7 +109,7 @@ flow:
     - create_file_and_copy_it_to_src_host:
         do:
           base_cmd.run_command:
-            - command: "'echo ' + text_to_check + ' >> ' + scp_file + ' && scp -vvv -P ' + first_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file"
+            - command: "'echo ' + text_to_check + ' >> ' + scp_file + ' && scp -P ' + first_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file"
         navigate:
           SUCCESS: test_remote_secure_copy
           FAILURE: FILE_REACHING_SRC_HOST_FAIL
