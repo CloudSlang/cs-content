@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testAddCartridgeLocal:
+testScaleDownApplicationLocal:
   inputs:
     - host: <host>
     - username: <username>
@@ -13,9 +13,7 @@ testAddCartridgeLocal:
     - proxy_host: <proxy_host>
     - domain: <domain>
     - application_name: <application_name>
-    - cartridge: <cartridge>
-  description: "Test add a new cartridge to an existing RedHat OpenShift online application."
-  testFlowPath: io.cloudslang.paas.openshift.cartridges.test_add_cartridge
+  description: "Test scale-down a specified RedHat OpenShift online application."
+  testFlowPath: io.cloudslang.paas.openshift.applications.test_scale_down_application
   testSuites: [openshift-local]
   result: SUCCESS
-

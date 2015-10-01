@@ -17,3 +17,4 @@ testDeleteApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_delete_application
   testSuites: [openshift-local]
   result: SUCCESS
+

@@ -8,6 +8,7 @@
 testStopOpenStackServerLocal:
   inputs:
     - host: <host>
+    - identity_port: <identity_port>
     - compute_port: <compute_port>
     - tenant_name: <tenant_name>
     - tenant_id: <tenant_id>

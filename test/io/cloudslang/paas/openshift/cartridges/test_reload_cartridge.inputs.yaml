@@ -18,3 +18,4 @@ testReloadCartridgeLocal:
   testFlowPath: io.cloudslang.paas.openshift.cartridges.test_reload_cartridge
   testSuites: [openshift-local]
   result: SUCCESS
+

@@ -21,6 +21,7 @@ flow:
 
   inputs:
     - host
+    - identity_port: "'5000'"
     - compute_port: "'8774'"
     - tenant_name
     - server_id
