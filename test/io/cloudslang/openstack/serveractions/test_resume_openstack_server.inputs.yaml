@@ -9,7 +9,7 @@
 testResumeOpenStackServerLocal:
   testSuites: [openstack-local]
   description: "Test that it resumes an suspended OpenStack server (instance) and changes its status to ACTIVE."
-  testFlowPath: io.cloudslang.openstack.serveractions.resume_openstack_server
+  testFlowPath: io.cloudslang.openstack.serveractions.test_resume_openstack_server
   inputs:
     - host: <host>
     - compute_port: <compute_port>

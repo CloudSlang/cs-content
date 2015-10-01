@@ -22,15 +22,19 @@
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - the list of OpenStack keypairs was successfully retrieved
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_KEY_PAIRS_FAILURE - the list of OpenStack keypairs could not be retrieved
+#   - EXTRACT_KEYPAIRS_FAILURE - the list of OpenStack keypairs could not be retrieved
 ####################################################
 
 namespace: io.cloudslang.openstack.keypair
 
 imports:
- openstack_content: io.cloudslang.openstack
- openstack_utils: io.cloudslang.openstack.utils
+  openstack_content: io.cloudslang.openstack
+  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
   name: list_openstack_keypairs
@@ -61,6 +65,11 @@ flow:
           - tenant
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_openstack_keypairs
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_openstack_keypairs:
         do:
@@ -75,8 +84,11 @@ flow:
           - response_body: return_result
           - return_result: return_result
           - error_message
+        navigate:
+          SUCCESS: extract_keypairs
+          FAILURE: GET_KEY_PAIRS_FAILURE
 
-    - extract_servers:
+    - extract_keypairs:
         do:
           openstack_utils.extract_object_list_from_json_response:
             - response_body
@@ -84,8 +96,19 @@ flow:
         publish:
           - object_list
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: EXTRACT_KEYPAIRS_FAILURE
 
   outputs:
     - keypair_list: object_list
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_KEY_PAIRS_FAILURE
+    - EXTRACT_KEYPAIRS_FAILURE

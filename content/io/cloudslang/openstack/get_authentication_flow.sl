@@ -9,27 +9,32 @@
 # Authenticates an OpenStack machine.
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - host - OpenStack host
+#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - the proxy server used to access the OpenStack services
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
-#   - token - authentication token
-#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+#   - token - authentication token
+#   - tenant_id - tenant ID
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - the authentication on OpenStack host was successfully made
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
 ####################################################
 
 namespace: io.cloudslang.openstack
 
 imports:
- openstack_utils: io.cloudslang.openstack.utils
+  openstack_utils: io.cloudslang.openstack.utils
+  json: io.cloudslang.base.json
 
 flow:
   name: get_authentication_flow
@@ -43,8 +48,12 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
   workflow:
-    - get_token:
+    - authentication_call:
         do:
           get_authentication:
             - host
@@ -54,22 +63,46 @@ flow:
             - tenant_name
             - proxy_host
             - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
-          - response_body: return_result
+          - return_result
           - return_code
           - error_message
+        navigate:
+          SUCCESS: get_authentication_token
+          FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - parse_authentication:
+    - get_authentication_token:
         do:
-          openstack_utils.parse_authentication:
-            - json_authentication_response: response_body
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list: ["'access'", "'token'", "'id'"]
         publish:
-          - token
-          - tenant
-          - error_message
+          - token: value
+        navigate:
+          SUCCESS: get_tenant_id
+          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+
+    - get_tenant_id:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list: ["'access'", "'token'", "'tenant'", "'id'"]
+        publish:
+          - tenant_id: value
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: GET_TENANT_ID_FAILURE
 
   outputs:
-    - token
-    - tenant
-    - return_result: response_body
+    - return_result
     - error_message
+    - token
+    - tenant_id
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE

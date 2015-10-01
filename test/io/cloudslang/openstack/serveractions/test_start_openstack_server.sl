@@ -21,9 +21,9 @@ flow:
 
   inputs:
     - host
+    - identity_port: "'5000'"
     - compute_port: "'8774'"
     - tenant_name
-    - tenant_id
     - server_id
     - username:
         required: false
@@ -44,8 +44,9 @@ flow:
         do:
           start_openstack_server:
             - host
+            - identity_port
+            - compute_port
             - tenant_name
-            - tenant_id
             - server_id
             - username
             - password
@@ -63,6 +64,7 @@ flow:
           SUCCESS: check_start_server_result
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           START_SERVER_FAILURE: START_SERVER_FAILURE
 
     - check_start_server_result:
@@ -85,6 +87,7 @@ flow:
         do:
           openstack.get_openstack_server_details:
             - host
+            - identity_port
             - compute_port
             - tenant_name
             - tenant_id
@@ -102,8 +105,9 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_get_server_details_result
-          GET_AUTHENTICATION_FAILURE: GET_SERVER_DETAILS_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
@@ -142,12 +146,13 @@ flow:
     - error_message
     - return_code
     - status_code
-    - token
+    - status
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
     - START_SERVER_FAILURE
     - CHECK_START_SERVER_RESPONSES_FAILURE
     - GET_SERVER_DETAILS_FAILURE

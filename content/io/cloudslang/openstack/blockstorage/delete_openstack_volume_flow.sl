@@ -21,6 +21,14 @@
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS - the specified OpenStack volume was successfully deleted
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_VOLUMES_FAILURE - the list with OpenStack volumes cannot be retrieved
+#   - GET_VOLUME_ID_FAILURE - the specified volume id could not be retrieved
+#   - DELETE_VOLUME_FAILURE - the specified OpenStack volume could not be deleted
 ####################################################
 
 namespace: io.cloudslang.openstack.blockstorage
@@ -59,6 +67,12 @@ flow:
           - tenant
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_volumes
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+
     - get_volumes:
         do:
           get_openstack_volumes:
@@ -72,6 +86,10 @@ flow:
           - volume_list: return_result
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_volume_id
+          FAILURE: GET_VOLUMES_FAILURE
+
     - get_volume_id:
         do:
           openstack_utils.get_volume_id:
@@ -81,6 +99,10 @@ flow:
           - volume_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: delete_volume
+          FAILURE: GET_VOLUME_ID_FAILURE
+
     - delete_volume:
         do:
           delete_openstack_volume:
@@ -94,6 +116,19 @@ flow:
         publish:
           - return_result
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: DELETE_VOLUME_FAILURE
+
   outputs:
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_FAILURE
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_VOLUMES_FAILURE
+    - GET_VOLUME_ID_FAILURE
+    - DELETE_VOLUME_FAILURE

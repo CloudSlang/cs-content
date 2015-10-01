@@ -9,7 +9,7 @@
 testHardrebootOpenStackServerLocal:
   testSuites: [openstack-local]
   description: "Test that it restart a specified OpenStack server (instance)."
-  testFlowPath: io.cloudslang.openstack.serveractions.hardreboot_openstack_server
+  testFlowPath: io.cloudslang.openstack.serveractions.test_hardreboot_openstack_server
   inputs:
     - host: <host>
     - compute_port: <compute_port>

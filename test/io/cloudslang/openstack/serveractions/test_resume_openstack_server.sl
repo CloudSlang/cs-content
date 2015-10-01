@@ -23,7 +23,6 @@ flow:
     - host
     - compute_port: "'8774'"
     - tenant_name
-    - tenant_id
     - server_id
     - username:
         required: false
@@ -44,8 +43,9 @@ flow:
         do:
           resume_openstack_server:
             - host
+            - identity_port
+            - compute_port
             - tenant_name
-            - tenant_id
             - server_id
             - username
             - password
@@ -58,11 +58,11 @@ flow:
           - error_message
           - return_code
           - status_code
-          - token
         navigate:
           SUCCESS: check_resume_server_result
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           RESUME_SERVER_FAILURE: RESUME_SERVER_FAILURE
 
     - check_resume_server_result:
@@ -85,9 +85,9 @@ flow:
         do:
           openstack.get_openstack_server_details:
             - host
+            - identity_port
             - compute_port
             - tenant_name
-            - tenant_id
             - server_id
             - username
             - password
@@ -102,8 +102,9 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_get_server_details_result
-          GET_AUTHENTICATION_FAILURE: GET_SERVER_DETAILS_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_SERVER_DETAILS_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
@@ -140,12 +141,13 @@ flow:
     - error_message
     - return_code
     - status_code
-    - token
+    - status
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
     - RESUME_SERVER_FAILURE
     - CHECK_RESUME_SERVER_RESPONSES_FAILURE
     - GET_SERVER_DETAILS_FAILURE

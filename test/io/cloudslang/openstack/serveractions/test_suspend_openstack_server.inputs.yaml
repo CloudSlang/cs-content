@@ -19,6 +19,6 @@ testSuspendOpenStackServerLocal:
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
   description: "Test that it suspends an running OpenStack server (instance) and changes its status to SUSPENDED."
-  testFlowPath: io.cloudslang.openstack.serveractions.suspend_openstack_server
+  testFlowPath: io.cloudslang.openstack.serveractions.test_suspend_openstack_server
   testSuites: [openstack-local]
   result: SUCCESS

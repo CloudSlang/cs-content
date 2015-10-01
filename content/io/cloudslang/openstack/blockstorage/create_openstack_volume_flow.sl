@@ -22,6 +22,12 @@
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS - the OpenStack volume was successfully created
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - CREATE_VOLUME_FAILURE - the OpenStack volume could not be created
 ####################################################
 
 namespace: io.cloudslang.openstack.blockstorage
@@ -61,6 +67,12 @@ flow:
           - tenant
           - return_result
           - error_message
+        navigate:
+          SUCCESS: create_volume
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+
     - create_volume:
         do:
           create_openstack_volume:
@@ -75,8 +87,17 @@ flow:
         publish:
           - return_result
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: CREATE_VOLUME_FAILURE
+
   outputs:
     - return_result
     - error_message
 
-
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - CREATE_VOLUME_FAILURE

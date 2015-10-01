@@ -10,15 +10,14 @@
 #
 # Inputs:
 #   - host - OpenStack host
+#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
-#   - tenant_name - name of the OpenStack project that contains the server (instance) to be stopped
-#   - tenant_id - the id corresponding to tenant_name
+#   - tenant_name - name of the OpenStack project that contains the server (instance) to be restarted
 #   - server_id - the id of the server (instance) to be restarted
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
 #   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-#
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
 #   - error_message: return_result if statusCode is not "202"
@@ -26,8 +25,9 @@
 #   - status_code - the code returned by the operation
 # Results:
 #   - SUCCESS - OpenStack server (instance) was restarted
-#   - GET_AUTHENTICATION_FAILURE - the authentication step fail
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
 #   - HARD_REBOOT_SERVER_FAILURE - OpenStack server (instance) cannot be restarted
 ####################################################
 
@@ -35,16 +35,15 @@ namespace: io.cloudslang.openstack.serveractions
 
 imports:
   rest: io.cloudslang.base.network.rest
-  auth: io.cloudslang.openstack
-  json: io.cloudslang.base.json
+  openstack: io.cloudslang.openstack
 
 flow:
   name: hardreboot_openstack_server
   inputs:
     - host
+    - identity_port: "'5000'"
     - compute_port: "'8774'"
     - tenant_name
-    - tenant_id
     - server_id
     - username:
         required: false
@@ -61,38 +60,30 @@ flow:
         required: false
 
   workflow:
-    - get_authentication:
+    - authentication:
         do:
-          auth.get_authentication:
+          openstack.get_authentication_flow:
             - host
-            - tenant_name
+            - identity_port
             - username
             - password
+            - tenant_name
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
         publish:
-          - auth_response: return_result
+          - return_result
           - error_message
-          - return_code
-          - status_code
+          - token
+          - tenant_id
         navigate:
-          SUCCESS: get_authentication_token
-          FAILURE: GET_AUTHENTICATION_FAILURE
+          SUCCESS: hard_reboot_server
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
 
-    - get_authentication_token:
-        do:
-          json.get_value_from_json:
-            - json_input: auth_response
-            - key_list: ["'access'", "'token'", "'id'"]
-        publish:
-          - token: value
-        navigate:
-          SUCCESS: hardreboot_server
-          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-
-    - hardreboot_server:
+    - hard_reboot_server:
         do:
           rest.http_client_post:
              - url: "'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'"
@@ -117,10 +108,10 @@ flow:
     - error_message
     - return_code
     - status_code
-    - token
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
     - HARD_REBOOT_SERVER_FAILURE

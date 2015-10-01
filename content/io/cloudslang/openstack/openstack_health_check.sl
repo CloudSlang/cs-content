@@ -75,6 +75,12 @@ flow:
             - proxy_port
         publish:
           - subflow_error: "'\"Create Server\": ' + error_message"
+        navigate:
+          SUCCESS: validate_server_exists
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          CREATE_SERVER_FAILURE: CREATE_SERVER_FAILURE
 
     - validate_server_exists:
         do:
@@ -90,6 +96,15 @@ flow:
             - proxy_port
         publish:
           - subflow_error : "'\"Validate Server\": ' + error_message"
+        navigate:
+          SUCCESS: delete_server
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_SERVERS_FAILURE: GET_SERVERS_FAILURE
+          EXTRACT_SERVERS_FAILURE: EXTRACT_SERVERS_FAILURE
+          CHECK_SERVER_FAILURE: CHECK_SERVER_FAILURE
+
     - delete_server:
         do:
           delete_openstack_server_flow:
@@ -104,6 +119,15 @@ flow:
             - proxy_port
         publish:
           - subflow_error : "'\"Delete Server\": ' + error_message"
+        navigate:
+          SUCCESS: SUCCESS
+          GET_AUTHENTICATION_TOKEN_FAILURE: FAILURE
+          GET_TENANT_ID_FAILURE: FAILURE
+          GET_AUTHENTICATION_FAILURE: FAILURE
+          GET_SERVERS_FAILURE: FAILURE
+          GET_SERVER_ID_FAILURE: FAILURE
+          DELETE_SERVER_FAILURE: FAILURE
+
     - on_failure:
         - send_error_mail:
             do:
@@ -115,5 +139,17 @@ flow:
                 - subject: "'Flow failure'"
                 - body: "'Failure from step ' + subflow_error"
             navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              SUCCESS: SUCCESS
+              FAILURE: SEND_EMAIL_FAILURE
+
+  results:
+    - SUCCESS
+    - CREATE_SERVER_FAILURE
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_SERVERS_FAILURE
+    - EXTRACT_SERVERS_FAILURE
+    - CHECK_SERVER_FAILURE
+    - SEND_EMAIL_FAILURE
+    - FAILURE

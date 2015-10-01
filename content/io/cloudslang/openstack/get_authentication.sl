@@ -10,12 +10,14 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200
@@ -41,11 +43,21 @@ operation:
         required: false
     - proxy_port:
         required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
     - proxyHost:
         default: "proxy_host if proxy_host is not None else ''"
         overridable: false
     - proxyPort:
         default: "proxy_port if proxy_port is not None else ''"
+        overridable: false
+    - proxyUsername:
+        default: "proxy_username if proxy_username is not None else ''"
+        overridable: false
+    - proxyPassword:
+        default: "proxy_password if proxy_password is not None else ''"
         overridable: false
     - url:
         default: "'http://'+ host + ':' + identity_port + '/v2.0/tokens'"

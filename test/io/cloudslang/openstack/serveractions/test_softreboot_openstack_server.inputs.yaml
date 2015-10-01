@@ -9,7 +9,7 @@
 testSoftrebootOpenStackServerLocal:
   testSuites: [openstack-local]
   description: "Test that it sends a signal to reboot to an specified OpenStack server (instance)."
-  testFlowPath: io.cloudslang.openstack.serveractions.softreboot_openstack_server
+  testFlowPath: io.cloudslang.openstack.serveractions.test_softreboot_openstack_server
   inputs:
     - host: <host>
     - compute_port: <compute_port>

@@ -17,9 +17,9 @@
 #
 # Inputs:
 #   - host - OpenStack host
+#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - compute_port - port used for OpenStack computations - Default: "'8774'"
 #   - tenant_name - name of the OpenStack project that contains the server (instance) to be stopped
-#   - tenant_id - the id corresponding to tenant_name
 #   - server_id - the id of the server (instance) to be stopped
 #   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
@@ -36,6 +36,7 @@
 #   - SUCCESS - OpenStack server (instance) was successfully stopped
 #   - GET_AUTHENTICATION_FAILURE - the authentication step fail
 #   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication step response
 #   - STOP_SERVER_FAILURE - OpenStack server (instance) cannot be stopped
 ################################################
 
@@ -43,16 +44,15 @@ namespace: io.cloudslang.openstack.serveractions
 
 imports:
   rest: io.cloudslang.base.network.rest
-  auth: io.cloudslang.openstack
-  json: io.cloudslang.base.json
+  openstack: io.cloudslang.openstack
 
 flow:
   name: stop_openstack_server
   inputs:
     - host
+    - identity_port: "'5000'"
     - compute_port: "'8774'"
     - tenant_name
-    - tenant_id
     - server_id
     - username:
         required: false
@@ -69,36 +69,28 @@ flow:
         required: false
 
   workflow:
-    - get_authentication:
+    - authentication:
         do:
-          auth.get_authentication:
+          openstack.get_authentication_flow:
             - host
-            - tenant_name
+            - identity_port
             - username
             - password
+            - tenant_name
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
         publish:
-          - auth_response: return_result
+          - return_result
           - error_message
-          - return_code
-          - status_code
-        navigate:
-          SUCCESS: get_authentication_token
-          FAILURE: GET_AUTHENTICATION_FAILURE
-
-    - get_authentication_token:
-        do:
-          json.get_value_from_json:
-            - json_input: auth_response
-            - key_list: ["'access'", "'token'", "'id'"]
-        publish:
-          - token: value
+          - token
+          - tenant_id
         navigate:
           SUCCESS: stop_server
-          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
 
     - stop_server:
         do:
@@ -125,10 +117,10 @@ flow:
     - error_message
     - return_code
     - status_code
-    - token
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
     - STOP_SERVER_FAILURE
