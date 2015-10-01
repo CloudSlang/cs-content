@@ -30,7 +30,7 @@ flow:
     - key_name
     - text_to_check
     - docker_scp_image:
-        default: "'schoolscout/scp-server'"
+        default: "'gituser173/docker-scp-server'"
         overridable: false
     - authorized_keys_path:
         default: "'~/.ssh/authorized_keys'"
