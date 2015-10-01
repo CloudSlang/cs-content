@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testScaleDownApplicationLocal:
+testRestartApplicationLocal:
   inputs:
     - host: <host>
     - username: <username>
@@ -13,7 +13,7 @@ testScaleDownApplicationLocal:
     - proxy_host: <proxy_host>
     - domain: <domain>
     - application_name: <application_name>
-  description: "Test scale-down a specified RedHat OpenShift online application."
-  testFlowPath: io.cloudslang.paas.openshift.applications.test_scale_down_application
+  description: "Test restart a specified RedHat OpenShift online application."
+  testFlowPath: io.cloudslang.paas.openshift.applications.test_restart_application
   testSuites: [openshift-local]
   result: SUCCESS

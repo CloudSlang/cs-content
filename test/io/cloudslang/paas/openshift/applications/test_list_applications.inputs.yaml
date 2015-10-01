@@ -5,15 +5,14 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testScaleDownApplicationLocal:
+testListApplicationLocal:
   inputs:
     - host: <host>
     - username: <username>
     - password: <password>
     - proxy_host: <proxy_host>
     - domain: <domain>
-    - application_name: <application_name>
-  description: "Test scale-down a specified RedHat OpenShift online application."
-  testFlowPath: io.cloudslang.paas.openshift.applications.test_scale_down_application
+  description: "Test list all RedHat OpenShift online applications from a specified domain."
+  testFlowPath: io.cloudslang.paas.openshift.applications.test_list_applications
   testSuites: [openshift-local]
   result: SUCCESS
