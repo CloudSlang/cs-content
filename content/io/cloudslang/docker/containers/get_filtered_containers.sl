@@ -69,28 +69,18 @@ flow:
     - get_containers_raw_output:
         do:
           get_container_names:
-            - docker_options:
-                required: false
-            - all_containers:
-                required: false
+            - docker_options
+            - all_containers
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
         publish:
           - raw_output
 

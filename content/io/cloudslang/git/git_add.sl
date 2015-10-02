@@ -44,9 +44,7 @@ flow:
           required: false
       - private_key_file:
           required: false
-      - git_repository_localdir:
-          default: "'/tmp/repo.git'"
-          required: true
+      - git_repository_localdir: "'/tmp/repo.git'"
       - git_add_files:
           default: "'*'"
           required: false
@@ -56,13 +54,10 @@ flow:
           do:
             ssh.ssh_flow:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - private_key_file:
-                  required: false
+              - password
+              - privateKeyFile: private_key_file
               - git_add: "' git add ' + git_add_files"
               - command: "'cd ' + git_repository_localdir + ' && ' + git_add + ' && echo GIT_SUCCESS'"
 

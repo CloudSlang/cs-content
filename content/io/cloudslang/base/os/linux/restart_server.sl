@@ -34,15 +34,15 @@ flow:
   inputs:
     - host
     - port:
-        required: False
+        required: false
     - username
     - password:
         required: false
     - timeout:
         default: "'now'"
     - sudo_user:
-        default: False
-        required: False
+        default: false
+        required: false
     - privateKeyFile:
         required: false
   
@@ -51,15 +51,12 @@ flow:
         do:
           ssh_command.ssh_flow:
             - host
-            - port:
-                required: False
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + ' shutdown -r ' + timeout"
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
         publish: 
           - standard_err
           - standard_out

@@ -30,9 +30,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port:
-                 required: false
-                 default: docker_port
+             - port: docker_port
              - docker_username
              - docker_password
          navigate:
@@ -53,9 +51,7 @@ flow:
         do:
           docker_containers_examples.create_db_container:
             - host: docker_host
-            - port:
-                default: docker_port
-                required: false
+            - port: docker_port
             - username: docker_username
             - password: docker_password
         navigate:
@@ -91,9 +87,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port:
-                 default: docker_port
-                 required: false
+             - port: docker_port
              - docker_username
              - docker_password
          navigate:

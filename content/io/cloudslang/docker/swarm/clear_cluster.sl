@@ -73,28 +73,18 @@ flow:
         do:
           containers.get_filtered_containers:
             - docker_options
-            - all_containers:
-                default: true
-                overridable: false
+            - all_containers: true
             - excluded_images
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
         publish:
           - container_ids
 
@@ -104,17 +94,11 @@ flow:
             - container_id: container_ids.replace(",", " ")
             - docker_options
             - docker_host: host
-            - port:
-                required: false
+            - port
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
+            - docker_password: password
+            - private_key_file
+            - timeout
 
     - clear_unused_images:
         do:
@@ -122,16 +106,10 @@ flow:
             - docker_options
             - docker_host: host
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password: password
+            - private_key_file
+            - timeout
+            - port
         publish:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted

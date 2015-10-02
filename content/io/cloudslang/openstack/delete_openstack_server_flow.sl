@@ -31,10 +31,8 @@ flow:
   name: delete_openstack_server_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - identity_port: "'5000'"
+    - compute_port: "'8774'"
     - username
     - password
     - tenant_name
@@ -52,10 +50,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -68,10 +64,8 @@ flow:
             - compute_port
             - token
             - tenant
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - server_list: return_result
           - return_result
@@ -93,10 +87,8 @@ flow:
             - token
             - tenant
             - server_id
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

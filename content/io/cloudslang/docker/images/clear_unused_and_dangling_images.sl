@@ -50,18 +50,13 @@ flow:
      - clear_images:
           do:
             clear_unused_images:
-              - docker_options:
-                  required: false
+              - docker_options
               - docker_host
               - docker_username
-              - docker_password:
-                  required: false
-              - private_key_file:
-                  required: false
-              - port:
-                  required: false
-              - timeout:
-                  required: false
+              - docker_password
+              - private_key_file
+              - port
+              - timeout
           publish:
             - images_list_safe_to_delete
             - amount_of_images_deleted
@@ -69,19 +64,14 @@ flow:
      - clear_docker_dangling_images:
           do:
             clear_dangling_images:
-              - docker_options:
-                  required: false
+              - docker_options
               - docker_host
               - docker_username
-              - docker_password:
-                  required: false
-              - private_key_file:
-                  required: false
+              - docker_password
+              - private_key_file
               - used_images: used_images_list
-              - port:
-                  required: false
-              - timeout:
-                  required: false
+              - port
+              - timeout
           publish:
             - dangling_images_list_safe_to_delete
             - amount_of_dangling_images_deleted

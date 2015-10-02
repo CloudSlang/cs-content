@@ -34,10 +34,8 @@ flow:
   name: create_openstack_volume_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - blockstorage_port:
-        default: "'8776'"
+    - identity_port: "'5000'"
+    - blockstorage_port: "'8776'"
     - size
     - username
     - password
@@ -56,10 +54,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -74,10 +70,8 @@ flow:
             - tenant
             - size
             - volume_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

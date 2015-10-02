@@ -59,13 +59,10 @@ flow:
           check_mysql_is_up:
             - container
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
+            - password
+            - private_key_file
             - mysql_username
             - mysql_password
         publish:
@@ -76,13 +73,10 @@ flow:
           get_mysql_status:
             - container
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
+            - password
+            - private_key_file
             - mysql_username
             - mysql_password
         publish:

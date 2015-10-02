@@ -33,10 +33,8 @@ flow:
   name: create_openstack_keypair_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - identity_port: "'5000'"
+    - compute_port: "'8774'"
     - username
     - password
     - tenant_name
@@ -56,10 +54,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -73,12 +69,9 @@ flow:
             - token
             - tenant
             - keypair_name
-            - public_key:
-                required: false
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - public_key
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

@@ -72,36 +72,17 @@ flow:
         do:
           http_client_action:
             - url
-            - username:
-                required: false
-            - password:
-                required: false
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
-            - proxyUsername:
-                default: proxy_username
-                required: false
-            - proxyPassword:
-                default: proxy_password
-                required: false
-            - connectTimeout:
-                default: connect_timeout
-                required: false
-            - socketTimeout:
-                default: socket_timeout
-                required: false
-            - headers:
-                required: false
-            - queryParams:
-                default: query_params
-                required: false
-            - contentType:
-                default: content_type
-                required: false
+            - username
+            - password
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
+            - proxyUsername: proxy_username
+            - proxyPassword: proxy_password
+            - connectTimeout: connect_timeout
+            - socketTimeout: socket_timeout
+            - headers
+            - queryParams: query_params
+            - contentType: content_type
             - method
         publish:
           - return_result

@@ -11,9 +11,7 @@
 #    Inputs:
 #      - host - hostname or IP address
 #      - port - optional - port number for running the command
-#      - username - username to connect as
 #      - password - optional - password of user
-#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
 #      - private_key_file - optional - the path to the private key file
 #      - user: - the user to be added in sudoers group
 #
@@ -35,32 +33,21 @@ flow:
       - host
       - port:
           required: false
-      - username
       - password
-      - sudo_user:
-          default: false
-          required: false
       - private_key_file:
           required: false
-      - user:
-          required: true
+      - user
 
   workflow:
       - add_user:
           do:
             ssh.ssh_flow:
               - host
-              - port:
-                  required: false
-              - username:
-                  default: "'root'"
-                  overridable: false
-              - password:
-                  required: true
-              - private_key_file:
-                  required: false
-              - user:
-                  required: true
+              - port
+              - username: "'root'"
+              - password
+              - private_key_file
+              - user
               - command: "'echo \"' + user + ' ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers'"
 
           publish:

@@ -31,8 +31,7 @@ flow:
        do:
          maintenance.clear_host:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -43,8 +42,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name
@@ -56,8 +54,7 @@ flow:
         do:
           run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name
@@ -72,8 +69,7 @@ flow:
         do:
           stop_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
@@ -85,8 +81,7 @@ flow:
         do:
           get_container_names:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         publish:
@@ -105,8 +100,7 @@ flow:
         do:
           start_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
@@ -118,8 +112,7 @@ flow:
         do:
           get_container_names:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         publish:
@@ -139,8 +132,7 @@ flow:
         do:
          clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:
