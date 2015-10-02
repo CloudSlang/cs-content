@@ -10,14 +10,13 @@
 general:
   artifacts:
     - "builder.log"
-#TODO revert changes for this file
     
 machine:
   environment:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
     # ignore test suites on node 1 in fork builds
-    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default'; else echo '!default'; fi)
-    RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" != "" ]'
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,swarm,marathon'; else echo '!default'; fi)
+    RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]'
     JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
@@ -61,7 +60,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts !default -cov ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest -cov ;;
         1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE} -cov ;;
         esac
       : parallel: true
@@ -72,4 +71,3 @@ test:
         && ci-env/circleci/cleanup_env.sh;
         fi
       : parallel: true
-# TODO take testsuits from master
