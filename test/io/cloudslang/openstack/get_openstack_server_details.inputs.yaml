@@ -9,7 +9,7 @@
 testGetOpenStackServerDetailsLocal:
   testSuites: [openstack-local]
   description: "Test that retrieves with success details of a specified OpenStack server (instance)."
-  testFlowPath: io.cloudslang.openstack.get_openstack_server_details
+  testFlowPath: io.cloudslang.openstack.test_get_openstack_server_details
   inputs:
     - host: <host>
     - compute_port: <compute_port>

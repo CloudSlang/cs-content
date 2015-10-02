@@ -16,52 +16,45 @@ flow:
   name: test_openstack_volumes
   inputs:
     - host
+    - identity_port: "'5000'"
+    - blockstorage_port: "'8776'"
     - username
     - password
     - size
     - tenant_name
     - volume_name
-    - identity_port:
-        default: "'5000'"
-    - blockstorage_port:
-        default: "'8776'"
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
   workflow:
-    - authenticate:
+    - create_openstack_volume:
         do:
-          openstack_content.get_authentication_flow:
+          create_openstack_volume_flow:
             - host
+            - identity_port
+            - blockstorage_port
+            - size
             - username
             - password
-            - identity_port
             - tenant_name
+            - volume_name
+            - proxy_host
+            - proxy_port
         publish:
-          - token
-          - tenant
           - return_result
           - error_message
         navigate:
-          SUCCESS: create_volume
+          SUCCESS: get_openstack_volumes
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          CREATE_VOLUME_FAILURE: CREATE_VOLUME_FAILURE
 
-    - create_volume:
+    - get_openstack_volumes:
         do:
-          create_openstack_volume:
-            - host
-            - token
-            - tenant
-            - blockstorage_port
-            - size
-            - volume_name
-        navigate:
-          SUCCESS: list_volumes
-          FAILURE: CREATE_FAILURE
-
-    - list_volumes:
-        do:
-          list_openstack_volumes:
+          get_openstack_volumes_flow:
             - host
             - username
             - password
@@ -71,7 +64,7 @@ flow:
         publish:
           - volume_list
         navigate:
-          SUCCESS: delete_volume
+          SUCCESS: delete_openstack_volume
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
@@ -79,7 +72,7 @@ flow:
           GET_VOLUMES_FAILURE: GET_VOLUMES_FAILURE
           EXTRACT_VOLUMES_FAILURE: EXTRACT_VOLUMES_FAILURE
 
-    - delete_volume:
+    - delete_openstack_volume:
         do:
           delete_openstack_volume_flow:
             - host
@@ -106,7 +99,7 @@ flow:
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
     - GET_AUTHENTICATION_FAILURE
-    - CREATE_FAILURE
+    - CREATE_VOLUME_FAILURE
     - GET_VOLUMES_FAILURE
     - EXTRACT_VOLUMES_FAILURE
     - GET_VOLUME_ID_FAILURE

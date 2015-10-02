@@ -80,6 +80,7 @@ flow:
             - key_list: ["'access'", "'token'", "'id'"]
         publish:
           - token: value
+          - error_message
         navigate:
           SUCCESS: get_tenant_id
           FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
@@ -91,6 +92,7 @@ flow:
             - key_list: ["'access'", "'token'", "'tenant'", "'id'"]
         publish:
           - tenant_id: value
+          - error_message
         navigate:
           SUCCESS: SUCCESS
           FAILURE: GET_TENANT_ID_FAILURE
