@@ -1,0 +1,20 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+projectId: "cloudslang-1074"
+zone: "us-central1-f"
+jSonGoogleAuthPath: "C:\\Users\\bettanm\\Documents\\GitHub\\cloud-slang-content\\content\\io\\cloudslang\\cloud_provider\\gke\\cloudslang-026ac0ebb6e0.json"
+name: "mbettan"
+initialNodeCount: "1"
+network: "default"
+enableCloudLogging: "true"
+enableCloudMonitoring: "false"
+operationId: "operation-1443134355472-11f26864"
+machineType: "n1-standard-1"
+masterauthUsername: "admin"
+masterauthPassword: "RMHtTtxLmW4hsqJ6"
