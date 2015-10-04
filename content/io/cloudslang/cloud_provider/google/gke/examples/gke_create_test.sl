@@ -19,9 +19,10 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.cloud_provider.gke.examples
+namespace: io.cloudslang.cloud_provider.google.gke.examples
 
 imports:
+  gke: io.cloudslang.cloud_provider.google.gke
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
@@ -40,7 +41,7 @@ flow:
   workflow:
     - createRessourceCluster:
         do:
-          create_resource_cluster:
+          gke.create_resource_cluster:
             - name
             - initialNodeCount
             - masterauthUsername
@@ -58,7 +59,7 @@ flow:
 
     - createCluster:
         do:
-          create_clusters:
+          gke.create_clusters:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -75,9 +76,14 @@ flow:
           print.print_text:
             - text: cluster_name
 
+    - SleepTime:
+        do:
+          utils.sleep:
+            - seconds: "240"
+
     - deleteCluster:
         do:
-          delete_clusters:
+          gke.delete_clusters:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -85,7 +91,6 @@ flow:
         publish:
           - return_result
           - response
-          - cluster_name
           - error_message
           - response_body: return_result
 

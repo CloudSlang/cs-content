@@ -18,10 +18,11 @@
 #   - SUCCESS - operation succeeded (statusCode == '202')
 #   - FAILURE - otherwise
 ####################################################
-
-namespace: io.cloudslang.cloud_provider.gke.examples
+namespace: io.cloudslang.cloud_provider.google.gke
+namespace: io.cloudslang.cloud_provider.google.gke.examples
 
 imports:
+  gke: io.cloudslang.cloud_provider.google.gke
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
@@ -38,7 +39,7 @@ flow:
   workflow:
     - ListClusters:
         do:
-          list_clusters:
+          gke.list_clusters:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -54,7 +55,7 @@ flow:
 
     - ListOperations:
         do:
-          list_operations:
+          gke.list_operations:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -70,7 +71,7 @@ flow:
 
     - getServerconfig:
         do:
-          get_serverconfig:
+          gke.get_serverconfig:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -86,7 +87,7 @@ flow:
 
     - getOperation:
         do:
-          get_operations:
+          gke.get_operations:
             - projectId
             - zone
             - jSonGoogleAuthPath
