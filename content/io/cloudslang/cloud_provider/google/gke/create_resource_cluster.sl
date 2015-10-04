@@ -157,9 +157,6 @@ operation:
                     json_body['masterAuth'] = json_masterauth
                 json_main['cluster'] = json_body
 
-                with open('c:\Temp\json.txt', 'w') as json_file:
-                    json.dump(json_main, json_file)
-
                 response = json.dumps(json_main, sort_keys=True)
                 return_code = '0'
                 return_result = 'Success'
