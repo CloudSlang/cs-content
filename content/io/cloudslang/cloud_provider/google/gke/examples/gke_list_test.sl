@@ -19,10 +19,9 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: o.cloudslang.cloud_provider.gke.examples
+namespace: io.cloudslang.cloud_provider.gke.examples
 
 imports:
-  gke: io.cloudslang.cloud_provider.google.gke
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
