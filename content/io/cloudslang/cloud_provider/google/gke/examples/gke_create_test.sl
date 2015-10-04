@@ -40,7 +40,7 @@ flow:
   workflow:
     - createRessourceCluster:
         do:
-          gke.create_resource_cluster:
+          create_resource_cluster:
             - name
             - initialNodeCount
             - masterauthUsername
@@ -58,7 +58,7 @@ flow:
 
     - createCluster:
         do:
-          gke.create_clusters:
+          create_clusters:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -77,7 +77,7 @@ flow:
 
     - deleteCluster:
         do:
-          gke.delete_clusters:
+          delete_clusters:
             - projectId
             - zone
             - jSonGoogleAuthPath

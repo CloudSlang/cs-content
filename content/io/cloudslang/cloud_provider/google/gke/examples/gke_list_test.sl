@@ -38,7 +38,7 @@ flow:
   workflow:
     - ListClusters:
         do:
-          gke.list_clusters:
+          list_clusters:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -54,7 +54,7 @@ flow:
 
     - ListOperations:
         do:
-          gke.list_operations:
+          list_operations:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -70,7 +70,7 @@ flow:
 
     - getServerconfig:
         do:
-          gke.get_serverconfig:
+          get_serverconfig:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -86,7 +86,7 @@ flow:
 
     - getOperation:
         do:
-          gke.get_operations:
+          get_operations:
             - projectId
             - zone
             - jSonGoogleAuthPath
