@@ -35,7 +35,7 @@
 #   - error_message - return_result if return_code is not "0"
 ####################################################
 
-namespace: io.cloudslang.cloud_provider.gke
+namespace: io.cloudslang.cloud_provider.google.gke
 
 operation:
   name: create_clusters
