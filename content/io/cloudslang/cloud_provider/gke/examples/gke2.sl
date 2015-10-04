@@ -6,19 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an embedded cartridge in gke
-# NOTE: This is experimental and while the app is created it cannot run yet
-# WIP
+# Sample workflow for Google Container Engine
 #
 # Inputs:
-#   - cartridgeName - cartridge name
-#   - applicationName - gke application name
-#   - scale - optional - Mark application as scalable. Value : true, false
-#   - gear_size- optional - Size of the gear. Value : small, medium
-#   - host - gke host
-#   - username - gke username
-#   - password - gke username
-#   - domain - gke domain
+# 
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202
@@ -38,7 +29,7 @@ imports:
   print: io.cloudslang.base.print
 
 flow:
-  name: gke_testing2
+  name: gke2
   inputs:
     - projectId
     - zone
