@@ -30,8 +30,7 @@ flow:
             - host: marathon_host
             - username
             - private_key_file
-            - marathon_port:
-                required: false
+            - marathon_port
         navigate:
           SUCCESS: wait_for_marathon_startup
           CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
@@ -49,8 +48,7 @@ flow:
          do:
            create_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - json_file: json_file_for_creation
          navigate:
            SUCCESS: wait_for_app_to_deploy
@@ -65,8 +63,7 @@ flow:
         do:
           update_app:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
             - json_file: json_file_for_update
             - app_id: created_app_id
         navigate:
@@ -77,8 +74,7 @@ flow:
         do:
           delete_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - app_id: created_app_id
         navigate:
           SUCCESS: SUCCESS

@@ -1,0 +1,17 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testHttpClientPost:
+  inputs:
+    - url: "http://petstore.swagger.io/v2/pet"
+    - resource_id: "123456789"
+    - resource_name: "cloudslang_test_http_client"
+  description: "Test the Http Client Post against a REST API."
+  testFlowPath: io.cloudslang.base.network.rest.test_http_client_post
+  testSuites: [rest]
+  result: SUCCESS

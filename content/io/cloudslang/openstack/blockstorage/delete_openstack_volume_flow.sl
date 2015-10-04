@@ -33,10 +33,8 @@ flow:
   name: delete_openstack_volume_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - blockstorage_port:
-        default: "'8776'"
+    - identity_port: "'5000'"
+    - blockstorage_port: "'8776'"
     - username
     - password
     - tenant_name
@@ -54,10 +52,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -70,10 +66,8 @@ flow:
             - blockstorage_port
             - token
             - tenant
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - volume_list: return_result
           - return_result
@@ -95,10 +89,8 @@ flow:
             - token
             - tenant
             - volume_id
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

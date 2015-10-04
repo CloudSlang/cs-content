@@ -48,12 +48,9 @@ flow:
           list_machines_public_ip:
             - coreos_host
             - coreos_username
-            - coreos_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - coreos_password
+            - private_key_file
+            - timeout
         publish:
             - machines_public_ip_list
 
@@ -64,14 +61,10 @@ flow:
                   maintenance.images_maintenance:
                     - docker_host: machine_public_ip
                     - docker_username: coreos_username
-                    - docker_password:
-                        default: coreos_password
-                        required: false
-                    - private_key_file:
-                        required: false
+                    - docker_password: coreos_password
+                    - private_key_file
                     - percentage
-                    - timeout:
-                        required: false
+                    - timeout
               publish:
                     - number_of_deleted_images_per_host: >
                         fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','

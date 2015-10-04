@@ -31,8 +31,7 @@ flow:
             - host: marathon_host
             - username
             - private_key_file
-            - marathon_port:
-                required: false
+            - marathon_port
         navigate:
           SUCCESS: wait_for_marathon_startup
           CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
@@ -50,8 +49,7 @@ flow:
         do:
           get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
           - returnResult
         navigate:
@@ -83,8 +81,7 @@ flow:
             do:
               delete_app:
                 - marathon_host
-                - marathon_port:
-                    required: false
+                - marathon_port
                 - app_id: app
         navigate:
           SUCCESS: create_marathon_app
@@ -94,8 +91,7 @@ flow:
          do:
            create_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - json_file
          navigate:
            SUCCESS: wait_for_app_startup
@@ -110,8 +106,7 @@ flow:
         do:
           get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
           - returnResult
         navigate:
@@ -143,8 +138,7 @@ flow:
         do:
           get_tasks_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
           - tasks_list: returnResult
         navigate:
@@ -165,8 +159,7 @@ flow:
         do:
           delete_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - app_id: created_app_id
         navigate:
           SUCCESS: list_marathon_apps_again
@@ -176,8 +169,7 @@ flow:
         do:
           get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
           - returnResult
         navigate:

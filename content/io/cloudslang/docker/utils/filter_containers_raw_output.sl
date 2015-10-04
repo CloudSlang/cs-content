@@ -37,6 +37,9 @@ operation:
       def extract_container_id_from_line(line):
         return line.split()[0]
 
+      def resolve_tag(image):
+        return image if ':' in image else image + ':latest'
+
       try:
         return_code = '0'
         container_names = ''
@@ -51,8 +54,9 @@ operation:
           if line != '':
             if filter_on_images == True:
               excluded = False
-              actual_image = line.split()[1]
+              actual_image = resolve_tag(line.split()[1])
               for excluded_image in excluded_images_list:
+                excluded_image = resolve_tag(excluded_image)
                 if excluded_image == actual_image:
                   excluded = True
               if excluded == False:

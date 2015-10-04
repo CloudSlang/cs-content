@@ -30,10 +30,8 @@ flow:
   name: create_openstack_server_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - identity_port: "'5000'"
+    - compute_port: "'8774'"
     - network_id:
         required: false
     - img_ref
@@ -54,10 +52,8 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
@@ -71,13 +67,10 @@ flow:
             - token
             - tenant
             - img_ref
-            - network_id:
-                required: false
+            - network_id
             - server_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

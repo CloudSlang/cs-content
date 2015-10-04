@@ -36,10 +36,8 @@ flow:
         required: false
     - timeout:
         required: false
-    - unused_image_name:
-        default: "'tomcat:7'"
-    - used_image_name:
-        default: "'busybox'"
+    - unused_image_name: "'tomcat:7'"
+    - used_image_name: "'busybox'"
     - number_of_images_in_cluster:
         default: 0
         overridable: false
@@ -50,12 +48,9 @@ flow:
           list_machines_public_ip:
             - coreos_host
             - coreos_username
-            - coreos_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - coreos_password
+            - private_key_file
+            - timeout
         publish:
             - machines_public_ip_list
         navigate:
@@ -68,14 +63,10 @@ flow:
               do:
                   maintenance.clear_host:
                      - docker_host: machine_public_ip
-                     - port:
-                         required: false
+                     - port
                      - docker_username: coreos_username
-                     - docker_password:
-                        default: coreos_password
-                        required: false
-                     - private_key_file:
-                        required: false
+                     - docker_password: coreos_password
+                     - private_key_file
               navigate:
                 SUCCESS: pull_unused_image
                 FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
@@ -85,18 +76,11 @@ flow:
           images.pull_image:
             - image_name: unused_image_name
             - host: coreos_host
-            - port:
-                required: false
+            - port
             - username: coreos_username
-            - password:
-                default: coreos_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                default: timeout
-                required: false
+            - password: coreos_password
+            - privateKeyFile: private_key_file
+            - timeout
         navigate:
           SUCCESS: run_container
           FAILURE: PULL_UNUSED_IMAGE_PROBLEM
@@ -106,15 +90,11 @@ flow:
           containers.run_container:
             - image_name: used_image_name
             - host: coreos_host
-            - port:
-                required: false
+            - port
             - username: coreos_username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         navigate:
            SUCCESS: delete_unused_images
            FAILURE: RUN_CONTAINER_PROBLEM
@@ -124,14 +104,10 @@ flow:
           cluster_docker_images_maintenance:
             - coreos_host
             - coreos_username
-            - coreos_password:
-                required: false
-            - private_key_file:
-                required: false
-            - percentage:
-                required: false
-            - timeout:
-                required: false
+            - coreos_password
+            - private_key_file
+            - percentage
+            - timeout
         navigate:
           SUCCESS: count_images_in_cluster
           FAILURE: FAILURE
@@ -142,17 +118,11 @@ flow:
               do:
                   images.get_all_images:
                      - host: machine_public_ip
-                     - port:
-                         required: false
+                     - port
                      - username: coreos_username
-                     - password:
-                         default: coreos_password
-                         required: false
-                     - privateKeyFile:
-                         default: private_key_file
-                         required: false
-                     - timeout:
-                         required: false
+                     - password: coreos_password
+                     - privateKeyFile: private_key_file
+                     - timeout
               publish:
                 - number_of_images_in_cluster: >
                     fromInputs['number_of_images_in_cluster'] + len(image_list.split())
@@ -173,14 +143,10 @@ flow:
         do:
           maintenance.clear_host:
             - docker_host: coreos_host
-            - port:
-                required: false
+            - port
             - docker_username: coreos_username
-            - docker_password:
-               default: coreos_password
-               required: false
-            - private_key_file:
-                required: false
+            - docker_password: coreos_password
+            - private_key_file
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CLEAR_DOCKER_HOST_PROBLEM
