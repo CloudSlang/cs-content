@@ -12,6 +12,17 @@
 #   - wait for droplet startup
 #   - call delete_zombie_droplets
 #   - validate zombie droplet is removed
+#
+# Inputs:
+#   - time_to_live - threshold to compare the droplet's lifetime to (in minutes)
+#   - droplet_name - name of the droplet used in this test
+#   - image - image the droplet is created from
+#   - ssh_keys - array containing the IDs of the SSH keys
+#   - token - personal access token for DigitalOcean API
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 ########################################################################################################
 
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.examples
