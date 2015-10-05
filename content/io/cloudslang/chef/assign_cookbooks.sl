@@ -1,6 +1,10 @@
-####################################################
-# Chef content for CloudSlang
-# Ben Coleman, Sept 2015, v1.0
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
 # Assigns one or more Chef cookbooks (comma seperated) to a node's run list
 #
@@ -23,12 +27,15 @@ namespace: io.cloudslang.chef
 flow:
   name: assign_cookbooks
   inputs:
+    - cookbooks
     - knife_host
     - knife_username
-    - knife_password: "''"
-    - knife_privkey   
-    - cookbooks
-    - node_name
+    - knife_privkey:
+        required: false    
+    - knife_password: 
+        default: "''"
+        required: false
+
   workflow:
     - add_to_run_list:
         do:
@@ -42,10 +49,12 @@ flow:
           - returnResult
           - standard_err
           - knife_result
+
   outputs:
     - raw_result: returnResult
     - knife_result: knife_result
     - standard_err: standard_err
+    
   results:
     - SUCCESS
     - FAILURE

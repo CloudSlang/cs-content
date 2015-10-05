@@ -1,8 +1,12 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
-# Chef content for CloudSlang
-# Ben Coleman, Sept 2015, v1.0
-####################################################
-# Remove node from Chef
+# Remove node and client from Chef
 #
 # Inputs:
 #   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
@@ -24,11 +28,15 @@ namespace: io.cloudslang.chef
 flow:
   name: delete_node
   inputs:
+    - node_name
     - knife_host
     - knife_username
-    - knife_password: "''"
-    - knife_privkey   # Note this is a local file that resides where flow is executing
-    - node_name
+    - knife_privkey:
+        required: false    
+    - knife_password: 
+        default: "''"
+        required: false
+
   workflow:
     - remove_client:
         do:
@@ -54,10 +62,12 @@ flow:
           - returnResult
           - standard_err
           - knife_result
+
   outputs:
     - raw_result: returnResult
     - knife_result: knife_result
     - standard_err: standard_err
+
   results:
     - SUCCESS:
     - FAILURE

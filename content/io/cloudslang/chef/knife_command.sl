@@ -1,6 +1,10 @@
-####################################################
-# Chef content for CloudSlang
-# Ben Coleman, Sept 2015, v1.0
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
 # Run Chef knife command and return filtered result
 #
@@ -27,11 +31,18 @@ imports:
 flow:
   name: knife_command
   inputs:
+    - knife_cmd
     - knife_host
     - knife_username
-    - knife_password: "''"
-    - knife_privkey   # Note this is a local file that resides where flow is executing
-    - knife_cmd
+    - knife_privkey:
+        required: false    
+    - knife_password: 
+        default: "''"
+        required: false
+    - knife_timeout:
+        default: "'300000'"
+        required: false
+        
   workflow:
     - knife_cmd:
         do:
@@ -41,7 +52,7 @@ flow:
             - password: knife_password
             - privateKeyFile: knife_privkey
             - command: "'echo [knife output];knife ' + knife_cmd"
-            - timeout: "'300000'"
+            - timeout: knife_timeout
         publish:
           - returnResult
           - standard_err
