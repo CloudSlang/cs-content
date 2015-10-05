@@ -23,7 +23,6 @@ namespace: io.cloudslang.chef
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  print: io.cloudslang.base.print
 
 flow:
   name: knife_command

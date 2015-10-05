@@ -26,10 +26,10 @@
 namespace: io.cloudslang.chef
 
 imports:
+  chef_utils: io.cloudslang.chef.utils
   ssh: io.cloudslang.base.remote_command_execution.ssh
   print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
-  utils: bencoleman.utils
 
 flow:
   name: boostrap_node
@@ -71,7 +71,7 @@ flow:
 
     - filter_bootstrap_result:
         do:
-          utils.filter_lines:
+          chef_utils.filter_lines:
             - text: returnResult
             - filter: node_host
         publish:
