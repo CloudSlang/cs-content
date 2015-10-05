@@ -12,7 +12,7 @@ test_delete_zombie_droplets_success:
   testFlowPath: io.cloudslang.cloud_provider.digital_ocean.v2.examples.test_delete_zombie_droplets
   inputs:
     - time_to_live: 0
-    - droplet_name: ci-<build_number>-test-delete-zombie-droplet
+    - droplet_name: ci-<build_number>-coreos-4
     - image: "coreos-stable"
     - ssh_keys: [<ssh_public_key_id>]
     - token: <digital_ocean_token>
