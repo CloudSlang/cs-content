@@ -10,7 +10,7 @@
 # A droplet is considered zombie if its name matches a given pattern and its lifetime exceeds a given value.
 #
 # Inputs:
-#   - time_to_live - optional - threshold to compare the droplet's lifetime to (in minutes)
+#   - time_to_live - optional - threshold to compare the droplet's lifetime to as number or string (in minutes)
 #                  - Default: 150 minutes (2.5 hours)
 #   - name_pattern - optional - regex pattern for zombie droplet names
 #                  - Default: ci-([0-9]+)-coreos-([0-9]+)
@@ -69,7 +69,7 @@ flow:
               - droplet_id: str(droplet['id'])
               - droplet_name: droplet['name']
               - creation_time_as_string: str(droplet['created_at'])
-              - time_to_live
+              - time_to_live: int(time_to_live)
               - name_pattern
               - token
               - proxy_host
