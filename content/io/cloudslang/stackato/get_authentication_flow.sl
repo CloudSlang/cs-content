@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates an OpenStack machine.
+# Authenticates to a Helion Development Platform / Stackato instance.
 #
 # Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
+#   - host - Helion Development Platform / Stackato instance
+#   - username - HDP/Stackato username
+#   - password - HDP/Stackato password
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - token - authentication token
-#   - tenant - tenant ID
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
 # Results:
@@ -26,34 +23,28 @@
 #   - FAILURE
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.stackato
 
 imports:
- openstack_utils: io.cloudslang.openstack.utils
+ stackato_utils: io.cloudslang.stackato.utils
 
 flow:
   name: get_authentication_flow
   inputs:
     - host
-    - identity_port: "'5000'"
     - username
     - password
-    - tenant_name
-    - proxy_host:
+    - proxyHost:
         required: false
-    - proxy_port:
+    - proxyPort:
         required: false
   workflow:
     - get_token:
         do:
           get_authentication:
             - host
-            - identity_port
             - username
             - password
-            - tenant_name
-            - proxy_host
-            - proxy_port
         publish:
           - response_body: return_result
           - return_code
@@ -61,16 +52,12 @@ flow:
 
     - parse_authentication:
         do:
-          openstack_utils.parse_authentication:
+          stackato_utils.parse_authentication:
             - json_authentication_response: response_body
         publish:
           - token
-          - tenant
           - error_message
-
   outputs:
     - token
-    - tenant
     - return_result: response_body
     - error_message
-
