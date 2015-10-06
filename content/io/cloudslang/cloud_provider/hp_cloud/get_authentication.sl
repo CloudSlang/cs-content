@@ -1,11 +1,29 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Call to HP Cloud API to get auth token
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - username - HP Cloud account username 
+#   - password - HP Cloud account password 
+#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - token - Auth token obtained by get_authenication_flow
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - return_result - JSON response
+#   - status_code - Normal status code is 200
+#   - return_code - Return code 
+#   - error_message - If error occurs, this contains error in JSON
+# Results:
+#   - SUCCESS - operation succeeded, token returned
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -13,12 +31,10 @@ namespace: io.cloudslang.cloud_provider.hp_cloud
 operation:
   name: get_authentication
   inputs:
-    - host
-    - identity_port:
-        default: "'35357'"
     - username
     - password
     - tenant_name
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -30,7 +46,7 @@ operation:
         default: "proxy_port if proxy_port is not None else ''"
         overridable: false
     - url:
-        default: "'https://'+ host + ':' + identity_port + '/v2.0/tokens'"
+        default: "'https://region-'+region+'.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens'"
         overridable: false
     - body:
         default: >

@@ -1,11 +1,28 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Main flow to authenicate and login to HP Cloud
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - username - HP Cloud account username 
+#   - password - HP Cloud account password 
+#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - token - Authentication token, used for all other HP Cloud flows and operations
+#   - tenant - Tenant id, used for many other HP Cloud flows and operations
+#   - return_result - JSON response
+#   - error_message - Any errors
+# Results:
+#   - SUCCESS - flow succeeded, login OK
+#   - FAILURE - Logon failed
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -16,12 +33,10 @@ imports:
 flow:
   name: get_authentication_flow
   inputs:
-    - host
-    - identity_port:
-        default: "'5000'"
     - username
     - password
     - tenant_name
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -30,24 +45,23 @@ flow:
     - get_token:
         do:
           get_authentication:
-            - host
-            - identity_port
             - username
             - password
             - tenant_name
+            - region
             - proxy_host:
                 required: false
             - proxy_port:
                 required: false
         publish:
-          - response_body: return_result
+          - return_result
           - return_code
           - error_message
 
     - parse_authentication:
         do:
           openstack_utils.parse_authentication:
-            - json_authentication_response: response_body
+            - json_authentication_response: return_result
         publish:
           - token
           - tenant
@@ -56,5 +70,5 @@ flow:
   outputs:
     - token
     - tenant
-    - return_result: response_body
+    - return_result
     - error_message

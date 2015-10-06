@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -28,6 +28,7 @@ flow:
   name: assign_cookbooks
   inputs:
     - cookbooks
+    - node_name    
     - knife_host
     - knife_username
     - knife_privkey:

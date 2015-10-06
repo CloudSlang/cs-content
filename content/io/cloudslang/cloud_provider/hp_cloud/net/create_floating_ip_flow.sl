@@ -1,11 +1,25 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Main flow to call to obtain a floating IP 
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - token - Auth token obtained by get_authenication_flow
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - ip_addres - IP address created
+#   - return_result - response of the operation
+#   - status_code - normal status code is 202
+# Results:
+#   - SUCCESS - operation succeeded
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net
@@ -19,8 +33,7 @@ flow:
   name: create_floating_ip_flow
   inputs:
     - token
-    - host
-    - port
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -30,8 +43,7 @@ flow:
         do:
           list_all_networks:
             - token
-            - host
-            - port
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 
@@ -43,7 +55,7 @@ flow:
     - get_external_id:
         do:
           utils.get_external_net_id:
-            - json_str: return_result
+            - json_network_list: return_result
         publish:
           - ext_network_id
 
@@ -52,8 +64,7 @@ flow:
           create_floating_ip:
             - ext_network_id
             - token
-            - host
-            - port
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 

@@ -4,26 +4,34 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ####################################################
-# Check is boolean is true or false, use for flow control
+# Filters input text by string/regex, output will contain only lines matching filter
 #
 # Inputs:
-#   - check_bool - Boolean value to check
+#   - text - Input multiline text to be filtered
+#   - filter - Simple string or regex expression
+# Outputs:
+#   - filter_result - filtered input
 # Results:
-#   - SUCCESS - check_bool is true
-#   - FAILURE - check_bool is false
+#   - SUCCESS - always
 ####################################################
 
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.strings
 
 operation:
-  name: check_bool
+  name: filter_lines  
   inputs:
-    - bool_value
+    - text
+    - filter
+
   action:
     python_script: |
-      pass
+      import re
+      res = re.findall('.*' + filter + '.*', text)
+      filter_result = '\n'.join(res)
+
+  outputs:
+    - filter_result
+
   results:
-    - SUCCESS: bool_value == True
-    - FAILURE: bool_value != True
+    - SUCCESS

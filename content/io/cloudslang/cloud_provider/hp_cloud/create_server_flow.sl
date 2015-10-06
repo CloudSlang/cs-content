@@ -1,11 +1,31 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Main flow to create a server instance with floating IP in HP Cloud
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - username - HP Cloud account username 
+#   - password - HP Cloud account password 
+#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - server_name - Name for the new server
+#   - img_ref - Image id to use for the new server (operating system)
+#   - flavor_ref - Flavor id to set the new server size
+#   - keypair - Keypair used to access the new server
+#   - assign_floating - Allocate and assign a floating IP to server? (True/False)
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - ip_address - IP address (if allocated)
+#   - server_id - Id of new server
+# Results:
+#   - SUCCESS - flow succeeded, server and/or IP created
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -21,26 +41,18 @@ imports:
 flow:
   name: create_server_flow
   inputs:
-    - identity_host
-    - compute_host
-    - network_host
-    - identity_port:
-        default: "'35357'"
-    - compute_port:
-        default: "'443'"
-    - network_port:
-        default: "'443'"
-    - network_id:
-        required: false
+    - username
+    - password
+    - tenant_name
     - server_name
     - img_ref
     - flavor_ref
     - keypair
+    - region
     - assign_floating:
-        default: False
-    - username
-    - password
-    - tenant_name
+        default: True    
+    - network_id:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -50,11 +62,10 @@ flow:
     - authentication:
         do:
           get_authentication_flow:
-            - host: identity_host
-            - identity_port
             - username
             - password
             - tenant_name
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 
@@ -68,25 +79,24 @@ flow:
     - create_server:
         do:
           create_server:
-            - host: compute_host
-            - port: compute_port
-            - token
-            - tenant
+            - server_name
             - img_ref
             - flavor_ref
             - keypair
-            - server_name
+            - token
+            - tenant
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 
                 required: false         
         publish:
-          - return_result
+          - server_json: return_result
 
     - get_server_id:
         do:
           json.get_value_from_json:
-            - json_input: return_result
+            - json_input: server_json
             - key_list: ["'server'", "'id'"]
         publish:
           - server_id: value
@@ -96,17 +106,16 @@ flow:
           print.print_text:
             - text: "'### New server created: '+server_id"
 
-    - poll_server_active:
+    - poll_server_until_active:
         loop:
           for: loop_counter in range(0,20)
           do:
             get_server_state_flow:
-              - host: compute_host
-              - port: compute_port
+              - server_id  
               - delay: 10
               - token
               - tenant
-              - server_id  
+              - region
               - proxy_host: 
                   required: false
               - proxy_port: 
@@ -130,9 +139,8 @@ flow:
     - allocate_new_ip:
         do:
           net.create_floating_ip_flow:
-            - host: network_host
-            - port: network_port
             - token
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 
@@ -149,12 +157,11 @@ flow:
     - assign_ip:
         do:
           net.add_ip_to_server:
-            - host: compute_host
-            - port: compute_port
-            - tenant: tenant_name
-            - token
             - server_id
             - ip_address
+            - tenant
+            - token
+            - region
             - proxy_host: 
                 required: false
             - proxy_port: 
@@ -173,6 +180,5 @@ flow:
             print.print_text:
               - text: "'! Create Server Flow Error ! ' + return_result" 
   outputs:
-    - return_result
     - ip_address
     - server_id

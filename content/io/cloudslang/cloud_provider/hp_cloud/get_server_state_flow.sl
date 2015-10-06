@@ -1,11 +1,28 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Flow to poll HP Cloud API until server is ready and in ACTIVE state
+# Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - server_id - Id of server 
+#   - tenant - Tenant id obtained by get_authenication_flow
+#   - token - Auth token obtained by get_authenication_flow
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - delay - Pause in secs before checking (when called in loop to throttle API calls)
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - server_status - Status value string of the server
+# Results:
+#   - FAILURE - Failure for some reason
+#   - ACTIVE - Server is ACTIVE
+#   - NOTACTIVE - Server is state other than ACTIVE
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -19,17 +36,17 @@ imports:
 flow:
   name: get_server_state_flow
   inputs:
-    - token
-    - host
-    - port
     - server_id
     - tenant
+    - token
+    - region  
     - delay:
         default: 0
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - wait:
         do:
@@ -39,11 +56,10 @@ flow:
     - get_details:
         do:
           get_server_details:
-            - host
-            - port
             - server_id
             - tenant
-            - token    
+            - token  
+            - region  
             - proxy_host: 
                 required: false
             - proxy_port: 
@@ -81,6 +97,7 @@ flow:
               - text: "'! ERROR GETTING SERVER INFO: \\nStatus:' + status_code + '\\n' + return_result"
           navigate:
             SUCCESS: FAILURE
+            
   outputs:
     - server_status
 

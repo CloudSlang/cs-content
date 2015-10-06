@@ -1,11 +1,24 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Delete and release a floating IP
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - ip_id - Id of floating IP
+#   - token - Auth token obtained by get_authenication_flow
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - status_code - normal status code is 204
+# Results:
+#   - SUCCESS - operation succeeded
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net
@@ -13,11 +26,9 @@ namespace: io.cloudslang.cloud_provider.hp_cloud.net
 operation:
   name: delete_floating_ip
   inputs:
-    - host
-    - port:
-        default: "'443'"
-    - token
     - ip_id
+    - token
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -32,7 +43,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://' + host + ':' + port + '/v2.0/floatingips/' + ip_id"
+        default: "'https://region-'+region+'.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
         overridable: false
     - body:
         default: "''"
@@ -48,10 +59,7 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    #- return_result: returnResult
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    #- error_message: returnResult if 'statusCode' not in locals() or statusCode != '200' else ''
-
   results:
     - SUCCESS:  "'statusCode' in locals() and statusCode == '204'"
     - FAILURE

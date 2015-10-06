@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -30,7 +30,6 @@
 namespace: io.cloudslang.chef
 
 imports:
-  chef_utils: io.cloudslang.chef.utils
   ssh: io.cloudslang.base.remote_command_execution.ssh
   print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
@@ -53,7 +52,10 @@ flow:
     - knife_password: 
         default: "''"
         required: false
-
+    - knife_timeout:
+        default: "'300000'"
+        required: false
+        
   workflow:
     - run_bootstrap:
         do:
@@ -63,7 +65,7 @@ flow:
             - password: knife_password
             - privateKeyFile: knife_privkey
             - command: "'knife bootstrap '+node_host+' -i '+node_privkey+' -x '+node_username+' -P \\''+node_password+'\\' --sudo --node-name \\''+node_name+'\\''"
-            - timeout: "'300000'"
+            - timeout: knife_timeout
         publish:
           - returnResult
           - standard_err
@@ -81,7 +83,7 @@ flow:
 
     - filter_bootstrap_result:
         do:
-          chef_utils.filter_lines:
+          strings.filter_lines:
             - text: returnResult
             - filter: node_host
         publish:

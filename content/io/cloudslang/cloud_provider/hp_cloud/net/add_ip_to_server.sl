@@ -1,11 +1,28 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
+# Assigns a floating IP to a server instance
 #
-# OpenStack content for HP Helion Public Cloud
-# Modified from io.cloudslang.openstack (v0.8) content
-#
-# Ben Coleman, Sept 2015
-# v0.1
-#
+# Inputs:
+#   - ip_address - Floating IP to be added to server
+#   - server_id - Server instance id
+#   - tenant - Tenant id obtained by get_authenication_flow
+#   - token - Auth token obtained by get_authenication_flow
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - proxy_host - optional - proxy server used to access the web site - Default: none
+#   - proxy_port - optional - proxy server port - Default: none
+# Outputs:
+#   - return_result - JSON response of the operation
+#   - status_code - normal status code is 202
+#   - error_message: returnResult if statusCode != 202
+# Results:
+#   - SUCCESS - operation succeeded
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net
@@ -13,10 +30,11 @@ namespace: io.cloudslang.cloud_provider.hp_cloud.net
 operation:
   name: add_ip_to_server
   inputs:
-    - host
-    - port:
-        default: "'443'"
-    - token
+    - ip_address
+    - server_id
+    - tenant  
+    - token    
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -27,14 +45,11 @@ operation:
     - proxyPort:
         default: "proxy_port if proxy_port else ''"
         overridable: false
-    - ip_address
-    - server_id
-    - tenant
     - headers:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://' + host + ':' + port + '/v2/' + tenant + '/servers/' + server_id + '/action'"
+        default: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
         overridable: false
     - body:
         default: >
