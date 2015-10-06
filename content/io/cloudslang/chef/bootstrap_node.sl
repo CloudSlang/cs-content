@@ -35,7 +35,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: boostrap_node
+  name: bootstrap_node
   inputs:
     - node_name
     - node_host     
