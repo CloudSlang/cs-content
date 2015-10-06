@@ -7,7 +7,7 @@
 #
 ########################################################################################################
 test_delete_zombie_droplets_success:
-  testSuites: [digital_ocean]
+  testSuites: [digital_ocean_local]
   description: Calls test_delete_zombie_droplets.sl - see description in the flow
   testFlowPath: io.cloudslang.cloud_provider.digital_ocean.v2.examples.test_delete_zombie_droplets
   inputs:
