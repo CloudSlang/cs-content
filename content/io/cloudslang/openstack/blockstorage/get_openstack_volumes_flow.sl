@@ -37,7 +37,7 @@ imports:
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: list_openstack_volumes
+  name: get_openstack_volumes_flow
   inputs:
     - host
     - identity_port: "'5000'"
@@ -62,7 +62,7 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
         navigate:
@@ -77,7 +77,7 @@ flow:
             - host
             - blockstorage_port
             - token
-            - tenant
+            - tenant_id
             - proxy_host
             - proxy_port
         publish:

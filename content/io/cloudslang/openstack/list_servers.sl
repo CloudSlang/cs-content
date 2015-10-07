@@ -61,7 +61,7 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
         navigate:
@@ -76,7 +76,7 @@ flow:
             - host
             - compute_port
             - token
-            - tenant
+            - tenant_id
             - proxy_host
             - proxy_port
         publish:
