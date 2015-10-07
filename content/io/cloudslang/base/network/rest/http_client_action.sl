@@ -27,8 +27,8 @@
 #   - trustPassword - optional -  password associated with the TrustStore file
 #   - keystore - optional - location of the KeyStore file - Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
 #   - keystorePassword - optional - password associated with the KeyStore file
-#   - connectTimeout - optional - time to wait for a connection to be established, in seconds - Default: 0 (infinite)
-#   - socketTimeout - optional - time to wait for data to be retrieved, in seconds - Default: 0 (infinite)
+#   - connectTimeout - optional - time to wait for a connection to be established, in seconds - Default: 0 (infinite timeout)
+#   - socketTimeout - optional - time to wait for data to be retrieved (maximum period inactivity between two consecutive data packets), in seconds - Default: 0 (infinite timeout)
 #   - useCookies - optional - specifies whether to enable cookie tracking or not - Default: true
 #   - keepAlive - optional - specifies whether to create a shared connection that will be used in subsequent calls - Default: true
 #   - connectionsMaxPerRoot - optional - maximum limit of connections on a per route basis - Default: 2
