@@ -17,3 +17,5 @@ testStopApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_stop_application
   testSuites: [openshift-local]
   result: SUCCESS
+
+

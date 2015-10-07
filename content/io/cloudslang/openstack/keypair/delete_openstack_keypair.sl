@@ -12,7 +12,7 @@
 #   - host - OpenStack machine host
 #   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
-#   - tenant - OpenStack tenantID obtained after authentication
+#   - tenant_id - OpenStack tenant id obtained after authentication
 #   - keypair_name - name of the keypair to be deleted
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -34,7 +34,7 @@ operation:
     - compute_port:
         default: "'8774'"
     - token
-    - tenant
+    - tenant_id
     - keypair_name
     - proxy_host:
         required: false
@@ -50,7 +50,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant + '/os-keypairs/' + keypair_name"
+        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/os-keypairs/' + keypair_name"
         overridable: false
     - method:
         default: "'delete'"
