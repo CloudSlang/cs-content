@@ -62,10 +62,8 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
+            - proxy_username
+            - proxy_password
             - content_type: "'application/json'"
             - body: "'{\"event\":\"start\"}'"
             - headers: "'Accept: application/json'"

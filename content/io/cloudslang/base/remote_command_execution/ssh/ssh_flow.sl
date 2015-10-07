@@ -35,6 +35,9 @@
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
+imports:
+  linux: io.cloudslang.base.os.linux
+
 flow:
     name: ssh_flow
     inputs:
@@ -57,13 +60,12 @@ flow:
     workflow:
       - validate_ssh_access:
           do:
-            ssh_command:
+            linux.validate_linux_machine_ssh_access:
               - host
               - port
               - username
               - password
               - privateKeyFile
-              - command: "' '"
               - arguments
               - characterSet
               - pty
