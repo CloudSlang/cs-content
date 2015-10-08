@@ -178,7 +178,7 @@ flow:
       - FLOW_ERROR:
           do:
             print.print_text:
-              - text: "'! Create Server Flow Error ! ' + return_result" 
+              - text: "'! Create Server Flow Error: ' + error_message" 
   outputs:
     - ip_address
     - server_id

@@ -29,9 +29,12 @@ namespace: io.cloudslang.cloud_provider.hp_cloud
 
 imports:
  openstack_utils: io.cloudslang.openstack.utils
+ print: io.cloudslang.base.print
+ hpcloud: io.cloudslang.cloud_provider.hp_cloud
 
 flow:
   name: get_authentication_flow
+  
   inputs:
     - username
     - password
@@ -41,10 +44,11 @@ flow:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - get_token:
         do:
-          get_authentication:
+          hpcloud.get_authentication:
             - username
             - password
             - tenant_name
