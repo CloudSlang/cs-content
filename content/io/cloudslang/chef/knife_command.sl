@@ -49,8 +49,12 @@ flow:
           ssh.ssh_command:
             - host: knife_host
             - username: knife_username
-            - password: knife_password
-            - privateKeyFile: knife_privkey
+            - password: 
+                required: false  
+                default: knife_password
+            - privateKeyFile: 
+                required: false  
+                default: knife_privkey  
             - command: "'echo [knife output];knife ' + knife_cmd"
             - timeout: knife_timeout
         publish:

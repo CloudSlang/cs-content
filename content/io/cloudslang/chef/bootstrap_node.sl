@@ -28,12 +28,10 @@
 ####################################################
 
 namespace: io.cloudslang.chef
-
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
   print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
-
 flow:
   name: bootstrap_node
   inputs:
@@ -55,21 +53,23 @@ flow:
     - knife_timeout:
         default: "'300000'"
         required: false
-        
   workflow:
     - run_bootstrap:
         do:
           ssh.ssh_command:
             - host: knife_host
             - username: knife_username
-            - password: knife_password
-            - privateKeyFile: knife_privkey
+            - password: 
+                required: false  
+                default: knife_password
+            - privateKeyFile: 
+                required: false  
+                default: knife_privkey                          
             - command: "'knife bootstrap '+node_host+' -i '+node_privkey+' -x '+node_username+' -P \\''+node_password+'\\' --sudo --node-name \\''+node_name+'\\''"
             - timeout: knife_timeout
         publish:
           - returnResult
           - standard_err
-
     - check_knife_result:
         do:
           strings.string_occurrence_counter:
@@ -80,7 +80,6 @@ flow:
         navigate:
           SUCCESS: FAILURE
           FAILURE: filter_bootstrap_result
-
     - filter_bootstrap_result:
         do:
           strings.filter_lines:
@@ -88,13 +87,11 @@ flow:
             - filter: node_host
         publish:
           - filter_result
-          
   outputs:
     - raw_result: returnResult
     - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else returnResult)"
     - standard_err: standard_err
     - node_name
-    
   results:
     - SUCCESS: 
     - FAILURE: 

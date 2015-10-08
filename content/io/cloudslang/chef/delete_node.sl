@@ -42,10 +42,14 @@ flow:
         do:
           knife_command:
             - knife_cmd: "'client delete '+node_name+' -y'"  
-            - knife_host: knife_host
-            - knife_username: knife_username
-            - knife_privkey: knife_privkey     
-            - knife_password: knife_password   
+            - knife_host
+            - knife_username
+            - knife_password: 
+                required: false  
+                default: knife_password
+            - knife_privkey: 
+                required: false  
+                default: knife_privkey   
         publish:
           - returnResult
           - standard_err
@@ -54,10 +58,14 @@ flow:
         do:
           knife_command:
             - knife_cmd: "'node delete '+node_name+' -y'"  
-            - knife_host: knife_host
-            - knife_username: knife_username
-            - knife_privkey: knife_privkey     
-            - knife_password: knife_password   
+            - knife_host
+            - knife_username
+            - knife_password: 
+                required: false  
+                default: knife_password
+            - knife_privkey: 
+                required: false  
+                default: knife_privkey   
         publish:
           - returnResult
           - standard_err
