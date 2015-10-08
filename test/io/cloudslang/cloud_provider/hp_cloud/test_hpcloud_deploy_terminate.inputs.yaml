@@ -11,13 +11,13 @@ test_hpcloud_deploy_terminate_success:
   description: Tests that HP Cloud server deployment and termination works
   testFlowPath: io.cloudslang.cloud_provider.hp_cloud.test_hpcloud_deploy_terminate
   inputs:
-    - username         # Your HP Cloud user
-    - password         # Your HP Cloud password
-    - tenant_name      # Your HP Cloud tenant, e.g. 'bob.smith@hp.com-tenant1'
-    - server_name:     "cloudslang-test-server"
-    - img_ref:         "43804523-7e3b-4adf-b6df-9d11d451c463"  # Ubuntu 14.04, subject to change
-    - flavor_ref:      "100"  # xsmall server size 
-    - keypair          # Your keypair name
-    - region:          "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
-    - assign_floating: True    
+    - username:         # Your HP Cloud user
+    - password:         # Your HP Cloud password
+    - tenant_name:      # Your HP Cloud tenant, e.g. 'bob.smith@hp.com-tenant1'
+    - server_name:      "cloudslang-test-server"
+    - img_ref:          "43804523-7e3b-4adf-b6df-9d11d451c463"  # Ubuntu 14.04, subject to change
+    - flavor_ref:       "100"  # xsmall server size 
+    - keypair:          # Your keypair name
+    - region:           "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
+    - assign_floating:  True    
   result: SUCCESS
