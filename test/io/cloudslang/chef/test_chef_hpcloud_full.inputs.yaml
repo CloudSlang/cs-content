@@ -1,0 +1,33 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_chef_hpcloud_full_success:
+  testSuites: [chef]
+  description: Tests that HP Cloud and Chef works
+  testFlowPath: io.cloudslang.chef.test_chef_hpcloud_full
+  inputs:
+    - username           # Your HP Cloud user
+    - password           # Your HP Cloud password
+    - tenant_name        # Your HP Cloud tenant, e.g. 'bob.smith@hp.com-tenant1'
+    - server_name:       "cloudslang-test-server"
+    - img_ref:           "43804523-7e3b-4adf-b6df-9d11d451c463"  # This is Ubuntu 14.04, subject to change
+    - flavor_ref:        "100"  # xsmall server size 
+    - keypair            # Your keypair name
+    - region:            "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
+    - assign_floating:   True    
+    - cookbooks          # Chef cookbooks, should deploy some app server e.g. tomcat, apache, nginx etc
+    - app_port           # Port of app server deployed by Chef, e.g. 8080 or 80
+    - knife_host         # Linux server where Chef knife has been configured
+    - knife_username     # SSH username to access knife server
+    - knife_privkey      # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
+    - knife_password     # If using SSH password auth
+    - node_username      # SSH username to access the new HP cloud server
+    - node_privkey       # If using SSH keyfile auth, note this is a *remote* file on the knife server
+    - node_password      # If using SSH password auth
+    - node_privkey_local # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
+  result: SUCCESS
