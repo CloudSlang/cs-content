@@ -14,4 +14,5 @@ test_hpcloud_ip_allocation_success:
     - username:         # Your HP Cloud user
     - password:         # Your HP Cloud password
     - tenant_name:      # Your HP Cloud tenant, e.g. 'bob.smith@hp.com-tenant1'  
+    - region: "a"       # HP Cloud region; 'a' or 'b'  (US West or US East) 
   result: SUCCESS
