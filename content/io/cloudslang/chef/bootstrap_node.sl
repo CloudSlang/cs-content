@@ -9,15 +9,16 @@
 # Bootstrap a server so it can be managed by Chef as a new node
 #
 # Inputs:
+#   - node_host - Hostname or IP of server to boostrap
+#   - node_name - New node name in Chef
 #   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - If using password auth
-#   - knife_privkey - SSH keyfile (local file that resides where flow is executing)
-#   - node_host - Hostname or IP of server to boostrap
-#   - node_name - New node name in Chef
+#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 #   - node_username - SSH username to boostrap the new node
-#   - node_password - optional - If using password auth
-#   - node_privkey - SSH keyfile (*REMOTE FILE* on knife server)
+#   - node_password - optional - If using password auth to access node
+#   - node_privkey - optional - If using keyfile auth to access node (*REMOTE FILE* on knife server)
+#   - knife_timeout - optional - Timeout in millsecs, default is 60 seconds
 # Outputs:
 #   - knife_result - Filtered output of knife command
 #   - raw_result - Full STDOUT
@@ -46,12 +47,13 @@ flow:
     - knife_host
     - knife_username
     - knife_privkey:
+        default: "''"
         required: false    
     - knife_password: 
         default: "''"
         required: false
     - knife_timeout:
-        default: "'300000'"
+        default: "'600000'"
         required: false
   workflow:
     - run_bootstrap:
@@ -59,17 +61,14 @@ flow:
           ssh.ssh_command:
             - host: knife_host
             - username: knife_username
-            - password: 
-                required: false  
-                default: knife_password
-            - privateKeyFile: 
-                required: false  
-                default: knife_privkey                          
+            - password: knife_password
+            - privateKeyFile: knife_privkey                          
             - command: "'knife bootstrap '+node_host+' -i '+node_privkey+' -x '+node_username+' -P \\''+node_password+'\\' --sudo --node-name \\''+node_name+'\\''"
             - timeout: knife_timeout
         publish:
           - returnResult
           - standard_err
+
     - check_knife_result:
         do:
           strings.string_occurrence_counter:
@@ -80,6 +79,7 @@ flow:
         navigate:
           SUCCESS: FAILURE
           FAILURE: filter_bootstrap_result
+
     - filter_bootstrap_result:
         do:
           strings.filter_lines:
@@ -87,11 +87,13 @@ flow:
             - filter: node_host
         publish:
           - filter_result
+
   outputs:
     - raw_result: returnResult
     - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else returnResult)"
     - standard_err: standard_err
     - node_name
+
   results:
     - SUCCESS: 
     - FAILURE: 

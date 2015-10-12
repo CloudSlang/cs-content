@@ -9,11 +9,12 @@
 # Run Chef knife command and return filtered result
 #
 # Inputs:
+#   - knife_cmd - Knife command to run e.g. 'cookbook list'
 #   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - If using password auth
-#   - knife_privkey - SSH keyfile (local file that resides where flow is executing)
-#   - knife_cmd - Knife command to run e.g. 'cookbook list'
+#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
+#   - knife_timeout - optional - Timeout in millsecs, default is 30 seconds
 # Outputs:
 #   - knife_result - Filtered output of knife command
 #   - raw_result - Full STDOUT
@@ -35,6 +36,7 @@ flow:
     - knife_host
     - knife_username
     - knife_privkey:
+        default: "''"
         required: false    
     - knife_password: 
         default: "''"
@@ -49,12 +51,8 @@ flow:
           ssh.ssh_command:
             - host: knife_host
             - username: knife_username
-            - password: 
-                required: false  
-                default: knife_password
-            - privateKeyFile: 
-                required: false  
-                default: knife_privkey  
+            - password: knife_password
+            - privateKeyFile: knife_privkey  
             - command: "'echo [knife output];knife ' + knife_cmd"
             - timeout: knife_timeout
         publish:

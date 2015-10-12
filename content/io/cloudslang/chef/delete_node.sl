@@ -12,7 +12,7 @@
 #   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - If using password auth
-#   - knife_privkey - SSH keyfile (local file that resides where flow is executing)
+#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 #   - node_name - Name of node in Chef to be deleted
 # Outputs:
 #   - knife_result - Filtered output of knife command
@@ -32,6 +32,7 @@ flow:
     - knife_host
     - knife_username
     - knife_privkey:
+        default: "''"
         required: false    
     - knife_password: 
         default: "''"
@@ -44,16 +45,13 @@ flow:
             - knife_cmd: "'client delete '+node_name+' -y'"  
             - knife_host
             - knife_username
-            - knife_password: 
-                required: false  
-                default: knife_password
-            - knife_privkey: 
-                required: false  
-                default: knife_privkey   
+            - knife_password
+            - knife_privkey   
         publish:
           - returnResult
           - standard_err
           - knife_result
+          
     - remove_node:
         do:
           knife_command:

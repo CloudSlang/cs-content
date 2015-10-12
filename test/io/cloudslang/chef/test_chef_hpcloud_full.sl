@@ -42,15 +42,20 @@ flow:
     - knife_host
     - knife_username
     - knife_password: 
+        default: "''"
         required: false
     - knife_privkey:
+        default: "''"
         required: false    
     - node_username
     - node_privkey:
+        default: "''"
         required: false  
     - node_privkey_local:
+        default: "''"
         required: false 
     - node_password: 
+        default: "''"
         required: false
 
   workflow:
@@ -85,15 +90,11 @@ flow:
             - node_name: "server_name + '_' + ip_address"
             - knife_host
             - knife_username
-            - knife_password:
-                required: false
-            - knife_privkey:
-                required: false            
+            - knife_password
+            - knife_privkey       
             - node_username
-            - node_password:
-                required: false             
-            - node_privkey:
-                required: false            
+            - node_password         
+            - node_privkey        
         publish:
           - return_result: knife_result
           - standard_err
@@ -106,15 +107,11 @@ flow:
             - node_name
             - knife_host
             - knife_username
-            - knife_password:
-                required: false
-            - knife_privkey:
-                required: false            
+            - knife_password
+            - knife_privkey            
             - node_username
-            - node_password:
-                required: false             
-            - node_privkey:
-                required: false
+            - node_password             
+            - node_privkey
         publish:
           - return_result: knife_result
           - standard_err
@@ -123,15 +120,9 @@ flow:
         do:
           ssh.ssh_command:
             - host: ip_address
-            - username: 
-                required: false
-                default: node_username
-            - password: 
-                required: false  
-                default: node_password                
-            - privateKeyFile:
-                required: false 
-                default:  node_privkey_local           
+            - username: node_username
+            - password: node_password                
+            - privateKeyFile: node_privkey_local           
             - command: "'sudo chef-client'"
             - timeout: "'600000'"
         publish:

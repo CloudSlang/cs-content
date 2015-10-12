@@ -9,10 +9,12 @@
 # Assigns one or more Chef cookbooks (comma seperated) to a node's run list
 #
 # Inputs:
+#   - cookbooks - Comma seperated list of one or more Chef cookbooks
+#   - node_name - Name of the node to assign cookbooks to
 #   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - If using password auth
-#   - knife_privkey - SSH keyfile (local file that resides where flow is executing)
+#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 # Outputs:
 #   - knife_result - Filtered output of knife command
 #   - raw_result - Full STDOUT
@@ -32,9 +34,10 @@ flow:
     - knife_host
     - knife_username
     - knife_privkey:
+        default: "''"
         required: false    
     - knife_password: 
-        default: "''"
+        default: "''"    
         required: false
 
   workflow:
@@ -44,12 +47,8 @@ flow:
             - knife_cmd: "'node run_list add '+node_name+' \\''+cookbooks+'\\''"  
             - knife_host
             - knife_username
-            - knife_password: 
-                required: false  
-                default: knife_password
-            - knife_privkey: 
-                required: false  
-                default: knife_privkey   
+            - knife_password
+            - knife_privkey   
         publish:
           - returnResult
           - standard_err
