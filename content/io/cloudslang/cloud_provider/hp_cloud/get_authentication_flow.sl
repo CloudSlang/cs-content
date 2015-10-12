@@ -61,9 +61,6 @@ flow:
           - return_result
           - return_code
           - error_message
-        navigate:
-          SUCCESS: get_authentication_token
-          FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_authentication_token:
         do:
@@ -73,9 +70,6 @@ flow:
         publish:
           - token: value
           - error_message
-        navigate:
-          SUCCESS: get_tenant_id
-          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
     - get_tenant_id:
         do:
@@ -85,18 +79,9 @@ flow:
         publish:
           - tenant_id: value
           - error_message
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_TENANT_ID_FAILURE
 
   outputs:
     - return_result
     - error_message
     - token
     - tenant_id
-
-  results:
-    - SUCCESS
-    - GET_AUTHENTICATION_TOKEN_FAILURE
-    - GET_TENANT_ID_FAILURE
-    - GET_AUTHENTICATION_FAILURE

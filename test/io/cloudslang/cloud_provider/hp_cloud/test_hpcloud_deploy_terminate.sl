@@ -58,9 +58,6 @@ flow:
             - port: "'22'"
             - timeout: "'15'"
             - tries: "'20'"
-        navigate:
-          SUCCESS:
-          FAILURE:
 
     - print_server_build:
         do:
