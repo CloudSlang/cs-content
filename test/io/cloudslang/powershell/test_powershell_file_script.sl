@@ -12,7 +12,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_powershell_script
+  name: test_powershell_file_script
 
   inputs:
     - host
