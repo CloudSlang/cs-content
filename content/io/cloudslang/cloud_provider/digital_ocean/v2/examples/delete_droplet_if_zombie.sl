@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow deletesa a DigitalOcean droplet if it is considered a zombie.
+# This flow deletes a DigitalOcean droplet if it is considered a zombie.
 #
 # Inputs:
 #   - droplet_id - id of the droplet as a string value
