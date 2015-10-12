@@ -130,7 +130,7 @@ flow:
 
     - check_assign_floating:
         do:
-          base_utils.check_bool:
+          base_utils.is_true:
             - bool_value: assign_floating
         navigate:
           SUCCESS: allocate_new_ip

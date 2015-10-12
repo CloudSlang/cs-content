@@ -85,7 +85,7 @@ flow:
 
     - check_release_ip_address:
         do:
-          base_utils.check_bool:
+          base_utils.is_true:
             - bool_value: release_ip_address
         navigate:
           SUCCESS: do_release_ip

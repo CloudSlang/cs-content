@@ -9,16 +9,16 @@
 # Check is boolean is true or false, use for flow control
 #
 # Inputs:
-#   - check_bool - Boolean value to check
+#   - bool_value - Boolean value to check
 # Results:
-#   - SUCCESS - check_bool is true
-#   - FAILURE - check_bool is false
+#   - SUCCESS - bool_value is true
+#   - FAILURE - bool_value is false
 ####################################################
 
 namespace: io.cloudslang.base.utils
 
 operation:
-  name: check_bool
+  name: is_true
   inputs:
     - bool_value
   action:
