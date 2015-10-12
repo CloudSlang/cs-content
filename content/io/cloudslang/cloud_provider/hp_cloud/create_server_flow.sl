@@ -72,7 +72,7 @@ flow:
                 required: false
         publish:
           - token
-          - tenant
+          - tenant: tenant_id
           - return_result
           - error_message    
 

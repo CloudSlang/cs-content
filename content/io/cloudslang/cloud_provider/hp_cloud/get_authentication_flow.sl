@@ -17,20 +17,20 @@
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - token - Authentication token, used for all other HP Cloud flows and operations
-#   - tenant - Tenant id, used for many other HP Cloud flows and operations
+#   - tenant_id - Tenant id, used for many other HP Cloud flows and operations
 #   - return_result - JSON response
 #   - error_message - Any errors
 # Results:
 #   - SUCCESS - flow succeeded, login OK
-#   - FAILURE - Logon failed
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - Failed to get token from response
+#   - GET_TENANT_ID_FAILURE - Failed to get tenant id from response
+#   - GET_AUTHENTICATION_FAILURE - Get token API call failed, likely logon failure
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
 
 imports:
- openstack_utils: io.cloudslang.openstack.utils
- print: io.cloudslang.base.print
- hpcloud: io.cloudslang.cloud_provider.hp_cloud
+  json: io.cloudslang.base.json
 
 flow:
   name: get_authentication_flow
@@ -48,7 +48,7 @@ flow:
   workflow:
     - get_token:
         do:
-          hpcloud.get_authentication:
+          get_authentication:
             - username
             - password
             - tenant_name
@@ -61,18 +61,42 @@ flow:
           - return_result
           - return_code
           - error_message
+        navigate:
+          SUCCESS: get_authentication_token
+          FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - parse_authentication:
+    - get_authentication_token:
         do:
-          openstack_utils.parse_authentication:
-            - json_authentication_response: return_result
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list: ["'access'", "'token'", "'id'"]
         publish:
-          - token
-          - tenant
+          - token: value
           - error_message
+        navigate:
+          SUCCESS: get_tenant_id
+          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+
+    - get_tenant_id:
+        do:
+          json.get_value_from_json:
+            - json_input: return_result
+            - key_list: ["'access'", "'token'", "'tenant'", "'id'"]
+        publish:
+          - tenant_id: value
+          - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: GET_TENANT_ID_FAILURE
 
   outputs:
-    - token
-    - tenant
     - return_result
     - error_message
+    - token
+    - tenant_id
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
