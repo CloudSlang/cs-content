@@ -21,6 +21,12 @@
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS - the OpenStack server (instance) was successfully deleted
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - DELETE_SERVER_FAILURE - the OpenStack server (instance) could not be deleted
 ####################################################
 
 namespace: io.cloudslang.openstack
@@ -54,22 +60,32 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_servers
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+
     - get_servers:
         do:
           get_openstack_servers:
             - host
             - compute_port
             - token
-            - tenant
+            - tenant_id
             - proxy_host
             - proxy_port
         publish:
           - server_list: return_result
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_server_id
+          FAILURE: GET_SERVERS_FAILURE
+
     - get_server_id:
         do:
           openstack_utils.get_server_id:
@@ -79,19 +95,36 @@ flow:
           - server_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: delete_server
+          FAILURE: GET_SERVER_ID_FAILURE
+
     - delete_server:
         do:
           delete_openstack_server:
             - host
             - compute_port
             - token
-            - tenant
+            - tenant_id
             - server_id
             - proxy_host
             - proxy_port
         publish:
           - return_result
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: DELETE_SERVER_FAILURE
+
   outputs:
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_SERVERS_FAILURE
+    - GET_SERVER_ID_FAILURE
+    - DELETE_SERVER_FAILURE

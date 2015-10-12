@@ -21,3 +21,5 @@ testCreateApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_create_application
   testSuites: [openshift-local]
   result: SUCCESS
+
+

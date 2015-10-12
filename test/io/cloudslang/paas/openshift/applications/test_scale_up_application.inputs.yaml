@@ -17,3 +17,5 @@ testScaleUpApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_scale_up_application
   testSuites: [openshift-local]
   result: SUCCESS
+
+
