@@ -61,7 +61,7 @@ flow:
             - privateKeyFile: knife_privkey                          
             - command: >
                 'knife bootstrap ' + node_host + ' -i ' + node_privkey + ' -x ' + node_username +
-                ' -P \\'' + node_password + '\\' --sudo --node-name \\'' + node_name + '\\''
+                ' -P \'' + node_password + '\' --sudo --node-name \'' + node_name + '\''
             - timeout: knife_timeout
         publish:
           - returnResult
