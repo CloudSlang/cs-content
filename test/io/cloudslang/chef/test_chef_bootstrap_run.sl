@@ -92,8 +92,22 @@ flow:
           - return_result: returnResult
           - standard_err
 
+    - chef_remove_node:
+        do:
+          chef.delete_node:
+            - node_host
+            - node_name
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey                   
+        publish:
+          - return_result: knife_result
+          - standard_err
+          - node_name
+
     - on_failure:
       - ERROR:
           do:
             print.print_text:
-              - text: "'! Error in Chef test flow ' +standard_err"
+              - text: "'! Error in Chef test flow ' +return_result"
