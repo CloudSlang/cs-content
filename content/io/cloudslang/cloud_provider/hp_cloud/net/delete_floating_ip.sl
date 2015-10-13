@@ -9,8 +9,8 @@
 # Delete and release a floating IP
 #
 # Inputs:
-#   - ip_id - Id of floating IP
-#   - token - Auth token obtained by get_authenication_flow
+#   - ip_id - id of floating IP
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -43,7 +43,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://region-'+region+'.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
+        default: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
         overridable: false
     - body:
         default: "''"

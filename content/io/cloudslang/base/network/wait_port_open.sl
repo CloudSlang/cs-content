@@ -9,10 +9,12 @@
 # Poll host repeatedly until TCP port is open
 #
 # Inputs:
-#   - host - Hostname or IP to check
+#   - host - hostname or IP to check
 #   - port - TCP port number to check
-#   - timeout - optional - Timeout for each check, throttles the polling
-#   - tries - optional - Total number of tries. Total wait time = timeout x tries
+#   - timeout - optional - timeout for each check, throttles the polling (in seconds)
+#             - Default: 10 sec
+#   - tries - optional - total number of tries - total wait time = timeout x tries
+#           - Default: 30
 # Results:
 #   - SUCCESS - Connection successful, host is active and listening on port
 #   - FAILURE - Host is not listening, port is closed or host down
@@ -49,9 +51,8 @@ operation:
           time.sleep(float(timeout))
 
       sock.close()
-      sock = None
       del sock
 
   results:
     - SUCCESS: is_open == True
-    - FAILURE      
+    - FAILURE

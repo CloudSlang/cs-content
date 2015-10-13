@@ -9,19 +9,19 @@
 # Assigns one or more Chef cookbooks (comma seperated) to a node's run list
 #
 # Inputs:
-#   - cookbooks - Comma seperated list of one or more Chef cookbooks
-#   - node_name - Name of the node to assign cookbooks to
-#   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
+#   - cookbooks - comma seperated list of one or more Chef cookbooks
+#   - node_name - name of the node to assign cookbooks to
+#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - If using password auth
+#   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 # Outputs:
-#   - knife_result - Filtered output of knife command
-#   - raw_result - Full STDOUT
-#   - standard_err - Any STDERR
+#   - knife_result - filtered output of knife command
+#   - raw_result - full STDOUT
+#   - standard_err - any STDERR
 # Results:
-#   - SUCCESS - Cookbooks were added to the run list
-#   - FAILURE - Otherwise
+#   - SUCCESS - cookbooks were added to the run list
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.chef
@@ -34,29 +34,27 @@ flow:
     - knife_host
     - knife_username
     - knife_privkey:
-        default: "''"
-        required: false    
+        required: false
     - knife_password: 
-        default: "''"    
         required: false
 
   workflow:
     - add_to_run_list:
         do:
           knife_command:
-            - knife_cmd: "'node run_list add '+node_name+' \\''+cookbooks+'\\''"  
+            - knife_cmd: "'node run_list add ' + node_name + ' \\'' + cookbooks + '\\''"
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey   
+            - knife_privkey
         publish:
-          - returnResult
+          - raw_result
           - standard_err
           - knife_result
 
   outputs:
-    - raw_result: returnResult
     - knife_result: knife_result
+    - raw_result
     - standard_err: standard_err
     
   results:

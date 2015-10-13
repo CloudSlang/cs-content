@@ -9,12 +9,12 @@
 # Get the id of a specified IP address
 #
 # Inputs:
-#   - json_ip_list - Output of the list_all_floatingips operation
+#   - json_ip_list - output of the list_all_floatingips operation
 #   - ip_address - IP address we want the id for
 # Outputs:
-#   - ip_id - Id of IP address provided 
+#   - ip_id - id of IP address provided
 # Results:
-#   - SUCCESS - Found the IP address id and returned it
+#   - SUCCESS - found the IP address id and returned it
 #   - FAILURE - otherwise
 ####################################################
 

@@ -9,14 +9,14 @@
 # Call to HP Cloud API to create a server instance 
 #
 # Inputs:
-#   - server_name - Name for the new server
-#   - img_ref - Image id to use for the new server (operating system)
-#   - flavor_ref - Flavor id to set the new server size
-#   - keypair - Keypair used to access the new server
-#   - tenant - Tenant id obtained by get_authenication_flow
-#   - token - Auth token obtained by get_authenication_flow
+#   - server_name - name for the new server
+#   - img_ref - image id to use for the new server (operating system)
+#   - flavor_ref - flavor id to set the new server size
+#   - keypair - keypair used to access the new server
+#   - tenant - tenant id obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - network_id - optional - Id of private network to add server to, can be omitted
+#   - network_id - optional - id of private network to add server to, can be omitted
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -39,7 +39,7 @@ operation:
     - keypair
     - tenant
     - token
-    - region    
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -60,7 +60,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'"
+        default: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'"
         overridable: false
     - body:
         default: >

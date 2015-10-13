@@ -9,18 +9,18 @@
 # Remove node and client from Chef
 #
 # Inputs:
-#   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
+#   - node_name - name of node in Chef to be deleted
+#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - If using password auth
+#   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - node_name - Name of node in Chef to be deleted
 # Outputs:
-#   - knife_result - Filtered output of knife command
-#   - raw_result - Full STDOUT
-#   - standard_err - Any STDERR
+#   - knife_result - filtered output of knife command
+#   - raw_result - full STDOUT
+#   - standard_err - any STDERR
 # Results:
-#   - SUCCESS - Node deleted OK
-#   - FAILURE - Otherwise
+#   - SUCCESS - node deleted OK
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.chef
@@ -31,49 +31,43 @@ flow:
     - node_name
     - knife_host
     - knife_username
+    - knife_password:
+        required: false
     - knife_privkey:
-        default: "''"
-        required: false    
-    - knife_password: 
-        default: "''"
         required: false
 
   workflow:
     - remove_client:
         do:
           knife_command:
-            - knife_cmd: "'client delete '+node_name+' -y'"  
+            - knife_cmd: "'client delete ' + node_name + ' -y'"
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey   
+            - knife_privkey
         publish:
-          - returnResult
+          - raw_result
           - standard_err
           - knife_result
           
     - remove_node:
         do:
           knife_command:
-            - knife_cmd: "'node delete '+node_name+' -y'"  
+            - knife_cmd: "'node delete ' + node_name + ' -y'"
             - knife_host
             - knife_username
-            - knife_password: 
-                required: false  
-                default: knife_password
-            - knife_privkey: 
-                required: false  
-                default: knife_privkey   
+            - knife_password
+            - knife_privkey
         publish:
-          - returnResult
+          - raw_result
           - standard_err
           - knife_result
 
   outputs:
-    - raw_result: returnResult
-    - knife_result: knife_result
-    - standard_err: standard_err
+    - knife_result
+    - raw_result
+    - standard_err
 
   results:
-    - SUCCESS:
+    - SUCCESS
     - FAILURE

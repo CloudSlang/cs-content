@@ -11,20 +11,18 @@
 # Inputs:
 #   - username - HP Cloud account username 
 #   - password - HP Cloud account password 
-#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - token - Authentication token, used for all other HP Cloud flows and operations
-#   - tenant_id - Tenant id, used for many other HP Cloud flows and operations
+#   - token - authentication token, used for all other HP Cloud flows and operations
+#   - tenant_id - tenant id, used for many other HP Cloud flows and operations
 #   - return_result - JSON response
-#   - error_message - Any errors
+#   - error_message - any errors
 # Results:
 #   - SUCCESS - flow succeeded, login OK
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - Failed to get token from response
-#   - GET_TENANT_ID_FAILURE - Failed to get tenant id from response
-#   - GET_AUTHENTICATION_FAILURE - Get token API call failed, likely logon failure
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

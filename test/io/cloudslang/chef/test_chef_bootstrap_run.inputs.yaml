@@ -7,7 +7,7 @@
 #
 ####################################################
 test_chef_bootstrap_run_success:
-  testSuites: [chef]
+  testSuites: [chef-local]
   description: Tests that HP Cloud and Chef works
   testFlowPath: io.cloudslang.chef.test_chef_bootstrap_run
   inputs:

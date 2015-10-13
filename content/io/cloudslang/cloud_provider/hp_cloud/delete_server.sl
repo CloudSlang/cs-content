@@ -9,16 +9,16 @@
 # Call to HP Cloud API to terminate a server instance 
 #
 # Inputs:
-#   - server_id - Id of server to be terminated
-#   - tenant - Tenant id obtained by get_authenication_flow
-#   - token - Auth token obtained by get_authenication_flow
+#   - server_id - id of server to be terminated
+#   - tenant - tenant id obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - JSON response
 #   - status_code - normal status code is 204
-#   - error_message - If error occurs, this contains error in JSON
+#   - error_message - if error occurs, this contains error in JSON
 # Results:
 #   - SUCCESS - operation succeeded, server deleted
 #   - FAILURE - otherwise

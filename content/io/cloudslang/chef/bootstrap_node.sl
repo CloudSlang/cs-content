@@ -9,29 +9,28 @@
 # Bootstrap a server so it can be managed by Chef as a new node
 #
 # Inputs:
-#   - node_host - Hostname or IP of server to boostrap
-#   - node_name - New node name in Chef
-#   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
-#   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - If using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
+#   - node_name - new node name in Chef
+#   - node_host - hostname or IP of server to boostrap
 #   - node_username - SSH username to boostrap the new node
-#   - node_password - optional - If using password auth to access node
-#   - node_privkey - optional - If using keyfile auth to access node (*REMOTE FILE* on knife server)
-#   - knife_timeout - optional - Timeout in millsecs, default is 60 seconds
+#   - node_password - optional - if using password auth to access node
+#   - node_privkey - optional - if using keyfile auth to access node (*REMOTE FILE* on knife server)
+#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
+#   - knife_username - SSH username to access server with knife
+#   - knife_password - optional - if using password auth
+#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
+#   - knife_timeout - optional - timeout in millsecs, default is 600 seconds
 # Outputs:
-#   - knife_result - Filtered output of knife command
-#   - raw_result - Full STDOUT
-#   - standard_err - Any STDERR
+#   - raw_result - full STDOUT
+#   - knife_result - filtered output of knife command
+#   - standard_err - any STDERR
 # Results:
-#   - SUCCESS - Bootstrap process completed without errors
-#   - FAILURE - Otherwise
+#   - SUCCESS - bootstrap process completed without errors
+#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.chef
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
-  print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
 flow:
   name: bootstrap_node
@@ -40,17 +39,14 @@ flow:
     - node_host     
     - node_username
     - node_password:
-        default: "''"
-        required: false    
+        required: false
     - node_privkey:
         required: false      
     - knife_host
     - knife_username
     - knife_privkey:
-        default: "''"
-        required: false    
+        required: false
     - knife_password: 
-        default: "''"
         required: false
     - knife_timeout:
         default: "'600000'"
@@ -63,7 +59,9 @@ flow:
             - username: knife_username
             - password: knife_password
             - privateKeyFile: knife_privkey                          
-            - command: "'knife bootstrap '+node_host+' -i '+node_privkey+' -x '+node_username+' -P \\''+node_password+'\\' --sudo --node-name \\''+node_name+'\\''"
+            - command: >
+                'knife bootstrap ' + node_host + ' -i ' + node_privkey + ' -x ' + node_username +
+                ' -P \\'' + node_password + '\\' --sudo --node-name \\'' + node_name + '\\''
             - timeout: knife_timeout
         publish:
           - returnResult
@@ -95,5 +93,5 @@ flow:
     - node_name
 
   results:
-    - SUCCESS: 
-    - FAILURE: 
+    - SUCCESS
+    - FAILURE

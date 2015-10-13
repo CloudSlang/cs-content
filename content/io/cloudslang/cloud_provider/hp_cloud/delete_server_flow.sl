@@ -11,16 +11,16 @@
 # Inputs:
 #   - username - HP Cloud account username 
 #   - password - HP Cloud account password 
-#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
-#   - server_id - Name for the new server
+#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - server_id - name for the new server
 #   - ip_address - IP address if releasing it
-#   - release_ip_address - Release and delete floating IP (True/False)
+#   - release_ip_address - release and delete floating IP (True/False)
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - JSON response
-#   - error_message - Any errors
+#   - error_message - any errors
 # Results:
 #   - SUCCESS - flow succeeded, server and/or IP removed
 #   - FAILURE - otherwise

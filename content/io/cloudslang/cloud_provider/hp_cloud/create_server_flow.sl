@@ -11,12 +11,13 @@
 # Inputs:
 #   - username - HP Cloud account username 
 #   - password - HP Cloud account password 
-#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
-#   - server_name - Name for the new server
-#   - img_ref - Image id to use for the new server (operating system)
-#   - flavor_ref - Flavor id to set the new server size
-#   - keypair - Keypair used to access the new server
-#   - assign_floating - Allocate and assign a floating IP to server? (True/False)
+#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - server_name - name for the new server
+#   - img_ref - image id to use for the new server (operating system)
+#   - flavor_ref - flavor id to set the new server size
+#   - keypair - keypair used to access the new server
+#   - assign_floating - allocate and assign a floating IP to server? (True/False)
+#   - network_id - optional - id of private network to add server to, can be omitted
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -31,12 +32,10 @@
 namespace: io.cloudslang.cloud_provider.hp_cloud
 
 imports:
-  utils: io.cloudslang.cloud_provider.hp_cloud.utils
   net: io.cloudslang.cloud_provider.hp_cloud.net
   print: io.cloudslang.base.print
   base_utils: io.cloudslang.base.utils
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: create_server_flow
@@ -125,8 +124,8 @@ flow:
             - FAILURE
         navigate:
           ACTIVE: check_assign_floating
-          NOTACTIVE: FAILURE 
-          FAILURE: FAILURE         
+          NOTACTIVE: FAILURE
+          FAILURE: FAILURE
 
     - check_assign_floating:
         do:
@@ -152,7 +151,7 @@ flow:
     - print_new_ip:
         do:
           print.print_text:
-            - text: "'### Got a floating IP: '+ip_address"
+            - text: "'### Got a floating IP: ' + ip_address"
 
     - assign_ip:
         do:
@@ -172,7 +171,7 @@ flow:
     - done:
         do:
           print.print_text:
-            - text: "'### New server ('+server_name+') is ready'"
+            - text: "'### New server (' + server_name + ') is ready'"
 
     - on_failure:
       - FLOW_ERROR:

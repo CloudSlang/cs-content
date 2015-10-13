@@ -9,10 +9,10 @@
 # Assigns a floating IP to a server instance
 #
 # Inputs:
-#   - ip_address - Floating IP to be added to server
-#   - server_id - Server instance id
-#   - tenant - Tenant id obtained by get_authenication_flow
-#   - token - Auth token obtained by get_authenication_flow
+#   - ip_address - floating IP to be added to server
+#   - server_id - server instance id
+#   - tenant - tenant id obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -32,8 +32,8 @@ operation:
   inputs:
     - ip_address
     - server_id
-    - tenant  
-    - token    
+    - tenant
+    - token
     - region
     - proxy_host:
         required: false
@@ -49,7 +49,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
+        default: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
         overridable: false
     - body:
         default: >
