@@ -16,6 +16,7 @@
 #   - tenant - Tenant id obtained by get_authenication_flow
 #   - token - Auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - network_id - optional - Id of private network to add server to, can be omitted
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
