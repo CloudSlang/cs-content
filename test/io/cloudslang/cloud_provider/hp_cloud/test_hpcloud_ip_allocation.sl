@@ -52,7 +52,7 @@ flow:
     - print_server_build:
         do:
           print.print_text:
-            - text: "'### Floating IP was allocated: '+ip_address"
+            - text: "'### Floating IP was allocated: ' + ip_address"
 
     - release_ip:
         do:

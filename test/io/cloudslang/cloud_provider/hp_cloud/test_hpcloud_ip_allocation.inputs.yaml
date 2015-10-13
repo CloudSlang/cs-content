@@ -7,7 +7,7 @@
 #
 ####################################################
 test_hpcloud_ip_allocation_success:
-  testSuites: [hp_cloud]
+  testSuites: [hp_cloud-local]
   description: Tests that HP Cloud floating IP allocation and release works
   testFlowPath: io.cloudslang.cloud_provider.hp_cloud.test_hpcloud_ip_allocation
   inputs:

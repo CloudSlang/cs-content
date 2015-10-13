@@ -26,4 +26,4 @@ operation:
       pass
   results:
     - SUCCESS: bool_value == True
-    - FAILURE: bool_value != True
+    - FAILURE

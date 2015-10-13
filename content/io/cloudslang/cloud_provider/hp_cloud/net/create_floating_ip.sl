@@ -9,15 +9,15 @@
 # Create a floating IP bound to the external (public) network
 #
 # Inputs:
-#   - ext_network_id - Id of the external network to get an an IP for
-#   - token - Auth token obtained by get_authenication_flow
+#   - ext_network_id - id of the external network to get an an IP for
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - JSON response with new IP details
 #   - status_code - normal status code is 201
-#   - error_message: returnResult if statusCode != 201
+#   - error_message - returnResult if statusCode != 201
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -45,11 +45,11 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://region-'+region+'.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
+        default: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
         overridable: false
     - body:
         default: >
-          '{"floatingip": { "floating_network_id": "'+ext_network_id+'" }}'
+          '{"floatingip": { "floating_network_id": "' + ext_network_id + '" }}'
         overridable: false
     - contentType:
         default: "'application/json'"

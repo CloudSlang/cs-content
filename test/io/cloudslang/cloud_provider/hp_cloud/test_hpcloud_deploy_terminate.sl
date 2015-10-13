@@ -62,7 +62,7 @@ flow:
     - print_server_build:
         do:
           print.print_text:
-            - text: "'### Server ('+server_id+') is active and booted. IP is '+ip_address"
+            - text: "'### Server (' + server_id + ') is active and booted. IP is ' + ip_address"
 
     - terminate_server:
         do:

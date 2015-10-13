@@ -9,19 +9,16 @@
 # Run Chef knife command and return filtered result
 #
 # Inputs:
-#   - knife_cmd - Knife command to run e.g. 'cookbook list'
-#   - knife_host - Server with configured knife accessable via SSH, can be main Chef server
+#   - knife_cmd - knife command to run e.g. 'cookbook list'
+#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - If using password auth
+#   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - knife_timeout - optional - Timeout in millsecs, default is 30 seconds
+#   - knife_timeout - optional - timeout in millsecs, default is 300 seconds
 # Outputs:
-#   - knife_result - Filtered output of knife command
-#   - raw_result - Full STDOUT
-#   - standard_err - Any STDERR
-# Results:
-#   - SUCCESS - Command successful
-#   - FAILURE - Otherwise
+#   - knife_result - filtered output of knife command
+#   - raw_result - full STDOUT
+#   - standard_err - any STDERR
 ####################################################
 
 namespace: io.cloudslang.chef
@@ -35,11 +32,9 @@ flow:
     - knife_cmd
     - knife_host
     - knife_username
+    - knife_password:
+        required: false
     - knife_privkey:
-        default: "''"
-        required: false    
-    - knife_password: 
-        default: "''"
         required: false
     - knife_timeout:
         default: "'300000'"
@@ -64,7 +59,3 @@ flow:
     - raw_result: returnResult
     - knife_result: "standard_err + ' ' + returnResult.split('[knife output]')[1]"
     - standard_err: standard_err
-
-  results:
-    - SUCCESS: 
-    - FAILURE: 

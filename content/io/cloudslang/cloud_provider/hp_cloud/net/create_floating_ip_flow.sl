@@ -9,7 +9,7 @@
 # Main flow to call to obtain a floating IP 
 #
 # Inputs:
-#   - token - Auth token obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none

@@ -11,16 +11,16 @@
 # Inputs:
 #   - username - HP Cloud account username 
 #   - password - HP Cloud account password 
-#   - tenant_name - Name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
-#   - token - Auth token obtained by get_authenication_flow
+#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - JSON response
-#   - status_code - Normal status code is 200
-#   - return_code - Return code 
-#   - error_message - If error occurs, this contains error in JSON
+#   - status_code - normal status code is 200
+#   - return_code - return code
+#   - error_message - if error occurs, this contains error in JSON
 # Results:
 #   - SUCCESS - operation succeeded, token returned
 #   - FAILURE - otherwise

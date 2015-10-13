@@ -9,8 +9,8 @@
 # Main flow to call to release a floating IP 
 #
 # Inputs:
-#   - ip_address - Floating IP address to be released
-#   - token - Auth token obtained by get_authenication_flow
+#   - ip_address - floating IP address to be released
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none

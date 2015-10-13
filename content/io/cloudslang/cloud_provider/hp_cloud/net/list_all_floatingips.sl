@@ -9,14 +9,14 @@
 # Main flow to call to release a floating IP 
 #
 # Inputs:
-#   - token - Auth token obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
 #   - return_result - JSON listing all floating IP and details
 #   - status_code - normal status code is 200
-#   - error_message: returnResult if statusCode != 200
+#   - error_message - returnResult if statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -43,7 +43,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'https://region-'+region+'.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
+        default: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
         overridable: false
     - body:
         default: "''"

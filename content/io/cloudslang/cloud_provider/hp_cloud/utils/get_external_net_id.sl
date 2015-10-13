@@ -9,11 +9,11 @@
 # Get the id of the one external network from a JSON list of networks 
 #
 # Inputs:
-#   - json_network_list - Output of the list_all_networks operation
+#   - json_network_list - output of the list_all_networks operation
 # Outputs:
-#   - ext_network_id - Id of external network
+#   - ext_network_id - id of external network
 # Results:
-#   - SUCCESS - Found the external network id and returned it
+#   - SUCCESS - found the external network id and returned it
 #   - FAILURE - otherwise
 ####################################################
 

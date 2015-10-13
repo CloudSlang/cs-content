@@ -10,19 +10,19 @@
 # Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
 #
 # Inputs:
-#   - server_id - Id of server 
-#   - tenant - Tenant id obtained by get_authenication_flow
-#   - token - Auth token obtained by get_authenication_flow
+#   - server_id - id of server
+#   - tenant - tenant id obtained by get_authenication_flow
+#   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - delay - Pause in secs before checking (when called in loop to throttle API calls)
+#   - delay - pause in secs before checking (when called in loop to throttle API calls)
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
-#   - server_status - Status value string of the server
+#   - server_status - status value string of the server
 # Results:
-#   - FAILURE - Failure for some reason
-#   - ACTIVE - Server is ACTIVE
-#   - NOTACTIVE - Server is state other than ACTIVE
+#   - FAILURE - failure for some reason
+#   - ACTIVE - server is ACTIVE
+#   - NOTACTIVE - server is state other than ACTIVE
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
