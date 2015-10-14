@@ -65,10 +65,8 @@ flow:
             - password
             - tenant_name
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant: tenant_id
@@ -85,10 +83,8 @@ flow:
             - token
             - tenant
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false         
+            - proxy_host
+            - proxy_port         
         publish:
           - server_json: return_result
 
@@ -115,10 +111,8 @@ flow:
               - token
               - tenant
               - region
-              - proxy_host: 
-                  required: false
-              - proxy_port: 
-                  required: false
+              - proxy_host
+              - proxy_port
           break:
             - ACTIVE
             - FAILURE
@@ -140,10 +134,8 @@ flow:
           net.create_floating_ip_flow:
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false            
+            - proxy_host
+            - proxy_port           
         publish:
           - return_result
           - ip_address
@@ -161,10 +153,8 @@ flow:
             - tenant
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false          
+            - proxy_host
+            - proxy_port         
         publish:
           - return_result
 

@@ -42,10 +42,8 @@ flow:
           list_all_floatingips:
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - status_code
@@ -64,10 +62,8 @@ flow:
             - ip_id
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false          
+            - proxy_host
+            - proxy_port         
         publish:
           - status_code
 

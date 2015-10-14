@@ -51,10 +51,8 @@ flow:
             - password
             - tenant_name
             - region
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - return_code

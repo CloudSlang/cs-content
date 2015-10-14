@@ -58,10 +58,8 @@ flow:
             - password
             - tenant_name
             - region
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant: tenant_id
@@ -75,10 +73,8 @@ flow:
             - token
             - tenant
             - region
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -98,10 +94,8 @@ flow:
             - token
             - tenant
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false            
+            - proxy_host
+            - proxy_port           
 
     - done:
         do:

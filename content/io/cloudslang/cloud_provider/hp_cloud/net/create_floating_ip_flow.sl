@@ -44,10 +44,8 @@ flow:
           list_all_networks:
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - status_code
@@ -65,10 +63,8 @@ flow:
             - ext_network_id
             - token
             - region
-            - proxy_host: 
-                required: false
-            - proxy_port: 
-                required: false          
+            - proxy_host
+            - proxy_port          
         publish:
           - return_result
           - status_code
