@@ -23,7 +23,10 @@
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net
 
-operation:
+imports:
+  rest: io.cloudslang.base.network.rest
+
+flow:
   name: delete_floating_ip
   inputs:
     - ip_id
@@ -33,33 +36,19 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port else ''"
-        overridable: false
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
-        overridable: false
-    - body:
-        default: "''"
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-    - method:
-        default: "'delete'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+
+  workflow:
+    - rest_delete_floating_ip:
+        do:
+          rest.http_client_delete:
+            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips' + ip_id"
+            - headers: "'X-AUTH-TOKEN:' + token"
+            - content_type: "'application/json'"
+        publish:
+          - status_code
+          
   outputs:
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
+    - status_code
   results:
-    - SUCCESS:  "'statusCode' in locals() and statusCode == '204'"
+    - SUCCESS: "'status_code' in locals() and status_code == '204'"
     - FAILURE

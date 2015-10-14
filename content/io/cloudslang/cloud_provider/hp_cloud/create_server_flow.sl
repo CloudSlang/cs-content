@@ -86,12 +86,12 @@ flow:
             - proxy_host
             - proxy_port         
         publish:
-          - server_json: return_result
+          - return_result
 
     - get_server_id:
         do:
           json.get_value_from_json:
-            - json_input: server_json
+            - json_input: return_result
             - key_list: ["'server'", "'id'"]
         publish:
           - server_id: value
@@ -167,7 +167,8 @@ flow:
       - FLOW_ERROR:
           do:
             print.print_text:
-              - text: "'! Create Server Flow Error: ' + error_message" 
+              - text: "'! Create Server Flow Error: ' + return_result" 
   outputs:
+    - return_result
     - ip_address
     - server_id

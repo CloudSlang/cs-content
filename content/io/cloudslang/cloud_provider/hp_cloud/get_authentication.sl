@@ -28,7 +28,10 @@
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
 
-operation:
+imports:
+  rest: io.cloudslang.base.network.rest
+
+flow:
   name: get_authentication
   inputs:
     - username
@@ -39,36 +42,26 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host is not None else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port is not None else ''"
-        overridable: false
-    - url:
-        default: "'https://region-'+region+'.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens'"
-        overridable: false
-    - body:
-        default: >
-          '{"auth": {"tenantName": "' + tenant_name +
-          '","passwordCredentials": {"username": "' + username +
-          '", "password": "' + password + '"}}}'
-        overridable: false
-    - method:
-        default: "'post'"
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+
+  workflow:
+    - rest_get_authentication:
+        do:
+          rest.http_client_post:
+            - url: "'https://region-'+region+'.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens'"
+            - content_type: "'application/json'"
+            - body: >
+                '{"auth": {"tenantName": "' + tenant_name +
+                '","passwordCredentials": {"username": "' + username +
+                '", "password": "' + password + '"}}}'            
+        publish:
+          - return_result
+          - error_message
+          - status_code
+          
   outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - return_code: returnCode
-    - error_message: returnResult if returnCode == '-1' or statusCode != 200 else ''
+    - return_result
+    - error_message
+    - status_code
   results:
-    - SUCCESS: "'statusCode' in locals() and returnCode != '-1' and statusCode == '200'"
+    - SUCCESS: "'status_code' in locals() and status_code == '200'"
     - FAILURE

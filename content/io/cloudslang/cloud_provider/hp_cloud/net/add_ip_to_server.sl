@@ -27,7 +27,10 @@
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net
 
-operation:
+imports:
+  rest: io.cloudslang.base.network.rest
+
+flow:
   name: add_ip_to_server
   inputs:
     - ip_address
@@ -39,37 +42,25 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port else ''"
-        overridable: false
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
-        overridable: false
-    - body:
-        default: >
-          '{"addFloatingIp": { "address": "'+ip_address+'" }}'
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-    - method:
-        default: "'post'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
-  outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '202' else ''
 
+  workflow:
+    - rest_add_ip_to_server:
+        do:
+          rest.http_client_post:
+            - url: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
+            - headers: "'X-AUTH-TOKEN:' + token"
+            - content_type: "'application/json'"
+            - body: >
+                '{"addFloatingIp": { "address": "'+ip_address+'" }}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
+          
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
-    - SUCCESS: "'statusCode' in locals() and statusCode == '202'"
+    - SUCCESS: "'status_code' in locals() and status_code == '202'"
     - FAILURE

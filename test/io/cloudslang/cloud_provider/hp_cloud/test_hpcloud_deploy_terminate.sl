@@ -82,4 +82,4 @@ flow:
       - ERROR:
           do:
             print.print_text:
-              - text: "'! Error in HP Cloud server deploy/terminate test flow'"
+              - text: "'! Error in HP Cloud server deploy/terminate test flow' + return_result"

@@ -30,7 +30,10 @@
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
 
-operation:
+imports:
+  rest: io.cloudslang.base.network.rest
+
+flow:
   name: create_server
   inputs:
     - server_name
@@ -40,49 +43,37 @@ operation:
     - tenant
     - token
     - region
-    - proxy_host:
-        required: false
-    - proxy_port:
-        required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port else ''"
-        overridable: false
     - network_id:
         required: false
     - network:
         default: >
           ', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''
         overridable: false
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'"
-        overridable: false
-    - body:
-        default: >
-          '{"server": { "name": "' + server_name + '" , "imageRef": "' + img_ref +
-          '", "flavorRef":"'+flavor_ref+'", "key_name":"'+keypair+'", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' +
-          network + '}}'
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-    - method:
-        default: "'post'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
-  outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '202' else ''
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
+  workflow:
+    - rest_create_server:
+        do:
+          rest.http_client_post:
+            - url: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'"
+            - headers: "'X-AUTH-TOKEN:' + token"
+            - content_type: "'application/json'"
+            - body: >
+                '{"server": { "name": "' + server_name + '" , "imageRef": "' + img_ref +
+                '", "flavorRef":"' + flavor_ref + '", "key_name":"' + keypair + 
+                '", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' + network + '}}'            
+        publish:
+          - return_result
+          - error_message
+          - status_code
+          
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
-    - SUCCESS: "'statusCode' in locals() and statusCode == '202'"
+    - SUCCESS: "'status_code' in locals() and status_code == '202'"
     - FAILURE

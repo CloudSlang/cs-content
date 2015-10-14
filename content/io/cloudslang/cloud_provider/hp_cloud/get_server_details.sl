@@ -26,7 +26,10 @@
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
 
-operation:
+imports:
+  rest: io.cloudslang.base.network.rest
+
+flow:
   name: get_server_details
   inputs:
     - server_id
@@ -37,36 +40,23 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost:
-        default: "proxy_host if proxy_host else ''"
-        overridable: false
-    - proxyPort:
-        default: "proxy_port if proxy_port else ''"
-        overridable: false
-    - headers:
-        default: "'X-AUTH-TOKEN:' + token"
-        overridable: false
-    - url:
-        default: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id "
-        overridable: false
-    - body:
-        default: "''"
-        overridable: false
-    - contentType:
-        default: "'application/json'"
-        overridable: false
-    - method:
-        default: "'get'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
-  outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - error_message: returnResult if 'statusCode' not in locals() or statusCode != '200' else ''
 
+  workflow:
+    - rest_get_server_details:
+        do:
+          rest.http_client_get:
+            - url: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id"
+            - headers: "'X-AUTH-TOKEN:' + token"
+            - content_type: "'application/json'"
+        publish:
+          - return_result
+          - error_message
+          - status_code
+          
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
-    - SUCCESS: "'statusCode' in locals() and statusCode == '200'"
+    - SUCCESS: "'status_code' in locals() and status_code == '200'"
     - FAILURE
