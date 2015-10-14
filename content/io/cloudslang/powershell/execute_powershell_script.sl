@@ -6,44 +6,39 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes PowerShell script on a given host.
+# Executes PowerShell script on a given remote host.
 #
 # Inputs:
 #   - host - the hostname or IP address of the PowerShell host
 #   - username - the username to use when connecting to the server
 #   - password - The password to use when connecting to the server
-#   - path_to_script - path to the script to execute on the PowerShell host
+#   - script - the script to execute on the PowerShell host
 # Outputs:
 #   - return_result - output of the powershell script
 #   - status_code - status code of the execution
 #   - error_message - error
-# Results:
-#   - SUCCESS - execution was successful
-#   - FAILURE - execution of the powershell script failed
 ####################################################
 namespace: io.cloudslang.powershell
 
 operation:
-  name: powershell_file_script
+  name: execute_powershell_script
   inputs:
     - host
     - username
     - password
-    - path_to_script
+    - script
   action:
     python_script: |
       import winrm
-      s = winrm.Session(host, auth=(username, password))
-      f = open(path_to_script)
-      str = f.read()
-      r = s.run_ps(str)
-      return_result = r.std_out
-      status_code = r.status_code
-      error_message = r.std_err
+      try:
+          s = winrm.Session(host, auth=(username, password))
+          r = s.run_ps(script)
+          return_result = r.std_out
+          status_code = r.status_code
+          error_message = r.std_err
+      except Exception as e:
+          error_message = "Error: {0}".format(e)
   outputs:
     - return_result
     - status_code
     - error_message
-  results:
-    - SUCCESS
-    - FAILURE

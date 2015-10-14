@@ -12,7 +12,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_powershell_script
+  name: test_execute_powershell_script
 
   inputs:
     - host
@@ -20,9 +20,9 @@ flow:
     - password
 
   workflow:
-    - run_powershell_script:
+    - run_execute_powershell_script:
         do:
-          powershell_script:
+          execute_powershell_script:
             - host
             - username
             - password
@@ -39,13 +39,13 @@ flow:
           - status_code
         navigate:
           SUCCESS: verify_text
-          FAILURE: FAILURE
+          FAILURE: FAILED_TO_EXECUTE_SCRIPT
 
     - verify_text:
         do:
           strings.string_equals:
-            - first_string: str(error_message)
-            - second_string: str()
+            - first_string: "''"
+            - second_string: str(error_message)
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_TEXT_FAILURE
@@ -57,5 +57,5 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
+    - FAILED_TO_EXECUTE_SCRIPT
     - VERIFY_TEXT_FAILURE

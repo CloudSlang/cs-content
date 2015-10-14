@@ -6,42 +6,43 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes PowerShell script on a given host.
+# Executes PowerShell script from a local file on a given remote host.
 #
 # Inputs:
 #   - host - the hostname or IP address of the PowerShell host
 #   - username - the username to use when connecting to the server
 #   - password - The password to use when connecting to the server
-#   - script - the script to execute on the PowerShell host
+#   - path_to_script - path to the script to execute on the PowerShell host
 # Outputs:
 #   - return_result - output of the powershell script
 #   - status_code - status code of the execution
-#   - error_message - error
-# Results:
-#   - SUCCESS - execution was successful
-#   - FAILURE - execution of the powershell script failed
+#   - error_message - operation error message
 ####################################################
 namespace: io.cloudslang.powershell
 
 operation:
-  name: powershell_script
+  name: execute_powershell_file_script
   inputs:
     - host
     - username
     - password
-    - script
+    - path_to_script
   action:
     python_script: |
       import winrm
-      s = winrm.Session(host, auth=(username, password))
-      r = s.run_ps(script)
-      return_result = r.std_out
-      status_code = r.status_code
-      error_message = r.std_err
+      try:
+          s = winrm.Session(host, auth=(username, password))
+          with open(path_to_script) as f:
+              str = f.read()
+              r = s.run_ps(str)
+              return_result = r.std_out
+              status_code = r.status_code
+              error_message = r.std_err
+      except IOError as e:
+          error_message = "I/O error({0}): {1}".format(e.errno, e.strerror)
+      except Exception as err:
+          error_message = "Error: {0}".format(err)
   outputs:
     - return_result
     - status_code
     - error_message
-  results:
-    - SUCCESS
-    - FAILURE

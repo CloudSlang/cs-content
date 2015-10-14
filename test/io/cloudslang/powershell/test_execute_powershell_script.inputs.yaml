@@ -5,14 +5,14 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testRunPowerShellScript:
+testExecutePowerShellScript:
   inputs:
     - host: <host>
     - username: <username>
     - password: <password>
   description: "Test run a powershell script"
-  testFlowPath: io.cloudslang.powershell.test_powershell_script
-  testSuites: [powershell]
+  testFlowPath: io.cloudslang.powershell.test_execute_powershell_script
+  testSuites: [powershell-local]
   result: SUCCESS
 
 
