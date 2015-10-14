@@ -52,6 +52,8 @@ flow:
             - content_type: "'application/json'"
             - body: >
                 '{"addFloatingIp": { "address": "'+ip_address+'" }}'
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

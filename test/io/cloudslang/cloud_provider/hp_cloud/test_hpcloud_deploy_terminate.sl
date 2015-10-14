@@ -33,6 +33,10 @@ flow:
     - password
     - region
     - tenant_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - build_instance:
         do:
@@ -46,6 +50,8 @@ flow:
             - tenant_name
             - server_name
             - assign_floating: True
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - ip_address
@@ -57,7 +63,7 @@ flow:
             - host: ip_address
             - port: "'22'"
             - timeout: "'15'"
-            - tries: "'20'"
+            - tries: "'50'"
 
     - print_server_build:
         do:
@@ -74,6 +80,8 @@ flow:
             - region
             - release_ip_address: True
             - ip_address
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - standard_err

@@ -51,7 +51,7 @@ flow:
     - wait:
         do:
           base_utils.sleep:
-            - seconds: delay
+            - seconds: int(delay)
 
     - get_details:
         do:

@@ -48,6 +48,8 @@ flow:
             - body: >
                 '{"floatingip": { "floating_network_id": "' + ext_network_id + '" }}'
             - content_type: "'application/json'"
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

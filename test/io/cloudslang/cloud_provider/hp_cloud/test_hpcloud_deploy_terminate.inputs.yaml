@@ -19,5 +19,7 @@ test_hpcloud_deploy_terminate_success:
     - flavor_ref:       "100"  # xsmall server size 
     - keypair:          # Your keypair name
     - region:           "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
-    - assign_floating:  True    
+    - assign_floating:  True
+    - proxy_host: # optional
+    - proxy_port: # optional
   result: SUCCESS
