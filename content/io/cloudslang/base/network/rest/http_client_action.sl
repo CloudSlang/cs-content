@@ -59,7 +59,7 @@
 #   - return_result - response of the operation
 #   - error_message - returnResult if statusCode is not contained in interval between "200" and "299"
 #   - return_code - "0" if success, "-1" otherwise
-#   - status_code - the code returned by the operation
+#   - status_code - status code of the HTTP call
 # Results:
 #   - SUCCESS - operation succeeded (statusCode is contained in interval between "200" and "299")
 #   - FAILURE - otherwise
@@ -113,7 +113,7 @@ operation:
     - useCookies:
         default: "'true'"
     - keepAlive:
-        default: "'true'"
+        default: "'false'"
     - connectionsMaxPerRoot:
         default: "'2'"
     - connectionsMaxTotal:
