@@ -21,8 +21,8 @@
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
-#   - number_of_polling_attempts - optional - number of attempts to check that the created server became ACTIVE - Default: 60
-#   - waitint_time_between_polling_attempts - optional - time to wait between polling of the new server's state (in seconds)
+#   - polling_attempts - optional - number of attempts to check that the created server became ACTIVE - Default: 60
+#   - polling_wait_time - optional - time to wait between polling of the new server's state (in seconds)
 #                                           - Default: 10 seconds
 # Outputs:
 #   - ip_address - IP address (if allocated)
@@ -59,10 +59,10 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - number_of_polling_attempts:
+    - polling_attempts:
         default: 60
         required: false
-    - waitint_time_between_polling_attempts:
+    - polling_wait_time:
         default: 10
         required: false
 
@@ -112,11 +112,11 @@ flow:
 
     - poll_server_until_active:
         loop:
-          for: loop_counter in range(0,number_of_polling_attempts)
+          for: loop_counter in range(0,polling_attempts)
           do:
             get_server_state_flow:
               - server_id  
-              - delay: waitint_time_between_polling_attempts
+              - delay: polling_wait_time
               - token
               - tenant
               - region
