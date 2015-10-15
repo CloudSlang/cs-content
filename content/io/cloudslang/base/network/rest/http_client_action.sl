@@ -55,13 +55,14 @@
 #   - method - HTTP method used
 #   - httpClientCookieSession - optional - session object that holds the cookies if the useCookies input is true
 #   - httpClientPoolingConnectionManager - optional - GlobalSessionObject that holds the http client pooling connection manager
+#   - validHttpStatusCodes - optional - List/array of HTTP status codes consided to be OK and successful (e.g. 200)
 # Outputs:
 #   - return_result - response of the operation
 #   - error_message - returnResult when the returnCode is non-zero (e.g. network or other failure)
 #   - return_code - "0" if success, "-1" otherwise
 #   - status_code - the HTTP status code returned by the operation
 # Results:
-#   - SUCCESS - operation succeeded (statusCode is contained in interval between "200" and "299")
+#   - SUCCESS - operation succeeded (statusCode is contained in validHttpStatusCodes list)
 #   - FAILURE - otherwise
 ################################################
 
@@ -161,6 +162,9 @@ operation:
         required: false
     - httpClientPoolingConnectionManager:
         required: false
+    - validHttpStatusCodes:
+        default: "range(200, 299)"
+
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
@@ -171,5 +175,5 @@ operation:
     - return_code: returnCode
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
   results:
-    - SUCCESS : "returnCode == '0' and (200 <= int(statusCode) < 300)"
+    - SUCCESS : "returnCode == '0' and int(statusCode) in fromInputs['validHttpStatusCodes']"
     - FAILURE
