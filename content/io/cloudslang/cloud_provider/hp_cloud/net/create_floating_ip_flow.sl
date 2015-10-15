@@ -78,10 +78,10 @@ flow:
           - ip_address: value
 
     - on_failure:
-      - IP_ERROR:
+      - ip_error:
           do:
             print.print_text:
-              - text: "'! ERROR ALLOCATING IP !  Code:' + status_code + ' :: ' + return_result" 
+              - text: "'! ERROR ALLOCATING IP (' + status_code + ') : ' + return_result" 
 
   outputs:
     - return_result

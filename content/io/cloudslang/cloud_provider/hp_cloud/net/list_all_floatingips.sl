@@ -16,7 +16,7 @@
 # Outputs:
 #   - return_result - JSON listing all floating IP and details
 #   - status_code - normal status code is 200
-#   - error_message - returnResult if statusCode != 200
+#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -55,6 +55,3 @@ flow:
     - return_result
     - error_message
     - status_code
-  results:
-    - SUCCESS: "'status_code' in locals() and status_code == '200'"
-    - FAILURE

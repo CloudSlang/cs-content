@@ -55,9 +55,9 @@ flow:
             - proxy_port
         publish:
           - return_result
-          - return_code
           - error_message
-
+          - status_code
+          
     - get_authentication_token:
         do:
           json.get_value_from_json:

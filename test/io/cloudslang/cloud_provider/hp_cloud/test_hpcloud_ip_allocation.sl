@@ -44,7 +44,7 @@ flow:
           - token
           - tenant: tenant_id
           - return_result
-          - error_message    
+          - error_message  
 
     - allocate_new_ip:
         do:
@@ -55,9 +55,9 @@ flow:
             - proxy_port
         publish:
           - return_result
-          - ip_address
+          - ip_address 
 
-    - print_server_build:
+    - print_ip_address:
         do:
           print.print_text:
             - text: "'### Floating IP was allocated: ' + ip_address"
@@ -71,9 +71,12 @@ flow:
             - region
             - proxy_host
             - proxy_port
+        publish:
+          - status_code
+          - return_result
 
     - on_failure:
       - ERROR:
           do:
             print.print_text:
-              - text: "'! Error in HP Cloud IP allocation test flow'"
+              - text: "'! Error in HP Cloud IP allocation test flow : ' + return_result"

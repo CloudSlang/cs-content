@@ -19,8 +19,7 @@
 # Outputs:
 #   - return_result - JSON response
 #   - status_code - normal status code is 200
-#   - return_code - return code
-#   - error_message - if error occurs, this contains error in JSON
+#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded, token returned
 #   - FAILURE - otherwise
@@ -64,6 +63,3 @@ flow:
     - return_result
     - error_message
     - status_code
-  results:
-    - SUCCESS: "'status_code' in locals() and status_code == '200'"
-    - FAILURE

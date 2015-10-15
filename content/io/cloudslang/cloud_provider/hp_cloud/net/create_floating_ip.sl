@@ -17,7 +17,7 @@
 # Outputs:
 #   - return_result - JSON response with new IP details
 #   - status_code - normal status code is 201
-#   - error_message - returnResult if statusCode != 201
+#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -54,11 +54,8 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
   outputs:
     - return_result
     - error_message
     - status_code
-  results:
-    - SUCCESS: "'status_code' in locals() and status_code == '201'"
-    - FAILURE

@@ -87,7 +87,7 @@ flow:
           - standard_err
 
     - on_failure:
-      - ERROR:
+      - test_flow_error:
           do:
             print.print_text:
               - text: "'! Error in HP Cloud server deploy/terminate test flow' + return_result"

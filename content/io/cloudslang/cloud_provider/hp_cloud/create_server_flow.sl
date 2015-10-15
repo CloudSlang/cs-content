@@ -173,7 +173,7 @@ flow:
             - text: "'### New server (' + server_name + ') is ready'"
 
     - on_failure:
-      - FLOW_ERROR:
+      - create_server_error:
           do:
             print.print_text:
               - text: "'! Create Server Flow Error: ' + return_result" 

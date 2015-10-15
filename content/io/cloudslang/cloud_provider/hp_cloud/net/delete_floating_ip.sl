@@ -15,7 +15,9 @@
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
+#   - return_result - JSON response of delete operation (should be empty if no error)
 #   - status_code - normal status code is 204
+#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -41,16 +43,15 @@ flow:
     - rest_delete_floating_ip:
         do:
           rest.http_client_delete:
-            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips' + ip_id"
+            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
             - headers: "'X-AUTH-TOKEN:' + token"
             - content_type: "'application/json'"
             - proxy_host
             - proxy_port
         publish:
           - status_code
-          
+
   outputs:
+    - return_result
+    - error_message
     - status_code
-  results:
-    - SUCCESS: "'status_code' in locals() and status_code == '204'"
-    - FAILURE
