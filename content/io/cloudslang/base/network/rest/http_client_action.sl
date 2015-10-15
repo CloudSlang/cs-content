@@ -57,9 +57,9 @@
 #   - httpClientPoolingConnectionManager - optional - GlobalSessionObject that holds the http client pooling connection manager
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message - returnResult if statusCode is not contained in interval between "200" and "299"
+#   - error_message - returnResult when the returnCode is non-zero (e.g. network or other failure)
 #   - return_code - "0" if success, "-1" otherwise
-#   - status_code - the code returned by the operation
+#   - status_code - the HTTP status code returned by the operation
 # Results:
 #   - SUCCESS - operation succeeded (statusCode is contained in interval between "200" and "299")
 #   - FAILURE - otherwise
@@ -171,5 +171,5 @@ operation:
     - return_code: returnCode
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
   results:
-    - SUCCESS : returnCode == '0'
+    - SUCCESS : "returnCode == '0' and (200 <= int(statusCode) < 300)"
     - FAILURE
