@@ -70,23 +70,15 @@ flow:
           docker_utils.get_info:
             - docker_options
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
         publish:
           - docker_info
           - number_of_containers_in_cluster: >

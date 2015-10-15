@@ -10,14 +10,16 @@
 #
 # Inputs:
 #   - url - URL to which the call is made
+#   - auth_type - optional - type of authentication used to execute the request on the target server
+#               - Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication)
 #   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port - Default: 8080
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-#   - connect_timeout - optional - time to wait for a connection to be established, in seconds - Default: 0
-#   - socket_timeout - optional - time to wait for data to be retrieved, in milliseconds - Default: 0
+#   - connect_timeout - optional - time to wait for a connection to be established, in seconds - Default: 0 (infinite)
+#   - socket_timeout - optional - time to wait for data to be retrieved, in seconds - Default: 0 (infinite)
 #   - headers - optional - list containing the headers to use for the request separated by new line (CRLF);
 #       header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616)
 #       Examples: Accept:text/plain
@@ -29,6 +31,7 @@
 #   - return_result - the response of the operation in case of success or the error message otherwise
 #   - error_message - returnResult if statusCode different than "200"
 #   - return_code - "0" if success, "-1" otherwise
+#   - status_code - status code of the HTTP call
 ################################################
 
 namespace: io.cloudslang.base.network.rest
@@ -37,6 +40,8 @@ flow:
   name: http_client_get
   inputs:
     - url
+    - auth_type:
+        required: false
     - username:
         required: false
     - password:
@@ -72,36 +77,18 @@ flow:
         do:
           http_client_action:
             - url
-            - username:
-                required: false
-            - password:
-                required: false
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
-            - proxyUsername:
-                default: proxy_username
-                required: false
-            - proxyPassword:
-                default: proxy_password
-                required: false
-            - connectTimeout:
-                default: connect_timeout
-                required: false
-            - socketTimeout:
-                default: socket_timeout
-                required: false
-            - headers:
-                required: false
-            - queryParams:
-                default: query_params
-                required: false
-            - contentType:
-                default: content_type
-                required: false
+            - authType: auth_type
+            - username
+            - password
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
+            - proxyUsername: proxy_username
+            - proxyPassword: proxy_password
+            - connectTimeout: connect_timeout
+            - socketTimeout: socket_timeout
+            - headers
+            - queryParams: query_params
+            - contentType: content_type
             - method
         publish:
           - return_result

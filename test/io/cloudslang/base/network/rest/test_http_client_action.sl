@@ -33,19 +33,11 @@ flow:
         do:
           http_client_action:
             - url
-            - method:
-                default: "'POST'"
-                overridable: false
-            - body:
-                default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
-                overridable: false
+            - method: "'POST'"
+            - body: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -67,19 +59,11 @@ flow:
     - get_pet_details:
         do:
           http_client_action:
-            - url:
-                default: "url + '/' + resource_id"
-                overridable: false
-            - method:
-                default: "'GET'"
-                overridable: false
+            - url: "url + '/' + resource_id"
+            - method: "'GET'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -102,9 +86,7 @@ flow:
         do:
           json.get_value_from_json:
             - json_input: return_result
-            - key_list:
-                default: ["'id'"]
-                overridable: false
+            - key_list: ["'id'"]
         publish:
           - value
         navigate:
@@ -124,9 +106,7 @@ flow:
         do:
           json.get_value_from_json:
             - json_input: return_result
-            - key_list:
-                default: ["'name'"]
-                overridable: false
+            - key_list: ["'name'"]
         publish:
           - value
         navigate:
@@ -146,19 +126,11 @@ flow:
         do:
           http_client_action:
             - url
-            - method:
-                default: "'PUT'"
-                overridable: false
-            - body:
-                default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
-                overridable: false
+            - method: "'PUT'"
+            - body: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -180,19 +152,11 @@ flow:
     - get_updated_pet_details:
         do:
           http_client_action:
-            - url:
-                default: "url + '/' + resource_id"
-                overridable: false
-            - method:
-                default: "'GET'"
-                overridable: false
+            - url: "url + '/' + resource_id"
+            - method: "'GET'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -206,9 +170,7 @@ flow:
         do:
           json.get_value_from_json:
             - json_input: return_result
-            - key_list:
-                default: ["'name'"]
-                overridable: false
+            - key_list: ["'name'"]
         publish:
           - value
         navigate:
@@ -228,9 +190,7 @@ flow:
         do:
           json.get_value_from_json:
             - json_input: return_result
-            - key_list:
-                default: ["'status'"]
-                overridable: false
+            - key_list: ["'status'"]
         publish:
           - value
         navigate:
@@ -249,19 +209,11 @@ flow:
     - delete_pet:
         do:
           http_client_action:
-            - url:
-                default: "url + '/' + resource_id"
-                overridable: false
-            - method:
-                default: "'DELETE'"
-                overridable: false
+            - url: "url + '/' + resource_id"
+            - method: "'DELETE'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -274,19 +226,11 @@ flow:
     - get_pet_after_delete:
         do:
           http_client_action:
-            - url:
-                default: "url + '/' + resource_id"
-                overridable: false
-            - method:
-                default: "'GET'"
-                overridable: false
+            - url: "url + '/' + resource_id"
+            - method: "'GET'"
             - contentType: content_type
-            - proxyHost:
-                default: proxy_host
-                required: false
-            - proxyPort:
-                default: proxy_port
-                required: false
+            - proxyHost: proxy_host
+            - proxyPort: proxy_port
         publish:
           - return_result
           - error_message
@@ -300,9 +244,7 @@ flow:
         do:
           json.get_value_from_json:
             - json_input: return_result
-            - key_list:
-                default: ["'message'"]
-                overridable: false
+            - key_list: ["'message'"]
         publish:
           - value
         navigate:

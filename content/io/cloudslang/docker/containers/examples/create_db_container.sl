@@ -41,8 +41,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - container_name:
-        default: "'mysqldb'"
+    - container_name: "'mysqldb'"
     - timeout:
         required: false
   workflow:
@@ -51,16 +50,11 @@ flow:
           docker_images.pull_image:
             - image_name: "'mysql'"
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
+            - passworde
+            - privateKeyFile: private_key_file
+            - timeout
         publish:
           - error_message
 
@@ -71,30 +65,22 @@ flow:
             - container_name
             - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
 
     - get_db_ip:
         do:
           docker_containers.get_container_ip:
             - container_name
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         publish:
           - container_ip: container_ip
           - error_message

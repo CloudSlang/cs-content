@@ -48,12 +48,8 @@ flow:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password: password
+            - private_key_file
             - timeout
        navigate:
          SUCCESS: run_container2
@@ -69,12 +65,8 @@ flow:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password
+            - private_key_file
             - timeout
        navigate:
          SUCCESS: get_container_names
@@ -86,12 +78,8 @@ flow:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password
+            - private_key_file
             - timeout
        publish:
         - container_names
@@ -125,12 +113,8 @@ flow:
           clear_containers:
             - docker_host: host
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - docker_password: password
+            - private_key_file
             - timeout
             - port
         navigate:

@@ -36,10 +36,8 @@ imports:
 flow:
   name: get_all_containers
   inputs:
-    - all_containers:
-        default: False
-    - ps_params:
-        default: " '-a' if bool(all_containers) else ''"
+    - all_containers: false
+    - ps_params: " '-a' if bool(all_containers) else ''"
     - command: "'docker ps -q ' + ps_params"
     - host
     - port:
@@ -67,27 +65,17 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - arguments
+            - characterSet
+            - pty
+            - timeout
+            - closeSession
+            - agentForwarding
         publish:
           - container_list: returnResult.replace("\n"," ").strip()
 

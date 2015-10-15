@@ -36,11 +36,11 @@ flow:
         required: false
     - username
     - password:
-        required: False
+        required: false
     - service_name
     - sudo_user:
-        default: False
-        required: False
+        default: false
+        required: false
     - privateKeyFile:
         required: false
   
@@ -49,15 +49,12 @@ flow:
         do:
           ssh_command.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo -e ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'service ' + service_name + ' restart' + ' && echo CMD_SUCCESS'"
             - username
-            - password:
-                required: False
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
 
         publish: 
           - standard_err

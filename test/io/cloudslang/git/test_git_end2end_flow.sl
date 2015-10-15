@@ -154,8 +154,7 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
+            - private_key_file
             - command: "'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name"
         navigate:
           SUCCESS: add_files_to_stage_area
@@ -168,8 +167,7 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
+            - private_key_file
             - sudo_user
             - git_repository_localdir
             - git_add_files
@@ -185,8 +183,7 @@ flow:
             - username
             - password
             - sudo_user
-            - private_key_file:
-                required: false
+            - private_key_file
             - git_repository_localdir
             - git_commit_files
             - git_commit_message
@@ -201,11 +198,8 @@ flow:
             - port
             - username
             - password
-            - sudo_user:
-                default: false
-                overridable: false
-            - private_key_file:
-                required: false
+            - sudo_user: false
+            - private_key_file
             - git_repository_localdir
             - git_push_branch
             - git_push_remote
@@ -218,19 +212,11 @@ flow:
           linux.add_user_to_sudoers_list:
             - host
             - port
-            - username:
-                default: "'root'"
-                overridable: false
-            - password:
-                default: root_password
-                overridable: false
-            - sudo_user:
-                default: false
-                overridable: false
-            - private_key_file:
-                required: false
-            - user:
-                required: true
+            - username: "'root'"
+            - password: root_password
+            - sudo_user: false
+            - private_key_file
+            - user
         navigate:
           SUCCESS: second_clone_a_git_repository
           FAILURE: ADD_TO_SUDOERS_FAILURE
@@ -243,9 +229,7 @@ flow:
             - username
             - password
             - git_repository
-            - git_repository_localdir:
-                default: second_git_repository_localdir
-                overridable: false
+            - git_repository_localdir: second_git_repository_localdir
         navigate:
           SUCCESS: second_checkout_git_branch
           FAILURE: SECOND_CLONE_FAILURE
@@ -259,9 +243,7 @@ flow:
             - password
             - git_pull_remote
             - git_branch
-            - git_repository_localdir:
-                default: second_git_repository_localdir
-                overridable: false
+            - git_repository_localdir: second_git_repository_localdir
         navigate:
           SUCCESS: compare_files
           FAILURE: SECOND_CHECKOUT_FAILURE
@@ -275,8 +257,7 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
+            - private_key_file
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name"
         navigate:
@@ -303,15 +284,10 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
+            - private_key_file
             - git_repository_localdir
-            - change_path:
-                default: false
-                overridable: false
-            - new_path:
-                default: "''"
-                overridable: false
+            - change_path: false
+            - new_path: "''"
         navigate:
           SUCCESS: git_cleanup_second_repository
           FAILURE: FIRST_CLEANUP_FAILURE
@@ -325,17 +301,10 @@ flow:
             - port
             - username
             - password
-            - private_key_file:
-                required: false
-            - git_repository_localdir:
-                default: second_git_repository_localdir
-                overridable: false
-            - change_path:
-                default: true
-                overridable: false
-            - new_path:
-                default: second_git_repository_localdir
-                overridable: false
+            - private_key_file
+            - git_repository_localdir: second_git_repository_localdir
+            - change_path: true
+            - new_path: second_git_repository_localdir
         publish:
           - standard_out
 

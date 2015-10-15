@@ -48,15 +48,12 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
             - command: "sudo_command + 'pkill -HUP -e ' + process_name"
             - username
-            - password:
-                required: False
-            - privateKeyFile:
-                  required: false
+            - password
+            - privateKeyFile
         publish:
           - standard_err
           - standard_out

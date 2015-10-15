@@ -35,6 +35,9 @@
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
+imports:
+  linux: io.cloudslang.base.os.linux
+
 flow:
     name: ssh_flow
     inputs:
@@ -57,30 +60,18 @@ flow:
     workflow:
       - validate_ssh_access:
           do:
-            ssh_command:
+            linux.validate_linux_machine_ssh_access:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - privateKeyFile:
-                  required: false
-              - command:
-                  default: "' '"
-                  overridable: false
-              - arguments:
-                  required: false
-              - characterSet:
-                  required: false
-              - pty:
-                  required: false
-              - timeout:
-                  required: false
-              - closeSession:
-                  required: false
-              - agentForwarding:
-                  required: false
+              - password
+              - privateKeyFile
+              - arguments
+              - characterSet
+              - pty
+              - timeout
+              - closeSession
+              - agentForwarding
           publish:
             - returnResult
             - standard_out
@@ -92,26 +83,17 @@ flow:
           do:
             ssh_command:
               - host
-              - port:
-                  required: false
+              - port
               - username
-              - password:
-                  required: false
-              - privateKeyFile:
-                  required: false
+              - password
+              - privateKeyFile
               - command
-              - arguments:
-                  required: false
-              - characterSet:
-                  required: false
-              - pty:
-                  required: false
-              - timeout:
-                  required: false
-              - closeSession:
-                  required: false
-              - agentForwarding:
-                  required: false
+              - arguments
+              - characterSet
+              - pty
+              - timeout
+              - closeSession
+              - agentForwarding
           publish:
             - returnResult
             - return_code

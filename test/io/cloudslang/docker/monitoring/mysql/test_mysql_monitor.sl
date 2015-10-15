@@ -28,8 +28,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host: host
-             - port:
-                 required: false
+             - port
              - docker_username: username
              - docker_password: password
          navigate:
@@ -40,8 +39,7 @@ flow:
         do:
           docker_containers_examples.create_db_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         navigate:
@@ -61,8 +59,7 @@ flow:
           retrieve_mysql_status:
             - container: "'mysqldb'"
             - host: host
-            - port:
-                required: false
+            - port
             - username: username
             - password: password
             - mysql_username: "'user'"
@@ -75,8 +72,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host: host
-             - port:
-                 required: false
+             - port
              - docker_username: username
              - docker_password: password
          navigate:

@@ -31,8 +31,7 @@ flow:
              do:
                clear_host:
                  - docker_host: host
-                 - port:
-                     required: false
+                 - port
                  - docker_username: username
                  - docker_password: password
              navigate:
@@ -43,8 +42,7 @@ flow:
         do:
           images.test_verify_no_images:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         navigate:
@@ -57,8 +55,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: image_name_to_pull
@@ -70,8 +67,7 @@ flow:
         do:
           containers.run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name: "'xxx'"
@@ -84,8 +80,7 @@ flow:
              do:
                clear_host:
                  - docker_host: host
-                 - port:
-                     required: false
+                 - port
                  - docker_username: username
                  - docker_password: password
              navigate:
@@ -96,8 +91,7 @@ flow:
         do:
           images.test_verify_no_images:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         navigate:

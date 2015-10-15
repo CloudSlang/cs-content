@@ -32,8 +32,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - timeout:
-        default: "'6000000'"
+    - timeout: "'6000000'"
     - port:
         required: false
   workflow:
@@ -42,18 +41,11 @@ flow:
           get_all_containers:
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - all_containers:
-                default: true
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - password: docker_password
+            - all_containers: true
+            - private_key_file
+            - timeout
+            - port
         publish:
           - all_containers: container_list
 
@@ -63,11 +55,7 @@ flow:
             - container_id: all_containers
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password
+            - private_key_file
+            - timeout
+            - port

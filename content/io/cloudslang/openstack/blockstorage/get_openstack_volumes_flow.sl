@@ -22,8 +22,12 @@
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - the OpenStack volume list was successfully retrieved
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_VOLUMES_FAILURE - the call for list OpenStack volumes fails
+#   - EXTRACT_VOLUMES_FAILURE - the list of OpenStack volumes could not be retrieved
 ####################################################
 
 namespace: io.cloudslang.openstack.blockstorage
@@ -33,13 +37,11 @@ imports:
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: list_openstack_volumes
+  name: get_openstack_volumes_flow
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
-    - blockstorage_port:
-        default: "'8776'"
+    - identity_port: "'5000'"
+    - blockstorage_port: "'8776'"
     - username
     - password
     - tenant_name
@@ -56,15 +58,18 @@ flow:
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_openstack_volumes
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_openstack_volumes:
         do:
@@ -72,17 +77,18 @@ flow:
             - host
             - blockstorage_port
             - token
-            - tenant
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - tenant_id
+            - proxy_host
+            - proxy_port
         publish:
           - response_body: return_result
           - return_result: return_result
           - error_message
+        navigate:
+          SUCCESS: extract_volumes
+          FAILURE: GET_VOLUMES_FAILURE
 
-    - extract_servers:
+    - extract_volumes:
         do:
           openstack_utils.extract_object_list_from_json_response:
             - response_body
@@ -90,8 +96,19 @@ flow:
         publish:
           - object_list
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: EXTRACT_VOLUMES_FAILURE
 
   outputs:
     - volume_list: object_list
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_VOLUMES_FAILURE
+    - EXTRACT_VOLUMES_FAILURE

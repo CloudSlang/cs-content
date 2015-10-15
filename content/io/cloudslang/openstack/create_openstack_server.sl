@@ -12,7 +12,7 @@
 #   - host - OpenStack machine host
 #   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - token - OpenStack token obtained after authentication
-#   - tenant - OpenStack tenantID obtained after authentication
+#   - tenant_id - OpenStack tenantID obtained after authentication
 #   - server_name - server name
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -35,7 +35,7 @@ operation:
     - compute_port:
         default: "'8774'"
     - token
-    - tenant
+    - tenant_id
     - server_name
     - proxy_host:
         required: false
@@ -58,7 +58,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://' + host + ':' + compute_port + '/v2/' + tenant + '/servers'"
+        default: "'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers'"
         overridable: false
     - body:
         default: >
