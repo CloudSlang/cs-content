@@ -55,7 +55,7 @@
 #   - method - HTTP method used
 #   - httpClientCookieSession - optional - session object that holds the cookies if the useCookies input is true
 #   - httpClientPoolingConnectionManager - optional - GlobalSessionObject that holds the http client pooling connection manager
-#   - validHttpStatusCodes - optional - List/array of HTTP status codes consided to be OK and successful (e.g. 200)
+#   - validHttpStatusCodes - optional - List/array of HTTP status codes considered to be successful (e.g. [202, 204]). Default is range 200-299
 # Outputs:
 #   - return_result - response of the operation
 #   - error_message - returnResult when the returnCode is non-zero (e.g. network or other failure)
@@ -163,7 +163,7 @@ operation:
     - httpClientPoolingConnectionManager:
         required: false
     - validHttpStatusCodes:
-        default: "range(200, 299)"
+        default: "range(200, 300)"
 
   action:
     java_action:
