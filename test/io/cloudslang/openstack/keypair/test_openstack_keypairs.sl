@@ -16,48 +16,42 @@ flow:
   name: test_openstack_keypairs
   inputs:
     - host
+    - identity_port: "'5000'"
+    - compute_port: "'8774'"
     - username
     - password
     - tenant_name
     - keypair_name
-    - identity_port:
-        default: "'5000'"
-    - compute_port:
-        default: "'8774'"
+    - public_key:
+        required: false
 
   workflow:
-    - authenticate:
+    - create_openstack_keypair:
         do:
-          openstack_content.get_authentication_flow:
+          create_openstack_keypair_flow:
             - host
+            - identity_port
+            - compute_port
             - username
             - password
-            - identity_port
             - tenant_name
+            - keypair_name
+            - public_key
+            - proxy_host
+            - proxy_port
         publish:
-          - token
-          - tenant
           - return_result
           - error_message
         navigate:
-          SUCCESS: create_keypair
-          FAILURE: AUTHENTICATION_FAILURE
-
-    - create_keypair:
-        do:
-          create_openstack_keypair:
-            - host
-            - token
-            - tenant
-            - compute_port
-            - keypair_name
-        navigate:
           SUCCESS: list_keypairs
-          FAILURE: CREATE_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          CREATE_KEY_PAIR_FAILURE: CREATE_KEY_PAIR_FAILURE
 
     - list_keypairs:
         do:
-          list_openstack_keypairs:
+          get_openstack_keypairs_flow:
             - host
             - username
             - password
@@ -68,7 +62,12 @@ flow:
           - keypair_list
         navigate:
           SUCCESS: delete_keypair
-          FAILURE: GET_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_KEY_PAIRS_FAILURE: GET_KEY_PAIRS_FAILURE
+          EXTRACT_KEYPAIRS_FAILURE: EXTRACT_KEYPAIRS_FAILURE
+
     - delete_keypair:
         do:
           delete_openstack_keypair_flow:
@@ -81,12 +80,19 @@ flow:
             - keypair_name
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: DELETE_FAILURE
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          DELETE_KEY_PAIR_FAILURE: DELETE_KEY_PAIR_FAILURE
+
   outputs:
     - keypair_list
   results:
     - SUCCESS
-    - AUTHENTICATION_FAILURE
-    - CREATE_FAILURE
-    - GET_FAILURE
-    - DELETE_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - CREATE_KEY_PAIR_FAILURE
+    - GET_KEY_PAIRS_FAILURE
+    - EXTRACT_KEYPAIRS_FAILURE
+    - DELETE_KEY_PAIR_FAILURE

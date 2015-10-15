@@ -12,7 +12,7 @@
 #   - host - OpenStack machine host
 #   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
 #   - token - OpenStack token obtained after authentication
-#   - tenant - OpenStack tenantID obtained after authentication
+#   - tenant_id - OpenStack tenant id obtained after authentication
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -33,7 +33,7 @@ operation:
     - blockstorage_port:
         default: "'8776'"
     - token
-    - tenant
+    - tenant_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -48,7 +48,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant + '/volumes'"
+        default: "'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes'"
         overridable: false
     - method:
         default: "'get'"

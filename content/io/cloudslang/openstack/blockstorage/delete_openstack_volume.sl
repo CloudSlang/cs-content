@@ -12,7 +12,7 @@
 #   - host - OpenStack machine host
 #   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: 8776
 #   - token - OpenStack token obtained after authentication
-#   - tenant - OpenStack tenantID obtained after authentication
+#   - tenant_id - OpenStack tenantID obtained after authentication
 #   - volume_id - ID of volume to be deleted
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -34,7 +34,7 @@ operation:
     - blockstorage_port:
         default: "'8776'"
     - token
-    - tenant
+    - tenant_id
     - volume_id
     - proxy_host:
         required: false
@@ -50,7 +50,7 @@ operation:
         default: "'X-AUTH-TOKEN:' + token"
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant + '/volumes/' + volume_id"
+        default: "'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes/' + volume_id"
         overridable: false
     - method:
         default: "'delete'"

@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the list of keypairs from an OpenStack machine.
+# Retrieves the list of volumes from an OpenStack machine.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - blockstorage_port - optional - port used for OpenStack computations - Default: 8776
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
@@ -22,22 +22,26 @@
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - the OpenStack volume list was successfully retrieved
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_VOLUMES_FAILURE - the call for list OpenStack volumes fails
+#   - EXTRACT_VOLUMES_FAILURE - the list of OpenStack volumes could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.keypair
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
  openstack_content: io.cloudslang.openstack
  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
-  name: list_openstack_keypairs
+  name: get_openstack_volumes_flow
   inputs:
     - host
     - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - blockstorage_port: "'8776'"
     - username
     - password
     - tenant_name
@@ -58,34 +62,53 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: get_openstack_volumes
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - get_openstack_keypairs:
+    - get_openstack_volumes:
         do:
-          get_openstack_keypairs:
+          get_openstack_volumes:
             - host
-            - compute_port
+            - blockstorage_port
             - token
-            - tenant
+            - tenant_id
             - proxy_host
             - proxy_port
         publish:
           - response_body: return_result
           - return_result: return_result
           - error_message
+        navigate:
+          SUCCESS: extract_volumes
+          FAILURE: GET_VOLUMES_FAILURE
 
-    - extract_servers:
+    - extract_volumes:
         do:
           openstack_utils.extract_object_list_from_json_response:
             - response_body
-            - object_name: "'keypairs'"
+            - object_name: "'volumes'"
         publish:
           - object_list
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: EXTRACT_VOLUMES_FAILURE
 
   outputs:
-    - keypair_list: object_list
+    - volume_list: object_list
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_VOLUMES_FAILURE
+    - EXTRACT_VOLUMES_FAILURE

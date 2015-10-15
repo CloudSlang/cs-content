@@ -21,6 +21,12 @@
 # Outputs:
 #   - return_result - response of the last operation that was executed
 #   - error_message - error message of the operation that failed
+# Results:
+#   - SUCCESS - the OpenStack keypairs was successfully deleted
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - DELETE_KEY_PAIR_FAILURE - the OpenStack keypairs could not be deleted
 ####################################################
 
 namespace: io.cloudslang.openstack.keypair
@@ -57,9 +63,14 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant
+          - tenant_id
           - return_result
           - error_message
+        navigate:
+          SUCCESS: delete_keypair
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - delete_keypair:
         do:
@@ -67,13 +78,24 @@ flow:
             - host
             - compute_port
             - token
-            - tenant
+            - tenant_id
             - keypair_name
             - proxy_host
             - proxy_port
         publish:
           - return_result
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: DELETE_KEY_PAIR_FAILURE
+
   outputs:
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - DELETE_KEY_PAIR_FAILURE

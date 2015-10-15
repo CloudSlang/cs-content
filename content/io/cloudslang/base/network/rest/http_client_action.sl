@@ -27,8 +27,8 @@
 #   - trustPassword - optional -  password associated with the TrustStore file
 #   - keystore - optional - location of the KeyStore file - Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
 #   - keystorePassword - optional - password associated with the KeyStore file
-#   - connectTimeout - optional - time to wait for a connection to be established, in seconds - Default: 0
-#   - socketTimeout - optional - time to wait for data to be retrieved, in milliseconds - Default: 0
+#   - connectTimeout - optional - time to wait for a connection to be established, in seconds - Default: 0 (infinite timeout)
+#   - socketTimeout - optional - time to wait for data to be retrieved (maximum period inactivity between two consecutive data packets), in seconds - Default: 0 (infinite timeout)
 #   - useCookies - optional - specifies whether to enable cookie tracking or not - Default: true
 #   - keepAlive - optional - specifies whether to create a shared connection that will be used in subsequent calls - Default: true
 #   - connectionsMaxPerRoot - optional - maximum limit of connections on a per route basis - Default: 2
@@ -60,7 +60,7 @@
 #   - return_result - response of the operation
 #   - error_message - returnResult when the returnCode is non-zero (e.g. network or other failure)
 #   - return_code - "0" if success, "-1" otherwise
-#   - status_code - the HTTP status code returned by the operation
+#   - status_code - status code of the HTTP call
 # Results:
 #   - SUCCESS - operation succeeded (statusCode is contained in validHttpStatusCodes list)
 #   - FAILURE - otherwise
@@ -114,7 +114,7 @@ operation:
     - useCookies:
         default: "'true'"
     - keepAlive:
-        default: "'true'"
+        default: "'false'"
     - connectionsMaxPerRoot:
         default: "'2'"
     - connectionsMaxTotal:
