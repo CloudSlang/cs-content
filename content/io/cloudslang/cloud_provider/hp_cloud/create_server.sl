@@ -63,8 +63,10 @@ flow:
             - content_type: "'application/json'"
             - body: >
                 '{"server": { "name": "' + server_name + '" , "imageRef": "' + img_ref +
-                '", "flavorRef":"' + flavor_ref + '", "key_name":"' + keypair + 
-                '", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' + network + '}}'            
+                '", "flavorRef":"' + str(flavor_ref) + '", "key_name":"' + keypair +
+                '", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' + network + '}}'
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

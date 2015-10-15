@@ -48,6 +48,8 @@ flow:
             - url: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id"
             - headers: "'X-AUTH-TOKEN:' + token"
             - content_type: "'application/json'"
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

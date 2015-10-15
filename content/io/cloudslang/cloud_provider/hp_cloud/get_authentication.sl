@@ -52,7 +52,9 @@ flow:
             - body: >
                 '{"auth": {"tenantName": "' + tenant_name +
                 '","passwordCredentials": {"username": "' + username +
-                '", "password": "' + password + '"}}}'            
+                '", "password": "' + password + '"}}}'
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message

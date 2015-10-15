@@ -26,6 +26,10 @@ flow:
     - password
     - region
     - tenant_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - authentication:
         do:
@@ -34,6 +38,8 @@ flow:
             - password
             - tenant_name
             - region
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant: tenant_id
@@ -44,7 +50,9 @@ flow:
         do:
           net.create_floating_ip_flow:
             - token
-            - region          
+            - region
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - ip_address
@@ -60,7 +68,9 @@ flow:
             - ip_address
             - token
             - tenant
-            - region 
+            - region
+            - proxy_host
+            - proxy_port
 
     - on_failure:
       - ERROR:
