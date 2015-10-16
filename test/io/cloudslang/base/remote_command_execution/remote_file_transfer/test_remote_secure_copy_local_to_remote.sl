@@ -76,7 +76,7 @@ flow:
     - create_file_to_be_copied:
         do:
           base_cmd.run_command:
-            - command: "'echo ' + text_to_check + ' >> ' + scp_file"
+            - command: "'echo ' + text_to_check + ' > ' + scp_file"
         navigate:
           SUCCESS: sleep
           FAILURE: FILE_CREATION_FAIL
