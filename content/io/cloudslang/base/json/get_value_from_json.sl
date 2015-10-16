@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the http_client_action operation to retrieve the corresponding value addressed by the keys_list input.
+# Parses the given JSON input to retrieve the corresponding value addressed by the keys_list input.
 #
 # Inputs:
-#   - json_input - response of http_client_action operation
+#   - json_input - JSON data input
 #   - key_list - the keys list to retrieve value for - ex. = ['tags', 1, 'name']
 # Outputs:
 #   - value - the corresponding value of the key that results from key_list input - ex. = decode['tags'][1]['name']
