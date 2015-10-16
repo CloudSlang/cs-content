@@ -19,6 +19,7 @@
 #   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 #   - knife_timeout - optional - timeout in millsecs, default is 600 seconds
+#   - chef_repo - optional - relative or absolute path to the chef repository on Chef Workstation
 # Outputs:
 #   - raw_result - full STDOUT
 #   - knife_result - filtered output of knife command
@@ -30,7 +31,6 @@
 
 namespace: io.cloudslang.chef
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 flow:
   name: bootstrap_node
@@ -51,26 +51,37 @@ flow:
     - knife_timeout:
         default: "'600000'"
         required: false
+    - chef_repo:
+        required: false
+    - node_password_expr:
+        default: >
+          (" -P '" + node_password + "'") if node_password else ''
+        overridable: false
+    - node_privkey_expr:
+        default: >
+          (' -i ' + node_privkey) if node_privkey else ''
+        overridable: false
   workflow:
     - run_bootstrap:
         do:
-          ssh.ssh_command:
-            - host: knife_host
-            - username: knife_username
-            - password: knife_password
-            - privateKeyFile: knife_privkey                          
-            - command: >
-                'knife bootstrap ' + node_host + ' -i ' + node_privkey + ' -x ' + node_username +
-                ' -P \'' + node_password + '\' --sudo --node-name \'' + node_name + '\''
-            - timeout: knife_timeout
+          knife_command:
+            - knife_cmd: >
+                'bootstrap ' + node_host + node_privkey_expr + ' -x ' + node_username +
+                node_password_expr + ' --sudo --node-name \'' + node_name + '\''
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_timeout
+            - chef_repo
         publish:
-          - returnResult
+          - raw_result
           - standard_err
 
     - check_knife_result:
         do:
           strings.string_occurrence_counter:
-             - string_in_which_to_search: standard_err + '\n' + returnResult
+             - string_in_which_to_search: standard_err + '\n' + raw_result
              - string_to_find: "'error'"
         publish:
           - errs_c: return_result
@@ -81,14 +92,14 @@ flow:
     - filter_bootstrap_result:
         do:
           strings.filter_lines:
-            - text: returnResult
+            - text: raw_result
             - filter: node_host
         publish:
           - filter_result
 
   outputs:
-    - raw_result: returnResult
-    - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else returnResult)"
+    - raw_result: raw_result
+    - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)"
     - standard_err: standard_err
     - node_name
 

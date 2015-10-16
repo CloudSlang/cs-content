@@ -15,6 +15,7 @@
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
+#   - chef_repo - optional - relative or absolute path to the chef repository on Chef Workstation
 # Outputs:
 #   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT
@@ -37,6 +38,8 @@ flow:
         required: false
     - knife_password: 
         required: false
+    - chef_repo:
+        required: false
 
   workflow:
     - add_to_run_list:
@@ -47,6 +50,7 @@ flow:
             - knife_username
             - knife_password
             - knife_privkey
+            - chef_repo
         publish:
           - raw_result
           - standard_err

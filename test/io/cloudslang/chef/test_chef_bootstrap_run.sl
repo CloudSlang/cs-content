@@ -14,7 +14,6 @@
 namespace: io.cloudslang.chef
 
 imports:
-  chef: io.cloudslang.chef
   ssh: io.cloudslang.base.remote_command_execution.ssh
   print: io.cloudslang.base.print
 
@@ -29,26 +28,23 @@ flow:
     - knife_host
     - knife_username
     - knife_password: 
-        default: "''"
         required: false
     - knife_privkey:
-        default: "''"
-        required: false    
+        required: false
     - node_username
-    - node_privkey:
-        default: "''"
-        required: false  
+    - node_privkey_remote:
+        required: false
     - node_privkey_local:
-        default: "''"
-        required: false 
+        required: false
     - node_password: 
-        default: "''"
+        required: false
+    - chef_repo:
         required: false
 
   workflow:
     - chef_bootstrap:
         do:
-          chef.bootstrap_node:
+          bootstrap_node:
             - node_host
             - node_name
             - knife_host
@@ -57,7 +53,8 @@ flow:
             - knife_privkey           
             - node_username
             - node_password            
-            - node_privkey           
+            - node_privkey: node_privkey_remote
+            - chef_repo
         publish:
           - return_result: knife_result
           - standard_err
@@ -65,16 +62,14 @@ flow:
 
     - chef_assign_cookbook:
         do:
-          chef.assign_cookbooks:
+          assign_cookbooks:
             - cookbooks
             - node_name
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey           
-            - node_username
-            - node_password            
-            - node_privkey
+            - knife_privkey
+            - chef_repo
         publish:
           - return_result: knife_result
           - standard_err
@@ -94,13 +89,17 @@ flow:
 
     - chef_remove_node:
         do:
-          chef.delete_node:
-            - node_host
+          delete_node:
             - node_name
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey                   
+            - knife_privkey
+            - node_host
+            - node_username
+            - node_privkey: node_privkey_local
+            - node_password
+            - chef_repo
         publish:
           - return_result: knife_result
           - standard_err
@@ -110,4 +109,4 @@ flow:
       - ERROR:
           do:
             print.print_text:
-              - text: "'! Error in Chef test flow ' +return_result"
+              - text: "'! Error in Chef test flow ' + return_result"
