@@ -6,46 +6,57 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Assigns one or more Chef cookbooks (comma seperated) to a node's run list
+# Remove node and client from Chef, delete /etc/chef folder on node.
 #
 # Inputs:
-#   - cookbooks - comma seperated list of one or more Chef cookbooks
-#   - node_name - name of the node to assign cookbooks to
+#   - node_name - name of node in Chef to be deleted
 #   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
 #   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
+#   - node_host - hostname or IP of Chef node
+#   - node_username - SSH username for the Chef node
+#   - node_password - optional - if using password auth to access node
+#   - node_privkey - optional - if using keyfile auth to access node (local file that resides where flow is executing)
+#   - chef_repo - optional - relative or absolute path to the chef repository on Chef Workstation
 # Outputs:
 #   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT
 #   - standard_err - any STDERR
 # Results:
-#   - SUCCESS - cookbooks were added to the run list
+#   - SUCCESS - node deleted OK
 #   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.chef
 
+imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
+
 flow:
-  name: assign_cookbooks
+  name: delete_node_uninstall
   inputs:
-    - cookbooks
-    - node_name    
+    - node_name
     - knife_host
     - knife_username
+    - knife_password:
+        required: false
     - knife_privkey:
         required: false
-    - knife_password: 
+    - node_host
+    - node_username
+    - node_password:
+        required: false
+    - node_privkey:
         required: false
     - knife_config:
         required: false
 
   workflow:
-    - add_to_run_list:
+    - remove_node_from_chef:
         do:
-          knife_command:
-            - knife_cmd: "'node run_list add ' + node_name + ' \\'' + cookbooks + '\\''"
+          delete_node:
+            - node_name
             - knife_host
             - knife_username
             - knife_password
@@ -56,11 +67,22 @@ flow:
           - standard_err
           - knife_result
 
+    - uninstall_chef_client:
+        do:
+          ssh.ssh_command:
+            - command: "'sudo rm -rf /etc/chef;sudo dpkg -P chef'"
+            - host: node_host
+            - username: node_username
+            - password: node_password
+            - privateKeyFile: node_privkey
+        publish:
+          - raw_result: returnResult
+          - standard_err
   outputs:
-    - knife_result: knife_result
+    - knife_result
     - raw_result
-    - standard_err: standard_err
-    
+    - standard_err
+
   results:
     - SUCCESS
     - FAILURE

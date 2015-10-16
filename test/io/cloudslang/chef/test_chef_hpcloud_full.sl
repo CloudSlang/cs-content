@@ -48,7 +48,7 @@ flow:
         default: "''"
         required: false    
     - node_username
-    - node_privkey:
+    - node_privkey_remote:
         default: "''"
         required: false  
     - node_privkey_local:
@@ -94,7 +94,7 @@ flow:
             - knife_privkey       
             - node_username
             - node_password         
-            - node_privkey        
+            - node_privkey: node_privkey_remote        
         publish:
           - return_result: knife_result
           - standard_err
@@ -111,7 +111,7 @@ flow:
             - knife_privkey            
             - node_username
             - node_password             
-            - node_privkey
+            - node_privkey: node_privkey_remote
         publish:
           - return_result: knife_result
           - standard_err

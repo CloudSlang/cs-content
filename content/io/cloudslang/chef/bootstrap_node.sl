@@ -19,7 +19,7 @@
 #   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 #   - knife_timeout - optional - timeout in millsecs, default is 600 seconds
-#   - chef_repo - optional - relative or absolute path to the chef repository on Chef Workstation
+#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
 # Outputs:
 #   - raw_result - full STDOUT
 #   - knife_result - filtered output of knife command
@@ -51,7 +51,7 @@ flow:
     - knife_timeout:
         default: "'600000'"
         required: false
-    - chef_repo:
+    - knife_config:
         required: false
     - node_password_expr:
         default: >
@@ -73,7 +73,7 @@ flow:
             - knife_password
             - knife_privkey
             - knife_timeout
-            - chef_repo
+            - knife_config
         publish:
           - raw_result
           - standard_err

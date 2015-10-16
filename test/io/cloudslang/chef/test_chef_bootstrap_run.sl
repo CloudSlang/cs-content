@@ -38,7 +38,7 @@ flow:
         required: false
     - node_password: 
         required: false
-    - chef_repo:
+    - knife_config:
         required: false
 
   workflow:
@@ -54,7 +54,7 @@ flow:
             - node_username
             - node_password            
             - node_privkey: node_privkey_remote
-            - chef_repo
+            - knife_config
         publish:
           - return_result: knife_result
           - standard_err
@@ -69,7 +69,7 @@ flow:
             - knife_username
             - knife_password
             - knife_privkey
-            - chef_repo
+            - knife_config
         publish:
           - return_result: knife_result
           - standard_err
@@ -87,9 +87,9 @@ flow:
           - return_result: returnResult
           - standard_err
 
-    - chef_remove_node:
+    - chef_remove_node_and_uninstall:
         do:
-          delete_node:
+          delete_node_uninstall:
             - node_name
             - knife_host
             - knife_username
@@ -99,7 +99,7 @@ flow:
             - node_username
             - node_privkey: node_privkey_local
             - node_password
-            - chef_repo
+            - knife_config
         publish:
           - return_result: knife_result
           - standard_err
