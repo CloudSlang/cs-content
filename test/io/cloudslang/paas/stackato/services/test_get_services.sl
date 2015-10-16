@@ -6,21 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.paas.stackato.applications
+namespace: io.cloudslang.paas.stackato.services
 
 imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_create_application
+  name: test_get_services
   inputs:
     - host
     - username:
         required: false
     - password:
         required: false
-    - application_name
-    - space_guid
     - proxy_host:
         required: false
     - proxy_port:
@@ -32,14 +30,12 @@ flow:
         required: false
 
   workflow:
-    - create_app:
+    - get_services:
         do:
-          create_application:
+          get_services:
             - host
             - username
             - password
-            - application_name
-            - space_guid
             - proxy_host
             - proxy_port
             - proxy_username
@@ -53,14 +49,14 @@ flow:
           SUCCESS: check_result
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
-          GET_APPLICATION_GUID_FAILURE: GET_APPLICATION_GUID_FAILURE
+          GET_SERVICES_FAILURE: GET_SERVICES_FAILURE
+          GET_SERVICES_LIST_FAILURE: GET_SERVICES_LIST_FAILURE
 
     - check_result:
         do:
           lists.compare_lists:
             - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 201]
+            - list_2: ["''", 0, 200]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_RESPONSES_FAILURE
@@ -75,6 +71,6 @@ flow:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
-    - CREATE_APPLICATION_FAILURE
-    - GET_APPLICATION_GUID_FAILURE
+    - GET_SERVICES_FAILURE
+    - GET_SERVICES_LIST_FAILURE
     - CHECK_RESPONSES_FAILURE

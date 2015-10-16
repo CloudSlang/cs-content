@@ -13,7 +13,6 @@ imports:
 
 flow:
   name: test_get_applications
-
   inputs:
     - host
     - username:
