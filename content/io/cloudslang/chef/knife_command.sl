@@ -15,6 +15,7 @@
 #   - knife_password - optional - if using password auth
 #   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
 #   - knife_timeout - optional - timeout in millsecs, default is 300 seconds
+#   - chef_repo - relative or absolute path to the chef repository on Chef Workstation
 # Outputs:
 #   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT
@@ -39,7 +40,10 @@ flow:
     - knife_timeout:
         default: "'300000'"
         required: false
-        
+    - chef_repo:
+        default: "'chef-repo'"
+        required: true
+
   workflow:
     - knife_cmd:
         do:
@@ -48,7 +52,10 @@ flow:
             - username: knife_username
             - password: knife_password
             - privateKeyFile: knife_privkey  
-            - command: "'echo [knife output];knife ' + knife_cmd"
+            - command: >
+                'cd ' + chef_repo + ' &&' +
+                ' echo [knife output] &&' +
+                ' knife ' + knife_cmd
             - timeout: knife_timeout
         publish:
           - returnResult
@@ -58,4 +65,4 @@ flow:
   outputs:
     - raw_result: returnResult
     - knife_result: "standard_err + ' ' + returnResult.split('[knife output]')[1]"
-    - standard_err: standard_err
+    - standard_err

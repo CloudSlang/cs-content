@@ -19,7 +19,8 @@ test_chef_bootstrap_run_success:
     - knife_privkey:      # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
     - knife_password:     # If using SSH password auth
     - node_username:      # SSH username to access the new HP cloud server
-    - node_privkey:       # If using SSH keyfile auth, note this is a *remote* file on the knife server
+    - node_privkey_remote:       # If using SSH keyfile auth, note this is a *remote* file on the knife server
     - node_password:      # If using SSH password auth
     - node_privkey_local: # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
+    - node_privkey_local: # relative or absolute path to the chef repository on Chef Workstation
   result: SUCCESS
