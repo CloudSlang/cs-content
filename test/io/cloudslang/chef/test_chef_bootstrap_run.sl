@@ -24,7 +24,7 @@ flow:
     - node_host
     - node_name
     # Chef details
-    - cookbooks
+    - run_list_items
     - knife_host
     - knife_username
     - knife_password: 
@@ -60,10 +60,10 @@ flow:
           - standard_err
           - node_name
 
-    - chef_assign_cookbook:
+    - chef_assign_cookbooks:
         do:
-          assign_cookbooks:
-            - cookbooks
+          run_list_add:
+            - run_list_items
             - node_name
             - knife_host
             - knife_username
@@ -85,6 +85,20 @@ flow:
             - timeout: "'600000'"
         publish:
           - return_result: returnResult
+          - standard_err
+
+    - chef_remove_cookbooks:
+        do:
+          run_list_remove:
+            - run_list_items
+            - node_name
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: knife_result
           - standard_err
 
     - chef_remove_node_and_uninstall:

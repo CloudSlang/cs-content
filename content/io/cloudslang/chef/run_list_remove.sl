@@ -6,10 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Assigns one or more Chef cookbooks (comma seperated) to a node's run list
+# Removes a set of Chef roles and/or recipes from a node's run list
 #
 # Inputs:
-#   - cookbooks - comma seperated list of one or more Chef cookbooks
+#   - run_list_items - a list of roles and/or recipes to be removed
+#                      see https://docs.chef.io/knife_node.html#run-list-remove
 #   - node_name - name of the node to assign cookbooks to
 #   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
@@ -28,9 +29,9 @@
 namespace: io.cloudslang.chef
 
 flow:
-  name: assign_cookbooks
+  name: run_list_remove
   inputs:
-    - cookbooks
+    - run_list_items
     - node_name    
     - knife_host
     - knife_username
@@ -42,10 +43,10 @@ flow:
         required: false
 
   workflow:
-    - add_to_run_list:
+    - remove_from_run_list:
         do:
           knife_command:
-            - knife_cmd: "'node run_list add ' + node_name + ' \\'' + cookbooks + '\\''"
+            - knife_cmd: "'node run_list remove ' + node_name + ' \\'' + run_list_items + '\\''"
             - knife_host
             - knife_username
             - knife_password

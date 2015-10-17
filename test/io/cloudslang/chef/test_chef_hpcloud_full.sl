@@ -38,7 +38,7 @@ flow:
     - keypair
     - tenant_name
     # Chef details
-    - cookbooks
+    - run_list_items
     - knife_host
     - knife_username
     - knife_password: 
@@ -100,10 +100,10 @@ flow:
           - standard_err
           - node_name
 
-    - chef_assign_cookbook:
+    - chef_assign_cookbooks:
         do:
-          chef.assign_cookbooks:
-            - cookbooks
+          chef.run_list_add:
+            - run_list_items
             - node_name
             - knife_host
             - knife_username
