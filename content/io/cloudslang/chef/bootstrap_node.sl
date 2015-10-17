@@ -102,7 +102,3 @@ flow:
     - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)"
     - standard_err: standard_err
     - node_name
-
-  results:
-    - SUCCESS
-    - FAILURE

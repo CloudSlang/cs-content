@@ -82,7 +82,3 @@ flow:
     - knife_result
     - raw_result
     - standard_err
-
-  results:
-    - SUCCESS
-    - FAILURE
