@@ -13,14 +13,13 @@ test_chef_bootstrap_run_success:
   inputs:
     - node_host:          # IP or hostname of the target node to be managed by Chef
     - node_name:          # Name of the new node in Chef (can be anything)
-    - cookbooks:          # Chef cookbooks to assign to node
+    - run_list_items:     # Chef cookbooks to assign to node
     - knife_host:         # Linux server where Chef knife has been configured
     - knife_username:     # SSH username to access knife server
     - knife_privkey:      # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
     - knife_password:     # If using SSH password auth
     - node_username:      # SSH username to access the new HP cloud server
-    - node_privkey_remote:       # If using SSH keyfile auth, note this is a *remote* file on the knife server
     - node_password:      # If using SSH password auth
-    - node_privkey_local: # If using SSH keyfile auth, note this is a *local* file to cloudslang runner
+    - node_privkey_remote:       # If using SSH keyfile auth, note this is a *remote* file on the knife server
     - node_privkey_local: # relative or absolute path to the chef repository on Chef Workstation
   result: SUCCESS
