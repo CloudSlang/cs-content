@@ -106,9 +106,9 @@ flow:
 
   outputs:
     - return_result
-    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
     - return_code
     - status_code
+    - error_message: return_result if return_code == '-1' or status_code != '200' else ''
     - spaces_list
 
   results:
