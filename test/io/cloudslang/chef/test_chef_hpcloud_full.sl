@@ -57,6 +57,12 @@ flow:
     - node_password: 
         default: "''"
         required: false
+    - knife_config:
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
 
   workflow:
     - build_hpcloud_instance:
@@ -71,6 +77,8 @@ flow:
             - tenant_name
             - server_name
             - assign_floating: True
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - ip_address
@@ -94,7 +102,8 @@ flow:
             - knife_privkey       
             - node_username
             - node_password         
-            - node_privkey: node_privkey_remote        
+            - node_privkey: node_privkey_remote
+            - knife_config
         publish:
           - return_result: knife_result
           - standard_err
@@ -112,6 +121,7 @@ flow:
             - node_username
             - node_password             
             - node_privkey: node_privkey_remote
+            - knife_config
         publish:
           - return_result: knife_result
           - standard_err
@@ -125,6 +135,7 @@ flow:
             - privateKeyFile: node_privkey_local           
             - command: "'sudo chef-client'"
             - timeout: "'600000'"
+            - knife_config
         publish:
           - return_result: returnResult
           - standard_err
@@ -134,13 +145,14 @@ flow:
           net.verify_app_is_up:
             - host: ip_address
             - port: app_port
+            - attempts: 300
         publish:
           - return_result: output_message
 
     - print_result:
         do:
           print.print_text:
-            - text: "'### Done! Server is active and app installed; '+ip_address + ':' + app_port"
+            - text: "'### Done! Server is active and app installed; ' + ip_address + ':' + app_port"
 
     - on_failure:
       - ERROR:

@@ -22,4 +22,5 @@ test_chef_bootstrap_run_success:
     - node_password:      # If using SSH password auth
     - node_privkey_remote:       # If using SSH keyfile auth, note this is a *remote* file on the knife server
     - node_privkey_local: # relative or absolute path to the chef repository on Chef Workstation
+    - knife_config: # location of knife.rb config file, default ~/.chef/knife.rb
   result: SUCCESS
