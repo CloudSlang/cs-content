@@ -231,6 +231,7 @@ flow:
             - contentType: content_type
             - proxyHost: proxy_host
             - proxyPort: proxy_port
+            - validHttpStatusCodes: [404]
         publish:
           - return_result
           - error_message
