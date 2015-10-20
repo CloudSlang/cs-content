@@ -99,7 +99,7 @@ flow:
             - privateKeyFile: private_key_file
             - timeout
         publish:
-          - container_ID
+          - container_id
           - error_message
 
     - test_application:

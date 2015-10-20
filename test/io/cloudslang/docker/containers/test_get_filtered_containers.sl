@@ -92,7 +92,7 @@ flow:
             - private_key_file
             - timeout
        publish:
-          - expected_container_ids:  container_ID
+          - expected_container_ids:  container_id
           - standard_err
        navigate:
          SUCCESS: execute_get_filtered_containers
