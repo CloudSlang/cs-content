@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,25 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Generates a new uuid.
+# Check is boolean is true or false, use for flow control
 #
-# Outputs:
-#   - json_result - json_as_string converted to json object
+# Inputs:
+#   - bool_value - Boolean value to check
 # Results:
-#   - SUCCESS - always
+#   - SUCCESS - bool_value is true
+#   - FAILURE - bool_value is false
 ####################################################
+
 namespace: io.cloudslang.base.utils
 
 operation:
-  name: convert_to_json
+  name: is_true
   inputs:
-    - json_as_string
-
+    - bool_value
   action:
     python_script: |
-      import json
-      json_result = json.loads(json_as_string)
-  outputs:
-    - json_result
+      pass
   results:
-    - SUCCESS
+    - SUCCESS: bool_value == True
+    - FAILURE

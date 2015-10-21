@@ -21,14 +21,19 @@
 #   - return_result - response of the last operation executed
 #   - error_message - error message of the operation that failed
 # Results:
-#   - SUCCESS
-#   - FAILURE
+#   - SUCCESS - the OpenStack server (instance) exist
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_SERVERS_FAILURE - the call for list OpenStack servers (instances) fails
+#   - EXTRACT_SERVERS_FAILURE - the list of OpenStack servers (instances) could not be retrieved
+#   - CHECK_SERVER_FAILURE - the check for specified OpenStack server (instance) fails
 ####################################################
 
 namespace: io.cloudslang.openstack
 
 imports:
- openstack_utils: io.cloudslang.openstack.utils
+  openstack_utils: io.cloudslang.openstack.utils
 
 flow:
   name: validate_server_exists
@@ -44,6 +49,7 @@ flow:
     - proxy_port:
         required: false
     - server_name
+
   workflow:
     - get_server_list:
         do:
@@ -60,6 +66,14 @@ flow:
           - server_list
           - return_result
           - error_message
+        navigate:
+          SUCCESS: check_server
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          GET_SERVERS_FAILURE: GET_SERVERS_FAILURE
+          EXTRACT_SERVERS_FAILURE: EXTRACT_SERVERS_FAILURE
+
     - check_server:
         do:
           openstack_utils.check_server:
@@ -68,8 +82,18 @@ flow:
         publish:
           - return_result
           - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: CHECK_SERVER_FAILURE
   outputs:
     - return_result
     - error_message
 
-
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_SERVERS_FAILURE
+    - EXTRACT_SERVERS_FAILURE
+    - CHECK_SERVER_FAILURE

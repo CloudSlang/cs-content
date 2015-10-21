@@ -1,0 +1,20 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_hpcloud_ip_allocation_success:
+  testSuites: [hp_cloud-local]
+  description: Tests that HP Cloud floating IP allocation and release works
+  testFlowPath: io.cloudslang.cloud_provider.hp_cloud.test_hpcloud_ip_allocation
+  inputs:
+    - username:         # Your HP Cloud user
+    - password:         # Your HP Cloud password
+    - tenant_name:      # Your HP Cloud tenant, e.g. 'bob.smith@hp.com-tenant1'  
+    - region: "a"       # HP Cloud region; 'a' or 'b'  (US West or US East)
+    - proxy_host: # optional
+    - proxy_port: # optional
+  result: SUCCESS

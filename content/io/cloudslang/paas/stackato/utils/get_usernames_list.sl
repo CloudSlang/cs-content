@@ -6,46 +6,45 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the get_authentication operation to retrieve the token and tenantID.
+# Parses a json input and retrieves a list of usernames
 #
 # Inputs:
-#   - json_authentication_response - response of get_authentication operation
+#   - json_input - the response of get users flow
 # Outputs:
-#   - token - authentication token ID
-#   - tenant - tenant ID
 #   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - returnResult if there was an error
+#   - return_code - "'0'" if parsing was successful, "'-1'" otherwise
+#   - usernames_list - the list with all usernames
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
 #   - FAILURE - otherwise
 ####################################################
-
-namespace: io.cloudslang.openstack.utils
+namespace: io.cloudslang.paas.stackato.utils
 
 operation:
-  name: parse_authentication
+  name: get_usernames_list
   inputs:
-    - json_authentication_response
+    - json_input
   action:
     python_script: |
       try:
         import json
-        decoded = json.loads(json_authentication_response)
-        token_entry = decoded['access']['token']
-        token = token_entry['id']
-        tenant = token_entry['tenant']['id']
+        decoded = json.loads(json_input)
+        usernames_list = []
+        for i in decoded['resources']:
+          if i['entity']['username']:
+            username = i['entity']['username']
+            usernames_list.append(username)
         return_code = '0'
         return_result = 'Parsing successful.'
-      except:
+      except Exception as ex:
         return_code = '-1'
-        return_result = 'Parsing error.'
+        return_result = ex
   outputs:
-    - token
-    - tenant
-    - return_code
     - return_result
     - error_message: return_result if return_code == '-1' else ''
+    - return_code
+    - usernames_list
   results:
     - SUCCESS: return_code == '0'
     - FAILURE

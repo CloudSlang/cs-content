@@ -19,7 +19,7 @@ machine:
     RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]'
     JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
-    - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
+    - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
 
   services:
     - docker
@@ -45,7 +45,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.2/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.3/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib

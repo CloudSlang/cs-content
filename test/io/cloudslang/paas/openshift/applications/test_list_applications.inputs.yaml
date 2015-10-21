@@ -16,3 +16,5 @@ testListApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_list_applications
   testSuites: [openshift-local]
   result: SUCCESS
+
+

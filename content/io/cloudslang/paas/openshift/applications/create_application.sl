@@ -87,10 +87,8 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
+            - proxy_username
+            - proxy_password
             - content_type: "'application/json'"
             - application_name_string: "'\"name\":\"' + application_name + '\",'"
             - cartridge_string: "'\"cartridge\":[' + cartridge_str + ']'"

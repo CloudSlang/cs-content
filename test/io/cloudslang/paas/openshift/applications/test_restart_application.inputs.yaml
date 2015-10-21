@@ -17,3 +17,5 @@ testRestartApplicationLocal:
   testFlowPath: io.cloudslang.paas.openshift.applications.test_restart_application
   testSuites: [openshift-local]
   result: SUCCESS
+
+

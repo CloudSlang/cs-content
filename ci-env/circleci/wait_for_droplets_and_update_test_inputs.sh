@@ -116,5 +116,14 @@ find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
 find test -type f -exec sed -i "s/<coreos_host_2>/${DROPLET_IP_ARRAY[1]}/g" {} +
 find test -type f -exec sed -i "s/<coreos_host_3>/${DROPLET_IP_ARRAY[2]}/g" {} +
 
-# update inputs files to use actual ssh key
+# update inputs files to use actual ssh public key ID
+# find test -type f -exec sed -i "s/<ssh_public_key_id>/${DO_DROPLET_SSH_PUBLIC_KEY_ID}/g" {} +
+
+# update inputs files to use actual ssh private key
 find test -type f -exec sed -i "s/<private_key_file>/${SSH_KEY_PATH}/g" {} +
+
+# update inputs files with build number
+# find test -type f -exec sed -i "s/<build_number>/${CIRCLE_BUILD_NUM}/g" {} +
+
+# update inputs files with DigitalOcean token
+# find test -type f -exec sed -i "s/<digital_ocean_token>/${DO_API_TOKEN}/g" {} +
