@@ -70,6 +70,3 @@ operation:
     - cluster_name
     - response
     - error_message: return_result if return_code == '-1' else ''
-  results:
-    - SUCCESS: return_code == '0'
-    - FAILURE

@@ -57,14 +57,10 @@ flow:
             - url: "'https://' + host + '/vms/' + vmId + '/power_op/on'"
             - username
             - password
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - content_type: "'application/json'"
             - body:
                 required: false
@@ -80,7 +76,4 @@ flow:
     - error_message
     - return_code
     - status_code
-
-  results:
-    - SUCCESS
-    - FAILURE
+E
