@@ -37,7 +37,7 @@ flow:
             - host
             - username
             - password
-            - space_name
+            - application_name
             - proxy_host
             - proxy_port
             - proxy_username

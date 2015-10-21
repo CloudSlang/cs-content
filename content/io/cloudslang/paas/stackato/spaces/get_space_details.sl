@@ -68,6 +68,8 @@ flow:
         publish:
           - return_result
           - error_message
+          - return_code
+          - status_code
         navigate:
           SUCCESS: get_space_details
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
@@ -81,7 +83,6 @@ flow:
             - json_input: return_result
             - key_name: space_name
         publish:
-          - return_result
           - error_message
           - return_code
           - resource_guid
@@ -95,6 +96,8 @@ flow:
   outputs:
     - return_result
     - error_message
+    - return_code
+    - status_code
     - resource_guid
     - resource_url
     - resource_created_at
