@@ -98,14 +98,14 @@ flow:
             - privateKeyFile: private_key_file
             - timeout: "'30000000'"
         publish:
-          - container_ID
+          - container_id
           - error_message
 
     - demo_clear_containers_wrapper:
         do:
           docker_containers_examples.demo_clear_containers_wrapper:
-            - db_container_ID: "'mysqldb'"
-            - linked_container_ID: linked_container_name
+            - db_container_id: "'mysqldb'"
+            - linked_container_id: linked_container_name
             - docker_host: host
             - port
             - docker_username: username

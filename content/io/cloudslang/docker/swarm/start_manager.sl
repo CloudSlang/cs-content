@@ -25,7 +25,7 @@
 #                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - manager_container_ID - ID of the created manager container
+#   - manager_container_id - ID of the created manager container
 # Results:
 #   - SUCCESS - successful
 #   - FAILURE - otherwise
@@ -79,6 +79,6 @@ flow:
             - closeSession: close_session
             - agentForwarding: agent_forwarding
         publish:
-          - manager_container_ID: container_ID
+          - manager_container_id: container_id
   outputs:
-    - manager_container_ID
+    - manager_container_id

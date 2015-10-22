@@ -23,7 +23,7 @@
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - image_ID - ID of the created Docker image
+#   - image_id - ID of the created Docker image
 # Results:
 #   - SUCCESS - Docker image successfully built
 #   - FAILURE - otherwise
@@ -83,7 +83,7 @@ flow:
             - closeSession: close_session
             - agentForwarding: agent_forwarding
         publish:
-          - image_ID: >
+          - image_id: >
               standard_out.split('Successfully built ')[1].replace('\n', '')
               if ('Successfully built' in standard_out) else ''
           - standard_out
@@ -102,7 +102,7 @@ flow:
             - first_string: "'1'"
             - second_string: number_of_occurrences
   outputs:
-    - image_ID
+    - image_id
   results:
     - SUCCESS
     - FAILURE

@@ -68,7 +68,6 @@ flow:
             - port
             - username
             - password
-            - containerID: container_name
         navigate:
           SUCCESS: delete_container
           FAILURE: FAIL_STOP_CONTAINER

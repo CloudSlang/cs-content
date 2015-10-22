@@ -27,7 +27,7 @@
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agentForwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - container_ID - ID of the container
+#   - container_id - ID of the container
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
 # Results:
 #   - SUCCESS - successful
@@ -110,8 +110,8 @@ flow:
             - closeSession
             - agentForwarding
         publish:
-          - container_ID: standard_out[:-1]
+          - container_id: standard_out[:-1]
           - standard_err
   outputs:
-    - container_ID
+    - container_id
     - standard_err
