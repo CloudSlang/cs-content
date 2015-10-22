@@ -117,7 +117,7 @@ flow:
                 - port
             publish:
                 - all_parent_images: >
-                    fromInputs['all_parent_images'] if fromInputs['all_parent_images'] is not None else "" + parent_image_name + " "
+                    self['all_parent_images'] if self['all_parent_images'] is not None else "" + parent_image_name + " "
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
