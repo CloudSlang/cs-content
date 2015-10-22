@@ -15,8 +15,6 @@
 #   - private_key_file - optional - path to private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
 #   - port - optional - SSH port
-# Outputs:
-#   - total_amount_of_images_deleted - number of deleted images
 # Results:
 #   - SUCCESS - successful
 #   - FAILURE - otherwise
