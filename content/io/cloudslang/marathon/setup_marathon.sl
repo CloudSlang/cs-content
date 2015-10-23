@@ -14,6 +14,14 @@
 #   - private_key_file - private key file used for host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - timeout - optional - time in milliseconds to wait for one ssh command to complete - Default: 3000000 ms (50 min)
+# Results:
+#   - SUCCESS - setup succeeded
+#   - CLEAR_CONTAINERS_ON_HOST_PROBLEM - setup failed due to problem clearing containers
+#   - START_ZOOKEEPER_PROBLEM - setup failed due to problem starting zookeeper
+#   - START_MESOS_MASTER_PROBLEM - setup failed due to problem starting Mesos master
+#   - START_MESOS_SLAVE_PROBLEM - setup failed due to problem starting Mesos slave
+#   - START_MARATHON_PROBLEM - setup failed due to problem starting Marathon
+
 #######################################################################################################################
 
 namespace: io.cloudslang.marathon
