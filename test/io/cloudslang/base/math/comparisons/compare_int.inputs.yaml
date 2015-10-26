@@ -1,0 +1,55 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testCompareIntLess:
+  inputs:
+    - value1: 3
+    - value2: 5
+  description: Tests that compare_int.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: LESS_THAN
+
+testCompareIntEqual:
+  inputs:
+    - value1: 5
+    - value2: 5
+  description: Tests that compare_int.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: EQUALS
+
+  testCompareIntGreater:
+  inputs:
+    - value1: 5
+    - value2: 3
+  description: Tests that compare_int.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: GREATER_THAN
+
+testCompareIntLessStrings:
+  inputs:
+    - value1: "3"
+    - value2: "5"
+  description: Tests that compare_int.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: LESS_THAN
+
+testCompareIntEqualStrings:
+  inputs:
+    - value1: "5"
+    - value2: "5"
+  description: Tests that compare_int.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: EQUALS
+
+  testCompareIntGreaterStrings:
+  inputs:
+    - value1: "5"
+    - value2: "3"
+  description: Tests that compare_int.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.comparisons.equals
+  result: GREATER_THAN

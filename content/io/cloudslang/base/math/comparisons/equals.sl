@@ -1,0 +1,32 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################
+# Compares two numbers to see if they are equal.
+#
+# Inputs:
+#   - value1 - first value as number or string
+#   - value2 - second value as number or string
+# Results:
+#   - EQUALS - value1 is equal to value2
+#   - NOT_EQUALS - value1 is not equal to value2
+########################################################################################################
+
+namespace: io.cloudslang.base.math.comparisons
+
+operation:
+  name: equals
+  inputs:
+    - value1
+    - value2
+  action:
+    python_script: |
+      value1 = int(value1)
+      value2 = int(value2)
+  results:
+    - EQUALS: value1 == value2
+    - NOT_EQUALS
