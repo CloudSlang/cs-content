@@ -11,7 +11,7 @@ testCompareIntLess:
     - value1: 3
     - value2: 5
   description: Tests that compare_int.sl operation finishes with LESS_THAN when value1 < value2
-  testFlowPath: io.cloudslang.base.comparisons.equals
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
   result: LESS_THAN
 
 testCompareIntEqual:
@@ -19,7 +19,7 @@ testCompareIntEqual:
     - value1: 5
     - value2: 5
   description: Tests that compare_int.sl operation finishes with EQUALS when value1 = value2
-  testFlowPath: io.cloudslang.base.comparisons.equals
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
   result: EQUALS
 
 testCompareIntGreater:
@@ -27,5 +27,29 @@ testCompareIntGreater:
     - value1: 5
     - value2: 3
   description: Tests that compare_int.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.comparisons.equals
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
+  result: GREATER_THAN
+
+testCompareIntLessStr:
+  inputs:
+    - value1: '3'
+    - value2: '5'
+  description: Tests that compare_int.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
+  result: LESS_THAN
+
+testCompareIntEqualStr:
+  inputs:
+    - value1: '5'
+    - value2: '5'
+  description: Tests that compare_int.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
+  result: EQUALS
+
+testCompareIntGreaterStr:
+  inputs:
+    - value1: '5'
+    - value2: '3'
+  description: Tests that compare_int.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_int
   result: GREATER_THAN
