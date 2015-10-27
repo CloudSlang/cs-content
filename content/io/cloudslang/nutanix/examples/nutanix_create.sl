@@ -41,6 +41,9 @@ flow:
     - proxy_port
     - proxy_username
     - proxy_password
+    - description
+    - haPriority
+    - numCoresPerVcpu
   workflow:
     - nutanixCreateResourceVMClone:
         do:
@@ -56,6 +59,27 @@ flow:
           - response_body: return_result
 
     - print_reateResourceVMClone:
+        do:
+          print.print_text:
+            - text: response
+
+    - nutanixCreateResourceVMCreate:
+        do:
+          nutanix.create_resource_vmcreatedto:
+            - name
+            - memoryMb
+            - numVcpus
+            - description
+            - haPriority
+            - numCoresPerVcpu
+            - uuid
+        publish:
+          - return_result
+          - response
+          - error_message
+          - response_body: return_result
+
+    - print_reateResourceVMCreate:
         do:
           print.print_text:
             - text: response

@@ -6,14 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow creates a create.dto.acropolis.VMCloneDTO object. For example, it could be used for clone a Virtual Machine operation. 
+# This flow creates a create.dto.acropolis.VMCreateDTO object. For example, it could be used for create a Virtual Machine operation. 
 #
 #
 # Inputs:
 #   - name - Named for the cloned Virtual Machine
-#   - numVcpus - Override the number of vCPUs assigned to the clone
 #   - memoryMb - Override the amount of RAM assigned to the clone
-#   - uuid - A version 4 UUID that the client may specify for idempotence. This UUID will be used as the vm ID of the target vm
+#   - numVcpus - Override the number of vCPUs assigned to the clone
+#   - description - Optionnal -  Description for the Virtual Machine
+#   - haPriority - Optionnal -  Priority for restarting in case of HA event
+#   - numCoresPerVcpu - Optionnal -  Number of cores assigned to each VCPUs
+#   - uuid - Optionnal -  A version 4 UUID that the client may specify for idempotence. This UUID will be used as the vm ID of the target vm
 # Outputs:
 #   - return_code - "0" if success, "-1" otherwise
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -24,13 +27,19 @@
 namespace: io.cloudslang.nutanix
 
 operation:
-  name: create_resource_vmclonedto
+  name: create_resource_vmcreatedto
   inputs:
     - name:
         required: true
-    - numVcpus:
-        required: false
     - memoryMb:
+        required: true
+    - numVcpus:
+        required: true
+    - description:
+        required: false
+    - haPriority:
+        required: false
+    - numCoresPerVcpu:
         required: false
     - uuid:
         required: false
@@ -44,10 +53,16 @@ operation:
 
                 if name:
                     json_body['name'] = name
-                if numVcpus:
-                    json_body['numVcpus'] = numVcpus
                 if memoryMb:
                     json_body['memoryMb'] = memoryMb
+                if numVcpus:
+                    json_body['numVcpus'] = numVcpus
+                if description:
+                    json_body['description'] = description
+                if haPriority:
+                    json_body['haPriority'] = haPriority
+                if numCoresPerVcpu:
+                    json_body['numCoresPerVcpu'] = numCoresPerVcpu
                 if uuid:
                     json_body['uuid'] = uuid
 
