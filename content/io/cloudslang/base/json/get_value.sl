@@ -24,7 +24,7 @@
 namespace: io.cloudslang.base.json
 
 operation:
-  name: get_value_from_json
+  name: get_value
   inputs:
     - json_input
     - key_list
