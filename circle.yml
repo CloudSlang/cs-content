@@ -31,7 +31,7 @@ dependencies:
 
 test:
   pre:
-    - ? > ### machine 0
+    - ? > ### machine 0 - debug
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
         && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
