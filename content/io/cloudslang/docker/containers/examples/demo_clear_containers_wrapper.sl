@@ -9,8 +9,8 @@
 # Deletes two Docker containers.
 #
 # Inputs:
-#   - db_container_ID - ID of the DB container
-#   - linked_container_ID - ID of the linked container
+#   - db_container_id - ID of the DB container
+#   - linked_container_id - ID of the linked container
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine host password
@@ -30,8 +30,8 @@ imports:
 flow:
   name: demo_clear_containers_wrapper
   inputs:
-    - db_container_ID
-    - linked_container_ID
+    - db_container_id
+    - linked_container_id
     - docker_host
     - port:
         required: false
@@ -44,7 +44,7 @@ flow:
     - clear_db_container:
         do:
           docker_containers.clear_container:
-            - container_id: db_container_ID
+            - container_id: db_container_id
             - docker_host
             - port
             - docker_username
@@ -55,7 +55,7 @@ flow:
     - clear_linked_container:
         do:
           docker_containers.clear_container:
-            - container_id: linked_container_ID
+            - container_id: linked_container_id
             - docker_host
             - port
             - docker_username

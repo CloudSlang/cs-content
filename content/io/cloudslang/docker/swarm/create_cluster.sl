@@ -74,6 +74,6 @@ flow:
             - closeSession: close_session
             - agentForwarding: agent_forwarding
         publish:
-          - cluster_id: container_ID
+          - cluster_id: container_id
   outputs:
     - cluster_id
