@@ -67,7 +67,7 @@ flow:
                     - timeout
               publish:
                     - number_of_deleted_images_per_host: >
-                        fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
+                        self['number_of_deleted_images_per_host'] + self['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]
