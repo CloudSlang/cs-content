@@ -14,8 +14,7 @@
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
-# Outputs:
-#   - total_amount_of_images_deleted - number of deleted images
+#   - port - optional - SSH port
 ####################################################
 
 namespace: io.cloudslang.docker.containers
