@@ -18,7 +18,7 @@ do
                 -d "{
                   \"name\":\"${COREOS_MACHINE}\",
                   \"ssh_keys\":[${DO_DROPLET_SSH_PUBLIC_KEY_ID}],"'
-                  "region":"ams3",
+                  "region":"sgp1",
                   "size":"512mb",
                   "image":"coreos-stable",
                   "backups":false,
