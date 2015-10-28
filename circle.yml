@@ -60,8 +60,8 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ls -l
-        1) ls -l
+        0) ls -l ;;
+        1) ls -l ;;
         esac
       : parallel: true
   post:
