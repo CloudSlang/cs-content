@@ -7,7 +7,7 @@
 #
 ####################################################
 test_cluster_docker_images_maintenance_success:
-  testSuites: [coreos-ignore]
+  testSuites: [coreos]
   description: >
     This test cleans the CoreOS hosts in a cluster,
     prepares a used and an unused Docker image,
