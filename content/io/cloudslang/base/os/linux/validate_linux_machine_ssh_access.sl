@@ -41,7 +41,7 @@ operation:
     - privateKeyFile:
         required: false
     - command:
-        default: "':'"
+        default: "'ls'"
         overridable: false
     - arguments:
         required: false
