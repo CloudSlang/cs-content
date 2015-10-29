@@ -98,7 +98,7 @@ flow:
 
     - check_timeout:
         do:
-          comparisons.compare_float:
+          comparisons.compare_numbers:
             - value1: time_left
             - value2: 0
         publish:
