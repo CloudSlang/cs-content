@@ -75,7 +75,7 @@ flow:
 
     - get_authentication_token:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'access'", "'token'", "'id'"]
         publish:
@@ -87,7 +87,7 @@ flow:
 
     - get_tenant_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'access'", "'token'", "'tenant'", "'id'"]
         publish:

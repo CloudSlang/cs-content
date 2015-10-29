@@ -68,7 +68,7 @@ flow:
 
     - get_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'status'"]
         publish:
@@ -88,7 +88,7 @@ flow:
 
     - get_messages:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'messages'", 0, "'text'"]
         publish:

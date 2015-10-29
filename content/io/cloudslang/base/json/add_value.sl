@@ -11,10 +11,10 @@
 #
 # Inputs:
 #   - json_input - JSON data input
-#   - key_list - list of keys to add
+#   - key_list - list of keys to add - Example: ['tags', 1, 'name']
 #   - value - value to associate with key
 # Outputs:
-#   - json_output - JSON with key:value added
+#   - json_output - JSON with keys:value added
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise

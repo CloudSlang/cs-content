@@ -26,14 +26,17 @@ operation:
   name: get_keys
   inputs:
     - json_input
+    - key_list
   action:
     python_script: |
       try:
         import json
         decoded = json.loads(json_input)
+        for key in key_list:
+          decoded = decoded[key]
         decoded = decoded.keys()
-        return_code = '0'
         return_result = 'Parsing successful.'
+        return_code = '0'
       except Exception as ex:
         return_result = ex
         return_code = '-1'

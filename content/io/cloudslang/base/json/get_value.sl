@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - json_input - JSON data input
-#   - key_list - the keys list to retrieve value for - ex. = ['tags', 1, 'name']
+#   - key_list - the keys list to retrieve value for - Example: ['tags', 1, 'name']
 # Outputs:
 #   - value - the corresponding value of the key that results from key_list input - ex. = decode['tags'][1]['name']
 #   - return_result - parsing was successful or not

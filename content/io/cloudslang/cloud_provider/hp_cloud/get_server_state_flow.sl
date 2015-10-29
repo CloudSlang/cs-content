@@ -13,7 +13,7 @@
 #   - server_id - id of server
 #   - tenant - tenant id obtained by get_authenication_flow
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
 #   - delay - pause in secs before checking (when called in loop to throttle API calls)
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
@@ -39,7 +39,7 @@ flow:
     - server_id
     - tenant
     - token
-    - region  
+    - region
     - delay:
         default: 0
     - proxy_host:
@@ -58,8 +58,8 @@ flow:
           get_server_details:
             - server_id
             - tenant
-            - token  
-            - region  
+            - token
+            - region
             - proxy_host
             - proxy_port
         publish:
@@ -67,18 +67,18 @@ flow:
           - status_code
         navigate:
           SUCCESS: extract_status
-          FAILURE: failed          
+          FAILURE: failed
 
     - extract_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'server'", "'status'"]
         publish:
           - server_status: value
         navigate:
           SUCCESS: check_active
-          FAILURE: failed          
+          FAILURE: failed
 
     - check_active:
         do:
@@ -95,7 +95,7 @@ flow:
               - text: "'! ERROR GETTING SERVER INFO: \\nStatus:' + status_code + '\\n' + return_result"
           navigate:
             SUCCESS: FAILURE
-            
+
   outputs:
     - server_status
 
