@@ -48,7 +48,9 @@ operation:
     - characterSet: "'UTF-8'"
     - pty: "'false'"
     - timeout: "'30000000'"
-    - closeSession: "'false'"
+    - closeSession:
+        default: "'true'"
+        overridable: false
     - agentForwarding:
         required: false
   action:
