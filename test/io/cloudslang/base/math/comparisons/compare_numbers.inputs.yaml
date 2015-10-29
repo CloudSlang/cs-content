@@ -75,7 +75,7 @@ testCompareIntGreaterStr:
     - value1: '5'
     - value2: '3'
   description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.math.comparisons.container_number
+  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
   result: GREATER_THAN
 
 testCompareFloatLessStr:
