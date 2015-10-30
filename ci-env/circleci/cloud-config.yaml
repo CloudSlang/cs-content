@@ -35,11 +35,12 @@ write_files:
     owner: root:root
     content: |
       # Use most defaults for sshd configuration.
-      UsePrivilegeSeparation sandbox
-      Subsystem sftp internal-sftp
+      # UsePrivilegeSeparation sandbox
+      # Subsystem sftp internal-sftp
 
       PermitRootLogin no
       AllowUsers core
       PasswordAuthentication no
       ChallengeResponseAuthentication no
+
       Ciphers aes256-ctr,aes192-ctr,aes128-ctr
