@@ -42,4 +42,4 @@ write_files:
       AllowUsers core
       PasswordAuthentication no
       ChallengeResponseAuthentication no
-      Ciphers AnyCipher
+      Ciphers aes256-ctr,aes192-ctr,aes128-ctr
