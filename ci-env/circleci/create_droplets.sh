@@ -17,8 +17,8 @@ do
                 -H "Authorization: Bearer ${DO_API_TOKEN}" \
                 -d "{
                   \"name\":\"${COREOS_MACHINE}\",
-                  \"ssh_keys\":[${DO_DROPLET_SSH_PUBLIC_KEY_ID}],"'
-                  "region":"ams3",
+                  \"ssh_keys\":[${DO_DROPLET_SSH_PUBLIC_KEY_ID}],
+                  \"region\":\"${DO_REGION}\","'
                   "size":"512mb",
                   "image":"coreos-stable",
                   "backups":false,
