@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}.txt")
+DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}_1.txt")
 
 for DROPLET_ID in ${DROPLET_ID_ACC}
 do
