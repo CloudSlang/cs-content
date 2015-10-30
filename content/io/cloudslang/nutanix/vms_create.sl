@@ -32,7 +32,7 @@ imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: vms_clone
+  name: vms_create
   inputs:
     - host
     - username:
