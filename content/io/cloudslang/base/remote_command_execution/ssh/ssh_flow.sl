@@ -54,7 +54,8 @@ flow:
           required: false
       - timeout: "'90000'"
       - characterSet: "'UTF-8'"
-      - closeSession: "'true'"
+      - closeSession:
+          required: false
       - agentForwarding:
           required: false
     workflow:
