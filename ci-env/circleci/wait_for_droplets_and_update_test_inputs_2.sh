@@ -6,7 +6,7 @@ inc_and_sleep()
   sleep ${SLEEP_INTERVAL}
 }
 
-DROPLET_ID_ACC=$(cat "droplets_${CIRCLE_BUILD_NUM}.txt")
+DROPLET_ID_ACC=$(cat "droplets_${CIRCLE_BUILD_NUM}_2.txt")
 SLEEP_INTERVAL=5 # 5 sec
 TIMEOUT=600 # 10 mins
 
@@ -112,9 +112,9 @@ done
 
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-find test -type f -exec sed -i "s/<coreos_host_1>/${DROPLET_IP_ARRAY[0]}/g" {} +
-find test -type f -exec sed -i "s/<coreos_host_2>/${DROPLET_IP_ARRAY[1]}/g" {} +
-find test -type f -exec sed -i "s/<coreos_host_3>/${DROPLET_IP_ARRAY[2]}/g" {} +
+find test -type f -exec sed -i "s/<coreos_host_4>/${DROPLET_IP_ARRAY[0]}/g" {} +
+find test -type f -exec sed -i "s/<coreos_host_5>/${DROPLET_IP_ARRAY[1]}/g" {} +
+find test -type f -exec sed -i "s/<coreos_host_6>/${DROPLET_IP_ARRAY[2]}/g" {} +
 
 # update inputs files to use actual ssh public key ID
 # find test -type f -exec sed -i "s/<ssh_public_key_id>/${DO_DROPLET_SSH_PUBLIC_KEY_ID}/g" {} +
