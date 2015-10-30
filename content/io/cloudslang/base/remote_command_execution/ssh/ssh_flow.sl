@@ -59,27 +59,6 @@ flow:
       - agentForwarding:
           required: false
     workflow:
-      - validate_ssh_access:
-          do:
-            linux.validate_linux_machine_ssh_access:
-              - host
-              - port
-              - username
-              - password
-              - privateKeyFile
-              - arguments
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
-              - agentForwarding
-          publish:
-            - returnResult
-            - standard_out
-            - standard_err
-            - exception
-            - command_return_code
-
       - ssh_command:
           do:
             ssh_command:
@@ -102,7 +81,6 @@ flow:
             - standard_err
             - exception
             - command_return_code
-
     outputs:
       - returnResult
       - return_code
