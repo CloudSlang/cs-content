@@ -59,7 +59,7 @@ flow:
         required: false
     - pty: "'false'"
     - timeout: "'30000000'"
-    - closeSession: "'false'"
+    - closeSession: "'true'"
 
   workflow:
     - get_image_name_from_id:

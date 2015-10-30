@@ -41,7 +41,10 @@ operation:
     inputs:
       - host
       - port: "'22'"
-      - command
+      - command:
+          default: >
+            "echo 'SSH_COMMAND'; " + command
+          overridable: false
       - pty: "'false'"
       - username
       - password:
@@ -52,7 +55,7 @@ operation:
           required: false
       - timeout: "'90000'"
       - characterSet: "'UTF-8'"
-      - closeSession: "'false'"
+      - closeSession: "'true'"
       - agentForwarding:
           required: false
     action:
@@ -62,7 +65,9 @@ operation:
     outputs:
       - returnResult
       - return_code: returnCode
-      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
+      - standard_out_get: "'' if 'STDOUT' not in locals() else STDOUT"
+      - standard_out: >
+          "\n".join(standard_out_get.split("\n")[1:])
       - standard_err: "'' if 'STDERR' not in locals() else STDERR"
       - exception: "'' if 'exception' not in locals() else exception"
       - command_return_code: "'' if 'exitStatus' not in locals() else exitStatus"
