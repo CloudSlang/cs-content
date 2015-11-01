@@ -10,6 +10,7 @@
 #
 # Inputs:
 #   - host - Nutanix host or IP Address endpoint
+#   - port - Nutanix endpoint port - Example: 443
 #   - username - required - the Nutanix username - Example: admin
 #   - password - required - the Nutanix used for authentication
 #   - proxy_host - optional - proxy server used to access the Nutanix host
@@ -34,19 +35,25 @@ imports:
 flow:
   name: vms_create
   inputs:
-    - host
+    - host:
+        required: true
+    - port:
+        required: true
     - username:
         required: true
     - password:
         required: true
     - proxy_host:
+        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
         required: false
     - proxy_username:
+        default: "''"
         required: false
     - proxy_password:
+        default: "''"
         required: false
     - templateId:
         required: true
@@ -57,7 +64,7 @@ flow:
     - clone_vm:
         do:
           rest.http_client_post:
-            - url: "'https://' + host + '/vms/'"
+            - url: "'https://' + host + ':' + port + '/vms/'"
             - username
             - password
             - proxy_host

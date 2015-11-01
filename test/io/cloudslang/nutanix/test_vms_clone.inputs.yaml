@@ -1,0 +1,28 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMsCloneLocal:
+  inputs:
+    - name: "test"
+    - numVcpus: "test"
+    - memoryMb: "test"
+    - uuid: "test"
+    - host: "192.168.42.16"
+    - port: "80"
+    - username: "test"
+    - password: "test"
+    - templateId: "test"
+    - proxy_host: '"
+    - proxy_port: "''"
+    - proxy_username: '"
+    - proxy_password: '"
+  description: "Test clone a Nutanix template."
+  testFlowPath: io.cloudslang.nutanix.test_vms_clone
+  testSuites: [nutanix-local]
+  result: SUCCESS
+
+
