@@ -6,15 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-projectId: "cloudslang-1074"
-zone: "us-central1-f"
-jSonGoogleAuthPath: "C:\\\\github\\cloud-slang-content\\cloudslang-1d9fa64f7f66.json"
-name: "mbettan"
-initialNodeCount: "1"
-network: "default"
-enableCloudLogging: "true"
-enableCloudMonitoring: "false"
-operationId: "operation-1443134355472-11f26864"
-machineType: "n1-standard-1"
-masterauthUsername: "admin"
-masterauthPassword: "RYHtTtxLmW4hsqJ6"
+test_create_gke_success:
+  testSuites: [google_gke_local]
+  description: Calls test_create.sl - see description in the flow
+  testFlowPath: io.cloudslang.cloud_provider.google.gke.test_create
+  inputs:
+	- projectId: "cloudslang-1074"
+	- zone: "us-central1-f"
+	- jSonGoogleAuthPath: "C:\\\\github\\cloud-slang-content\\cloudslang-1d9fa64f7f66.json"
+	- name: "mbettan"
+	- initialNodeCount: "1"
+	- network: "default"
+	- enableCloudLogging: "true"
+	- enableCloudMonitoring: "false"
+	- operationId: "operation-1443134355472-11f26864"
+	- machineType: "n1-standard-1"
+	- masterauthUsername: "admin"
+	- masterauthPassword: "RYHtTtxLmW4hsqJ6"
+  result: SUCCESS
