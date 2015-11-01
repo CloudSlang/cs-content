@@ -98,11 +98,11 @@ flow:
 
     - check_timeout:
         do:
-          comparisons.compare_float:
+          comparisons.compare_numbers:
             - value1: time_left
             - value2: 0
         publish:
-          - time_left: fromInputs['time_left'] - 1
+          - time_left: self['time_left'] - 1
         navigate:
           GREATER_THAN: sleep
           EQUALS: TIMEOUT

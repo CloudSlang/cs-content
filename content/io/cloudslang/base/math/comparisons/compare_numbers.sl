@@ -20,7 +20,7 @@
 namespace: io.cloudslang.base.math.comparisons
 
 operation:
-  name: compare_float
+  name: compare_numbers
   inputs:
     - value1
     - value2
