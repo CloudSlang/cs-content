@@ -51,11 +51,11 @@ operation:
   action:
     python_script: |
                 import os
+                from apiclient import discovery
+                from oauth2client.client import GoogleCredentials
                 import json
 
                 json_cluster = json.loads(cluster)
-                from apiclient import discovery
-                from oauth2client.client import GoogleCredentials
                 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = jSonGoogleAuthPath
                 credentials = GoogleCredentials.get_application_default()
                 service = discovery.build('container', 'v1', credentials=credentials)
