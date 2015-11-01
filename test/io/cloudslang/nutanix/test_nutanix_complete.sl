@@ -14,7 +14,7 @@ imports:
   print: io.cloudslang.base.print
 
 flow:
-  name: nutanix_create
+  name: test_nutanix_complete
   inputs:
     - name
     - numVcpus
