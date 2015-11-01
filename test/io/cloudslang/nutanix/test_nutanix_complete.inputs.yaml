@@ -4,21 +4,31 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ####################################################
-name: "mbettan"
-numVcpus: "2"
-memoryMb: "2048"
-uuid: "zegezgzerherherh"
-host: "192.168.42.4"
-port: "80"
-username: "admin"
-password: "test"
-templateId: "eererherhoprktjpkrj"
-proxy_host: "''"
-proxy_port: "''"
-proxy_username: "''"
-proxy_password: "''"
-description: "description"
-haPriority: "haPriority"
-numCoresPerVcpu: "numCoresPerVcpu"
+# NUTANIX TEST FLOW
+# This flow fully tests Nutanix operations
+#  - Create CreateResourceVMCreate object
+#  - Create a virtual machine
+#  - Create CreateResourceVMClone object
+#  - Clone a virtual machine
+####################################################
+testNutanixComplete:
+  inputs:
+    - name: <name>
+    - numVcpus: <numVcpus>
+    - memoryMb: <memoryMb>
+    - uuid: <uuid>
+    - host: <host>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - templateId: <templateId>
+    - description: <description>
+    - haPriority: <haPriority>
+    - numCoresPerVcpu: <numCoresPerVcpu>
+  description: "Test Create & Delete nutanix"
+  testFlowPath: io.cloudslang.nutanix.test_nutanix_complete
+  testSuites: [nutanix-local]
+  result: SUCCESS
+
+

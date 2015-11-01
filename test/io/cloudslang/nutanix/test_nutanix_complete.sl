@@ -25,13 +25,20 @@ flow:
     - username
     - password
     - templateId
-    - proxy_host
-    - proxy_port
-    - proxy_username
-    - proxy_password
-    - description
-    - haPriority
-    - numCoresPerVcpu
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+    - description:
+        required: false
+    - haPriority:
+        required: false
+    - numCoresPerVcpu:
+        required: false
   workflow:
     - nutanixCreateResourceVMClone:
         do:

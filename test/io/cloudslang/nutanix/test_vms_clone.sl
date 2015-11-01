@@ -26,10 +26,14 @@ flow:
     - username
     - password
     - templateId
-    - proxy_host
-    - proxy_port
-    - proxy_username
-    - proxy_password
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
 
   workflow:
     - nutanixCreateResourceVMClone:
@@ -64,10 +68,14 @@ flow:
             - username
             - password
             - templateId
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
+            - proxy_host:
+                required: false
+            - proxy_port:
+                required: false
+            - proxy_username:
+                required: false
+            - proxy_password:
+                required: false
             - body: return_result
         publish:
           - return_result
