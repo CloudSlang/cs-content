@@ -14,7 +14,7 @@ imports:
   print: io.cloudslang.base.print
 
 flow:
-  name: gke_list_test
+  name: test_list
   inputs:
     - projectId
     - zone
