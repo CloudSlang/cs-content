@@ -23,7 +23,7 @@
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: examples.dec_check_zero
+namespace: io.cloudslang.base.json
 
 operation:
   name: add_object_into_json_array
