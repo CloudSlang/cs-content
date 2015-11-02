@@ -53,7 +53,7 @@ operation:
       - timeout: "'90000'"
       - characterSet: "'UTF-8'"
       - closeSession:
-          default: "'true'"
+          default: "'false'"
           overridable: false
       - agentForwarding:
           required: false

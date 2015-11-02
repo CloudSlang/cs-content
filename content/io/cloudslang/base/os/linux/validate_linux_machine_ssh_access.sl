@@ -49,7 +49,7 @@ operation:
     - pty: "'false'"
     - timeout: "'30000000'"
     - closeSession:
-        default: "'true'"
+        default: "'false'"
         overridable: false
     - agentForwarding:
         required: false
