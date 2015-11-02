@@ -45,11 +45,9 @@ flow:
     - marathon_port:
         default: "'8080'"
         required: false
-    - proxyHost:
-        default: proxy_host
+    - proxy_host:
         required: false
-    - proxyPort:
-        default: proxy_port
+    - proxy_port:
         required: false
     - json_file
 

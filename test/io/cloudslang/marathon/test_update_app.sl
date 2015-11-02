@@ -27,8 +27,7 @@ flow:
          do:
            marathon.create_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - json_file: json_file_for_creation
          navigate:
            SUCCESS: wait_for_app_to_deploy
@@ -43,8 +42,7 @@ flow:
         do:
           marathon.update_app:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
             - json_file: json_file_for_update
             - app_id: created_app_id
         navigate:
@@ -55,8 +53,7 @@ flow:
         do:
           marathon.delete_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - app_id: created_app_id
         navigate:
           SUCCESS: SUCCESS

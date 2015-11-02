@@ -44,11 +44,15 @@ operation:
     - url:
         default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
         overridable: false
-    - proxyHost:
-        default: proxy_host
+    - proxy_host:
         required: false
+    - proxyHost:
+        default: get('proxy_host', None)
+        required: false
+    - proxy_port:
+            required: false
     - proxyPort:
-        default: proxy_port
+        default: get('proxy_port', None)
         required: false
     - method:
         default: "'get'"

@@ -36,14 +36,18 @@ operation:
         required: false
     - app_id
     - body
-    - proxyHost:
-        default: proxy_host
+    - proxy_host:
         required: false
+    - proxyHost:
+        default: get('proxy_host', None)
+        required: false
+    - proxy_port:
+            required: false
     - proxyPort:
-        default: proxy_port
+        default: get('proxy_port', None)
         required: false
     - url:
-        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'"
         overridable: false
     - method:
         default: "'put'"

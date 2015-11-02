@@ -45,11 +45,15 @@ operation:
     - contentType:
         default: "'application/json'"
         overridable: false
-    - proxyHost:
-        default: proxy_host
+    - proxy_host:
         required: false
+    - proxyHost:
+        default: get('proxy_host', None)
+        required: false
+    - proxy_port:
+            required: false
     - proxyPort:
-        default: proxy_port
+        default: get('proxy_port', None)
         required: false
   action:
     java_action:

@@ -27,10 +27,9 @@ flow:
         do:
           marathon.get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_initial_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -38,7 +37,7 @@ flow:
     - parse_initial_response:
          do:
            marathon.parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:
@@ -60,8 +59,7 @@ flow:
             do:
               marathon.delete_app:
                 - marathon_host
-                - marathon_port:
-                    required: false
+                - marathon_port
                 - app_id: app
         navigate:
           SUCCESS: create_marathon_app
@@ -71,8 +69,7 @@ flow:
          do:
            marathon.create_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - json_file
          navigate:
            SUCCESS: list_marathon_apps
@@ -82,10 +79,9 @@ flow:
         do:
           marathon.get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -93,7 +89,7 @@ flow:
     - parse_response:
          do:
            marathon.parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:
@@ -115,14 +111,12 @@ flow:
         do:
           marathon.get_tasks_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
-          - tasks_list: returnResult
+          - tasks_list: return_result
         navigate:
           SUCCESS: check_task_was_created
           FAILURE: TASKS_NOT_RETRIEVED
-
 
     - check_task_was_created:
         do:
@@ -137,8 +131,7 @@ flow:
         do:
           marathon.delete_app:
              - marathon_host
-             - marathon_port:
-                required: false
+             - marathon_port
              - app_id: created_app_id
         navigate:
           SUCCESS: list_marathon_apps_again
@@ -148,10 +141,9 @@ flow:
         do:
           marathon.get_apps_list:
             - marathon_host
-            - marathon_port:
-                required: false
+            - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_second_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -159,7 +151,7 @@ flow:
     - parse_second_response:
          do:
            marathon.parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:

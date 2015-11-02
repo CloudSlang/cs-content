@@ -57,10 +57,8 @@ flow:
             - marathon_host
             - marathon_port
             - body: read_text
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - status_code

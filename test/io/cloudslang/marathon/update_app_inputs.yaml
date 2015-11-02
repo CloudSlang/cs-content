@@ -13,8 +13,8 @@ test_update_app_success:
   inputs:
     - marathon_host: [marathon host]
     - marathon_port: [marathon port]
-    - proxyHost: [proxy host]
-    - proxyPort: [proxy port]
+    - proxy_host: [proxy host]
+    - proxy_port: [proxy port]
     - json_file_for_creation: [path to json file that creates app]
     - json_file_for_update: [path to json file that updates app]
     - created_app_id: [app id]
