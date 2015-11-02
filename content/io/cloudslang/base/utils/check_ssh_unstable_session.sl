@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################################################################################################################
-#  Validates SSH access to the host and then runs an SSH command on the host.
+#  Validates SSH access to the host and then runs an SSH command on the host. TODO
 #
 #  Inputs:
 #    - host - hostname or IP address
@@ -33,98 +33,47 @@
 #    - FAILURE - otherwise
 ###############################################################################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.ssh
+namespace: io.cloudslang.base.utils
 
 imports:
-  linux: io.cloudslang.base.os.linux
-  utils: io.cloudslang.base.utils
+  strings: io.cloudslang.base.strings
 
 flow:
-    name: ssh_flow
-    inputs:
-      - host
-      - port: "'22'"
-      - command
-      - pty: "'false'"
-      - username
-      - password:
-          required: false
-      - arguments:
-          required: false
-      - privateKeyFile:
-          required: false
-      - timeout: "'90000'"
-      - characterSet: "'UTF-8'"
-      - closeSession: "'false'"
-      - agentForwarding:
-          required: false
-    workflow:
-      - validate_ssh_access:
-          do:
-            linux.validate_linux_machine_ssh_access:
-              - host
-              - port
-              - username
-              - password
-              - privateKeyFile
-              - arguments
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
-              - agentForwarding
-          publish:
-            - returnResult
-            - standard_out
-            - standard_err
-            - exception
-            - command_return_code
+  name: check_ssh_unstable_session
+  inputs:
+    - return_result
+    - return_code
+    - standard_out
+    - standard_err
+    - exit_status
+  workflow:
+    - check_return_code:
+        do:
+          strings.string_equals:
+            - first_string: "'0'"
+            - second_string: str(return_code)
+        navigate:
+          SUCCESS: NO_ISSUE_FOUND
+          FAILURE: check_session_is_down
 
-      - ssh_command:
-          do:
-            ssh_command:
-              - host
-              - port
-              - username
-              - password
-              - privateKeyFile
-              - command
-              - arguments
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
-              - agentForwarding
-          publish:
-            - returnResult
-            - return_code
-            - standard_out
-            - standard_err
-            - exception
-            - command_return_code
-          navigate:
-            SUCCESS: SUCCESS
-            FAILURE: check_ssh_unstable_session
+    - check_session_is_down:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: return_result
+            - string_to_find: "'session is down'"
+        navigate:
+          SUCCESS: SESSION_IS_DOWN
+          FAILURE: check_failure_with_no_message
 
-      - check_ssh_unstable_session: # TODO: timeout
-          do:
-            utils.check_ssh_unstable_session:
-              - return_result: returnResult
-              - return_code
-              - standard_out
-              - standard_err
-              - exit_status: command_return_code
-          navigate:
-            SESSION_IS_DOWN: ssh_command
-            FAILURE_WITH_NO_MESSAGE: ssh_command
-            NO_ISSUE_FOUND: FAILURE
-    outputs:
-      - returnResult
-      - return_code
-      - standard_out
-      - standard_err
-      - exception
-      - command_return_code
-    results:
-      - SUCCESS
-      - FAILURE
+    - check_failure_with_no_message:
+        do:
+          strings.string_equals:
+            - first_string: "'-1'"
+            - second_string: "return_result + standard_err + standard_out + str(exit_status)"
+        navigate:
+          SUCCESS: FAILURE_WITH_NO_MESSAGE
+          FAILURE: NO_ISSUE_FOUND
+  results:
+    - SESSION_IS_DOWN
+    - FAILURE_WITH_NO_MESSAGE
+    - NO_ISSUE_FOUND
