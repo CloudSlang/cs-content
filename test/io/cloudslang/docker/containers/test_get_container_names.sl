@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   lists: io.cloudslang.base.lists
@@ -41,7 +40,7 @@ flow:
   workflow:
     - run_container1:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name1
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
@@ -49,12 +48,8 @@ flow:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password: password
+            - private_key_file
             - timeout
        navigate:
          SUCCESS: run_container2
@@ -62,7 +57,7 @@ flow:
 
     - run_container2:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name2
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
@@ -70,12 +65,8 @@ flow:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password
+            - private_key_file
             - timeout
        navigate:
          SUCCESS: get_container_names
@@ -83,16 +74,12 @@ flow:
 
     - get_container_names:
        do:
-         containers.get_container_names:
+         get_container_names:
             - host
             - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - password
+            - private_key_file
             - timeout
        publish:
         - container_names
@@ -123,15 +110,11 @@ flow:
 
     - clear_machine:
         do:
-          containers.clear_containers:
+          clear_containers:
             - docker_host: host
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
+            - docker_password: password
+            - private_key_file
             - timeout
             - port
         navigate:

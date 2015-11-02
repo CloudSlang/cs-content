@@ -21,8 +21,10 @@
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the exception otherwise
+#   - returnResult - the return result of the command
 # Results:
 #   - SUCCESS - action was executed successfully and MySQL server state is alive
 #   - FAILURE - some problem occurred, more information in errorMessage output
@@ -51,7 +53,7 @@ flow:
     - private_key_file:
         required: false
     - exec_cmd:
-        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' ping'"
+        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp ping'"
         overridable: false
     - command:
         default: "'docker exec ' + container + ' ' + exec_cmd"
@@ -72,27 +74,17 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
             - command
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                required: false
+            - arguments
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding
         publish:
           - returnResult
           - error_message:  standard_err if return_code == '0' else returnResult
@@ -108,6 +100,7 @@ flow:
 
   outputs:
       - error_message
+      - returnResult
 
   results:
     - SUCCESS

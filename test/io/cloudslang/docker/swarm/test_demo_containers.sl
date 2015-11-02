@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  swarm: io.cloudslang.docker.swarm
   strings: io.cloudslang.base.strings
   swarm_examples: io.cloudslang.docker.swarm.examples
 
@@ -29,42 +28,43 @@ flow:
         required: false
     - timeout:
         required: false
+    - agent_ip_addresses
 
   workflow:
-    - pre_clear_swarm_cluster:
-       do:
-         swarm.clear_cluster:
-            - swarm_manager_ip
+    - setup_cluster:
+        do:
+          test_add_nodes_to_cluster:
+            - manager_machine_ip: swarm_manager_ip
+            - manager_machine_username: username
+            - manager_machine_password: password
+            - manager_machine_private_key_file: private_key_file
             - swarm_manager_port
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-       navigate:
-         SUCCESS: get_number_of_containers_in_cluster_before
-         FAILURE: PRE_CLEAR_SWARM_CLUSTER_PROBLEM
+            - agent_ip_addresses
+            - agent_usernames: [username, username]
+            - agent_passwords: [password, password]
+            - agent_private_key_files: [private_key_file, private_key_file]
+        navigate:
+          SUCCESS: get_number_of_containers_in_cluster_before
+          CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
+          START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          ADD_NODES_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
 
     - get_number_of_containers_in_cluster_before:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         publish:
           - number_of_containers_in_cluster_before: number_of_containers_in_cluster
         navigate:
@@ -77,31 +77,23 @@ flow:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
 
     - get_number_of_containers_in_cluster_after:
         do:
-          swarm.get_cluster_info:
+          get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
         publish:
           - number_of_containers_in_cluster_after: number_of_containers_in_cluster
         navigate:
@@ -114,32 +106,12 @@ flow:
             - first_string: str(int(number_of_containers_in_cluster_before) + 2)
             - second_string: str(number_of_containers_in_cluster_after)
         navigate:
-          SUCCESS: post_clear_swarm_cluster
+          SUCCESS: SUCCESS
           FAILURE: VERIFY_CONTAINERS_CREATED_IN_CLUSTER_PROBLEM
-
-    - post_clear_swarm_cluster:
-       do:
-         swarm.clear_cluster:
-            - swarm_manager_ip
-            - swarm_manager_port
-            - host
-            - port:
-                required: false
-            - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
-       navigate:
-         SUCCESS: SUCCESS
-         FAILURE: POST_CLEAR_SWARM_CLUSTER_PROBLEM
   results:
     - SUCCESS
+    - SETUP_CLUSTER_PROBLEM
     - FAILURE
-    - PRE_CLEAR_SWARM_CLUSTER_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_BEFORE_PROBLEM
     - GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_AFTER_PROBLEM
     - VERIFY_CONTAINERS_CREATED_IN_CLUSTER_PROBLEM
-    - POST_CLEAR_SWARM_CLUSTER_PROBLEM

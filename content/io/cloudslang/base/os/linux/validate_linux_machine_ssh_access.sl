@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes an empty SSH command.
+# Executes a noop SSH command.
 #
 # Inputs:
 #   - host - Docker machine host
@@ -41,7 +41,7 @@ operation:
     - privateKeyFile:
         required: false
     - command:
-        default: "' '"
+        default: "':'"
         overridable: false
     - arguments:
         required: false

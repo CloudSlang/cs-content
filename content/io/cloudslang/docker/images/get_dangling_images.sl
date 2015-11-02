@@ -64,7 +64,6 @@ flow:
         required: false
     - closeSession:
         required: false
-        required: false
     - agentForwarding:
         required: false
 
@@ -73,29 +72,20 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - arguments
+            - characterSet
+            - pty
+            - timeout
+            - closeSession
+            - agentForwarding
         publish:
           - dangling_image_list: >
-              ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:])))
+              ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:]))).replace(":latest", "")
 
   outputs:
     - dangling_image_list

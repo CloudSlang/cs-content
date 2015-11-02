@@ -22,7 +22,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  docker_utils: io.cloudslang.docker.utils
  base_os_linux: io.cloudslang.base.os.linux
 
@@ -46,22 +45,15 @@ flow:
   workflow:
     - inspect_image:
         do:
-          docker_images.inspect_image:
-            - docker_options:
-                required: false
+          inspect_image:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
+            - password: docker_password
             - image_name
-            - port:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
+            - port
+            - privateKeyFile: private_key_file
+            - timeout
         publish:
           - image_inspect_json: standard_out
 
@@ -74,21 +66,14 @@ flow:
 
     - get_parent_name:
         do:
-           docker_images.get_image_name_from_id:
-             - docker_options:
-                required: false
+           get_image_name_from_id:
+             - docker_options
              - host: docker_host
              - username: docker_username
-             - password:
-                default: docker_password
-                required: false
-             - privateKeyFile:
-                default: private_key_file
-                required: false
-             - port:
-                 required: false
-             - timeout:
-                 required: false
+             - password: docker_password
+             - privateKeyFile: private_key_file
+             - port
+             - timeout
              - image_id: parent_image[:10]
         publish:
           - image_name

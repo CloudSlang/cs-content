@@ -10,22 +10,44 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  marathon: io.cloudslang.marathon
   base_strings: io.cloudslang.base.strings
   base_print: io.cloudslang.base.print
+  utils: io.cloudslang.base.utils
 flow:
   name: test_create_app
   inputs:
     - marathon_host
+    - username
+    - private_key_file
     - marathon_port:
         required: false
     - json_file
     - created_app_id
 
   workflow:
+    - setup_marathon:
+        do:
+          setup_marathon:
+            - host: marathon_host
+            - username
+            - private_key_file
+            - marathon_port
+        navigate:
+          SUCCESS: wait_for_marathon_startup
+          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+
+    - wait_for_marathon_startup:
+        do:
+          utils.sleep:
+              - seconds: 20
+
     - list_initial_marathon_apps:
         do:
-          marathon.get_apps_list:
+          get_apps_list:
             - marathon_host
             - marathon_port
         publish:
@@ -36,7 +58,7 @@ flow:
 
     - parse_initial_response:
          do:
-           marathon.parse_get_app_list:
+           parse_get_app_list:
              - operation_response: return_result
          publish:
            - app_list
@@ -57,7 +79,7 @@ flow:
         loop:
             for: 'app in app_list.split(",")'
             do:
-              marathon.delete_app:
+              delete_app:
                 - marathon_host
                 - marathon_port
                 - app_id: app
@@ -67,17 +89,22 @@ flow:
 
     - create_marathon_app:
          do:
-           marathon.create_app:
+           create_app:
              - marathon_host
              - marathon_port
              - json_file
          navigate:
-           SUCCESS: list_marathon_apps
+           SUCCESS: wait_for_app_startup
            FAILURE: FAIL_TO_CREATE
+
+    - wait_for_app_startup:
+        do:
+          utils.sleep:
+              - seconds: 10
 
     - list_marathon_apps:
         do:
-          marathon.get_apps_list:
+          get_apps_list:
             - marathon_host
             - marathon_port
         publish:
@@ -88,7 +115,7 @@ flow:
 
     - parse_response:
          do:
-           marathon.parse_get_app_list:
+           parse_get_app_list:
              - operation_response: return_result
          publish:
            - app_list
@@ -109,7 +136,7 @@ flow:
 
     - list_mesos_tasks:
         do:
-          marathon.get_tasks_list:
+          get_tasks_list:
             - marathon_host
             - marathon_port
         publish:
@@ -129,7 +156,7 @@ flow:
 
     - delete_marathon_app:
         do:
-          marathon.delete_app:
+          delete_app:
              - marathon_host
              - marathon_port
              - app_id: created_app_id
@@ -139,7 +166,7 @@ flow:
 
     - list_marathon_apps_again:
         do:
-          marathon.get_apps_list:
+          get_apps_list:
             - marathon_host
             - marathon_port
         publish:
@@ -150,7 +177,7 @@ flow:
 
     - parse_second_response:
          do:
-           marathon.parse_get_app_list:
+           parse_get_app_list:
              - operation_response: return_result
          publish:
            - app_list
@@ -170,6 +197,7 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+    - SETUP_MARATHON_PROBLEM
     - PARSE_FAILURE
     - FAIL_TO_DELETE
     - APP_NOT_CREATED

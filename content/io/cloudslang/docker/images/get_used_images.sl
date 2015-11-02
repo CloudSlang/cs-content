@@ -72,28 +72,19 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
-            - agentForwarding:
-                required: false
+            - arguments
+            - characterSet
+            - pty
+            - timeout
+            - closeSessione
+            - agentForwarding
         publish:
-          - image_list: returnResult.replace("\n"," ")
+          - image_list: returnResult.replace("\n"," ").replace(":latest", "")
 
   outputs:
     - image_list

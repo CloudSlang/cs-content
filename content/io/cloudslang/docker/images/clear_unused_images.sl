@@ -27,7 +27,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  docker_utils: io.cloudslang.docker.utils
  base_lists: io.cloudslang.base.lists
  base_strings: io.cloudslang.base.strings
@@ -53,40 +52,26 @@ flow:
   workflow:
     - get_all_images:
         do:
-          docker_images.get_all_images:
-            - docker_options:
-                required: false
+          get_all_images:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - port:
-                required: false
-            - timeout:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
+            - timeout
         publish:
           - all_images_list: image_list
     - get_used_images:
         do:
-          docker_images.get_used_images:
-            - docker_options:
-                required: false
+          get_used_images:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - port:
-                required: false
-            - timeout:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
+            - timeout
         publish:
           - used_images_list: image_list
 
@@ -121,23 +106,18 @@ flow:
         loop:
             for: image in used_images_list.split()
             do:
-              docker_images.get_image_parent:
-                - docker_options:
-                    required: false
+              get_image_parent:
+                - docker_options
                 - docker_host
                 - docker_username
-                - docker_password:
-                    required: false
+                - docker_password
                 - image_name: image
-                - private_key_file:
-                    required: false
-                - timeout:
-                    required: false
-                - port:
-                    required: false
+                - private_key_file
+                - timeout
+                - port
             publish:
                 - all_parent_images: >
-                    fromInputs['all_parent_images'] if fromInputs['all_parent_images'] is not None else "" + parent_image_name + " "
+                    self['all_parent_images'] if self['all_parent_images'] is not None else "" + parent_image_name + " "
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
@@ -151,22 +131,15 @@ flow:
           - amount_of_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_images:
-            - docker_options:
-                required: false
+          clear_images:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - timeout
+            - port
         publish:
           - response
 

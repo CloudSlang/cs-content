@@ -9,7 +9,7 @@
 # Deletes a Docker container.
 #
 # Inputs:
-#   - container_ID - ID of the container to be deleted
+#   - container_id - ID of the container to be deleted
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
@@ -23,9 +23,6 @@
 ####################################################
 
 namespace: io.cloudslang.docker.containers
-
-imports:
- docker_containers: io.cloudslang.docker.containers
 
 flow:
   name: clear_container
@@ -44,39 +41,27 @@ flow:
   workflow:
     - stop_container:
         do:
-          docker_containers.stop_container:
-            - container_id: container_ID
-            - docker_options:
-                required: false
+          stop_container:
+            - container_id
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-               default: private_key_file
-               required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
         publish:
           - error_message
 
     - delete_container:
         do:
-          docker_containers.delete_container:
-            - container_id: container_ID
-            - docker_options:
-                required: false
+          delete_container:
+            - container_id
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-               default: private_key_file
-               required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - port
         publish:
           - error_message
   outputs:

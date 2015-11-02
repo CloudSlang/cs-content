@@ -23,7 +23,7 @@
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - image_ID - ID of the created Docker image
+#   - image_id - ID of the created Docker image
 # Results:
 #   - SUCCESS - Docker image successfully built
 #   - FAILURE - otherwise
@@ -39,10 +39,8 @@ flow:
   name: build_image
   inputs:
     - docker_image
-    - workdir:
-        default: "'.'"
-    - dockerfile_name:
-        default: "'Dockerfile'"
+    - workdir: "'.'"
+    - dockerfile_name: "'Dockerfile'"
     - host
     - port:
         required: false
@@ -55,8 +53,7 @@ flow:
         required: false
     - pty:
         required: false
-    - timeout:
-        default: "'3000000'"
+    - timeout: "'3000000'"
     - close_session:
         required: false
     - agent_forwarding:
@@ -75,30 +72,18 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password
+            - privateKeyFile: private_key_file
             - command
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
-          - image_ID: >
+          - image_id: >
               standard_out.split('Successfully built ')[1].replace('\n', '')
               if ('Successfully built' in standard_out) else ''
           - standard_out
@@ -117,7 +102,7 @@ flow:
             - first_string: "'1'"
             - second_string: number_of_occurrences
   outputs:
-    - image_ID
+    - image_id
   results:
     - SUCCESS
     - FAILURE

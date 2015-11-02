@@ -11,31 +11,27 @@ language: java
 
 sudo: required
 
-dist: trusty
+services:
+  - docker
 
 env:
  global:
-#   - UML_DOCKERCOMPOSE=0
-#   - UML_FIG=0
    - JAVA_OPTS="-XX:MaxPermSize=512m"
  matrix:
    - SUITE=containers
    - SUITE=images
    - SUITE=docker-misc
-   - SUITE=git
-
+   - SUITE=git,remote-copy
 
 script:
-  #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
+  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
+  - docker ps -a
   - docker info
   - docker version
   - df -kh
-  - wget --no-check-certificate https://github.com/orius123/ubuntu-equip/raw/master/equip_java7_64.sh
-  - bash equip_java7_64.sh
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.7.47/cslang-builder.zip
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.5/cslang-builder.zip
   - unzip -q cslang-builder.zip -d cslang-builder
   - chmod +x cslang-builder/bin/cslang-builder
-  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves

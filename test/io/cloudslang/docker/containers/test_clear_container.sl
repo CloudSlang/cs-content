@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
@@ -28,24 +27,22 @@ flow:
     - second_image_name
 
   workflow:
-    - clear_docker_host_prereqeust:
+    - clear_docker_host_prerequest:
        do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
          SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         FAILURE: PREREQUEST_MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: first_image_name
@@ -57,8 +54,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: second_image_name
@@ -68,10 +64,9 @@ flow:
 
     - run_first_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name: "'first'"
@@ -82,27 +77,23 @@ flow:
 
     - run_second_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name: "'second'"
             - image_name: second_image_name
-            - container_params:
-                default: "'-p 49165:22'"
-                overridable: false
+            - container_params: "'-p 49165:22'"
         navigate:
           SUCCESS: get_all_containers
           FAILURE: FAIL_RUN_IMAGE
 
     - clear_container:
         do:
-          containers.clear_container:
+          clear_container:
             - docker_host: host
-            - port:
-                required: false
+            - port
             - docker_username: username
             - docker_password: password
             - container_id: list
@@ -112,10 +103,9 @@ flow:
 
     - verify:
         do:
-          containers.get_all_containers:
+          get_all_containers:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - all_containers: true
@@ -132,10 +122,9 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:
@@ -146,7 +135,7 @@ flow:
     - SUCCESS
     - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
-    - PREREQUST_MACHINE_IS_NOT_CLEAN
+    - PREREQUEST_MACHINE_IS_NOT_CLEAN
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAILURE

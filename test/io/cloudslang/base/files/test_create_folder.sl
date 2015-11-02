@@ -8,9 +8,6 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
-imports:
-  files: io.cloudslang.base.files
-
 flow:
   name: test_create_folder
   inputs:
@@ -18,14 +15,14 @@ flow:
   workflow:
     - test_create_folder_operation:
         do:
-          files.create_folder:
+          create_folder:
             - folder_name
         navigate:
           SUCCESS: delete_copied_folder
           FAILURE: FOLDERFAILURE
     - delete_copied_folder:
         do:
-          files.delete:
+          delete:
             - source: folder_name
         navigate:
           SUCCESS: SUCCESS

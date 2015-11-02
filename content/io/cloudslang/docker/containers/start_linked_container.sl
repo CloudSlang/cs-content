@@ -27,7 +27,7 @@
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
 #   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
-#   - container_ID - ID of the container that was started.
+#   - container_id - ID of the container that was started.
 #   - error_message - error message
 # Results:
 #   - SUCCESS
@@ -80,28 +80,20 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - privateKeyFile:
-                required: false
+            - password
+            - privateKeyFile
             - command
-            - arguments:
-                required: false
-            - characterSet:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                required: false
+            - arguments
+            - characterSet
+            - pty
+            - timeout
+            - closeSession
         publish:
           - returnResult
           - standard_err
           - return_code
   outputs:
-    - container_ID: returnResult
+    - container_id: returnResult
     - error_message: standard_err if(return_code == '0' and standard_err != '') else returnResult

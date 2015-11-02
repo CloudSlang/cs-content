@@ -6,16 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a REST call to retrieve an unparsed OpenStack authentication token and tenantID.
+# Retrieves an unparsed OpenStack authentication token and tenantID.
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
+#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 200
@@ -41,8 +43,22 @@ operation:
         required: false
     - proxy_port:
         required: false
-    - proxyHost: "proxy_host if proxy_host is not None else ''"
-    - proxyPort: "proxy_port if proxy_port is not None else ''"
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+    - proxyHost:
+        default: "proxy_host if proxy_host is not None else ''"
+        overridable: false
+    - proxyPort:
+        default: "proxy_port if proxy_port is not None else ''"
+        overridable: false
+    - proxyUsername:
+        default: "proxy_username if proxy_username is not None else ''"
+        overridable: false
+    - proxyPassword:
+        default: "proxy_password if proxy_password is not None else ''"
+        overridable: false
     - url:
         default: "'http://'+ host + ':' + identity_port + '/v2.0/tokens'"
         overridable: false
@@ -66,7 +82,7 @@ operation:
     - return_result: returnResult
     - status_code: "'' if 'statusCode' not in locals() else statusCode"
     - return_code: returnCode
-    - error_message: returnResult if returnCode == '-1' or statusCode != 200 else ''
+    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
   results:
     - SUCCESS: "'statusCode' in locals() and returnCode != '-1' and statusCode == '200'"
     - FAILURE

@@ -32,7 +32,6 @@ namespace: io.cloudslang.marathon
 
 imports:
   files: io.cloudslang.base.files
-  marathon: io.cloudslang.marathon
   base_mail: io.cloudslang.base.mail
 flow:
   name: demo_create_app_and_send_mail
@@ -54,14 +53,12 @@ flow:
   workflow:
     - create_app:
         do:
-          marathon.create_app:
+          create_app:
             - marathon_host
             - marathon_port
             - json_file
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - status_code

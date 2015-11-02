@@ -25,7 +25,7 @@
 #                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - manager_container_ID - ID of the created manager container
+#   - manager_container_id - ID of the created manager container
 # Results:
 #   - SUCCESS - successful
 #   - FAILURE - otherwise
@@ -41,8 +41,7 @@ flow:
   inputs:
     - swarm_port
     - cluster_id
-    - swarm_image:
-        default: "'swarm'"
+    - swarm_image: "'swarm'"
     - host
     - port:
         required: false
@@ -66,33 +65,20 @@ flow:
     - run_manager_container:
         do:
           containers.run_container:
-            - container_params: >
-                '-p ' + swarm_port + ':2375'
-            - container_command: >
-                'manage token://' + cluster_id
+            - container_params: "'-p ' + swarm_port + ':2375'"
+            - container_command: "'manage token://' + cluster_id"
             - image_name: swarm_image
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - password
+            - private_key_file
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
-          - manager_container_ID: container_ID
+          - manager_container_id: container_id
   outputs:
-    - manager_container_ID
+    - manager_container_id

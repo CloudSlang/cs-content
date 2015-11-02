@@ -25,7 +25,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_images: io.cloudslang.docker.images
  base_os_linux: io.cloudslang.base.os.linux
  base_lists: io.cloudslang.base.lists
 
@@ -49,21 +48,14 @@ flow:
   workflow:
     - get_dangling_images:
         do:
-          docker_images.get_dangling_images:
-            - docker_options:
-                required: false
+          get_dangling_images:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
+            - timeout
+            - port
         publish:
           - all_dangling_images: dangling_image_list
     - substract_used_dangling_images:
@@ -79,22 +71,15 @@ flow:
           - amount_of_dangling_images: len(result_set.split())
     - delete_images:
         do:
-          docker_images.clear_images:
-            - docker_options:
-                required: false
+          clear_images:
+            - docker_options
             - host: docker_host
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - images: images_list_safe_to_delete
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - timeout
+            - port
         publish:
           - response
   outputs:

@@ -22,7 +22,6 @@
 namespace: io.cloudslang.coreos
 
 imports:
- coreos: io.cloudslang.coreos
  maintenance: io.cloudslang.docker.maintenance
 
 flow:
@@ -46,15 +45,12 @@ flow:
   workflow:
     - list_machines_public_ip:
         do:
-          coreos.list_machines_public_ip:
+          list_machines_public_ip:
             - coreos_host
             - coreos_username
-            - coreos_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - coreos_password
+            - private_key_file
+            - timeout
         publish:
             - machines_public_ip_list
 
@@ -65,17 +61,13 @@ flow:
                   maintenance.images_maintenance:
                     - docker_host: machine_public_ip
                     - docker_username: coreos_username
-                    - docker_password:
-                        default: coreos_password
-                        required: false
-                    - private_key_file:
-                        required: false
+                    - docker_password: coreos_password
+                    - private_key_file
                     - percentage
-                    - timeout:
-                        required: false
+                    - timeout
               publish:
                     - number_of_deleted_images_per_host: >
-                        fromInputs['number_of_deleted_images_per_host'] + fromInputs['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
+                        self['number_of_deleted_images_per_host'] + self['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','
 
   outputs:
     - number_of_deleted_images_per_host: number_of_deleted_images_per_host[:-1]

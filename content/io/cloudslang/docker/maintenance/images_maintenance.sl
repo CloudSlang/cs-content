@@ -38,39 +38,34 @@ flow:
     - private_key_file:
         required: false
     - percentage
-    - timeout:
-        default: "'6000000'"
+    - timeout: "'6000000'"
   workflow:
     - check_diskspace:
         do:
           base_os_linux.diskspace_health_check:
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
+            - docker_password
+            - private_key_file
             - percentage
-            - timeout:
-                required: false
+            - timeout
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
           NOT_ENOUGH_DISKSPACE: clear_unused_images
     - clear_unused_images:
         do:
-          docker_images.clear_unused_images:
+          docker_images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
-            - docker_password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - docker_password
+            - private_key_file
+            - timeout
         publish:
-          - amount_of_images_deleted
-          - amount_of_dangling_images_deleted
+          - amount_of_images_deleted: >
+              amount_of_images_deleted if 'amount_of_images_deleted' in locals() and amount_of_images_deleted else 0
+          - amount_of_dangling_images_deleted: >
+              amount_of_dangling_images_deleted if 'amount_of_dangling_images_deleted' in locals() and amount_of_dangling_images_deleted else 0
           - dangling_images_list_safe_to_delete
           - images_list_safe_to_delete
           - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted

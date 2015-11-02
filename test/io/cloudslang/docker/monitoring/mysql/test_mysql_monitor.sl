@@ -12,7 +12,6 @@ namespace: io.cloudslang.docker.monitoring.mysql
 imports:
   docker_containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  docker_monitoring_mysql: io.cloudslang.docker.monitoring.mysql
   utils: io.cloudslang.base.utils
 
 flow:
@@ -29,8 +28,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host: host
-             - port:
-                 required: false
+             - port
              - docker_username: username
              - docker_password: password
          navigate:
@@ -41,8 +39,7 @@ flow:
         do:
           docker_containers_examples.create_db_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         navigate:
@@ -59,11 +56,10 @@ flow:
 
     - get_mysql_status:
         do:
-          docker_monitoring_mysql.retrieve_mysql_status:
+          retrieve_mysql_status:
             - container: "'mysqldb'"
             - host: host
-            - port:
-                required: false
+            - port
             - username: username
             - password: password
             - mysql_username: "'user'"
@@ -76,8 +72,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host: host
-             - port:
-                 required: false
+             - port
              - docker_username: username
              - docker_password: password
          navigate:

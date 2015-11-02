@@ -1,0 +1,60 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+# Deletes all Docker images and containers from Docker Host.
+#
+# Inputs:
+#   - docker_host - Docker machine host
+#   - docker_username - Docker machine username
+#   - docker_password - Docker machine password
+#   - private_key_file - optional - path to private key file
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
+#   - port - optional - SSH port
+####################################################
+
+namespace: io.cloudslang.docker.containers
+
+imports:
+ docker_images: io.cloudslang.docker.images
+
+flow:
+  name: clear_containers
+  inputs:
+    - docker_host
+    - docker_username
+    - docker_password:
+        required: false
+    - private_key_file:
+        required: false
+    - timeout: "'6000000'"
+    - port:
+        required: false
+  workflow:
+    - get_all_containers:
+        do:
+          get_all_containers:
+            - host: docker_host
+            - username: docker_username
+            - password: docker_password
+            - all_containers: true
+            - private_key_file
+            - timeout
+            - port
+        publish:
+          - all_containers: container_list
+
+    - clear_all_containers:
+        do:
+          clear_container:
+            - container_id: all_containers
+            - docker_host
+            - docker_username
+            - docker_password
+            - private_key_file
+            - timeout
+            - port

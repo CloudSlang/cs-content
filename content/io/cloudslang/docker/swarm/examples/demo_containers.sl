@@ -35,7 +35,6 @@ namespace: io.cloudslang.docker.swarm.examples
 
 imports:
   swarm: io.cloudslang.docker.swarm
-  swarm_examples: io.cloudslang.docker.swarm.examples
   print: io.cloudslang.base.print
 
 flow:
@@ -69,27 +68,19 @@ flow:
   workflow:
     - print_cluster_info_1:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
 
     - print_container_message_1:
         do:
@@ -105,47 +96,31 @@ flow:
             - container_name: container_name_1
             - image_name: image_name_1
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
 
     - print_cluster_info_2:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
 
     - print_container_message_2:
         do:
@@ -161,44 +136,28 @@ flow:
             - container_name: container_name_2
             - image_name: image_name_2
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding
 
     - print_cluster_info_3:
         do:
-          swarm_examples.print_cluster_info:
+          print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - character_set:
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - close_session:
-                required: false
-            - agent_forwarding:
-                required: false
+            - password
+            - private_key_file
+            - character_set
+            - pty
+            - timeout
+            - close_session
+            - agent_forwarding

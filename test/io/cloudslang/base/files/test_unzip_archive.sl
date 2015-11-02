@@ -21,8 +21,8 @@
 namespace: io.cloudslang.base.files
 
 imports:
-  files: io.cloudslang.base.files
   print: io.cloudslang.base.print
+
 flow:
   name: test_unzip_archive
   inputs:
@@ -34,7 +34,7 @@ flow:
         loop:
           for: f in [path + '/' + name + '.zip', path + '/' + name, name, name + '.zip', out_folder]
           do:
-            files.delete:
+            delete:
               - source: f
           break: []
         navigate:
@@ -45,7 +45,7 @@ flow:
         loop:
           for: folder in [path, out_folder]
           do:
-            files.create_folder:
+            create_folder:
               - folder_name: folder
           break: []
         navigate:
@@ -54,7 +54,7 @@ flow:
 
     - test_file_creation:
         do:
-          files.write_to_file:
+          write_to_file:
             - file_path: "path + '/test.txt'"
             - text: "'Workflow to test unzip operation'"
         navigate:
@@ -63,7 +63,7 @@ flow:
 
     - zip_folder:
         do:
-          files.zip_folder:
+          zip_folder:
             - archive_name: name.split('.')[0]
             - folder_path: path
         navigate:
@@ -72,10 +72,8 @@ flow:
 
     - unzip_folder:
         do:
-          files.unzip_archive:
-            - archive_path:
-                default: "path + '/' + name"
-                overridable: false
+          unzip_archive:
+            - archive_path: "path + '/' + name"
             - output_folder: out_folder
         publish:
             - unzip_message: message
@@ -85,20 +83,16 @@ flow:
 
     - delete_output_folder:
         do:
-          files.delete:
-            - source:
-                default: out_folder
-                overridable: false
+          delete:
+            - source: out_folder
         navigate:
           SUCCESS: delete_test_folder
           FAILURE: DELETEFAILURE
 
     - delete_test_folder:
         do:
-          files.delete:
-            - source:
-                default: path
-                overridable: false
+          delete:
+            - source: path
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

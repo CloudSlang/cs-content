@@ -10,7 +10,6 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  images: io.cloudslang.docker.images
   ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
@@ -30,8 +29,7 @@ flow:
        do:
          maintenance.clear_host:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -40,7 +38,7 @@ flow:
 
     - test_verify_no_images:
         do:
-          images.test_verify_no_images:
+          test_verify_no_images:
             - host
             - port
             - username
@@ -53,7 +51,7 @@ flow:
 
     - pull_image:
         do:
-          images.pull_image:
+          pull_image:
             - host
             - port
             - username
@@ -68,7 +66,7 @@ flow:
 
     - get_all_images:
         do:
-          images.get_all_images:
+          get_all_images:
             - host
             - port
             - username
@@ -90,7 +88,7 @@ flow:
 
     - clear_image:
         do:
-          images.clear_images:
+          clear_images:
             - host
             - port
             - username

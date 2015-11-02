@@ -13,7 +13,6 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
@@ -56,62 +55,44 @@ flow:
           maintenance.clear_host:
             - docker_host: host
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password: password
+            - private_key_file
+            - timeout
+            - port
         navigate:
           SUCCESS: run_container_busybox
           FAILURE: PRE_CLEAR_MACHINE_PROBLEM
 
     - run_container_busybox:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name_busybox
             - container_command: >
                 '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
             - image_name: image_name_busybox
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
        navigate:
          SUCCESS: run_container_staticpython
          FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
 
     - run_container_staticpython:
        do:
-         containers.run_container:
+         run_container:
             - container_name: container_name_staticpython
             - image_name: image_name_staticpython
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
        publish:
-          - expected_container_ids:  container_ID
+          - expected_container_ids:  container_id
           - standard_err
        navigate:
          SUCCESS: execute_get_filtered_containers
@@ -126,19 +107,15 @@ flow:
 
     - execute_get_filtered_containers:
        do:
-         containers.get_filtered_containers:
+         get_filtered_containers:
             - all_containers: true
             - excluded_images
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - timeout:
-                required: false
+            - password
+            - private_key_file
+            - timeout
        publish:
          - actual_container_names: container_names
          - actual_container_ids: container_ids
@@ -166,19 +143,13 @@ flow:
 
     - post_clear_machine:
         do:
-          containers.clear_containers:
+          clear_containers:
             - docker_host: host
             - docker_username: username
-            - docker_password:
-                default: password
-                required: false
-            - private_key_file:
-                default: private_key_file
-                required: false
-            - timeout:
-                required: false
-            - port:
-                required: false
+            - docker_password: password
+            - private_key_file
+            - timeout
+            - port
         navigate:
           SUCCESS: SUCCESS
           FAILURE: POST_CLEAR_MACHINE_PROBLEM

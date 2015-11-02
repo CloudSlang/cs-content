@@ -12,6 +12,16 @@
 #
 # Inputs:
 #   - ip_list - list of IPs to be checked
+#   - message_body - the message to be sent in emails
+#   - all_nodes_are_up - whether the nodes are up or not - Default: True
+#   - hostname - email host - System Property: io.cloudslang.base.hostname
+#   - port - email port - System Property: io.cloudslang.base.port
+#   - from - email sender - System Property: io.cloudslang.base.from
+#   - to - email recipient - System Property: io.cloudslang.base.to
+#   - subject - email subject - Default: "'Ping Result'"
+#   - username - optional - username to connect to email host - System Property: io.cloudslang.base.username
+#   - password - optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
+#
 # Results:
 #   - SUCCESS - addressee will get an email with result
 #   - FAILURE - addressee will get an email with exception of operation
@@ -31,6 +41,21 @@ flow:
     - ip_list
     - message_body: []
     - all_nodes_are_up: True
+    - hostname:
+        system_property: io.cloudslang.base.hostname
+    - port:
+        system_property: io.cloudslang.base.port
+    - from:
+        system_property: io.cloudslang.base.from
+    - to:
+        system_property: io.cloudslang.base.to
+    - subject: "'Ping Result'"
+    - username:
+        system_property: io.cloudslang.base.username
+        required: false
+    - password:
+        system_property: io.cloudslang.base.password
+        required: false
 
   workflow:
     - check_address:
@@ -40,8 +65,8 @@ flow:
             network.ping:
               - address
         publish:
-              - messagebody: "fromInputs['message_body'].append(message)"
-              - all_nodes_are_up: "fromInputs['all_nodes_are_up'] and is_up"
+          - messagebody: "self['message_body'].append(message)"
+          - all_nodes_are_up: "self['all_nodes_are_up'] and is_up"
         navigate:
           UP: check_result
           DOWN: failure_mail_send
@@ -61,38 +86,24 @@ flow:
     - mail_send:
         do:
           mail.send_mail:
-            - hostname:
-                system_property: io.cloudslang.base.hostname
-            - port:
-                system_property: io.cloudslang.base.port
-            - from:
-                system_property: io.cloudslang.base.from
-            - to:
-                system_property: io.cloudslang.base.to
-            - subject: "'Ping Result'"
-            - body: >
-                  "Result: " + " ".join(message_body)
-            - username:
-                system_property: io.cloudslang.base.username
-            - password:
-                system_property: io.cloudslang.base.password
+            - hostname
+            - port
+            - from
+            - to
+            - subject
+            - body: "'Result: ' + ' '.join(message_body)"
+            - username
+            - password
 
     - on_failure:
         - failure_mail_send:
             do:
               mail.send_mail:
-                - hostname:
-                    system_property: io.cloudslang.base.hostname
-                - port:
-                    system_property: io.cloudslang.base.port
-                - from:
-                    system_property: io.cloudslang.base.from
-                - to:
-                    system_property: io.cloudslang.base.to
-                - subject: "'Ping Result'"
-                - body: >
-                      "Result: Failure to ping: " + " ".join(message_body)
-                - username:
-                    system_property: io.cloudslang.base.username
-                - password:
-                    system_property: io.cloudslang.base.password
+                - hostname
+                - port
+                - from
+                - to
+                - subject
+                - body: "'Result: Failure to ping: ' + ' '.join(message_body)"
+                - username
+                - password

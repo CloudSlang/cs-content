@@ -32,7 +32,6 @@ namespace: io.cloudslang.docker.containers.examples
 
 imports:
  docker_containers: io.cloudslang.docker.containers
- docker_containers_examples: io.cloudslang.docker.containers.examples
  docker_images: io.cloudslang.docker.images
  base_mail: io.cloudslang.base.mail
  base_network: io.cloudslang.base.network
@@ -41,38 +40,30 @@ flow:
   name: demo_dev_ops
   inputs:
     - docker_host
-    - docker_ssh_port:
-        default: "'22'"
+    - docker_ssh_port: "'22'"
     - docker_username
     - docker_password:
         required: false
     - private_key_file:
         required: false
-    - db_container_name:
-        default: "'mysqldb'"
-    - app_container_name:
-        default: "'spring-boot-tomcat-mysql-app'"
-    - app_port:
-        default: "'8080'"
+    - db_container_name: "'mysqldb'"
+    - app_container_name: "'spring-boot-tomcat-mysql-app'"
+    - app_port: "'8080'"
     - email_host
     - email_port
     - email_sender
     - email_recipient
-    - timeout:
-        default: "'30000000'"
+    - timeout: "'30000000'"
   workflow:
 
     - create_db_container:
         do:
-          docker_containers_examples.create_db_container:
+          create_db_container:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - private_key_file:
-                required: false
+            - password: docker_password
+            - private_key_file
             - container_name: db_container_name
             - timeout
         publish:
@@ -86,12 +77,8 @@ flow:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - timeout
         publish:
           - error_message
@@ -108,15 +95,11 @@ flow:
             - host: docker_host
             - port: docker_ssh_port
             - username: docker_username
-            - password:
-                default: docker_password
-                required: false
-            - privateKeyFile:
-                default: private_key_file
-                required: false
+            - password: docker_password
+            - privateKeyFile: private_key_file
             - timeout
         publish:
-          - container_ID
+          - container_id
           - error_message
 
     - test_application:
@@ -126,7 +109,7 @@ flow:
             - port: app_port
             - attempts: 20
         publish:
-          - error_message
+          - error_message: output_message
 
     - on_failure:
         - send_error_mail:

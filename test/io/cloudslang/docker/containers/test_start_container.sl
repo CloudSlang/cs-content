@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
@@ -32,8 +31,7 @@ flow:
        do:
          maintenance.clear_host:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -44,8 +42,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name
@@ -55,10 +52,9 @@ flow:
 
     - run_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name
@@ -71,10 +67,9 @@ flow:
 
     - stop_container:
         do:
-          containers.stop_container:
+          stop_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
@@ -84,10 +79,9 @@ flow:
 
     - get_container_names:
         do:
-          containers.get_container_names:
+          get_container_names:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         publish:
@@ -104,10 +98,9 @@ flow:
 
     - start_container:
         do:
-          containers.start_container:
+          start_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
@@ -117,10 +110,9 @@ flow:
 
     - get_running_container_names:
         do:
-          containers.get_container_names:
+          get_container_names:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         publish:
@@ -138,10 +130,9 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:

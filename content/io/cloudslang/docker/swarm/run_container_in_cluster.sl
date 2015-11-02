@@ -26,7 +26,7 @@
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
-#   - container_ID - ID of the container
+#   - container_id - ID of the container
 # Results:
 #   - SUCCESS - successful
 #   - FAILURE - otherwise
@@ -77,35 +77,21 @@ flow:
         do:
           containers.run_container:
             - docker_options
-            - container_name:
-                required: false
-            - container_params:
-                required: false
-            - container_command:
-                required: false
+            - container_name
+            - container_params
+            - container_command
             - image_name
             - host
-            - port:
-                required: false
+            - port
             - username
-            - password:
-                required: false
-            - private_key_file:
-                required: false
-            - characterSet:
-                default: character_set
-                required: false
-            - pty:
-                required: false
-            - timeout:
-                required: false
-            - closeSession:
-                default: close_session
-                required: false
-            - agentForwarding:
-                default: agent_forwarding
-                required: false
+            - password
+            - private_key_file
+            - characterSet: character_set
+            - pty
+            - timeout
+            - closeSession: close_session
+            - agentForwarding: agent_forwarding
         publish:
-          - container_ID
+          - container_id
   outputs:
-    - container_ID
+    - container_id

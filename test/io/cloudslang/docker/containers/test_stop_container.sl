@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
 
@@ -31,8 +30,7 @@ flow:
        do:
          maintenance.clear_host:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -43,8 +41,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name
@@ -54,27 +51,23 @@ flow:
 
     - run_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name
             - image_name
-            - container_params:
-                default: "'-p 49165:22'"
-                overridable: false
+            - container_params: "'-p 49165:22'"
         navigate:
           SUCCESS: stop_container
           FAILURE: FAIL_RUN_IMAGE
 
     - stop_container:
         do:
-          containers.stop_container:
+          stop_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_id: container_name
@@ -84,10 +77,9 @@ flow:
 
     - verify:
         do:
-          containers.get_all_containers:
+          get_all_containers:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
         publish:
@@ -103,10 +95,9 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:

@@ -25,7 +25,6 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  docker_cadvisor: io.cloudslang.docker.cadvisor
   docker_container: io.cloudslang.docker.containers
   docker_print: io.cloudslang.base.print
 
@@ -51,7 +50,7 @@ flow:
   workflow:
     - retrieve_container_usage:
         do:
-          docker_cadvisor.report_container_metrics:
+          report_container_metrics:
             - container
             - host
             - cadvisor_port
@@ -66,7 +65,7 @@ flow:
           - errorMessage
     - evaluate_resource_usage:
         do:
-          docker_cadvisor.evaluate_resource_usage:
+          evaluate_resource_usage:
             - rule
             - memory_usage
             - cpu_usage
@@ -85,11 +84,9 @@ flow:
             - container_id: container
             - host
             - username
-            - password:
-                required: false
+            - password
             - port: machine_connect_port
-            - privateKeyFile:
-                required: false
+            - privateKeyFile
         publish:
           - errorMessage
         navigate:
@@ -98,13 +95,11 @@ flow:
     - start_container:
         do:
           docker_container.start_container:
-            - privateKeyFile:
-                required: false
+            - privateKeyFile
             - container_id: container
             - host
             - username
-            - password:
-                required: false
+            - password
             - port: machine_connect_port
         publish:
           - errorMessage

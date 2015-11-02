@@ -11,7 +11,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
 
@@ -29,10 +28,9 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
        navigate:
@@ -43,8 +41,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: first_image_name
@@ -56,8 +53,7 @@ flow:
         do:
           images.pull_image:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - image_name: second_image_name
@@ -68,42 +64,39 @@ flow:
 
     - run_first_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name: "'first_test_container'"
             - image_name: first_image_name
         publish:
-          - standard_out
+          - standard_err
         navigate:
           SUCCESS: run_second_container
           FAILURE: FAIL_RUN_IMAGE
 
     - run_second_container:
         do:
-          containers.run_container:
+          run_container:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - container_name: "'second_test_container'"
             - image_name: second_image_name
         publish:
-          - standard_out
+          - standard_err
         navigate:
           SUCCESS: get_all_containers
           FAILURE: FAIL_RUN_IMAGE
 
     - get_all_containers:
         do:
-          containers.get_all_containers:
+          get_all_containers:
             - host
-            - port:
-                required: false
+            - port
             - username
             - password
             - all_containers: true
@@ -122,10 +115,9 @@ flow:
 
     - clear_docker_host:
         do:
-         containers.clear_containers:
+         clear_containers:
            - docker_host: host
-           - port:
-               required: false
+           - port
            - docker_username: username
            - docker_password: password
         navigate:

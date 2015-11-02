@@ -24,8 +24,6 @@
 
 namespace: io.cloudslang.consul
 
-imports:
-  consul: io.cloudslang.consul
 flow:
   name: register_agent_service
   inputs:
@@ -43,19 +41,16 @@ flow:
   workflow:
     - parse_register_agent_service_request:
           do:
-            consul.parse_register_agent_service_request:
-                - address:
-                    required: false
+            parse_register_agent_service_request:
+                - address
                 - service_name
-                - service_id:
-                    required: false
-                - check:
-                    required: false
+                - service_id
+                - check
           publish:
             - json_request
     - send_register_agent_service_request:
         do:
-          consul.send_register_agent_service_request:
+          send_register_agent_service_request:
               - host
               - consul_port
               - json_request

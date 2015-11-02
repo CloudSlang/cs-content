@@ -9,7 +9,6 @@
 namespace: io.cloudslang.git
 
 imports:
-  git: io.cloudslang.git
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
@@ -20,13 +19,16 @@ flow:
     - username
     - password
     - git_repository
+    - git_fetch_remote
     - git_repository_localdir
     - git_pull_remote
+    - git_merge_branch
     - git_branch
+    - git_reset_target
   workflow:
     - clone_a_git_repository:
         do:
-          git.git_clone_repository:
+          git_clone_repository:
             - host
             - port
             - username
@@ -39,17 +41,62 @@ flow:
 
     - checkout_git_branch:
         do:
-          git.git_checkout_branch:
+          git_checkout_branch:
             - host
             - port
             - username
             - password
             - git_pull_remote
             - git_branch
-            - git_repository_localdir: git_repository_localdir
+            - git_repository_localdir
+        navigate:
+          SUCCESS: fetch_git_branch
+          FAILURE: CHECKOUTFAILURE
+        publish:
+          - standard_out
+
+    - fetch_git_branch:
+        do:
+          git_fetch:
+            - host
+            - port
+            - username
+            - password
+            - git_fetch_remote
+            - git_repository_localdir
+        navigate:
+          SUCCESS: merge_git_branch
+          FAILURE: FETCHFAILURE
+        publish:
+          - standard_out
+
+    - merge_git_branch:
+        do:
+          git_merge:
+            - host
+            - port
+            - username
+            - password
+            - git_merge_branch
+            - git_repository_localdir
+        navigate:
+          SUCCESS: reset_git_branch
+          FAILURE: MERGEFAILURE
+        publish:
+          - standard_out
+
+    - reset_git_branch:
+        do:
+          git_reset:
+            - host
+            - port
+            - username
+            - password
+            - git_reset_target
+            - git_repository_localdir
         navigate:
           SUCCESS: git_cleanup
-          FAILURE: CHECKOUTFAILURE
+          FAILURE: RESETFAILURE
         publish:
           - standard_out
 
@@ -58,9 +105,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - command:
-                default: "'rm -r ' + git_repository_localdir"
-                overridable: false
+            - command: "'rm -r ' + git_repository_localdir"
             - username
             - password
         navigate:
@@ -77,3 +122,6 @@ flow:
     - CLONEFAILURE
     - CHECKOUTFAILURE
     - CLEANUPFAILURE
+    - MERGEFAILURE
+    - RESETFAILURE
+    - FETCHFAILURE
