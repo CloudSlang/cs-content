@@ -72,7 +72,7 @@ flow:
             - container_name: "'first_test_container'"
             - image_name: first_image_name
         publish:
-          - standard_out
+          - standard_err
         navigate:
           SUCCESS: run_second_container
           FAILURE: FAIL_RUN_IMAGE
@@ -87,7 +87,7 @@ flow:
             - container_name: "'second_test_container'"
             - image_name: second_image_name
         publish:
-          - standard_out
+          - standard_err
         navigate:
           SUCCESS: get_all_containers
           FAILURE: FAIL_RUN_IMAGE

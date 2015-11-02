@@ -60,7 +60,7 @@ flow:
                     - private_key_file
                     - timeout
                 publish:
-                    - machines_public_ip_list: fromInputs['machines_public_ip_list'] + public_ip + ' '
+                    - machines_public_ip_list: self['machines_public_ip_list'] + public_ip + ' '
 
   outputs:
     - machines_public_ip_list: machines_public_ip_list.strip()
