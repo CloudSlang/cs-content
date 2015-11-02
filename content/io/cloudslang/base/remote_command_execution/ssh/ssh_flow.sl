@@ -79,6 +79,9 @@ flow:
             - standard_err
             - exception
             - command_return_code
+          navigate:
+            SUCCESS: ssh_command
+            FAILURE: check_ssh_unstable_session_in_validation
 
       - ssh_command:
           do:
@@ -104,9 +107,22 @@ flow:
             - command_return_code
           navigate:
             SUCCESS: SUCCESS
-            FAILURE: check_ssh_unstable_session
+            FAILURE: check_ssh_unstable_session_in_command_execution
 
-      - check_ssh_unstable_session: # TODO: timeout
+      - check_ssh_unstable_session_in_validation: # TODO: timeout
+          do:
+            utils.check_ssh_unstable_session:
+              - return_result: returnResult
+              - return_code
+              - standard_out
+              - standard_err
+              - exit_status: command_return_code
+          navigate:
+            SESSION_IS_DOWN: ssh_command
+            FAILURE_WITH_NO_MESSAGE: validate_ssh_access
+            NO_ISSUE_FOUND: FAILURE # todo: custom result
+
+      - check_ssh_unstable_session_in_command_execution: # TODO: timeout
           do:
             utils.check_ssh_unstable_session:
               - return_result: returnResult
