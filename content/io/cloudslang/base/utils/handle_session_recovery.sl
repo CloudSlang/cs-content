@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################################################################################################################
-#  Validates SSH access to the host and then runs an SSH command on the host.
+#  Validates SSH access to the host and then runs an SSH command on the host. TODO
 #
 #  Inputs:
 #    - host - hostname or IP address
@@ -33,110 +33,59 @@
 #    - FAILURE - otherwise
 ###############################################################################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.ssh
+namespace: io.cloudslang.base.utils
 
 imports:
-  linux: io.cloudslang.base.os.linux
-  utils: io.cloudslang.base.utils
+  comparisons: io.cloudslang.base.math.comparisons
 
 flow:
-    name: ssh_flow
-    inputs:
-      - host
-      - port: "'22'"
-      - command
-      - pty: "'false'"
-      - username
-      - password:
-          required: false
-      - arguments:
-          required: false
-      - privateKeyFile:
-          required: false
-      - timeout: "'90000'"
-      - characterSet: "'UTF-8'"
-      - closeSession: "'false'"
-      - agentForwarding:
-          required: false
-      - smart_recovery: True
-      - retries: 5
-    workflow:
-      - validate_ssh_access:
-          do:
-            linux.validate_linux_machine_ssh_access:
-              - host
-              - port
-              - username
-              - password
-              - privateKeyFile
-              - arguments
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
-              - agentForwarding
-          publish:
+  name: handle_session_recovery
+  inputs:
+    - enabled: True
+    - retries
+    - return_result
+    - return_code
+    - standard_out
+    - standard_err
+    - exit_status
+  workflow:
+    - check_enabled:
+        do:
+          is_true:
+            - bool_value: enabled
+        navigate:
+          SUCCESS: check_retries
+          FAILURE: RECOVERY_DISABLED
+
+    - check_retries:
+        do:
+          comparisons.compare_float:
+            - value1: retries
+            - value2: 0
+        publish:
+          - retries: int(retries) - 1
+        navigate:
+          GREATER_THAN: check_unstable_session
+          EQUALS: TIMEOUT
+          LESS_THAN: TIMEOUT
+
+    - check_unstable_session:
+        do:
+          check_ssh_unstable_session:
             - return_result
             - return_code
             - standard_out
             - standard_err
-            - exception
             - exit_status
-          navigate:
-            SUCCESS: ssh_command
-            FAILURE: handle_ssh_session_recovery
-
-      - ssh_command:
-          do:
-            ssh_command:
-              - host
-              - port
-              - username
-              - password
-              - privateKeyFile
-              - command
-              - arguments
-              - characterSet
-              - pty
-              - timeout
-              - closeSession
-              - agentForwarding
-          publish:
-            - return_result: returnResult
-            - return_code
-            - standard_out
-            - standard_err
-            - exception
-            - exit_status: command_return_code
-          navigate:
-            SUCCESS: SUCCESS
-            FAILURE: handle_ssh_session_recovery
-
-      - handle_ssh_session_recovery:
-          do:
-            utils.handle_session_recovery:
-              - enabled: smart_recovery
-              - retries
-              - return_result
-              - return_code
-              - standard_out
-              - standard_err
-              - exit_status
-          publish:
-            - retries
-          navigate:
-            RECOVERY_DISABLED: FAILURE
-            TIMEOUT: FAILURE
-            SESSION_IS_DOWN: validate_ssh_access
-            FAILURE_WITH_NO_MESSAGE: validate_ssh_access
-            NO_ISSUE_FOUND: FAILURE
-    outputs:
-      - returnResult: return_result
-      - return_code
-      - standard_out
-      - standard_err
-      - exception
-      - command_return_code: exit_status
-    results:
-      - SUCCESS
-      - FAILURE
+        navigate:
+          SESSION_IS_DOWN: SESSION_IS_DOWN
+          FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
+          NO_ISSUE_FOUND: NO_ISSUE_FOUND
+  outputs:
+    - retries
+  results:
+    - RECOVERY_DISABLED
+    - TIMEOUT
+    - SESSION_IS_DOWN
+    - FAILURE_WITH_NO_MESSAGE
+    - NO_ISSUE_FOUND
