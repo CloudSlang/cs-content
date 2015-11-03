@@ -1,6 +1,10 @@
 #!/bin/bash
 
-DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}_1.txt")
+# parameters to the script:
+#   - DROPLETS_FILE
+#   - DO_API_TOKEN
+
+DROPLET_ID_ACC=$(cat < ${DROPLETS_FILE})
 
 for DROPLET_ID in ${DROPLET_ID_ACC}
 do

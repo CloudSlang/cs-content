@@ -89,13 +89,13 @@ test:
   post:
     - ? > ### machine 1
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
-        then chmod +x ci-env/circleci/cleanup_env_1.sh
-        && ci-env/circleci/cleanup_env_1.sh;
+        then chmod +x ci-env/circleci/cleanup_env.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_1} ci-env/circleci/cleanup_env.sh;
         fi
       : parallel: true
     - ? > ### machine 2
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
-        then chmod +x ci-env/circleci/cleanup_env_2.sh
-        && ci-env/circleci/cleanup_env_2.sh;
+        then chmod +x ci-env/circleci/cleanup_env.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_2} ci-env/circleci/cleanup_env.sh;
         fi
       : parallel: true
