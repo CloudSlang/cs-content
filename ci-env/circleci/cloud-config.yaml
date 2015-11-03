@@ -34,7 +34,7 @@ write_files:
     permissions: 0600
     owner: root:root
     content: |
-      # Use most defaults for sshd configuration.
+      # Use most defaults for sshd configuration
       UsePrivilegeSeparation sandbox
       Subsystem sftp internal-sftp
 
@@ -43,5 +43,6 @@ write_files:
       PasswordAuthentication no
       ChallengeResponseAuthentication no
 
+      # Configuration supported by both JSch library and CoreOS machine
       Ciphers blowfish-cbc,aes128-cbc,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr,arcfour,arcfour128,arcfour256
       KexAlgorithms diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256
