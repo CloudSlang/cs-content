@@ -41,14 +41,16 @@ operation:
     - privateKeyFile:
         required: false
     - command:
-        default: "':'"
+        default: "'ls'"
         overridable: false
     - arguments:
         required: false
     - characterSet: "'UTF-8'"
     - pty: "'false'"
     - timeout: "'30000000'"
-    - closeSession: "'false'"
+    - closeSession:
+        default: "'false'"
+        overridable: false
     - agentForwarding:
         required: false
   action:
@@ -56,8 +58,12 @@ operation:
       className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - response: "'' if 'STDOUT' not in locals() else STDOUT"
-    - error_message: "'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult"
+    - return_result: get('returnResult', '')
+    - return_code: returnCode
+    - standard_out: get('STDOUT', '')
+    - standard_err: get('STDERR', '')
+    - exception: get('exception', '')
+    - exit_status: get('exitStatus', '')
   results:
     - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
     - FAILURE

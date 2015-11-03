@@ -15,9 +15,9 @@ machine:
   environment:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
     # ignore test suites on node 1 in fork builds
-    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,swarm,marathon'; else echo '!default'; fi)
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,marathon'; else echo '!default'; fi)
     RULE_DROPLET_MACHINE_NOT_FORK: '[ "${CIRCLE_NODE_INDEX}" = "1" ] && [ "${CIRCLE_PR_NUMBER}" = "" ]'
-    JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
+    JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
 
@@ -31,7 +31,7 @@ dependencies:
 
 test:
   pre:
-    - ? > ### machine 0
+    - ? > ### machine 0 - debug
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
         && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
@@ -45,7 +45,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.5/cslang-builder.zip
+        wget https://www.dropbox.com/s/ub0guwawi934hcd/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -60,7 +60,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest -cov ;;
+        0) ls -l ;;
         1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE} -cov ;;
         esac
       : parallel: true

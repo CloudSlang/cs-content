@@ -37,6 +37,7 @@ namespace: io.cloudslang.base.remote_command_execution.ssh
 
 imports:
   linux: io.cloudslang.base.os.linux
+  utils: io.cloudslang.base.utils
 
 flow:
     name: ssh_flow
@@ -57,6 +58,8 @@ flow:
       - closeSession: "'false'"
       - agentForwarding:
           required: false
+      - smart_recovery: True
+      - retries: 5
     workflow:
       - validate_ssh_access:
           do:
@@ -73,11 +76,15 @@ flow:
               - closeSession
               - agentForwarding
           publish:
-            - returnResult
+            - return_result
+            - return_code
             - standard_out
             - standard_err
             - exception
-            - command_return_code
+            - exit_status
+          navigate:
+            SUCCESS: ssh_command
+            FAILURE: handle_ssh_session_recovery
 
       - ssh_command:
           do:
@@ -95,20 +102,41 @@ flow:
               - closeSession
               - agentForwarding
           publish:
-            - returnResult
+            - return_result: returnResult
             - return_code
             - standard_out
             - standard_err
             - exception
-            - command_return_code
+            - exit_status: command_return_code
+          navigate:
+            SUCCESS: SUCCESS
+            FAILURE: handle_ssh_session_recovery
 
+      - handle_ssh_session_recovery:
+          do:
+            utils.handle_session_recovery:
+              - enabled: smart_recovery
+              - retries
+              - return_result
+              - return_code
+              - standard_out
+              - standard_err
+              - exit_status
+          publish:
+            - retries
+          navigate:
+            RECOVERY_DISABLED: FAILURE
+            TIMEOUT: FAILURE
+            SESSION_IS_DOWN: validate_ssh_access
+            FAILURE_WITH_NO_MESSAGE: validate_ssh_access
+            NO_ISSUE_FOUND: FAILURE
     outputs:
-      - returnResult
+      - returnResult: return_result
       - return_code
       - standard_out
       - standard_err
       - exception
-      - command_return_code
+      - command_return_code: exit_status
     results:
       - SUCCESS
       - FAILURE

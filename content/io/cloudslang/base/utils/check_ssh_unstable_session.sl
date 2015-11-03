@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ###############################################################################################################################################################################
-#  Runs an SSH command on the host.
+#  Validates SSH access to the host and then runs an SSH command on the host. TODO
 #
 #  Inputs:
 #    - host - hostname or IP address
@@ -23,51 +23,57 @@
 #    - agentForwarding - optional - the sessionObject that holds the connection if the close session is false
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - return_code - return code of the command
 #    - standard_out - STDOUT of the machine in case of successful request, null otherwise
 #    - standard_err - STDERR of the machine in case of successful request, null otherwise
 #    - exception - contains the stack trace in case of an exception
 #    - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is only available for certain types of channels, and only after the channel was closed (more exactly, just before the channel is closed).
-#	              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this channel type has no command), 126 if the command cannot execute.
+#	            Examples: 0 for a successful command, -1 if the command was not yet terminated (or this channel type has no command), 126 if the command cannot execute.
 # Results:
 #    - SUCCESS - SSH access was successful and returned with code 0
 #    - FAILURE - otherwise
 ###############################################################################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.ssh
+namespace: io.cloudslang.base.utils
 
-operation:
-    name: ssh_command
-    inputs:
-      - host
-      - port: "'22'"
-      - command
-      - pty: "'false'"
-      - username
-      - password:
-          required: false
-      - arguments:
-          required: false
-      - privateKeyFile:
-          required: false
-      - timeout: "'90000'"
-      - characterSet: "'UTF-8'"
-      - closeSession:
-          default: "'false'"
-          overridable: false
-      - agentForwarding:
-          required: false
-    action:
-      java_action:
-        className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-        methodName: runSshShellCommand
-    outputs:
-      - returnResult: get('returnResult', '')
-      - return_code: returnCode
-      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-      - exception: "'' if 'exception' not in locals() else exception"
-      - command_return_code: "'' if 'exitStatus' not in locals() else exitStatus"
-    results:
-      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
-      - FAILURE
+imports:
+  strings: io.cloudslang.base.strings
+
+flow:
+  name: check_ssh_unstable_session
+  inputs:
+    - return_result
+    - return_code
+    - standard_out
+    - standard_err
+    - exit_status
+  workflow:
+    - check_return_code:
+        do:
+          strings.string_equals:
+            - first_string: "'0'"
+            - second_string: str(return_code)
+        navigate:
+          SUCCESS: NO_ISSUE_FOUND
+          FAILURE: check_session_is_down
+
+    - check_session_is_down:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: return_result
+            - string_to_find: "'session is down'"
+        navigate:
+          SUCCESS: SESSION_IS_DOWN
+          FAILURE: check_failure_with_no_message
+
+    - check_failure_with_no_message:
+        do:
+          strings.string_equals:
+            - first_string: "'-1'"
+            - second_string: "return_result + standard_err + standard_out + str(exit_status)"
+        navigate:
+          SUCCESS: FAILURE_WITH_NO_MESSAGE
+          FAILURE: NO_ISSUE_FOUND
+  results:
+    - SESSION_IS_DOWN
+    - FAILURE_WITH_NO_MESSAGE
+    - NO_ISSUE_FOUND
