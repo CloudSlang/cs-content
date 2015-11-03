@@ -119,7 +119,7 @@ flow:
               - standard_err
               - exit_status
           navigate:
-            SESSION_IS_DOWN: ssh_command
+            SESSION_IS_DOWN: validate_ssh_access
             FAILURE_WITH_NO_MESSAGE: validate_ssh_access
             NO_ISSUE_FOUND: FAILURE # todo: custom result
 
