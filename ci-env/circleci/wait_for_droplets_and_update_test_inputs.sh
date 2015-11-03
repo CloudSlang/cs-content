@@ -1,14 +1,22 @@
 #!/bin/bash
 
+# parameters to the script:
+#   - DROPLETS_FILE
+#   - SLEEP_INTERVAL - optional
+#   - TIMEOUT - optional
+#   - DO_API_TOKEN
+#   - DO_DROPLET_SSH_PRIVATE_KEY
+#   - COREOS_PLACEHOLDERS
+
 inc_and_sleep()
 {
   ((WAITING_TIME+=SLEEP_INTERVAL))
   sleep ${SLEEP_INTERVAL}
 }
 
-DROPLET_ID_ACC=$(cat "droplets_${CIRCLE_BUILD_NUM}_2.txt")
-SLEEP_INTERVAL=5 # 5 sec
-TIMEOUT=600 # 10 mins
+DROPLET_ID_ACC=$(cat ${DROPLETS_FILE})
+SLEEP_INTERVAL=${SLEEP_INTERVAL:-5} # Default: 5 sec
+TIMEOUT=${TIMEOUT:-600} # Default: 600 sec (10 mins)
 
 # retrieve IPv4 addresses of droplets
 for DROPLET_ID in ${DROPLET_ID_ACC}
@@ -84,7 +92,7 @@ chmod 0600 ${SSH_KEY_PATH}
 ITER_NR=0
 for DROPLET_IP in ${DROPLET_IP_ADDRESS_ACC}
 do
-  # skip the first machine because manager needs to use that port
+  # skip the first machine so Swarm manager can use that port
   ((ITER_NR+=1))
   if [ "${ITER_NR}" = "1" ]
   then
@@ -112,9 +120,13 @@ done
 
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
-find test -type f -exec sed -i "s/<coreos_host_4>/${DROPLET_IP_ARRAY[0]}/g" {} +
-find test -type f -exec sed -i "s/<coreos_host_5>/${DROPLET_IP_ARRAY[1]}/g" {} +
-find test -type f -exec sed -i "s/<coreos_host_6>/${DROPLET_IP_ARRAY[2]}/g" {} +
+COREOS_PLACEHOLDERS_ARRAY=(${COREOS_PLACEHOLDERS})
+ITER_NR=0
+for DROPLET_IP in ${DROPLET_IP_ADDRESS_ACC}
+do
+  find test -type f -exec sed -i "s/${COREOS_PLACEHOLDERS_ARRAY[ITER_NR]}/${DROPLET_IP_ARRAY[ITER_NR]}/g" {} +
+  ((ITER_NR+=1))
+done
 
 # update inputs files to use actual ssh public key ID
 # find test -type f -exec sed -i "s/<ssh_public_key_id>/${DO_DROPLET_SSH_PUBLIC_KEY_ID}/g" {} +

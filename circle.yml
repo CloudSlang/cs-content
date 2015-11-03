@@ -24,6 +24,8 @@ machine:
     CLOUD_CONFIG_FILE: 'ci-env/circleci/cloud-config.yaml'
     DROPLETS_FILE_1: "droplets_${CIRCLE_BUILD_NUM}_1.txt"
     DROPLETS_FILE_2: "droplets_${CIRCLE_BUILD_NUM}_2.txt"
+    COREOS_PLACEHOLDERS_1: '<coreos_host_1> <coreos_host_2> <coreos_host_3>'
+    COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
     JAVA_OPTS: -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
@@ -66,14 +68,14 @@ test:
       : parallel: true
     - ? > ### machine 1
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
-        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs_1.sh
-        && ci-env/circleci/wait_for_droplets_and_update_test_inputs_1.sh;
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_1} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_1} ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
     - ? > ### machine 2
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
-        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs_2.sh
-        && ci-env/circleci/wait_for_droplets_and_update_test_inputs_2.sh;
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_2} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_2} ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
   override:
