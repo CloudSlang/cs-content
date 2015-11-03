@@ -35,7 +35,7 @@ imports:
 
 
 flow:
-  name: list_openstack_flavors_flow
+  name: get_flavor_id_flow
   inputs:
     - host
     - identity_port:

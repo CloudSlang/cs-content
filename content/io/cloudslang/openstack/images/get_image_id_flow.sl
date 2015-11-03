@@ -35,7 +35,7 @@ imports:
 
 
 flow:
-  name: list_openstack_images_flow
+  name: get_image_id_flow
   inputs:
     - host
     - identity_port:
