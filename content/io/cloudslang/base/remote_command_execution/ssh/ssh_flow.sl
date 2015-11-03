@@ -74,11 +74,12 @@ flow:
               - closeSession
               - agentForwarding
           publish:
-            - returnResult
+            - return_result
+            - return_code
             - standard_out
             - standard_err
             - exception
-            - command_return_code
+            - exit_status
           navigate:
             SUCCESS: ssh_command
             FAILURE: check_ssh_unstable_session_in_validation
@@ -99,12 +100,12 @@ flow:
               - closeSession
               - agentForwarding
           publish:
-            - returnResult
+            - return_result: returnResult
             - return_code
             - standard_out
             - standard_err
             - exception
-            - command_return_code
+            - exit_status: command_return_code
           navigate:
             SUCCESS: SUCCESS
             FAILURE: check_ssh_unstable_session_in_command_execution
@@ -112,11 +113,11 @@ flow:
       - check_ssh_unstable_session_in_validation: # TODO: timeout
           do:
             utils.check_ssh_unstable_session:
-              - return_result: returnResult
+              - return_result
               - return_code
               - standard_out
               - standard_err
-              - exit_status: command_return_code
+              - exit_status
           navigate:
             SESSION_IS_DOWN: ssh_command
             FAILURE_WITH_NO_MESSAGE: validate_ssh_access
@@ -125,22 +126,22 @@ flow:
       - check_ssh_unstable_session_in_command_execution: # TODO: timeout
           do:
             utils.check_ssh_unstable_session:
-              - return_result: returnResult
+              - return_result
               - return_code
               - standard_out
               - standard_err
-              - exit_status: command_return_code
+              - exit_status
           navigate:
             SESSION_IS_DOWN: ssh_command
             FAILURE_WITH_NO_MESSAGE: ssh_command
             NO_ISSUE_FOUND: FAILURE
     outputs:
-      - returnResult
+      - returnResult: return_result
       - return_code
       - standard_out
       - standard_err
       - exception
-      - command_return_code
+      - command_return_code: exit_status
     results:
       - SUCCESS
       - FAILURE
