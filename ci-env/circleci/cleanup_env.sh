@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # parameters to the script:
-#   - DROPLETS_FILE
-#   - DO_API_TOKEN
+#   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
+#   - DO_API_TOKEN - DigitalOcean personal access token
 
 DROPLET_ID_ACC=$(cat < ${DROPLETS_FILE})
 

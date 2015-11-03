@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # parameters to the script:
-#   - DROPLETS_FILE
-#   - SLEEP_INTERVAL - optional
-#   - TIMEOUT - optional
-#   - DO_API_TOKEN
-#   - DO_DROPLET_SSH_PRIVATE_KEY
-#   - COREOS_PLACEHOLDERS
+#   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
+#   - SLEEP_INTERVAL - optional - sleep time between successive droplet checks
+#   - TIMEOUT - optional - maximum amount of time to wait for a droplet to be available
+#   - DO_API_TOKEN - DigitalOcean personal access token
+#   - DO_DROPLET_SSH_PRIVATE_KEY - content of the SSH private key as string used for DigitalOcean droplets
+#   - COREOS_PLACEHOLDERS - names of CoreOS machine placeholders in test files, separated by space
 
 inc_and_sleep()
 {
