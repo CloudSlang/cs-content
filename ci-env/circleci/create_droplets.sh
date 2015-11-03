@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# generate discovery URL for the new CoreOS cluster and update the cloud-config file
+# parameters to the script:
+#   - COREOS_MACHINE_NAMES
+#   - DO_API_TOKEN
+#   - DO_DROPLET_SSH_PUBLIC_KEY_ID
+#   - CLOUD_CONFIG_FILE
+#   - DROPLETS_FILE
+
+# generate discovery URL for the new CoreOS cluster
 DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: ${DISCOVERY_URL}"
 DISCOVERY_URL_ESCAPED=$(echo ${DISCOVERY_URL} | sed 's/\//\\\//g')
-sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/circleci/cloud-config_1.yaml
 
-for COREOS_MACHINE in ${COREOS_MACHINE_NAMES_1}
+for COREOS_MACHINE in ${COREOS_MACHINE_NAMES}
 do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
                 -H 'Content-Type: application/json' \
@@ -20,7 +26,7 @@ do
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
-                  "user_data": "'"$(cat ci-env/circleci/cloud-config_1.yaml | sed 's/"/\\"/g')"'"
+                  "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed 's/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g' | sed 's/"/\\"/g')"'"
                 }')
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
@@ -40,7 +46,7 @@ do
     echo "${COREOS_MACHINE} (ID: ${DROPLET_ID}) droplet creation request accepted - status code: ${STATUS_CODE}"
 
     # store droplet IDs in a file to be accessible in other script
-    echo ${DROPLET_ID_ACC} > "droplets_${CIRCLE_BUILD_NUM}_1.txt"
+    echo ${DROPLET_ID_ACC} > ${DROPLETS_FILE}
   else
     echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - status code: ${STATUS_CODE}"
     exit 1
