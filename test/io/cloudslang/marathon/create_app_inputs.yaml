@@ -17,4 +17,5 @@ test_create_marathon_app_success:
     - marathon_port: "8888"
     - json_file: test/io/cloudslang/marathon/sample-marathon-app.json
     - created_app_id: sample-app
+    - is_core_os: true
   result: SUCCESS

@@ -13,6 +13,7 @@ imports:
   base_strings: io.cloudslang.base.strings
   base_print: io.cloudslang.base.print
   utils: io.cloudslang.base.utils
+  strings: io.cloudslang.base.strings
 flow:
   name: test_create_app
   inputs:
@@ -23,8 +24,33 @@ flow:
         required: false
     - json_file
     - created_app_id
+    - is_core_os
 
   workflow:
+    - check_is_core_os:
+        do:
+          strings.string_equals:
+            - first_string: is_core_os
+            - second_string: "'true'"
+        navigate:
+          SUCCESS: setup_marathon_core_os
+          FAILURE: setup_marathon
+
+    - setup_marathon_core_os:
+        do:
+          setup_marathon_core_os:
+            - host: marathon_host
+            - username
+            - private_key_file
+            - marathon_port
+        navigate:
+          SUCCESS: wait_for_marathon_startup
+          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+
     - setup_marathon:
         do:
           setup_marathon:
@@ -43,7 +69,7 @@ flow:
     - wait_for_marathon_startup:
         do:
           utils.sleep:
-              - seconds: 20
+              - seconds: 30
 
     - list_initial_marathon_apps:
         do:
@@ -100,7 +126,7 @@ flow:
     - wait_for_app_startup:
         do:
           utils.sleep:
-              - seconds: 10
+              - seconds: 20
 
     - list_marathon_apps:
         do:

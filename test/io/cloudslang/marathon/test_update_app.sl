@@ -11,6 +11,7 @@ namespace: io.cloudslang.marathon
 
 imports:
   utils: io.cloudslang.base.utils
+  strings: io.cloudslang.base.strings
 
 flow:
   name: test_update_app
@@ -23,7 +24,32 @@ flow:
     - json_file_for_creation
     - json_file_for_update
     - created_app_id
+    - is_core_os
   workflow:
+    - check_is_core_os:
+        do:
+          strings.string_equals:
+            - first_string: is_core_os
+            - second_string: "'true'"
+        navigate:
+          SUCCESS: setup_marathon_core_os
+          FAILURE: setup_marathon
+
+    - setup_marathon_core_os:
+        do:
+          setup_marathon_core_os:
+            - host: marathon_host
+            - username
+            - private_key_file
+            - marathon_port
+        navigate:
+          SUCCESS: wait_for_marathon_startup
+          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
+          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+
     - setup_marathon:
         do:
           setup_marathon:
