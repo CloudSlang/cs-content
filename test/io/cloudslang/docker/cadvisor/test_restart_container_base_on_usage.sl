@@ -23,6 +23,7 @@ flow:
     - private_key_file
     - cadvisor_port
     - cadvisor_container_name
+    - timeout: "'600000'"
 
   workflow:
     - clear_docker_containers:
@@ -54,6 +55,7 @@ flow:
             - host
             - username
             - private_key_file
+            - timeout
         navigate:
           SUCCESS: sleep
           FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
