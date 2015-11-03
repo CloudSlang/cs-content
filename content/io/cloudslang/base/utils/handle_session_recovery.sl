@@ -57,7 +57,7 @@ flow:
             - value1: retries
             - value2: 0
         publish:
-          - retries: int(retries) - 1
+          - retries: int(self['retries']) - 1
         navigate:
           GREATER_THAN: check_unstable_session
           EQUALS: TIMEOUT
