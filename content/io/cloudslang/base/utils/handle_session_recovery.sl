@@ -53,7 +53,7 @@ flow:
 
     - check_retries:
         do:
-          comparisons.compare_float:
+          comparisons.compare_numbers:
             - value1: retries
             - value2: 0
         publish:
