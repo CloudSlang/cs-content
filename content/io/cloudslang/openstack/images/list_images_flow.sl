@@ -29,12 +29,10 @@
 namespace: io.cloudslang.openstack.images
 
 imports:
- openstack_content: io.cloudslang.openstack
- openstack_images: io.cloudslang.openstack.images
-
+  openstack: io.cloudslang.openstack
 
 flow:
-  name: list_openstack_images_flow
+  name: list_images_flow
   inputs:
     - host
     - identity_port:
@@ -51,49 +49,63 @@ flow:
   workflow:
     - authentication:
         do:
-          openstack_content.get_authentication_flow:
+          openstack.get_authentication_flow:
             - host
             - identity_port
             - username
             - password
             - tenant_name
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - token
           - tenant
           - return_result
           - error_message
+        navigate:
+          SUCCESS: list_images
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - list_openstack_images:
+    - list_images:
         do:
-          openstack_images.list_openstack_images:
+          list_images:
             - host
             - compute_port
             - token
             - tenant
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
+            - proxy_host
+            - proxy_port
         publish:
           - response_body: return_result
           - image_list: return_result
           - error_message
+        navigate:
+          SUCCESS: extract_images
+          FAILURE: GET_IMAGES_FAILURE
 
     - extract_images:
         do:
-          openstack_images.extract_image_list_from_json_response:
+          extract_image_list_from_json_response:
             - response_body
             - object_name: "'images'"
         publish:
           - object_list
           - error_message
-
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: EXTRACT_IMAGES_FAILURE
 
   outputs:
     - image_list: object_list
     - return_result
     - error_message
+
+  results:
+    - SUCCESS
+    - GET_AUTHENTICATION_TOKEN_FAILURE
+    - GET_TENANT_ID_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_IMAGES_FAILURE
+    - EXTRACT_IMAGES_FAILURE

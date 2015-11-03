@@ -9,7 +9,7 @@
 # Retrieves the flavor id from the response of the list_openstack_flavors operation of a given flavor by name.
 #
 # Inputs:
-#   - flavor_body - response of list_openstack_flavors operation
+#   - flavor_body - response of list_flavors operation
 #   - flavor_name - flavor name
 # Outputs:
 #   - flavor_id - ID of the specified flavor

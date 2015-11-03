@@ -30,9 +30,7 @@
 namespace: io.cloudslang.openstack.images
 
 imports:
- openstack_content: io.cloudslang.openstack
- openstack_images: io.cloudslang.openstack.images
-
+ openstack: io.cloudslang.openstack
 
 flow:
   name: get_image_id_flow
@@ -53,7 +51,7 @@ flow:
   workflow:
     - authentication:
         do:
-          openstack_content.get_authentication_flow:
+          openstack.get_authentication_flow:
             - host
             - identity_port
             - username
@@ -68,10 +66,15 @@ flow:
           - tenant
           - return_result
           - error_message
+        navigate:
+          SUCCESS: list_images
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - list_openstack_images:
+    - list_images:
         do:
-          openstack_images.list_openstack_images:
+          list_images:
             - host
             - compute_port
             - token
@@ -84,19 +87,32 @@ flow:
           - response_body: return_result
           - image_list: return_result
           - error_message
+        navigate:
+          SUCCESS: get_image_id
+          FAILURE: GET_IMAGES_FAILURE
 
     - get_image_id:
-            do:
-              openstack_images.get_image_id:
-                - image_body: image_list
-                - image_name: image_name
-            publish:
-              - image_id
-              - return_result
-              - error_message
+        do:
+          get_image_id:
+            - image_body: image_list
+            - image_name: image_name
+        publish:
+          - image_id
+          - return_result
+          - error_message
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: EXTRACT_IMAGE_ID
 
   outputs:
-
     - image_id
     - return_result
     - error_message
+
+  results:
+      - SUCCESS
+      - GET_AUTHENTICATION_TOKEN_FAILURE
+      - GET_TENANT_ID_FAILURE
+      - GET_AUTHENTICATION_FAILURE
+      - GET_IMAGES_FAILURE
+      - EXTRACT_IMAGE_ID

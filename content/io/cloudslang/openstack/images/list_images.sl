@@ -27,7 +27,7 @@
 namespace: io.cloudslang.openstack.images
 
 operation:
-  name: list_openstack_images
+  name: list_images
   inputs:
     - host
     - compute_port:

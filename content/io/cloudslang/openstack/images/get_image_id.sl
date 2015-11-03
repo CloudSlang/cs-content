@@ -9,7 +9,7 @@
 # Retrieves the image id from the response of the list_openstack_images operation of a given image by name.
 #
 # Inputs:
-#   - image_body - response of list_openstack_images operation
+#   - image_body - response of list_images operation
 #   - image_name - image name
 # Outputs:
 #   - image_id - ID of the specified image
