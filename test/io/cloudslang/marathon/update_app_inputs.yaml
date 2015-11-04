@@ -7,7 +7,7 @@
 #
 ####################################################
 test_update_app_success:
-  testSuites: [marathon]
+  testSuites: [marathon-ignore]
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.marathon.test_update_app
   inputs:
