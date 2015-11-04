@@ -27,7 +27,7 @@ do
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
-                  "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed \"s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g\" | sed 's/"/\\"/g')"'"
+                  "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" | sed 's/"/\\"/g')"'"
                 }')
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
