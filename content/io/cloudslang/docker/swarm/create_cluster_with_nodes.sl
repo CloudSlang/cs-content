@@ -5,7 +5,39 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################
+# Creates a new Swarm cluster, clears the machines, starts a Swarm manager, registers the Swarm agents
+# and validates the agents were added.
+#
+# Inputs:
+#   - swarm_manager_ip - IP address of the machine with the Swarm manager container
+#   - manager_machine_username - username of the machine with the Swarm manager
+#   - manager_machine_password - optional - password of the machine with the Swarm manager
+#   - manager_machine_private_key_file - optional - path to private key file of the machine with the Swarm manager
+#   - swarm_manager_port - port used by the Swarm manager container
+#   - agent_ip_addresses - list of IP addresses - the corresponding machines will be used as Swarm agents
+#                        - e.g. ['111.111.111.111', '111.111.111.222']
+#   - agent_usernames - list of usernames for agent machines - e.g. [core, core]
+#   - agent_passwords - optional - list of password for agent machines - e.g. [pass, pass]
+#   - agent_private_key_files - optional - list of paths to private key files for agent machines
+#                                        - e.g. ['foo/key_rsa', 'bar/key_rsa']
+#   - attempt - number of attempts to check whether nodes were added to the cluster
+#             - total waiting time ~ attempt * time_to_sleep
+#             - Default: 60
+#   - time_to_sleep - time to sleep between successive checks of whether nodes were added to the cluster (in seconds)
+#                   - total waiting time ~ attempt * time_to_sleep
+#                   - Default: 5 seconds
+# Results:
+#    - SUCCESS - nodes were successfully added
+#    - CREATE_SWARM_CLUSTER_PROBLEM - problem occurred while creating the swarm cluster
+#    - PRE_CLEAR_MANAGER_MACHINE_PROBLEM - problem occurred while clearing the manager machine
+#    - PRE_CLEAR_AGENT_MACHINES_PROBLEM - problem occurred while clearing the agent machine
+#    - START_MANAGER_CONTAINER_PROBLEM - problem occurred while starting the manager container
+#    - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM - problem occurred while retrieving the number of nodes
+#    - ADD_NODES_TO_THE_CLUSTER_PROBLEM - problem occurred while adding nodes to the cluster
+#    - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM - problem occurred while retrieving the number of nodes
+#    - NODES_NOT_ADDED - nodes were not added
+########################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -13,9 +45,10 @@ imports:
   containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
+  comparisons: io.cloudslang.base.math.comparisons
 
 flow:
-  name: test_add_nodes_to_cluster
+  name: create_cluster_with_nodes
   inputs:
     - manager_machine_ip
     - manager_machine_username
@@ -30,6 +63,8 @@ flow:
         required: false
     - agent_private_key_files:
         required: false
+    - attempts: 60
+    - time_to_sleep: 5
   workflow:
     - create_swarm_cluster:
         do:
@@ -65,7 +100,7 @@ flow:
         navigate:
           SUCCESS: start_manager_container
           FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
-         
+
     - start_manager_container:
         do:
           start_manager:
@@ -105,15 +140,8 @@ flow:
               - username: agent_usernames[0]
               - private_key_file: agent_private_key_files[0]
         navigate:
-          SUCCESS: wait_for_nodes_to_join
-          FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
-
-    - wait_for_nodes_to_join:
-        do:
-          utils.sleep:
-            - seconds: 20
-        navigate:
           SUCCESS: get_number_of_nodes_in_cluster_after
+          FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
 
     - get_number_of_nodes_in_cluster_after:
         do:
@@ -133,12 +161,30 @@ flow:
     - verify_node_is_added:
         do:
           strings.string_equals:
-            - first_string: str(int(number_of_nodes_in_cluster_before) + 2)
+            - first_string: str(int(number_of_nodes_in_cluster_before) + len(agent_ip_addresses))
             - second_string: number_of_nodes_in_cluster_after
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: VERIFY_NODE_IS_ADDED_PROBLEM
+          FAILURE: check_attempts
 
+    - check_attempts:
+        do:
+          comparisons.compare_numbers:
+            - value1: attempts
+            - value2: 0
+        publish:
+          - attempts: int(self['attempts']) - 1
+        navigate:
+          GREATER_THAN: sleep
+          EQUALS: NODES_NOT_ADDED
+          LESS_THAN: NODES_NOT_ADDED
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: time_to_sleep
+        navigate:
+          SUCCESS: get_number_of_nodes_in_cluster_after
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
@@ -148,4 +194,4 @@ flow:
     - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
     - ADD_NODES_TO_THE_CLUSTER_PROBLEM
     - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
-    - VERIFY_NODE_IS_ADDED_PROBLEM
+    - NODES_NOT_ADDED
