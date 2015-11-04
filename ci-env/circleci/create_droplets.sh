@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# generate discovery URL for the new CoreOS cluster and update the cloud-config file
+# parameters to the script:
+#   - COREOS_MACHINE_NAMES - string with machines names separated by space
+#   - DO_API_TOKEN - DigitalOcean personal access token
+#   - DO_DROPLET_SSH_PUBLIC_KEY_ID - ID of the SSH public key in DigitalOcean
+#   - DO_REGION - DigitalOcean region where the droplets should be created
+#   - CLOUD_CONFIG_FILE - path to the cloud-config file
+#   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
+
+# generate discovery URL for the new CoreOS cluster
 DISCOVERY_URL=$(curl -s -X GET "https://discovery.etcd.io/new")
 echo "DISCOVERY_URL: ${DISCOVERY_URL}"
 DISCOVERY_URL_ESCAPED=$(echo ${DISCOVERY_URL} | sed 's/\//\\\//g')
-sed -i "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" ci-env/circleci/cloud-config.yaml
 
-COREOS_MACHINE_NAMES="\
-ci-${CIRCLE_BUILD_NUM}-coreos-1 \
-ci-${CIRCLE_BUILD_NUM}-coreos-2 \
-ci-${CIRCLE_BUILD_NUM}-coreos-3"
 for COREOS_MACHINE in ${COREOS_MACHINE_NAMES}
 do
   CURL_OUTPUT=$(curl -i -s -X POST https://api.digitalocean.com/v2/droplets \
@@ -24,7 +27,7 @@ do
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
-                  "user_data": "'"$(cat ci-env/circleci/cloud-config.yaml | sed 's/"/\\"/g')"'"
+                  "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" | sed 's/"/\\"/g')"'"
                 }')
 
   STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
@@ -44,7 +47,7 @@ do
     echo "${COREOS_MACHINE} (ID: ${DROPLET_ID}) droplet creation request accepted - status code: ${STATUS_CODE}"
 
     # store droplet IDs in a file to be accessible in other script
-    echo ${DROPLET_ID_ACC} > "droplets_${CIRCLE_BUILD_NUM}.txt"
+    echo ${DROPLET_ID_ACC} > ${DROPLETS_FILE}
   else
     echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - status code: ${STATUS_CODE}"
     exit 1
