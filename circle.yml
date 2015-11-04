@@ -16,7 +16,7 @@ machine:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
     # ignore test suites on node 1 in fork builds
     ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,marathon'; else echo '!default'; fi)
-    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default'; else echo '!default'; fi)
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,swarm'; else echo '!default'; fi)
 
     COREOS_MACHINE_NAMES_1: "ci-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BUILD_NUM}-coreos-3"
     COREOS_MACHINE_NAMES_2: "ci-${CIRCLE_BUILD_NUM}-coreos-4 ci-${CIRCLE_BUILD_NUM}-coreos-5 ci-${CIRCLE_BUILD_NUM}-coreos-6"
