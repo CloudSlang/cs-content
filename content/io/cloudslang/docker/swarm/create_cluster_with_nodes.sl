@@ -33,9 +33,8 @@
 #    - PRE_CLEAR_MANAGER_MACHINE_PROBLEM - problem occurred while clearing the manager machine
 #    - PRE_CLEAR_AGENT_MACHINES_PROBLEM - problem occurred while clearing the agent machine
 #    - START_MANAGER_CONTAINER_PROBLEM - problem occurred while starting the manager container
-#    - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM - problem occurred while retrieving the number of nodes
 #    - ADD_NODES_TO_THE_CLUSTER_PROBLEM - problem occurred while adding nodes to the cluster
-#    - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM - problem occurred while retrieving the number of nodes
+#    - GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM - problem occurred while retrieving the number of nodes
 #    - NODES_NOT_ADDED - nodes were not added
 ########################################################################################################
 
@@ -111,23 +110,8 @@ flow:
             - password: manager_machine_password
             - private_key_file: manager_machine_private_key_file
         navigate:
-          SUCCESS: get_number_of_nodes_in_cluster_before
-          FAILURE: START_MANAGER_CONTAINER_PROBLEM
-
-    - get_number_of_nodes_in_cluster_before:
-        do:
-          get_cluster_info:
-            - swarm_manager_ip: manager_machine_ip
-            - swarm_manager_port
-            - host: manager_machine_ip
-            - username: manager_machine_username
-            - password: manager_machine_password
-            - private_key_file: manager_machine_private_key_file
-        publish:
-          - number_of_nodes_in_cluster_before: number_of_nodes_in_cluster
-        navigate:
           SUCCESS: add_nodes_to_the_cluster
-          FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
+          FAILURE: START_MANAGER_CONTAINER_PROBLEM
 
     - add_nodes_to_the_cluster:
         async_loop:
@@ -140,10 +124,10 @@ flow:
               - username: agent_usernames[0]
               - private_key_file: agent_private_key_files[0]
         navigate:
-          SUCCESS: get_number_of_nodes_in_cluster_after
+          SUCCESS: get_number_of_nodes_in_cluster
           FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
 
-    - get_number_of_nodes_in_cluster_after:
+    - get_number_of_nodes_in_cluster:
         do:
           get_cluster_info:
             - swarm_manager_ip: manager_machine_ip
@@ -153,16 +137,16 @@ flow:
             - password: manager_machine_password
             - private_key_file: manager_machine_private_key_file
         publish:
-          - number_of_nodes_in_cluster_after: number_of_nodes_in_cluster
+          - number_of_nodes_in_cluster: number_of_nodes_in_cluster
         navigate:
           SUCCESS: verify_node_is_added
-          FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
+          FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
 
     - verify_node_is_added:
         do:
           strings.string_equals:
-            - first_string: str(int(number_of_nodes_in_cluster_before) + len(agent_ip_addresses))
-            - second_string: number_of_nodes_in_cluster_after
+            - first_string: str(len(agent_ip_addresses))
+            - second_string: number_of_nodes_in_cluster
         navigate:
           SUCCESS: SUCCESS
           FAILURE: check_attempts
@@ -184,14 +168,13 @@ flow:
           utils.sleep:
             - seconds: time_to_sleep
         navigate:
-          SUCCESS: get_number_of_nodes_in_cluster_after
+          SUCCESS: get_number_of_nodes_in_cluster
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
     - PRE_CLEAR_MANAGER_MACHINE_PROBLEM
     - PRE_CLEAR_AGENT_MACHINES_PROBLEM
     - START_MANAGER_CONTAINER_PROBLEM
-    - GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM
     - ADD_NODES_TO_THE_CLUSTER_PROBLEM
-    - GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM
+    - GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
     - NODES_NOT_ADDED
