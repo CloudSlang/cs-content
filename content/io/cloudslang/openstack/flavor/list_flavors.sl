@@ -13,7 +13,8 @@
 #   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
 #   - tenant_name - name of the OpenStack project that contains the flavors to be retrieved
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
+#   - username - optional - username used for URL authentication; for NTLM authentication,
+#                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
 #   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
@@ -27,8 +28,10 @@
 # Results:
 #   - SUCCESS - the list with flavors were successfully retrieved
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
 #   - LIST_FLAVORS_FAILURE - the REST API call to get the list of flavors failed
 #   - EXTRACT_FLAVORS_FAILURE - the list with flavors could not be retrieved from list flavors REST API call
 ####################################################

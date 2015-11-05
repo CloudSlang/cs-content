@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testOpenStackListImagesWithDetailsLocal:
+testOpenStackListImagesWithDetails:
   testSuites: [openstack-local]
   description: "Test that it successfully retrieves the detailed list with images avaliable for a specified tenant in OpenStack."
   testFlowPath: io.cloudslang.openstack.images.test_list_images_with_details

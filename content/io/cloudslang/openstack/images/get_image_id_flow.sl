@@ -6,13 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the id of a specified image within a OpenStack project.
+# Retrieves the id of a specified image within an OpenStack project.
 #
 # Inputs:
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
 #   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
+#   - username - optional - username used for URL authentication; for NTLM authentication,
+#                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - tenant_name - name of the OpenStack project that contains the images to be queried for id
 #   - image_name - name of the image to queried for id
@@ -29,8 +30,10 @@
 # Results:
 #   - SUCCESS - the list with images were successfully retrieved
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
 #   - LIST_IMAGES_FAILURE - the list with images could not be retrieved
 ####################################################
 

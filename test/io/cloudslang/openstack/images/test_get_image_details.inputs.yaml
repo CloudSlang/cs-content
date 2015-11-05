@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testOpenStackGetImageDetailsLocal:
+testOpenStackGetImageDetails:
   testSuites: [openstack-local]
   description: "Test that it successfully retrieves details for a specified OpenStack image."
   testFlowPath: io.cloudslang.openstack.images.test_get_image_details

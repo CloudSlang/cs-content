@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testOpenStackGetImageIdLocal:
+testOpenStackGetImageId:
   testSuites: [openstack-local]
   description: "Test that it successfully retrieves the id for a specified OpenStack image."
   testFlowPath: io.cloudslang.openstack.images.test_get_image_id_flow
