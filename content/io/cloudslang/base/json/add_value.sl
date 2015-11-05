@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Adds a value to the given JSON at the key represented by the key_list if one doesn't already exist
-# or replaces the value at the key represented by the key_list if one already exists
+# Adds or replaces a value to the given JSON at the key or index represented by the json_path.
+# If the full path does not exist, the keys for the path are added as well.
 #
 # Inputs:
 #   - json_input - JSON data input
-#   - key_list - list of keys to add - Example: ['tags', 1, 'name']
+#   - json_path - path at which to add value represented as a list of keys and/or indices - Example: ['tags', 1, 'name']
 #   - value - value to associate with key
 # Outputs:
 #   - json_output - JSON with keys:value added
@@ -29,18 +29,18 @@ operation:
   name: add_value
   inputs:
     - json_input
-    - key_list
+    - json_path
     - value
   action:
     python_script: |
       try:
         import json
-        if len(key_list) > 0:
+        if len(json_path) > 0:
           decoded = json.loads(json_input)
           temp = decoded
-          for key in key_list[:-1]:
+          for key in json_path[:-1]:
             temp = temp[key]
-          temp[key_list[-1]] = value
+          temp[json_path[-1]] = value
         else:
           decoded = value
         encoded = json.dumps(decoded)

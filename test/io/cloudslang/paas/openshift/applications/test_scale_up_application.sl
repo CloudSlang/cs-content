@@ -69,7 +69,7 @@ flow:
         do:
           json.get_value:
             - json_input: return_result
-            - key_list: ["'status'"]
+            - json_path: ["'status'"]
         publish:
           - status: value
         navigate:
@@ -89,7 +89,7 @@ flow:
         do:
           json.get_value:
             - json_input: return_result
-            - key_list: ["'messages'"]
+            - json_path: ["'messages'"]
         publish:
           - messages: value
         navigate:

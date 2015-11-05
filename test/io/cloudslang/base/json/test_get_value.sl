@@ -9,31 +9,29 @@
 namespace: io.cloudslang.base.json
 
 flow:
-  name: test_add_value
+  name: test_get_value
 
   inputs:
     - json_before
     - json_path
-    - value
-    - json_after
+    - found_value
 
   workflow:
-    - add_value:
+    - get_value:
         do:
-          add_value:
+          get_value:
             - json_input: json_before
             - json_path
-            - value
         publish:
-          - json_output
+          - value
         navigate:
           SUCCESS: test_equality
           FAILURE: CREATEFAILURE
     - test_equality:
         do:
           equals:
-            - json_input1: json_output
-            - json_input2: json_after
+            - json_input1: value
+            - json_input2: found_value
 
         navigate:
           EQUALS: SUCCESS

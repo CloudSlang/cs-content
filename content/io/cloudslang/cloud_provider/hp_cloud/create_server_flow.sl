@@ -101,7 +101,7 @@ flow:
         do:
           json.get_value:
             - json_input: return_result
-            - key_list: ["'server'", "'id'"]
+            - json_path: ["'server'", "'id'"]
         publish:
           - server_id: value
 

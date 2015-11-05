@@ -102,7 +102,7 @@ flow:
         do:
           json.get_value:
             - json_input: return_result
-            - key_list: ["'entity'", "'guid'"]
+            - json_path: ["'entity'", "'guid'"]
         publish:
           - application_guid: value
         navigate:

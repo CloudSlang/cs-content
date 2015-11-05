@@ -6,12 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the given JSON input to retrieve the corresponding value addressed by the keys_list input.
+# Retrieves keys from a JSON object.
 #
 # Inputs:
-#   - json_input - JSON data input
+#   - json_input - JSON from which to retrieve keys
+#   - json_path - path from which to retrieve key represented as a list of keys and/or indices.
+#     Passing an empty list ([]) will retrieve top level keys. - Example: ['tags', 1, 'name']
 # Outputs:
-#   - key_list - list of keys from the JSON object
+#   - keys - if any keys were found, list of keys found
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
@@ -26,13 +28,13 @@ operation:
   name: get_keys
   inputs:
     - json_input
-    - key_list
+    - json_path
   action:
     python_script: |
       try:
         import json
         decoded = json.loads(json_input)
-        for key in key_list:
+        for key in json_path:
           decoded = decoded[key]
         decoded = decoded.keys()
         return_result = 'Parsing successful.'
@@ -41,7 +43,7 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: decoded if return_code == '0' else ''
+    - keys: decoded if return_code == '0' else ''
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''
