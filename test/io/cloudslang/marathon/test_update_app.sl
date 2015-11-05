@@ -26,49 +26,17 @@ flow:
     - created_app_id
     - is_core_os
   workflow:
-    - check_is_core_os:
+    - setup_marathon_on_different_hosts:
         do:
-          strings.string_equals:
-            - first_string: is_core_os
-            - second_string: "'true'"
-        navigate:
-          SUCCESS: setup_marathon_core_os
-          FAILURE: setup_marathon
-
-    - setup_marathon_core_os:
-        do:
-          setup_marathon_core_os:
-            - host: marathon_host
+          setup_marathon_on_different_hosts:
+            - marathon_host
             - username
             - private_key_file
             - marathon_port
+            - is_core_os
         navigate:
-          SUCCESS: wait_for_marathon_startup
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-
-    - setup_marathon:
-        do:
-          setup_marathon:
-            - host: marathon_host
-            - username
-            - private_key_file
-            - marathon_port
-        navigate:
-          SUCCESS: wait_for_marathon_startup
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-
-    - wait_for_marathon_startup:
-        do:
-          utils.sleep:
-              - seconds: 20
+          SUCCESS: create_marathon_app
+          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
 
     - create_marathon_app:
          do:
