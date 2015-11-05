@@ -9,8 +9,8 @@
 # Main flow to create a server instance with floating IP in HP Cloud
 #
 # Inputs:
-#   - username - HP Cloud account username 
-#   - password - HP Cloud account password 
+#   - username - HP Cloud account username
+#   - password - HP Cloud account password
 #   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
 #   - server_name - name for the new server
 #   - img_ref - image id to use for the new server (operating system)
@@ -18,7 +18,7 @@
 #   - keypair - keypair used to access the new server
 #   - assign_floating - allocate and assign a floating IP to server? (True/False)
 #   - network_id - optional - id of private network to add server to, can be omitted
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 #   - polling_attempts - optional - number of attempts to check that the created server became ACTIVE - Default: 60
@@ -52,7 +52,7 @@ flow:
     - keypair
     - region
     - assign_floating:
-        default: True    
+        default: True
     - network_id:
         required: false
     - proxy_host:
@@ -80,7 +80,7 @@ flow:
           - token
           - tenant: tenant_id
           - return_result
-          - error_message    
+          - error_message
 
     - create_server:
         do:
@@ -93,13 +93,13 @@ flow:
             - tenant
             - region
             - proxy_host
-            - proxy_port         
+            - proxy_port
         publish:
           - return_result
 
     - get_server_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'server'", "'id'"]
         publish:
@@ -115,7 +115,7 @@ flow:
           for: loop_counter in range(0,polling_attempts)
           do:
             get_server_state_flow:
-              - server_id  
+              - server_id
               - delay: polling_wait_time
               - token
               - tenant
@@ -144,7 +144,7 @@ flow:
             - token
             - region
             - proxy_host
-            - proxy_port           
+            - proxy_port
         publish:
           - return_result
           - ip_address
@@ -163,7 +163,7 @@ flow:
             - token
             - region
             - proxy_host
-            - proxy_port         
+            - proxy_port
         publish:
           - return_result
 
@@ -176,7 +176,7 @@ flow:
       - create_server_error:
           do:
             print.print_text:
-              - text: "'! Create Server Flow Error: ' + return_result" 
+              - text: "'! Create Server Flow Error: ' + return_result"
   outputs:
     - return_result
     - ip_address

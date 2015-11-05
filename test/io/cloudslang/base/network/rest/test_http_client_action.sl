@@ -84,7 +84,7 @@ flow:
 
     - get_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'id'"]
         publish:
@@ -104,7 +104,7 @@ flow:
 
     - get_name:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'name'"]
         publish:
@@ -168,7 +168,7 @@ flow:
 
     - get_updated_name:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'name'"]
         publish:
@@ -188,7 +188,7 @@ flow:
 
     - get_updated_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'status'"]
         publish:
@@ -243,7 +243,7 @@ flow:
 
     - get_message:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'message'"]
         publish:

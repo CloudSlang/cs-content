@@ -73,7 +73,7 @@ flow:
 
     - extract_droplets_information:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: response
             - key_list: ["'droplets'"]
         publish:
