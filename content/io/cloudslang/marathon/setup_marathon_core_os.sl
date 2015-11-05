@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #######################################################################################################################
-# Sets up a simple marathon infrastructure on one core os host.
+# Sets up a simple Marathon infrastructure on one CoreOS host.
 #
 # Inputs:
 #   - host - Docker host we work on
