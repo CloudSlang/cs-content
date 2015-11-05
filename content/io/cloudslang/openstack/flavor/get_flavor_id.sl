@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the flavor id from the response of the list_openstack_flavors operation of a given flavor by name.
+# Retrieves the flavor id from the response of the list_flavors operation of a given flavor by name.
 #
 # Inputs:
 #   - flavor_body - response of list_flavors operation
 #   - flavor_name - flavor name
 # Outputs:
-#   - flavor_id - ID of the specified flavor
+#   - flavor_id - id of the specified flavor
 #   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - return_code - "'0'" if parsing was successful, "'-1'" otherwise
 #   - error_message - error message
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 

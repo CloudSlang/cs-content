@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the image id from the response of the list_openstack_images operation of a given image by name.
+# Retrieves the image id from the response of the list_images operation of a given image by name.
 #
 # Inputs:
 #   - image_body - response of list_images operation
 #   - image_name - image name
 # Outputs:
-#   - image_id - ID of the specified image
+#   - image_id - id of the specified image
 #   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - error message
+#   - return_code - "0" if success, "-1" otherwise
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -28,6 +28,7 @@ operation:
   inputs:
     - image_body
     - image_name
+
   action:
     python_script: |
       try:
@@ -49,6 +50,7 @@ operation:
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''
+
   results:
     - SUCCESS: return_code == '0'
     - FAILURE
