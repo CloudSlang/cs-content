@@ -1,6 +1,10 @@
 #!/bin/bash
 
-DROPLET_ID_ACC=$(cat < "droplets_${CIRCLE_BUILD_NUM}.txt")
+# parameters to the script:
+#   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
+#   - DO_API_TOKEN - DigitalOcean personal access token
+
+DROPLET_ID_ACC=$(cat < ${DROPLETS_FILE})
 
 for DROPLET_ID in ${DROPLET_ID_ACC}
 do

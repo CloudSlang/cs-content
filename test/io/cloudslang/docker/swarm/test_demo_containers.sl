@@ -29,11 +29,15 @@ flow:
     - timeout:
         required: false
     - agent_ip_addresses
+    - attempts:
+        required: false
+    - time_to_sleep:
+        required: false
 
   workflow:
     - setup_cluster:
         do:
-          test_add_nodes_to_cluster:
+          create_cluster_with_nodes:
             - manager_machine_ip: swarm_manager_ip
             - manager_machine_username: username
             - manager_machine_password: password
@@ -43,16 +47,17 @@ flow:
             - agent_usernames: [username, username]
             - agent_passwords: [password, password]
             - agent_private_key_files: [private_key_file, private_key_file]
+            - attempts
+            - time_to_sleep
         navigate:
           SUCCESS: get_number_of_containers_in_cluster_before
           CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
           PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
           START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          GET_NUMBER_OF_NODES_IN_CLUSTER_BEFORE_PROBLEM: SETUP_CLUSTER_PROBLEM
           ADD_NODES_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          GET_NUMBER_OF_NODES_IN_CLUSTER_AFTER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          VERIFY_NODE_IS_ADDED_PROBLEM: SETUP_CLUSTER_PROBLEM
+          GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          NODES_NOT_ADDED: SETUP_CLUSTER_PROBLEM
 
     - get_number_of_containers_in_cluster_before:
         do:
