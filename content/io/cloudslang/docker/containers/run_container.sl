@@ -69,6 +69,7 @@ flow:
     - pty:
         required: false
     - timeout:
+        default: "'180000'"
         required: false
     - closeSession:
         required: false
