@@ -25,10 +25,11 @@ flow:
     - machineType
     - masterauthUsername
     - masterauthPassword
+
   workflow:
-    - createRessourceCluster:
+    - createResourceCluster:
         do:
-          create_resource_cluster:
+          beta_create_resource_cluster:
             - name
             - initialNodeCount
             - masterauthUsername
@@ -46,7 +47,7 @@ flow:
 
     - createCluster:
         do:
-          create_clusters:
+          beta_create_cluster:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -70,7 +71,7 @@ flow:
 
     - deleteCluster:
         do:
-          delete_clusters:
+          beta_delete_cluster:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -85,10 +86,11 @@ flow:
         do:
           print.print_text:
             - text: cluster_name
+
   outputs:
     - return_result
     - error_message
+
   results:
     - SUCCESS
     - FAILURE
-

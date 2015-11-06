@@ -26,7 +26,7 @@ flow:
   workflow:
     - ListClusters:
         do:
-          list_clusters:
+          beta_list_clusters:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -42,7 +42,7 @@ flow:
 
     - ListOperations:
         do:
-          list_operations:
+          beta_list_operations:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -58,7 +58,7 @@ flow:
 
     - getServerconfig:
         do:
-          get_serverconfig:
+          beta_get_serverconfig:
             - projectId
             - jSonGoogleAuthPath
         publish:
@@ -74,7 +74,7 @@ flow:
 
     - getOperation:
         do:
-          get_operations:
+          beta_get_operations:
             - projectId
             - zone
             - jSonGoogleAuthPath
@@ -95,4 +95,3 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-
