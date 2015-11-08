@@ -6,13 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Insert an object into a JSON array, 
-# optionally specifying the position at which to insert the new object.
+# Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
 #
-# Inputs:
-#   - json_array - JSON data input
-#   - json_object - json object to add - Example: {"firstName":"John", "lastName":"Doe"}
-#   - index - optionally. position at which to insert the new object
+#Inputs:
+#	- json_array - JSON array input
+#	- json_object - JSON object input
+#	- index - position at which to insert the new object. not required.
 # Outputs:
 #   - json_output - JSON with keys:value added
 #   - return_result - Inserting was successful or not
@@ -37,14 +36,13 @@ operation:
       try:
         import json
         decoded = json.loads(json_array)
+        jsonObjectDecoded = json.loads (json_object)
         if index is None:
-         decoded.append(json_object)
+         decoded.append(jsonObjectDecoded)
         else:
          index=int(index)
-         decoded.insert(index,json_object)
+         decoded.insert(index,jsonObjectDecoded)
         encoded = json.dumps(decoded)
-        print "RESULT"
-        print encoded
         return_code = '0'
         return_result = 'Inserting successful.'
       except Exception as ex:
