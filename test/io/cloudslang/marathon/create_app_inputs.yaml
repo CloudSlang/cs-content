@@ -7,7 +7,7 @@
 #
 ####################################################
 test_create_marathon_app_success:
-  testSuites: [marathon_ignore]
+  testSuites: [marathon-ignore]
   description: Tests that a marathon application is created and that the flow finishes with SUCCESS
   testFlowPath: io.cloudslang.marathon.test_create_app
   inputs:
