@@ -125,7 +125,7 @@ flow:
                      - timeout
               publish:
                 - number_of_images_in_cluster: >
-                    fromInputs['number_of_images_in_cluster'] + len(image_list.split())
+                    self['number_of_images_in_cluster'] + len(image_list.split())
               navigate:
                 SUCCESS: verify_number_of_remaining_images
                 FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM

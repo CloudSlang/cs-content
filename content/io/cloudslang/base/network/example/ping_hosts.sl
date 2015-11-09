@@ -65,8 +65,8 @@ flow:
             network.ping:
               - address
         publish:
-          - messagebody: "fromInputs['message_body'].append(message)"
-          - all_nodes_are_up: "fromInputs['all_nodes_are_up'] and is_up"
+          - messagebody: "self['message_body'].append(message)"
+          - all_nodes_are_up: "self['all_nodes_are_up'] and is_up"
         navigate:
           UP: check_result
           DOWN: failure_mail_send
