@@ -8,6 +8,9 @@
 ####################################################
 namespace: io.cloudslang.base.json
 
+imports:
+  comp: io.cloudslang.base.comparisons
+
 flow:
   name: test_get_value
 
@@ -29,14 +32,13 @@ flow:
           FAILURE: CREATEFAILURE
     - test_equality:
         do:
-          equals:
-            - json_input1: value
-            - json_input2: found_value
+          comp.equals:
+            - first: value
+            - second: found_value
 
         navigate:
           EQUALS: SUCCESS
           NOT_EQUALS: EQUALITY_FAILURE
-          FAILURE: FAILURE
 
   results:
     - SUCCESS
