@@ -17,16 +17,16 @@ flow:
     - create_file_to_be_copied:
         do:
           write_to_file:
-            - file_path: copy_source
-            - text: "'text-to-be-copied'"
+            - file_path: ${copy_source}
+            - text: 'text-to-be-copied'
         navigate:
           SUCCESS: test_copy_operation
           FAILURE: CREATEFAILURE
     - test_copy_operation:
         do:
           copy:
-            - source: copy_source
-            - destination: copy_destination
+            - source: ${copy_source}
+            - destination: ${copy_destination}
         navigate:
           SUCCESS: delete_copied_file
           FAILURE: delete_created_file_after_copy_failure
@@ -35,21 +35,21 @@ flow:
     - delete_created_file_after_copy_failure:
         do:
           delete:
-            - source: copy_source
+            - source: ${copy_source}
         navigate:
           SUCCESS: COPYFAILURE
           FAILURE: DELETEFAILURE
     - delete_copied_file:
         do:
           delete:
-            - source: copy_destination
+            - source: ${copy_destination}
         navigate:
           SUCCESS: delete_created_file
           FAILURE: DELETEFAILURE
     - delete_created_file:
         do:
           delete:
-            - source: copy_source
+            - source: ${copy_source}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

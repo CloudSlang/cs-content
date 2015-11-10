@@ -35,7 +35,7 @@ flow:
           for: f in [path + '/' + name + '.zip', path + '/' + name, name, name + '.zip', out_folder]
           do:
             delete:
-              - source: f
+              - source: ${f}
           break: []
         navigate:
           SUCCESS: test_folder_creation
@@ -46,7 +46,7 @@ flow:
           for: folder in [path, out_folder]
           do:
             create_folder:
-              - folder_name: folder
+              - folder_name: ${folder}
           break: []
         navigate:
           SUCCESS: test_file_creation
@@ -55,8 +55,8 @@ flow:
     - test_file_creation:
         do:
           write_to_file:
-            - file_path: "path + '/test.txt'"
-            - text: "'Workflow to test unzip operation'"
+            - file_path: ${path + '/test.txt'}
+            - text: 'Workflow to test unzip operation'
         navigate:
           SUCCESS: zip_folder
           FAILURE: PREREQUESTFAILURE
@@ -64,8 +64,8 @@ flow:
     - zip_folder:
         do:
           zip_folder:
-            - archive_name: name.split('.')[0]
-            - folder_path: path
+            - archive_name: ${name.split('.')[0]}
+            - folder_path: ${path}
         navigate:
           SUCCESS: unzip_folder
           FAILURE: ZIPFAILURE
@@ -73,10 +73,10 @@ flow:
     - unzip_folder:
         do:
           unzip_archive:
-            - archive_path: "path + '/' + name"
-            - output_folder: out_folder
+            - archive_path: ${path + '/' + name}
+            - output_folder: ${out_folder}
         publish:
-            - unzip_message: message
+            - unzip_message: ${message}
         navigate:
           SUCCESS: delete_output_folder
           FAILURE: UNZIPFAILURE
@@ -84,7 +84,7 @@ flow:
     - delete_output_folder:
         do:
           delete:
-            - source: out_folder
+            - source: ${out_folder}
         navigate:
           SUCCESS: delete_test_folder
           FAILURE: DELETEFAILURE
@@ -92,7 +92,7 @@ flow:
     - delete_test_folder:
         do:
           delete:
-            - source: path
+            - source: ${path}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
