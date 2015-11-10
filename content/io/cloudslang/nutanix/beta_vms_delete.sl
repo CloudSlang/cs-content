@@ -6,18 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an REST API call in order to power off a Virtual Machine in Nutanix PRISM
+# This flow performs an REST API call in order to delete a Virtual Machine in Nutanix PRISM
 #
 # Inputs:
 #   - host - Nutanix host or IP Address endpoint
-#   - username - required - the Nutanix username - Example: admin
-#   - password - required - the Nutanix used for authentication
+#   - username - the Nutanix username - Example: admin
+#   - password - the Nutanix used for authentication
 #   - proxy_host - optional - proxy server used to access the Nutanix host
 #   - proxy_port - optional - proxy server port - Default: "'8080'"
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - vmId - required - Id of the Virtual Machine to power off
-#   - body - optionnal - Json body containing Logical timestamp of the VM and host UUID (create.dto.acropolis.RequestValueDTO). 
+#   - vmId - Id of the Virtual Machine to delete
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
 #   - error_message - return_result if statusCode is not "201"
@@ -31,13 +30,11 @@ imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: vms_power_off
+  name: beta_vms_delete
   inputs:
     - host
-    - username:
-        required: true
-    - password:
-        required: true
+    - username
+    - password
     - proxy_host:
         required: false
     - proxy_port:
@@ -47,14 +44,13 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - vmId:
-        required: true
+    - vmId
 
   workflow:
-    - power_off_vm:
+    - delete_vm:
         do:
-          rest.http_client_post:
-            - url: "'https://' + host + '/vms/' + vmId + '/power_op/off'"
+          rest.http_client_delete:
+            - url: "'https://' + host + '/vms/' + vmId"
             - username
             - password
             - proxy_host
@@ -62,8 +58,6 @@ flow:
             - proxy_username
             - proxy_password
             - content_type: "'application/json'"
-            - body:
-                required: false
             - headers: "'Accept: application/json'"
         publish:
           - return_result

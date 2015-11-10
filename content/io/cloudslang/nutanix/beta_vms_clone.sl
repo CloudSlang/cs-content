@@ -6,20 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an REST API call in order to create a Virtual Machine in Nutanix PRISM
+# This flow performs an REST API call in order to clone a Virtual Machine in Nutanix PRISM
 #
 # Inputs:
 #   - host - Nutanix host or IP Address endpoint
 #   - port - Nutanix endpoint port - Example: 443
-#   - username - required - the Nutanix username - Example: admin
-#   - password - required - the Nutanix used for authentication
+#   - username - the Nutanix username - Example: admin
+#   - password - the Nutanix used for authentication
 #   - proxy_host - optional - proxy server used to access the Nutanix host
 #   - proxy_port - optional - proxy server port - Default: "'8080'"
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - templateId - required - Id of the Virtual Machine to clone
-#   - body - required - Json body containing the details of the created virtual machine (create.dto.acropolis.VMCreateDTO). 
-#                       Use create_resource_vmcreatedto to build this object first.
+#   - templateId - Id of the Virtual Machine to clone
+#   - body - JSON body containing the details of the cloned virtual machine (create.dto.acropolis.VMCloneDTO).
+#            Use create_resource_vmclone to build this object first.
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
 #   - error_message - return_result if statusCode is not "201"
@@ -33,38 +33,29 @@ imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: vms_create
+  name: beta_vms_clone
   inputs:
-    - host:
-        required: true
-    - port:
-        required: true
-    - username:
-        required: true
-    - password:
-        required: true
+    - host
+    - port
+    - username
+    - password
     - proxy_host:
-        default: "''"
         required: false
     - proxy_port:
         default: "'8080'"
         required: false
     - proxy_username:
-        default: "''"
         required: false
     - proxy_password:
-        default: "''"
         required: false
-    - templateId:
-        required: true
-    - body:
-        required: true
+    - templateId
+    - body
 
   workflow:
     - clone_vm:
         do:
           rest.http_client_post:
-            - url: "'https://' + host + ':' + port + '/vms/'"
+            - url: "'https://' + host + ':' + port + '/vms/' + templateId + '/clone'"
             - username
             - password
             - proxy_host
@@ -72,8 +63,8 @@ flow:
             - proxy_username
             - proxy_password
             - content_type: "'application/json'"
-            - body
             - headers: "'Accept: application/json'"
+            - body
         publish:
           - return_result
           - error_message
