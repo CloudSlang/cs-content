@@ -5,7 +5,20 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+#######################################################################################################################
+# Sets up a simple Marathon infrastructure on one CoreOS host or on one Docker host based on the is_core_os input.
+#
+# Inputs:
+#   - marathon_host - Host we work on
+#   - username - username of the host
+#   - private_key_file - private key file used for host
+#   - marathon_port - optional - Marathon agent port - Default: 8080
+#   - is_core_os - true if the host is CoreOS
+# Results:
+#       - SUCCESS
+#       - SETUP_MARATHON_PROBLEM
+#
+#######################################################################################################################
 
 namespace: io.cloudslang.marathon
 
@@ -22,7 +35,7 @@ flow:
     - private_key_file
     - marathon_port:
         required: false
-    - is_core_os
+    - is_core_os: false
 
   workflow:
     - check_is_core_os:
@@ -31,7 +44,7 @@ flow:
             - bool_value: bool(is_core_os)
         navigate:
           SUCCESS: setup_marathon_core_os
-          FAILURE: setup_marathon
+          FAILURE: setup_marathon_docker_host
 
     - setup_marathon_core_os:
         do:
@@ -48,9 +61,9 @@ flow:
           START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
           START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
 
-    - setup_marathon:
+    - setup_marathon_docker_host:
         do:
-          setup_marathon:
+          setup_marathon_docker_host:
             - host: marathon_host
             - username
             - private_key_file

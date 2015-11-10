@@ -29,7 +29,7 @@ namespace: io.cloudslang.marathon
 imports:
   containers: io.cloudslang.docker.containers
 flow:
-  name: setup_marathon
+  name: setup_marathon_docker_host
   inputs:
     - host
     - username
