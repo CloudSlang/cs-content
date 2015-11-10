@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Adds or replaces a value to the given JSON at the key or index represented by the json_path.
+# Adds or replaces a value to the given JSON at the keys or indices represented by the json_path.
 # If the full path does not exist, the keys for the path are added as well.
 #
 # Inputs:

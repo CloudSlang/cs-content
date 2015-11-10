@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves keys from a JSON object.
+# Retrieves keys from a JSON object at a given JSON path.
 #
 # Inputs:
 #   - json_input - JSON from which to retrieve keys
