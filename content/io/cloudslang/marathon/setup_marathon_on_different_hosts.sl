@@ -83,7 +83,7 @@ flow:
               - host: marathon_host
               - port: get('proxy_host', "8080")
               - attempts: 15
-              - time_to_sleep: 5
+              - time_to_sleep: 15
         navigate:
           SUCCESS: SUCCESS
           FAILURE: SETUP_MARATHON_PROBLEM
