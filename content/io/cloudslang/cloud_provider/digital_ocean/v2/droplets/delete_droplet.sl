@@ -47,24 +47,24 @@ flow:
     - execute_delete_request:
         do:
           rest.http_client_delete:
-            - url: "'https://api.digitalocean.com/v2/droplets/' + droplet_id"
-            - auth_type: "'anonymous'"
-            - headers: "'Authorization: Bearer ' + token"
+            - url: ${'https://api.digitalocean.com/v2/droplets/' + droplet_id}
+            - auth_type: 'anonymous'
+            - headers: "${'Authorization: Bearer ' + token}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - content_type: "'application/json'"
+            - content_type: 'application/json'
             - connect_timeout
             - socket_timeout
         publish:
-          - response: return_result
+          - response: ${return_result}
           - status_code
 
     - check_result:
         do:
           strings.string_equals:
-            - first_string: "'204'"
-            - second_string: str(status_code)
+            - first_string: '204'
+            - second_string: ${str(status_code)}
   outputs:
     - response
