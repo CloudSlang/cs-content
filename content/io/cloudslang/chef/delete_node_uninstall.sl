@@ -70,13 +70,13 @@ flow:
     - uninstall_chef_client:
         do:
           ssh.ssh_command:
-            - command: ${'sudo rm -rf /etc/chef;sudo dpkg -P chef'}
-            - host: ${node_host}
-            - username: ${node_username}
-            - password: ${node_password}
-            - privateKeyFile: ${node_privkey}
+            - command: "'sudo rm -rf /etc/chef;sudo dpkg -P chef'"
+            - host: node_host
+            - username: node_username
+            - password: node_password
+            - privateKeyFile: node_privkey
         publish:
-          - raw_result: ${returnResult}
+          - raw_result: returnResult
           - standard_err
   outputs:
     - knife_result
