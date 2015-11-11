@@ -8,13 +8,13 @@
 ####################################################
 # Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
 #
-#Inputs:
+# Inputs:
 #	- json_array - JSON array input
 #	- json_object - JSON object input
-#	- index - position at which to insert the new object. not required.
+#	- index - optional - position at which to insert the new object.
 # Outputs:
-#   - json_output - JSON with keys:value added
-#   - return_result - Inserting was successful or not
+#   - json_output - JSON array with object inserted
+#   - return_result - contains the exception in case of failure, success message otherwise
 #   - return_code - "0" if inserting was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
@@ -35,21 +35,22 @@ operation:
     python_script: |
       try:
         import json
-        decoded = json.loads(json_array)
-        jsonObjectDecoded = json.loads (json_object)
+        decoded_json_array = json.loads(json_array)
+        decoded_json_object = json.loads (json_object)
+        index = locals().get('index')
         if index is None:
-         decoded.append(jsonObjectDecoded)
+         decoded_json_array.append(decoded_json_object)
         else:
          index=int(index)
-         decoded.insert(index,jsonObjectDecoded)
-        encoded = json.dumps(decoded)
+         decoded_json_array.insert(index,decoded_json_object)
+        encoded_json_array = json.dumps(decoded_json_array)
         return_code = '0'
         return_result = 'Inserting successful.'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
   outputs:
-    - json_output: encoded if return_code == '0' else ''
+    - json_output: encoded_json_array if return_code == '0' else ''
     - return_result
     - return_code
     - error_message: return_result if return_code == '-1' else ''
