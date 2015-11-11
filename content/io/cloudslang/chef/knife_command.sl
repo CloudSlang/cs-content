@@ -38,28 +38,28 @@ flow:
     - knife_privkey:
         required: false
     - knife_timeout:
-        default: "'300000'"
+        default: '300000'
     - knife_config:
-        default: "'~/.chef/knife.rb'"
+        default: '~/.chef/knife.rb'
 
   workflow:
     - knife_cmd:
         do:
           ssh.ssh_command:
-            - host: knife_host
-            - username: knife_username
-            - password: knife_password
-            - privateKeyFile: knife_privkey  
+            - host: ${knife_host}
+            - username: ${knife_username}
+            - password: ${knife_password}
+            - privateKeyFile: ${knife_privkey}
             - command: >
-                'echo [knife output] &&' +
-                'knife ' + knife_cmd + ' --config ' + knife_config
-            - timeout: knife_timeout
+                ${'echo [knife output] &&' +
+                'knife ' + knife_cmd + ' --config ' + knife_config}
+            - timeout: ${knife_timeout}
         publish:
           - returnResult
           - standard_err
           - return_code
 
   outputs:
-    - raw_result: returnResult
-    - knife_result: "standard_err + ' ' + returnResult.split('[knife output]')[1]"
+    - raw_result: ${returnResult}
+    - knife_result: ${standard_err + ' ' + returnResult.split('[knife output]')[1]}
     - standard_err
