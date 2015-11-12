@@ -27,6 +27,7 @@ imports:
   base_print: io.cloudslang.base.print
   utils: io.cloudslang.base.utils
   network: io.cloudslang.base.network
+  print: io.cloudslang.base.print
 flow:
   name: setup_marathon_on_different_hosts
   inputs:
@@ -54,7 +55,7 @@ flow:
             - private_key_file
             - marathon_port
         navigate:
-          SUCCESS: wait_for_marathon_startup
+          SUCCESS: print_before_wait
           CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
           START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
           START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
@@ -69,12 +70,19 @@ flow:
             - private_key_file
             - marathon_port
         navigate:
-          SUCCESS: wait_for_marathon_startup
+          SUCCESS: print_before_wait
           CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
           START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
           START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
           START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
           START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+
+    - print_before_wait:
+        do:
+          print.print_text:
+              - text: "'Before wait'"
+        navigate:
+          SUCCESS: wait_for_marathon_startup
 
     - wait_for_marathon_startup:
         do:
