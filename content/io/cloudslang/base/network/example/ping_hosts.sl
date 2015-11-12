@@ -89,7 +89,7 @@ flow:
             - from
             - to
             - subject
-            - body: ${ "Result: " + " ".join(message_body) }
+            - body: "${ 'Result: ' + ' '.join(message_body) }"
             - username
             - password
 
@@ -102,6 +102,6 @@ flow:
                 - from
                 - to
                 - subject
-                - body: ${ 'Result: Failure to ping: ' + ' '.join(message_body) }
+                - body: "${ 'Result: Failure to ping: ' + ' '.join(message_body) }"
                 - username
                 - password
