@@ -7,7 +7,7 @@
 #
 ####################################################
 # Adds or replaces a value to the given JSON at the keys or indices represented by the json_path.
-# If the full path does not exist, the keys for the path are added as well.
+# If the last key in the path does not exist, the key is added as well.
 #
 # Inputs:
 #   - json_input - JSON data input
@@ -19,8 +19,8 @@
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#   - SUCCESS - parsing was successful (return_code == '0') and value was added
+#   - FAILURE - parsing was unsucceful or the path does not exist
 ####################################################
 
 namespace: io.cloudslang.base.json
