@@ -37,6 +37,7 @@ flow:
         navigate:
           SUCCESS: create_marathon_app
           SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - create_marathon_app:
          do:
@@ -78,6 +79,7 @@ flow:
     - SUCCESS
     - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - FAIL_TO_CREATE
     - FAIL_TO_DELETE
     - FAIL_TO_UPDATE

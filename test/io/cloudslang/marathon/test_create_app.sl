@@ -37,6 +37,7 @@ flow:
         navigate:
           SUCCESS: list_initial_marathon_apps
           SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
@@ -191,6 +192,7 @@ flow:
     - SUCCESS
     - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - PARSE_FAILURE
     - FAIL_TO_DELETE
     - APP_NOT_CREATED

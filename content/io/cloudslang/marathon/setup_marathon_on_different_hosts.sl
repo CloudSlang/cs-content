@@ -82,12 +82,13 @@ flow:
               - ssl: 0
               - host: marathon_host
               - port: get('proxy_host', "8080")
-              - attempts: 15
-              - time_to_sleep: 30
+              - attempts: 30
+              - time_to_sleep: 15
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: SETUP_MARATHON_PROBLEM
+          FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
   results:
     - SUCCESS
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
