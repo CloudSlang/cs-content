@@ -34,21 +34,21 @@ operation:
   name: validate_linux_machine_ssh_access
   inputs:
     - host
-    - port: "'22'"
+    - port: '22'
     - username
     - password:
         required: false
     - privateKeyFile:
         required: false
     - command:
-        default: "':'"
+        default: ':'
         overridable: false
     - arguments:
         required: false
-    - characterSet: "'UTF-8'"
-    - pty: "'false'"
-    - timeout: "'30000000'"
-    - closeSession: "'false'"
+    - characterSet: 'UTF-8'
+    - pty: 'false'
+    - timeout: '30000000'
+    - closeSession: 'false'
     - agentForwarding:
         required: false
   action:
@@ -56,12 +56,12 @@ operation:
       className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       methodName: runSshShellCommand
   outputs:
-    - return_result: get('returnResult', '')
-    - return_code: returnCode
-    - standard_out: get('STDOUT', '')
-    - standard_err: get('STDERR', '')
-    - exception: get('exception', '')
-    - exit_status: get('exitStatus', '')
+    - return_result: ${ get('returnResult', '') }
+    - return_code: ${ returnCode }
+    - standard_out: ${ get('STDOUT', '') }
+    - standard_err: ${ get('STDERR', '') }
+    - exception: ${ get('exception', '') }
+    - exit_status: ${ get('exitStatus', '') }
   results:
-    - SUCCESS : returnCode == '0' and (not 'Error' in STDERR)
+    - SUCCESS : ${ returnCode == '0' and (not 'Error' in STDERR) }
     - FAILURE

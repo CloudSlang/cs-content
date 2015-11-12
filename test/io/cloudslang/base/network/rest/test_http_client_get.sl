@@ -21,10 +21,10 @@ flow:
     - password:
         required: false
     - content_type:
-        default: "'application/json'"
+        default: "application/json"
         overridable: false
     - method:
-        default: "'GET'"
+        default: "GET"
         overridable: false
     - proxy_host:
         required: false
@@ -54,8 +54,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
+            - list_2: ["", 0, 200]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_FAILURE

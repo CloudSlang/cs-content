@@ -29,5 +29,5 @@ operation:
     python_script: |
       result = list_1 == list_2
   results:
-    - SUCCESS: result
+    - SUCCESS: ${result}
     - FAILURE

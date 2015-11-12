@@ -41,10 +41,10 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: decoded if return_code == '0' else ''
+    - value: ${ decoded if return_code == '0' else '' }
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${ return_result if return_code == '-1' else '' }
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE
