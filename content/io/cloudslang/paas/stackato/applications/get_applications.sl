@@ -97,7 +97,7 @@ flow:
         do:
           json.get_value:
             - json_input: return_result
-            - key_list: ["'resources'"]
+            - json_path: ["'resources'"]
         publish:
           - apps_list: value
         navigate:

@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Adds a value to the given JSON at the key represented by the key_list if one doesn't already exist
-# or replaces the value at the key represented by the key_list if one already exists
+# Adds or replaces a value to the given JSON at the keys or indices represented by the json_path.
+# If the last key in the path does not exist, the key is added as well.
 #
 # Inputs:
 #   - json_input - JSON data input
-#   - key_list - list of keys to add - Example: ['tags', 1, 'name']
+#   - json_path - path at which to add value represented as a list of keys and/or indices - Example: ['tags', 1, 'name']
 #   - value - value to associate with key
 # Outputs:
 #   - json_output - JSON with keys:value added
@@ -19,8 +19,8 @@
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#   - SUCCESS - parsing was successful (return_code == '0') and value was added
+#   - FAILURE - parsing was unsuccessful or the path does not exist
 ####################################################
 
 namespace: io.cloudslang.base.json
@@ -29,18 +29,18 @@ operation:
   name: add_value
   inputs:
     - json_input
-    - key_list
+    - json_path
     - value
   action:
     python_script: |
       try:
         import json
-        if len(key_list) > 0:
+        if len(json_path) > 0:
           decoded = json.loads(json_input)
           temp = decoded
-          for key in key_list[:-1]:
+          for key in json_path[:-1]:
             temp = temp[key]
-          temp[key_list[-1]] = value
+          temp[json_path[-1]] = value
         else:
           decoded = value
         encoded = json.dumps(decoded)
