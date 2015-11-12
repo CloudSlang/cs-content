@@ -1,0 +1,48 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testAddValueExistingPath:
+  inputs:
+    - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key2]
+    - value: outer_value2
+    - json_after: '{"outer_key1": "outer_value1", "outer_key2": "outer_value2"}'
+  description: Tests that add_value.sl correctly adds value to JSON
+  testFlowPath: io.cloudslang.base.json.test_add_value
+  result: SUCCESS
+
+testAddValueNewKey:
+  inputs:
+    - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key2, inner_key3]
+    - value: inner_value3
+    - json_after: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key3": "inner_value3", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
+  description: Tests that add_value.sl correctly adds value to JSON
+  testFlowPath: io.cloudslang.base.json.test_add_value
+  result: SUCCESS
+
+testAddValueNewKeys:
+  inputs:
+    - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key3, inner_key3]
+    - value: inner_value3
+    - json_after: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}, "outer_key3": "inner_key3"}'
+  description: Tests that add_value.sl correctly adds value to JSON
+  testFlowPath: io.cloudslang.base.json.test_add_value
+  result: CREATEFAILURE
+
+testAddValueBadIndex:
+  inputs:
+    - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key1, 0]
+    - value: outer_value1
+    - json_after: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key3": "inner_value3", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
+  description: Tests that add_value.sl correctly adds value to JSON
+  testFlowPath: io.cloudslang.base.json.test_add_value
+  result: CREATEFAILURE

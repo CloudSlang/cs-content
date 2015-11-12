@@ -72,9 +72,9 @@ flow:
 
     - get_authentication_token:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
-            - key_list: ["'access_token'"]
+            - json_path: ["'access_token'"]
         publish:
           - token: value
           - error_message

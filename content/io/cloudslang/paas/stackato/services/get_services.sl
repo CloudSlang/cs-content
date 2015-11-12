@@ -95,9 +95,9 @@ flow:
 
     - get_services_list:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
-            - key_list: ["'resources'"]
+            - json_path: ["'resources'"]
         publish:
           - services_list: value
         navigate:
