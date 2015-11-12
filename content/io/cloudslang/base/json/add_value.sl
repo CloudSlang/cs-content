@@ -20,7 +20,7 @@
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0') and value was added
-#   - FAILURE - parsing was unsucceful or the path does not exist
+#   - FAILURE - parsing was unsuccessful or the path does not exist
 ####################################################
 
 namespace: io.cloudslang.base.json
