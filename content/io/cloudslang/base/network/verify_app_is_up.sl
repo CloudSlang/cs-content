@@ -47,7 +47,9 @@ operation:
       while (( count < int(attempts) ) and ( not return_result )):
         try:
           result = urllib2.urlopen(url)
-        except Exception :
+          print result
+        except Exception as e:
+          print e
           count = count + 1
           time.sleep(int(time_to_sleep))
         else:
