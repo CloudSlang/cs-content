@@ -91,7 +91,7 @@ flow:
               - host: marathon_host
               - port: get('proxy_host', "8080")
               - attempts: 30
-              - time_to_sleep: 10
+              - time_to_sleep: 5
         navigate:
           SUCCESS: SUCCESS
           FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
