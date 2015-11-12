@@ -94,7 +94,7 @@ flow:
               - time_to_sleep: 5
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          FAILURE: SUCCESS
 
   results:
     - SUCCESS
