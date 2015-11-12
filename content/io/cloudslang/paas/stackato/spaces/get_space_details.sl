@@ -4,9 +4,9 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ####################################################
-# Authenticates and retrieves details about a specified Helion Development Platform / Stackato space (filtered by space_name)
+# Authenticates and retrieves details about a specified Helion Development Platform / Stackato space
+#   (filtered by space_name)
 #
 # Inputs:
 #   - host - Helion Development Platform / Stackato host
@@ -14,7 +14,8 @@
 #   - password - Helion Development Platform / Stackato password
 #   - space_name - Name of the space to get details about
 #   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services
+#                           - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
@@ -25,12 +26,14 @@
 #   - resource_created_at - date when the specified space was created
 #   - resource_updated_at - the last time when the specified space was updated
 # Results:
-#   - SUCCESS - the details of the specified space on Helion Development Platform / Stackato host was successfully retrieved
+#   - SUCCESS - the details of the specified space on Helion Development Platform / Stackato host was successfully
+#               retrieved
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fail
 #   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
 #   - GET_SPACES_FAILURE - the get spaces call fail
 #   - GET_SPACES_LIST_FAILURE - the list with spaces on Helion Development Platform / Stackato could not be retrieved
-#   - GET_SPACE_DETAILS_FAILURE - the details about a specified Helion Development Platform / Stackato space (filtered by space_name) could not be retrieved
+#   - GET_SPACE_DETAILS_FAILURE - the details about a specified Helion Development Platform / Stackato space
+#                                 (filtered by space_name) could not be retrieved
 ####################################################
 namespace: io.cloudslang.paas.stackato.spaces
 
@@ -47,7 +50,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -80,8 +83,8 @@ flow:
     - get_space_details:
         do:
           stackato_utils.get_resource_details:
-            - json_input: return_result
-            - key_name: space_name
+            - json_input: ${return_result}
+            - key_name: ${space_name}
         publish:
           - error_message
           - return_code

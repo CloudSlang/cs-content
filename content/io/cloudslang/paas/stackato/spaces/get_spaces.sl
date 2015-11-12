@@ -4,7 +4,6 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ####################################################
 # Authenticates and retrieves a list of all Helion Development Platform / Stackato spaces
 #
@@ -13,13 +12,14 @@
 #   - username - Helion Development Platform / Stackato username
 #   - password - Helion Development Platform / Stackato password
 #   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - proxy server port - the proxy server port used to access the Helion Development Platform / Stackato services - Default: "'8080'"
+#   - proxy_port - optional - proxy server port - the proxy server port used to access the Helion Development Platform
+#                                                 / Stackato services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not "'200'"
-#   - return_code - "'0'" if success, "'-1'" otherwise
+#   - error_message - return_result if status_code is not '200'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 #   - spaces_list - list of all spaces on Helion Development Platform / Stackato instance
 # Results:
@@ -45,7 +45,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -75,15 +75,15 @@ flow:
     - get_spaces:
         do:
           rest.http_client_get:
-            - url: "'https://' + host + '/v2/spaces'"
+            - url: "${'https://' + host + '/v2/spaces'}"
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "'Authorization: bearer ' + token"
-            - content_type: "'application/json'"
+            - headers: "${'Authorization: bearer ' + token}"
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
@@ -96,10 +96,10 @@ flow:
     - get_spaces_list:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["'resources'"]
         publish:
-          - spaces_list: value
+          - spaces_list: ${value}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: GET_SPACES_LIST_FAILURE
@@ -108,7 +108,7 @@ flow:
     - return_result
     - return_code
     - status_code
-    - error_message: return_result if return_code == '-1' or status_code != '200' else ''
+    - error_message: ${return_result if return_code == '-1' or status_code != '200' else ''}
     - spaces_list
 
   results:
