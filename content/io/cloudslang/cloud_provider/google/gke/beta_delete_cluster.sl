@@ -24,11 +24,11 @@
 #                                                 }
 #
 # Inputs:
-#   - projectId - The Google Developers Console project ID or project number
+#   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#   - jSonGoogleAuthPath - FileSystem Path to Google authentication JSON key file.
+#   - json_google_auth_path - FileSystem Path to Google authentication JSON key file.
 #                          Example : C:\\Temp\\cloudslang-026ac0ebb6e0.json
-#   - clusterId - The name of the cluster to delete
+#   - cluster_id - The name of the cluster to delete
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -43,12 +43,12 @@ namespace: io.cloudslang.cloud_provider.google.gke
 operation:
   name: beta_delete_cluster
   inputs:
-    - projectId
+    - project_id
     - zone:
         default: "'-'"
         required: false
-    - jSonGoogleAuthPath
-    - clusterId
+    - json_google_auth_path
+    - cluster_id
 
   action:
     python_script: |
@@ -56,10 +56,10 @@ operation:
         import os
         from apiclient import discovery
         from oauth2client.client import GoogleCredentials
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = jSonGoogleAuthPath
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_google_auth_path
         credentials = GoogleCredentials.get_application_default()
         service = discovery.build('container', 'v1', credentials=credentials)
-        request = service.projects().zones().clusters().delete(projectId=projectId, zone=zone, clusterId=clusterId)
+        request = service.projects().zones().clusters().delete(projectId=project_id, zone=zone, clusterId=cluster_id)
         response = request.execute()
         cluster_name = response['name']
 

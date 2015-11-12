@@ -22,9 +22,9 @@
 #                                                 }
 #
 # Inputs:
-#   - projectId - The Google Developers Console project ID or project number
+#   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#   - jSonGoogleAuthPath - FileSystem Path to Google authentication JSON key file.
+#   - json_google_auth_path - FileSystem Path to Google authentication JSON key file.
 #                          Example : C:\\Temp\\cloudslang-026ac0ebb6e0.json
 #
 # Outputs:
@@ -39,11 +39,11 @@ namespace: io.cloudslang.cloud_provider.google.gke
 operation:
   name: beta_list_clusters
   inputs:
-    - projectId
+    - project_id
     - zone:
         default: "'-'"
         required: false
-    - jSonGoogleAuthPath
+    - json_google_auth_path
 
   action:
     python_script: |
@@ -51,10 +51,10 @@ operation:
         import os
         from apiclient import discovery
         from oauth2client.client import GoogleCredentials
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = jSonGoogleAuthPath
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_google_auth_path
         credentials = GoogleCredentials.get_application_default()
         service = discovery.build('container', 'v1', credentials=credentials)
-        request = service.projects().zones().clusters().list(projectId=projectId, zone=zone)
+        request = service.projects().zones().clusters().list(projectId=project_id, zone=zone)
         response = request.execute()
 
         return_result = 'Success'

@@ -27,9 +27,9 @@
 #                                                 }
 #
 # Inputs:
-#   - projectId - The Google Developers Console project ID or project number
+#   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#   - jSonGoogleAuthPath - FileSystem path to Google authentication JSON key file.
+#   - json_google_auth_path - FileSystem path to Google authentication JSON key file.
 #                          Example : C:\\Temp\\cloudslang-026ac0ebb6e0.json
 #   - cluster - A cluster resource
 #
@@ -46,9 +46,9 @@ namespace: io.cloudslang.cloud_provider.google.gke
 operation:
   name: beta_create_cluster
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
+    - json_google_auth_path
     - cluster
 
   action:
@@ -60,10 +60,10 @@ operation:
         import json
 
         json_cluster = json.loads(cluster)
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = jSonGoogleAuthPath
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_google_auth_path
         credentials = GoogleCredentials.get_application_default()
         service = discovery.build('container', 'v1', credentials=credentials)
-        request = service.projects().zones().clusters().create(projectId=projectId,zone=zone,body=json_cluster)
+        request = service.projects().zones().clusters().create(projectId=project_id,zone=zone,body=json_cluster)
         response = request.execute()
         cluster_name = response['name']
 

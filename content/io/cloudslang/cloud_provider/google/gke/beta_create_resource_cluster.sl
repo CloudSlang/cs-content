@@ -10,34 +10,32 @@
 # More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
 #
 # Inputs:
-#   - projectId - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#   - jSonGoogleAuthPath - FileSystem Path to Google Authentitification json key file.
 #                          Example : C:\\Temp\\cloudslang-026ac0ebb6e0.json
 #   - name - The name of the cluster to delete
 #   - description - An optional description of this cluster
-#   - initialNodeCount - The number of nodes to create in this cluster. You must ensure that your Compute Engine
+#   - initial_node_count - The number of nodes to create in this cluster. You must ensure that your Compute Engine
 #                        resource quota is sufficient for this number of instances. You must also have available
 #                        firewall and routes quota
-#   - machineType
-#   - diskSizeGb
-#   - oauthScopes
-#   - masterauthUsername
-#   - masterauthPassword
-#   - loggingService
-#   - monitoringService
+#   - machine_type
+#   - disk_size_gb
+#   - oauth_scopes
+#   - masterauth_username
+#   - masterauth_password
+#   - logging_service
+#   - monitoring_service
 #   - network
-#   - clusterIpv4Cidr
-#   - selfLink
+#   - cluster_ipv4_cidr
+#   - self_link
 #   - endpoint
-#   - initialClusterVersion
-#   - currentMasterVersion
-#   - currentNodeVersion
-#   - createTime
+#   - initial_cluster_version
+#   - current_master_version
+#   - current_node_version
+#   - create_time
 #   - status
-#   - statusMessage
-#   - nodeIpv4CidrSize
-#   - servicesIpv4Cidr
+#   - status_message
+#   - node_ipv4_cidr_size
+#   - services_ipv4_cidr
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -56,42 +54,42 @@ operation:
     - name
     - description:
         required: false
-    - initialNodeCount
-    - machineType:
+    - initial_node_count
+    - machine_type:
         required: false
-    - diskSizeGb:
+    - disk_size_gb:
         required: false
-    - oauthScopes:
+    - oauth_scopes:
         required: false
-    - masterauthUsername
-    - masterauthPassword
-    - loggingService:
+    - masterauth_username
+    - masterauth_password
+    - logging_service:
         required: false
-    - monitoringService:
+    - monitoring_service:
         required: false
     - network:
         required: false
-    - clusterIpv4Cidr:
+    - cluster_ipv4_cidr:
         required: false
-    - selfLink:
+    - self_link:
         required: false
     - endpoint:
         required: false
-    - initialClusterVersion:
+    - initial_cluster_version:
         required: false
-    - currentMasterVersion:
+    - current_master_version:
         required: false
-    - currentNodeVersion:
+    - current_node_version:
         required: false
-    - createTime:
+    - create_time:
         required: false
     - status:
         required: false
-    - statusMessage:
+    - status_message:
         required: false
-    - nodeIpv4CidrSize:
+    - node_ipv4_cidr_size:
         required: false
-    - servicesIpv4Cidr:
+    - services_ipv4_cidr:
         required: false
 
   action:
@@ -104,17 +102,17 @@ operation:
         json_nodeconfig = {}
         json_masterauth = {}
 
-        if machineType:
-          json_nodeconfig['machineType'] = machineType
-        if diskSizeGb:
-          json_nodeconfig['diskSizeGb'] = diskSizeGb
-        if oauthScopes:
-          json_nodeconfig['oauthScopes'] = oauthScopes
+        if machine_type:
+          json_nodeconfig['machineType'] = machine_type
+        if disk_size_gb:
+          json_nodeconfig['diskSizeGb'] = disk_size_gb
+        if oauth_scopes:
+          json_nodeconfig['oauthScopes'] = oauth_scopes
 
-        if masterauthPassword:
-          json_masterauth['password'] = masterauthPassword
-        if masterauthUsername:
-          json_masterauth['username'] = masterauthUsername
+        if masterauth_username:
+          json_masterauth['username'] = masterauth_username
+        if masterauth_password:
+          json_masterauth['password'] = masterauth_password
 
         if name:
           json_body['name'] = name
@@ -122,36 +120,36 @@ operation:
           json_body['zone'] = zone
         if description:
           json_body['description'] = description
-        if initialNodeCount:
-          json_body['initialNodeCount'] = initialNodeCount
-        if loggingService:
-          json_body['loggingService'] = loggingService
-        if monitoringService:
-          json_body['monitoringService'] = monitoringService
+        if initial_node_count:
+          json_body['initial_node_count'] = initial_node_count
+        if logging_service:
+          json_body['loggingService'] = logging_service
+        if monitoring_service:
+          json_body['monitoringService'] = monitoring_service
         if network:
           json_body['network'] = network
-        if clusterIpv4Cidr:
-          json_body['clusterIpv4Cidr'] = clusterIpv4Cidr
-        if selfLink:
-          json_body['selfLink'] = selfLink
+        if cluster_ipv4_cidr:
+          json_body['clusterIpv4Cidr'] = cluster_ipv4_cidr
+        if self_link:
+          json_body['selfLink'] = self_link
         if endpoint:
           json_body['endpoint'] = endpoint
-        if initialClusterVersion:
-          json_body['initialClusterVersion'] = initialClusterVersion
-        if currentMasterVersion:
-          json_body['currentMasterVersion'] = currentMasterVersion
-        if currentNodeVersion:
-          json_body['currentNodeVersion'] = currentNodeVersion
-        if createTime:
-          json_body['createTime'] = createTime
+        if initial_cluster_version:
+          json_body['initialClusterVersion'] = initial_cluster_version
+        if current_master_version:
+          json_body['currentMasterVersion'] = current_master_version
+        if current_node_version:
+          json_body['currentNodeVersion'] = current_node_version
+        if create_time:
+          json_body['createTime'] = create_time
         if status:
           json_body['status'] = status
-        if statusMessage:
-          json_body['statusMessage'] = statusMessage
-        if nodeIpv4CidrSize:
-          json_body['nodeIpv4CidrSize'] = nodeIpv4CidrSize
-        if servicesIpv4Cidr:
-          json_body['servicesIpv4Cidr'] = servicesIpv4Cidr
+        if status_message:
+          json_body['statusMessage'] = status_message
+        if node_ipv4_cidr_size:
+          json_body['nodeIpv4CidrSize'] = node_ipv4_cidr_size
+        if services_ipv4_cidr:
+          json_body['servicesIpv4Cidr'] = services_ipv4_cidr
 
         if json_nodeconfig:
           json_body['nodeConfig'] = json_nodeconfig

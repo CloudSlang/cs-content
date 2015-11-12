@@ -16,24 +16,23 @@ imports:
 flow:
   name: test_create
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
+    - json_google_auth_path
     - name
-    - initialNodeCount
+    - initial_node_count
     - network
-    - machineType
-    - masterauthUsername
-    - masterauthPassword
+    - masterauth_username
+    - masterauth_password
 
   workflow:
     - createResourceCluster:
         do:
           beta_create_resource_cluster:
             - name
-            - initialNodeCount
-            - masterauthUsername
-            - masterauthPassword
+            - initial_node_count
+            - masterauth_username
+            - masterauth_password
         publish:
           - return_result
           - response
@@ -48,9 +47,9 @@ flow:
     - createCluster:
         do:
           beta_create_cluster:
-            - projectId
+            - project_id
             - zone
-            - jSonGoogleAuthPath
+            - json_google_auth_path
             - cluster: response
         publish:
           - return_result
@@ -72,9 +71,9 @@ flow:
     - deleteCluster:
         do:
           beta_delete_cluster:
-            - projectId
+            - project_id
             - zone
-            - jSonGoogleAuthPath
+            - json_google_auth_path
             - clusterId: name 
         publish:
           - return_result

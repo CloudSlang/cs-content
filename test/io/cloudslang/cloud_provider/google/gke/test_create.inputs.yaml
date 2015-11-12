@@ -11,16 +11,16 @@ test_create_gke_success:
   description: Calls test_create.sl - see description in the flow
   testFlowPath: io.cloudslang.cloud_provider.google.gke.test_create
   inputs:
-    - projectId: "cloudslang-1074"
-    - zone: "us-central1-f"
-    - jSonGoogleAuthPath: "C:\\\\github\\cloud-slang-content\\cloudslang-1d9fa64f7f66.json"
-    - name: "mbettan"
-    - initialNodeCount: "1"
-    - network: "default"
-    - enableCloudLogging: "true"
-    - enableCloudMonitoring: "false"
-    - operationId: "operation-1443134355472-11f26864"
-    - machineType: "n1-standard-1"
-    - masterauthUsername: "admin"
-    - masterauthPassword: "RYHtTtxLmW4hsqJ6"
+    - project_id: <project_id>
+    - zone: <zone>
+    - json_google_auth_path: <json_google_auth_path>
+    - name: <name>
+    - initial_node_count: <initial_node_count>
+    - network: <network>
+    - enable_cloud_logging: <enable_cloud_logging>
+    - enable_cloud_monitoring: <enable_cloud_monitoring>
+    - operation_id: <operation_id>
+    - machine_type: <machine_type>
+    - masterauth_username: <masterauth_username>
+    - masterauth_password: <masterauth_password>
   result: SUCCESS

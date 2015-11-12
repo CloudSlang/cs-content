@@ -23,11 +23,11 @@
 #                                                  }
 #
 # Inputs:
-#   - projectId - The Google Developers Console project ID or project number
+#   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#   - jSonGoogleAuthPath - FileSystem Path to Google authentication JSON key file.
+#   - json_google_auth_path - FileSystem Path to Google authentication JSON key file.
 #                          Example : C:\\Temp\\cloudslang-026ac0ebb6e0.json
-#   - operationId - The server-assigned name of the operation.
+#   - operation_id - The server-assigned name of the operation.
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -41,10 +41,10 @@ namespace: io.cloudslang.cloud_provider.google.gke
 operation:
   name: beta_get_operations
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
-    - operationId
+    - json_google_auth_path
+    - operation_id
 
   action:
     python_script: |
@@ -52,10 +52,10 @@ operation:
         import os
         from apiclient import discovery
         from oauth2client.client import GoogleCredentials
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = jSonGoogleAuthPath
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json_google_auth_path
         credentials = GoogleCredentials.get_application_default()
         service = discovery.build('container', 'v1', credentials=credentials)
-        request = service.projects().zones().operations().get(projectId=projectId,zone=zone,operationId=operationId)
+        request = service.projects().zones().operations().get(projectId=project_id,zone=zone,operationId=operation_id)
         response = request.execute()
 
         return_result = 'Success'

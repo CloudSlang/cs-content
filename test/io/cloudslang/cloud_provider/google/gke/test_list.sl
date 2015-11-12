@@ -16,19 +16,18 @@ imports:
 flow:
   name: test_list
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
+    - json_google_auth_path
     - name
-    - initialNodeCount
     - network
-    - operationId
+    - operation_id
   workflow:
     - ListClusters:
         do:
           beta_list_clusters:
-            - projectId
-            - jSonGoogleAuthPath
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
@@ -43,8 +42,8 @@ flow:
     - ListOperations:
         do:
           beta_list_operations:
-            - projectId
-            - jSonGoogleAuthPath
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
@@ -59,8 +58,8 @@ flow:
     - getServerconfig:
         do:
           beta_get_serverconfig:
-            - projectId
-            - jSonGoogleAuthPath
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
@@ -75,10 +74,10 @@ flow:
     - getOperation:
         do:
           beta_get_operations:
-            - projectId
+            - project_id
             - zone
-            - jSonGoogleAuthPath
-            - operationId
+            - json_google_auth_path
+            - operation_id
         publish:
           - return_result
           - response
