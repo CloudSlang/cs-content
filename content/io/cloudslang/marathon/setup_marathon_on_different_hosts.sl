@@ -82,20 +82,14 @@ flow:
           print.print_text:
               - text: "'Before wait'"
         navigate:
-          SUCCESS: wait_for_marathon_startup
+          SUCCESS: wait_for_marathon
 
-    - wait_for_marathon_startup:
+    - wait_for_marathon:
         do:
-          network.verify_app_is_up:
-              - ssl: 0
-              - host: marathon_host
-              - port: get('proxy_host', "8080")
-              - attempts: 30
-              - time_to_sleep: 15
+          utils.sleep:
+              - seconds: 400
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
-
   results:
     - SUCCESS
     - SETUP_MARATHON_PROBLEM
