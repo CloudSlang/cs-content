@@ -46,7 +46,7 @@ operation:
       return_result = False
       while (( count < int(attempts) ) and ( not return_result )):
         try:
-          result = urllib2.urlopen(url, timeout=5)
+          result = urllib2.urlopen(url, timeout=10)
           print result
         except Exception as e:
           print e
