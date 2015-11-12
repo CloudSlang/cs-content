@@ -17,7 +17,6 @@
 #   - proxy_port - optional - proxy server port - Default: "'8080'"
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - templateId - Id of the Virtual Machine to clone
 #   - body - JSON body containing the details of the created virtual machine (create.dto.acropolis.VMCreateDTO).
 #            Use create_resource_vmcreatedto to build this object first.
 # Outputs:
@@ -48,7 +47,6 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - templateId
     - body
 
   workflow:

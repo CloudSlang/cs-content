@@ -11,8 +11,8 @@
 #
 # Inputs:
 #   - name - name for the cloned Virtual Machine
-#   - numVcpus - overrides the number of vCPUs assigned to the clone
-#   - memoryMb - overrides the amount of RAM assigned to the clone
+#   - num_vcpus - overrides the number of vCPUs assigned to the clone
+#   - memory_mb - overrides the amount of RAM assigned to the clone
 #   - uuid - a version 4 UUID that the client may specify for idempotence.
 #            This UUID will be used as the vm ID of the target vm
 # Outputs:
@@ -28,9 +28,9 @@ operation:
   name: beta_create_resource_vmclonedto
   inputs:
     - name
-    - numVcpus:
+    - num_vcpus:
         required: false
-    - memoryMb:
+    - memory_mb:
         required: false
     - uuid:
         required: false
@@ -46,10 +46,10 @@ operation:
 
         if name:
           json_body['name'] = name
-        if numVcpus:
-          json_body['numVcpus'] = numVcpus
-        if memoryMb:
-          json_body['memoryMb'] = memoryMb
+        if num_vcpus:
+          json_body['numVcpus'] = num_vcpus
+        if memory_mb:
+          json_body['memoryMb'] = memory_mb
         if uuid:
           json_body['uuid'] = uuid
 

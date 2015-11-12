@@ -12,10 +12,10 @@
 #
 # Inputs:
 #   - size - Size of the Virtual Machine disk to be created in bytes
-#   - sizeMb -  Size of the Virtual Machine disk to be created in MB
-#   - containerName - optional - WName of container to create disk in.
+#   - size_mb -  Size of the Virtual Machine disk to be created in MB
+#   - container_name - optional - WName of container to create disk in.
 #                                If this is specified, then 'containerId' should not be specified
-#   - containerId - optional -  Id of container to create disk in.
+#   - container_id - optional -  Id of container to create disk in.
 #                               If this is specified, then 'containerName' should not be specified
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -31,9 +31,9 @@ operation:
   name: beta_create_resource_vmdiskspeccreatedto
   inputs:
     - size
-    - sizeMb
-    - containerName
-    - containerId
+    - size_mb
+    - container_name
+    - container_id
 
   action:
     python_script: |
@@ -46,14 +46,14 @@ operation:
 
         if size:
           json_body['size'] = size
-        if sizeMb:
-          json_body['sizeMb'] = sizeMb
-        if containerName:
-          json_body['containerName'] = containerName
+        if size_mb:
+          json_body['sizeMb'] = size_mb
+        if container_name:
+          json_body['containerName'] = container_name
         if vmDiskClone:
           json_body['vmDiskClone'] = vmDiskClone
-        if containerId:
-          json_body['containerId'] = containerId
+        if container_id:
+          json_body['containerId'] = container_id
 
         json_body_table[0] = json_body
         json_main['specList'] = json_body_table

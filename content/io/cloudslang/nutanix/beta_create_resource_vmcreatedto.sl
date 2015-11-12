@@ -11,11 +11,11 @@
 #
 # Inputs:
 #   - name - name for the cloned Virtual Machine
-#   - memoryMb - overrides the amount of RAM assigned to the clone
-#   - numVcpus - overrides the number of vCPUs assigned to the clone
+#   - memory_mb - overrides the amount of RAM assigned to the clone
+#   - num_vcpus - overrides the number of vCPUs assigned to the clone
 #   - description - optional -  description for the Virtual Machine
-#   - haPriority - optional - priority for restarting in case of HA event
-#   - numCoresPerVcpu - optional - number of cores assigned to each VCPUs
+#   - ha_priority - optional - priority for restarting in case of HA event
+#   - num_cores_per_vcpu - optional - number of cores assigned to each VCPUs
 #   - uuid - optional - a version 4 UUID that the client may specify for idempotence.
 #                       This UUID will be used as the vm ID of the target vm
 # Outputs:
@@ -31,13 +31,13 @@ operation:
   name: beta_create_resource_vmcreatedto
   inputs:
     - name
-    - memoryMb
-    - numVcpus
+    - memory_mb
+    - num_vcpus
     - description:
         required: false
-    - haPriority:
+    - ha_priority:
         required: false
-    - numCoresPerVcpu:
+    - num_cores_per_vcpu:
         required: false
     - uuid:
         required: false
@@ -53,16 +53,16 @@ operation:
 
         if name:
           json_body['name'] = name
-        if memoryMb:
-          json_body['memoryMb'] = memoryMb
-        if numVcpus:
-          json_body['numVcpus'] = numVcpus
+        if memory_mb:
+          json_body['memoryMb'] = memory_mb
+        if num_vcpus:
+          json_body['numVcpus'] = num_vcpus
         if description:
           json_body['description'] = description
-        if haPriority:
-          json_body['haPriority'] = haPriority
-        if numCoresPerVcpu:
-          json_body['numCoresPerVcpu'] = numCoresPerVcpu
+        if ha_priority:
+          json_body['haPriority'] = ha_priority
+        if num_cores_per_vcpu:
+          json_body['numCoresPerVcpu'] = num_cores_per_vcpu
         if uuid:
           json_body['uuid'] = uuid
 

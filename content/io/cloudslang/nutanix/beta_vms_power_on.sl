@@ -16,7 +16,7 @@
 #   - proxy_port - optional - proxy server port - Default: "'8080'"
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - vmId - Id of the Virtual Machine to power on
+#   - vm_id - Id of the Virtual Machine to power on
 #   - body - optional - JSON body containing Logical timestamp of the VM and host UUID (create.dto.acropolis.RequestValueDTO).
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -45,13 +45,13 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - vmId
+    - vm_id
 
   workflow:
     - power_on_vm:
         do:
           rest.http_client_post:
-            - url: "'https://' + host + '/vms/' + vmId + '/power_op/on'"
+            - url: "'https://' + host + '/vms/' + vm_id + '/power_op/on'"
             - username
             - password
             - proxy_host

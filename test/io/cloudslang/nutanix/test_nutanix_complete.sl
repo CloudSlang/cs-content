@@ -17,14 +17,14 @@ flow:
   name: test_nutanix_complete
   inputs:
     - name
-    - numVcpus
-    - memoryMb
+    - num_vcpus
+    - memory_mb
     - uuid
     - host
     - port
     - username
     - password
-    - templateId
+    - template_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -35,17 +35,17 @@ flow:
         required: false
     - description:
         required: false
-    - haPriority:
+    - ha_priority:
         required: false
-    - numCoresPerVcpu:
+    - num_cores_per_vcpu:
         required: false
   workflow:
     - nutanixCreateResourceVMClone:
         do:
           beta_create_resource_vmclonedto:
             - name
-            - numVcpus
-            - memoryMb
+            - num_vcpus
+            - memory_mb
             - uuid
         publish:
           - return_result
@@ -62,11 +62,11 @@ flow:
         do:
           beta_create_resource_vmcreatedto:
             - name
-            - memoryMb
-            - numVcpus
+            - memory_mb
+            - num_vcpus
             - description
-            - haPriority
-            - numCoresPerVcpu
+            - ha_priority
+            - num_cores_per_vcpu
             - uuid
         publish:
           - return_result
@@ -86,7 +86,7 @@ flow:
             - port
             - username
             - password
-            - templateId
+            - template_id
             - body: response
         publish:
           - return_result
@@ -106,7 +106,7 @@ flow:
             - port
             - username
             - password
-            - templateId
+            - template_id
             - body: response
         publish:
           - return_result

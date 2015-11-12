@@ -10,17 +10,17 @@
 # For example, it could be used for create a Virtual Machine operation.
 #
 # Inputs:
-#   - vmDiskCreate - optional - Specification for creating a new disk.
+#   - vm_disk_create - optional - Specification for creating a new disk.
 #                               Only one of 'vmCreateSpec' and 'vmCloneSpec' is required per create/update request
-#   - diskAddress - optional - Disk address represented by device bus type and device index
-#   - isScsiPassThrough - optional - Whether the SCSI disk should be attached in pass-through mode to pass all SCSI
+#   - disk_address - optional - Disk address represented by device bus type and device index
+#   - is_scsi_pass_through - optional - Whether the SCSI disk should be attached in pass-through mode to pass all SCSI
 #                                    commands directly to stargate via iSCSI. Default: true
-#   - vmDiskClone - optional - Specification for cloning a new disk or snapshot. Only one of 'vmCloneSpec' and
+#   - vm_disk_clone - optional - Specification for cloning a new disk or snapshot. Only one of 'vmCloneSpec' and
 #                              'vmCreateSpec' is required per create/update request
-#   - isEmpty - optional -  Whether the drive should be empty. This field only applies to CD-ROM drives, otherwise
+#   - is_empty - optional -  Whether the drive should be empty. This field only applies to CD-ROM drives, otherwise
 #                              it is ignored. If this field is set to true and the drive is a CD-ROM, then the disk
 #                              creation field 'vmDiskCreate' should be ignored. Default: false
-#   - isCdrom - optional - Whether this is a CD-ROM drive. Default: false
+#   - is_cdrom - optional - Whether this is a CD-ROM drive. Default: false
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
 #   - error_message - return_result if return_code is not "0"
@@ -33,17 +33,17 @@ namespace: io.cloudslang.nutanix
 operation:
   name: beta_create_resource_vmdiskdto
   inputs:
-    - vmDiskCreate:
+    - vm_disk_create:
         required: false
-    - diskAddress:
+    - disk_address:
         required: false
-    - isScsiPassThrough:
+    - is_scsi_pass_through:
         required: false
-    - vmDiskClone:
+    - vm_disk_clone:
         required: false
-    - isEmpty:
+    - is_empty:
         required: false
-    - isCdrom:
+    - is_cdrom:
         required: false
 
   action:
@@ -55,18 +55,18 @@ operation:
         json_body = {}
         json_body_table = [[]]
 
-        if vmDiskCreate:
-          json_body['vmDiskCreate'] = vmDiskCreate
-        if diskAddress:
-          json_body['diskAddress'] = diskAddress
-        if isScsiPassThrough:
-          json_body['isScsiPassThrough'] = isScsiPassThrough
-        if vmDiskClone:
-          json_body['vmDiskClone'] = vmDiskClone
-        if isEmpty:
-          json_body['isEmpty'] = isEmpty
-        if isCdrom:
-          json_body['isCdrom'] = isCdrom
+        if vm_disk_create:
+          json_body['vmDiskCreate'] = vm_disk_create
+        if disk_address:
+          json_body['diskAddress'] = disk_address
+        if is_scsi_pass_through:
+          json_body['isScsiPassThrough'] = is_scsi_pass_through
+        if vm_disk_clone:
+          json_body['vmDiskClone'] = vm_disk_clone
+        if is_empty:
+          json_body['isEmpty'] = is_empty
+        if is_cdrom:
+          json_body['isCdrom'] = is_cdrom
 
         json_body_table[0] = json_body
         json_main['specList'] = json_body_table

@@ -18,14 +18,14 @@ flow:
 
   inputs:
     - name
-    - numVcpus
-    - memoryMb
+    - num_vcpus
+    - memory_mb
     - uuid
     - host
     - port
     - username
     - password
-    - templateId
+    - template_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -40,8 +40,8 @@ flow:
         do:
           beta_create_resource_vmclonedto:
             - name
-            - numVcpus
-            - memoryMb
+            - num_vcpus
+            - memory_mb
             - uuid
         publish:
           - return_result
@@ -67,7 +67,7 @@ flow:
             - port
             - username
             - password
-            - templateId
+            - template_id
             - proxy_host:
                 required: false
             - proxy_port:
