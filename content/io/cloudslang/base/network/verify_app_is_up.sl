@@ -35,7 +35,7 @@ operation:
         required: false
   action:
     python_script: |
-      import urllib2
+      import requests
       import time
       message = 'Application is not up after ' + str(attempts) + ' attempts to ping.'
       if ssl == '1':
@@ -46,14 +46,14 @@ operation:
       return_result = False
       while (( count < int(attempts) ) and ( not return_result )):
         try:
-          result = urllib2.urlopen(url, timeout=10)
+          result = requests.get(url, timeout=10)
           print result
         except Exception as e:
           print e
           count = count + 1
           time.sleep(int(time_to_sleep))
         else:
-            code = result.getcode()
+            code = result.status_code
             count = int(attempts)
             if code == 200 :
               return_result = True
