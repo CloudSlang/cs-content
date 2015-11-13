@@ -25,7 +25,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -59,8 +59,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: get_status
           FAILURE: CHECK_RESPONSES_FAILURE
@@ -68,10 +68,10 @@ flow:
     - get_status:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'status'"]
+            - json_input: ${return_result}
+            - json_path: ${["'status'"]}
         publish:
-          - status: value
+          - status: ${value}
         navigate:
           SUCCESS: verify_status
           FAILURE: GET_STATUS_FAILURE
@@ -79,8 +79,8 @@ flow:
     - verify_status:
         do:
           strings.string_equals:
-            - first_string: "'ok'"
-            - second_string: str(status)
+            - first_string: 'ok'
+            - second_string: ${str(status)}
         navigate:
           SUCCESS: get_messages
           FAILURE: VERIFY_STATUS_FAILURE
@@ -88,10 +88,10 @@ flow:
     - get_messages:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'messages'"]
+            - json_input: ${return_result}
+            - json_path: ${["'messages'"]}
         publish:
-          - messages: value
+          - messages: ${value}
         navigate:
           SUCCESS: get_text_occurrence
           FAILURE: GET_MESSAGES_FAILURE
@@ -99,11 +99,11 @@ flow:
     - get_text_occurrence:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: str(messages)
-            - string_to_find: "'Application ' + application_name +' has stopped'"
+            - string_in_which_to_search: ${str(messages)}
+            - string_to_find: "${'Application ' + application_name +' has stopped'}"
             - ignore_case: True
         publish:
-          - text_occurrence: return_result
+          - text_occurrence: ${return_result}
         navigate:
           SUCCESS: verify_text
           FAILURE: GET_TEXT_OCCURRENCE_FAILURE
@@ -111,8 +111,8 @@ flow:
     - verify_text:
         do:
           strings.string_equals:
-            - first_string: str(text_occurrence)
-            - second_string: str(1)
+            - first_string: ${str(text_occurrence)}
+            - second_string: ${str(1)}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_TEXT_FAILURE

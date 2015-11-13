@@ -61,6 +61,7 @@ flow:
         default: False
         required: false
     - gear_profile:
+        default: 'small'
         required: false
     - initial_git_url:
         required: false
