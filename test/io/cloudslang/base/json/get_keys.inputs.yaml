@@ -1,0 +1,55 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testGetKeysOuter:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: []
+  description: Tests that get_keys.sl correctly gets outer keys from a JSON
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - keys: [u'outer_key2', u'outer_key1']
+
+testGetKeysInner:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key2]
+  description: Tests that get_keys.sl correctly gets inner keys from a JSON
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - keys: [u'inner_key1', u'inner_key2']
+
+testGetKeysSingle:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
+    - json_path: [outer_key2]
+  description: Tests that get_keys.sl correctly gets a single key from a JSON
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - keys: [u'inner_key1']
+
+testGetKeysNone:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
+    - json_path: [outer_key2, inner_key1]
+  description: Tests that get_keys.sl has a return_code of '-1' when there are no child keys
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - keys: ''
+    - return_code: '-1'
+
+testGetKeysBadPath:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
+    - json_path: [outer_key3]
+  description: Tests that get_keys.sl has a return_code of '-1' for a path that doesn't exist
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - keys: ''
+    - return_code: '-1'

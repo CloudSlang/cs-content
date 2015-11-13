@@ -119,9 +119,9 @@ flow:
 
     - get_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
-            - key_list: ["'server'", "'status'"]
+            - json_path: ["'server'", "'status'"]
         publish:
           - status: value
         navigate:

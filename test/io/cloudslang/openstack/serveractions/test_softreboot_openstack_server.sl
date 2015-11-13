@@ -113,9 +113,9 @@ flow:
 
     - get_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
-            - key_list:
+            - json_path:
                 default: ["'server'", "'status'"]
                 overridable: false
         publish:
