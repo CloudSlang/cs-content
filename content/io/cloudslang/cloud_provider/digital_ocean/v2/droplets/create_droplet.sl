@@ -118,9 +118,9 @@ flow:
 
     - extract_droplet_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: response
-            - key_list: ["'droplet'", "'id'"]
+            - json_path: ["'droplet'", "'id'"]
         publish:
           - droplet_id: value
   outputs:
