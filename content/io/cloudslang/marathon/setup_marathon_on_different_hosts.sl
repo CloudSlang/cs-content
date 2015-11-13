@@ -24,7 +24,6 @@ namespace: io.cloudslang.marathon
 
 imports:
   base_strings: io.cloudslang.base.strings
-  base_print: io.cloudslang.base.print
   utils: io.cloudslang.base.utils
   network: io.cloudslang.base.network
   print: io.cloudslang.base.print
@@ -79,7 +78,7 @@ flow:
     - print_before_wait:
         do:
           print.print_text:
-              - text: "'Before wait'"
+              - text: "'Wait for Marathon start-up.'"
         navigate:
           SUCCESS: wait_for_marathon_startup
 

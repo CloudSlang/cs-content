@@ -47,9 +47,7 @@ operation:
       while (( count < int(attempts) ) and ( not return_result )):
         try:
           result = requests.get(url, timeout=10)
-          print result
         except Exception as e:
-          print e
           count = count + 1
           time.sleep(int(time_to_sleep))
         else:
