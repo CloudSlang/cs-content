@@ -66,7 +66,7 @@ operation:
       methodName: execute
   outputs:
     - return_result: returnResult
-    - status_code: statusCode
+    - status_code: get('statusCode', None)
     - return_code: returnCode
     - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
   results:

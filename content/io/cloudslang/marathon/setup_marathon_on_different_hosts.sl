@@ -34,8 +34,7 @@ flow:
     - marathon_host
     - username
     - private_key_file
-    - marathon_port:
-        required: false
+    - marathon_port: "'8080'"
     - is_core_os: false
 
   workflow:
@@ -86,12 +85,10 @@ flow:
 
     - wait_for_marathon_startup:
         do:
-          network.verify_app_is_up:
-              - ssl: 0
-              - host: marathon_host
-              - port: get('proxy_host', "8080")
+          network.verify_url_is_accessible:
+              - url: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'"
               - attempts: 30
-              - time_to_sleep: 5
+              - time_to_sleep: 10
         navigate:
           SUCCESS: SUCCESS
           FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
