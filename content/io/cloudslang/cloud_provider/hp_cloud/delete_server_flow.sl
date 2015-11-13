@@ -62,7 +62,7 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant: tenant_id
+          - tenant: ${tenant_id}
           - return_result
           - error_message
 
@@ -82,7 +82,7 @@ flow:
     - check_release_ip_address:
         do:
           base_utils.is_true:
-            - bool_value: release_ip_address
+            - bool_value: ${release_ip_address}
         navigate:
           SUCCESS: do_release_ip
           FAILURE: done
@@ -100,7 +100,7 @@ flow:
     - done:
         do:
           print.print_text:
-            - text: "'### Server ('+server_id+') was removed'"
+            - text: "${'### Server ('+server_id+') was removed'}"
 
   outputs:
     - return_result
