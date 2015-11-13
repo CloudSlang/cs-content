@@ -19,8 +19,8 @@ flow:
 
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - flavor_id
     - username:
@@ -30,7 +30,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -67,8 +67,8 @@ flow:
     - check_get_flavor_details_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: retrieve_flavor_id
           FAILURE: CHECK_GET_FLAVOR_DETAILS_FAILURE
@@ -76,10 +76,10 @@ flow:
     - retrieve_flavor_id:
         do:
           json.get_value:
-            - json_input: return_result
-            - key_list: ["'flavor'", "'id'"]
+            - json_input: ${return_result}
+            - key_list: ${["'flavor'", "'id'"]}
         publish:
-          - retrieved_id: value
+          - retrieved_id: ${value}
         navigate:
           SUCCESS: verify_retrieved_id
           FAILURE: RETRIEVE_FLAVOR_ID_FAILURE
@@ -87,8 +87,8 @@ flow:
     - verify_retrieved_id:
         do:
           strings.string_equals:
-            - first_string: flavor_id
-            - second_string: str(retrieved_id)
+            - first_string: ${flavor_id}
+            - second_string: ${str(retrieved_id)}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_RETRIEVED_ID_FAILURE

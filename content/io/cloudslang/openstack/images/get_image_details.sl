@@ -10,21 +10,21 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
-#   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - tenant_name - name of the OpenStack project that contains the specified image with details to be retrieved
 #   - image_id - the id of the image with details to be retrieved
 #   - username - optional - username used for URL authentication; for NTLM authentication,
 #                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not "'200'"
-#   - return_code - "0" if success, "-1" otherwise
+#   - error_message - return_result if status_code is not '200'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
 #   - SUCCESS - the details of the specified image were successfully retrieved
@@ -46,8 +46,8 @@ flow:
   name: get_image_details
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - image_id
     - username:
@@ -57,7 +57,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -91,13 +91,13 @@ flow:
     - get_image_details:
         do:
           rest.http_client_get:
-            - url: "'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/images/' + image_id"
+            - url: "${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/images/' + image_id}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - headers: "${'X-AUTH-TOKEN:' + token}"
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message

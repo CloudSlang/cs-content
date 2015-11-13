@@ -10,22 +10,22 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
-#   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - username - optional - username used for URL authentication; for NTLM authentication,
 #                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - tenant_name - name of the OpenStack project that contains the images to be queried for id
 #   - flavor_name - name of the flavor to queried for id
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - flavor_id - id of the flavor
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not "'200'"
-#   - return_code - "0" if success, "-1" otherwise
+#   - error_message - return_result if status_code is not '200'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
 #   - SUCCESS - the list with flavors were successfully retrieved
@@ -47,8 +47,8 @@ flow:
   name: get_flavor_id_flow
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - flavor_name
     - username
@@ -60,7 +60,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -98,8 +98,8 @@ flow:
     - get_flavor_id:
         do:
           get_flavor_id:
-            - flavor_body: return_result
-            - flavor_name: flavor_name
+            - flavor_body: ${return_result}
+            - flavor_name: ${flavor_name}
         publish:
           - flavor_id
           - return_result
