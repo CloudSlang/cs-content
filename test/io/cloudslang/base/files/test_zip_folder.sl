@@ -20,7 +20,7 @@ flow:
     -  create_folder_to_be_zipped:
         do:
           create_folder:
-            - folder_name: folder_path
+            - folder_name: ${folder_path}
         navigate:
           SUCCESS: test_zip_folder_operation
           FAILURE: CREATEFAILURE
@@ -36,14 +36,14 @@ flow:
     - delete_archive:
         do:
           delete:
-            - source: "'./' + folder_path + '/' + archive_name + '.zip'"
+            - source: ${'./' + folder_path + '/' + archive_name + '.zip'}
         navigate:
           SUCCESS: delete_created_folder
           FAILURE: DELETEFAILURE
     - delete_created_folder:
         do:
           delete:
-            - source: folder_path
+            - source: ${folder_path}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
