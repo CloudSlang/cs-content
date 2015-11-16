@@ -13,19 +13,8 @@
 #   - user_name - The username used to connect to the the remote machine.
 #   - password - The password used to connect to the remote machine.
 #   - script - The PowerShell script that will run on the remote machine.
-#   - connection_type - Specifies what protocol is used to execute commands on the remote hosts.
-#                       One of the following values must be set:
-#                       WINRM_INTERNAL - uses WinRM over HTTP(S) to execute remote commands.
-#                          The default value for the port is 5985 for HTTP and 5986 for HTTPS.
-#                          A Java implementation of WinRM used.
-#                       WINRM_NATIVE - uses WinRM over HTTP(S) to execute remote commands.
-#                          The default value for the port is 5985 for HTTP and 5986 for HTTPS.
-#                          The native Windows implementation of WinRM is used, i.e. the winrs command.
-#                       TELNET - uses Telnet to execute remote commands. The port connection option
-#                          specifies the Telnet port to connect to. The default value is 23.
 #   - winrm_enable_https - If set to true, HTTPS is used to connect to the WinRM server. Otherwise HTTP is used.
-#                         The default value is false. This connection option is only applicable for
-#                         the WINRM_INTERNAL and WINRM_NATIVE connection types.
+#                         The default value is false.
 # Outputs:
 #   - return_result - output of the powershell script
 #   - status_code - status code of the execution
@@ -42,9 +31,9 @@ operation:
         default: get('user_name', None)
     - password
     - script
-    - connection_type
     - connectionType:
-        default: get('connection_type', None)
+        default: "'WINRM_NATIVE'"
+        overridable: false
     - winrm_enable_https:
         required: false
     - winrmEnableHTTPS:
@@ -58,3 +47,6 @@ operation:
     - return_result: returnResult
     - return_code: returnCode
     - error_message: exception
+  results:
+    - SUCCESS : "returnCode == '0'"
+    - FAILURE
