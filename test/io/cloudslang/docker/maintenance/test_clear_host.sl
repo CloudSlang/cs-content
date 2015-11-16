@@ -30,10 +30,10 @@ flow:
     - pre_test_cleanup:
              do:
                clear_host:
-                 - docker_host: host
+                 - docker_host: ${ host }
                  - port
-                 - docker_username: username
-                 - docker_password: password
+                 - docker_username: ${ username }
+                 - docker_password: ${ password }
              navigate:
                SUCCESS: test_verify_no_images
                FAILURE: MACHINE_IS_NOT_CLEAN
@@ -58,7 +58,7 @@ flow:
             - port
             - username
             - password
-            - image_name: image_name_to_pull
+            - image_name: ${ image_name_to_pull }
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: FAIL_PULL_IMAGE
@@ -70,8 +70,8 @@ flow:
             - port
             - username
             - password
-            - container_name: "'xxx'"
-            - image_name: image_name_to_run
+            - container_name: "xxx"
+            - image_name: ${ image_name_to_run }
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: FAIL_RUN_IMAGE
@@ -79,10 +79,10 @@ flow:
     - clear_docker_host:
              do:
                clear_host:
-                 - docker_host: host
+                 - docker_host: ${ host }
                  - port
-                 - docker_username: username
-                 - docker_password: password
+                 - docker_username: ${ username }
+                 - docker_password: ${ password }
              navigate:
                SUCCESS: test_verify_no_images_post_cleanup
                FAILURE: MACHINE_IS_NOT_CLEAN
