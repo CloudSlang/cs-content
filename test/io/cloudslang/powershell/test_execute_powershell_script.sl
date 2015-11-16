@@ -9,9 +9,6 @@
 
 namespace: io.cloudslang.powershell
 
-imports:
-  utils: io.cloudslang.base.utils
-
 flow:
   name: test_execute_powershell_script
   inputs:
