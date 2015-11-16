@@ -84,9 +84,9 @@ flow:
 
     - get_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: ${ return_result }
-            - key_list: ["id"]
+            - json_path: ["id"]
         publish:
           - value
         navigate:
@@ -104,9 +104,9 @@ flow:
 
     - get_name:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: ${ return_result }
-            - key_list: ["name"]
+            - json_path: ["name"]
         publish:
           - value
         navigate:
@@ -168,9 +168,9 @@ flow:
 
     - get_updated_name:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: ${ return_result }
-            - key_list: ["name"]
+            - json_path: ["name"]
         publish:
           - value
         navigate:
@@ -188,9 +188,9 @@ flow:
 
     - get_updated_status:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: ${ return_result }
-            - key_list: ["status"]
+            - json_path: ["status"]
         publish:
           - value
         navigate:
@@ -243,9 +243,9 @@ flow:
 
     - get_message:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
-            - key_list: ["message"]
+            - json_path: ["message"]
         publish:
           - value
         navigate:

@@ -75,7 +75,7 @@ flow:
 
     - retrieve_image_id:
         do:
-          json.get_value_from_json:
+          json.get_value:
             - json_input: return_result
             - key_list: ["'image'", "'id'"]
         publish:
