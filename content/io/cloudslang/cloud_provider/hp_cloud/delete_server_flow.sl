@@ -100,7 +100,7 @@ flow:
     - done:
         do:
           print.print_text:
-            - text: "${'### Server ('+server_id+') was removed'}"
+            - text: ${'### Server ('+server_id+') was removed'}
 
   outputs:
     - return_result

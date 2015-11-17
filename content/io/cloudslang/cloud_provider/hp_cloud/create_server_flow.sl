@@ -170,7 +170,7 @@ flow:
     - done:
         do:
           print.print_text:
-            - text: "${'### New server (' + server_name + ') is ready'}"
+            - text: ${'### New server (' + server_name + ') is ready'}
 
     - on_failure:
       - create_server_error:
