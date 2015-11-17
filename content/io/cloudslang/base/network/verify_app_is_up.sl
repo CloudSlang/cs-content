@@ -34,6 +34,8 @@ operation:
         default: 1
         required: false
     - attempt_timeout
+        default: 10
+        required: false
   action:
     python_script: |
       import requests
