@@ -1,2 +1,3 @@
 setuptools
 jenkinsapi == 0.2.22
+http://github.com/diyan/pywinrm/archive/master.zip
