@@ -13,8 +13,8 @@
 #   - user_name - The username used to connect to the the remote machine.
 #   - password - The password used to connect to the remote machine.
 #   - script - The PowerShell script that will run on the remote machine.
-#   - winrm_enable_https - If set to true, HTTPS is used to connect to the WinRM server. Otherwise HTTP is used.
-#                         The default value is false.
+#   - winrm_enable_https - If set to true, HTTPS is used to connect to the WinRM server.
+#                         Otherwise HTTP is used. Default: false.
 # Outputs:
 #   - return_result - output of the powershell script
 #   - status_code - status code of the execution
@@ -37,7 +37,7 @@ operation:
     - winrm_enable_https:
         required: false
     - winrmEnableHTTPS:
-        default: get('winrm_enable_https', None)
+        default: get('winrm_enable_https', 'false')
         required: false
   action:
     java_action:

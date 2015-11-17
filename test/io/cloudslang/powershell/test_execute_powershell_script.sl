@@ -16,7 +16,8 @@ flow:
     - user_name
     - password
     - script
-    - winrm_enable_https
+    - winrm_enable_https:
+        required: false
   workflow:
     - execute_script:
         do:
