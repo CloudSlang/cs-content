@@ -119,7 +119,7 @@ flow:
             - first_string: ${ amount_of_images_deleted }
             - second_string: 1
         navigate:
-          SUCCESS: ${ get_all_images }
+          SUCCESS: get_all_images
           FAILURE: AMOUNT_OF_IMAGES_DELETED_IS_WRONG
 
     - get_all_images:
