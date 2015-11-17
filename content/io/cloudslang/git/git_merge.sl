@@ -8,16 +8,16 @@
 ####################################################
 # This flow merges a git branch to another branch
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command
-#       - username - username to connect as
-#       - password - optional - password of user
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
-#                                 - Default: /tmp/repo.git
-#       - git_merge_branch - specify the branch to merge from
-#       - sudo_user - optional - true or false, whether the command should execute using sudo
-#       - private_key_file - relative or absolute path to the private key file
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
+#                             - Default: '/tmp/repo.git'
+#   - git_merge_branch - specify the branch to merge from
+#   - sudo_user - optional - true or false, whether the command should execute using sudo
+#   - private_key_file - relative or absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully merged
@@ -40,13 +40,10 @@ flow:
     - username
     - password:
         required: false
-    - git_repository_localdir:
-        default: "'/tmp/repo.git'"
-        required: true
-    - git_merge_branch:
-        required: true
+    - git_repository_localdir: '/tmp/repo.git'
+    - git_merge_branch
     - sudo_user:
-        default: false
+        default: False
         required: false
     - private_key_file:
         required: false
@@ -57,12 +54,12 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_merge: "' && git merge ' + git_merge_branch "
-            - command: "sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS'"
+            - sudo_command: "${'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''}"
+            - git_merge: "${' && git merge ' + git_merge_branch}"
+            - command: "${sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS'}"
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
         publish:
           - standard_err
           - standard_out
@@ -71,8 +68,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${standard_out}
+            - string_to_find: 'GIT_SUCCESS'
   outputs:
     - standard_err
     - standard_out

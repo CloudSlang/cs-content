@@ -8,16 +8,17 @@
 ####################################################
 # This flow performs a git push command to send a branch to a remote git repository
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo - Default: false
-#       - git_push_branch - the branch you want to push - Default: master
-#       - git_push_remote - the remote you want to push to - Default: origin
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - password of user
+#   - sudo_user - true or false, whether the command should execute using sudo - Default: False
+#   - git_push_branch - the branch you want to push - Default: 'master'
+#   - git_push_remote - the remote you want to push to - Default: 'origin'
+#   - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
+#                             - Default: /tmp/repo.git
+#   - privateKeyFile - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git branch was successfully pushed to repository
@@ -40,11 +41,11 @@ flow:
     - username
     - password:
         required: false
-    - git_repository_localdir: "'/tmp/repo.git'"
-    - git_push_branch: "'master'"
-    - git_push_remote: "'origin'"
+    - git_repository_localdir: '/tmp/repo.git'
+    - git_push_branch: 'master'
+    - git_push_remote: 'origin'
     - sudo_user:
-        default: false
+        default: False
         required: false
     - privateKeyFile:
         required: false
@@ -55,9 +56,9 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_push: "' && git push ' + git_push_remote + ' ' + git_push_branch "
-            - command: "sudo_command + 'cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS'"
+            - sudo_command: "${'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''}"
+            - git_push: "${' && git push ' + git_push_remote + ' ' + git_push_branch}"
+            - command: "${sudo_command + 'cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS'}"
             - username
             - password
             - privateKeyFile
@@ -69,8 +70,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${standard_out}
+            - string_to_find: 'GIT_SUCCESS'
 
   outputs:
     - standard_err

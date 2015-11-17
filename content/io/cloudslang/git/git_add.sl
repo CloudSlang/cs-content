@@ -8,15 +8,15 @@
 ####################################################
 # This flow performs a git command to add files as staged files for a later local commit
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the path to the private key file
-#      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_add_files - optional - the files that has to be added/staged - Default: "'*'"
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional- true or false, whether the command should execute using sudo - Default: False
+#   - private_key_file - optional - the path to the private key file
+#   - git_repository_localdir - the target directory where a git repository exists - Default: '/tmp/repo.git'
+#   - git_add_files - optional - the files that has to be added/staged - Default: '*'
 #
 # Results:
 #  SUCCESS: the files was successfully added
@@ -40,13 +40,13 @@ flow:
       - password:
           required: false
       - sudo_user:
-          default: false
+          default: False
           required: false
       - private_key_file:
           required: false
-      - git_repository_localdir: "'/tmp/repo.git'"
+      - git_repository_localdir: '/tmp/repo.git'
       - git_add_files:
-          default: "'*'"
+          default: '*'
           required: false
 
   workflow:
@@ -57,9 +57,9 @@ flow:
               - port
               - username
               - password
-              - privateKeyFile: private_key_file
-              - git_add: "' git add ' + git_add_files"
-              - command: "'cd ' + git_repository_localdir + ' && ' + git_add + ' && echo GIT_SUCCESS'"
+              - privateKeyFile: ${private_key_file}
+              - git_add: "${' git add ' + git_add_files}"
+              - command: "${'cd ' + git_repository_localdir + ' && ' + git_add + ' && echo GIT_SUCCESS'}"
 
           publish:
             - standard_err
@@ -69,8 +69,8 @@ flow:
       - check_result:
           do:
             strings.string_occurrence_counter:
-              - string_in_which_to_search: standard_out
-              - string_to_find: "'GIT_SUCCESS'"
+              - string_in_which_to_search: ${standard_out}
+              - string_to_find: 'GIT_SUCCESS'
 
   outputs:
     - standard_err
