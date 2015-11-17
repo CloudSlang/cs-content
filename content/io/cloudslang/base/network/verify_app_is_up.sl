@@ -57,8 +57,8 @@ operation:
               return_result = True
               message = "Application is up"
   outputs:
-    - output_message: message
+    - output_message: ${ message }
 
   results:
-    - SUCCESS: return_result
+    - SUCCESS: ${ return_result }
     - FAILURE

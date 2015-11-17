@@ -20,17 +20,17 @@ flow:
         required: false
     - config_xml
     - job_name:
-        default: "'job1'"
+        default: "job1"
         overridable: false
     - jenkins_port:
-        default: "'49165'"
+        default: "49165"
         overridable: false
   workflow:
 
     - create_jenkins_job:
         do:
           create_job:
-            - url: "'http://' + host + ':' + jenkins_port"
+            - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
             - config_xml
         navigate:
@@ -39,7 +39,7 @@ flow:
     - build_jenkins_job:
         do:
           invoke_job:
-            - url: "'http://' + host + ':' + jenkins_port"
+            - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
         navigate:
           SUCCESS: wait
@@ -53,7 +53,7 @@ flow:
     - get_last_buildnumber:
         do:
           get_last_buildnumber:
-            - url: "'http://' + host + ':' + jenkins_port"
+            - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
         publish:
           - last_buildnumber
@@ -64,15 +64,15 @@ flow:
     - clone_job:
         do:
           clone_job_for_branch:
-            - url: "'http://' + host + ':' + jenkins_port"
-            - jnks_job_name: "'job1'"
-            - jnks_new_job_name: "'job2'"
-            - new_scm_url: "'123'"
-            - delete_job_if_existing: "'true'"
-            - email_host: "'host'"
-            - email_port: "'25'"
-            - email_sender: "'email@hp.com'"
-            - email_recipient: "'email@hp.com'"
+            - url: "${ 'http://' + host + ':' + jenkins_port }"
+            - jnks_job_name: "job1"
+            - jnks_new_job_name: "job2"
+            - new_scm_url: "123"
+            - delete_job_if_existing: "true"
+            - email_host: "host"
+            - email_port: "25"
+            - email_sender: "email@hp.com"
+            - email_recipient: "email@hp.com"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_CLONE_JOB
