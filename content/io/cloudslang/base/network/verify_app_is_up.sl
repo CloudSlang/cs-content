@@ -33,7 +33,7 @@ operation:
     - time_to_sleep:
         default: 1
         required: false
-    - attempt_timeout
+    - attempt_timeout:
         default: 10
         required: false
   action:
