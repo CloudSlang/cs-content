@@ -37,7 +37,7 @@
 #   - LIST_IMAGES_FAILURE - the list with flavors could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   openstack: io.cloudslang.openstack
@@ -51,8 +51,6 @@ flow:
     - compute_port: '8774'
     - tenant_name
     - flavor_name
-    - username
-    - password
     - username:
         required: false
     - password:

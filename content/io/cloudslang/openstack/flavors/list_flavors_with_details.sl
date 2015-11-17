@@ -35,7 +35,7 @@
 #   - LIST_FLAVORS_WITH_DETAILS_FAILURE - the list with flavors details could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   openstack: io.cloudslang.openstack

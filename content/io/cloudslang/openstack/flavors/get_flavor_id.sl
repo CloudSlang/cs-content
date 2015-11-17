@@ -6,46 +6,46 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the volume id from the response of the get_openstack_volumes operation of a given volume by name.
+# Retrieves the flavor id from the response of the list_flavors operation of a given flavor by name.
 #
 # Inputs:
-#   - volume_body - response of get_openstack_servers operation
-#   - volume_name - volume name
+#   - flavor_body - response of list_flavors operation
+#   - flavor_name - flavor name
 # Outputs:
-#   - volume_id - ID of the specified volume
+#   - flavor_id - id of the specified flavor
 #   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - error_message - error message
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openstack.utils
+namespace: io.cloudslang.openstack.flavors
 
 operation:
-  name: get_volume_id
+  name: get_flavor_id
   inputs:
-    - volume_body
-    - volume_name
+    - flavor_body
+    - flavor_name
   action:
     python_script: |
       try:
         import json
-        volumes = json.loads(volume_body)['volumes']
-        matched_volume = next(volume for volume in volumes if volume['name'] == volume_name)
-        volume_id = matched_volume['id']
+        flavors = json.loads(flavor_body)['flavors']
+        matched_flavor = next(flavor for flavor in flavors if flavor['name'] == flavor_name)
+        flavor_id = matched_flavor['id']
         return_code = '0'
         return_result = 'Parsing successful.'
       except StopIteration:
         return_code = '-1'
-        return_result = 'No volumes in list'
+        return_result = 'No flavors in list'
       except  ValueError:
         return_code = '-1'
         return_result = 'Parsing error.'
 
   outputs:
-    - volume_id
+    - flavor_id
     - return_result
     - return_code
     - error_message: ${return_result if return_code == '-1' else ''}

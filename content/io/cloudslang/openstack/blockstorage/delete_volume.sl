@@ -27,8 +27,13 @@
 #   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
-#   - FAILURE - otherwise
+#   - SUCCESS - the volume was successfully deleted
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
+#   - DELETE_VOLUME_FAILURE - the volume could not be deleted
 ####################################################
 
 namespace: io.cloudslang.openstack.blockstorage

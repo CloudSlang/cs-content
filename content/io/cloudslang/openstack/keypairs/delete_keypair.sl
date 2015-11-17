@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Resumes a SUSPENDED server and changes its status to ACTIVE.
+# Deletes an OpenStack keypair.
 #
 # Inputs:
-#   - host - OpenStack host
+#   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of the OpenStack project that contains the server (instance) to be resumed
-#   - server_id - the id of the server (instance) to be resumed
+#   - tenant_name - name of the OpenStack project where the keypair to be deleted is
+#   - keypair_name - name of the keypair to be deleted
 #   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
 #                           'domain\user'
 #   - password - optional - password used for URL authentication
@@ -23,32 +23,33 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message: return_result if statusCode is not '202'
+#   - error_message - return_result if status_code is not '202'
 #   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - OpenStack server (instance) was successfully suspended
-#   - GET_AUTHENTICATION_FAILURE - the authentication step fail
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication
-#                             step response
-#   - RESUME_SERVER_FAILURE - OpenStack server (instance) cannot be resumed
+#   - SUCCESS - the keypair was successfully deleted
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
+#   - DELETE_KEYPAIR_FAILURE - the keypair could not be deleted
 ####################################################
 
-namespace: io.cloudslang.openstack.serveractions
+namespace: io.cloudslang.openstack.keypairs
 
 imports:
-  rest: io.cloudslang.base.network.rest
   openstack: io.cloudslang.openstack
+  rest: io.cloudslang.base.network.rest
 
 flow:
-  name: resume_openstack_server
+  name: delete_keypair
   inputs:
     - host
     - identity_port: '5000'
     - compute_port: '8774'
     - tenant_name
-    - server_id
+    - keypair_name
     - username:
         required: false
     - password:
@@ -69,34 +70,33 @@ flow:
           openstack.get_authentication_flow:
             - host
             - identity_port
+            - tenant_name
             - username
             - password
-            - tenant_name
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
         publish:
-          - return_result
-          - error_message
           - token
           - tenant_id
+          - return_result
+          - error_message
         navigate:
-          SUCCESS: resume_server
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          SUCCESS: delete_keypair
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - resume_server:
+    - delete_keypair:
         do:
-          rest.http_client_post:
-            - url: "${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'}"
+          rest.http_client_delete:
+            - url: "${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/os-keypairs/' + keypair_name}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - headers: "${'X-AUTH-TOKEN:' + token}"
-            - body: '{\"resume\":null}'
             - content_type: 'application/json'
         publish:
           - return_result
@@ -105,7 +105,7 @@ flow:
           - status_code
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: RESUME_SERVER_FAILURE
+          FAILURE: DELETE_KEYPAIR_FAILURE
 
   outputs:
     - return_result
@@ -115,7 +115,7 @@ flow:
 
   results:
     - SUCCESS
-    - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - RESUME_SERVER_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - DELETE_KEYPAIR_FAILURE

@@ -35,7 +35,7 @@
 #   - GET_IMAGE_DETAILS_FAILURE - the details of the specified flavor could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   openstack: io.cloudslang.openstack

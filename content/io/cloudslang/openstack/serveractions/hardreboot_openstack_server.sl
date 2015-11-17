@@ -14,6 +14,9 @@
 #   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - tenant_name - name of the OpenStack project that contains the server (instance) to be restarted
 #   - server_id - the id of the server (instance) to be restarted
+#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
+#                           'domain\user'
+#   - password - optional - password used for URL authentication
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
 #   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy

@@ -7,19 +7,22 @@
 #
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   lists: io.cloudslang.base.lists
+  json: io.cloudslang.base.json
+  strings: io.cloudslang.base.strings
 
 flow:
-  name: test_list_flavors_with_details
+  name: test_get_flavor_details
 
   inputs:
     - host
     - identity_port: '5000'
     - compute_port: '8774'
     - tenant_name
+    - flavor_id
     - username:
         required: false
     - password:
@@ -35,13 +38,14 @@ flow:
         required: false
 
   workflow:
-    - list_flavors_with_details:
+    - get_flavor_details:
         do:
-          list_flavors_with_details:
+          get_flavor_details:
             - host
             - identity_port
             - compute_port
             - tenant_name
+            - flavor_id
             - username
             - password
             - proxy_host
@@ -54,20 +58,40 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_list_flavors_with_details_result
+          SUCCESS: check_get_flavor_details_result
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          LIST_FLAVORS_WITH_DETAILS_FAILURE: LIST_FLAVORS_WITH_DETAILS_FAILURE
+          GET_FLAVOR_DETAILS_FAILURE: GET_FLAVOR_DETAILS_FAILURE
 
-    - check_list_flavors_with_details_result:
+    - check_get_flavor_details_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ${["''", 0, 200]}
         navigate:
+          SUCCESS: retrieve_flavor_id
+          FAILURE: CHECK_GET_FLAVOR_DETAILS_FAILURE
+
+    - retrieve_flavor_id:
+        do:
+          json.get_value:
+            - json_input: ${return_result}
+            - key_list: ${["'flavor'", "'id'"]}
+        publish:
+          - retrieved_id: ${value}
+        navigate:
+          SUCCESS: verify_retrieved_id
+          FAILURE: RETRIEVE_FLAVOR_ID_FAILURE
+
+    - verify_retrieved_id:
+        do:
+          strings.string_equals:
+            - first_string: ${flavor_id}
+            - second_string: ${str(retrieved_id)}
+        navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_LIST_FLAVORS_WITH_DETAILS_FAILURE
+          FAILURE: VERIFY_RETRIEVED_ID_FAILURE
 
   outputs:
     - return_result
@@ -80,5 +104,7 @@ flow:
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - LIST_FLAVORS_WITH_DETAILS_FAILURE
-    - CHECK_LIST_FLAVORS_WITH_DETAILS_FAILURE
+    - GET_FLAVOR_DETAILS_FAILURE
+    - CHECK_GET_FLAVOR_DETAILS_FAILURE
+    - RETRIEVE_FLAVOR_ID_FAILURE
+    - VERIFY_RETRIEVED_ID_FAILURE

@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Resumes a SUSPENDED server and changes its status to ACTIVE.
+# Retrieves a list of OpenStack keypairs.
 #
 # Inputs:
-#   - host - OpenStack host
+#   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of the OpenStack project that contains the server (instance) to be resumed
-#   - server_id - the id of the server (instance) to be resumed
+#   - tenant_name - name of the OpenStack project where the keypairs to be retrieved are
 #   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
 #                           'domain\user'
 #   - password - optional - password used for URL authentication
@@ -23,32 +22,34 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message: return_result if statusCode is not '202'
+#   - error_message - return_result if status_code is not '200'
 #   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - OpenStack server (instance) was successfully suspended
-#   - GET_AUTHENTICATION_FAILURE - the authentication step fail
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication
-#                             step response
-#   - RESUME_SERVER_FAILURE - OpenStack server (instance) cannot be resumed
+#   - SUCCESS - the keypairs list was successfully retrieved
+#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
+#   - GET_KEYPAIRS_FAILURE - the get keypairs list call fails
+#   - EXTRACT_KEYPAIRS_FAILURE - the keypairs list could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.serveractions
+namespace: io.cloudslang.openstack.keypairs
 
 imports:
-  rest: io.cloudslang.base.network.rest
   openstack: io.cloudslang.openstack
+  utils: io.cloudslang.openstack.utils
+  rest: io.cloudslang.base.network.rest
 
 flow:
-  name: resume_openstack_server
+  name: get_keypairs
   inputs:
     - host
     - identity_port: '5000'
     - compute_port: '8774'
     - tenant_name
-    - server_id
     - username:
         required: false
     - password:
@@ -69,34 +70,33 @@ flow:
           openstack.get_authentication_flow:
             - host
             - identity_port
+            - tenant_name
             - username
             - password
-            - tenant_name
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
         publish:
-          - return_result
-          - error_message
           - token
           - tenant_id
+          - return_result
+          - error_message
         navigate:
-          SUCCESS: resume_server
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          SUCCESS: get_keypairs
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - resume_server:
+    - get_keypairs:
         do:
-          rest.http_client_post:
-            - url: "${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'}"
+          rest.http_client_get:
+            - url: "${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/os-keypairs'}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - headers: "${'X-AUTH-TOKEN:' + token}"
-            - body: '{\"resume\":null}'
             - content_type: 'application/json'
         publish:
           - return_result
@@ -104,18 +104,32 @@ flow:
           - return_code
           - status_code
         navigate:
+          SUCCESS: extract_keypairs
+          FAILURE: GET_KEYPAIRS_FAILURE
+
+    - extract_keypairs:
+        do:
+          utils.extract_object_list_from_json_response:
+            - response_body: ${return_result}
+            - object_name: 'keypairs'
+        publish:
+          - keypairs_list: ${object_list}
+          - error_message
+        navigate:
           SUCCESS: SUCCESS
-          FAILURE: RESUME_SERVER_FAILURE
+          FAILURE: EXTRACT_KEYPAIRS_FAILURE
 
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - keypairs_list
 
   results:
     - SUCCESS
-    - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - RESUME_SERVER_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - GET_KEYPAIRS_FAILURE
+    - EXTRACT_KEYPAIRS_FAILURE

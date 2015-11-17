@@ -36,7 +36,7 @@
 #   - EXTRACT_FLAVORS_FAILURE - the list with flavors could not be retrieved from list flavors REST API call
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   openstack: io.cloudslang.openstack

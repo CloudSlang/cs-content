@@ -7,7 +7,7 @@
 #
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   lists: io.cloudslang.base.lists
@@ -15,14 +15,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_get_flavor_details
+  name: test_get_flavor_id
 
   inputs:
     - host
     - identity_port: '5000'
     - compute_port: '8774'
     - tenant_name
-    - flavor_id
+    - flavor_name
     - username:
         required: false
     - password:
@@ -38,14 +38,14 @@ flow:
         required: false
 
   workflow:
-    - get_flavor_details:
+    - get_flavor_id_flow:
         do:
-          get_flavor_details:
+          get_flavor_id_flow:
             - host
             - identity_port
             - compute_port
             - tenant_name
-            - flavor_id
+            - flavor_name
             - username
             - password
             - proxy_host
@@ -57,54 +57,49 @@ flow:
           - error_message
           - return_code
           - status_code
+          - flavor_id
         navigate:
-          SUCCESS: check_get_flavor_details_result
+          SUCCESS: check_get_flavor_id_flow_responses
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_FLAVOR_DETAILS_FAILURE: GET_FLAVOR_DETAILS_FAILURE
+          LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
+          EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
+          EXTRACT_FLAVOR_ID_FAILURE: EXTRACT_FLAVOR_ID_FAILURE
 
-    - check_get_flavor_details_result:
+    - check_get_flavor_id_flow_responses:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ${["''", 0, 200]}
         navigate:
-          SUCCESS: retrieve_flavor_id
-          FAILURE: CHECK_GET_FLAVOR_DETAILS_FAILURE
+          SUCCESS: check_flavor_id_is_empty
+          FAILURE: CHECK_GET_FLAVOR_ID_FLOW_RESPONSES_FAILURE
 
-    - retrieve_flavor_id:
-        do:
-          json.get_value:
-            - json_input: ${return_result}
-            - key_list: ${["'flavor'", "'id'"]}
-        publish:
-          - retrieved_id: ${value}
-        navigate:
-          SUCCESS: verify_retrieved_id
-          FAILURE: RETRIEVE_FLAVOR_ID_FAILURE
-
-    - verify_retrieved_id:
+    - check_flavor_id_is_empty:
         do:
           strings.string_equals:
-            - first_string: ${flavor_id}
-            - second_string: ${str(retrieved_id)}
+            - first_string: ${str(flavor_id)}
+            - second_string: ''
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_RETRIEVED_ID_FAILURE
+          SUCCESS: CHECK_FLAVOR_ID_IS_EMPTY_FAILURE
+          FAILURE: SUCCESS
 
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - flavor_id
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - GET_FLAVOR_DETAILS_FAILURE
-    - CHECK_GET_FLAVOR_DETAILS_FAILURE
-    - RETRIEVE_FLAVOR_ID_FAILURE
-    - VERIFY_RETRIEVED_ID_FAILURE
+    - LIST_FLAVORS_FAILURE
+    - CHECK_GET_IMAGE_DETAILS_FAILURE
+    - EXTRACT_FLAVORS_FAILURE
+    - EXTRACT_FLAVOR_ID_FAILURE
+    - CHECK_GET_FLAVOR_ID_FLOW_RESPONSES_FAILURE
+    - CHECK_FLAVOR_ID_IS_EMPTY_FAILURE
