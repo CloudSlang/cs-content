@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if an an url is accessible.
+# Checks if a url is accessible.
 #
 # Inputs:
 #   - url - the url
