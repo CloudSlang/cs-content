@@ -33,6 +33,7 @@ operation:
     - time_to_sleep:
         default: 1
         required: false
+    - attempt_timeout
   action:
     python_script: |
       import requests
@@ -46,7 +47,7 @@ operation:
       return_result = False
       while (( count < int(attempts) ) and ( not return_result )):
         try:
-          result = requests.get(url, timeout=10)
+          result = requests.get(url, timeout=int(attempt_timeout))
         except Exception as e:
           count = count + 1
           time.sleep(int(time_to_sleep))

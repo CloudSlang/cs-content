@@ -22,7 +22,7 @@
 namespace: io.cloudslang.base.network
 
 imports:
-  base_strings: io.cloudslang.base.strings
+  math: io.cloudslang.base.math
   rest: io.cloudslang.base.network.rest
   utils: io.cloudslang.base.utils
 flow:
@@ -49,12 +49,13 @@ flow:
 
     - check_if_timed_out:
          do:
-            base_strings.string_equals:
-              - first_string: str(attempts)
-              - second_string: "'0'"
+            math.comparisons.compare_numbers:
+              - value1: attempts
+              - value2: 0
          navigate:
-           SUCCESS: FAILURE
-           FAILURE: wait
+           GREATER_THAN: wait
+           EQUALS: FAILURE
+           LESS_THAN: FAILURE
 
     - wait:
         do:
@@ -67,7 +68,3 @@ flow:
 
   outputs:
     - output_message: "'Url is not accessible'"
-
-  results:
-    - SUCCESS
-    - FAILURE
