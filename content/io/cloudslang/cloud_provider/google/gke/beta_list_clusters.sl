@@ -41,7 +41,7 @@ operation:
   inputs:
     - project_id
     - zone:
-        default: "'-'"
+        default: '-'
         required: false
     - json_google_auth_path
 
@@ -67,4 +67,4 @@ operation:
     - return_code
     - return_result
     - response
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}

@@ -45,7 +45,7 @@ operation:
   inputs:
     - project_id
     - zone:
-        default: "'-'"
+        default: '-'
         required: false
     - json_google_auth_path
     - cluster_id
@@ -72,7 +72,7 @@ operation:
 
   outputs:
     - return_result
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
     - response
     - return_code
     - cluster_name

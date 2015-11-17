@@ -75,7 +75,7 @@ operation:
 
   outputs:
     - return_result
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
     - response
     - return_code
     - cluster_name
