@@ -30,7 +30,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port: docker_port
+             - port: ${ docker_port }
              - docker_username
              - docker_password
          navigate:
@@ -40,7 +40,7 @@ flow:
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: ${ 'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix' }
 
     - wait_for_postfix:
         do:
@@ -50,10 +50,10 @@ flow:
     - start_mysql_container:
         do:
           docker_containers_examples.create_db_container:
-            - host: docker_host
-            - port: docker_port
-            - username: docker_username
-            - password: docker_password
+            - host: ${ docker_host }
+            - port: ${ docker_port }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
         navigate:
           SUCCESS: wait_for_mysql
           FAILURE: FAIL_TO_START_MYSQL_CONTAINER
@@ -66,7 +66,7 @@ flow:
     - report_mysql_status:
         do:
           report_mysql_status:
-            - container: "'mysqldb'"
+            - container: "mysqldb"
             - docker_host
             - docker_port
             - docker_username
@@ -87,7 +87,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port: docker_port
+             - port: ${ docker_port }
              - docker_username
              - docker_password
          navigate:
@@ -97,7 +97,7 @@ flow:
     - postfix_cleanup:
            do:
              cmd.run_command:
-               - command: "'docker rm -f postfix && docker rmi catatnight/postfix'"
+               - command: "docker rm -f postfix && docker rmi catatnight/postfix"
            navigate:
              SUCCESS: SUCCESS
              FAILURE: FAIL_TO_CLEAN_POSTFIX
