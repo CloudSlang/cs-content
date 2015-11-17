@@ -48,5 +48,5 @@ operation:
     - result_message
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE
