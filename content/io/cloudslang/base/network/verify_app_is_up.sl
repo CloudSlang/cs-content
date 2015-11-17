@@ -14,6 +14,7 @@
 #   - port - port on which the application is listening
 #   - attempts - attempts to reach host
 #   - time_to_sleep - time in seconds to wait between attempts
+#   - attempt_timeout - timeout in seconds for each attempt
 # Outputs:
 #   - error_message - timeout exceeded and application did not respond
 # Results:
