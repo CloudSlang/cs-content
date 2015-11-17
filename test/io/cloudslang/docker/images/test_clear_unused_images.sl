@@ -30,10 +30,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${ host }
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${ username }
+           - docker_password: ${ password }
        navigate:
          SUCCESS: pull_image1
          FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
@@ -45,7 +45,7 @@ flow:
             - port
             - username
             - password
-            - image_name: image_name1
+            - image_name: ${ image_name1 }
         navigate:
           SUCCESS: pull_image2
           FAILURE: FAIL_PULL_IMAGE
@@ -57,7 +57,7 @@ flow:
             - port
             - username
             - password
-            - image_name: image_name2
+            - image_name: ${ image_name2 }
         navigate:
           SUCCESS: run_container
           FAILURE: FAIL_PULL_IMAGE
@@ -69,8 +69,8 @@ flow:
             - port
             - username
             - password
-            - container_name: "'test_container'"
-            - image_name: image_name1
+            - container_name: "test_container"
+            - image_name: ${ image_name1 }
         navigate:
           SUCCESS: get_list
           FAILURE: FAIL_RUN_CONTAINER
@@ -91,8 +91,8 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ' '"
-            - second_string: image_list
+            - first_string: ${ image_name1 + ' ' }
+            - second_string: ${ image_list }
         navigate:
           SUCCESS: clear_unused_images
           FAILURE: VERIFY_USED_IMAGES_FAILURE
@@ -100,9 +100,9 @@ flow:
     - clear_unused_images:
         do:
           clear_unused_images:
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+            - docker_host: ${ host }
+            - docker_username: ${ username }
+            - docker_password: ${ password }
             - port
         publish:
           - images_list_safe_to_delete
@@ -116,10 +116,10 @@ flow:
     - verify_amount_of_images_deleted_output:
         do:
           strings.string_equals:
-            - first_string: amount_of_images_deleted
+            - first_string: ${ amount_of_images_deleted }
             - second_string: 1
         navigate:
-          SUCCESS: get_all_images
+          SUCCESS: ${ get_all_images }
           FAILURE: AMOUNT_OF_IMAGES_DELETED_IS_WRONG
 
     - get_all_images:
@@ -138,8 +138,8 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: "image_name1 + ' '"
-            - second_string: image_list
+            - first_string: ${ image_name1 + ' ' }
+            - second_string: ${ image_list }
         navigate:
           SUCCESS: clear_host
           FAILURE: VERIFY_FAILURE
@@ -147,10 +147,10 @@ flow:
     - clear_host:
         do:
           maintenance.clear_host:
-            - docker_host: host
+            - docker_host: ${ host }
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: MACHINE_IS_NOT_CLEAN
