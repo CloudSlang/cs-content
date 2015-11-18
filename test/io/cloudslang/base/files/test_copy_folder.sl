@@ -25,7 +25,7 @@ flow:
         do:
           copy:
             - source: ${copy_source}
-            - destination: copy_destination
+            - destination: ${copy_destination}
         navigate:
           SUCCESS: delete_copied_folder
           FAILURE: delete_created_folder_after_copy_failure

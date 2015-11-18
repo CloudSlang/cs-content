@@ -83,8 +83,8 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: "image_name + ' '"
-            - second_string: list
+            - first_string: ${ image_name + ' ' }
+            - second_string: ${ list }
         navigate:
           SUCCESS: delete_downloaded_image
           FAILURE: VEFIFYFAILURE
@@ -96,7 +96,7 @@ flow:
             - port
             - username
             - password
-            - images: image_name
+            - images: ${ image_name }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAIL

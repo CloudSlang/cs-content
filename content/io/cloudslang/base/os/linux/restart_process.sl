@@ -49,7 +49,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "echo ' + password + ' | sudo -S ' if bool(sudo_user) else '"
+            - sudo_command: ${ echo ' + password + ' | sudo -S ' if bool(sudo_user) else ' }
             - command: ${ sudo_command + 'pkill -HUP -e ' + process_name }
             - username
             - password

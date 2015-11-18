@@ -42,8 +42,8 @@ operation:
   outputs:
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${ return_result if return_code == '-1' else '' }
   results:
-    - EQUALS: return_code == '0' and decoded1 == decoded2
-    - NOT_EQUALS: return_code == '0'
+    - EQUALS: ${ return_code == '0' and decoded1 == decoded2 }
+    - NOT_EQUALS: ${ return_code == '0' }
     - FAILURE

@@ -31,12 +31,13 @@ flow:
     - disable_job:
         do:
           disable_job:
-            - url: url
-            - job_name: job_name
+            - url
+            - job_name
 
     - enable_job:
         do:
           enable_job:
-            - url: url
-            - job_name: job_name
+            - url
+            - job_name
+
 
