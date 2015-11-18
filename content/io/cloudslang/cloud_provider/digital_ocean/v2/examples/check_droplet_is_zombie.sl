@@ -39,8 +39,8 @@ flow:
     - check_droplet_name:
         do:
           strings.match_regex:
-            - text: droplet_name
-            - regex: name_pattern
+            - text: ${droplet_name}
+            - regex: ${name_pattern}
         navigate:
           MATCH: check_droplet_lifetime
           NO_MATCH: NOT_ZOMBIE
@@ -49,7 +49,7 @@ flow:
         do:
           utils.check_droplet_lifetime:
             - creation_time_as_string
-            - threshold: time_to_live
+            - threshold: ${time_to_live}
         navigate:
           FAILURE: FAILURE
           ABOVE_THRESHOLD: ZOMBIE

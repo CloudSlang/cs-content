@@ -27,7 +27,7 @@ operation:
         default: False
         required: false
     - result_delimiter:
-        default: "''"
+        default: ''
         required: false
     - result_to_lowercase:
         default: False

@@ -16,14 +16,14 @@ flow:
     - create_folder:
         do:
           create_folder:
-            - folder_name: delete_source
+            - folder_name: ${delete_source}
         navigate:
           SUCCESS: test_delete_operation
           FAILURE: WRITEFAILURE
     - test_delete_operation:
         do:
           delete:
-            - source: delete_source
+            - source: ${delete_source}
         publish:
           - message
         navigate:

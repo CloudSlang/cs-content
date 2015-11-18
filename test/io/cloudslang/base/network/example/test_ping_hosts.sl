@@ -35,7 +35,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port: docker_port
+             - port: ${ docker_port }
              - docker_username
              - docker_password
          navigate:
@@ -44,7 +44,7 @@ flow:
     - pull_postfix:
         do:
           cmd.run_command:
-            - command: "'docker pull catatnight/postfix'"
+            - command: "docker pull catatnight/postfix"
         navigate:
           SUCCESS: run_postfix
           FAILURE: FAIL_TO_PULL_POSTFIX
@@ -52,7 +52,7 @@ flow:
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p ' + docker_port + ':' + email_port + ' -e maildomain=' + email_host + ' -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: "docker run -p ' + docker_port + ':' + email_port + ' -e maildomain=' + email_host + ' -e smtp_user=user:pwd --name postfix -d catatnight/postfix"
 
     - sleep:
         do:
@@ -62,8 +62,8 @@ flow:
     - verify_postfix:
         do:
           network.verify_app_is_up:
-            - host: docker_host
-            - port: docker_port
+            - host: ${ docker_host }
+            - port: ${ docker_port }
         navigate:
           SUCCESS: ping_hosts
           FAILURE: FAIL_TO_START_POSTFIX
@@ -78,7 +78,7 @@ flow:
          do:
            maintenance.clear_host:
              - docker_host
-             - port: docker_port
+             - port: ${ docker_port }
              - docker_username
              - docker_password
          navigate:

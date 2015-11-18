@@ -25,7 +25,7 @@ flow:
     - delete_created_file:
         do:
           delete:
-            - source: file_path
+            - source: ${file_path}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

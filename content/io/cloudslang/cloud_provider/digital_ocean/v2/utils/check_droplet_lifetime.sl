@@ -53,6 +53,6 @@ operation:
     - return_result
     - return_code
   results:
-    - FAILURE: return_code != '0'
-    - ABOVE_THRESHOLD: above_threshold
+    - FAILURE: ${return_code != '0'}
+    - ABOVE_THRESHOLD: ${above_threshold}
     - BELOW_THRESHOLD

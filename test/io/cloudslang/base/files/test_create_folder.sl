@@ -23,7 +23,7 @@ flow:
     - delete_copied_folder:
         do:
           delete:
-            - source: folder_name
+            - source: ${folder_name}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
