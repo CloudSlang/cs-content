@@ -85,7 +85,7 @@ flow:
             - closeSession: ${close_session}
             - agentForwarding: ${agent_forwarding}
         publish:
-          - public_ip: ${returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]}
+          - public_ip: ${returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 :-1]}
           - standard_err
 
     - check_ssh_agent_in_stderr:

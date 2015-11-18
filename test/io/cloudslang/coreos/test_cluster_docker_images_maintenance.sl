@@ -36,8 +36,8 @@ flow:
         required: false
     - timeout:
         required: false
-    - unused_image_name: "'tomcat:7'"
-    - used_image_name: "'busybox'"
+    - unused_image_name: 'tomcat:7'
+    - used_image_name: 'busybox'
     - number_of_images_in_cluster:
         default: 0
         overridable: false
@@ -62,10 +62,10 @@ flow:
               for: machine_public_ip in machines_public_ip_list.split(' ')
               do:
                   maintenance.clear_host:
-                     - docker_host: machine_public_ip
+                     - docker_host: ${machine_public_ip}
                      - port
-                     - docker_username: coreos_username
-                     - docker_password: coreos_password
+                     - docker_username: ${coreos_username}
+                     - docker_password: ${coreos_password}
                      - private_key_file
               navigate:
                 SUCCESS: pull_unused_image
@@ -74,12 +74,12 @@ flow:
     - pull_unused_image:
         do:
           images.pull_image:
-            - image_name: unused_image_name
-            - host: coreos_host
+            - image_name: ${unused_image_name}
+            - host: ${coreos_host}
             - port
-            - username: coreos_username
-            - password: coreos_password
-            - privateKeyFile: private_key_file
+            - username: ${coreos_username}
+            - password: ${coreos_password}
+            - privateKeyFile: ${private_key_file}
             - timeout
         navigate:
           SUCCESS: run_container
@@ -88,10 +88,10 @@ flow:
     - run_container:
         do:
           containers.run_container:
-            - image_name: used_image_name
-            - host: coreos_host
+            - image_name: ${used_image_name}
+            - host: ${coreos_host}
             - port
-            - username: coreos_username
+            - username: ${coreos_username}
             - password
             - private_key_file
             - timeout
@@ -117,15 +117,14 @@ flow:
               for: machine_public_ip in machines_public_ip_list.split(' ')
               do:
                   images.get_all_images:
-                     - host: machine_public_ip
+                     - host: ${machine_public_ip}
                      - port
-                     - username: coreos_username
-                     - password: coreos_password
-                     - privateKeyFile: private_key_file
+                     - username: ${coreos_username}
+                     - password: ${coreos_password}
+                     - privateKeyFile: ${private_key_file}
                      - timeout
               publish:
-                - number_of_images_in_cluster: >
-                    self['number_of_images_in_cluster'] + len(image_list.split())
+                - number_of_images_in_cluster: ${self['number_of_images_in_cluster'] + len(image_list.split())}
               navigate:
                 SUCCESS: verify_number_of_remaining_images
                 FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
@@ -133,8 +132,8 @@ flow:
     - verify_number_of_remaining_images:
         do:
           strings.string_equals:
-            - first_string: "'1'"
-            - second_string: str(number_of_images_in_cluster)
+            - first_string: '1'
+            - second_string: ${str(number_of_images_in_cluster)}
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
@@ -142,10 +141,10 @@ flow:
     - clear_docker_host: # at this stage only one machine from the cluster is not clean
         do:
           maintenance.clear_host:
-            - docker_host: coreos_host
+            - docker_host: ${coreos_host}
             - port
-            - docker_username: coreos_username
-            - docker_password: coreos_password
+            - docker_username: ${coreos_username}
+            - docker_password: ${coreos_password}
             - private_key_file
         navigate:
           SUCCESS: SUCCESS

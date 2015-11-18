@@ -53,16 +53,16 @@ flow:
     - get_machine_public_ip:
         loop:
           for: machine_id in machines_id_list.split()
-            do:
-              get_machine_public_ip:
-                - machine_id
-                - host: ${coreos_host}
-                - username: ${coreos_username}
-                - password: ${coreos_password}
-                - private_key_file
-                - timeout
-            publish:
-              - machines_public_ip_list: ${self['machines_public_ip_list'] + public_ip + ' '}
+          do:
+            get_machine_public_ip:
+              - machine_id
+              - host: ${coreos_host}
+              - username: ${coreos_username}
+              - password: ${coreos_password}
+              - private_key_file
+              - timeout
+          publish:
+            - machines_public_ip_list: ${self['machines_public_ip_list'] + public_ip + ' '}
 
   outputs:
     - machines_public_ip_list: ${machines_public_ip_list.strip()}
