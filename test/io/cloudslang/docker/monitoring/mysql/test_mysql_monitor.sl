@@ -27,10 +27,10 @@ flow:
     - pre_test_cleanup:
          do:
            maintenance.clear_host:
-             - docker_host: host
+             - docker_host: ${ host }
              - port
-             - docker_username: username
-             - docker_password: password
+             - docker_username: ${ username }
+             - docker_password: ${ password }
          navigate:
            SUCCESS: start_mysql_container
            FAILURE: MACHINE_IS_NOT_CLEAN
@@ -57,13 +57,13 @@ flow:
     - get_mysql_status:
         do:
           retrieve_mysql_status:
-            - container: "'mysqldb'"
-            - host: host
+            - container: "mysqldb"
+            - host: ${ host }
             - port
-            - username: username
-            - password: password
-            - mysql_username: "'user'"
-            - mysql_password: "'pass'"
+            - username: ${ username }
+            - password: ${ password }
+            - mysql_username: "user"
+            - mysql_password: "pass"
         navigate:
           SUCCESS: post_test_cleanup
           FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
@@ -71,10 +71,10 @@ flow:
     - post_test_cleanup:
          do:
            maintenance.clear_host:
-             - docker_host: host
+             - docker_host: ${ host }
              - port
-             - docker_username: username
-             - docker_password: password
+             - docker_username: ${ username }
+             - docker_password: ${ password }
          navigate:
            SUCCESS: SUCCESS
            FAILURE: MACHINE_IS_NOT_CLEAN

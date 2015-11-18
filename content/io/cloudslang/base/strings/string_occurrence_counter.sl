@@ -29,7 +29,7 @@ operation:
     - string_in_which_to_search
     - string_to_find
     - ignore_case:
-        default: "'true'"
+        default: 'true'
         required: false
   action:
     python_script: |
@@ -47,7 +47,7 @@ operation:
   outputs:
     - return_result
     - return_code
-    - error_message: return_result if occurrence == 0  else ''
+    - error_message: ${ return_result if occurrence == 0  else '' }
   results:
-    - SUCCESS: return_result >= 1
+    - SUCCESS: ${ return_result >= 1 }
     - FAILURE

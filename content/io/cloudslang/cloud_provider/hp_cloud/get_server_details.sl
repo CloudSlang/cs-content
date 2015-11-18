@@ -45,9 +45,9 @@ flow:
     - rest_get_server_details:
         do:
           rest.http_client_get:
-            - url: "'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id"
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - url: ${'https://region-'+region+'.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id}
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
             - proxy_host
             - proxy_port
         publish:

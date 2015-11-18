@@ -56,35 +56,35 @@ flow:
     - execute_get_request:
         do:
           rest.http_client_get:
-            - url: "'https://api.digitalocean.com/v2/droplets/' + str(droplet_id)"
-            - auth_type: "'anonymous'"
-            - headers: "'Authorization: Bearer ' + token"
+            - url: ${'https://api.digitalocean.com/v2/droplets/' + str(droplet_id)}
+            - auth_type: 'anonymous'
+            - headers: "${'Authorization: Bearer ' + token}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - content_type: "'application/json'"
+            - content_type: 'application/json'
             - connect_timeout
             - socket_timeout
         publish:
-          - response: return_result
+          - response: ${return_result}
           - status_code
 
     - check_result:
         do:
           strings.string_equals:
-            - first_string: "'200'"
-            - second_string: str(status_code)
+            - first_string: '200'
+            - second_string: ${str(status_code)}
 
     - extract_droplets_information:
         do:
-          json.get_value_from_json:
-            - json_input: response
-            - key_list: ["'droplet'"]
+          json.get_value:
+            - json_input: ${ response }
+            - json_path: ["'droplet'"]
         publish:
-          - droplet: value
+          - droplet: ${value}
   outputs:
     - response
     - status_code
     - droplet
-    - droplet_status: droplet['status'] if status_code == '200' else ''
+    - droplet_status: ${droplet['status'] if status_code == '200' else ''}

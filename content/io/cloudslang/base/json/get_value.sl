@@ -10,9 +10,10 @@
 #
 # Inputs:
 #   - json_input - JSON data input
-#   - key_list - the keys list to retrieve value for - ex. = ['tags', 1, 'name']
+#   - json_path - path from which to retrieve value represented as a list of keys and/or indices.
+#     Passing an empty list ([]) will retrieve top level keys. - Example: ['tags', 1, 'name']
 # Outputs:
-#   - value - the corresponding value of the key that results from key_list input - ex. = decode['tags'][1]['name']
+#   - value - the corresponding value of the key that results from json_path input - ex. = decode['tags'][1]['name']
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - the corresponding error message if there was an error when executing otherwise left blank
@@ -24,16 +25,16 @@
 namespace: io.cloudslang.base.json
 
 operation:
-  name: get_value_from_json
+  name: get_value
   inputs:
     - json_input
-    - key_list
+    - json_path
   action:
     python_script: |
       try:
         import json
         decoded = json.loads(json_input)
-        for key in key_list:
+        for key in json_path:
           decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
@@ -41,10 +42,10 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: decoded if return_code == '0' else ''
+    - value: ${ decoded if return_code == '0' else '' }
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${ return_result if return_code == '-1' else '' }
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE

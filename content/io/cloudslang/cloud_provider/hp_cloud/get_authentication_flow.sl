@@ -9,10 +9,10 @@
 # Main flow to authenicate and login to HP Cloud
 #
 # Inputs:
-#   - username - HP Cloud account username 
-#   - password - HP Cloud account password 
+#   - username - HP Cloud account username
+#   - password - HP Cloud account password
 #   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -32,7 +32,7 @@ imports:
 
 flow:
   name: get_authentication_flow
-  
+
   inputs:
     - username
     - password
@@ -57,23 +57,23 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
     - get_authentication_token:
         do:
-          json.get_value_from_json:
-            - json_input: return_result
-            - key_list: ["'access'", "'token'", "'id'"]
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ["'access'", "'token'", "'id'"]
         publish:
           - token: value
           - error_message
 
     - get_tenant_id:
         do:
-          json.get_value_from_json:
-            - json_input: return_result
-            - key_list: ["'access'", "'token'", "'tenant'", "'id'"]
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ["'access'", "'token'", "'tenant'", "'id'"]
         publish:
-          - tenant_id: value
+          - tenant_id: ${value}
           - error_message
 
   outputs:
