@@ -32,12 +32,12 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_ListClusters:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - ListOperations:
         do:
@@ -48,12 +48,12 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_ListOperations:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - getServerconfig:
         do:
@@ -64,12 +64,12 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_getServerconfig:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - getOperation:
         do:
@@ -82,12 +82,12 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_getOperations:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
   outputs:
     - return_result
     - error_message

@@ -30,9 +30,9 @@
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is not "0"
+#   - error_message - return_result if return_code is not '0'
 #   - response - JSON response body containing an instance of Operation
-#   - return_code - "0" if success, "-1" otherwise
+#   - return_code - '0' if success, '-1' otherwise
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.google.gke

@@ -37,12 +37,12 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_createResourceCluster:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - createCluster:
         do:
@@ -50,23 +50,23 @@ flow:
             - project_id
             - zone
             - json_google_auth_path
-            - cluster: response
+            - cluster: ${response}
         publish:
           - return_result
           - response
           - cluster_name
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_createCluster:
         do:
           print.print_text:
-            - text: cluster_name
+            - text: ${cluster_name}
 
     - SleepTime:
         do:
           utils.sleep:
-            - seconds: "240"
+            - seconds: '240'
 
     - deleteCluster:
         do:
@@ -74,17 +74,17 @@ flow:
             - project_id
             - zone
             - json_google_auth_path
-            - clusterId: name 
+            - clusterId: ${name}
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_deleteCluster:
         do:
           print.print_text:
-            - text: cluster_name
+            - text: ${cluster_name}
 
   outputs:
     - return_result
