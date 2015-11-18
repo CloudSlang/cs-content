@@ -41,9 +41,9 @@ flow:
     - rest_list_all_floatingips:
         do:
           rest.http_client_get:
-            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - url: ${'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'}
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
             - proxy_host
             - proxy_port
         publish:

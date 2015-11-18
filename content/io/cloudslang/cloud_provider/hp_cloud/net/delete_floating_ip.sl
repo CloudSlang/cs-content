@@ -43,9 +43,9 @@ flow:
     - rest_delete_floating_ip:
         do:
           rest.http_client_delete:
-            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id"
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - url: ${'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips/' + ip_id}
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
             - proxy_host
             - proxy_port
         publish:

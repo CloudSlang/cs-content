@@ -38,5 +38,5 @@ operation:
     - ext_network_id    
 
   results:
-    - SUCCESS: "len(ext_network_id) > 0"
+    - SUCCESS: ${len(ext_network_id) > 0}
     - FAILURE
