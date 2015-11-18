@@ -23,7 +23,7 @@
 #                                        - e.g. ['foo/key_rsa', 'bar/key_rsa']
 #   - attempt - number of attempts to check whether nodes were added to the cluster
 #             - total waiting time ~ attempt * time_to_sleep
-#             - Default: 60
+#             - Default: '60'
 #   - time_to_sleep - time to sleep between successive checks of whether nodes were added to the cluster (in seconds)
 #                   - total waiting time ~ attempt * time_to_sleep
 #                   - Default: 5 seconds
@@ -68,10 +68,10 @@ flow:
     - create_swarm_cluster:
         do:
           create_cluster:
-            - host: manager_machine_ip
-            - username: manager_machine_username
-            - password: manager_machine_password
-            - private_key_file: manager_machine_private_key_file
+            - host: ${manager_machine_ip}
+            - username: ${manager_machine_username}
+            - password: ${manager_machine_password}
+            - private_key_file: ${manager_machine_private_key_file}
         publish:
            - cluster_id
         navigate:
@@ -81,9 +81,9 @@ flow:
     - pre_clear_manager_machine:
        do:
          containers.clear_containers:
-           - docker_host: manager_machine_ip
-           - docker_username: manager_machine_username
-           - private_key_file: manager_machine_private_key_file
+           - docker_host: ${manager_machine_ip}
+           - docker_username: ${manager_machine_username}
+           - private_key_file: ${manager_machine_private_key_file}
        navigate:
          SUCCESS: pre_clear_agent_machines
          FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
@@ -93,9 +93,9 @@ flow:
           for: ip in agent_ip_addresses
           do:
             containers.clear_containers:
-              - docker_host: ip
-              - docker_username: agent_usernames[0]
-              - private_key_file: agent_private_key_files[0]
+              - docker_host: ${ip}
+              - docker_username: ${agent_usernames[0]}
+              - private_key_file: ${agent_private_key_files[0]}
         navigate:
           SUCCESS: start_manager_container
           FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
@@ -103,12 +103,12 @@ flow:
     - start_manager_container:
         do:
           start_manager:
-            - swarm_port: swarm_manager_port
+            - swarm_port: ${swarm_manager_port}
             - cluster_id
-            - host: manager_machine_ip
-            - username: manager_machine_username
-            - password: manager_machine_password
-            - private_key_file: manager_machine_private_key_file
+            - host: ${manager_machine_ip}
+            - username: ${manager_machine_username}
+            - password: ${manager_machine_password}
+            - private_key_file: ${manager_machine_private_key_file}
         navigate:
           SUCCESS: add_nodes_to_the_cluster
           FAILURE: START_MANAGER_CONTAINER_PROBLEM
@@ -118,11 +118,11 @@ flow:
           for: ip in agent_ip_addresses
           do:
             register_agent:
-              - node_ip: ip
+              - node_ip: ${ip}
               - cluster_id
-              - host: ip
-              - username: agent_usernames[0]
-              - private_key_file: agent_private_key_files[0]
+              - host: ${ip}
+              - username: ${agent_usernames[0]}
+              - private_key_file: ${agent_private_key_files[0]}
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster
           FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
@@ -130,14 +130,14 @@ flow:
     - get_number_of_nodes_in_cluster:
         do:
           get_cluster_info:
-            - swarm_manager_ip: manager_machine_ip
+            - swarm_manager_ip: ${manager_machine_ip}
             - swarm_manager_port
-            - host: manager_machine_ip
-            - username: manager_machine_username
-            - password: manager_machine_password
-            - private_key_file: manager_machine_private_key_file
+            - host: ${manager_machine_ip}
+            - username: ${manager_machine_username}
+            - password: ${manager_machine_password}
+            - private_key_file: ${manager_machine_private_key_file}
         publish:
-          - number_of_nodes_in_cluster: number_of_nodes_in_cluster
+          - number_of_nodes_in_cluster: ${number_of_nodes_in_cluster}
         navigate:
           SUCCESS: verify_node_is_added
           FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
@@ -145,8 +145,8 @@ flow:
     - verify_node_is_added:
         do:
           strings.string_equals:
-            - first_string: str(len(agent_ip_addresses))
-            - second_string: number_of_nodes_in_cluster
+            - first_string: ${str(len(agent_ip_addresses))}
+            - second_string: ${number_of_nodes_in_cluster}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: check_attempts
@@ -154,10 +154,10 @@ flow:
     - check_attempts:
         do:
           comparisons.compare_numbers:
-            - value1: attempts
+            - value1: ${attempts}
             - value2: 0
         publish:
-          - attempts: int(self['attempts']) - 1
+          - attempts: ${int(self['attempts']) - 1}
         navigate:
           GREATER_THAN: sleep
           EQUALS: NODES_NOT_ADDED
@@ -166,7 +166,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: time_to_sleep
+            - seconds: ${time_to_sleep}
         navigate:
           SUCCESS: get_number_of_nodes_in_cluster
   results:

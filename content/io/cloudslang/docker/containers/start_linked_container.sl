@@ -17,15 +17,20 @@
 #   - cmdParams - command Parameters
 #   - container_cmd - optional - command to be executed in the container
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port - Default: '22'
 #   - username: Docker machine username
 #   - password - optional - Docker machine password
 #   - privateKeyFile - optional - path to private key file
 #   - arguments - optional - arguments to pass to command - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
+#   - characterSet - optional - character encoding used for input stream encoding from target machine
+#                             - Valid: SJIS, EUC-JP, UTF-8
+#                             - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - timeout - optional - time in milliseconds to wait for command to complete - Default: '90000'
+#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow,
+#                               if true the SSH session used will be closed;
+#                             - Valid: true, false
+#                             - Default: false
 # Outputs:
 #   - container_id - ID of the container that was started.
 #   - error_message - error message
@@ -69,10 +74,12 @@ flow:
     - closeSession:
         required: false
     - container_cmd_expression:
-        default: "' ' + container_cmd if container_cmd else ''"
+        default: ${' ' + container_cmd if container_cmd else ''}
         overridable: false
     - command:
-        default: "'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams + ' -d ' + imageName + container_cmd_expression"
+        default: >
+          ${'docker run --name ' + containerName + ' --link ' + linkParams + ' ' + cmdParams +
+          ' -d ' + imageName + container_cmd_expression}
         overridable: false
 
   workflow:
@@ -95,5 +102,5 @@ flow:
           - standard_err
           - return_code
   outputs:
-    - container_id: returnResult
-    - error_message: standard_err if(return_code == '0' and standard_err != '') else returnResult
+    - container_id: ${returnResult}
+    - error_message: ${standard_err if(return_code == '0' and standard_err != '') else returnResult}

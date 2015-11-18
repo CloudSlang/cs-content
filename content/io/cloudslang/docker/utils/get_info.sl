@@ -15,10 +15,13 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine;
+#                   - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
+#                                if true the SSH session used will be closed;
+#                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - docker_info - information returned by Docker
@@ -57,8 +60,7 @@ flow:
     - agent_forwarding:
         required: false
     - command:
-        default: >
-          'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'
+        default: ${'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'}
         overridable: false
 
   workflow:
@@ -69,20 +71,20 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
             - command
-            - characterSet: character_set
+            - characterSet: ${character_set}
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - closeSession: ${close_session}
+            - agentForwarding: ${agent_forwarding}
         publish:
-          - docker_info: returnResult
+          - docker_info: ${returnResult}
 
     - evaluate_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: docker_info
-            - string_to_find: "'Containers'"
+            - string_in_which_to_search: ${docker_info}
+            - string_to_find: 'Containers'
   outputs:
     - docker_info
