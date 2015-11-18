@@ -43,26 +43,26 @@ flow:
     - validate_linux_machine_ssh_access:
         do:
           validate_linux_machine_ssh_access:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - privateKeyFile: ${ private_key_file }
             - timeout
     - check_disk_space:
         do:
           check_linux_disk_space:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - privateKeyFile: ${ private_key_file }
             - timeout
         publish:
           - disk_space
     - check_availability:
         do:
           base_comparisons.less_than_percentage:
-            - first_percentage: disk_space.replace("\n", "")
-            - second_percentage: percentage
+            - first_percentage: ${ disk_space.replace("\n", "") }
+            - second_percentage: ${ percentage }
         navigate:
           LESS: SUCCESS
           MORE: NOT_ENOUGH_DISKSPACE

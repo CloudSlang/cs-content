@@ -29,13 +29,13 @@ operation:
   inputs:
     - address
     - ttl:
-        default: "'64'"
+        default: "64"
         required: false
     - size:
-        default: "'32'"
+        default: "32"
         required: false
     - timeout:
-        default: "'1000'"
+        default: "1000"
         required: false
 
   action:
@@ -62,6 +62,6 @@ operation:
      - is_up
 
   results:
-    - FAILURE: is_error
-    - UP: is_up
-    - DOWN: not is_up
+    - FAILURE: ${ is_error }
+    - UP: ${ is_up }
+    - DOWN: ${ not is_up }

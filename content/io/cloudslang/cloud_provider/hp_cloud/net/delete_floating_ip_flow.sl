@@ -51,7 +51,7 @@ flow:
     - get_floatingip_id:
         do:
           utils.get_floatingip_id:
-            - json_ip_list: return_result
+            - json_ip_list: ${return_result}
             - ip_address
         publish:
           - ip_id
