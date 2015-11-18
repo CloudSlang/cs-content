@@ -8,15 +8,15 @@
 ####################################################
 # This flow clones a git repository
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_repository - the URL for cloning a git repository from
-#       - git_repository_localdir - target directory the git repository will be cloned to
-#       - privateKeyFile - the absolute path to the private key file
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command - Default: 22
+#   - username - username to connect as
+#   - password - password of user
+#   - sudo_user - true or false, whether the command should execute using sudo
+#   - git_repository - the URL for cloning a git repository from
+#   - git_repository_localdir - target directory the git repository will be cloned to
+#   - privateKeyFile - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully cloned
@@ -40,7 +40,7 @@ flow:
     - password:
         required: false
     - git_repository
-    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_repository_localdir: '/tmp/repo.git'
     - sudo_user:
         default: false
         required: false
@@ -53,8 +53,8 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS'"
+            - sudo_command: "${'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''}"
+            - command: "${sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS'}"
             - username
             - password
             - privateKeyFile
@@ -65,8 +65,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${standard_out}
+            - string_to_find: 'GIT_SUCCESS'
 
   outputs:
     - standard_err

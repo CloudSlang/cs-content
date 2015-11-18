@@ -8,16 +8,18 @@
 ####################################################
 # This flow performs a git command to cleanup and reinitialized a local repository
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the path to the private key file
-#      - git_repository_localdir - the target local directory where is the repository to be cleaned up - Default: /tmp/repo.git
-#      - change_path - optional - true or false, whether the command should execute in local path or not - Default: false
-#      - new_path - optional - the new path to the directory where is the repository to be cleaned up
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional- true or false, whether the command should execute using sudo - Default: False
+#   - private_key_file - optional - the path to the private key file
+#   - git_repository_localdir - the target local directory where is the repository to be cleaned up
+#                             - Default: '/tmp/repo.git'
+#   - change_path - optional - true or false, whether the command should execute in local path or not
+#                            - Default: False
+#   - new_path - optional - the new path to the directory where is the repository to be cleaned up
 #
 # Results:
 #  SUCCESS: the files was successfully added
@@ -44,7 +46,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_repository_localdir: '/tmp/repo.git'
     - change_path:
         default: false
         required: false
@@ -59,11 +61,11 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - change_path_command: "'cd ' + (new_path if new_path else '') + ' && ' if bool(change_path) else ''"
-            - git_init_command: "' && git reset --hard HEAD'"
-            - command: "sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command"
+            - privateKeyFile: ${private_key_file}
+            - sudo_command: "${'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''}"
+            - change_path_command: "${'cd ' + (new_path if new_path else '') + ' && ' if bool(change_path) else ''}"
+            - git_init_command: "${' && git reset --hard HEAD'}"
+            - command: "${sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command}"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE

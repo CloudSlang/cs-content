@@ -8,16 +8,17 @@
 ####################################################
 # This flow checks out a git branch
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: origin
-#       - git_branch - the git branch to checkout to
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command - Default: 22
+#   - username - username to connect as
+#   - password - password of user
+#   - sudo_user - true or false, whether the command should execute using sudo
+#   - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: 'origin'
+#   - git_branch - the git branch to checkout to
+#   - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked
+#                               out to - Default: '/tmp/repo.git'
+#   - privateKeyFile - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully cloned
@@ -40,11 +41,10 @@ flow:
     - username
     - password:
         required: false
-    - git_branch:
-        required: true
-    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_branch
+    - git_repository_localdir: '/tmp/repo.git'
     - git_pull_remote:
-        default: "'origin'"
+        default: 'origin'
         required: false
     - sudo_user:
         default: false
@@ -58,9 +58,9 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_pull: "' && git pull ' + git_pull_remote + ' ' + git_branch"
-            - command: "sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS'"
+            - sudo_command: "${'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''}"
+            - git_pull: "${' && git pull ' + git_pull_remote + ' ' + git_branch}"
+            - command: "${sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS'}"
             - username
             - password
             - privateKeyFile
@@ -72,8 +72,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${standard_out}
+            - string_to_find: 'GIT_SUCCESS'
 
   outputs:
     - standard_err
