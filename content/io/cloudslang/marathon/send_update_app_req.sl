@@ -6,20 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Sends an HTTP request to update an app.
+# Sends an HTTP request to update a Marathon app.
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - appId - app ID to update
+#   - app_id - app ID to update
 #   - body - application resource JSON
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
+#   - proxy_host - optional - proxy host
+#   - proxy_port - optional - proxy port
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode is == -1 or statusCode != 200
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message - returnResult if returnCode is == -1 or statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -36,12 +36,18 @@ operation:
         required: false
     - app_id
     - body
-    - proxyHost:
+    - proxy_host:
         required: false
+    - proxyHost:
+        default: get('proxy_host', None)
+        required: false
+    - proxy_port:
+            required: false
     - proxyPort:
+        default: get('proxy_port', None)
         required: false
     - url:
-        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
+        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'"
         overridable: false
     - method:
         default: "'put'"
@@ -54,10 +60,10 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - return_result: returnResult
+    - status_code: statusCode
+    - return_code: returnCode
+    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
   results:
     - SUCCESS: returnCode != '-1' and statusCode == '200'
     - FAILURE

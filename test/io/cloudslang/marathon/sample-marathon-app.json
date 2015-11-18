@@ -1,7 +1,16 @@
 {
   "id": "sample-app",
-  "cmd": "while [ true ] ; do echo 'Hello Marathon' ; sleep 5 ; done",
-  "cpus": 0.1,
-  "mem": 10.0,
-  "instances": 1
+  "cmd": "python3 -m http.server 8080",
+  "cpus": 0.5,
+  "mem": 32.0,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "python:3",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 8080, "hostPort": 0 }
+      ]
+    }
+  }
 }

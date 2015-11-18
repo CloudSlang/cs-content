@@ -6,21 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Creates a new app.
+# Creates a new Marathon app.
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - json_file - path to JSON of new app
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
+#   - proxy_host - optional - proxy host
+#   - proxy_port - optional - proxy port
 # Outputs:
-#   - return_Result - response of the operation
-#   - status_Code - normal status code is 200
-#   - return_Code - if returnCode == -1 then there was an error
-#   - error_Message: returnResult if returnCode == -1 or statusCode != 200
+#   - return_result - response of the operation
+#   - status_code - normal status code is 200
+#   - return_code - if returnCode == -1 then there was an error
+#   - error_message - returnResult if returnCode == -1 or statusCode != 200
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
 ##################################################################################################################################################
 
@@ -28,6 +28,7 @@ namespace: io.cloudslang.marathon
 
 imports:
   files: io.cloudslang.base.files
+  marathon: io.cloudslang.marathon
 
 flow:
   name: create_app
@@ -37,9 +38,9 @@ flow:
         default: "'8080'"
         required: false
     - json_file
-    - proxyHost:
+    - proxy_host:
         required: false
-    - proxyPort:
+    - proxy_port:
         required: false
 
   workflow:
@@ -56,19 +57,19 @@ flow:
             - marathon_host
             - marathon_port
             - body: read_text
-            - proxyHost
-            - proxyPort
+            - proxy_host
+            - proxy_port
         publish:
-          - returnResult
-          - statusCode
-          - returnCode
-          - errorMessage
+          - return_result
+          - status_code
+          - return_code
+          - error_message
 
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage
+    - return_result
+    - status_code
+    - return_code
+    - error_message
   results:
     - SUCCESS
     - FAILURE
