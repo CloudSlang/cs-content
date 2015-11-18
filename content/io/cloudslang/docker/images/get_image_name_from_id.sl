@@ -38,7 +38,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - host
     - port:
@@ -51,15 +51,15 @@ flow:
         required: false
     - command:
         default: >
-            "docker " + docker_options_expression + "images | grep " + image_id + " | awk '{print $1 \":\" $2}'"
+            ${ "docker " + docker_options_expression + "images | grep " + image_id + " | awk '{print $1 \":\" $2}'" }
         overridable: false
     - arguments:
         required: false
     - characterSet:
         required: false
-    - pty: "'false'"
-    - timeout: "'30000000'"
-    - closeSession: "'false'"
+    - pty: "false"
+    - timeout: "30000000"
+    - closeSession: "false"
 
   workflow:
     - get_image_name_from_id:
@@ -78,7 +78,7 @@ flow:
             - closeSession
             - agentForwarding
         publish:
-          - image_name: returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","")
+          - image_name: ${ returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","") }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE

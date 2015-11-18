@@ -46,7 +46,7 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker pull ' + image_name"
+        default: ${ 'docker pull ' + image_name }
         overridable: false
     - arguments:
         required: false
@@ -55,7 +55,7 @@ flow:
     - pty:
         required: false
     - timeout:
-        default: "'30000000'"
+        default: "30000000"
         required: false
     - closeSession:
         required: false
@@ -79,8 +79,8 @@ flow:
             - closeSession
             - agentForwarding
         publish:
-            - return_result: returnResult
-            - error_message: standard_err
+            - return_result: ${ returnResult }
+            - error_message: ${ standard_err }
   outputs:
     - return_result
     - error_message
