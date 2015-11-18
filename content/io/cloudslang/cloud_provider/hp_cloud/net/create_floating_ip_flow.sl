@@ -53,7 +53,7 @@ flow:
     - get_external_id:
         do:
           utils.get_external_net_id:
-            - json_network_list: return_result
+            - json_network_list: ${return_result}
         publish:
           - ext_network_id
 
@@ -72,16 +72,16 @@ flow:
     - get_ip_result:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["'floatingip'", "'floating_ip_address'"]
         publish:
-          - ip_address: value
+          - ip_address: ${value}
 
     - on_failure:
       - ip_error:
           do:
             print.print_text:
-              - text: "'! ERROR ALLOCATING IP (' + status_code + ') : ' + return_result"
+              - text: "${'! ERROR ALLOCATING IP (' + status_code + ') : ' + return_result}"
 
   outputs:
     - return_result
