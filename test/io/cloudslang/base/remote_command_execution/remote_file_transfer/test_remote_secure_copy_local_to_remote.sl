@@ -30,13 +30,13 @@ flow:
     - key_name
     - text_to_check
     - docker_scp_image:
-        default: "'gituser173/docker-scp-server'"
+        default: 'gituser173/docker-scp-server'
         overridable: false
     - authorized_keys_path:
-        default: "'~/.ssh/authorized_keys'"
+        default: '~/.ssh/authorized_keys'
         overridable: false
     - container_path:
-        default: "'/home/data/'"
+        default: '/home/data/'
         overridable: false
 
   workflow:
@@ -44,7 +44,7 @@ flow:
     - pull_scp_image:
         do:
           base_cmd.run_command:
-            - command: "'docker pull ' + docker_scp_image"
+            - command: ${ 'docker pull ' + docker_scp_image }
         navigate:
           SUCCESS: generate_key
           FAILURE: SCP_IMAGE_NOT_PULLED
@@ -52,7 +52,7 @@ flow:
     - generate_key:
         do:
           base_cmd.run_command:
-            - command: "'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts'"
+            - command: ${ 'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts' }
         navigate:
           SUCCESS: add_key_to_authorized
           FAILURE: KEY_GENERATION_FAIL
@@ -60,7 +60,7 @@ flow:
     - add_key_to_authorized:
         do:
           base_cmd.run_command:
-            - command: "'cat ' + key_name + '.pub >> ' + authorized_keys_path"
+            - command: ${ 'cat ' + key_name + '.pub >> ' + authorized_keys_path }
         navigate:
           SUCCESS: create_scp_host
           FAILURE: KEY_ADDITION_FAIL
@@ -68,7 +68,7 @@ flow:
     - create_scp_host:
         do:
           base_cmd.run_command:
-            - command: "'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port + ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image"
+            - command: ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port + ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image }
         navigate:
           SUCCESS: create_file_to_be_copied
           FAILURE: SCP_HOST_NOT_STARTED
@@ -76,7 +76,7 @@ flow:
     - create_file_to_be_copied:
         do:
           base_cmd.run_command:
-            - command: "'echo ' + text_to_check + ' > ' + scp_file"
+            - command: ${ 'echo ' + text_to_check + ' > ' + scp_file }
         navigate:
           SUCCESS: sleep
           FAILURE: FILE_CREATION_FAIL
@@ -92,12 +92,12 @@ flow:
     - test_remote_secure_copy:
         do:
           base_rft.remote_secure_copy:
-            - sourcePath: "scp_file"
-            - destinationHost: host
-            - destinationPath: "container_path + scp_file"
-            - destinationPort: scp_host_port
-            - destinationUsername: scp_username
-            - destinationPrivateKeyFile: key_name
+            - sourcePath: ${ scp_file }
+            - destinationHost: ${ host }
+            - destinationPath: ${ container_path + scp_file }
+            - destinationPort: ${ scp_host_port }
+            - destinationUsername: ${ scp_username }
+            - destinationPrivateKeyFile: ${ key_name }
         navigate:
           SUCCESS: get_file_from_scp_host
           FAILURE: RFT_FAILURE
@@ -105,7 +105,7 @@ flow:
     - get_file_from_scp_host:
         do:
           base_cmd.run_command:
-            - command: "'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file"
+            - command: ${ 'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file }
         navigate:
           SUCCESS: read_file
           FAILURE: FILE_REACHING_SCP_HOST_FAIL
@@ -113,7 +113,7 @@ flow:
     - read_file:
         do:
           base_files.read_from_file:
-            - file_path: scp_file
+            - file_path: ${ scp_file }
         publish:
           - read_text
         navigate:
@@ -123,8 +123,8 @@ flow:
     - check_text:
         do:
           base_strings.string_equals:
-            - first_string: text_to_check
-            - second_string: read_text.strip()
+            - first_string: ${ text_to_check }
+            - second_string: ${ read_text.strip() }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FILE_CHECK_FAIL

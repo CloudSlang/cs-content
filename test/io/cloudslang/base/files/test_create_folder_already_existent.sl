@@ -30,14 +30,14 @@ flow:
     - delete_folder_from_success:
         do:
           delete:
-            - source: folder_name
+            - source: ${folder_name}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE
     - delete_folder_from_failure:
         do:
           delete:
-            - source: folder_name
+            - source: ${folder_name}
         navigate:
           SUCCESS: FAILURE
           FAILURE: DELETEFAILURE
