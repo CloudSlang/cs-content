@@ -39,7 +39,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - host
     - port:
@@ -51,7 +51,7 @@ flow:
          required: false
     - command:
         default: >
-          "docker " + docker_options_expression + "images -f \"dangling=true\""
+          ${ "docker " + docker_options_expression + "images -f \"dangling=true\"" }
         overridable: false
     - arguments:
         required: false
@@ -60,7 +60,7 @@ flow:
     - pty:
         required: false
     - timeout:
-        default: "'30000000'"
+        default: "30000000"
         required: false
     - closeSession:
         required: false
@@ -85,7 +85,7 @@ flow:
             - agentForwarding
         publish:
           - dangling_image_list: >
-              ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:]))).replace(":latest", "")
+              ${ ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:]))).replace(":latest", "") }
 
   outputs:
     - dangling_image_list

@@ -43,7 +43,7 @@ operation:
       - sourcePath
       - sourcePort:
           required: false
-          default: "'22'"
+          default: '22'
       - sourceUsername:
           required: false
       - sourcePassword:
@@ -54,7 +54,7 @@ operation:
       - destinationPath
       - destinationPort:
           required: false
-          default: "'22'"
+          default: '22'
       - destinationUsername
       - destinationPassword:
           required: false
@@ -62,12 +62,12 @@ operation:
           required: false
       - knownHostsPolicy:
           required: false
-          default: "'allow'"
+          default: 'allow'
       - knownHostsPath:
           required: false
       - timeout:
           required: false
-          default: "'90000'"
+          default: '90000'
     action:
           java_action:
             className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
@@ -77,5 +77,5 @@ operation:
       - return_code: returnCode
       - exception
     results:
-      - SUCCESS: returnCode == '0'
+      - SUCCESS: ${ returnCode == '0' }
       - FAILURE

@@ -56,7 +56,7 @@ flow:
     - socket_timeout:
         required: false
     - time_left:
-        default: int(timeout)
+        default: ${int(timeout)}
         overridable: false
 
   workflow:
@@ -72,7 +72,7 @@ flow:
             - connect_timeout
             - socket_timeout
         publish:
-          - actual_status: droplet_status
+          - actual_status: ${droplet_status}
           - status_code
         navigate:
           SUCCESS: check_status
@@ -81,8 +81,8 @@ flow:
     - check_droplet_not_found:
         do:
           strings.string_equals:
-            - first_string: "'404'"
-            - second_string: status_code
+            - first_string: '404'
+            - second_string: ${status_code}
         navigate:
           SUCCESS: DROPLET_NOT_FOUND
           FAILURE: FAILURE
@@ -90,8 +90,8 @@ flow:
     - check_status:
         do:
           strings.string_equals:
-            - first_string: status
-            - second_string: actual_status
+            - first_string: ${status}
+            - second_string: ${actual_status}
         navigate:
           SUCCESS: check_timeout
           FAILURE: SUCCESS
@@ -99,10 +99,10 @@ flow:
     - check_timeout:
         do:
           comparisons.compare_numbers:
-            - value1: time_left
+            - value1: ${time_left}
             - value2: 0
         publish:
-          - time_left: self['time_left'] - 1
+          - time_left: ${self['time_left'] - 1}
         navigate:
           GREATER_THAN: sleep
           EQUALS: TIMEOUT

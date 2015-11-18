@@ -6,31 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.base.files
+
+namespace: io.cloudslang.powershell
 
 flow:
-  name: test_write_to_file
+  name: test_execute_powershell_script
   inputs:
-    - file_path
-    - text
+    - host
+    - user_name
+    - password
+    - script
+    - winrm_enable_https:
+        required: false
   workflow:
-    - test_write_to_file_operation:
+    - execute_script:
         do:
-          write_to_file:
-            - file_path
-            - text
-        navigate:
-          SUCCESS: delete_created_file
-          FAILURE: WRITEFAILURE
-    - delete_created_file:
-        do:
-          delete:
-            - source: ${file_path}
+          execute_powershell_script:
+            - host
+            - user_name
+            - password
+            - script
+            - winrm_enable_https
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          FAILURE: FAILURE
 
   results:
     - SUCCESS
-    - WRITEFAILURE
-    - DELETEFAILURE
+    - FAILURE

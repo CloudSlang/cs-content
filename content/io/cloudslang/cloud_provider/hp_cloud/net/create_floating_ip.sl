@@ -43,11 +43,11 @@ flow:
     - rest_create_floating_ip:
         do:
           rest.http_client_post:
-            - url: "'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'"
-            - headers: "'X-AUTH-TOKEN:' + token"
+            - url: ${'https://region-' + region + '.geo-1.network.hpcloudsvc.com/v2.0/floatingips'}
+            - headers: ${'X-AUTH-TOKEN:' + token}
             - body: >
-                '{"floatingip": { "floating_network_id": "' + ext_network_id + '" }}'
-            - content_type: "'application/json'"
+                ${'{"floatingip": { "floating_network_id": "' + ext_network_id + '" }}'}
+            - content_type: 'application/json'
             - proxy_host
             - proxy_port
         publish:

@@ -51,7 +51,7 @@ flow:
     - wait:
         do:
           base_utils.sleep:
-            - seconds: int(delay)
+            - seconds: ${int(delay)}
 
     - get_details:
         do:
@@ -72,10 +72,10 @@ flow:
     - extract_status:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["'server'", "'status'"]
         publish:
-          - server_status: value
+          - server_status: ${value}
         navigate:
           SUCCESS: check_active
           FAILURE: failed
@@ -83,8 +83,8 @@ flow:
     - check_active:
         do:
           strings.string_equals:
-            - first_string: server_status
-            - second_string: "'ACTIVE'"
+            - first_string: ${server_status}
+            - second_string: 'ACTIVE'
         navigate:
           SUCCESS: ACTIVE
           FAILURE: NOTACTIVE
@@ -92,7 +92,7 @@ flow:
     - failed:
           do:
             print.print_text:
-              - text: "'! ERROR GETTING SERVER INFO: \\nStatus:' + status_code + '\\n' + return_result"
+              - text: "${'! ERROR GETTING SERVER INFO: \\nStatus:' + status_code + '\\n' + return_result}"
           navigate:
             SUCCESS: FAILURE
 
