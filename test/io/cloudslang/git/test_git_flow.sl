@@ -105,7 +105,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - command: "'rm -r ' + git_repository_localdir"
+            - command: ${ 'rm -r ' + git_repository_localdir }
             - username
             - password
         navigate:
