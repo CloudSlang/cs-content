@@ -40,5 +40,5 @@ operation:
     - ip_id    
 
   results:
-    - SUCCESS: "len(ip_id) > 0"
+    - SUCCESS: ${len(ip_id) > 0}
     - FAILURE
