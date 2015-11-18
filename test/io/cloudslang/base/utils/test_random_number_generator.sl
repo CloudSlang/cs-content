@@ -32,8 +32,8 @@ flow:
     - output_greater_than_min:
         do:
           comparisons.less_than_percentage:
-            - first_percentage: str(int(min) - 1)
-            - second_percentage: str(random_number)
+            - first_percentage: ${ str(int(min) - 1) }
+            - second_percentage: ${ str(random_number) }
         navigate:
           LESS: output_less_than_max
           MORE: OUTPUT_OUTSIDE_BOUNDS
@@ -41,8 +41,8 @@ flow:
     - output_less_than_max:
         do:
           comparisons.less_than_percentage:
-            - first_percentage: str(random_number)
-            - second_percentage: str(int(max) + 1)
+            - first_percentage: ${ str(random_number) }
+            - second_percentage: ${ str(int(max) + 1) }
         navigate:
           LESS: SUCCESS
           MORE: OUTPUT_OUTSIDE_BOUNDS

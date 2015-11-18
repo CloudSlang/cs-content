@@ -27,8 +27,8 @@ flow:
     - verify_returned_output:
         do:
           strings.string_equals:
-            - first_string: expected_output
-            - second_string: "'' if message == None else message"
+            - first_string: ${ expected_output }
+            - second_string: ${ '' if message == None else message }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DIFFERENT_OUTPUTS

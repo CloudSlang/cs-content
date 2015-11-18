@@ -21,13 +21,13 @@ flow:
     - password:
         required: false
     - content_type:
-        default: "'application/json'"
+        default: "application/json"
         overridable: false
     - method:
-        default: "'PUT'"
+        default: "PUT"
         overridable: false
     - body:
-        default: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
+        default: "{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}"
         overridable: false
     - proxy_host:
         required: false
@@ -58,8 +58,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
+            - list_2: ["", 0, 200]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_FAILURE

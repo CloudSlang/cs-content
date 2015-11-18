@@ -47,11 +47,11 @@ flow:
     - rest_add_ip_to_server:
         do:
           rest.http_client_post:
-            - url: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'"
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - url: ${'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers/' + server_id + '/action'}
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
             - body: >
-                '{"addFloatingIp": { "address": "'+ip_address+'" }}'
+                ${'{"addFloatingIp": { "address": "'+ip_address+'" }}'}
             - proxy_host
             - proxy_port
         publish:

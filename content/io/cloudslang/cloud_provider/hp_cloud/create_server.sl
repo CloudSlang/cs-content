@@ -47,7 +47,7 @@ flow:
         required: false
     - network:
         default: >
-          ', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''
+          ${', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''}
         overridable: false
     - proxy_host:
         required: false
@@ -58,13 +58,15 @@ flow:
     - rest_create_server:
         do:
           rest.http_client_post:
-            - url: "'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'"
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - url: ${'https://region-' + region + '.geo-1.compute.hpcloudsvc.com/v2/' + tenant + '/servers'}
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
             - body: >
+                ${
                 '{"server": { "name": "' + server_name + '" , "imageRef": "' + img_ref +
                 '", "flavorRef":"' + str(flavor_ref) + '", "key_name":"' + keypair +
                 '", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' + network + '}}'
+                }
             - proxy_host
             - proxy_port
         publish:
