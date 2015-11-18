@@ -7,7 +7,7 @@
 #
 ####################################################
 test_update_app_success:
-  testSuites: [marathon-ignore]
+  testSuites: [marathon]
   description: Tests SUCCESS case
   testFlowPath: io.cloudslang.marathon.test_update_app
   inputs:
@@ -18,4 +18,5 @@ test_update_app_success:
     - json_file_for_creation: test/io/cloudslang/marathon/sample-marathon-app.json
     - json_file_for_update: test/io/cloudslang/marathon/sample-marathon-app.json
     - created_app_id: sample-app
+    - is_core_os: true
   result: SUCCESS

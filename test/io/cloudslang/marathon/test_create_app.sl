@@ -23,27 +23,21 @@ flow:
         required: false
     - json_file
     - created_app_id
+    - is_core_os
 
   workflow:
-    - setup_marathon:
+    - setup_marathon_on_different_hosts:
         do:
-          setup_marathon:
-            - host: marathon_host
+          setup_marathon_on_different_hosts:
+            - marathon_host
             - username
             - private_key_file
             - marathon_port
+            - is_core_os
         navigate:
-          SUCCESS: wait_for_marathon_startup
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-
-    - wait_for_marathon_startup:
-        do:
-          utils.sleep:
-              - seconds: 20
+          SUCCESS: list_initial_marathon_apps
+          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
@@ -51,7 +45,7 @@ flow:
             - marathon_host
             - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_initial_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -59,7 +53,7 @@ flow:
     - parse_initial_response:
          do:
            parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:
@@ -100,7 +94,7 @@ flow:
     - wait_for_app_startup:
         do:
           utils.sleep:
-              - seconds: 10
+              - seconds: 20
 
     - list_marathon_apps:
         do:
@@ -108,7 +102,7 @@ flow:
             - marathon_host
             - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -116,7 +110,7 @@ flow:
     - parse_response:
          do:
            parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:
@@ -140,11 +134,10 @@ flow:
             - marathon_host
             - marathon_port
         publish:
-          - tasks_list: returnResult
+          - tasks_list: return_result
         navigate:
           SUCCESS: check_task_was_created
           FAILURE: TASKS_NOT_RETRIEVED
-
 
     - check_task_was_created:
         do:
@@ -171,7 +164,7 @@ flow:
             - marathon_host
             - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: parse_second_response
           FAILURE: APPS_NOT_RETRIEVED
@@ -179,7 +172,7 @@ flow:
     - parse_second_response:
          do:
            parse_get_app_list:
-             - operation_response: returnResult
+             - operation_response: return_result
          publish:
            - app_list
          navigate:
@@ -199,6 +192,7 @@ flow:
     - SUCCESS
     - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - PARSE_FAILURE
     - FAIL_TO_DELETE
     - APP_NOT_CREATED
