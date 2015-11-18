@@ -48,17 +48,15 @@ flow:
 
   inputs:
     - name
-    - region: "'ams3'"
-    - size: "'512mb'"
+    - region: 'ams3'
+    - size: '512mb'
     - image
     - ssh_keys:
-        default: None
         required: false
     - backups: false
     - ipv6: false
     - private_networking: false
     - user_data:
-        default: None
         required: false
     - token
     - proxy_host:
@@ -74,20 +72,21 @@ flow:
     - socket_timeout:
         required: false
     - ssh_keys_formatted:
-        default: str(ssh_keys) if ssh_keys else 'null'
+        default: ${str(ssh_keys) if ssh_keys else 'null'}
         overridable: false
     - user_data_formatted:
-        default: user_data if user_data else 'null'
+        default: ${user_data if user_data else 'null'}
         overridable: false
 
   workflow:
     - execute_post_request:
         do:
           rest.http_client_post:
-            - url: "'https://api.digitalocean.com/v2/droplets'"
-            - auth_type: "'anonymous'"
-            - headers: "'Authorization: Bearer ' + token"
+            - url: 'https://api.digitalocean.com/v2/droplets'
+            - auth_type: 'anonymous'
+            - headers: "${'Authorization: Bearer ' + token}"
             - body: >
+                ${
                 '{ ' +
                 '"name": "' + name + '", ' +
                 '"region": "' + region + '", ' +
@@ -99,30 +98,31 @@ flow:
                 '"private_networking": ' +  str(private_networking).lower() + ', ' +
                 '"user_data": ' + user_data_formatted +
                 ' }'
+                }
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - content_type: "'application/json'"
+            - content_type: 'application/json'
             - connect_timeout
             - socket_timeout
         publish:
-          - response: return_result
+          - response: ${return_result}
           - status_code
 
     - check_result:
         do:
           strings.string_equals:
-            - first_string: "'202'"
-            - second_string: str(status_code)
+            - first_string: '202'
+            - second_string: ${str(status_code)}
 
     - extract_droplet_id:
         do:
           json.get_value:
-            - json_input: response
+            - json_input: ${ response }
             - json_path: ["'droplet'", "'id'"]
         publish:
-          - droplet_id: value
+          - droplet_id: ${value}
   outputs:
     - response
-    - droplet_id: droplet_id if droplet_id else ''
+    - droplet_id: ${droplet_id if droplet_id else ''}

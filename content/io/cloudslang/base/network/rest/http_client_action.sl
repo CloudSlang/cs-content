@@ -75,30 +75,30 @@ operation:
     - authType:
         required: false
     - preemptiveAuth:
-        default: "'true'"
+        default: "true"
     - username:
         required: false
     - password:
         required: false
     - kerberosConfFile:
-        default: "'0'"
+        default: "0"
     - kerberosLoginConfFile:
         required: false
     - kerberosSkipPortForLookup:
-        default: "'true'"
+        default: "true"
     - proxyHost:
         required: false
     - proxyPort:
-        default: "'8080'"
+        default: "8080"
         required: false
     - proxyUsername:
         required: false
     - proxyPassword:
         required: false
     - trustAllRoots:
-        default: "'true'"
+        default: "true"
     - x509HostnameVerifier:
-        default: "'allow_all'"
+        default: "allow_all"
     - trustKeystore:
         required: false
     - trustPassword:
@@ -108,53 +108,53 @@ operation:
     - keystorePassword:
         required: false
     - connectTimeout:
-        default: "'0'"
+        default: "0"
     - socketTimeout:
-        default: "'0'"
+        default: "0"
     - useCookies:
-        default: "'true'"
+        default: "true"
     - keepAlive:
-        default: "'false'"
+        default: "false"
     - connectionsMaxPerRoot:
-        default: "'2'"
+        default: "2"
     - connectionsMaxTotal:
-        default: "'2'"
+        default: "2"
     - headers:
         required: false
     - responseCharacterSet:
-        default: "'ISO-8859-1'"
+        default: "ISO-8859-1"
     - destinationFile:
         required: false
     - followRedirects:
-        default: "'true'"
+        default: "true"
     - queryParams:
         required: false
     - queryParamsAreURLEncoded:
-        default: "'false'"
+        default: "false"
     - queryParamsAreFormEncoded:
-        default: "'true'"
+        default: "true"
     - formParams:
         required: false
     - formParamsAreURLEncoded:
-        default: "'false'"
+        default: "false"
     - sourceFile:
         required: false
     - body:
         required: false
     - contentType:
-        default: "'text/plain'"
+        default: "text/plain"
     - requestCharacterSet:
-        default: "'ISO-8859-1'"
+        default: "ISO-8859-1"
     - multipartBodies:
         required: false
     - multipartBodiesContentType:
-        default: "'text/plain; charset=ISO-8859-1'"
+        default: "text/plain; charset=ISO-8859-1"
     - multipartFiles:
         required: false
     - multipartFilesContentType:
-        default: "'application/octet-stream'"
+        default: "application/octet-stream"
     - multipartValuesAreURLEncoded:
-        default: "'false'"
+        default: "false"
     - chunkedRequestEntity:
         required: false
     - method
@@ -163,17 +163,17 @@ operation:
     - httpClientPoolingConnectionManager:
         required: false
     - validHttpStatusCodes:
-        default: "range(200, 300)"
+        default: ${ range(200, 300) }
 
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: "'' if 'returnResult' not in locals() else returnResult"
+    - return_result: ${ '' if 'returnResult' not in locals() else returnResult }
     - error_message: returnResult if returnCode != '0' else ''
     - return_code: returnCode
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
+    - status_code: ${ '' if 'statusCode' not in locals() else statusCode }
   results:
-    - SUCCESS : "returnCode == '0' and int(statusCode) in self['validHttpStatusCodes']"
+    - SUCCESS : ${ returnCode == '0' and int(statusCode) in self['validHttpStatusCodes'] }
     - FAILURE

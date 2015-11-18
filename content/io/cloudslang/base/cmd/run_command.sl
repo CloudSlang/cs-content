@@ -27,5 +27,5 @@ operation:
       print "Running command: '" + command + "'"
       exit_code = subprocess.call(command, shell=True)
   results:
-    - SUCCESS: exit_code == 0
+    - SUCCESS: ${exit_code == 0}
     - FAILURE

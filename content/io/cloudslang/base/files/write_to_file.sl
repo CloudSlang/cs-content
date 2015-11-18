@@ -36,5 +36,5 @@ operation:
         print e
         res = False
   results:
-    - SUCCESS: res
+    - SUCCESS: ${res}
     - FAILURE

@@ -50,7 +50,7 @@ flow:
     - remove_client:
         do:
           knife_command:
-            - knife_cmd: "'client delete ' + node_name + ' -y'"
+            - knife_cmd: ${'client delete ' + node_name + ' -y'}
             - knife_host
             - knife_username
             - knife_password
@@ -64,7 +64,7 @@ flow:
     - remove_node:
         do:
           knife_command:
-            - knife_cmd: "'node delete ' + node_name + ' -y'"
+            - knife_cmd: ${'node delete ' + node_name + ' -y'}
             - knife_host
             - knife_username
             - knife_password

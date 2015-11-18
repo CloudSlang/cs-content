@@ -61,7 +61,7 @@ flow:
     - get_authentication_token:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["'access'", "'token'", "'id'"]
         publish:
           - token: value
@@ -70,10 +70,10 @@ flow:
     - get_tenant_id:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["'access'", "'token'", "'tenant'", "'id'"]
         publish:
-          - tenant_id: value
+          - tenant_id: ${value}
           - error_message
 
   outputs:

@@ -26,8 +26,8 @@ flow:
     - verify_output_is_not_empty:
         do:
           strings.string_equals:
-            - first_string: "''"
-            - second_string: new_uuid
+            - first_string: ''
+            - second_string: ${ new_uuid }
         navigate:
           SUCCESS: OUTPUT_IS_EMPTY
           FAILURE: SUCCESS

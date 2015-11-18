@@ -51,33 +51,33 @@ flow:
     - execute_get_request:
         do:
           rest.http_client_get:
-            - url: "'https://api.digitalocean.com/v2/droplets'"
-            - auth_type: "'anonymous'"
-            - headers: "'Authorization: Bearer ' + token"
+            - url: ${'https://api.digitalocean.com/v2/droplets'}
+            - auth_type: 'anonymous'
+            - headers: "${'Authorization: Bearer ' + token}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - content_type: "'application/json'"
+            - content_type: 'application/json'
             - connect_timeout
             - socket_timeout
         publish:
-          - response: return_result
+          - response: ${return_result}
           - status_code
 
     - check_result:
         do:
           strings.string_equals:
-            - first_string: "'200'"
-            - second_string: str(status_code)
+            - first_string: '200'
+            - second_string: ${str(status_code)}
 
     - extract_droplets_information:
         do:
           json.get_value:
-            - json_input: response
+            - json_input: ${ response }
             - json_path: ["'droplets'"]
         publish:
-          - droplets: value
+          - droplets: ${value}
   outputs:
     - response
     - droplets
