@@ -20,11 +20,11 @@ flow:
   inputs:
     - docker_image
     - base_image:
-        default: "'busybox:latest'"
+        default: "busybox:latest"
     - workdir:
-        default: "'.'"
+        default: "."
     - dockerfile_name:
-        default: "'Dockerfile'"
+        default: "Dockerfile"
     - host
     - port:
         required: false
@@ -48,10 +48,10 @@ flow:
     - pre_clear_docker_host:
         do:
           maintenance.clear_host:
-            - docker_host: host
+            - docker_host: ${ host }
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
             - private_key_file
         navigate:
           SUCCESS: create_dockerfile
@@ -63,10 +63,10 @@ flow:
             - host
             - port
             - command: >
-                "mkdir -p " + workdir + " && echo -e 'FROM " + base_image + "' > " + workdir + "/" + dockerfile_name
+                ${ "mkdir -p " + workdir + " && echo -e 'FROM " + base_image + "' > " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - timeout
         navigate:
           SUCCESS: build_image
@@ -82,7 +82,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - timeout
         navigate:
           SUCCESS: get_all_images
@@ -95,7 +95,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - timeout
         publish:
           - image_list
@@ -108,8 +108,8 @@ flow:
           for: image in image_list.split()
           do:
             strings.string_equals:
-              - first_string: docker_image
-              - second_string: image
+              - first_string: ${ docker_image }
+              - second_string: ${ image }
           break:
             - SUCCESS
         navigate:
@@ -122,10 +122,10 @@ flow:
             - host
             - port
             - command: >
-                "rm " + workdir + "/" + dockerfile_name
+                ${ "rm " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - timeout
         navigate:
           SUCCESS: post_clear_docker_host
@@ -134,10 +134,10 @@ flow:
     - post_clear_docker_host:
         do:
           maintenance.clear_host:
-            - docker_host: host
+            - docker_host: ${ host }
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
             - private_key_file
         navigate:
           SUCCESS: SUCCESS
