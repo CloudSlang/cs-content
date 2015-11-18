@@ -39,7 +39,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - host
     - port:
@@ -51,7 +51,7 @@ flow:
         required: false
     - command:
         default: >
-         "docker " + docker_options_expression + "ps -a | tail -n +2 | awk '{print $2}'"
+         ${ "docker " + docker_options_expression + "ps -a | tail -n +2 | awk '{print $2}'" }
         overridable: false
     - arguments:
         required: false
@@ -60,7 +60,7 @@ flow:
     - pty:
         required: false
     - timeout:
-        default: "'30000000'"
+        default: "30000000"
         required: false
     - closeSession:
         required: false
@@ -84,7 +84,7 @@ flow:
             - closeSessione
             - agentForwarding
         publish:
-          - image_list: returnResult.replace("\n"," ").replace(":latest", "")
+          - image_list: ${ returnResult.replace("\n"," ").replace(":latest", "") }
 
   outputs:
     - image_list

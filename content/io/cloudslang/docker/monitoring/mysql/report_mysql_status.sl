@@ -62,11 +62,11 @@ flow:
     - retrieve_mysql_status:
             do:
               retrieve_mysql_status:
-                  - host: docker_host
-                  - port: docker_port
-                  - username: docker_username
-                  - password: docker_password
-                  - private_key_file: docker_private_key_file
+                  - host: ${ docker_host }
+                  - port: ${ docker_port }
+                  - username: ${ docker_username }
+                  - password: ${ docker_password }
+                  - private_key_file: ${ docker_private_key_file }
                   - container
                   - mysql_username
                   - mysql_password
@@ -84,34 +84,34 @@ flow:
     - send_status_mail:
             do:
               base_mail.send_mail:
-                  - hostname: email_host
-                  - port: email_port
-                  - username: email_username
-                  - password: email_password
-                  - htmlEmail: "'false'"
-                  - from: email_sender
-                  - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - hostname: ${ email_host }
+                  - port: ${ email_port }
+                  - username: ${ email_username }
+                  - password: ${ email_password }
+                  - htmlEmail: "false"
+                  - from: ${ email_sender }
+                  - to: ${ email_recipient }
+                  - subject: ${ 'MySQL Server Status on ' + docker_host }
                   - body: >
-                       'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
+                       ${ 'The MySQL server status on host ' + docker_host + ' is detected as:\nUptime: ' + uptime
                        + '\nThreads: ' + threads + '\nQuestions: ' + questions + '\nSlow queries: ' + slow_queries
                        + '\nOpens: ' + opens + '\nFlush tables: ' + flush_tables + '\nOpen tables: ' + open_tables
-                       + '\nQueries per second avg: ' + queries_per_second_AVG
+                       + '\nQueries per second avg: ' + queries_per_second_AVG }
 
     - on_failure:
       - send_error_mail:
           do:
               base_mail.send_mail:
-                  - hostname: email_host
-                  - port: email_port
-                  - username: email_username
-                  - password: email_password
-                  - from: email_sender
-                  - to: email_recipient
-                  - subject: "'MySQL Server Status on ' + docker_host"
+                  - hostname: ${ email_host }
+                  - port: ${ email_port }
+                  - username: ${ email_username }
+                  - password: ${ email_password }
+                  - from: ${ email_sender }
+                  - to: ${ email_recipient }
+                  - subject: ${ 'MySQL Server Status on ' + docker_host }
                   - body: >
-                      'The MySQL server status checking on host ' + docker_host
-                      + ' ended with the following error message: ' + error_message
+                      ${ 'The MySQL server status checking on host ' + docker_host
+                      + ' ended with the following error message: ' + error_message }
           navigate:
             SUCCESS: FAILURE
             FAILURE: FAILURE

@@ -40,9 +40,9 @@ operation:
     name: ssh_command
     inputs:
       - host
-      - port: "'22'"
+      - port: '22'
       - command
-      - pty: "'false'"
+      - pty: 'false'
       - username
       - password:
           required: false
@@ -50,9 +50,9 @@ operation:
           required: false
       - privateKeyFile:
           required: false
-      - timeout: "'90000'"
-      - characterSet: "'UTF-8'"
-      - closeSession: "'false'"
+      - timeout: '90000'
+      - characterSet: 'UTF-8'
+      - closeSession: 'false'
       - agentForwarding:
           required: false
     action:
@@ -60,12 +60,12 @@ operation:
         className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
         methodName: runSshShellCommand
     outputs:
-      - returnResult: get('returnResult', '')
-      - return_code: returnCode
-      - standard_out: "'' if 'STDOUT' not in locals() else STDOUT"
-      - standard_err: "'' if 'STDERR' not in locals() else STDERR"
-      - exception: "'' if 'exception' not in locals() else exception"
-      - command_return_code: "'' if 'exitStatus' not in locals() else exitStatus"
+      - returnResult: ${ get('returnResult', '') }
+      - return_code: ${ returnCode }
+      - standard_out: ${ '' if 'STDOUT' not in locals() else STDOUT }
+      - standard_err: ${ '' if 'STDERR' not in locals() else STDERR }
+      - exception: ${ '' if 'exception' not in locals() else exception }
+      - command_return_code: ${ '' if 'exitStatus' not in locals() else exitStatus }
     results:
-      - SUCCESS: returnCode == '0' and (not 'Error' in STDERR)
+      - SUCCESS: ${ returnCode == '0' and (not 'Error' in STDERR) }
       - FAILURE

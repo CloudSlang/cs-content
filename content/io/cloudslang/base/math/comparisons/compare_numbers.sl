@@ -29,6 +29,6 @@ operation:
       value1 = float(value1)
       value2 = float(value2)
   results:
-    - GREATER_THAN: value1 > value2
-    - EQUALS: value1 == value2
+    - GREATER_THAN: ${ value1 > value2 }
+    - EQUALS: ${ value1 == value2 }
     - LESS_THAN

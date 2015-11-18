@@ -50,38 +50,38 @@ flow:
         do:
           get_dangling_images:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - privateKeyFile: ${ private_key_file }
             - timeout
             - port
         publish:
-          - all_dangling_images: dangling_image_list
+          - all_dangling_images: ${ dangling_image_list }
     - substract_used_dangling_images:
         do:
           base_lists.subtract_sets:
-            - set_1: all_dangling_images
-            - set_1_delimiter: "' '"
-            - set_2: used_images
-            - set_2_delimiter: "' '"
-            - result_set_delimiter: "' '"
+            - set_1: ${ all_dangling_images }
+            - set_1_delimiter: " "
+            - set_2: ${ used_images }
+            - set_2_delimiter: " "
+            - result_set_delimiter: " "
         publish:
-          - images_list_safe_to_delete: result_set
-          - amount_of_dangling_images: len(result_set.split())
+          - images_list_safe_to_delete: ${ result_set }
+          - amount_of_dangling_images: ${ len(result_set.split()) }
     - delete_images:
         do:
           clear_images:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
-            - images: images_list_safe_to_delete
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - privateKeyFile: ${ private_key_file }
+            - images: ${ images_list_safe_to_delete }
             - timeout
             - port
         publish:
           - response
   outputs:
-    - dangling_images_list_safe_to_delete: images_list_safe_to_delete
-    - amount_of_dangling_images_deleted: "0 if images_list_safe_to_delete == '' else amount_of_dangling_images"
+    - dangling_images_list_safe_to_delete: ${ images_list_safe_to_delete }
+    - amount_of_dangling_images_deleted: ${ 0 if images_list_safe_to_delete == '' else amount_of_dangling_images }

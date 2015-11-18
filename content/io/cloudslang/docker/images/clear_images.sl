@@ -39,7 +39,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - host
     - port:
@@ -51,7 +51,7 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker ' + docker_options_expression + 'rmi ' + images"
+        default: ${ 'docker ' + docker_options_expression + 'rmi ' + images }
         overridable: false
     - arguments:
         required: false
@@ -81,8 +81,8 @@ flow:
             - closeSession
             - agentForwarding
         publish:
-            - return_result: returnResult
-            - error_message: standard_err
+            - return_result: ${ returnResult }
+            - error_message: ${ standard_err }
   outputs:
-    - response: return_result
-    - error_message: error_message
+    - response: ${ return_result }
+    - error_message: ${ error_message }
