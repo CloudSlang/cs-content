@@ -13,7 +13,7 @@
 #   - docker_username - Docker machine username
 #   - docker_password - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: '6000000'
 #   - port - optional - SSH port
 ####################################################
 
@@ -31,27 +31,27 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - timeout: "'6000000'"
+    - timeout: '6000000'
     - port:
         required: false
   workflow:
     - get_all_containers:
         do:
           get_all_containers:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
             - all_containers: true
             - private_key_file
             - timeout
             - port
         publish:
-          - all_containers: container_list
+          - all_containers: ${container_list}
 
     - clear_all_containers:
         do:
           clear_container:
-            - container_id: all_containers
+            - container_id: ${all_containers}
             - docker_host
             - docker_username
             - docker_password

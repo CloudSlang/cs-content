@@ -16,10 +16,12 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine;
+#                              - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
+#                                if true the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - docker_info - information returned by Docker
@@ -60,8 +62,7 @@ flow:
     - agent_forwarding:
         required: false
     - docker_options:
-        default: >
-          '-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port
+        default: ${'-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port}
         overridable: false
 
   workflow:
@@ -81,10 +82,8 @@ flow:
             - agent_forwarding
         publish:
           - docker_info
-          - number_of_containers_in_cluster: >
-              docker_info.split(': ')[1].split('\n')[0]
-          - number_of_nodes_in_cluster: >
-              docker_info.split('Nodes: ')[1].split('\n')[0]
+          - number_of_containers_in_cluster: "${docker_info.split(': ')[1].split('\n')[0]}"
+          - number_of_nodes_in_cluster: "${docker_info.split('Nodes: ')[1].split('\n')[0]}"
   outputs:
     - docker_info
     - number_of_containers_in_cluster

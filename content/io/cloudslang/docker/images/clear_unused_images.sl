@@ -61,7 +61,7 @@ flow:
             - port
             - timeout
         publish:
-          - all_images_list: ${ mage_list }
+          - all_images_list: ${ image_list }
     - get_used_images:
         do:
           get_used_images:
