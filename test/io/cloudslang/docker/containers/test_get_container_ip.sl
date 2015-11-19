@@ -29,10 +29,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_image
          FAILURE: MACHINE_IS_NOT_CLEAN
@@ -57,8 +57,7 @@ flow:
             - username
             - password
             - container_name
-            - container_command: >
-                  '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
+            - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
             - image_name
         navigate:
           SUCCESS: get_ip
@@ -73,7 +72,7 @@ flow:
            - password
            - container_name
         publish:
-          - ip: container_ip
+          - ip: ${container_ip}
         navigate:
           SUCCESS: validate
           FAILURE: FAIL_GET_IP
@@ -81,8 +80,8 @@ flow:
     - validate:
         do:
           strings.match_regex:
-            - regex: "'^\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}$'"
-            - text: ip
+            - regex: ${'^\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}$'}
+            - text: ${ip}
         navigate:
           MATCH: clear_docker_host
           NO_MATCH: VEFIFYFAILURE
@@ -90,10 +89,10 @@ flow:
     - clear_docker_host:
         do:
           clear_containers:
-            - docker_host: host
+            - docker_host: ${host}
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${username}
+            - docker_password: ${password}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: MACHINE_IS_NOT_CLEAN

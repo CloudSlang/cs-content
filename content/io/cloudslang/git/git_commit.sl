@@ -16,7 +16,7 @@
 #      - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
 #      - private_key_file - optional - the absolute path to the private key file
 #      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
+#      - git_commit_files - optional - the files that has to be committed - Default: "-a"
 #      - git_commit_message - optional - the message for the commit
 #
 # Results:
@@ -45,9 +45,9 @@ flow:
           required: false
       - private_key_file:
           required: false
-      - git_repository_localdir: "'/tmp/repo.git'"
+      - git_repository_localdir: "/tmp/repo.git"
       - git_commit_files:
-          default: "'-a'"
+          default: "-a"
           required: false
       - git_commit_message:
           required: false
@@ -60,11 +60,11 @@ flow:
               - port
               - username
               - password
-              - privateKeyFile: private_key_file
-              - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-              - git_files: "' git commit ' + git_commit_files"
-              - git_message: "' -m ' + git_commit_message if git_commit_message else ''"
-              - command: "sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS'"
+              - privateKeyFile: ${ private_key_file }
+              - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+              - git_files: ${ ' git commit ' + git_commit_files }
+              - git_message: ${ ' -m ' + git_commit_message if git_commit_message else '' }
+              - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS' }
 
           publish:
             - standard_err
@@ -74,8 +74,8 @@ flow:
       - check_result:
           do:
             strings.string_occurrence_counter:
-              - string_in_which_to_search: standard_out
-              - string_to_find: "'GIT_SUCCESS'"
+              - string_in_which_to_search: ${ standard_out }
+              - string_to_find: "GIT_SUCCESS"
 
   outputs:
     - standard_err

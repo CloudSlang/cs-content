@@ -19,8 +19,8 @@ flow:
 
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - image_name
     - username:
@@ -30,7 +30,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -70,8 +70,8 @@ flow:
     - check_get_image_id_flow_responses:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: check_image_id_is_empty
           FAILURE: CHECK_GET_IMAGE_ID_FLOW_RESPONSES_FAILURE
@@ -79,8 +79,8 @@ flow:
     - check_image_id_is_empty:
         do:
           strings.string_equals:
-            - first_string: str(image_id)
-            - second_string: "''"
+            - first_string: ${str(image_id)}
+            - second_string: ''
         navigate:
           SUCCESS: CHECK_IMAGE_ID_IS_EMPTY_FAILURE
           FAILURE: SUCCESS

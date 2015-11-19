@@ -75,5 +75,5 @@ operation:
     - container_names
     - container_ids
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

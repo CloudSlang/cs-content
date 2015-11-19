@@ -24,7 +24,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -59,8 +59,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 201]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${['', 0, 201]}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_RESPONSES_FAILURE

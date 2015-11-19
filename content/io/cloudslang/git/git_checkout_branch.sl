@@ -42,9 +42,9 @@ flow:
         required: false
     - git_branch:
         required: true
-    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_repository_localdir: "/tmp/repo.git"
     - git_pull_remote:
-        default: "'origin'"
+        default: "origin"
         required: false
     - sudo_user:
         default: false
@@ -58,9 +58,9 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_pull: "' && git pull ' + git_pull_remote + ' ' + git_branch"
-            - command: "sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS'"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - git_pull: ${ ' && git pull ' + git_pull_remote + ' ' + git_branch }
+            - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS' }
             - username
             - password
             - privateKeyFile
@@ -72,8 +72,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "GIT_SUCCESS"
 
   outputs:
     - standard_err

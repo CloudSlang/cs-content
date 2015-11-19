@@ -15,7 +15,7 @@
 #   - image_id - id of the specified image
 #   - return_result - was parsing was successful or not
 #   - error_message - error message
-#   - return_code - "0" if success, "-1" otherwise
+#   - return_code - '0' if success, '-1' otherwise
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
@@ -49,8 +49,8 @@ operation:
     - image_id
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

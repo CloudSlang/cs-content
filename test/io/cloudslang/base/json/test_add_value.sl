@@ -21,7 +21,7 @@ flow:
     - add_value:
         do:
           add_value:
-            - json_input: json_before
+            - json_input: ${ json_before }
             - json_path
             - value
         publish:
@@ -32,8 +32,8 @@ flow:
     - test_equality:
         do:
           equals:
-            - json_input1: json_output
-            - json_input2: json_after
+            - json_input1: ${ json_output }
+            - json_input2: ${ json_after }
 
         navigate:
           EQUALS: SUCCESS

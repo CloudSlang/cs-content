@@ -46,12 +46,14 @@ flow:
     - rest_get_authentication:
         do:
           rest.http_client_post:
-            - url: "'https://region-'+region+'.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens'"
-            - content_type: "'application/json'"
+            - url: ${'https://region-'+region+'.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens'}
+            - content_type: 'application/json'
             - body: >
+                ${
                 '{"auth": {"tenantName": "' + tenant_name +
                 '","passwordCredentials": {"username": "' + username +
                 '", "password": "' + password + '"}}}'
+                }
             - proxy_host
             - proxy_port
         publish:

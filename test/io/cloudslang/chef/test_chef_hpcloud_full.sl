@@ -158,4 +158,5 @@ flow:
       - ERROR:
           do:
             print.print_text:
-              - text: "${'! Error in HP Cloud and Chef deployment flow:  ' + return_result}"
+              - text: >
+                  ${'! Error in HP Cloud and Chef deployment flow:  ' + return_result}

@@ -28,10 +28,10 @@ operation:
     - host
     - port
     - timeout:
-        default: "'10'"
+        default: "10"
         required: false
     - tries:
-        default: "'30'"
+        default: "30"
         required: false    
 
   action:
@@ -54,5 +54,5 @@ operation:
       del sock
 
   results:
-    - SUCCESS: is_open == True
+    - SUCCESS: ${ is_open == True }
     - FAILURE

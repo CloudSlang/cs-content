@@ -49,25 +49,23 @@ flow:
     - knife_password: 
         required: false
     - knife_timeout:
-        default: "'600000'"
+        default: '600000'
         required: false
     - knife_config:
         required: false
     - node_password_expr:
-        default: >
-          (" -P '" + node_password + "'") if node_password else ''
+        default: ${(" -P '" + node_password + "'") if node_password else ''}
         overridable: false
     - node_privkey_expr:
-        default: >
-          (' -i ' + node_privkey) if node_privkey else ''
+        default: ${(' -i ' + node_privkey) if node_privkey else ''}
         overridable: false
   workflow:
     - run_bootstrap:
         do:
           knife_command:
             - knife_cmd: >
-                'bootstrap ' + node_host + node_privkey_expr + ' -x ' + node_username +
-                node_password_expr + ' --sudo --node-name \'' + node_name + '\''
+                ${'bootstrap ' + node_host + node_privkey_expr + ' -x ' + node_username +
+                node_password_expr + ' --sudo --node-name \'' + node_name + '\''}
             - knife_host
             - knife_username
             - knife_password
@@ -81,10 +79,10 @@ flow:
     - check_knife_result:
         do:
           strings.string_occurrence_counter:
-             - string_in_which_to_search: standard_err + '\n' + raw_result
-             - string_to_find: "'error'"
+             - string_in_which_to_search: ${standard_err + '\n' + raw_result}
+             - string_to_find: 'error'
         publish:
-          - errs_c: return_result
+          - errs_c: ${return_result}
         navigate:
           SUCCESS: FAILURE
           FAILURE: filter_bootstrap_result
@@ -92,13 +90,13 @@ flow:
     - filter_bootstrap_result:
         do:
           strings.filter_lines:
-            - text: raw_result
-            - filter: node_host
+            - text: ${raw_result}
+            - filter: ${node_host}
         publish:
           - filter_result
 
   outputs:
-    - raw_result: raw_result
-    - knife_result: "standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)"
-    - standard_err: standard_err
+    - raw_result: ${raw_result}
+    - knife_result: ${standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)}
+    - standard_err: ${standard_err}
     - node_name

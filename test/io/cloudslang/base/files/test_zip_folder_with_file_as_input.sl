@@ -20,8 +20,8 @@ flow:
     -  create_file_to_be_zipped:
         do:
           write_to_file:
-            - file_path: folder_path
-            - text: "'text-to-be-copied'"
+            - file_path: ${folder_path}
+            - text: 'text-to-be-copied'
         navigate:
           SUCCESS: test_zip_folder_operation
           FAILURE: CREATEFAILURE
@@ -37,21 +37,21 @@ flow:
     - delete_archive:
         do:
           delete:
-            - source: "'./' + folder_path + '/' + archive_name + '.zip'"
+            - source: ${'./' + folder_path + '/' + archive_name + '.zip'}
         navigate:
           SUCCESS: delete_created_file_from_zip_success
           FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_failure:
         do:
           delete:
-            - source: folder_path
+            - source: ${folder_path}
         navigate:
           SUCCESS: ZIPFAILURE
           FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_success:
         do:
           delete:
-            - source: folder_path
+            - source: ${folder_path}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

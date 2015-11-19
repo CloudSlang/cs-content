@@ -16,7 +16,7 @@
 #   - port - optional - SSH port
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - container_name - optional - name of the DB container - Default: mysqldb
+#   - container_name - optional - name of the DB container - Default: 'mysqldb'
 #   - timeout - optional - time in milliseconds to wait for command to complete
 # Outputs:
 #   - db_IP - IP of newly created container
@@ -41,19 +41,19 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - container_name: "'mysqldb'"
+    - container_name: 'mysqldb'
     - timeout:
         required: false
   workflow:
     - pull_mysql_image:
         do:
           docker_images.pull_image:
-            - image_name: "'mysql'"
+            - image_name: 'mysql'
             - host
             - port
             - username
             - passworde
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
             - timeout
         publish:
           - error_message
@@ -61,9 +61,9 @@ flow:
     - create_mysql_container:
         do:
           docker_containers.run_container:
-            - image_name: "'mysql'"
+            - image_name: 'mysql'
             - container_name
-            - container_params: "'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'"
+            - container_params: ${'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'}
             - host
             - port
             - username
@@ -82,9 +82,9 @@ flow:
             - private_key_file
             - timeout
         publish:
-          - container_ip: container_ip
+          - container_ip: ${container_ip}
           - error_message
 
   outputs:
-    - db_IP: "'' if 'container_ip' not in locals() else container_ip"
+    - db_IP: ${'' if 'container_ip' not in locals() else container_ip}
     - error_message

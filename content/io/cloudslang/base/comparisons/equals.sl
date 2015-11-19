@@ -27,5 +27,5 @@ operation:
     python_script: |
       eq = first == second
   results:
-    - EQUALS: eq
+    - EQUALS: ${ eq }
     - NOT_EQUALS

@@ -17,15 +17,15 @@ flow:
     - create_folder_to_be_copied:
         do:
           create_folder:
-            - folder_name: copy_source
+            - folder_name: ${copy_source}
         navigate:
           SUCCESS: test_copy_operation
           FAILURE: CREATEFAILURE
     - test_copy_operation:
         do:
           copy:
-            - source: copy_source
-            - destination: copy_destination
+            - source: ${copy_source}
+            - destination: ${copy_destination}
         navigate:
           SUCCESS: delete_copied_folder
           FAILURE: delete_created_folder_after_copy_failure
@@ -34,21 +34,21 @@ flow:
     - delete_created_folder_after_copy_failure:
         do:
           delete:
-            - source: copy_source
+            - source: ${copy_source}
         navigate:
           SUCCESS: COPYFAILURE
           FAILURE: DELETEFAILURE
     - delete_copied_folder:
         do:
           delete:
-            - source: copy_destination
+            - source: ${copy_destination}
         navigate:
           SUCCESS: delete_created_folder
           FAILURE: DELETEFAILURE
     - delete_created_folder:
         do:
           delete:
-            - source: copy_source
+            - source: ${copy_source}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAILURE

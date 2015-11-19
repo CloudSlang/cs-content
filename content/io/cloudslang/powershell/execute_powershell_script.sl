@@ -28,25 +28,25 @@ operation:
     - host
     - user_name
     - userName:
-        default: get('user_name', None)
+        default: ${get('user_name', None)}
     - password
     - script
     - connectionType:
-        default: "'WINRM_NATIVE'"
+        default: "WINRM_NATIVE"
         overridable: false
     - winrm_enable_https:
         required: false
     - winrmEnableHTTPS:
-        default: get('winrm_enable_https', 'false')
+        default: ${get('winrm_enable_https', 'false')}
         required: false
   action:
     java_action:
       className: io.cloudslang.content.actions.PowerShellScriptAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - return_code: returnCode
-    - error_message: exception
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - error_message: ${exception}
   results:
-    - SUCCESS : "returnCode == '0'"
+    - SUCCESS : ${returnCode == '0'}
     - FAILURE

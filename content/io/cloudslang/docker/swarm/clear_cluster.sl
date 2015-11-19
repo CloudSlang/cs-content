@@ -13,16 +13,19 @@
 #   - swarm_manager_port - port used by the Swarm manager container
 #   - excluded_images - optional - containers based on these images will not be deleted
 #                                - used for filtering out containers used by Swarm e.g. agent containers
-#                     - Default: swarm:latest
+#                                - Default: swarm:latest
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
+#                                if true the SSH session used will be closed;
+#                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - amount_of_images_deleted - how many images (not including dangling) were deleted
@@ -44,7 +47,7 @@ flow:
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
-    - excluded_images: "'swarm:latest'"
+    - excluded_images: 'swarm:latest'
     - host
     - port:
         required: false
@@ -64,8 +67,7 @@ flow:
     - agent_forwarding:
         required: false
     - docker_options:
-        default: >
-          '-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port
+        default: ${'-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port}
         overridable: false
 
   workflow:
@@ -91,12 +93,12 @@ flow:
     - clear_containers:
         do:
           containers.clear_container:
-            - container_id: container_ids.replace(",", " ")
+            - container_id: ${container_ids.replace(",", " ")}
             - docker_options
-            - docker_host: host
+            - docker_host: ${host}
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
             - timeout
 
@@ -104,16 +106,16 @@ flow:
         do:
           images.clear_unused_and_dangling_images:
             - docker_options
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+            - docker_host: ${host}
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
             - timeout
             - port
         publish:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted
-          - total_amount_of_images_deleted: amount_of_images_deleted + amount_of_dangling_images_deleted
+          - total_amount_of_images_deleted: ${amount_of_images_deleted + amount_of_dangling_images_deleted}
   outputs:
     - amount_of_images_deleted
     - amount_of_dangling_images_deleted

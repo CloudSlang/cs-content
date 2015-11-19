@@ -59,5 +59,5 @@ operation:
     - random_number
     - error_message
   results:
-    - SUCCESS: random_number is not None
+    - SUCCESS: ${ random_number is not None }
     - FAILURE

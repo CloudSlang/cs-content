@@ -79,7 +79,7 @@ flow:
           ssh.ssh_command:
             - host: ${node_host}
             - username: ${node_username}
-            - password: ${node_password}
+            - password: ${node_password}                
             - privateKeyFile: ${node_privkey_local}
             - command: 'sudo chef-client'
             - timeout: '600000'

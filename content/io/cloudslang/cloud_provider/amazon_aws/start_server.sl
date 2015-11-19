@@ -30,14 +30,14 @@ operation:
   name: start_server
 
   inputs:
-    - provider: "'amazon'"
-    - endpoint: "'https://ec2.amazonaws.com'"
+    - provider: 'amazon'
+    - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         required: false
     - credential:
         required: false
     - region:
-        default: "'us-east-1'"
+        default: 'us-east-1'
         required: false
     - serverId
     - proxyHost:
@@ -49,9 +49,9 @@ operation:
       className: io.cloudslang.content.jclouds.actions.StartServerAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - return_code: returnCode
-    - exception: "'' if 'exception' not in locals() else exception"
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - exception: ${'' if 'exception' not in locals() else exception}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

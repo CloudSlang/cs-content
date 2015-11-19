@@ -13,10 +13,10 @@
 #   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
 #   - container - name or ID of the Docker container that runs cAdvisor
 # Outputs:
-#   - returnResult - unparsed response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
+#   - returnResult - the raw response of the operation
+#   - statusCode - normal status code is '200'
+#   - returnCode - if returnCode == '-1' then there was an error
+#   - errorMessage: returnResult if returnCode == '-1' or statusCode != '200'
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -29,14 +29,14 @@ operation:
   inputs:
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - container
     - url:
-        default: "'http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/' + container"
+        default: "${'http://' + host + ':' + cadvisor_port + '/api/v1.2/docker/' + container}"
         overridable: false
     - method:
-        default: "'get'"
+        default: 'get'
         overridable: false
   action:
     java_action:
@@ -46,7 +46,7 @@ operation:
     - returnResult
     - statusCode
     - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

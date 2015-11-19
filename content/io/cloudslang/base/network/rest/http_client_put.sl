@@ -51,17 +51,17 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
     - connect_timeout:
-        default: "'0'"
+        default: "0"
         required: false
     - socket_timeout:
-        default: "'0'"
+        default: "0"
         required: false
     - headers:
         required: false
@@ -70,29 +70,29 @@ flow:
     - body:
         required: false
     - content_type:
-        default: "'text/plain'"
+        default: "text/plain"
         required: false
     - method:
-        default: "'PUT'"
+        default: "PUT"
         overridable: false
   workflow:
     - http_client_action_put:
         do:
           http_client_action:
             - url
-            - authType: auth_type
+            - authType: ${ auth_type }
             - username
             - password
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
-            - proxyUsername: proxy_username
-            - proxyPassword: proxy_password
-            - connectTimeout: connect_timeout
-            - socketTimeout: socket_timeout
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
+            - proxyUsername: ${ proxy_username }
+            - proxyPassword: ${ proxy_password }
+            - connectTimeout: ${ connect_timeout }
+            - socketTimeout: ${ socket_timeout }
             - headers
-            - queryParams: query_params
+            - queryParams: ${ query_params }
             - body
-            - contentType: content_type
+            - contentType: ${ content_type }
             - method
         publish:
           - return_result
