@@ -48,5 +48,5 @@ operation:
     - return_code: ${returnCode}
     - error_message: ${exception}
   results:
-    - SUCCESS : ${"returnCode == '0'"}
+    - SUCCESS : ${returnCode == '0'}
     - FAILURE
