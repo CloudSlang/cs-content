@@ -66,7 +66,7 @@ flow:
     - run_manager_container:
         do:
           containers.run_container:
-            - container_params: "${'-p ' + swarm_port + ':2375'}"
+            - container_params: ${'-p ' + swarm_port + ':2375'}
             - container_command: ${'manage token://' + cluster_id}
             - image_name: ${swarm_image}
             - host
