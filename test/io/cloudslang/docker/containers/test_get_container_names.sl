@@ -57,7 +57,7 @@ flow:
     - run_container2:
        do:
          run_container:
-            - container_name: container_name2
+            - container_name: ${ container_name2 }
             - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
             - image_name
             - host
