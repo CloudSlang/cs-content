@@ -19,7 +19,7 @@
 #   - SUCCESS - get_all_images performed successfully
 #   - FAILURE - get_all_images finished with an error
 #   - DOWNLOADFAIL - prerequest error - could not download dockerimage
-#   - VEFIFYFAILURE - fails ro verify downloaded images
+#   - VERIFYFAILURE - fails ro verify downloaded images
 #   - DELETEFAIL - fails to delete downloaded image
 #   - MACHINE_IS_NOT_CLEAN - prerequest fails - machine is not clean
 #   - FAIL_VALIDATE_SSH - ssh connection fails
@@ -75,7 +75,7 @@ flow:
             - username
             - password
         publish:
-            - list: image_list
+            - list: ${image_list}
         navigate:
           SUCCESS: verify_output
           FAILURE: FAILURE
@@ -87,7 +87,7 @@ flow:
             - second_string: ${ list }
         navigate:
           SUCCESS: delete_downloaded_image
-          FAILURE: VEFIFYFAILURE
+          FAILURE: VERIFYFAILURE
 
     - delete_downloaded_image:
         do:
@@ -105,7 +105,7 @@ flow:
     - SUCCESS
     - FAILURE
     - DOWNLOADFAIL
-    - VEFIFYFAILURE
+    - VERIFYFAILURE
     - DELETEFAIL
     - MACHINE_IS_NOT_CLEAN
     - FAIL_VALIDATE_SSH
