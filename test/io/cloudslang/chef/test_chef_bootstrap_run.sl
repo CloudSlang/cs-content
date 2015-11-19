@@ -53,10 +53,10 @@ flow:
             - knife_privkey           
             - node_username
             - node_password            
-            - node_privkey: node_privkey_remote
+            - node_privkey: ${node_privkey_remote}
             - knife_config
         publish:
-          - return_result: knife_result
+          - return_result: ${knife_result}
           - standard_err
           - node_name
 
@@ -71,20 +71,20 @@ flow:
             - knife_privkey
             - knife_config
         publish:
-          - return_result: knife_result
+          - return_result: ${knife_result}
           - standard_err
 
     - chef_run_client:
         do:
           ssh.ssh_command:
-            - host: node_host
-            - username: node_username
-            - password: node_password                
-            - privateKeyFile: node_privkey_local           
-            - command: "'sudo chef-client'"
-            - timeout: "'600000'"
+            - host: ${node_host}
+            - username: ${node_username}
+            - password: ${node_password}
+            - privateKeyFile: ${node_privkey_local}
+            - command: 'sudo chef-client'
+            - timeout: '600000'
         publish:
-          - return_result: returnResult
+          - return_result: ${returnResult}
           - standard_err
 
     - chef_remove_cookbooks:
@@ -98,7 +98,7 @@ flow:
             - knife_privkey
             - knife_config
         publish:
-          - return_result: knife_result
+          - return_result: ${knife_result}
           - standard_err
 
     - chef_remove_node_and_uninstall:
@@ -111,11 +111,11 @@ flow:
             - knife_privkey
             - node_host
             - node_username
-            - node_privkey: node_privkey_local
+            - node_privkey: ${node_privkey_local}
             - node_password
             - knife_config
         publish:
-          - return_result: knife_result
+          - return_result: ${knife_result}
           - standard_err
           - node_name
 
@@ -123,4 +123,4 @@ flow:
       - ERROR:
           do:
             print.print_text:
-              - text: "'! Error in Chef test flow ' + return_result"
+              - text: ${'! Error in Chef test flow ' + return_result}
