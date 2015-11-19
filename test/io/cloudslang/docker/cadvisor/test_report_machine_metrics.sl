@@ -24,14 +24,14 @@ flow:
     - private_key_file
     - cadvisor_port
     - cadvisor_container_name
-    - timeout: "'600000'"
+    - timeout: '600000'
 
   workflow:
     - clear_docker_containers:
        do:
          containers.clear_containers:
-           - docker_host: host
-           - docker_username: username
+           - docker_host: ${host}
+           - docker_username: ${username}
            - private_key_file
        navigate:
          SUCCESS: create_cAdvisor_container
@@ -40,9 +40,9 @@ flow:
     - create_cAdvisor_container:
         do:
           containers.run_container:
-            - container_name: cadvisor_container_name
+            - container_name: ${cadvisor_container_name}
             - container_params: >
-                '--privileged --publish=' + cadvisor_port + ':8080 ' +
+                ${'--privileged --publish=' + cadvisor_port + ':8080 ' +
                 '--volume=/:/rootfs:ro ' +
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
@@ -51,8 +51,8 @@ flow:
                 '--volume=/sys/fs/cgroup/cpuacct:/cgroup/cpuacct ' +
                 '--volume=/sys/fs/cgroup/cpuset:/cgroup/cpuset ' +
                 '--volume=/sys/fs/cgroup/memory:/cgroup/memory ' +
-                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio'
-            - image_name: "'google/cadvisor:latest'"
+                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio'}
+            - image_name: 'google/cadvisor:latest'
             - host
             - username
             - private_key_file
@@ -82,8 +82,8 @@ flow:
     - validate_response_is_not_empty:
         do:
           strings.string_equals:
-              - first_string: str(memory_capacity)
-              - second_string: "'0'"
+              - first_string: ${str(memory_capacity)}
+              - second_string: '0'
         navigate:
           SUCCESS: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
           FAILURE: SUCCESS

@@ -13,85 +13,115 @@ imports:
   openstack_content: io.cloudslang.openstack
 
 flow:
-  name: test_openstack_volumes
+  name: test_volumes
   inputs:
     - host
-    - identity_port: "'5000'"
-    - blockstorage_port: "'8776'"
+    - identity_port: '5000'
+    - blockstorage_port: '8776'
     - username
     - password
-    - size
     - tenant_name
     - volume_name
+    - size
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
         required: false
 
   workflow:
-    - create_openstack_volume:
+    - create_volume:
         do:
-          create_openstack_volume_flow:
+          create_volume:
             - host
             - identity_port
             - blockstorage_port
+            - tenant_name
+            - volume_name
             - size
             - username
             - password
-            - tenant_name
-            - volume_name
             - proxy_host
             - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
           - return_result
           - error_message
+          - return_code
+          - status_code
+          - volume_id
         navigate:
-          SUCCESS: get_openstack_volumes
+          SUCCESS: get_volumes
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           CREATE_VOLUME_FAILURE: CREATE_VOLUME_FAILURE
+          GET_VOLUME_ID_FAILURE: GET_VOLUME_ID_FAILURE
 
-    - get_openstack_volumes:
+    - get_volumes:
         do:
-          get_openstack_volumes_flow:
+          get_volumes:
             - host
-            - username
-            - password
-            - tenant_name
             - identity_port
             - blockstorage_port
+            - tenant_name
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
           - volume_list
         navigate:
-          SUCCESS: delete_openstack_volume
+          SUCCESS: delete_volume
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_FAILURE: GET_FAILURE
           GET_VOLUMES_FAILURE: GET_VOLUMES_FAILURE
           EXTRACT_VOLUMES_FAILURE: EXTRACT_VOLUMES_FAILURE
 
-    - delete_openstack_volume:
+    - delete_volume:
         do:
-          delete_openstack_volume_flow:
+          delete_volume:
             - host
-            - username
-            - password
-            - tenant_name
             - identity_port
             - blockstorage_port
-            - volume_name
+            - tenant_name
+            - volume_id
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
           SUCCESS: SUCCESS
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_VOLUMES_FAILURE: GET_VOLUMES_FAILURE
-          GET_VOLUME_ID_FAILURE: GET_VOLUME_ID_FAILURE
           DELETE_VOLUME_FAILURE: DELETE_VOLUME_FAILURE
 
   outputs:
+    - return_result
+    - error_message
+    - return_code
+    - status_code
+    - volume_id
     - volume_list
 
   results:
@@ -100,8 +130,7 @@ flow:
     - GET_TENANT_ID_FAILURE
     - GET_AUTHENTICATION_FAILURE
     - CREATE_VOLUME_FAILURE
+    - GET_VOLUME_ID_FAILURE
     - GET_VOLUMES_FAILURE
     - EXTRACT_VOLUMES_FAILURE
-    - GET_VOLUME_ID_FAILURE
-    - GET_FAILURE
     - DELETE_VOLUME_FAILURE

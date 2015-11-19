@@ -9,16 +9,22 @@
 # Retrieves the ID list of machines deployed in a CoreOS cluster.
 #
 # Inputs:
-#   - host - CoreOS machine host; can be any machine from the cluster
+#   - host - CoreOS machine host;
+#            Can be any machine from the cluster
 #   - port - optional - SSH port
 #   - username - CoreOS machine username
-#   - password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - password - optional - CoreOS machine password;
+#                           Can be empty since CoreOS machines use private key file authentication
 #   - private_key_file - optional - path to the private key file
 #   - arguments - optional - arguments to pass to the command
-#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY
+#                    - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life
+#                                of the flow, if true SSH session used by this operation will be closed
+#                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - machines_id_list  - space delimited list of IDs of machines deployed in the CoreOS cluster
@@ -58,8 +64,7 @@ flow:
     - agent_forwarding:
         required: false
     - command:
-        default: >
-          "fleetctl list-machines | awk '{print $1}'"
+        default: ${fleetctl list-machines | awk '{print $1}'}
         overridable: false
 
   workflow:
@@ -70,25 +75,25 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
             - command
             - arguments
-            - characterSet: character_set
+            - characterSet: ${character_set}
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - closeSession: ${close_session}
+            - agentForwarding: ${agent_forwarding}
         publish:
           - machines_id_list: >
-              returnResult.replace("\n"," ").replace("MACHINE ","",1).replace("...", "")[:-1]
-              if (return_code == '0' and (not 'ERROR' in standard_err)) else ''
+              ${returnResult.replace("\n"," ").replace("MACHINE ","",1).replace("...", "")[:-1]
+              if (return_code == '0' and (not 'ERROR' in standard_err)) else ''}
           - standard_err
 
     - check_error_in_stderr:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'ERROR'"
+            - string_in_which_to_search: ${standard_err}
+            - string_to_find: 'ERROR'
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
