@@ -62,7 +62,7 @@ flow:
     - agent_forwarding:
         required: false
     - docker_options:
-        default: ${'-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port}
+        default: "${'-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port}"
         overridable: false
 
   workflow:
