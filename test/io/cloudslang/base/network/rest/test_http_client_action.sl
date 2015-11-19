@@ -34,7 +34,7 @@ flow:
           http_client_action:
             - url
             - method: "POST"
-            - body: ${{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}}
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
             - contentType: ${ content_type }
             - proxyHost: ${ proxy_host }
             - proxyPort: ${ proxy_port }
@@ -127,7 +127,7 @@ flow:
           http_client_action:
             - url
             - method: "PUT"
-            - body: ${{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}}
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
             - contentType: ${ content_type }
             - proxyHost: ${ proxy_host }
             - proxyPort: ${ proxy_port }
