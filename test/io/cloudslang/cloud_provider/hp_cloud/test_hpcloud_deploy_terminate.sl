@@ -26,8 +26,8 @@ flow:
     # Main inputs
     - server_name
     # HP Cloud details
-    - img_ref:     "'43804523-7e3b-4adf-b6df-9d11d451c463'"
-    - flavor_ref:  "'100'"
+    - img_ref:     '43804523-7e3b-4adf-b6df-9d11d451c463'
+    - flavor_ref:  '100'
     - keypair
     - username
     - password
@@ -60,15 +60,15 @@ flow:
     - wait_for_server_up:
         do:
           net.wait_port_open:
-            - host: ip_address
-            - port: "'22'"
-            - timeout: "'15'"
-            - tries: "'50'"
+            - host: ${ip_address}
+            - port: '22'
+            - timeout: '15'
+            - tries: '50'
 
     - print_server_build:
         do:
           print.print_text:
-            - text: "'### Server (' + server_id + ') is active and booted. IP is ' + ip_address"
+            - text: ${'### Server (' + server_id + ') is active and booted. IP is ' + ip_address}
 
     - terminate_server:
         do:
@@ -90,4 +90,4 @@ flow:
       - test_flow_error:
           do:
             print.print_text:
-              - text: "'! Error in HP Cloud server deploy/terminate test flow' + return_result"
+              - text: ${'! Error in HP Cloud server deploy/terminate test flow' + return_result}
