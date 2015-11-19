@@ -64,7 +64,7 @@ flow:
     - agent_forwarding:
         required: false
     - command:
-        default: "${fleetctl list-machines | awk '{print $1}'}"
+        default: "fleetctl list-machines | awk '{print $1}'"
         overridable: false
 
   workflow:
