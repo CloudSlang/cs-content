@@ -91,12 +91,12 @@ flow:
     - delete_volume:
         do:
           rest.http_client_delete:
-            - url: "${'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes/' + volume_id}"
+            - url: ${'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes/' + volume_id}
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "${'X-AUTH-TOKEN:' + token}"
+            - headers: ${'X-AUTH-TOKEN:' + token}
             - content_type: 'application/json'
         publish:
           - return_result

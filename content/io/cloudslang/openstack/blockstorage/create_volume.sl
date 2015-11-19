@@ -94,14 +94,14 @@ flow:
     - create_volume:
         do:
           rest.http_client_post:
-            - url: "${'http://' + host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes'}"
+            - url: ${'http://' + host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes'}
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "${'X-AUTH-TOKEN:' + token}"
+            - headers: ${'X-AUTH-TOKEN:' + token}
             - content_type: 'application/json'
-            - body: "${'{\"volume\":{\"name\":\"' + volume_name + '\",\"size\":\"' + size + '\"}}'}"
+            - body: ${'{"volume":{"name":"' + volume_name + '","size":"' + size + '"}}'}
         publish:
           - return_result
           - error_message
@@ -115,7 +115,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'volume'", "'id'"]
+            - json_path: ['volume', 'id']
         publish:
           - volume_id: ${value}
         navigate:

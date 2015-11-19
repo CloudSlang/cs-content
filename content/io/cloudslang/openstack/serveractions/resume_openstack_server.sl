@@ -90,13 +90,13 @@ flow:
     - resume_server:
         do:
           rest.http_client_post:
-            - url: "${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'}"
+            - url: ${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'}
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "${'X-AUTH-TOKEN:' + token}"
-            - body: '{\"resume\":null}'
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - body: '{"resume":null}'
             - content_type: 'application/json'
         publish:
           - return_result

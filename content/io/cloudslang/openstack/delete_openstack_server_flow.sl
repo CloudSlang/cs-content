@@ -10,8 +10,8 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - server_name - name of server to delete
@@ -37,8 +37,8 @@ flow:
   name: delete_openstack_server_flow
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - username
     - password
     - tenant_name
@@ -79,7 +79,7 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - server_list: return_result
+          - server_list: ${return_result}
           - return_result
           - error_message
         navigate:
@@ -89,8 +89,8 @@ flow:
     - get_server_id:
         do:
           openstack_utils.get_server_id:
-            - server_body: server_list
-            - server_name: server_name
+            - server_body: ${server_list}
+            - server_name: ${server_name}
         publish:
           - server_id
           - return_result

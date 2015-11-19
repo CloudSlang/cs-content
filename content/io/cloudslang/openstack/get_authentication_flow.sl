@@ -10,12 +10,12 @@
 #
 # Inputs:
 #   - host - OpenStack host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
@@ -40,7 +40,7 @@ flow:
   name: get_authentication_flow
   inputs:
     - host
-    - identity_port: "'5000'"
+    - identity_port: '5000'
     - username
     - password
     - tenant_name
@@ -76,10 +76,10 @@ flow:
     - get_authentication_token:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'access'", "'token'", "'id'"]
+            - json_input: ${return_result}
+            - json_path: ['access', 'token', 'id']
         publish:
-          - token: value
+          - token: ${value}
           - error_message
         navigate:
           SUCCESS: get_tenant_id
@@ -88,10 +88,10 @@ flow:
     - get_tenant_id:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'access'", "'token'", "'tenant'", "'id'"]
+            - json_input: ${return_result}
+            - json_path: ['access', 'token', 'tenant', 'id']
         publish:
-          - tenant_id: value
+          - tenant_id: ${value}
           - error_message
         navigate:
           SUCCESS: SUCCESS

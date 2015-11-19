@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
@@ -20,9 +20,9 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - response of the operation
-#   - status_code - normal status code is 200
+#   - status_code - normal status code is '200'
 #   - return_code - if returnCode == -1 then there was an error
-#   - error_message: returnResult if returnCode == -1 or statusCode != 200
+#   - error_message: returnResult if returnCode == -1 or statusCode != '200'
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -34,8 +34,7 @@ operation:
   name: get_authentication
   inputs:
     - host
-    - identity_port:
-        default: "'5000'"
+    - identity_port: '5000'
     - username
     - password
     - tenant_name
@@ -48,41 +47,41 @@ operation:
     - proxy_password:
         required: false
     - proxyHost:
-        default: "proxy_host if proxy_host is not None else ''"
+        default: ${proxy_host if proxy_host is not None else ''}
         overridable: false
     - proxyPort:
-        default: "proxy_port if proxy_port is not None else ''"
+        default: ${proxy_port if proxy_port is not None else ''}
         overridable: false
     - proxyUsername:
-        default: "proxy_username if proxy_username is not None else ''"
+        default: ${proxy_username if proxy_username is not None else ''}
         overridable: false
     - proxyPassword:
-        default: "proxy_password if proxy_password is not None else ''"
+        default: ${proxy_password if proxy_password is not None else ''}
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + identity_port + '/v2.0/tokens'"
+        default: ${'http://'+ host + ':' + identity_port + '/v2.0/tokens'}
         overridable: false
     - body:
         default: >
-          '{"auth": {"tenantName": "' + tenant_name +
+          ${'{"auth": {"tenantName": "' + tenant_name +
           '","passwordCredentials": {"username": "' + username +
-          '", "password": "' + password + '"}}}'
+          '", "password": "' + password + '"}}}'}
         overridable: false
     - method:
-        default: "'post'"
+        default: 'post'
         overridable: false
     - contentType:
-        default: "'application/json'"
+        default: 'application/json'
         overridable: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - status_code: "'' if 'statusCode' not in locals() else statusCode"
-    - return_code: returnCode
-    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - return_result: ${returnResult}
+    - status_code: ${'' if 'statusCode' not in locals() else statusCode}
+    - return_code: ${returnCode}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
   results:
-    - SUCCESS: "'statusCode' in locals() and returnCode != '-1' and statusCode == '200'"
+    - SUCCESS: ${'statusCode' in locals() and returnCode != '-1' and statusCode == '200'}
     - FAILURE

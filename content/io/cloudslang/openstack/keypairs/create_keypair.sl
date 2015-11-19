@@ -94,14 +94,14 @@ flow:
     - create_keypair:
         do:
           rest.http_client_post:
-            - url: "${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/os-keypairs'}"
+            - url: ${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/os-keypairs'}
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - public_key_expression: "${',\"public_key\":\"' + public_key + '\"' if public_key else ''}"
-            - body: "${'{\"keypair\":{\"name\":\"' + keypair_name + '\"' + public_key_expression + '}}'}"
-            - headers: "${'X-AUTH-TOKEN:' + token}"
+            - public_key_expression: ${',"public_key":"' + public_key + '"' if public_key else ''}
+            - body: ${'{"keypair":{"name":"' + keypair_name + '"' + public_key_expression + '}}'}
+            - headers: ${'X-AUTH-TOKEN:' + token}
             - content_type: 'application/json'
         publish:
           - return_result
