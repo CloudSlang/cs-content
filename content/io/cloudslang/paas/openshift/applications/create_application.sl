@@ -83,7 +83,7 @@ flow:
     - create_app:
         do:
           rest.http_client_post:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications'}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications'}
             - username
             - password
             - proxy_host
@@ -91,12 +91,12 @@ flow:
             - proxy_username
             - proxy_password
             - content_type: 'application/json'
-            - application_name_string: "${'\"name\":\"' + application_name + '\",'}"
-            - cartridge_string: "${'\"cartridge\":[' + cartridge_str + ']'}"
-            - scale_string: "${',\"scale\":' + str(scale).lower()}"
-            - gear_profile_string: "${',\"gear_profile\":\"' + gear_profile + '\"' if gear_profile else ''}"
-            - initial_git_url_string: "${',\"initial_git_url\":\"' + initial_git_url + '\"' if initial_git_url else ''}"
-            - body: "${'{' + application_name_string + cartridge_string + gear_profile_string + initial_git_url_string + scale_string + '}'}"
+            - application_name_string: ${'"name":"' + application_name + '",'}
+            - cartridge_string: ${'"cartridge":[' + cartridge_str + ']'}
+            - scale_string: ${',"scale":' + str(scale).lower()}
+            - gear_profile_string: ${',"gear_profile":"' + gear_profile + '"' if gear_profile else ''}
+            - initial_git_url_string: ${',"initial_git_url":"' + initial_git_url + '"' if initial_git_url else ''}
+            - body: ${'{' + application_name_string + cartridge_string + gear_profile_string + initial_git_url_string + scale_string + '}'}
             - headers: 'Accept: application/json'
         publish:
           - return_result

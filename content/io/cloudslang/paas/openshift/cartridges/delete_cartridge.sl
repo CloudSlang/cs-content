@@ -56,7 +56,7 @@ flow:
     - delete_cartridge:
         do:
           rest.http_client_delete:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges/' + cartridge}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges/' + cartridge}
             - username
             - password
             - proxy_host

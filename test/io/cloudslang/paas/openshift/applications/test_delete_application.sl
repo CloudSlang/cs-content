@@ -60,7 +60,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ${["''", 0, 200]}
+            - list_2: ${['', 0, 200]}
         navigate:
           SUCCESS: get_status
           FAILURE: CHECK_RESPONSES_FAILURE
@@ -69,7 +69,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${["'status'"]}
+            - json_path: ${['status']}
         publish:
           - status: ${value}
         navigate:
@@ -89,7 +89,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${["'messages'"]}
+            - json_path: ${['messages']}
         publish:
           - messages: ${value}
         navigate:
@@ -100,7 +100,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(messages)}
-            - string_to_find: "${'Application ' + application_name +' is deleted.'}"
+            - string_to_find: ${'Application ' + application_name +' is deleted.'}
             - ignore_case: True
         publish:
           - text_occurrence: ${return_result}

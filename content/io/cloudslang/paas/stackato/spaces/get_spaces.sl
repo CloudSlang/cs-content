@@ -75,7 +75,7 @@ flow:
     - get_spaces:
         do:
           rest.http_client_get:
-            - url: "${'https://' + host + '/v2/spaces'}"
+            - url: ${'https://' + host + '/v2/spaces'}
             - username
             - password
             - proxy_host
@@ -97,7 +97,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'resources'"]
+            - json_path: ['resources']
         publish:
           - spaces_list: ${value}
         navigate:

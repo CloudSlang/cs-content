@@ -54,7 +54,7 @@ flow:
     - delete_app:
         do:
           rest.http_client_delete:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name}
             - username
             - password
             - proxy_host

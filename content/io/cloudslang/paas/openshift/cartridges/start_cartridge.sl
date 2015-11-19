@@ -58,7 +58,7 @@ flow:
     - start_cartridge:
         do:
           rest.http_client_post:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges/' + cartridge + '/events'}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges/' + cartridge + '/events'}
             - username
             - password
             - proxy_host
@@ -66,7 +66,7 @@ flow:
             - proxy_username
             - proxy_password
             - content_type: 'application/json'
-            - body: '{\"event\":\"start\"}'
+            - body: '{"event":"start"}'
             - headers: 'Accept: application/json'
         publish:
           - return_result

@@ -52,7 +52,7 @@ flow:
     - list_apps:
         do:
           rest.http_client_get:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications'}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications'}
             - username
             - password
             - proxy_host

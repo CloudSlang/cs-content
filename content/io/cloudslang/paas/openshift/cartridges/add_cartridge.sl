@@ -58,15 +58,15 @@ flow:
     - add_cartridge:
         do:
           rest.http_client_post:
-            - url: "${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges'}"
+            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges'}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - content_type: "'application/json'"
-            - body: "${'{\"cartridge\":\"' + cartridge + '\"}'}"
+            - content_type: 'application/json'
+            - body: ${'{"cartridge":"' + cartridge + '"}'}"
             - headers: 'Accept: application/json'
         publish:
           - return_result

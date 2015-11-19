@@ -52,7 +52,7 @@ flow:
     - http_client_action_post:
         do:
           rest.http_client_post:
-            - url: "${'https://' + host + '/uaa/oauth/token'}"
+            - url: ${'https://' + host + '/uaa/oauth/token'}
             - username
             - password
             - proxy_host
@@ -60,7 +60,7 @@ flow:
             - proxy_username
             - proxy_password
             - headers: 'Authorization: Basic Y2Y6'
-            - query_params: "${'username=' + username + '&password=' + password + '&grant_type=password'}"
+            - query_params: ${'username=' + username + '&password=' + password + '&grant_type=password'}
             - content_type: 'application/json'
         publish:
           - return_result
@@ -75,7 +75,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'access_token'"]
+            - json_path: ['access_token']
         publish:
           - token: ${value}
           - error_message

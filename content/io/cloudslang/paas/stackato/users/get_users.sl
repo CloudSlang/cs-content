@@ -78,7 +78,7 @@ flow:
     - get_users_call:
         do:
           rest.http_client_get:
-            - url: "${'https://' + host + '/v2/users'}"
+            - url: ${'https://' + host + '/v2/users'}
             - username
             - password
             - proxy_host
@@ -100,7 +100,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'resources'"]
+            - json_path: ['resources']
         publish:
           - users_list: ${value}
         navigate:

@@ -80,14 +80,14 @@ flow:
     - create_app:
         do:
           rest.http_client_post:
-            - url: "${'https://' + host + '/v2/apps'}"
+            - url: ${'https://' + host + '/v2/apps'}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - body: "${'{\"name\":\"' + application_name + '\",\"space_guid\":\"' + space_guid + '\",\"memory\":1024,\"instances\":1}'}"
+            - body: ${'{"name":"' + application_name + '","space_guid":"' + space_guid + '","memory":1024,"instances":1}'}
             - headers: "${'Authorization: bearer ' + token}"
             - content_type: 'application/json'
         publish:
@@ -103,7 +103,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'entity'", "'guid'"]
+            - json_path: ['entity', 'guid']
         publish:
           - application_guid: ${value}
         navigate:
