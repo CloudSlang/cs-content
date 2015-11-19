@@ -30,10 +30,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_image
          FAILURE: MACHINE_IS_NOT_CLEAN
@@ -59,8 +59,7 @@ flow:
             - password
             - container_name
             - image_name
-            - container_command: >
-                  '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
+            - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
         navigate:
           SUCCESS: stop_container
           FAILURE: FAIL_RUN_IMAGE
@@ -72,7 +71,7 @@ flow:
             - port
             - username
             - password
-            - container_id: container_name
+            - container_id: ${container_name}
         navigate:
           SUCCESS: get_container_names
           FAILURE: FAIL_STOP_CONTAINERS
@@ -85,13 +84,13 @@ flow:
             - username
             - password
         publish:
-          - list: container_names
+          - list: ${container_names}
 
     - verify_all_stoped:
         do:
           strings.string_equals:
-            - first_string: "''"
-            - second_string: list
+            - first_string: ''
+            - second_string: ${list}
         navigate:
           SUCCESS: start_container
           FAILURE: VEFIFYFAILURE
@@ -103,7 +102,7 @@ flow:
             - port
             - username
             - password
-            - container_id: container_name
+            - container_id: ${container_name}
         navigate:
           SUCCESS: get_running_container_names
           FAILURE: FAILURE
@@ -116,13 +115,13 @@ flow:
             - username
             - password
         publish:
-          - list: container_names
+          - list: ${container_names}
 
     - verify_running:
         do:
           strings.string_equals:
-            - first_string: container_name
-            - second_string: list
+            - first_string: ${container_name}
+            - second_string: ${list}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
@@ -131,10 +130,10 @@ flow:
     - clear_docker_host:
         do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

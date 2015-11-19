@@ -9,9 +9,11 @@
 # Retrieves the public IPs of machines in a CoreOS cluster.
 #
 # Inputs:
-#   - coreos_host - CoreOS machine host; can be any machine from the cluster
+#   - coreos_host - CoreOS machine host;
+#                   Can be any machine from the cluster
 #   - coreos_username - CoreOS machine username
-#   - coreos_password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - coreos_password - optional - CoreOS machine password;
+#                                  Can be empty since CoreOS machines use private key file authentication
 #   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
@@ -33,34 +35,34 @@ flow:
     - timeout:
         required: false
     - machines_public_ip_list:
-        default: "''"
+        default: ''
         overridable: false
 
   workflow:
     - list_ids_of_the_machines:
         do:
           list_machines_id:
-            - host: coreos_host
-            - username: coreos_username
-            - password: coreos_password
+            - host: ${coreos_host}
+            - username: ${coreos_username}
+            - password: ${coreos_password}
             - private_key_file
             - timeout
         publish:
-            - machines_id_list
+          - machines_id_list
 
     - get_machine_public_ip:
-            loop:
-                for: machine_id in machines_id_list.split()
-                do:
-                  get_machine_public_ip:
-                    - machine_id
-                    - host: coreos_host
-                    - username: coreos_username
-                    - password: coreos_password
-                    - private_key_file
-                    - timeout
-                publish:
-                    - machines_public_ip_list: self['machines_public_ip_list'] + public_ip + ' '
+        loop:
+          for: machine_id in machines_id_list.split()
+          do:
+            get_machine_public_ip:
+              - machine_id
+              - host: ${coreos_host}
+              - username: ${coreos_username}
+              - password: ${coreos_password}
+              - private_key_file
+              - timeout
+          publish:
+            - machines_public_ip_list: ${self['machines_public_ip_list'] + public_ip + ' '}
 
   outputs:
-    - machines_public_ip_list: machines_public_ip_list.strip()
+    - machines_public_ip_list: ${machines_public_ip_list.strip()}
