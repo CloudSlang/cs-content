@@ -82,8 +82,10 @@ flow:
             - agent_forwarding
         publish:
           - docker_info
-          - number_of_containers_in_cluster: "${docker_info.split(': ')[1].split('\n')[0]}"
-          - number_of_nodes_in_cluster: "${docker_info.split('Nodes: ')[1].split('\n')[0]}"
+          - number_of_containers_in_cluster: >
+              ${ docker_info.split(': ')[1].split('\n')[0] }
+          - number_of_nodes_in_cluster: >
+              ${ docker_info.split('Nodes: ')[1].split('\n')[0] }
   outputs:
     - docker_info
     - number_of_containers_in_cluster
