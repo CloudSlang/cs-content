@@ -75,7 +75,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ response }
-            - json_path: ["'droplets'"]
+            - json_path: ['droplets']
         publish:
           - droplets: ${value}
   outputs:
