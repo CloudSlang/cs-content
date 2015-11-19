@@ -175,5 +175,5 @@ operation:
     - return_code: ${ returnCode }
     - status_code: ${ '' if 'statusCode' not in locals() else statusCode }
   results:
-    - SUCCESS : ${ returnCode == '0' and int(statusCode) in self['validHttpStatusCodes'] }
+    - SUCCESS: ${ returnCode == '0' and int(statusCode) in self['validHttpStatusCodes'] }
     - FAILURE
