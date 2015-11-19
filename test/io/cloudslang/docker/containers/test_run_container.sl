@@ -26,7 +26,7 @@ flow:
     - container_name
 
   workflow:
-    - clear_docker_host_prereqeust:
+    - clear_docker_host_prerequest:
        do:
          maintenance.clear_host:
            - docker_host: ${host}
@@ -70,7 +70,7 @@ flow:
             - username
             - password
         publish:
-          - list: image_list
+          - list: ${image_list}
 
     - verify_output:
         do:
