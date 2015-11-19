@@ -86,7 +86,7 @@ flow:
                 - from: email_sender
                 - to: email_recipient
                 - subject: "New app fail"
-                - body: "${'App creation failed '+errorMessage}"
+                - body: ${'App creation failed '+errorMessage}
 
   outputs:
     - return_result

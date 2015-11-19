@@ -47,7 +47,7 @@ operation:
         default: ${get('proxy_port', None)}
         required: false
     - url:
-        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'}"
+        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'}
         overridable: false
     - method:
         default: "put"

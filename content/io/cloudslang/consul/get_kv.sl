@@ -33,7 +33,7 @@ operation:
         required: false
     - key_name
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name}
         overridable: false
     - method:
         default: "get"

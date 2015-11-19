@@ -35,7 +35,7 @@ operation:
         required: false
     - app_id
     - url:
-        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id}"
+        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id}
         overridable: false
     - method:
         default: "delete"

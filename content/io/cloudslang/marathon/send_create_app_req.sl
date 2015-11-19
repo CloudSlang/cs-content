@@ -35,7 +35,7 @@ operation:
         required: false
     - body
     - url:
-        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}"
+        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}
         overridable: false
     - method:
         default: "post"

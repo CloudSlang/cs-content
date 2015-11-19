@@ -35,10 +35,10 @@ operation:
         default: ''
         required: false
     - dc:
-        default: "${'?dc=' + datacenter if bool(datacenter) else ''}"
+        default: ${'?dc=' + datacenter if bool(datacenter) else ''}
         overridable: false
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/catalog/services' + dc}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/catalog/services' + dc}
         overridable: false
     - method:
         default: "get"

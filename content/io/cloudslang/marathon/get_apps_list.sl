@@ -42,7 +42,7 @@ operation:
         default: "none"
         required: false
     - url:
-        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed}"
+        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed}
         overridable: false
     - proxy_host:
         required: false

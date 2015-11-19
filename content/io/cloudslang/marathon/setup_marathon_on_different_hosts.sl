@@ -85,7 +85,7 @@ flow:
     - wait_for_marathon_startup:
         do:
           network.verify_url_is_accessible:
-              - url: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}"
+              - url: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}
               - attempts: 30
               - time_to_sleep: 10
         navigate:

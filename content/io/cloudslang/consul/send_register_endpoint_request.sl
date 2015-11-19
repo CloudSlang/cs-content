@@ -36,7 +36,7 @@ operation:
         default: "json_request"
         overridable: false
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/catalog/register'}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/catalog/register'}
         overridable: false
     - method:
         default: "put"

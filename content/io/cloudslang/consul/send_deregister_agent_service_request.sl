@@ -33,7 +33,7 @@ operation:
         required: false
     - service_id
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/agent/service/deregister/' + service_id}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/agent/service/deregister/' + service_id}
         overridable: false
     - method:
         default: "delete"

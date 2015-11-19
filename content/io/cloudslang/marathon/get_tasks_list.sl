@@ -37,7 +37,7 @@ operation:
         default: "none"
         required: false
     - url:
-        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status}"
+        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status}
         overridable: false
     - method:
         default: "get"

@@ -44,7 +44,7 @@ operation:
         default: ${key_value}
         overridable: false
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name+'?flags='+flags}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name+'?flags='+flags}
         overridable: false
     - method:
         default: "put"

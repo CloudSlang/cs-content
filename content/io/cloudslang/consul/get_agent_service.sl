@@ -31,7 +31,7 @@ operation:
         default: "8500"
         required: false
     - url:
-        default: "${'http://'+ host + ':' + consul_port +'/v1/agent/services'}"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/agent/services'}
         overridable: false
     - method:
         default: "get"
