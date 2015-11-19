@@ -33,14 +33,14 @@ flow:
     - marathon_host
     - username
     - private_key_file
-    - marathon_port: "'8080'"
+    - marathon_port: "8080"
     - is_core_os: false
 
   workflow:
     - check_is_core_os:
         do:
           utils.is_true:
-            - bool_value: bool(is_core_os)
+            - bool_value: ${bool(is_core_os)}
         navigate:
           SUCCESS: setup_marathon_core_os
           FAILURE: setup_marathon_docker_host
@@ -78,14 +78,14 @@ flow:
     - print_before_wait:
         do:
           print.print_text:
-              - text: "'Wait for Marathon start-up.'"
+              - text: "Wait for Marathon start-up."
         navigate:
           SUCCESS: wait_for_marathon_startup
 
     - wait_for_marathon_startup:
         do:
           network.verify_url_is_accessible:
-              - url: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'"
+              - url: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}
               - attempts: 30
               - time_to_sleep: 10
         navigate:

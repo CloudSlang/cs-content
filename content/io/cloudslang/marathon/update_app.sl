@@ -36,7 +36,7 @@ flow:
   inputs:
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - app_id
     - json_file
