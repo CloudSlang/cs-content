@@ -20,8 +20,8 @@ flow:
 
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - server_id
     - username:
@@ -31,7 +31,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -68,8 +68,8 @@ flow:
     - check_hard_reboot_server_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 202]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 202]}
         navigate:
           SUCCESS: get_server_details
           FAILURE: CHECK_HARD_REBOOT_SERVER_RESPONSES_FAILURE
@@ -103,8 +103,8 @@ flow:
     - check_get_server_details_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: get_status
           FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
@@ -112,12 +112,10 @@ flow:
     - get_status:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path:
-                default: ["'server'", "'status'"]
-                overridable: false
+            - json_input: ${return_result}
+            - json_path: ${["'server'", "'status'"]}
         publish:
-          - status: value
+          - status: ${value}
         navigate:
           SUCCESS: verify_status
           FAILURE: GET_STATUS_FAILURE
@@ -125,8 +123,8 @@ flow:
     - verify_status:
         do:
           strings.string_equals:
-            - first_string: "'HARD_REBOOT'"
-            - second_string: str(status)
+            - first_string: 'HARD_REBOOT'
+            - second_string: ${str(status)}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_STATUS_FAILURE

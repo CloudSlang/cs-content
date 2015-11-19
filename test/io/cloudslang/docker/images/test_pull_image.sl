@@ -28,10 +28,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${ host }
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${ username }
+           - docker_password: ${ password }
        navigate:
          SUCCESS: pull_image
          FAILURE: MACHINE_IS_NOT_CLEAN
@@ -80,8 +80,8 @@ flow:
     - verify_image_name:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: image_list
-            - string_to_find: image_name
+            - string_in_which_to_search: ${ image_list }
+            - string_to_find: ${ image_name }
         navigate:
           SUCCESS: clear_image
           FAILURE: FAILURE
@@ -93,7 +93,7 @@ flow:
             - port
             - username
             - password
-            - images: image_name
+            - images: ${ image_name }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_CLEAR_IMAGE

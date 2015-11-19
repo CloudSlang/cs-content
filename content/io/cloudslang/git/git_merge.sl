@@ -41,7 +41,7 @@ flow:
     - password:
         required: false
     - git_repository_localdir:
-        default: "'/tmp/repo.git'"
+        default: "/tmp/repo.git"
         required: true
     - git_merge_branch:
         required: true
@@ -57,12 +57,12 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_merge: "' && git merge ' + git_merge_branch "
-            - command: "sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS'"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - git_merge: ${ ' && git merge ' + git_merge_branch }
+            - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
         publish:
           - standard_err
           - standard_out
@@ -71,8 +71,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "GIT_SUCCESS"
   outputs:
     - standard_err
     - standard_out

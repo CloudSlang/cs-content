@@ -171,9 +171,9 @@ operation:
       methodName: execute
   outputs:
     - return_result: ${ '' if 'returnResult' not in locals() else returnResult }
-    - error_message: returnResult if returnCode != '0' else ''
-    - return_code: returnCode
+    - error_message: ${ returnResult if returnCode != '0' else '' }
+    - return_code: ${ returnCode }
     - status_code: ${ '' if 'statusCode' not in locals() else statusCode }
   results:
-    - SUCCESS : ${ returnCode == '0' and int(statusCode) in self['validHttpStatusCodes'] }
+    - SUCCESS: ${ returnCode == '0' and int(statusCode) in self['validHttpStatusCodes'] }
     - FAILURE

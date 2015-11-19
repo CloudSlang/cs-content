@@ -82,7 +82,7 @@ flow:
           - returnResult
   outputs:
     - disk_space: ${ '' if 'standard_out' not in locals() else standard_out.strip() }
-    - error_message: ${ '' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult${
+    - error_message: ${ '' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult }
   results:
     - SUCCESS
     - FAILURE

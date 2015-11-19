@@ -17,8 +17,8 @@ flow:
 
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - username:
         required: false
@@ -27,7 +27,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -64,8 +64,8 @@ flow:
     - check_list_images_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_LIST_IMAGES_FAILURE

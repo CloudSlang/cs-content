@@ -13,7 +13,7 @@
 # Outputs:
 #   - return_result - was parsing was successful or not
 #   - error_message - returnResult if there was an error
-#   - return_code - "'0'" if parsing was successful, "'-1'" otherwise
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - usernames_list - the list with all usernames
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
@@ -42,9 +42,9 @@ operation:
         return_result = ex
   outputs:
     - return_result
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
     - return_code
     - usernames_list
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

@@ -28,13 +28,13 @@ operation:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - url:
-        default: "'http://'+ host + ':' + consul_port +'/v1/agent/services'"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/agent/services'}
         overridable: false
     - method:
-        default: "'get'"
+        default: "get"
         overridable: false
   action:
     java_action:
@@ -44,7 +44,7 @@ operation:
     - returnResult
     - statusCode
     - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

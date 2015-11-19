@@ -39,7 +39,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - image_name
     - host
@@ -51,7 +51,7 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: "'docker ' + docker_options_expression + 'inspect ' + image_name"
+        default: ${ 'docker ' + docker_options_expression + 'inspect ' + image_name }
         overridable: false
     - characterSet:
         required: false

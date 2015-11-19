@@ -12,15 +12,15 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - img_ref - image reference of the server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
-#   - server_name - optional - server name - Default: test-server
+#   - server_name - optional - server name - Default: 'test-server'
 #   - email_host - email host
 #   - email_port - email port
 #   - to - email recipient
@@ -45,7 +45,7 @@ flow:
         required: false
     - network_id:
         required: false
-    - server_name: "'test-server'"
+    - server_name: 'test-server'
     - img_ref
     - username
     - password
@@ -74,7 +74,8 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - subflow_error: "'\"Create Server\": ' + error_message"
+          - subflow_error: >
+              ${'"Create Server": ' + error_message}
         navigate:
           SUCCESS: validate_server_exists
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
@@ -95,7 +96,8 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - subflow_error : "'\"Validate Server\": ' + error_message"
+          - subflow_error: >
+               ${'"Validate Server": ' + error_message}
         navigate:
           SUCCESS: delete_server
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
@@ -118,7 +120,8 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - subflow_error : "'\"Delete Server\": ' + error_message"
+          - subflow_error: >
+               ${'"Delete Server": ' + error_message}
         navigate:
           SUCCESS: SUCCESS
           GET_AUTHENTICATION_TOKEN_FAILURE: FAILURE
@@ -132,12 +135,12 @@ flow:
         - send_error_mail:
             do:
               email.send_mail:
-                - hostname: email_host
-                - port: email_port
+                - hostname: ${email_host}
+                - port: ${email_port}
                 - from
                 - to
-                - subject: "'Flow failure'"
-                - body: "'Failure from step ' + subflow_error"
+                - subject: ${'Flow failure'}
+                - body: ${'Failure from step ' + subflow_error}
             navigate:
               SUCCESS: SUCCESS
               FAILURE: SEND_EMAIL_FAILURE

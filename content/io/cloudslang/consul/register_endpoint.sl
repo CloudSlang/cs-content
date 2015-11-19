@@ -30,18 +30,18 @@ flow:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - node
     - address
     - datacenter:
-        default: "''"
+        default: ''
         required: false
     - service:
-        default: "''"
+        default: ''
         required: false
     - check:
-        default: "''"
+        default: ''
         required: false
   workflow:
     - parse_register_endpoint_request:

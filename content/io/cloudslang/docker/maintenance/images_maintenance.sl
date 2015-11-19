@@ -38,7 +38,7 @@ flow:
     - private_key_file:
         required: false
     - percentage
-    - timeout: "'6000000'"
+    - timeout: "6000000"
   workflow:
     - check_diskspace:
         do:
@@ -62,12 +62,11 @@ flow:
             - private_key_file
             - timeout
         publish:
-          - amount_of_images_deleted: >
-              amount_of_images_deleted if 'amount_of_images_deleted' in locals() and amount_of_images_deleted else 0
+          - amount_of_images_deleted: ${ amount_of_images_deleted if 'amount_of_images_deleted' in locals() and amount_of_images_deleted else 0 }
           - amount_of_dangling_images_deleted: >
-              amount_of_dangling_images_deleted if 'amount_of_dangling_images_deleted' in locals() and amount_of_dangling_images_deleted else 0
+              ${ amount_of_dangling_images_deleted if 'amount_of_dangling_images_deleted' in locals() and amount_of_dangling_images_deleted else 0 }
           - dangling_images_list_safe_to_delete
           - images_list_safe_to_delete
-          - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
+          - total_amount: ${ amount_of_images_deleted + amount_of_dangling_images_deleted }
   outputs:
-    - total_amount_of_images_deleted: "'' if 'total_amount' not in locals() else total_amount"
+    - total_amount_of_images_deleted: ${ '' if 'total_amount' not in locals() else total_amount }

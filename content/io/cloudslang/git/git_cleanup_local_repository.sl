@@ -44,7 +44,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - git_repository_localdir: "'/tmp/repo.git'"
+    - git_repository_localdir: "/tmp/repo.git"
     - change_path:
         default: false
         required: false
@@ -59,11 +59,11 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - change_path_command: "'cd ' + (new_path if new_path else '') + ' && ' if bool(change_path) else ''"
-            - git_init_command: "' && git reset --hard HEAD'"
-            - command: "sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command"
+            - privateKeyFile: ${ private_key_file }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - change_path_command: ${ 'cd ' + (new_path if new_path else '') + ' && ' if bool(change_path) else '' }
+            - git_init_command: " && git reset --hard HEAD"
+            - command: ${ sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
