@@ -84,7 +84,7 @@ flow:
             - closeSessione
             - agentForwarding
         publish:
-          - image_list: ${ returnResult.replace("\n"," ").replace(":latest", "") }
+          - image_list: '${ returnResult.replace("\n"," ").replace(":latest", "") }'
 
   outputs:
     - image_list
