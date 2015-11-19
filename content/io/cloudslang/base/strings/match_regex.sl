@@ -38,5 +38,5 @@ operation:
   outputs:
     - match_text
   results:
-    - MATCH: res
+    - MATCH: ${ res }
     - NO_MATCH

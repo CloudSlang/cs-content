@@ -49,21 +49,21 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + 'pkill -HUP -e ' + process_name"
+            - sudo_command: ${ echo ' + password + ' | sudo -S ' if bool(sudo_user) else ' }
+            - command: ${ sudo_command + 'pkill -HUP -e ' + process_name }
             - username
             - password
             - privateKeyFile
         publish:
           - standard_err
           - standard_out
-          - return_result: returnResult
+          - return_result: ${ returnResult }
 
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: process_name
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: ${ process_name }
 
   outputs:
     - standard_err

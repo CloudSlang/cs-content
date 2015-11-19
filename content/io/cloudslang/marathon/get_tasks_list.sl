@@ -31,39 +31,39 @@ operation:
   inputs:
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - status:
-        default: "'none'"
+        default: "none"
         required: false
     - url:
-        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status"
+        default: "${'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status}"
         overridable: false
     - method:
-        default: "'get'"
+        default: "get"
         overridable: false
     - contentType:
-        default: "'application/json'"
+        default: "application/json"
         overridable: false
     - proxy_host:
         required: false
     - proxyHost:
-        default: get('proxy_host', None)
+        default: ${get('proxy_host', None)}
         required: false
     - proxy_port:
             required: false
     - proxyPort:
-        default: get('proxy_port', None)
+        default: ${get('proxy_port', None)}
         required: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - status_code: statusCode
-    - return_code: returnCode
-    - error_message: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - return_result: ${returnResult}
+    - status_code: ${statusCode}
+    - return_code: ${returnCode}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

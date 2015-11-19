@@ -46,10 +46,10 @@ operation:
     - subject
     - body
     - htmlEmail:
-        default: "'true'"
+        default: "true"
         required: false
     - readReceipt:
-        default: "'false'"
+        default: "false"
         required: false
     - attachments:
         required: false
@@ -60,7 +60,7 @@ operation:
     - characterSet:
         required: false
     - contentTransferEncoding:
-        default: "'base64'"
+        default: "base64"
         required: false
     - delimiter:
         required: false
@@ -69,5 +69,5 @@ operation:
       className: io.cloudslang.content.mail.actions.SendMailAction
       methodName: execute
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${ returnCode == '0' }
     - FAILURE
