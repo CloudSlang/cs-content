@@ -25,12 +25,13 @@
 # Inputs:
 #   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#                     - Default: none
 #   - json_google_auth_path - FileSystem path to Google authentication JSON key file.
-#                          Example : 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
+#                           - Example : 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is not '0'
+#   - error_message - return_result if return_code is '-1'
 #   - response - JSON response body containing an instance of Operation
 #   - return_code - '0' if success, '-1' otherwise
 ####################################################

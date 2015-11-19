@@ -11,7 +11,7 @@
 #
 # Inputs:
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#                          Example : 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
+#                     - Default: none
 #   - name - The name of the cluster to delete
 #   - description - An optional description of this cluster
 #   - initial_node_count - The number of nodes to create in this cluster. You must ensure that your Compute Engine
@@ -39,7 +39,7 @@
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is not '0'
+#   - error_message - return_result if return_code is '-1'
 #   - response - JSON response body containing an instance of Operation
 #   - return_code - '0' if success, '-1' otherwise
 ####################################################
