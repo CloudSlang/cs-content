@@ -74,7 +74,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ${['', 0, 201]}
+            - list_2: ['', 0, 201]
         navigate:
           SUCCESS: get_status
           FAILURE: CHECK_RESPONSES_FAILURE
