@@ -64,14 +64,14 @@ flow:
          do:
             base_strings.string_equals:
               - first_string: app_list
-              - second_string: "''"
+              - second_string: ''
          navigate:
            SUCCESS: create_marathon_app
            FAILURE: delete_initial_apps
 
     - delete_initial_apps:
         loop:
-            for: 'app in app_list.split(",")'
+            for: ${'app in app_list.split(",")'}
             do:
               delete_app:
                 - marathon_host
@@ -183,7 +183,7 @@ flow:
          do:
             base_strings.string_equals:
               - first_string: app_list
-              - second_string: "''"
+              - second_string: ''
          navigate:
            SUCCESS: SUCCESS
            FAILURE: APP_STILL_UP
