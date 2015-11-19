@@ -32,7 +32,7 @@ flow:
 
   inputs:
     - time_to_live: 150
-    - name_pattern: "'ci-([0-9]+)-coreos-([0-9]+)'"
+    - name_pattern: 'ci-([0-9]+)-coreos-([0-9]+)'
     - token
     - proxy_host:
         required: false
@@ -66,10 +66,10 @@ flow:
           for: droplet in droplets
           do:
             delete_droplet_if_zombie:
-              - droplet_id: str(droplet['id'])
-              - droplet_name: droplet['name']
-              - creation_time_as_string: str(droplet['created_at'])
-              - time_to_live: int(time_to_live)
+              - droplet_id: ${str(droplet['id'])}
+              - droplet_name: ${droplet['name']}
+              - creation_time_as_string: ${str(droplet['created_at'])}
+              - time_to_live: ${int(time_to_live)}
               - name_pattern
               - token
               - proxy_host

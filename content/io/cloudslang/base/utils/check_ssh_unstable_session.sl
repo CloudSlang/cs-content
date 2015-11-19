@@ -40,8 +40,8 @@ flow:
     - check_return_code:
         do:
           strings.string_equals:
-            - first_string: "'0'"
-            - second_string: str(return_code)
+            - first_string: '0'
+            - second_string: ${ str(return_code) }
         navigate:
           SUCCESS: NO_ISSUE_FOUND
           FAILURE: check_session_is_down
@@ -49,8 +49,8 @@ flow:
     - check_session_is_down:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: return_result
-            - string_to_find: "'session is down'"
+            - string_in_which_to_search: ${ return_result }
+            - string_to_find: 'session is down'
         navigate:
           SUCCESS: SESSION_IS_DOWN
           FAILURE: check_failure_with_no_message
@@ -58,8 +58,8 @@ flow:
     - check_failure_with_no_message:
         do:
           strings.string_equals:
-            - first_string: "'-1'"
-            - second_string: "return_result + standard_err + standard_out + str(exit_status)"
+            - first_string: '-1'
+            - second_string: ${ return_result + standard_err + standard_out + str(exit_status) }
         navigate:
           SUCCESS: FAILURE_WITH_NO_MESSAGE
           FAILURE: NO_ISSUE_FOUND

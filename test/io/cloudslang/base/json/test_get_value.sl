@@ -23,7 +23,7 @@ flow:
     - get_value:
         do:
           get_value:
-            - json_input: json_before
+            - json_input: ${ json_before }
             - json_path
         publish:
           - value
@@ -33,8 +33,8 @@ flow:
     - test_equality:
         do:
           comp.equals:
-            - first: value
-            - second: found_value
+            - first: ${ value }
+            - second: ${ found_value }
 
         navigate:
           EQUALS: SUCCESS

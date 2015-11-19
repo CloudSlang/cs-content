@@ -46,7 +46,7 @@ flow:
     - check_enabled:
         do:
           is_true:
-            - bool_value: enabled
+            - bool_value: ${ enabled }
         navigate:
           SUCCESS: check_retries
           FAILURE: RECOVERY_DISABLED
@@ -54,10 +54,10 @@ flow:
     - check_retries:
         do:
           comparisons.compare_numbers:
-            - value1: retries
+            - value1: ${ retries }
             - value2: 0
         publish:
-          - retries: int(self['retries']) - 1
+          - retries: ${ int(self['retries']) - 1 }
         navigate:
           GREATER_THAN: check_unstable_session
           EQUALS: TIMEOUT
