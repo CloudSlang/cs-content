@@ -33,7 +33,7 @@ operation:
         required: false
     - json_request
     - body:
-        default: "json_request"
+        default: ${json_request}
         overridable: false
     - url:
         default: ${'http://'+ host + ':' + consul_port +'/v1/catalog/register'}
