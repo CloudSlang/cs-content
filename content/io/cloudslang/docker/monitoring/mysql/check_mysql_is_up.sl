@@ -80,7 +80,7 @@ flow:
             - privateKeyFile: ${ private_key_file }
             - command
             - arguments
-            - characterSet: ${ haracter_set }
+            - characterSet: ${ character_set }
             - pty
             - timeout
             - closeSession: ${ close_session }
