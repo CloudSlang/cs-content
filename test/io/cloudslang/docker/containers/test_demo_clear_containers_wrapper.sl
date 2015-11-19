@@ -27,19 +27,19 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - linked_image: "'meirwa/spring-boot-tomcat-mysql-app'"
+    - linked_image: 'meirwa/spring-boot-tomcat-mysql-app'
     - linked_container_cmd:
         required: false
-    - linked_container_name: "'spring-boot-tomcat-mysql-app'"
+    - linked_container_name: 'spring-boot-tomcat-mysql-app'
 
   workflow:
     - pre_test_cleanup:
          do:
            maintenance.clear_host:
-             - docker_host: host
+             - docker_host: ${host}
              - port
-             - docker_username: username
-             - docker_password: password
+             - docker_username: ${username}
+             - docker_password: ${password}
              - private_key_file
          navigate:
            SUCCESS: start_mysql_container
@@ -62,12 +62,12 @@ flow:
     - pull_linked_image:
         do:
           images.pull_image:
-            - image_name: linked_image
+            - image_name: ${linked_image}
             - host
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
         publish:
           - error_message
         navigate:
@@ -84,19 +84,19 @@ flow:
     - start_linked_container:
         do:
           start_linked_container:
-            - dbContainerIp: db_IP
-            - dbContainerName: "'mysqldb'"
-            - imageName: linked_image
-            - containerName: linked_container_name
-            - linkParams: "dbContainerName + ':mysql'"
-            - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p ' + '8080' + ':8080'"
-            - container_cmd: linked_container_cmd
+            - dbContainerIp: ${db_IP}
+            - dbContainerName: 'mysqldb'
+            - imageName: ${linked_image}
+            - containerName: ${linked_container_name}
+            - linkParams: ${dbContainerName + ':mysql'}
+            - cmdParams: ${'-e DB_URL=' + dbContainerIp + ' -p ' + '8080' + ':8080'}
+            - container_cmd: ${linked_container_cmd}
             - host
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
-            - timeout: "'30000000'"
+            - privateKeyFile: ${private_key_file}
+            - timeout: '30000000'
         publish:
           - container_id
           - error_message
@@ -104,12 +104,12 @@ flow:
     - demo_clear_containers_wrapper:
         do:
           docker_containers_examples.demo_clear_containers_wrapper:
-            - db_container_id: "'mysqldb'"
-            - linked_container_id: linked_container_name
-            - docker_host: host
+            - db_container_id: 'mysqldb'
+            - linked_container_id: ${linked_container_name}
+            - docker_host: ${host}
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
         navigate:
           SUCCESS: verify
@@ -125,13 +125,13 @@ flow:
             - private_key_file
             - all_containers: true
         publish:
-          - all_containers: container_list
+          - all_containers: ${container_list}
 
     - compare:
         do:
           strings.string_equals:
-            - first_string: all_containers
-            - second_string: "''"
+            - first_string: ${all_containers}
+            - second_string: ''
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: FAILURE
@@ -139,10 +139,10 @@ flow:
     - clear_docker_host:
         do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
            - private_key_file
         navigate:
          SUCCESS: SUCCESS

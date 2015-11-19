@@ -30,10 +30,10 @@ flow:
     - clear_docker_host_prerequest:
        do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_image
          FAILURE: PREREQUEST_MACHINE_IS_NOT_CLEAN
@@ -45,7 +45,7 @@ flow:
             - port
             - username
             - password
-            - image_name: first_image_name
+            - image_name: ${first_image_name}
         navigate:
           SUCCESS: pull_second
           FAILURE: FAIL_PULL_IMAGE
@@ -57,7 +57,7 @@ flow:
             - port
             - username
             - password
-            - image_name: second_image_name
+            - image_name: ${second_image_name}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_PULL_IMAGE
@@ -69,8 +69,8 @@ flow:
             - port
             - username
             - password
-            - container_name: "'first'"
-            - image_name: first_image_name
+            - container_name: 'first'
+            - image_name: ${first_image_name}
         navigate:
           SUCCESS: run_second_container
           FAILURE: FAIL_RUN_IMAGE
@@ -82,9 +82,9 @@ flow:
             - port
             - username
             - password
-            - container_name: "'second'"
-            - image_name: second_image_name
-            - container_params: "'-p 49165:22'"
+            - container_name: 'second'
+            - image_name: ${second_image_name}
+            - container_params: '-p 49165:22'
         navigate:
           SUCCESS: get_all_containers
           FAILURE: FAIL_RUN_IMAGE
@@ -92,11 +92,11 @@ flow:
     - clear_container:
         do:
           clear_container:
-            - docker_host: host
+            - docker_host: ${host}
             - port
-            - docker_username: username
-            - docker_password: password
-            - container_id: list
+            - docker_username: ${username}
+            - docker_password: ${password}
+            - container_id: ${list}
         navigate:
           SUCCESS: verify
           FAILURE: FAILURE
@@ -110,12 +110,12 @@ flow:
             - password
             - all_containers: true
         publish:
-          - all_containers: container_list
+          - all_containers: ${container_list}
     - compare:
         do:
           strings.string_equals:
-            - first_string: all_containers
-            - second_string: "''"
+            - first_string: ${all_containers}
+            - second_string: ''
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
@@ -123,10 +123,10 @@ flow:
     - clear_docker_host:
         do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN
