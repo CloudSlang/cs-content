@@ -51,5 +51,5 @@ operation:
     - message
 
   results:
-    - SUCCESS: result
+    - SUCCESS: ${result}
     - FAILURE

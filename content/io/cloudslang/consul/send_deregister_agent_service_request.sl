@@ -29,14 +29,14 @@ operation:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - service_id
     - url:
-        default: "'http://'+ host + ':' + consul_port +'/v1/agent/service/deregister/' + service_id"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/agent/service/deregister/' + service_id}
         overridable: false
     - method:
-        default: "'delete'"
+        default: "delete"
         overridable: false
   action:
     java_action:
@@ -46,7 +46,7 @@ operation:
     - returnResult
     - statusCode
     - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

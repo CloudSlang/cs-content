@@ -10,16 +10,22 @@
 #
 # Inputs:
 #   - machine_id - ID of the machine
-#   - host - CoreOS machine host; can be any machine from the cluster
+#   - host - CoreOS machine host;
+#            Can be any machine from the cluster
 #   - port - optional - SSH port
 #   - username - CoreOS machine username
-#   - password - optional - CoreOS machine password; can be empty since CoreOS machines use private key file authentication
+#   - password - optional - CoreOS machine password;
+#                           Can be empty since CoreOS machines use private key file authentication
 #   - private_key_file - optional - path to the private key file
 #   - arguments - optional - arguments to pass to the command
-#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: SJIS, EUC-JP, UTF-8
+#   - pty - optional - whether to use PTY
+#                    - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life of the flow, if true SSH session used by this operation will be closed - Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life
+#                                of the flow, if true SSH session used by this operation will be closed
+#                              - Valid: true, false
 # Outputs:
 #   - public_ip: public IP address of the machine based on its ID
 # Results:
@@ -56,11 +62,10 @@ flow:
     - close_session:
         required: false
     - agent_forwarding:
-        default: "'true'"
+        default: 'true'
         overridable: false
     - command:
-        default: >
-          "fleetctl --strict-host-key-checking=false  ssh " + machine_id + " cat /etc/environment"
+        default: "${'fleetctl --strict-host-key-checking=false  ssh ' + machine_id + ' cat /etc/environment'}"
         overridable: false
 
   workflow:
@@ -71,24 +76,23 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${private_key_file}
             - command
             - arguments
-            - characterSet: character_set
+            - characterSet: ${character_set}
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - closeSession: ${close_session}
+            - agentForwarding: ${agent_forwarding}
         publish:
-          - public_ip: >
-              returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 : -1]
+          - public_ip: ${returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 :-1]}
           - standard_err
 
     - check_ssh_agent_in_stderr:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'ssh-agent'"
+            - string_in_which_to_search: ${standard_err}
+            - string_to_find: 'ssh-agent'
         navigate:
           SUCCESS: FAILURE
           FAILURE: check_unable_in_stderr
@@ -96,8 +100,8 @@ flow:
     - check_unable_in_stderr:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'Unable'"
+            - string_in_which_to_search: ${standard_err}
+            - string_to_find: 'Unable'
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS

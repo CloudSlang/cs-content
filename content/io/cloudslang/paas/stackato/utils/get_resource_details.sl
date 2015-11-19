@@ -14,7 +14,7 @@
 # Outputs:
 #   - return_result - was parsing was successful or not
 #   - error_message - returnResult if there was an error
-#   - return_code - "'0'" if parsing was successful, "'-1'" otherwise
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - resource_guid - the GUID of the resource identified by <key_name>
 #   - resource_url - URL of the resource identified by <key_name>
 #   - resource_created_at - the creation date of the resource identified by <key_name>
@@ -52,12 +52,12 @@ operation:
         return_result = ex
   outputs:
     - return_result
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
     - return_code
     - resource_guid
     - resource_url
     - resource_created_at
     - resource_updated_at
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

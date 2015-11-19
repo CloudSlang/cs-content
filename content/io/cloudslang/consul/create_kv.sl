@@ -31,23 +31,23 @@ operation:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - key_name
     - key_value:
-        default: "''"
+        default: ''
         required: false
     - flags:
-        default: "'0'"
+        default: "0"
         required: false
     - body:
-        default: "key_value"
+        default: ${key_value}
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name+'?flags='+flags"
+        default: ${'http://'+ host + ':' + consul_port +'/v1/kv/'+key_name+'?flags='+flags}
         overridable: false
     - method:
-        default: "'put'"
+        default: "put"
         overridable: false
   action:
     java_action:
@@ -57,7 +57,7 @@ operation:
     - returnResult
     - statusCode
     - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - errorMessage: ${ returnResult if returnCode == '-1' or statusCode != '200' else '' }
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${ returnCode != '-1' and statusCode == '200' }
     - FAILURE

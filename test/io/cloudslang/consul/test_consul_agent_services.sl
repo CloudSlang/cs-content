@@ -44,7 +44,7 @@ flow:
           SUCCESS: deregister_agent_service
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_register: returnResult
+          - services_after_register: ${returnResult}
           - errorMessage
 
     - deregister_agent_service:
@@ -63,12 +63,12 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_deregister: returnResult
+          - services_after_deregister: ${returnResult}
           - errorMessage
 
   outputs:
-    - services_after_register: str(services_after_register)
-    - services_after_deregister: str(services_after_deregister)
+    - services_after_register: ${str(services_after_register)}
+    - services_after_deregister: ${str(services_after_deregister)}
   results:
     - SUCCESS
     - FAILURE

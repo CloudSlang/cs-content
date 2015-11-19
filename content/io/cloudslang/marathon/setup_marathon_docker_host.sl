@@ -34,8 +34,8 @@ flow:
     - host
     - username
     - private_key_file
-    - marathon_port: "'8080'"
-    - timeout: "'3000000'"
+    - marathon_port: "8080"
+    - timeout: "3000000"
   workflow:
     - clear_containers_on_host:
        do:
@@ -50,12 +50,12 @@ flow:
     - start_zookeeper:
        do:
          containers.run_container:
-           - container_name: "'zookeeper'"
+           - container_name: "zookeeper"
            - container_params: >
-              '-p 2181:218 ' +
+              ${'-p 2181:218 ' +
               '-p 2888:2888 ' +
-              '-p 3888:3888'
-           - image_name: "'jplock/zookeeper'"
+              '-p 3888:3888'}
+           - image_name: "jplock/zookeeper"
            - host
            - username
            - private_key_file
@@ -67,15 +67,15 @@ flow:
     - start_mesos_master:
        do:
          containers.run_container:
-           - container_name: "'mesos'"
+           - container_name: "mesos"
            - container_params: >
-              '--link zookeeper:zookeeper ' +
+              ${'--link zookeeper:zookeeper ' +
               '-e MESOS_QUORUM=1 ' +
               '-e MESOS_LOG_DIR=/var/log ' +
               '-e MESOS_WORK_DIR=/tmp ' +
               '-e MESOS_ZK=zk://zookeeper:2181/mesos ' +
-              '-p 5050:5050'
-           - image_name: "'redjack/mesos-master'"
+              '-p 5050:5050'}
+           - image_name: "redjack/mesos-master"
            - host
            - username
            - private_key_file
@@ -88,15 +88,15 @@ flow:
        do:
          containers.run_container:
            - container_params: >
-              '--privileged=true ' +
+              ${'--privileged=true ' +
               '--link zookeeper:zookeeper ' +
               '-e MESOS_LOG_DIR=/var/log ' +
               '-e MESOS_MASTER=zk://zookeeper:2181/mesos ' +
               '-e MESOS_CONTAINERIZERS=mesos ' +
               '-p 5051:5051 ' +
               '-v $(which docker):$(which docker) ' +
-              '-v /var/run/docker.sock:/var/run/docker.sock'
-           - image_name: "'razic/mesos-slave'"
+              '-v /var/run/docker.sock:/var/run/docker.sock'}
+           - image_name: "razic/mesos-slave"
            - host
            - username
            - private_key_file
@@ -108,15 +108,15 @@ flow:
     - start_marathon:
        do:
          containers.run_container:
-           - container_name: "'marathon '"
+           - container_name: "marathon "
            - container_params: >
-              '--link zookeeper:zookeeper ' +
+              ${'--link zookeeper:zookeeper ' +
               '--link mesos:mesos ' +
-              '-p ' + marathon_port + ':8080'
+              '-p ' + marathon_port + ':8080'}
            - container_command: >
-              '--master mesos:5050 ' +
-              '--zk zk://zookeeper:2181/marathon'
-           - image_name: "'superguenter/marathon'"
+              ${'--master mesos:5050 ' +
+              '--zk zk://zookeeper:2181/marathon'}
+           - image_name: "superguenter/marathon"
            - host
            - username
            - private_key_file

@@ -44,11 +44,11 @@ flow:
             ssh.ssh_flow:
               - host
               - port
-              - username: "'root'"
+              - username: "root"
               - password
               - private_key_file
               - user
-              - command: "'echo \"' + user + ' ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers'"
+              - command: "echo \"' + user + ' ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
 
           publish:
             - standard_err
@@ -59,5 +59,5 @@ flow:
       - check_result:
           do:
             strings.string_occurrence_counter:
-              - string_in_which_to_search: command_return_code
-              - string_to_find: "'0'"
+              - string_in_which_to_search: ${ command_return_code }
+              - string_to_find: "0"

@@ -29,7 +29,7 @@ flow:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - address:
         required: false

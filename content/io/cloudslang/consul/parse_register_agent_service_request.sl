@@ -29,7 +29,7 @@ operation:
   name: parse_register_agent_service_request
   inputs:
     - address:
-        default: "''"
+        default: ''
         required: false
     - service_name
     - service_id:
@@ -58,7 +58,7 @@ operation:
     - json_request
     - returnCode
     - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

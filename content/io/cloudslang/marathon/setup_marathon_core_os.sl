@@ -35,8 +35,8 @@ flow:
     - host
     - username
     - private_key_file
-    - marathon_port: "'8080'"
-    - timeout: "'3000000'"
+    - marathon_port: "8080"
+    - timeout: "3000000"
   workflow:
     - clear_containers_on_host:
        do:
@@ -51,19 +51,19 @@ flow:
     - print_before_zookeeper:
         do:
           print.print_text:
-              - text: "'Start zookeeper.'"
+              - text: "Start zookeeper."
         navigate:
           SUCCESS: start_zookeeper
 
     - start_zookeeper:
        do:
          containers.run_container:
-           - container_name: "'zookeeper'"
+           - container_name: "zookeeper"
            - container_params: >
-              '-p 2181:218 ' +
+              ${'-p 2181:218 ' +
               '-p 2888:2888 ' +
-              '-p 3888:3888'
-           - image_name: "'jplock/zookeeper'"
+              '-p 3888:3888'}
+           - image_name: "jplock/zookeeper"
            - host
            - username
            - private_key_file
@@ -75,22 +75,22 @@ flow:
     - print_before_mesos_master:
         do:
           print.print_text:
-              - text: "'Start mesos master.'"
+              - text: "Start mesos master."
         navigate:
           SUCCESS: start_mesos_master
 
     - start_mesos_master:
        do:
          containers.run_container:
-           - container_name: "'mesos_master'"
+           - container_name: "mesos_master"
            - container_params: >
-              '--link zookeeper:zookeeper ' +
+              ${'--link zookeeper:zookeeper ' +
               '-e MESOS_QUORUM=1 ' +
               '-e MESOS_LOG_DIR=/var/log/mesos/master ' +
               '-e MESOS_WORK_DIR=/var/lib/mesos/master ' +
               '-e MESOS_ZK=zk://zookeeper:2181/mesos ' +
-              '-p 5050:5050'
-           - image_name: "'mesosphere/mesos-master:0.20.1'"
+              '-p 5050:5050'}
+           - image_name: "mesosphere/mesos-master:0.20.1"
            - host
            - username
            - private_key_file
@@ -102,16 +102,16 @@ flow:
     - print_before_mesos_slave:
         do:
           print.print_text:
-              - text: "'Start mesos slave.'"
+              - text: "Start mesos slave."
         navigate:
           SUCCESS: start_mesos_slave
 
     - start_mesos_slave:
        do:
          containers.run_container:
-           - container_name: "'mesos_slave'"
+           - container_name: "mesos_slave"
            - container_params: >
-              '--privileged=true ' +
+              ${'--privileged=true ' +
               '--link zookeeper:zookeeper ' +
               '-e MESOS_LOG_DIR=/var/log/mesos/slave ' +
               '-e MESOS_MASTER=zk://zookeeper:2181/mesos ' +
@@ -123,8 +123,8 @@ flow:
               '-v /lib64/libdevmapper.so.1.02:/lib/libdevmapper.so.1.02:ro ' +
               '-v /lib64/libpthread.so.0:/lib/libpthread.so.0:ro ' +
               '-v /lib64/libsqlite3.so.0:/lib/libsqlite3.so.0:ro ' +
-              '-v /lib64/libudev.so.1:/lib/libudev.so.1:ro '
-           - image_name: "'mesosphere/mesos-slave:0.20.1'"
+              '-v /lib64/libudev.so.1:/lib/libudev.so.1:ro '}
+           - image_name: "mesosphere/mesos-slave:0.20.1"
            - host
            - username
            - private_key_file
@@ -136,22 +136,22 @@ flow:
     - print_before_marathon:
         do:
           print.print_text:
-              - text: "'Start Marathon.'"
+              - text: "Start Marathon."
         navigate:
           SUCCESS: start_marathon
 
     - start_marathon:
        do:
          containers.run_container:
-           - container_name: "'marathon '"
+           - container_name: "marathon "
            - container_params: >
-              '--link zookeeper:zookeeper ' +
+              ${'--link zookeeper:zookeeper ' +
               '--link mesos_master:mesos_master ' +
-              '-p ' + marathon_port + ':8080'
+              '-p ' + marathon_port + ':8080'}
            - container_command: >
-              '--master mesos_master:5050 ' +
-              '--zk zk://zookeeper:2181/marathon'
-           - image_name: "'mesosphere/marathon:v0.7.6'"
+              ${'--master mesos_master:5050 ' +
+              '--zk zk://zookeeper:2181/marathon'}
+           - image_name: "mesosphere/marathon:v0.7.6"
            - host
            - username
            - private_key_file

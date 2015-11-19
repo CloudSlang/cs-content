@@ -6,16 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testOpenStackGetFlavorDetailsLocal:
+testOpenStackListFlavorsWithDetailsLocal:
   testSuites: [openstack-local]
-  description: "Test that it successfully retrieves details for a specified OpenStack flavor."
-  testFlowPath: io.cloudslang.openstack.flavor.test_get_flavor_details
+  description: "Test that it successfully retrieves the detailed list with flavors avaliable for a specified tenant in OpenStack."
+  testFlowPath: io.cloudslang.openstack.flavors.test_list_flavors_with_details
   inputs:
     - host: <host>
     - identity_port: <identity_port>
     - compute_port: <compute_port>
     - tenant_name: <tenant_name>
-    - flavor_id: <flavor_id>
     - username: <username>
     - password: <password>
     - proxy_host: <proxy_host>

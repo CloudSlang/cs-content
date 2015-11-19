@@ -14,14 +14,14 @@
 # Outputs:
 #   - flavor_id - id of the specified flavor
 #   - return_result - was parsing was successful or not
-#   - return_code - "'0'" if parsing was successful, "'-1'" otherwise
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - error_message - error message
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 operation:
   name: get_flavor_id
@@ -48,7 +48,7 @@ operation:
     - flavor_id
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

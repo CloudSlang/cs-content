@@ -16,15 +16,15 @@ flow:
     - create_file:
         do:
           write_to_file:
-            - file_path: delete_source
-            - text: "'hello'"
+            - file_path: ${delete_source}
+            - text: "hello"
         navigate:
           SUCCESS: test_delete_operation
           FAILURE: WRITEFAILURE
     - test_delete_operation:
         do:
           delete:
-            - source: delete_source
+            - source: ${delete_source}
         publish:
           - message
         navigate:

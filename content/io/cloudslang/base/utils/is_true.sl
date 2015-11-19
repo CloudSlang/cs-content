@@ -25,5 +25,5 @@ operation:
     python_script: |
       pass
   results:
-    - SUCCESS: bool_value == True
+    - SUCCESS: ${ bool_value == True }
     - FAILURE

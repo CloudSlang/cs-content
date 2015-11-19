@@ -28,10 +28,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_image
          FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -43,7 +43,7 @@ flow:
             - port
             - username
             - password
-            - image_name: container_name
+            - image_name: ${container_name}
         navigate:
           SUCCESS: run_container
           FAILURE: FAIL_PULL_IMAGE
@@ -56,7 +56,7 @@ flow:
             - username
             - password
             - container_name
-            - image_name: container_name
+            - image_name: ${container_name}
         navigate:
           SUCCESS: get_used_images
           FAILURE: FAIL_RUN_IMAGE
@@ -79,7 +79,7 @@ flow:
             - port
             - username
             - password
-            - container_id: container_name
+            - container_id: ${container_name}
         navigate:
           SUCCESS: verify
           FAILURE: DELETE_CONTAINER_FAILURE
@@ -93,12 +93,12 @@ flow:
             - password
             - all_containers: true
         publish:
-          - all_containers: container_list
+          - all_containers: ${container_list}
     - compare:
         do:
           strings.string_equals:
-            - first_string: all_containers
-            - second_string: "''"
+            - first_string: ${all_containers}
+            - second_string: ''
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_FAILURE
@@ -106,10 +106,10 @@ flow:
     - clear_docker_host:
         do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

@@ -9,7 +9,7 @@
 test_openstack_keypairs_success:
   testSuites: [openstack-local]
   description: Tests that OpenStack keypairs can be created, retrieved and deleted
-  testFlowPath: io.cloudslang.openstack.keypair.test_openstack_keypairs
+  testFlowPath: io.cloudslang.openstack.keypairs.test_keypairs
   inputs:
     - host: # openstack server host
     - username: # openstack username

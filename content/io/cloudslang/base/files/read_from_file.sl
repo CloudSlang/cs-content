@@ -42,5 +42,5 @@ operation:
     - read_text
     - error_message
   results:
-    - SUCCESS: res
+    - SUCCESS: ${res}
     - FAILURE

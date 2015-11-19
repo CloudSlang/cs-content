@@ -39,7 +39,7 @@ flow:
     - password:
         required: false
     - timeout:
-        default: "'now'"
+        default: 'now'
     - sudo_user:
         default: false
         required: false
@@ -52,21 +52,21 @@ flow:
           ssh_command.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + ' shutdown -r ' + timeout"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - command: ${ sudo_command + ' shutdown -r ' + timeout }
             - username
             - password
             - privateKeyFile
         publish: 
           - standard_err
           - standard_out
-          - return_result: returnResult
+          - return_result: ${ returnResult }
 
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'shutdown'"
+            - string_in_which_to_search: ${ standard_err }
+            - string_to_find: 'shutdown'
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS

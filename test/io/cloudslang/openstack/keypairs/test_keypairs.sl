@@ -7,13 +7,13 @@
 #
 ####################################################
 
-namespace: io.cloudslang.openstack.keypair
+namespace: io.cloudslang.openstack.keypairs
 
 imports:
   openstack_content: io.cloudslang.openstack
 
 flow:
-  name: test_openstack_keypairs
+  name: test_keypairs
   inputs:
     - host
     - identity_port: "'5000'"
@@ -28,7 +28,7 @@ flow:
   workflow:
     - create_openstack_keypair:
         do:
-          create_openstack_keypair_flow:
+          create_keypair:
             - host
             - identity_port
             - compute_port
@@ -47,11 +47,11 @@ flow:
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          CREATE_KEY_PAIR_FAILURE: CREATE_KEY_PAIR_FAILURE
+          CREATE_KEYPAIR_FAILURE: CREATE_KEYPAIR_FAILURE
 
     - list_keypairs:
         do:
-          get_openstack_keypairs_flow:
+          get_keypairs:
             - host
             - username
             - password
@@ -65,12 +65,12 @@ flow:
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_KEY_PAIRS_FAILURE: GET_KEY_PAIRS_FAILURE
+          GET_KEYPAIRS_FAILURE: GET_KEYPAIRS_FAILURE
           EXTRACT_KEYPAIRS_FAILURE: EXTRACT_KEYPAIRS_FAILURE
 
     - delete_keypair:
         do:
-          delete_openstack_keypair_flow:
+          delete_keypair:
             - host
             - username
             - password
@@ -83,7 +83,7 @@ flow:
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          DELETE_KEY_PAIR_FAILURE: DELETE_KEY_PAIR_FAILURE
+          DELETE_KEYPAIR_FAILURE: DELETE_KEYPAIR_FAILURE
 
   outputs:
     - keypair_list
@@ -92,7 +92,7 @@ flow:
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - CREATE_KEY_PAIR_FAILURE
-    - GET_KEY_PAIRS_FAILURE
+    - CREATE_KEYPAIR_FAILURE
+    - GET_KEYPAIRS_FAILURE
     - EXTRACT_KEYPAIRS_FAILURE
-    - DELETE_KEY_PAIR_FAILURE
+    - DELETE_KEYPAIR_FAILURE

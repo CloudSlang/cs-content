@@ -6,53 +6,53 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the id of a specified flavor within an OpenStack project.
+# Creates an OpenStack volume.
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
-#   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - blockstorage_port - optional - port used for creating volumes on OpenStack - Default: '8776'
+#   - tenant_name - name of the OpenStack project where the new volume will be create on
+#   - volume_name - volume name
+#   - size - size of the volume to be created
 #   - username - optional - username used for URL authentication; for NTLM authentication,
 #                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
-#   - tenant_name - name of the OpenStack project that contains the images to be queried for id
-#   - flavor_name - name of the flavor to queried for id
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
-#   - flavor_id - id of the flavor
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not "'200'"
-#   - return_code - "0" if success, "-1" otherwise
+#   - error_message - return_result if status_code is not '202'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - the list with flavors were successfully retrieved
+#   - SUCCESS - the volume was successfully created
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
 #   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
 #                                        from authentication call response
 #   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
 #                             from authentication call response
-#   - LIST_IMAGES_FAILURE - the list with flavors could not be retrieved
+#   - CREATE_VOLUME_FAILURE - the volume could not be created
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
   openstack: io.cloudslang.openstack
   rest: io.cloudslang.base.network.rest
+  json: io.cloudslang.base.json
 
 flow:
-  name: get_flavor_id_flow
+  name: create_volume
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - blockstorage_port: '8776'
     - tenant_name
-    - flavor_name
-    - username
-    - password
+    - volume_name
+    - size
     - username:
         required: false
     - password:
@@ -60,7 +60,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -68,12 +68,11 @@ flow:
         required: false
 
   workflow:
-    - list_flavors:
+    - authentication:
         do:
-          list_flavors:
+          openstack.get_authentication_flow:
             - host
             - identity_port
-            - compute_port
             - tenant_name
             - username
             - password
@@ -82,44 +81,58 @@ flow:
             - proxy_username
             - proxy_password
         publish:
+          - token
+          - tenant_id
+          - return_result
+          - error_message
+        navigate:
+          SUCCESS: create_volume
+          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+
+    - create_volume:
+        do:
+          rest.http_client_post:
+            - url: ${'http://' + host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
+            - body: ${'{"volume":{"name":"' + volume_name + '","size":"' + size + '"}}'}
+        publish:
           - return_result
           - error_message
           - return_code
           - status_code
-          - flavor_list
         navigate:
-          SUCCESS: get_flavor_id
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
-          EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
+          SUCCESS: get_volume_id
+          FAILURE: CREATE_VOLUME_FAILURE
 
-    - get_flavor_id:
+    - get_volume_id:
         do:
-          get_flavor_id:
-            - flavor_body: return_result
-            - flavor_name: flavor_name
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ['volume', 'id']
         publish:
-          - flavor_id
-          - return_result
-          - error_message
+          - volume_id: ${value}
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: EXTRACT_FLAVOR_ID_FAILURE
+          FAILURE: GET_VOLUME_ID_FAILURE
 
   outputs:
-    - flavor_id
     - return_result
     - error_message
     - return_code
     - status_code
+    - volume_id
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
     - GET_AUTHENTICATION_FAILURE
-    - LIST_FLAVORS_FAILURE
-    - EXTRACT_FLAVORS_FAILURE
-    - EXTRACT_FLAVOR_ID_FAILURE
+    - CREATE_VOLUME_FAILURE
+    - GET_VOLUME_ID_FAILURE

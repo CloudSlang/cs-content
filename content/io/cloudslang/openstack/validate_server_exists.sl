@@ -10,8 +10,8 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - server_name - server name to check
@@ -39,8 +39,8 @@ flow:
   name: validate_server_exists
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - username
     - password
     - tenant_name
@@ -77,7 +77,7 @@ flow:
     - check_server:
         do:
           openstack_utils.check_server:
-            - server_to_find: server_name
+            - server_to_find: ${server_name}
             - server_list
         publish:
           - return_result
