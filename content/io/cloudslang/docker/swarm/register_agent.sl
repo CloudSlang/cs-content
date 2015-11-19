@@ -66,7 +66,7 @@ flow:
     - run_agent_container:
         do:
           containers.run_container:
-            - container_command: "${'join --addr=' + node_ip + ':2375' + ' token://' + cluster_id}"
+            - container_command: ${'join --addr=' + node_ip + ':2375' + ' token://' + cluster_id}
             - image_name: ${swarm_image}
             - host
             - port
