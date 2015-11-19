@@ -7,18 +7,18 @@
 #
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.flavors
 
 imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_list_flavors_with_details
+  name: test_list_flavors
 
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - username:
         required: false
@@ -27,7 +27,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -35,9 +35,9 @@ flow:
         required: false
 
   workflow:
-    - list_flavors_with_details:
+    - list_flavors:
         do:
-          list_flavors_with_details:
+          list_flavors:
             - host
             - identity_port
             - compute_port
@@ -54,20 +54,21 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_list_flavors_with_details_result
+          SUCCESS: check_list_flavors_result
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          LIST_FLAVORS_WITH_DETAILS_FAILURE: LIST_FLAVORS_WITH_DETAILS_FAILURE
+          LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
+          EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
 
-    - check_list_flavors_with_details_result:
+    - check_list_flavors_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ${["''", 0, 200]}
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_LIST_FLAVORS_WITH_DETAILS_FAILURE
+          FAILURE: CHECK_LIST_FLAVORS_FAILURE
 
   outputs:
     - return_result
@@ -80,5 +81,6 @@ flow:
     - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - LIST_FLAVORS_WITH_DETAILS_FAILURE
-    - CHECK_LIST_FLAVORS_WITH_DETAILS_FAILURE
+    - LIST_FLAVORS_FAILURE
+    - EXTRACT_FLAVORS_FAILURE
+    - CHECK_LIST_FLAVORS_FAILURE

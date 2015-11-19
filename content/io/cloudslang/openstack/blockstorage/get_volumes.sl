@@ -6,49 +6,47 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of OpenStack flavors.
+# Retrieves a list of OpenStack volumes.
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: "'5000'"
-#   - compute_port - optional - port used for OpenStack computations - Default: "'8774'"
-#   - tenant_name - name of the OpenStack project that contains the flavors to be retrieved
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - blockstorage_port - optional - port used for retrieving volumes on OpenStack - Default: '8776'
+#   - tenant_name - name of the OpenStack project where the volumes to be retrieved are
 #   - username - optional - username used for URL authentication; for NTLM authentication,
 #                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not "'200'"
-#   - return_code - "0" if success, "-1" otherwise
+#   - error_message - return_result if status_code is not '202'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - the list with flavors were successfully retrieved
+#   - SUCCESS - the OpenStack volumes list was successfully retrieved
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
-#                                        from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
-#                             from authentication call response
-#   - LIST_FLAVORS_FAILURE - the REST API call to get the list of flavors failed
-#   - EXTRACT_FLAVORS_FAILURE - the list with flavors could not be retrieved from list flavors REST API call
+#   - GET_VOLUMES_FAILURE - the call for list OpenStack volumes fails
+#   - EXTRACT_VOLUMES_FAILURE - the list of OpenStack volumes could not be retrieved
 ####################################################
 
-namespace: io.cloudslang.openstack.flavor
+namespace: io.cloudslang.openstack.blockstorage
 
 imports:
   openstack: io.cloudslang.openstack
-  rest: io.cloudslang.base.network.rest
   utils: io.cloudslang.openstack.utils
+  rest: io.cloudslang.base.network.rest
 
 flow:
-  name: list_flavors
+  name: get_volumes
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - blockstorage_port: '8776'
     - tenant_name
     - username:
         required: false
@@ -57,7 +55,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -83,53 +81,53 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: list_flavors
+          SUCCESS: get_volumes
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - list_flavors:
+    - get_volumes:
         do:
           rest.http_client_get:
-            - url: "'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/flavors'"
+            - url: ${'http://'+ host + ':' + blockstorage_port + '/v2/' + tenant_id + '/volumes'}
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "'X-AUTH-TOKEN:' + token"
-            - content_type: "'application/json'"
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
         navigate:
-          SUCCESS: extract_flavors
-          FAILURE: LIST_FLAVORS_FAILURE
+          SUCCESS: extract_volumes
+          FAILURE: GET_VOLUMES_FAILURE
 
-    - extract_flavors:
+    - extract_volumes:
         do:
           utils.extract_object_list_from_json_response:
-            - response_body: return_result
-            - object_name: "'flavors'"
+            - response_body: ${return_result}
+            - object_name: 'volumes'
         publish:
-          - flavors_list: object_list
+          - volume_list: ${object_list}
           - error_message
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: EXTRACT_FLAVORS_FAILURE
+          FAILURE: EXTRACT_VOLUMES_FAILURE
 
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
-    - flavors_list
+    - volume_list
 
   results:
     - SUCCESS
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
     - GET_AUTHENTICATION_FAILURE
-    - LIST_FLAVORS_FAILURE
-    - EXTRACT_FLAVORS_FAILURE
+    - GET_VOLUMES_FAILURE
+    - EXTRACT_VOLUMES_FAILURE

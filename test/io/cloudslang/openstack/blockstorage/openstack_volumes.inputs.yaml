@@ -9,7 +9,7 @@
 test_openstack_volumes_success:
   testSuites: [openstack-local]
   description: Tests that OpenStack volumes can be created, retrieved and deleted
-  testFlowPath: io.cloudslang.openstack.blockstorage.test_openstack_volumes
+  testFlowPath: io.cloudslang.openstack.blockstorage.test_volumes
   inputs:
     - host: # openstack server host
     - username: # openstack username

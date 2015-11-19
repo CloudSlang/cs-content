@@ -6,16 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Restart the specified server. Equivalent to power cycling the server.
+# Retrieves a list of OpenStack flavors.
 #
 # Inputs:
-#   - host - OpenStack host
+#   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of the OpenStack project that contains the server (instance) to be restarted
-#   - server_id - the id of the server (instance) to be restarted
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
-#                           'domain\user'
+#   - tenant_name - name of the OpenStack project that contains the flavors to be retrieved
+#   - username - optional - username used for URL authentication; for NTLM authentication,
+#                           the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - the proxy server used to access the OpenStack services
 #   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
@@ -23,32 +22,34 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message: return_result if statusCode is not '202'
+#   - error_message - return_result if status_code is not '200'
 #   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
-#   - SUCCESS - OpenStack server (instance) was restarted
+#   - SUCCESS - the list with flavors were successfully retrieved
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication
-#                             call response
-#   - HARD_REBOOT_SERVER_FAILURE - OpenStack server (instance) cannot be restarted
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#                                        from authentication call response
+#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#                             from authentication call response
+#   - LIST_FLAVORS_FAILURE - the REST API call to get the list of flavors failed
+#   - EXTRACT_FLAVORS_FAILURE - the list with flavors could not be retrieved from list flavors REST API call
 ####################################################
 
-namespace: io.cloudslang.openstack.serveractions
+namespace: io.cloudslang.openstack.flavors
 
 imports:
-  rest: io.cloudslang.base.network.rest
   openstack: io.cloudslang.openstack
+  rest: io.cloudslang.base.network.rest
+  utils: io.cloudslang.openstack.utils
 
 flow:
-  name: hardreboot_openstack_server
+  name: list_flavors
   inputs:
     - host
     - identity_port: '5000'
     - compute_port: '8774'
     - tenant_name
-    - server_id
     - username:
         required: false
     - password:
@@ -69,53 +70,66 @@ flow:
           openstack.get_authentication_flow:
             - host
             - identity_port
+            - tenant_name
             - username
             - password
-            - tenant_name
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
         publish:
-          - return_result
-          - error_message
           - token
           - tenant_id
+          - return_result
+          - error_message
         navigate:
-          SUCCESS: hard_reboot_server
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          SUCCESS: list_flavors
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
-    - hard_reboot_server:
+    - list_flavors:
         do:
-          rest.http_client_post:
-             - url: ${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers/'+ server_id + '/action'}
-             - proxy_host
-             - proxy_port
-             - proxy_username
-             - proxy_password
-             - headers: ${'X-AUTH-TOKEN:' + token}
-             - body: '{"reboot":{"type":"HARD"}}'
-             - content_type: 'application/json'
+          rest.http_client_get:
+            - url: ${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/flavors'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers: ${'X-AUTH-TOKEN:' + token}
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
         navigate:
+          SUCCESS: extract_flavors
+          FAILURE: LIST_FLAVORS_FAILURE
+
+    - extract_flavors:
+        do:
+          utils.extract_object_list_from_json_response:
+            - response_body: ${return_result}
+            - object_name: 'flavors'
+        publish:
+          - flavors_list: ${object_list}
+          - error_message
+        navigate:
           SUCCESS: SUCCESS
-          FAILURE: HARD_REBOOT_SERVER_FAILURE
+          FAILURE: EXTRACT_FLAVORS_FAILURE
 
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - flavors_list
 
   results:
     - SUCCESS
-    - GET_AUTHENTICATION_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
-    - HARD_REBOOT_SERVER_FAILURE
+    - GET_AUTHENTICATION_FAILURE
+    - LIST_FLAVORS_FAILURE
+    - EXTRACT_FLAVORS_FAILURE
