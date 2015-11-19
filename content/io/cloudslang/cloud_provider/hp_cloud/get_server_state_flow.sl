@@ -73,7 +73,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'server'", "'status'"]
+            - json_path: ["server", "status"]
         publish:
           - server_status: ${value}
         navigate:
