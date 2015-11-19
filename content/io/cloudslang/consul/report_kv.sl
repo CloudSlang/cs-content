@@ -48,7 +48,7 @@ flow:
     - parse_key:
         do:
           parse_key:
-            - json_response: returnResult
+            - json_response: ${returnResult}
         publish:
           - decoded
           - key
