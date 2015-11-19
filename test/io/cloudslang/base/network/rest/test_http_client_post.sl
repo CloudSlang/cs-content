@@ -27,7 +27,7 @@ flow:
         default: "POST"
         overridable: false
     - body:
-        default: "{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}"
+        default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
         overridable: false
     - proxy_host:
         required: false

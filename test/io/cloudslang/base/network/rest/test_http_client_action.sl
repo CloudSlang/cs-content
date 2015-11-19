@@ -244,7 +244,7 @@ flow:
     - get_message:
         do:
           json.get_value:
-            - json_input: return_result
+            - json_input: ${return_result}
             - json_path: ["message"]
         publish:
           - value
