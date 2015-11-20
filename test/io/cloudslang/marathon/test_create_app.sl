@@ -53,7 +53,7 @@ flow:
     - parse_initial_response:
          do:
            parse_get_app_list:
-             - operation_response: return_result
+             - operation_response: ${return_result}
          publish:
            - app_list
          navigate:
@@ -63,7 +63,7 @@ flow:
     - check_if_list_is_empty:
          do:
             base_strings.string_equals:
-              - first_string: app_list
+              - first_string: ${app_list}
               - second_string: ''
          navigate:
            SUCCESS: create_marathon_app
@@ -120,8 +120,8 @@ flow:
     - check_app_was_created:
         do:
           base_strings.string_occurrence_counter:
-            - string_in_which_to_search: app_list
-            - string_to_find: created_app_id
+            - string_in_which_to_search: ${app_list}
+            - string_to_find: ${created_app_id}
         publish:
           - return_result
         navigate:
@@ -134,7 +134,7 @@ flow:
             - marathon_host
             - marathon_port
         publish:
-          - tasks_list: return_result
+          - tasks_list: ${return_result}
         navigate:
           SUCCESS: check_task_was_created
           FAILURE: TASKS_NOT_RETRIEVED
@@ -142,8 +142,8 @@ flow:
     - check_task_was_created:
         do:
           base_strings.string_occurrence_counter:
-            - string_in_which_to_search: tasks_list
-            - string_to_find: created_app_id
+            - string_in_which_to_search: ${tasks_list}
+            - string_to_find: ${created_app_id}
         navigate:
           SUCCESS: delete_marathon_app
           FAILURE: TASK_NOT_CREATED
@@ -153,7 +153,7 @@ flow:
           delete_app:
              - marathon_host
              - marathon_port
-             - app_id: created_app_id
+             - app_id: ${created_app_id}
         navigate:
           SUCCESS: list_marathon_apps_again
           FAILURE: FAIL_TO_DELETE
@@ -172,7 +172,7 @@ flow:
     - parse_second_response:
          do:
            parse_get_app_list:
-             - operation_response: return_result
+             - operation_response: ${return_result}
          publish:
            - app_list
          navigate:
@@ -182,7 +182,7 @@ flow:
     - verify_there_are_no_servers:
          do:
             base_strings.string_equals:
-              - first_string: app_list
+              - first_string: ${app_list}
               - second_string: ''
          navigate:
            SUCCESS: SUCCESS

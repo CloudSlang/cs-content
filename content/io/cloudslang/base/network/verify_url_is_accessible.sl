@@ -34,7 +34,7 @@ flow:
         default: 1
         required: false
     - content_type:
-        default: "'application/json'"
+        default: "application/json"
   workflow:
 
     - http_get:
@@ -42,7 +42,7 @@ flow:
           rest.http_client_get:
             - url
             - content_type
-            - connect_timeout: "'20'"
+            - connect_timeout: "20"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: check_if_timed_out
@@ -50,7 +50,7 @@ flow:
     - check_if_timed_out:
          do:
             math.comparisons.compare_numbers:
-              - value1: attempts
+              - value1: ${attempts}
               - value2: 0
          navigate:
            GREATER_THAN: wait
@@ -60,11 +60,11 @@ flow:
     - wait:
         do:
           utils.sleep:
-              - seconds: time_to_sleep
+              - seconds: ${time_to_sleep}
         publish:
-          - attempts: self['attempts'] - 1
+          - attempts: ${self['attempts'] - 1}
         navigate:
           SUCCESS: http_get
 
   outputs:
-    - output_message: "'Url is not accessible'"
+    - output_message: "Url is not accessible"

@@ -44,7 +44,7 @@ flow:
            create_app:
              - marathon_host
              - marathon_port
-             - json_file: json_file_for_creation
+             - json_file: ${json_file_for_creation}
          navigate:
            SUCCESS: wait_for_app_to_deploy
            FAILURE: FAIL_TO_CREATE
@@ -59,8 +59,8 @@ flow:
           update_app:
             - marathon_host
             - marathon_port
-            - json_file: json_file_for_update
-            - app_id: created_app_id
+            - json_file: ${json_file_for_update}
+            - app_id: ${created_app_id}
         navigate:
           SUCCESS: delete_marathon_app
           FAILURE: FAIL_TO_UPDATE
@@ -70,7 +70,7 @@ flow:
           delete_app:
              - marathon_host
              - marathon_port
-             - app_id: created_app_id
+             - app_id: ${created_app_id}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_DELETE
