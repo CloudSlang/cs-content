@@ -48,7 +48,8 @@ flow:
     - privateKeyFile:
         required: false
     - command:
-        default: ${ df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}' }
+        default: >
+          ${ df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}' }
         overridable: false
     - arguments:
         required: false
