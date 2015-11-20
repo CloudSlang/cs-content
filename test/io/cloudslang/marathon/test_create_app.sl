@@ -110,7 +110,7 @@ flow:
     - parse_response:
          do:
            parse_get_app_list:
-             - operation_response: return_result
+             - operation_response: ${return_result}
          publish:
            - app_list
          navigate:
