@@ -62,16 +62,16 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'access'", "'token'", "'id'"]
+            - json_path: ["access", "token", "id"]
         publish:
-          - token: value
+          - token: ${value}
           - error_message
 
     - get_tenant_id:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'access'", "'token'", "'tenant'", "'id'"]
+            - json_path: ["access", "token", "tenant", "id"]
         publish:
           - tenant_id: ${value}
           - error_message

@@ -73,7 +73,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["'floatingip'", "'floating_ip_address'"]
+            - json_path: ["floatingip", "floating_ip_address"]
         publish:
           - ip_address: ${value}
 
