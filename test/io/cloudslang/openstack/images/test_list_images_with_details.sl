@@ -64,7 +64,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ${["''", 0, 200]}
+            - list_2: ['', 0, 200]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_LIST_IMAGE_WITH_DETAILS_FAILURE
