@@ -49,7 +49,7 @@ flow:
         required: false
     - command:
         default: >
-          ${ df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}' }
+          ${"df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"}
         overridable: false
     - arguments:
         required: false
