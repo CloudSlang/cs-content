@@ -48,7 +48,7 @@ flow:
     - read_from_file:
         do:
           files.read_from_file:
-            - file_path: json_file
+            - file_path: ${json_file}
         publish:
           - read_text
 
@@ -58,7 +58,7 @@ flow:
             - marathon_host
             - marathon_port
             - app_id
-            - body: read_text
+            - body: ${read_text}
             - proxy_host
             - proxy_port
         publish:
