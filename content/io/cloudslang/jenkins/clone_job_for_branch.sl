@@ -47,8 +47,8 @@ flow:
         do:
           check_job_exists:
             - url
-            - job_name: jnks_new_job_name
-            - expected_status: delete_job_if_existing
+            - job_name: ${ jnks_new_job_name }
+            - expected_status: ${ delete_job_if_existing }
         navigate:
           EXISTS_EXPECTED: delete_job
           EXISTS_UNEXPECTED: fail_with_job_existing
@@ -59,14 +59,14 @@ flow:
         do:
           delete_job:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
 
     - copy_job:
         do:
           copy_job:
             - url
-            - job_name: jnks_job_name
-            - new_job_name: jnks_new_job_name
+            - job_name: ${ jnks_job_name }
+            - new_job_name: ${ jnks_new_job_name }
         publish:
           - result_message
 
@@ -74,7 +74,7 @@ flow:
         do:
           modify_scm_url:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
             - new_scm_url
         publish:
           - result_message
@@ -83,7 +83,7 @@ flow:
         do:
           fix_job:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
         publish:
           - result_message
         navigate:
@@ -93,12 +93,12 @@ flow:
     - fail_with_job_existing:
         do:
           base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - from: email_sender
-            - to: email_recipient
-            - subject: "'Flow failure'"
-            - body: "'Job ' + jnks_new_job_name + ' is already existing.'"
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "Flow failure"
+            - body: ${ 'Job ' + jnks_new_job_name + ' is already existing.' }
         navigate:
           SUCCESS: FAILURE
           FAILURE: FAILURE
@@ -107,12 +107,12 @@ flow:
         - send_error_mail:
             do:
               base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'Flow failure'"
-                - body: "'Operation failed: ' + result_message"
+                - hostname: ${ email_host }
+                - port: ${ email_port }
+                - from: ${ email_sender }
+                - to: ${ email_recipient }
+                - subject: "Flow failure"
+                - body: "${ 'Operation failed: ' + result_message }"
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE

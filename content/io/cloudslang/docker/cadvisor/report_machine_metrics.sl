@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
+#   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
 # Outputs:
 #   - decoded - parsed response
 #   - num_cores - machine number of cores
@@ -18,8 +18,8 @@
 #   - memory_capacity - machine memory
 #   - file_systems - parsed cAdvisor machine filesystems
 #   - disk_map - parsed cAdvisor machine disk map
-#   - network_devices- parsed cAdvisor machine network devices
-#   - topology- parsed cAdvisor machine topology
+#   - network_devices - parsed cAdvisor machine network devices
+#   - topology - parsed cAdvisor machine topology
 #   - errorMessage - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
@@ -33,7 +33,7 @@ flow:
   inputs:
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
   workflow:
     - retrieve_machine_metrics:
@@ -42,13 +42,13 @@ flow:
               - host
               - cadvisor_port
         publish:
-          - response_body: returnResult
+          - response_body: ${returnResult}
           - returnCode
           - errorMessage
     - parse_machine_metrics:
         do:
           parse_machine:
-            - json_response: response_body
+            - json_response: ${response_body}
         publish:
           - decoded
           - num_cores

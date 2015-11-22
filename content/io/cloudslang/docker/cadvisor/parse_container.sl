@@ -20,13 +20,14 @@
 #   - memory - parsed cAdvisor memory
 #   - network - parsed cAdvisor network
 #   - cpu_usage - calculated CPU usage of the container
-#   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
+#   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container
+#                    memory limit and machine memory limit used to calculate
 #   - throughput_rx - calculated network Throughput Rx bytes
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
 #   - returnResult - notification string; was parsing was successful or not
-#   - returnCode - 0 if parsing was successful, -1 otherwise
+#   - returnCode - '0' if parsing was successful, '-1' otherwise
 #   - errorMessage - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
@@ -100,7 +101,7 @@ operation:
     - error_tx
     - returnCode
     - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

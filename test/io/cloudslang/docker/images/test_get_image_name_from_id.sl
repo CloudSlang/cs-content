@@ -46,10 +46,10 @@ flow:
     - clear_docker_host_prereqeust:
         do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${ host }
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${ username }
+           - docker_password: ${ password }
         navigate:
          SUCCESS: hello_world_image_download
          FAILURE: MACHINE_IS_NOT_CLEAN
@@ -61,7 +61,7 @@ flow:
             - port
             - username
             - password
-            - image_name: "'raskin/hello-world'"
+            - image_name: "raskin/hello-world"
         navigate:
           SUCCESS: get_image_name_from_id
           FAILURE: DOWNLOADFAIL
@@ -75,7 +75,7 @@ flow:
             - password
             - image_id
         publish:
-            - image_name : image_name
+            - image_name : ${ image_name }
         navigate:
           SUCCESS: verify_output
           FAILURE: FAILURE
@@ -83,8 +83,8 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: "'raskin/hello-world:latest '"
-            - second_string: image_name
+            - first_string: "raskin/hello-world:latest "
+            - second_string: ${ image_name }
         navigate:
           SUCCESS: delete_downloaded_image
           FAILURE: VEFIFYFAILURE
@@ -96,7 +96,7 @@ flow:
             - port
             - username
             - password
-            - images: "'raskin/hello-world'"
+            - images: "raskin/hello-world"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: DELETEFAIL

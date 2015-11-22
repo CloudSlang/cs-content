@@ -33,8 +33,8 @@
 #    - git_repository_localdir - target directory the git repository will be cloned to - Default: /tmp/repo.git
 #    - file_name - the name of the file - if the file doesn't exist then will be created
 #    - text - optional - text to write to the file
-#    - git_add_files - optional - the files that has to be added/staged - Default: "'*'"
-#    - git_commit_files - optional - the files that has to be committed - Default: "'-a'"
+#    - git_add_files - optional - the files that has to be added/staged - Default: "*"
+#    - git_commit_files - optional - the files that has to be committed - Default: "-a"
 #    - git_commit_message - optional - the message for the commit
 #    - git_push_branch - the branch you want to push - Default: master
 #    - git_push_remote - the remote you want to push to - Default: origin
@@ -84,12 +84,12 @@ flow:
     - git_repository:
         required: true
     - git_pull_remote:
-        default: "'origin'"
+        default: "origin"
         required: false
     - git_branch:
         required: true
     - git_repository_localdir:
-        default: "'/tmp/repo.git'"
+        default: "/tmp/repo.git"
         required: true
     - file_name:
         required: true
@@ -102,17 +102,17 @@ flow:
     - git_commit_message:
         required: false
     - git_push_branch:
-        default: "'master'"
+        default: "master"
         required: true
     - git_push_remote:
-        default: "'origin'"
+        default: "origin"
         required: true
     - user:
         required: true
     - root_password:
         required: true
     - second_git_repository_localdir:
-        default: "'/tmp/repo.git'"
+        default: "/tmp/repo.git"
         required: true
     - new_path:
         required: false
@@ -125,6 +125,7 @@ flow:
             - port
             - username
             - password
+            - privateKeyFile: ${private_key_file}
             - git_repository
             - git_repository_localdir
         navigate:
@@ -138,6 +139,7 @@ flow:
             - port
             - username
             - password
+            - privateKeyFile: ${private_key_file}
             - git_pull_remote
             - git_branch
             - git_repository_localdir
@@ -155,7 +157,7 @@ flow:
             - username
             - password
             - private_key_file
-            - command: "'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name"
+            - command: ${ 'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name }
         navigate:
           SUCCESS: add_files_to_stage_area
           FAILURE: WRITE_IO_ERROR
@@ -212,8 +214,8 @@ flow:
           linux.add_user_to_sudoers_list:
             - host
             - port
-            - username: "'root'"
-            - password: root_password
+            - username: "root"
+            - password: ${ root_password }
             - sudo_user: false
             - private_key_file
             - user
@@ -228,8 +230,9 @@ flow:
             - port
             - username
             - password
+            - privateKeyFile: ${private_key_file}
             - git_repository
-            - git_repository_localdir: second_git_repository_localdir
+            - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
           SUCCESS: second_checkout_git_branch
           FAILURE: SECOND_CLONE_FAILURE
@@ -241,9 +244,10 @@ flow:
             - port
             - username
             - password
+            - privateKeyFile: ${private_key_file}
             - git_pull_remote
             - git_branch
-            - git_repository_localdir: second_git_repository_localdir
+            - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
           SUCCESS: compare_files
           FAILURE: SECOND_CHECKOUT_FAILURE
@@ -258,8 +262,8 @@ flow:
             - username
             - password
             - private_key_file
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - command: "sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - command: ${ sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name }
         navigate:
           SUCCESS: check_result
           FAILURE: COMPARE_IO_ERROR
@@ -271,8 +275,8 @@ flow:
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'are identical'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "are identical"
         navigate:
           SUCCESS: git_cleanup_first_repository
           FAILURE: COMPARE_FAILURE
@@ -287,7 +291,7 @@ flow:
             - private_key_file
             - git_repository_localdir
             - change_path: false
-            - new_path: "''"
+            - new_path: ""
         navigate:
           SUCCESS: git_cleanup_second_repository
           FAILURE: FIRST_CLEANUP_FAILURE
@@ -302,9 +306,9 @@ flow:
             - username
             - password
             - private_key_file
-            - git_repository_localdir: second_git_repository_localdir
+            - git_repository_localdir: ${ second_git_repository_localdir }
             - change_path: true
-            - new_path: second_git_repository_localdir
+            - new_path: ${ second_git_repository_localdir }
         publish:
           - standard_out
 

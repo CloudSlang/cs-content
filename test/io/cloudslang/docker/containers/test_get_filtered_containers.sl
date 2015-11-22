@@ -31,31 +31,31 @@ flow:
     - timeout:
         required: false
     - excluded_images:
-        default: "'busybox:latest'"
+        default: 'busybox:latest'
         overridable: false
     - image_name_busybox:
-        default: "'busybox:latest'"
+        default: 'busybox:latest'
         overridable: false
     - container_name_busybox:
-        default: "'busybox'"
+        default: 'busybox'
         overridable: false
     - image_name_staticpython:
-        default: "'elyase/staticpython:latest'"
+        default: 'elyase/staticpython:latest'
         overridable: false
     - container_name_staticpython:
-        default: "'staticpython'"
+        default: 'staticpython'
         overridable: false
     - expected_container_names:
-        default: container_name_staticpython
+        default: ${container_name_staticpython}
         overridable: false
 
   workflow:
     - pre_clear_machine:
         do:
           maintenance.clear_host:
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+            - docker_host: ${host}
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
             - timeout
             - port
@@ -66,10 +66,9 @@ flow:
     - run_container_busybox:
        do:
          run_container:
-            - container_name: container_name_busybox
-            - container_command: >
-                '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
-            - image_name: image_name_busybox
+            - container_name: ${container_name_busybox}
+            - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
+            - image_name: ${image_name_busybox}
             - host
             - port
             - username
@@ -83,8 +82,8 @@ flow:
     - run_container_staticpython:
        do:
          run_container:
-            - container_name: container_name_staticpython
-            - image_name: image_name_staticpython
+            - container_name: ${container_name_staticpython}
+            - image_name: ${image_name_staticpython}
             - host
             - port
             - username
@@ -92,7 +91,7 @@ flow:
             - private_key_file
             - timeout
        publish:
-          - expected_container_ids:  container_id
+          - expected_container_ids: ${container_id}
           - standard_err
        navigate:
          SUCCESS: execute_get_filtered_containers
@@ -117,8 +116,8 @@ flow:
             - private_key_file
             - timeout
        publish:
-         - actual_container_names: container_names
-         - actual_container_ids: container_ids
+         - actual_container_names: ${container_names}
+         - actual_container_ids: ${container_ids}
        navigate:
          SUCCESS: check_container_names
          FAILURE: FAILURE
@@ -126,8 +125,8 @@ flow:
     - check_container_names:
         do:
           strings.string_equals:
-            - first_string: expected_container_names
-            - second_string: actual_container_names
+            - first_string: ${expected_container_names}
+            - second_string: ${actual_container_names}
         navigate:
           SUCCESS: check_container_ids
           FAILURE: CHECK_CONTAINER_NAMES_PROBLEM
@@ -135,8 +134,8 @@ flow:
     - check_container_ids:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: expected_container_ids # e.g. 086a88b556b61cc8e84a923f81ea077462f9e195136f48713d4dc021011b43ec
-            - string_to_find: actual_container_ids # e.g. 086a88b556b6
+            - string_in_which_to_search: ${expected_container_ids} # e.g. 086a88b556b61cc8e84a923f81ea077462f9e195136f48713d4dc021011b43ec
+            - string_to_find: ${actual_container_ids} # e.g. 086a88b556b6
         navigate:
           SUCCESS: post_clear_machine
           FAILURE: CHECK_CONTAINER_IDS_PROBLEM
@@ -144,9 +143,9 @@ flow:
     - post_clear_machine:
         do:
           clear_containers:
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+            - docker_host: ${host}
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
             - timeout
             - port

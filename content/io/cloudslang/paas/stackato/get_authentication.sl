@@ -10,10 +10,11 @@
 #
 # Inputs:
 #   - host - Helion Development Platform / Stackato host
-#   - username - HDP/Stackato username
-#   - password - HDP/Stackato password
+#   - username - Helion Development Platform / Stackato username
+#   - password - Helion Development Platform / Stackato password
 #   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services
+#                           - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
@@ -40,7 +41,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -51,16 +52,16 @@ flow:
     - http_client_action_post:
         do:
           rest.http_client_post:
-            - url: "'https://' + host + '/uaa/oauth/token'"
+            - url: ${'https://' + host + '/uaa/oauth/token'}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "'Authorization: Basic Y2Y6'"
-            - query_params: "'username=' + username + '&password=' + password + '&grant_type=password'"
-            - content_type: "'application/json'"
+            - headers: 'Authorization: Basic Y2Y6'
+            - query_params: ${'username=' + username + '&password=' + password + '&grant_type=password'}
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
@@ -73,10 +74,10 @@ flow:
     - get_authentication_token:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'access_token'"]
+            - json_input: ${return_result}
+            - json_path: ['access_token']
         publish:
-          - token: value
+          - token: ${value}
           - error_message
         navigate:
           SUCCESS: SUCCESS

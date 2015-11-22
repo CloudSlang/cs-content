@@ -44,7 +44,7 @@ flow:
     - clear_db_container:
         do:
           docker_containers.clear_container:
-            - container_id: db_container_id
+            - container_id: ${db_container_id}
             - docker_host
             - port
             - docker_username
@@ -55,7 +55,7 @@ flow:
     - clear_linked_container:
         do:
           docker_containers.clear_container:
-            - container_id: linked_container_id
+            - container_id: ${linked_container_id}
             - docker_host
             - port
             - docker_username

@@ -33,7 +33,7 @@ flow:
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - key_name
   workflow:
@@ -48,7 +48,7 @@ flow:
     - parse_key:
         do:
           parse_key:
-            - json_response: returnResult
+            - json_response: ${returnResult}
         publish:
           - decoded
           - key

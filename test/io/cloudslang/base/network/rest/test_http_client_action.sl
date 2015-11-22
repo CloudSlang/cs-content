@@ -19,7 +19,7 @@ flow:
   inputs:
     - url
     - content_type:
-        default: "'application/json'"
+        default: "application/json"
         overridable: false
     - proxy_host:
         required: false
@@ -33,11 +33,11 @@ flow:
         do:
           http_client_action:
             - url
-            - method: "'POST'"
-            - body: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '\",\"status\":\"available\"}'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - method: "POST"
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
         publish:
           - return_result
           - error_message
@@ -50,8 +50,8 @@ flow:
     - verify_post_create_pet:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
+            - list_2: ["", 0, 200]
         navigate:
           SUCCESS: get_pet_details
           FAILURE: VERIFY_POST_CREATE_PET_FAILURE
@@ -59,11 +59,11 @@ flow:
     - get_pet_details:
         do:
           http_client_action:
-            - url: "url + '/' + resource_id"
-            - method: "'GET'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - url: ${ url + '/' + resource_id }
+            - method: "GET"
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
         publish:
           - return_result
           - error_message
@@ -76,8 +76,8 @@ flow:
     - verify_get_pet_details:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
+            - list_2: ["", 0, 200]
         navigate:
           SUCCESS: get_id
           FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
@@ -85,8 +85,8 @@ flow:
     - get_id:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'id'"]
+            - json_input: ${ return_result }
+            - json_path: ["id"]
         publish:
           - value
         navigate:
@@ -96,8 +96,8 @@ flow:
     - verify_id:
         do:
           strings.string_equals:
-            - first_string: resource_id
-            - second_string: str(value)
+            - first_string: ${ resource_id }
+            - second_string: ${ str(value) }
         navigate:
           SUCCESS: get_name
           FAILURE: VERIFY_ID_FAILURE
@@ -105,8 +105,8 @@ flow:
     - get_name:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'name'"]
+            - json_input: ${ return_result }
+            - json_path: ["name"]
         publish:
           - value
         navigate:
@@ -116,8 +116,8 @@ flow:
     - verify_name:
         do:
           strings.string_equals:
-            - first_string: resource_name
-            - second_string: str(value)
+            - first_string: ${ resource_name }
+            - second_string: ${ str(value) }
         navigate:
           SUCCESS: put_update_pet
           FAILURE: VERIFY_NAME_FAILURE
@@ -126,11 +126,11 @@ flow:
         do:
           http_client_action:
             - url
-            - method: "'PUT'"
-            - body: "'{\"id\":' + resource_id + ',\"name\":\"' + resource_name + '_updated\",\"status\":\"sold\"}'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - method: "PUT"
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
         publish:
           - return_result
           - error_message
@@ -143,8 +143,8 @@ flow:
     - verify_put_update_pet:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
+            - list_2: ["", 0, 200]
         navigate:
           SUCCESS: get_updated_pet_details
           FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE
@@ -152,11 +152,11 @@ flow:
     - get_updated_pet_details:
         do:
           http_client_action:
-            - url: "url + '/' + resource_id"
-            - method: "'GET'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - url: ${ url + '/' + resource_id }
+            - method: "GET"
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
         publish:
           - return_result
           - error_message
@@ -169,8 +169,8 @@ flow:
     - get_updated_name:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'name'"]
+            - json_input: ${ return_result }
+            - json_path: ["name"]
         publish:
           - value
         navigate:
@@ -180,8 +180,8 @@ flow:
     - verify_updated_name:
         do:
           strings.string_equals:
-            - first_string: "resource_name + '_updated'"
-            - second_string: str(value)
+            - first_string: ${ resource_name + '_updated' }
+            - second_string: ${ str(value) }
         navigate:
           SUCCESS: get_updated_status
           FAILURE: VERIFY_UPDATED_NAME_FAILURE
@@ -189,8 +189,8 @@ flow:
     - get_updated_status:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'status'"]
+            - json_input: ${ return_result }
+            - json_path: ["status"]
         publish:
           - value
         navigate:
@@ -200,8 +200,8 @@ flow:
     - verify_updated_status:
         do:
           strings.string_equals:
-            - first_string: "'sold'"
-            - second_string: str(value)
+            - first_string: "sold"
+            - second_string: ${ str(value) }
         navigate:
           SUCCESS: delete_pet
           FAILURE: VERIFY_UPDATED_STATUS_FAILURE
@@ -209,11 +209,11 @@ flow:
     - delete_pet:
         do:
           http_client_action:
-            - url: "url + '/' + resource_id"
-            - method: "'DELETE'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - url: ${ url + '/' + resource_id }
+            - method: "DELETE"
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
         publish:
           - return_result
           - error_message
@@ -226,11 +226,11 @@ flow:
     - get_pet_after_delete:
         do:
           http_client_action:
-            - url: "url + '/' + resource_id"
-            - method: "'GET'"
-            - contentType: content_type
-            - proxyHost: proxy_host
-            - proxyPort: proxy_port
+            - url: ${ url + '/' + resource_id }
+            - method: "GET"
+            - contentType: ${ content_type }
+            - proxyHost: ${ proxy_host }
+            - proxyPort: ${ proxy_port }
             - validHttpStatusCodes: [404]
         publish:
           - return_result
@@ -244,8 +244,8 @@ flow:
     - get_message:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'message'"]
+            - json_input: ${return_result}
+            - json_path: ["message"]
         publish:
           - value
         navigate:
@@ -255,8 +255,8 @@ flow:
     - verify_not_found_message:
         do:
           strings.string_equals:
-            - first_string: "'Pet not found'"
-            - second_string: str(value)
+            - first_string: "Pet not found"
+            - second_string: ${ str(value) }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE

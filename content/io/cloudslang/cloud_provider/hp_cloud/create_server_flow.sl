@@ -78,7 +78,7 @@ flow:
             - proxy_port
         publish:
           - token
-          - tenant: tenant_id
+          - tenant: ${tenant_id}
           - return_result
           - error_message
 
@@ -100,15 +100,15 @@ flow:
     - get_server_id:
         do:
           json.get_value:
-            - json_input: return_result
-            - json_path: ["'server'", "'id'"]
+            - json_input: ${return_result}
+            - json_path: ["server", "id"]
         publish:
-          - server_id: value
+          - server_id: ${value}
 
     - print_new_server_id:
         do:
           print.print_text:
-            - text: "'### New server created: '+server_id"
+            - text: "${'### New server created: '+server_id}"
 
     - poll_server_until_active:
         loop:
@@ -116,7 +116,7 @@ flow:
           do:
             get_server_state_flow:
               - server_id
-              - delay: polling_wait_time
+              - delay: ${polling_wait_time}
               - token
               - tenant
               - region
@@ -133,7 +133,7 @@ flow:
     - check_assign_floating:
         do:
           base_utils.is_true:
-            - bool_value: assign_floating
+            - bool_value: ${assign_floating}
         navigate:
           SUCCESS: allocate_new_ip
           FAILURE: done
@@ -152,7 +152,7 @@ flow:
     - print_new_ip:
         do:
           print.print_text:
-            - text: "'### Got a floating IP: ' + ip_address"
+            - text: "${'### Got a floating IP: ' + ip_address}"
 
     - assign_ip:
         do:
@@ -170,13 +170,13 @@ flow:
     - done:
         do:
           print.print_text:
-            - text: "'### New server (' + server_name + ') is ready'"
+            - text: ${'### New server (' + server_name + ') is ready'}
 
     - on_failure:
       - create_server_error:
           do:
             print.print_text:
-              - text: "'! Create Server Flow Error: ' + return_result"
+              - text: "${'! Create Server Flow Error: ' + return_result}"
   outputs:
     - return_result
     - ip_address

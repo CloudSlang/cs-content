@@ -58,8 +58,8 @@ flow:
     - validate_image_cleared:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: image_list
-            - string_to_find: image_name
+            - string_in_which_to_search: ${ image_list }
+            - string_to_find: ${ image_name }
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS

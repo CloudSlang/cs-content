@@ -35,7 +35,7 @@ flow:
   inputs:
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - json_file
     - proxy_host:
@@ -47,7 +47,7 @@ flow:
     - read_from_file:
         do:
           files.read_from_file:
-            - file_path: json_file
+            - file_path: ${json_file}
         publish:
           - read_text
 
@@ -56,7 +56,7 @@ flow:
           send_create_app_req:
             - marathon_host
             - marathon_port
-            - body: read_text
+            - body: ${read_text}
             - proxy_host
             - proxy_port
         publish:

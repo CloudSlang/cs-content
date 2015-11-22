@@ -49,7 +49,7 @@ flow:
         system_property: io.cloudslang.base.from
     - to:
         system_property: io.cloudslang.base.to
-    - subject: "'Ping Result'"
+    - subject: "Ping Result"
     - username:
         system_property: io.cloudslang.base.username
         required: false
@@ -65,8 +65,8 @@ flow:
             network.ping:
               - address
         publish:
-          - messagebody: "self['message_body'].append(message)"
-          - all_nodes_are_up: "self['all_nodes_are_up'] and is_up"
+          - messagebody: ${ self['message_body'].append(message) }
+          - all_nodes_are_up: ${ self['all_nodes_are_up'] and is_up }
         navigate:
           UP: check_result
           DOWN: failure_mail_send
@@ -75,10 +75,8 @@ flow:
     - check_result:
         do:
           strings.string_equals:
-            - first_string: >
-                str(all_nodes_are_up)
-            - second_string: >
-                "True"
+            - first_string: ${ str(all_nodes_are_up) }
+            - second_string: "True"
         navigate:
           SUCCESS: mail_send
           FAILURE: failure_mail_send
@@ -91,7 +89,7 @@ flow:
             - from
             - to
             - subject
-            - body: "'Result: ' + ' '.join(message_body)"
+            - body: "${ 'Result: ' + ' '.join(message_body) }"
             - username
             - password
 
@@ -104,6 +102,6 @@ flow:
                 - from
                 - to
                 - subject
-                - body: "'Result: Failure to ping: ' + ' '.join(message_body)"
+                - body: "${ 'Result: Failure to ping: ' + ' '.join(message_body) }"
                 - username
                 - password

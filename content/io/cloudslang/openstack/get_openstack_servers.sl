@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - token - OpenStack token obtained after authentication
 #   - tenant_id - OpenStack tenantID obtained after authentication
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
@@ -30,8 +30,7 @@ operation:
   name: get_openstack_servers
   inputs:
     - host
-    - compute_port:
-        default: "'8774'"
+    - compute_port: '8774'
     - token
     - tenant_id
     - proxy_host:
@@ -39,28 +38,28 @@ operation:
     - proxy_port:
         required: false
     - proxyHost:
-        default: "proxy_host if proxy_host else ''"
+        default: ${proxy_host if proxy_host else ''}
         overridable: false
     - proxyPort:
-        default: "proxy_port if proxy_port else ''"
+        default: ${proxy_port if proxy_port else ''}
         overridable: false
     - headers:
-        default: "'X-AUTH-TOKEN:' + token"
+        default: ${'X-AUTH-TOKEN:' + token}
         overridable: false
     - url:
-        default: "'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/servers'"
+        default: ${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/servers'}
         overridable: false
     - method:
-        default: "'get'"
+        default: 'get'
         overridable: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - status_code: statusCode
-    - error_message: returnResult if statusCode != '202' else ''
+    - return_result: ${returnResult}
+    - status_code: ${statusCode}
+    - error_message: ${returnResult if statusCode != '202' else ''}
   results:
-    - SUCCESS : "'statusCode' in locals() and statusCode == '200'"
+    - SUCCESS : ${'statusCode' in locals() and statusCode == '200'}
     - FAILURE

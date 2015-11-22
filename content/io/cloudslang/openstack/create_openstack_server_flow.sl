@@ -10,8 +10,8 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
 #   - img_ref - image reference for server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
@@ -36,8 +36,8 @@ flow:
   name: create_openstack_server_flow
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - network_id:
         required: false
     - img_ref

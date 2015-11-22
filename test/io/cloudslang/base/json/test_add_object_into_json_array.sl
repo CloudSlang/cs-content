@@ -33,8 +33,8 @@ flow:
     - test_equality:
         do:
           equals:
-            - json_input1: json_output
-            - json_input2: json_after
+            - json_input1: ${ json_output }
+            - json_input2: ${ json_after }
 
         navigate:
           EQUALS: SUCCESS

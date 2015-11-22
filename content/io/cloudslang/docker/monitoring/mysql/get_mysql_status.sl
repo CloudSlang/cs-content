@@ -55,10 +55,10 @@ flow:
     - mysql_username
     - mysql_password
     - exec_cmd:
-        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp status'"
+        default: ${ 'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp status' }
         overridable: false
     - command:
-        default: "'docker exec ' + container + ' ' + exec_cmd"
+        default: ${ 'docker exec ' + container + ' ' + exec_cmd }
         overridable: false
     - character_set:
         required: false
@@ -76,26 +76,26 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - command
-            - characterSet: character_set
+            - characterSet: ${ character_set }
             - pty
             - timeout
-            - closeSession: close_session
+            - closeSession: ${ close_session }
         publish:
           - returnResult
           - return_code
           - standard_err
   outputs:
-    - uptime: "returnResult.replace(':', ' ').split('  ')[1]"
-    - threads: "returnResult.replace(':', ' ').split('  ')[3]"
-    - questions: "returnResult.replace(':', ' ').split('  ')[5]"
-    - slow_queries: "returnResult.replace(':', ' ').split('  ')[7]"
-    - opens: "returnResult.replace(':', ' ').split('  ')[9]"
-    - flush_tables: "returnResult.replace(':', ' ').split('  ')[11]"
-    - open_tables: "returnResult.replace(':', ' ').split('  ')[13]"
-    - queries_per_second_AVG: "returnResult.replace(':', ' ').split('  ')[15]"
-    - error_message: standard_err if return_code == '0' else returnResult
+    - uptime: "${ returnResult.replace(':', ' ').split('  ')[1] }"
+    - threads: "${ returnResult.replace(':', ' ').split('  ')[3] }"
+    - questions: "${ returnResult.replace(':', ' ').split('  ')[5] }"
+    - slow_queries: "${ returnResult.replace(':', ' ').split('  ')[7] }"
+    - opens: "${ returnResult.replace(':', ' ').split('  ')[9] }"
+    - flush_tables: "${ returnResult.replace(':', ' ').split('  ')[11] }"
+    - open_tables: "${ returnResult.replace(':', ' ').split('  ')[13] }"
+    - queries_per_second_AVG: "${ returnResult.replace(':', ' ').split('  ')[15] }"
+    - error_message: ${ standard_err if return_code == '0' else returnResult }
   results:
     - SUCCESS
     - FAILURE

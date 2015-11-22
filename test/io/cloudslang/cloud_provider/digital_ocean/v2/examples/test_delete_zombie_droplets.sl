@@ -53,7 +53,7 @@ flow:
     - create_zombie_stub:
         do:
           droplets.create_droplet:
-            - name: droplet_name
+            - name: ${droplet_name}
             - image
             - ssh_keys
             - token
@@ -71,7 +71,7 @@ flow:
         do:
           droplet_utils.wait_for_status_to_change:
             - droplet_id
-            - status: "'new'"
+            - status: 'new'
             - token
             - timeout: 600
             - proxy_host
@@ -88,7 +88,7 @@ flow:
         do:
           delete_zombie_droplets:
             - time_to_live
-            - name_pattern: droplet_name
+            - name_pattern: ${droplet_name}
             - token
             - proxy_host
             - proxy_port
@@ -102,7 +102,7 @@ flow:
         do:
           droplet_utils.wait_for_status_to_change:
             - droplet_id
-            - status: "'active'"
+            - status: 'active'
             - token
             - timeout: 600
             - proxy_host

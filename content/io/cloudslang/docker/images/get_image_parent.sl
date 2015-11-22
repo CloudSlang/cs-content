@@ -47,20 +47,20 @@ flow:
         do:
           inspect_image:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
             - image_name
             - port
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - timeout
         publish:
-          - image_inspect_json: standard_out
+          - image_inspect_json: ${ standard_out }
 
     - get_parent:
         do:
            docker_utils.parse_inspect_for_parent:
-             - json_response: image_inspect_json
+             - json_response: ${ image_inspect_json }
         publish:
           - parent_image
 
@@ -68,14 +68,14 @@ flow:
         do:
            get_image_name_from_id:
              - docker_options
-             - host: docker_host
-             - username: docker_username
-             - password: docker_password
-             - privateKeyFile: private_key_file
+             - host: ${ docker_host }
+             - username: ${ docker_username }
+             - password: ${ docker_password }
+             - privateKeyFile: ${ private_key_file }
              - port
              - timeout
-             - image_id: parent_image[:10]
+             - image_id: ${ parent_image[:10] }
         publish:
           - image_name
   outputs:
-    - parent_image_name: image_name
+    - parent_image_name: ${ image_name }

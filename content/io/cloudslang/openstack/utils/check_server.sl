@@ -33,13 +33,13 @@ flow:
     - check_server_in_list:
         do:
           base_strings.string_occurrence_counter:
-            - string_to_find: server_to_find
-            - string_in_which_to_search: server_list
-            - ignore_case: "'false'"
+            - string_to_find: ${server_to_find}
+            - string_in_which_to_search: ${server_list}
+            - ignore_case: 'false'
         publish:
           - return_result
 
   outputs:
     - return_result
-    - error_message: "'Server was not created.' if return_result <= 1 else ''"
+    - error_message: ${'Server was not created.' if return_result <= 1 else ''}
 

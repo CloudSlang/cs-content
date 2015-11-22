@@ -42,14 +42,14 @@ flow:
     - username
     - mount:
         required: false
-        default: "'/'"
+        default: "/"
     - password:
         required: false
     - privateKeyFile:
         required: false
     - command:
         default: >
-            "df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"
+          ${"df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"}
         overridable: false
     - arguments:
         required: false
@@ -82,8 +82,8 @@ flow:
           - return_code
           - returnResult
   outputs:
-    - disk_space: "'' if 'standard_out' not in locals() else standard_out.strip()"
-    - error_message: "'' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult"
+    - disk_space: ${ '' if 'standard_out' not in locals() else standard_out.strip() }
+    - error_message: ${ '' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult }
   results:
     - SUCCESS
     - FAILURE

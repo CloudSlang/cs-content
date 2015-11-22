@@ -12,13 +12,13 @@
 #
 # Inputs:
 #   - docker_host - Docker machine host
-#   - docker_ssh_port - optional - SSH port - Default: 22
+#   - docker_ssh_port - optional - SSH port - Default: '22'
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - db_container_name - optional - name of the DB container - Default: mysqldb
-#   - app_container_name - optional - name of the app container - Default: spring-boot-tomcat-mysql-app
-#   - app_port - optional - web server port for the application - Default: 8080
+#   - db_container_name - optional - name of the DB container - Default: 'mysqldb'
+#   - app_container_name - optional - name of the app container - Default: 'spring-boot-tomcat-mysql-app'
+#   - app_port - optional - web server port for the application - Default: '8080'
 #   - email_host - email host
 #   - email_port - email port
 #   - email_sender - email sender
@@ -40,31 +40,31 @@ flow:
   name: demo_dev_ops
   inputs:
     - docker_host
-    - docker_ssh_port: "'22'"
+    - docker_ssh_port: '22'
     - docker_username
     - docker_password:
         required: false
     - private_key_file:
         required: false
-    - db_container_name: "'mysqldb'"
-    - app_container_name: "'spring-boot-tomcat-mysql-app'"
-    - app_port: "'8080'"
+    - db_container_name: 'mysqldb'
+    - app_container_name: 'spring-boot-tomcat-mysql-app'
+    - app_port: '8080'
     - email_host
     - email_port
     - email_sender
     - email_recipient
-    - timeout: "'30000000'"
+    - timeout: '30000000'
   workflow:
 
     - create_db_container:
         do:
           create_db_container:
-            - host: docker_host
-            - port: docker_ssh_port
-            - username: docker_username
-            - password: docker_password
+            - host: ${docker_host}
+            - port: ${docker_ssh_port}
+            - username: ${docker_username}
+            - password: ${docker_password}
             - private_key_file
-            - container_name: db_container_name
+            - container_name: ${db_container_name}
             - timeout
         publish:
           - db_IP
@@ -73,12 +73,12 @@ flow:
     - pull_app_image:
         do:
           docker_images.pull_image:
-            - image_name: "'meirwa/spring-boot-tomcat-mysql-app'"
-            - host: docker_host
-            - port: docker_ssh_port
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - image_name: 'meirwa/spring-boot-tomcat-mysql-app'
+            - host: ${docker_host}
+            - port: ${docker_ssh_port}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - privateKeyFile: ${private_key_file}
             - timeout
         publish:
           - error_message
@@ -86,17 +86,17 @@ flow:
     - start_linked_container:
         do:
           docker_containers.start_linked_container:
-            - dbContainerIp: db_IP
-            - dbContainerName: db_container_name
-            - imageName: "'meirwa/spring-boot-tomcat-mysql-app'"
-            - containerName: app_container_name
-            - linkParams: "dbContainerName + ':mysql'"
-            - cmdParams: "'-e DB_URL=' + dbContainerIp + ' -p ' + app_port + ':8080'"
-            - host: docker_host
-            - port: docker_ssh_port
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - dbContainerIp: ${db_IP}
+            - dbContainerName: ${db_container_name}
+            - imageName: 'meirwa/spring-boot-tomcat-mysql-app'
+            - containerName: ${app_container_name}
+            - linkParams: "${dbContainerName + ':mysql'}"
+            - cmdParams: "${'-e DB_URL=' + dbContainerIp + ' -p ' + app_port + ':8080'}"
+            - host: ${docker_host}
+            - port: ${docker_ssh_port}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - privateKeyFile: ${private_key_file}
             - timeout
         publish:
           - container_id
@@ -105,8 +105,8 @@ flow:
     - test_application:
         do:
           base_network.verify_app_is_up:
-            - host: docker_host
-            - port: app_port
+            - host: ${docker_host}
+            - port: ${app_port}
             - attempts: 20
         publish:
           - error_message: output_message
@@ -115,12 +115,12 @@ flow:
         - send_error_mail:
             do:
               base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'Flow failure'"
-                - body: "'Operation failed with the following error:<br>' + error_message"
+                - hostname: ${email_host}
+                - port: ${email_port}
+                - from: ${email_sender}
+                - to: ${email_recipient}
+                - subject: 'Flow failure'
+                - body: "${'Operation failed with the following error:<br>' + error_message}"
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE

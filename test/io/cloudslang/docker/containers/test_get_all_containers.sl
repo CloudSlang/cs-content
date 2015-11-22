@@ -29,10 +29,10 @@ flow:
     - clear_docker_host_prereqeust:
        do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_first_image
          FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -44,7 +44,7 @@ flow:
             - port
             - username
             - password
-            - image_name: first_image_name
+            - image_name: ${first_image_name}
         navigate:
           SUCCESS: pull_second_image
           FAILURE: FAIL_PULL_IMAGE
@@ -56,7 +56,7 @@ flow:
             - port
             - username
             - password
-            - image_name: second_image_name
+            - image_name: ${second_image_name}
         navigate:
           SUCCESS: run_first_container
           FAILURE: FAIL_PULL_IMAGE
@@ -69,8 +69,8 @@ flow:
             - port
             - username
             - password
-            - container_name: "'first_test_container'"
-            - image_name: first_image_name
+            - container_name: 'first_test_container'
+            - image_name: ${first_image_name}
         publish:
           - standard_err
         navigate:
@@ -84,8 +84,8 @@ flow:
             - port
             - username
             - password
-            - container_name: "'second_test_container'"
-            - image_name: second_image_name
+            - container_name: 'second_test_container'
+            - image_name: ${second_image_name}
         publish:
           - standard_err
         navigate:
@@ -101,13 +101,13 @@ flow:
             - password
             - all_containers: true
         publish:
-          - list: container_list
+          - list: ${container_list}
 
     - verify_list:
         do:
           strings.string_equals:
             - first_string: >
-                len(list.rstrip().split(" "))
+                ${len(list.rstrip().split(" "))}
             - second_string: 2
         navigate:
           SUCCESS: clear_docker_host
@@ -116,10 +116,10 @@ flow:
     - clear_docker_host:
         do:
          clear_containers:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
         navigate:
          SUCCESS: SUCCESS
          FAILURE: MACHINE_IS_NOT_CLEAN

@@ -39,8 +39,8 @@ flow:
   name: build_image
   inputs:
     - docker_image
-    - workdir: "'.'"
-    - dockerfile_name: "'Dockerfile'"
+    - workdir: "."
+    - dockerfile_name: "Dockerfile"
     - host
     - port:
         required: false
@@ -53,18 +53,18 @@ flow:
         required: false
     - pty:
         required: false
-    - timeout: "'3000000'"
+    - timeout: "3000000"
     - close_session:
         required: false
     - agent_forwarding:
         required: false
     - dockerfile_name_expression:
         default: >
-            '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' '
+            ${ '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' ' }
         overridable: false
     - command:
         default: >
-            'docker build ' + dockerfile_name_expression + '-t="' + docker_image + '" ' + workdir
+            ${ 'docker build ' + dockerfile_name_expression + '-t="' + docker_image + '" ' + workdir }
         overridable: false
 
   workflow:
@@ -75,32 +75,32 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - command
-            - characterSet: character_set
+            - characterSet: ${ character_set }
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - closeSession: ${ close_session }
+            - agentForwarding: ${ agent_forwarding }
         publish:
           - image_id: >
-              standard_out.split('Successfully built ')[1].replace('\n', '')
-              if ('Successfully built' in standard_out) else ''
+              ${ standard_out.split('Successfully built ')[1].replace('\n', '')
+              if ('Successfully built' in standard_out) else '' }
           - standard_out
 
     - check_occurrences:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'Successfully built'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "Successfully built"
         publish:
-          - number_of_occurrences: str(return_result)
+          - number_of_occurrences: ${ str(return_result) }
 
     - validate_result:
         do:
           strings.string_equals:
-            - first_string: "'1'"
-            - second_string: number_of_occurrences
+            - first_string: "1"
+            - second_string: ${ number_of_occurrences }
   outputs:
     - image_id
   results:

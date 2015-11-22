@@ -42,7 +42,7 @@ flow:
     - email_recipient
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - proxy_host:
         required: false
@@ -68,25 +68,25 @@ flow:
     - send_status_mail:
         do:
           base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - htmlEmail: "'false'"
-            - from: email_sender
-            - to: email_recipient
-            - subject: "'New app '"
-            - body: "'App creation succeeded.'"
+            - hostname: ${email_host}
+            - port: ${email_port}
+            - htmlEmail: "false"
+            - from: ${email_sender}
+            - to: ${email_recipient}
+            - subject: "New app "
+            - body: "App creation succeeded."
 
     - on_failure:
         - send_error_mail:
             do:
               base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - htmlEmail: "'false'"
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'New app fail'"
-                - body: "'App creation failed '+errorMessage"
+                - hostname: ${email_host}
+                - port: ${email_port}
+                - htmlEmail: "false"
+                - from: ${email_sender}
+                - to: ${email_recipient}
+                - subject: "New app fail"
+                - body: ${'App creation failed '+errorMessage}
 
   outputs:
     - return_result
