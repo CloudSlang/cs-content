@@ -68,11 +68,11 @@ flow:
     - send_status_mail:
         do:
           base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
+            - hostname: ${email_host}
+            - port: ${email_port}
             - htmlEmail: "false"
-            - from: email_sender
-            - to: email_recipient
+            - from: ${email_sender}
+            - to: ${email_recipient}
             - subject: "New app "
             - body: "App creation succeeded."
 
@@ -80,11 +80,11 @@ flow:
         - send_error_mail:
             do:
               base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
+                - hostname: ${email_host}
+                - port: ${email_port}
                 - htmlEmail: "false"
-                - from: email_sender
-                - to: email_recipient
+                - from: ${email_sender}
+                - to: ${email_recipient}
                 - subject: "New app fail"
                 - body: ${'App creation failed '+errorMessage}
 

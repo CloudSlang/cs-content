@@ -41,8 +41,8 @@ flow:
     - clear_containers_on_host:
        do:
          containers.clear_containers:
-           - docker_host: host
-           - docker_username: username
+           - docker_host: ${host}
+           - docker_username: ${username}
            - private_key_file
        navigate:
          SUCCESS: print_before_zookeeper

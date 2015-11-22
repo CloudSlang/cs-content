@@ -48,7 +48,7 @@ flow:
     - setup_marathon_core_os:
         do:
           setup_marathon_core_os:
-            - host: marathon_host
+            - host: ${marathon_host}
             - username
             - private_key_file
             - marathon_port
@@ -63,7 +63,7 @@ flow:
     - setup_marathon_docker_host:
         do:
           setup_marathon_docker_host:
-            - host: marathon_host
+            - host: ${marathon_host}
             - username
             - private_key_file
             - marathon_port
