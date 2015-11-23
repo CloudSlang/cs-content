@@ -31,7 +31,4 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_TO_PULL_POSTFIX
-    - FAIL_TO_START_POSTFIX
-    - MACHINE_IS_NOT_CLEAN
     - FAILURE
