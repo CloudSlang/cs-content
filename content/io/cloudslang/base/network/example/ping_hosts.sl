@@ -50,12 +50,6 @@ flow:
     - to:
         system_property: io.cloudslang.base.to
     - subject: "'Ping Result'"
-    - username:
-        system_property: io.cloudslang.base.username
-        required: false
-    - password:
-        system_property: io.cloudslang.base.password
-        required: false
 
   workflow:
     - check_address:
@@ -92,8 +86,6 @@ flow:
             - to
             - subject
             - body: "'Result: ' + ' '.join(message_body)"
-            - username
-            - password
 
     - on_failure:
         - failure_mail_send:
@@ -105,5 +97,3 @@ flow:
                 - to
                 - subject
                 - body: "'Result: Failure to ping: ' + ' '.join(message_body)"
-                - username
-                - password

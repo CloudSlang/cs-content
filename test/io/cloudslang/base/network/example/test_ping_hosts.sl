@@ -19,71 +19,15 @@ flow:
   name: test_ping_hosts
   inputs:
     - ip_list
-    - docker_host
-    - docker_port:
-        required: false
-    - docker_username
-    - docker_password
-    - email_host:
-        system_property: io.cloudslang.base.hostname
-    - email_port:
-        system_property: io.cloudslang.base.port
 
   workflow:
-
-    - pre_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: docker_port
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: pull_postfix
-           FAILURE: MACHINE_IS_NOT_CLEAN
-    - pull_postfix:
-        do:
-          cmd.run_command:
-            - command: "'docker pull catatnight/postfix'"
-        navigate:
-          SUCCESS: run_postfix
-          FAILURE: FAIL_TO_PULL_POSTFIX
-
-    - run_postfix:
-        do:
-          cmd.run_command:
-            - command: "'docker run -p ' + docker_port + ':' + email_port + ' -e maildomain=' + email_host + ' -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
-
-    - sleep:
-        do:
-          utils.sleep:
-            - seconds: 5
-
-    - verify_postfix:
-        do:
-          network.verify_app_is_up:
-            - host: docker_host
-            - port: docker_port
-        navigate:
-          SUCCESS: ping_hosts
-          FAILURE: FAIL_TO_START_POSTFIX
     - ping_hosts:
         do:
           ping_hosts:
             - ip_list
         navigate:
-          SUCCESS: post_test_cleanup
+          SUCCESS: SUCCESS
           FAILURE: FAILURE
-    - post_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: docker_port
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: SUCCESS
-           FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
