@@ -22,7 +22,7 @@
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not '202'
+#   - error_message - return_result if status_code is not '200'
 #   - return_code - '0' if success, '-1' otherwise
 #   - status_code - the code returned by the operation
 # Results:
