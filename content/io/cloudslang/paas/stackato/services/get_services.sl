@@ -99,7 +99,7 @@ flow:
             - json_input: ${return_result}
             - json_path: ['resources']
         publish:
-          - services_list: S{value}
+          - services_list: ${value}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: GET_SERVICES_LIST_FAILURE
