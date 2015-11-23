@@ -2,6 +2,10 @@
 
 The **cloud-slang-content** repository contains ready-made CloudSlang flows and operations for many common tasks as well as content that integrates with several other systems.
 
+Note: This repository may contain some beta content. Beta content is not verified or tested by the
+CloudSlang team. Beta content is named with the `beta_` prefix. The community
+is encouraged to assist in setting up testing environments for the beta content.  
+
 The following is an overview of what is included in the ready-made content:
 
 + **cloudslang**
@@ -11,17 +15,17 @@ The following is an overview of what is included in the ready-made content:
     + **files:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.
     + **json:** JSON related content.
     + **lists:** List manipulation.
-    + **mail:** Email related content. 
-    + **math:** Numeric operations. 
-    + **network:** Network related actions, such as: pinging and performing REST calls. 
-    + **os** Content for working with operating systems, such as determining the OS, checking disk space and validating SSH access. 
+    + **mail:** Email related content.
+    + **math:** Numeric operations.
+    + **network:** Network related actions, such as: pinging and performing REST calls.
+    + **os** Content for working with operating systems, such as determining the OS, checking disk space and validating SSH access.
     + **print:** Printing text.
     + **remote_command_execution**
-      + **remote_file_transfer:** Remote file transfer related content. 
+      + **remote_file_transfer:** Remote file transfer related content.
       + **ssh:** SSH command related content.
-    + **strings:** String actions and manipulations, such as: match, replace, occurrence counter. 
+    + **strings:** String actions and manipulations, such as: match, replace, occurrence counter.
     + **utils:** Utility actions, such as: random number generator, sleep, uuid generator.         
-  + **chef:** [Chef](https://www.chef.io/) is a systems and cloud infrastructure automation framework for deploying servers and applications to any physical, virtual, or cloud location. This folder contains content for bootstrapping nodes, adding/removing rules and/or recipes, and deleting nodes. 
+  + **chef:** [Chef](https://www.chef.io/) is a systems and cloud infrastructure automation framework for deploying servers and applications to any physical, virtual, or cloud location. This folder contains content for bootstrapping nodes, adding/removing rules and/or recipes, and deleting nodes.
   + **consul:** [Consul](https://consul.io/) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. This folder contains content for interacting with Consul, such as dealing with endpoints and the key/value store.
   + **coreos:** [CoreOS](https://coreos.com/) is a Linux distribution that has been rearchitected to provide features needed to run modern infrastructure stacks. This folder contains content for interacting with a CoreOS cluster.
   + **cloud_provider:** Content related to cloud providers.
