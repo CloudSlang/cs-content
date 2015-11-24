@@ -6,18 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance) and changes its status to STOPPED.
-# SUSPENDED servers (instances) cannot be stopped.
+# This flow performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
+#   and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
 #
-#    Inputs:
-#      - provider - the cloud provider on which the instance is - Default: "'amazon'"
-#      - endpoint - the endpoint to which first request will be sent - Default: "'https://ec2.amazonaws.com'"
-#      - identity - optional - the username of your account or the Amazon Access Key ID
-#      - credential - optional - the password of the user or the Amazon Secret Access Key that correspond to the identity input
-#      - region - optional - the region where the server (instance) to be stopped can be found. list_regions operation can be used in order to get all regions  - Default: "'us-east-1'"
-#      - serverId - optional - the ID of the server (instance) you want to stop
-#      - proxyHost - optional - the proxy server used to access the provider services
-#      - proxyPort - optional - the proxy server port used to access the provider services
+# Inputs:
+#   - provider - the cloud provider on which the instance is - Default: 'amazon'
+#   - endpoint - the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#   - identity - optional - the Amazon Access Key ID
+#   - credential - optional - the Amazon Secret Access Key that correspond to the Amazon Access Key ID
+#   - region - optional - the region where the server (instance) to be stopped can be found
+#                         list_regions operation can be used in order to get all regions
+#                       - Default: 'us-east-1'
+#   - serverId - the ID of the server (instance) you want to stop
+#   - proxyHost - optional - the proxy server used to access the provider services
+#   - proxyPort - optional - the proxy server port used to access the provider services
 #
 # Results:
 #  SUCCESS: the server (instance) was successfully stopped
@@ -39,8 +41,7 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - serverId:
-        required: false
+    - serverId
     - proxyHost:
         required: false
     - proxyPort:
