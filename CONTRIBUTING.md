@@ -21,6 +21,11 @@ When a pull request fails testing, the author is expected to update the pull req
 
 At least one review from a maintainer is required for all patches (even patches from maintainers).
 
+Content contributions which require environments that are difficult to setup
+may be accepted as beta content. Beta content is not verified or tested by the
+CloudSlang team. Beta content is named with the `beta_` prefix. The community
+is encouraged to assist in setting up testing environments for the beta content.  
+
 ## Pull Requests
 We encourage and support contributions from the community. No fix is too small. We strive to process all pull requests as soon as possible and with constructive feedback. If your pull request is not accepted at first, please try again after addressing the feedback you received.
 To make a pull request you will need a GitHub account. For help, see GitHub's documentation on forking and pull requests. (https://help.github.com/articles/using-pull-requests/ )
