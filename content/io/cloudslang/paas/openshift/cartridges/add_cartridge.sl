@@ -66,7 +66,7 @@ flow:
             - proxy_username
             - proxy_password
             - content_type: 'application/json'
-            - body: ${'{"cartridge":"' + cartridge + '"}'}"
+            - body: ${'{"cartridge":"' + cartridge + '"}'}
             - headers: 'Accept: application/json'
         publish:
           - return_result

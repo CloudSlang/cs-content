@@ -48,7 +48,8 @@ flow:
               - password
               - private_key_file
               - user
-              - command: "echo \"' + user + ' ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
+              - command: >
+                    ${'echo \"' + user + ' ALL=(ALL:ALL) ALL\" >> /etc/sudoers'}
 
           publish:
             - standard_err
