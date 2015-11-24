@@ -69,7 +69,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${['status']}
+            - json_path: ['status']
         publish:
           - status: ${value}
         navigate:
@@ -89,7 +89,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${['messages']}
+            - json_path: ['messages']
         publish:
           - messages: ${value}
         navigate:

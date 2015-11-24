@@ -77,7 +77,7 @@ flow:
     - get_apps:
         do:
           rest.http_client_get:
-            - url: ${'https://' + host + '/v2/apps'}"
+            - url: ${'https://' + host + '/v2/apps'}
             - username
             - password
             - proxy_host

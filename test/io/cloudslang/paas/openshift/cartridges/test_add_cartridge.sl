@@ -61,7 +61,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ${['', 0, 201]}
+            - list_2: ['', 0, 201]
         navigate:
           SUCCESS: get_status
           FAILURE: CHECK_RESPONSES_FAILURE
@@ -70,7 +70,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${['status']}
+            - json_path: ['status']
         publish:
           - status: ${value}
         navigate:
@@ -90,7 +90,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${['messages', 0, 'text']}
+            - json_path: ['messages', 0, 'text']
         publish:
           - messages: ${value}
         navigate:
