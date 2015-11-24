@@ -17,7 +17,7 @@
 #
 ####################################################
 io.cloudslang.base.hostname: localhost
-io.cloudslang.base.port: '25'
+io.cloudslang.base.port: "49154"
 io.cloudslang.base.from: user@example.com
 io.cloudslang.base.to: otheruser@example.com
 io.cloudslang.base.username: user

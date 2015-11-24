@@ -9,8 +9,6 @@
 testPing_hosts_Success:
   inputs:
     - ip_list: localhost
-    - hostname: localhost
-    - port: "49154"
   description: Tests that ping_hosts finished with SUCCESS
   testSuites: [mail]
   testFlowPath: io.cloudslang.base.network.example.ping_hosts
