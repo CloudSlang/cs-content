@@ -43,6 +43,7 @@ flow:
              - port: ${docker_ssh_port}
              - docker_username
              - docker_password
+             - private_key_file
          navigate:
            SUCCESS: execute_demo_dev_ops
            FAILURE: CLEAR_DOCKER_HOST_PROBLEM
