@@ -26,8 +26,8 @@
 #   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
 #                     - Default: none
-#   - json_google_auth_path - FileSystem path to Google authentication JSON key file.
-#                           - Example: 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
+#   - json_google_auth_path - FileSystem path to Google authentication JSON key file
+#                             System Property: io.cloudslang.cloud_provider.json_google_auth_path
 #
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
@@ -45,7 +45,8 @@ operation:
     - zone:
         default: '-'
         required: false
-    - json_google_auth_path
+    - json_google_auth_path:
+        system_property: io.cloudslang.cloud_provider.json_google_auth_path
 
   action:
     python_script: |

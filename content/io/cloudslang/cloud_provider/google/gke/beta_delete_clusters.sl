@@ -27,8 +27,8 @@
 #   - project_id - The Google Developers Console project ID or project number
 #   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
 #                     - Default: none
-#   - json_google_auth_path - FileSystem Path to Google authentication JSON key file.
-#                           - Example: 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
+#   - json_google_auth_path - FileSystem path to Google authentication JSON key file
+#                             System Property: io.cloudslang.cloud_provider.json_google_auth_path
 #   - cluster_id - The name of the cluster to delete
 #
 # Outputs:
@@ -48,7 +48,8 @@ operation:
     - zone:
         default: '-'
         required: false
-    - json_google_auth_path
+    - json_google_auth_path:
+        system_property: io.cloudslang.cloud_provider.json_google_auth_path
     - cluster_id
 
   action:
