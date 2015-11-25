@@ -1,0 +1,5 @@
+#project_id: "gke-test-cloudslang"
+projectId: "cloudslang-1074"
+zone: "us-central1-f"
+#json_google_auth_path: "C:\\CloudSlang\\GKE\\GKE-Test-8acd94747cbb.json"
+jSonGoogleAuthPath: "C:\\CloudSlang\\GKE\\cloudslang-1d9fa64f7f66.json"

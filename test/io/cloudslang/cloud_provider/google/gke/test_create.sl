@@ -16,79 +16,80 @@ imports:
 flow:
   name: test_create
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
+    - json_google_auth_path
     - name
-    - initialNodeCount
+    - initial_node_count
     - network
-    - machineType
-    - masterauthUsername
-    - masterauthPassword
+    - masterauth_username
+    - masterauth_password
+
   workflow:
-    - createRessourceCluster:
+    - createResourceCluster:
         do:
-          create_resource_cluster:
+          beta_create_resource_cluster:
             - name
-            - initialNodeCount
-            - masterauthUsername
-            - masterauthPassword
+            - initial_node_count
+            - masterauth_username
+            - masterauth_password
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_createResourceCluster:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - createCluster:
         do:
-          create_clusters:
-            - projectId
+          beta_create_cluster:
+            - project_id
             - zone
-            - jSonGoogleAuthPath
-            - cluster: response
+            - json_google_auth_path
+            - cluster: ${response}
         publish:
           - return_result
           - response
           - cluster_name
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_createCluster:
         do:
           print.print_text:
-            - text: cluster_name
+            - text: ${cluster_name}
 
     - SleepTime:
         do:
           utils.sleep:
-            - seconds: "240"
+            - seconds: '240'
 
     - deleteCluster:
         do:
-          delete_clusters:
-            - projectId
+          beta_delete_cluster:
+            - project_id
             - zone
-            - jSonGoogleAuthPath
-            - clusterId: name 
+            - json_google_auth_path
+            - clusterId: ${name}
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_deleteCluster:
         do:
           print.print_text:
-            - text: cluster_name
+            - text: ${cluster_name}
+
   outputs:
     - return_result
     - error_message
+
   results:
     - SUCCESS
     - FAILURE
-

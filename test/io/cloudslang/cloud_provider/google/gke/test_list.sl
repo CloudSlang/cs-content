@@ -16,83 +16,81 @@ imports:
 flow:
   name: test_list
   inputs:
-    - projectId
+    - project_id
     - zone
-    - jSonGoogleAuthPath
+    - json_google_auth_path
     - name
-    - initialNodeCount
     - network
-    - operationId
+    - operation_id
   workflow:
     - ListClusters:
         do:
-          list_clusters:
-            - projectId
-            - jSonGoogleAuthPath
+          beta_list_clusters:
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_ListClusters:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - ListOperations:
         do:
-          list_operations:
-            - projectId
-            - jSonGoogleAuthPath
+          beta_list_operations:
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_ListOperations:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - getServerconfig:
         do:
-          get_serverconfig:
-            - projectId
-            - jSonGoogleAuthPath
+          beta_get_serverconfig:
+            - project_id
+            - json_google_auth_path
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_getServerconfig:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
     - getOperation:
         do:
-          get_operations:
-            - projectId
+          beta_get_operations:
+            - project_id
             - zone
-            - jSonGoogleAuthPath
-            - operationId
+            - json_google_auth_path
+            - operation_id
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
     - print_getOperations:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
   outputs:
     - return_result
     - error_message
   results:
     - SUCCESS
     - FAILURE
-
