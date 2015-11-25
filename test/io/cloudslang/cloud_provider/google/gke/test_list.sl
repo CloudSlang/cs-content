@@ -73,7 +73,7 @@ flow:
 
     - getOperation:
         do:
-          beta_get_operations:
+          beta_get_operation_details:
             - project_id
             - zone
             - json_google_auth_path

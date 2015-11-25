@@ -45,7 +45,7 @@
 namespace: io.cloudslang.cloud_provider.google.gke
 
 operation:
-  name: beta_create_cluster
+  name: beta_create_clusters
   inputs:
     - project_id
     - zone

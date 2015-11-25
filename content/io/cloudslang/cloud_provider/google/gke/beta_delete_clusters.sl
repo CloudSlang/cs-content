@@ -42,7 +42,7 @@
 namespace: io.cloudslang.cloud_provider.google.gke
 
 operation:
-  name: beta_delete_cluster
+  name: beta_delete_clusters
   inputs:
     - project_id
     - zone:

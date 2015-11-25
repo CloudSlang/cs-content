@@ -46,7 +46,7 @@ flow:
 
     - createCluster:
         do:
-          beta_create_cluster:
+          beta_create_clusters:
             - project_id
             - zone
             - json_google_auth_path
@@ -70,7 +70,7 @@ flow:
 
     - deleteCluster:
         do:
-          beta_delete_cluster:
+          beta_delete_clusters:
             - project_id
             - zone
             - json_google_auth_path
