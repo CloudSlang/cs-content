@@ -81,7 +81,7 @@ flow:
             - to: ${email_recipient}
             - subject: "New app "
             - body: "App creation succeeded."
-            - enableTLS : ${enable_tls}
+            - enableTLS: ${enable_tls}
             - username: ${email_username}
             - password: ${email_password}
 
@@ -96,7 +96,7 @@ flow:
                 - to: ${email_recipient}
                 - subject: "New app fail"
                 - body: ${"App creation failed " + error_message}
-                - enableTLS : ${enable_tls}
+                - enableTLS: ${enable_tls}
                 - username: ${email_username}
                 - password: ${email_password}
 
