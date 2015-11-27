@@ -25,6 +25,7 @@
 #   - characterSet - optional - Default: UTF-8
 #   - contentTransferEncoding - optional - Default: base64
 #   - delimiter - optional - Default: none
+#   - enableTLS - optional - enable startTLS - Default : false
 # Results:
 #   - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
 #   - FAILURE - otherwise
@@ -63,6 +64,8 @@ operation:
         default: "base64"
         required: false
     - delimiter:
+        required: false
+    - enableTLS:
         required: false
   action:
     java_action:
