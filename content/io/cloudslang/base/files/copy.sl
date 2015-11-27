@@ -43,9 +43,13 @@ operation:
           message = ("no such file or folder")
           result = False
       except Exception as exception:
-        message = '' if ('win' in os.environ.get('OS','').lower() and 'Operation not permitted' in str(exception)) else exception
-        result = True if ('win' in os.environ.get('OS','').lower() and 'Operation not permitted' in str(exception)) else False
-      print message
+        if ('win' in os.environ.get('OS','').lower() and 'Operation not permitted' in str(exception)):
+          message = ''
+          result = True
+        else:
+          message = exception
+          result = False
+          print message
 
   outputs:
     - message
