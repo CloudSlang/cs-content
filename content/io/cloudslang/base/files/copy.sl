@@ -6,11 +6,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Copies a file or folder.
+# Copies a file or folder
+# If a folder is copied then the destination directory, named by <destination>, must not already exist
 #
 # Inputs:
 #   - source - path of source file or folder to be copied
-#   - destination - path of destination for file or folder to be copied to. If copying a folder, destination path must include folder name. If copying a file - destination path must include file name.
+#   - destination - path of destination for file or folder to be copied to. If copying a folder, destination path must
+#                   include folder name. If copying a file, destination path must include file name.
 # Outputs:
 #   - message - error message in case of error
 # Results:
@@ -27,25 +29,23 @@ operation:
 
   action:
     python_script: |
-        import shutil, sys, os
-        try:
-          if os.path.isfile(source):
-            shutil.copy(source,destination)
-            message = ("copying done successfully")
-            result = True
-            message = ("copying done successfully")
-          elif os.path.isdir(source):
-            shutil.copytree(source,destination,)
-            message = ("copying done successfully")
-            result = True
-            message = ("copying done successfully")
-          else:
-            message = ("no such file or folder")
-            result = False
-        except Exception as e:
-          message = e
+      import os, shutil;
+      try:
+        if os.path.isfile(source):
+          shutil.copy(source, destination)
+          message = ("copying done successfully")
+          result = True
+        elif os.path.isdir(source):
+          shutil.copytree(source, destination)
+          message = ("copying done successfully")
+          result = True
+        else:
+          message = ("no such file or folder")
           result = False
-        print message
+      except Exception as exception:
+        message = '' if ('win' in os.environ.get('OS','').lower() and 'Operation not permitted' in str(exception)) else exception
+        result = True if ('win' in os.environ.get('OS','').lower() and 'Operation not permitted' in str(exception)) else False
+      print message
 
   outputs:
     - message
