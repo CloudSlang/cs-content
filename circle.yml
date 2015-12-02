@@ -38,6 +38,7 @@ machine:
 dependencies:
   override:
     - docker info
+    - docker version
     - docker images
 
 test:
