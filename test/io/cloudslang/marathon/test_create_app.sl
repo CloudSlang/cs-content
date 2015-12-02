@@ -88,13 +88,20 @@ flow:
              - marathon_port
              - json_file
          navigate:
-           SUCCESS: wait_for_app_startup
+           SUCCESS: wait_for_marathon_app_startup
            FAILURE: FAIL_TO_CREATE
 
-    - wait_for_app_startup:
+    - wait_for_marathon_app_startup:
         do:
-          utils.sleep:
-              - seconds: 20
+          wait_for_marathon_app_startup:
+              - marathon_host
+              - marathon_port
+              - created_app_id
+              - attempts: 30
+              - time_to_sleep: 10
+        navigate:
+          SUCCESS: list_marathon_apps
+          FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
 
     - list_marathon_apps:
         do:
@@ -192,6 +199,7 @@ flow:
     - SUCCESS
     - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
     - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - PARSE_FAILURE
     - FAIL_TO_DELETE
