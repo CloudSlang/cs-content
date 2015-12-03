@@ -132,7 +132,7 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: list_mesos_tasks
+          SUCCESS: delete_marathon_app
           FAILURE: APP_NOT_CREATED
 
     - delete_marathon_app:
