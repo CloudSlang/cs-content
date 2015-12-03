@@ -9,13 +9,11 @@
 #  Checks whether the ssh session failed with a certain pattern.
 #  Cases:
 #   - session is down: return code = -1, exception is 'Session is down'
-#   - failure with no message: return code = -1, other ssh outputs are empty
+#   - failure with no message: exit status = -1
 #
 #  Inputs:
 #    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - from SSH: STDOUT of the machine
-#    - standard_err - from SSH: STDERR of the machine
-#    - exception - from SSH: contains the stack trace in case of an exception
+#    - return_code - from SSH: return code of the ssh operation
 #    - exit_status - from SSH: the return code of the remote command
 #  Results:
 #    - SESSION_IS_DOWN: pattern detected
@@ -33,8 +31,6 @@ flow:
   inputs:
     - return_result
     - return_code
-    - standard_out
-    - standard_err
     - exit_status
   workflow:
     - check_return_code:
@@ -59,7 +55,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: '-1'
-            - second_string: ${ return_result + standard_err + standard_out + str(exit_status) }
+            - second_string: ${ str(exit_status) }
         navigate:
           SUCCESS: FAILURE_WITH_NO_MESSAGE
           FAILURE: NO_ISSUE_FOUND
