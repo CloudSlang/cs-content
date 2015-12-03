@@ -98,7 +98,7 @@ flow:
               - marathon_port
               - created_app_id
               - attempts: 30
-              - time_to_sleep: 10
+              - time_to_sleep: 20
         navigate:
           SUCCESS: list_marathon_apps
           FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
