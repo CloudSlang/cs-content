@@ -132,8 +132,28 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: delete_marathon_app
+          SUCCESS: list_mesos_tasks
           FAILURE: APP_NOT_CREATED
+
+    - list_mesos_tasks:
+        do:
+          get_tasks_list:
+            - marathon_host
+            - marathon_port
+        publish:
+          - tasks_list: ${return_result}
+        navigate:
+          SUCCESS: check_task_was_created
+          FAILURE: TASKS_NOT_RETRIEVED
+
+    - check_task_was_created:
+        do:
+          base_strings.string_occurrence_counter:
+            - string_in_which_to_search: ${tasks_list}
+            - string_to_find: ${created_app_id}
+        navigate:
+          SUCCESS: delete_marathon_app
+          FAILURE: TASK_NOT_CREATED
 
     - delete_marathon_app:
         do:

@@ -26,6 +26,7 @@ imports:
   base_strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
   utils: io.cloudslang.base.utils
+  print: io.cloudslang.base.print
 flow:
   name: wait_for_marathon_app_startup
   inputs:
@@ -69,8 +70,42 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: SUCCESS
+          SUCCESS: list_mesos_tasks
           FAILURE: check_if_timed_out
+
+    - list_mesos_tasks:
+        do:
+          get_tasks_list:
+            - marathon_host
+            - marathon_port
+        publish:
+          - tasks_list: ${return_result}
+        navigate:
+          SUCCESS: print_before_check_task
+          FAILURE: check_if_timed_out
+
+    - print_before_check_task:
+        do:
+          print.print_text:
+              - text: "Check if task was created."
+        navigate:
+          SUCCESS: check_task_was_created
+
+    - check_task_was_created:
+        do:
+          base_strings.string_occurrence_counter:
+            - string_in_which_to_search: ${tasks_list}
+            - string_to_find: ${created_app_id}
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: print_before_check_timeout
+
+    - print_before_check_timeout:
+        do:
+          print.print_text:
+              - text: "Check if timeout after check that task was created failed."
+        navigate:
+          SUCCESS: check_if_timed_out
 
     - check_if_timed_out:
          do:
