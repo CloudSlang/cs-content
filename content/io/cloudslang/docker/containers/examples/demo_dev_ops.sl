@@ -104,10 +104,10 @@ flow:
 
     - test_application:
         do:
-          base_network.verify_app_is_up:
-            - host: ${docker_host}
-            - port: ${app_port}
+          base_network.verify_url_is_accessible:
+            - url: ${'http://' + docker_host + ':' + app_port}
             - attempts: 20
+            - time_to_sleep: 10
         publish:
           - error_message: output_message
 
