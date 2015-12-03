@@ -123,8 +123,6 @@ flow:
               - retries
               - return_result
               - return_code
-              - standard_out
-              - standard_err
               - exit_status
           publish:
             - retries

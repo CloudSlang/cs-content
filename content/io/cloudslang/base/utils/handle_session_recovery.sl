@@ -13,8 +13,6 @@
 #    - enabled - whether session recovery is enabled - Default: true
 #    - retries - limit of reconnect tryings
 #    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - from SSH: STDOUT of the machine
-#    - standard_err - from SSH: STDERR of the machine
 #    - exception - from SSH: contains the stack trace in case of an exception
 #    - exit_status - from SSH: the return code of the remote command
 #  Outputs:
@@ -39,8 +37,6 @@ flow:
     - retries
     - return_result
     - return_code
-    - standard_out
-    - standard_err
     - exit_status
   workflow:
     - check_enabled:
@@ -68,8 +64,6 @@ flow:
           check_ssh_unstable_session:
             - return_result
             - return_code
-            - standard_out
-            - standard_err
             - exit_status
         navigate:
           SESSION_IS_DOWN: SESSION_IS_DOWN
