@@ -39,6 +39,7 @@ dependencies:
   override:
     - docker info
     - docker images
+    - java -version
 
 test:
   pre:
