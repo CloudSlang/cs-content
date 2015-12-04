@@ -151,7 +151,7 @@ flow:
            - container_command: >
               ${'--master mesos_master:5050 ' +
               '--zk zk://zookeeper:2181/marathon'}
-           - image_name: "mesosphere/marathon:v0.7.6"
+           - image_name: "mesosphere/marathon:latest"
            - host
            - username
            - private_key_file
