@@ -90,7 +90,7 @@ flow:
               '-e MESOS_WORK_DIR=/var/lib/mesos/master ' +
               '-e MESOS_ZK=zk://zookeeper:2181/mesos ' +
               '-p 5050:5050'}
-           - image_name: "mesosphere/mesos-master:0.20.1"
+           - image_name: "mesosphere/mesos-master:0.24.1-0.2.35.ubuntu1404"
            - host
            - username
            - private_key_file
@@ -124,7 +124,7 @@ flow:
               '-v /lib64/libpthread.so.0:/lib/libpthread.so.0:ro ' +
               '-v /lib64/libsqlite3.so.0:/lib/libsqlite3.so.0:ro ' +
               '-v /lib64/libudev.so.1:/lib/libudev.so.1:ro '}
-           - image_name: "mesosphere/mesos-slave:0.20.1"
+           - image_name: "mesosphere/mesos-slave:0.24.1-0.2.35.ubuntu1404"
            - host
            - username
            - private_key_file
