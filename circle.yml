@@ -39,6 +39,7 @@ dependencies:
   override:
     - docker info
     - docker images
+    - java -version
 
 test:
   pre:
@@ -65,7 +66,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.6/cslang-builder.zip
+        wget https://www.dropbox.com/s/dj3mdsar2hmrxwh/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
