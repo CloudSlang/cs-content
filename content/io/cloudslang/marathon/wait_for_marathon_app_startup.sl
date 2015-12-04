@@ -13,8 +13,6 @@
 #   - marathon_port - marathon port
 #   - attempts - attempts to reach host
 #   - time_to_sleep - time in seconds to wait between attempts
-# Outputs:
-#   - output_message - timeout exceeded and url was not accessible
 # Results:
 #   - SUCCESS - url is accessible
 #   - FAILURE - url is not accessible
