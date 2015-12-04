@@ -125,6 +125,3 @@ flow:
           - attempts: ${self['attempts'] - 1}
         navigate:
           SUCCESS: list_marathon_apps
-
-  outputs:
-    - output_message: "Marathon app is not up"
