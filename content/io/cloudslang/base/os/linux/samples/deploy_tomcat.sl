@@ -230,10 +230,10 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: upload_server_config_file
+          SUCCESS: upload_init_config_file
           FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
 
-    - upload_server_config_file:
+    - upload_init_config_file:
         do:
           remote.remote_secure_copy:
             - sourcePath: ${source_path}
@@ -247,7 +247,7 @@ flow:
           - exception
         navigate:
           SUCCESS: change_tomcat_initialization_folder_permissions
-          FAILURE: UPLOAD_SERVER_CONFIG_FILE_FAILURE
+          FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
 
     - change_tomcat_initialization_folder_permissions:
         do:
@@ -316,6 +316,7 @@ flow:
     - CREATE_SYMLINK_FAILURE
     - CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
     - CREATE_INITIALIZATION_FOLDER_FAILURE
+    - UPLOAD_INIT_CONFIG_FILE_FAILURE
     - CHANGE_PERMISSIONS_FAILURE
     - UPLOAD_SERVER_CONFIG_FILE_FAILURE
     - UPLOAD_USERS_CONFIG_FILE_FAILURE
