@@ -73,9 +73,9 @@ operation:
             className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
             methodName: copyTo
     outputs:
-      - return_result: returnResult
-      - return_code: returnCode
+      - return_result: ${returnResult}
+      - return_code: ${returnCode}
       - exception
     results:
-      - SUCCESS: ${ returnCode == '0' }
+      - SUCCESS: ${returnCode == '0'}
       - FAILURE
