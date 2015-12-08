@@ -1,0 +1,10 @@
+
+
+testGetAccountDetails:
+  inputs:
+    - username: <username>
+    - password: <password>
+  description: Test that get the details of the current account
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.account.test_details_account
+  result: SUCCESS

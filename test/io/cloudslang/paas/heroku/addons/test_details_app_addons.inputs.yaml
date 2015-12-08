@@ -1,0 +1,11 @@
+
+
+testDetailsAppAddons:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_name_or_id: <app_name_or_id>
+  description: Test that get all the addons of an application
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.addons.test_details_app_addons
+  result: SUCCESS
