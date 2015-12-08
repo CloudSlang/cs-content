@@ -32,8 +32,8 @@ flow:
             - port
             - username
             - password
-            - command: "' '"
-            - timeout: "'30000000'"
+            - command: " "
+            - timeout: "30000000"
         navigate:
           SUCCESS: get_all_images_before
           FAILURE: FAIL_VALIDATE_SSH
@@ -54,8 +54,8 @@ flow:
     - verify_no_images_before:
         do:
           strings.string_equals:
-            - first_string: image_list
-            - second_string: "''"
+            - first_string: ${ image_list }
+            - second_string: ""
 
   results:
     - SUCCESS

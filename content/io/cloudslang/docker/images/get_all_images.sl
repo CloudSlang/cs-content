@@ -39,7 +39,7 @@ flow:
     - docker_options:
         required: false
     - docker_options_expression:
-        default: docker_options + ' ' if bool(docker_options) else ''
+        default: ${ docker_options + ' ' if bool(docker_options) else '' }
         overridable: false
     - host
     - port:
@@ -51,7 +51,7 @@ flow:
         required: false
     - command:
         default: >
-            "docker " + docker_options_expression + "images | awk '{print $1 \":\" $2}'"
+            ${ "docker " + docker_options_expression + "images | awk '{print $1 \":\" $2}'" }
         overridable: false
     - arguments:
         required: false
@@ -90,8 +90,8 @@ flow:
     - verify_no_command_not_found_in_stderr:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'command not found'"
+            - string_in_which_to_search: ${ standard_err }
+            - string_to_find: "command not found"
         navigate:
           SUCCESS: FAILURE
           FAILURE: verify_no_daemon_in_stderr
@@ -99,18 +99,18 @@ flow:
     - verify_no_daemon_in_stderr:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_err
-            - string_to_find: "'daemon'"
+            - string_in_which_to_search: ${ standard_err }
+            - string_to_find: "daemon"
         navigate:
           SUCCESS: FAILURE
           FAILURE: SUCCESS
 
   outputs:
     - image_list: >
-          returnResult.replace("\n"," ")
+          ${ returnResult.replace("\n"," ")
           .replace("<none>:<none> ","")
           .replace(":latest", "")
-          .replace("REPOSITORY:TAG ","")
+          .replace("REPOSITORY:TAG ","") }
   results:
     - SUCCESS
     - FAILURE

@@ -47,9 +47,9 @@ flow:
     name: ssh_flow
     inputs:
       - host
-      - port: "'22'"
+      - port: '22'
       - command
-      - pty: "'false'"
+      - pty: 'false'
       - username
       - password:
           required: false
@@ -57,9 +57,9 @@ flow:
           required: false
       - privateKeyFile:
           required: false
-      - timeout: "'90000'"
-      - characterSet: "'UTF-8'"
-      - closeSession: "'false'"
+      - timeout: '90000'
+      - characterSet: 'UTF-8'
+      - closeSession: 'false'
       - agentForwarding:
           required: false
       - smart_recovery: True
@@ -106,12 +106,12 @@ flow:
               - closeSession
               - agentForwarding
           publish:
-            - return_result: returnResult
+            - return_result: ${ returnResult }
             - return_code
             - standard_out
             - standard_err
             - exception
-            - exit_status: command_return_code
+            - exit_status: ${ command_return_code }
           navigate:
             SUCCESS: SUCCESS
             FAILURE: handle_ssh_session_recovery
@@ -119,12 +119,10 @@ flow:
       - handle_ssh_session_recovery:
           do:
             utils.handle_session_recovery:
-              - enabled: smart_recovery
+              - enabled: ${ smart_recovery }
               - retries
               - return_result
               - return_code
-              - standard_out
-              - standard_err
               - exit_status
           publish:
             - retries
@@ -135,12 +133,12 @@ flow:
             FAILURE_WITH_NO_MESSAGE: validate_ssh_access
             NO_ISSUE_FOUND: FAILURE
     outputs:
-      - returnResult: return_result
+      - returnResult: ${ return_result }
       - return_code
       - standard_out
       - standard_err
       - exception
-      - command_return_code: exit_status
+      - command_return_code: ${ exit_status }
     results:
       - SUCCESS
       - FAILURE

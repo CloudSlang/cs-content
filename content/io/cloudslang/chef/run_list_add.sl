@@ -46,7 +46,7 @@ flow:
     - add_to_run_list:
         do:
           knife_command:
-            - knife_cmd: "'node run_list add ' + node_name + ' \\'' + run_list_items + '\\''"
+            - knife_cmd: ${'node run_list add ' + node_name + ' \'' + run_list_items + '\''}
             - knife_host
             - knife_username
             - knife_password
@@ -58,6 +58,6 @@ flow:
           - knife_result
 
   outputs:
-    - knife_result: knife_result
+    - knife_result: ${knife_result}
     - raw_result
-    - standard_err: standard_err
+    - standard_err: ${standard_err}

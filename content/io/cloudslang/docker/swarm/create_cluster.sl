@@ -15,10 +15,13 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
+#                                if true the SSH session used will be closed;
+#                              - Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - cluster_id - ID of the created cluster
@@ -35,7 +38,7 @@ imports:
 flow:
   name: create_cluster
   inputs:
-    - swarm_image: "'swarm'"
+    - swarm_image: 'swarm'
     - host
     - port:
         required: false
@@ -60,20 +63,20 @@ flow:
         do:
           containers.run_container:
             - detach: false
-            - container_params: "'--rm'"
-            - container_command: "'create'"
-            - image_name: swarm_image
+            - container_params: '--rm'
+            - container_command: 'create'
+            - image_name: ${swarm_image}
             - host
             - port
             - username
             - password
             - private_key_file
-            - characterSet: character_set
+            - characterSet: ${character_set}
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - closeSession: ${close_session}
+            - agentForwarding: ${agent_forwarding}
         publish:
-          - cluster_id: container_id
+          - cluster_id: ${container_id}
   outputs:
     - cluster_id

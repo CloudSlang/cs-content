@@ -14,6 +14,7 @@
 #   - port - port on which the application is listening
 #   - attempts - attempts to reach host
 #   - time_to_sleep - time in seconds to wait between attempts
+#   - attempt_timeout - timeout in seconds for each attempt
 # Outputs:
 #   - error_message - timeout exceeded and application did not respond
 # Results:
@@ -33,9 +34,12 @@ operation:
     - time_to_sleep:
         default: 1
         required: false
+    - attempt_timeout:
+        default: 10
+        required: false
   action:
     python_script: |
-      import urllib2
+      import requests
       import time
       message = 'Application is not up after ' + str(attempts) + ' attempts to ping.'
       if ssl == '1':
@@ -46,19 +50,19 @@ operation:
       return_result = False
       while (( count < int(attempts) ) and ( not return_result )):
         try:
-          result = urllib2.urlopen(url)
-        except Exception :
+          result = requests.get(url, timeout=int(attempt_timeout))
+        except Exception as e:
           count = count + 1
           time.sleep(int(time_to_sleep))
         else:
-            code = result.getcode()
+            code = result.status_code
             count = int(attempts)
             if code == 200 :
               return_result = True
               message = "Application is up"
   outputs:
-    - output_message: message
+    - output_message: ${ message }
 
   results:
-    - SUCCESS: return_result
+    - SUCCESS: ${ return_result }
     - FAILURE

@@ -10,18 +10,24 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
+#   - network_id - optional - the id of the network to connect to
 #   - img_ref - image reference for server to be created
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - server_name - server name
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
+#                           'domain\user'
+#   - password - optional - password used for URL authentication
+#   - tenant_name - name of the OpenStack project that will contain the server (instance)
+#   - server_name - name of server to create
+#   - proxy_host - optional - the proxy server used to access the OpenStack services
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
-#   - return_result - response of the last operation that was executed
-#   - error_message - error message of the operation that failed
+#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - error_message: return_result if statusCode is not '202'
+#   - return_code - '0' if success, '-1' otherwise
+#   - status_code - the code returned by the operation
 # Results:
 #   - SUCCESS - the OpenStack server (instance) was successfully created
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
@@ -36,8 +42,8 @@ flow:
   name: create_openstack_server_flow
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - network_id:
         required: false
     - img_ref
@@ -48,7 +54,13 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+
   workflow:
     - authentication:
         do:
@@ -60,6 +72,8 @@ flow:
             - tenant_name
             - proxy_host
             - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
           - token
           - tenant_id
@@ -83,6 +97,8 @@ flow:
             - server_name
             - proxy_host
             - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
           - return_result
           - error_message
@@ -93,6 +109,8 @@ flow:
   outputs:
     - return_result
     - error_message
+    - return_code
+    - status_code
 
   results:
     - SUCCESS

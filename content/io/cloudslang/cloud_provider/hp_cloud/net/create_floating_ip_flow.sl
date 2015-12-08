@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to call to obtain a floating IP 
+# Main flow to call to obtain a floating IP
 #
 # Inputs:
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
 #   - proxy_host - optional - proxy server used to access the web site - Default: none
 #   - proxy_port - optional - proxy server port - Default: none
 # Outputs:
@@ -28,7 +28,7 @@ imports:
   utils: io.cloudslang.cloud_provider.hp_cloud.utils
   print: io.cloudslang.base.print
   json: io.cloudslang.base.json
-  
+
 flow:
   name: create_floating_ip_flow
   inputs:
@@ -53,7 +53,7 @@ flow:
     - get_external_id:
         do:
           utils.get_external_net_id:
-            - json_network_list: return_result
+            - json_network_list: ${return_result}
         publish:
           - ext_network_id
 
@@ -64,24 +64,24 @@ flow:
             - token
             - region
             - proxy_host
-            - proxy_port          
+            - proxy_port
         publish:
           - return_result
           - status_code
 
     - get_ip_result:
         do:
-          json.get_value_from_json:
-            - json_input: return_result
-            - key_list: ["'floatingip'", "'floating_ip_address'"]
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ["floatingip", "floating_ip_address"]
         publish:
-          - ip_address: value
+          - ip_address: ${value}
 
     - on_failure:
       - ip_error:
           do:
             print.print_text:
-              - text: "'! ERROR ALLOCATING IP (' + status_code + ') : ' + return_result" 
+              - text: "${'! ERROR ALLOCATING IP (' + status_code + ') : ' + return_result}"
 
   outputs:
     - return_result

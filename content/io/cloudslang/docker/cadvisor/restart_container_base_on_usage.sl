@@ -11,8 +11,8 @@
 # Inputs:
 #   - container - name or ID of Docker container that runs cAdvisor
 #   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-#   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: 22
+#   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
+#   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: '22'
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - privateKeyFile - optional - path to the private key file
@@ -34,10 +34,10 @@ flow:
     - container
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - machine_connect_port:
-        default: "'22'"
+        default: '22'
         required: false
     - username
     - password:
@@ -45,7 +45,7 @@ flow:
     - privateKeyFile:
         required: false
     - rule:
-        default: "''"
+        default: ''
         required: false
   workflow:
     - retrieve_container_usage:
@@ -81,11 +81,11 @@ flow:
     - stop_container:
         do:
           docker_container.stop_container:
-            - container_id: container
+            - container_id: ${container}
             - host
             - username
             - password
-            - port: machine_connect_port
+            - port: ${machine_connect_port}
             - privateKeyFile
         publish:
           - errorMessage
@@ -96,18 +96,18 @@ flow:
         do:
           docker_container.start_container:
             - privateKeyFile
-            - container_id: container
+            - container_id: ${container}
             - host
             - username
             - password
-            - port: machine_connect_port
+            - port: ${machine_connect_port}
         publish:
           - errorMessage
     - on_failure:
         - print_error:
             do:
               docker_print.print_text:
-                - text: "'cAdvisor ended with the following error message '+errorMessage"
+                - text: ${'cAdvisor ended with the following error message ' + errorMessage}
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE

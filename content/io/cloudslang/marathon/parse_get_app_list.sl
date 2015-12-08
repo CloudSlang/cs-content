@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Builds a list of app names from the response of the get_app_list operation.
+# Builds a list of Marathon app names from the response of the get_apps_list operation.
 #
 # Inputs:
-#   - operation_response - response of get_app_list operation
+#   - operation_response - response of get_apps_list operation
 # Outputs:
 #   - app_list - list of app names
 #   - return_result - was parsing was successful or not
@@ -44,7 +44,7 @@ operation:
     - app_list
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

@@ -17,32 +17,33 @@ flow:
   inputs:
     - docker_host
     - docker_ssh_port:
-        default: "'22'"
+        default: '22'
     - docker_username
     - docker_password:
         required: false
     - private_key_file:
         required: false
     - db_container_name:
-        default: "'mysqldb'"
+        default: 'mysqldb'
     - app_container_name:
-        default: "'spring-boot-tomcat-mysql-app'"
+        default: 'spring-boot-tomcat-mysql-app'
     - app_port:
-        default: "'8080'"
+        default: '8080'
     - email_host
     - email_port
     - email_sender
     - email_recipient
     - timeout:
-        default: "'30000000'"
+        default: '30000000'
   workflow:
     - clear_docker_host_prereqeust:
          do:
            containers.clear_containers:
              - docker_host
-             - port: docker_ssh_port
+             - port: ${docker_ssh_port}
              - docker_username
              - docker_password
+             - private_key_file
          navigate:
            SUCCESS: execute_demo_dev_ops
            FAILURE: CLEAR_DOCKER_HOST_PROBLEM

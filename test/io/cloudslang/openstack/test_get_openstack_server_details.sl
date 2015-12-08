@@ -17,7 +17,7 @@ flow:
   name: test_get_openstack_server_details
   inputs:
     - host
-    - compute_port: "'8774'"
+    - compute_port: '8774'
     - tenant_name
     - tenant_id
     - server_id
@@ -28,7 +28,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -65,8 +65,8 @@ flow:
     - check_get_server_details_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
+            - list_2: ['', 0, 200]
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE

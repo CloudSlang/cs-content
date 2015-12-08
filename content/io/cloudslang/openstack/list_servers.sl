@@ -39,8 +39,8 @@ flow:
   name: list_servers
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - username
     - password
     - tenant_name
@@ -80,9 +80,9 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - response_body: return_result
-          - return_result: return_result
+          - return_result
           - error_message
+          - status_code
         navigate:
           SUCCESS: extract_servers
           FAILURE: GET_SERVERS_FAILURE
@@ -90,8 +90,8 @@ flow:
     - extract_servers:
         do:
           openstack_utils.extract_object_list_from_json_response:
-            - response_body
-            - object_name: "'servers'"
+            - response_body: ${return_result}
+            - object_name: 'servers'
         publish:
           - object_list
           - error_message
@@ -100,7 +100,7 @@ flow:
           FAILURE: EXTRACT_SERVERS_FAILURE
 
   outputs:
-    - server_list: object_list
+    - server_list: ${object_list}
     - return_result
     - error_message
 

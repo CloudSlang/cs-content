@@ -38,15 +38,15 @@ flow:
     - setup_cluster:
         do:
           create_cluster_with_nodes:
-            - manager_machine_ip: swarm_manager_ip
-            - manager_machine_username: username
-            - manager_machine_password: password
-            - manager_machine_private_key_file: private_key_file
+            - manager_machine_ip: ${swarm_manager_ip}
+            - manager_machine_username: ${username}
+            - manager_machine_password: ${password}
+            - manager_machine_private_key_file: ${private_key_file}
             - swarm_manager_port
             - agent_ip_addresses
-            - agent_usernames: [username, username]
-            - agent_passwords: [password, password]
-            - agent_private_key_files: [private_key_file, private_key_file]
+            - agent_usernames: ${[username, username]}
+            - agent_passwords: ${[password, password]}
+            - agent_private_key_files: ${[private_key_file, private_key_file]}
             - attempts
             - time_to_sleep
         navigate:
@@ -71,7 +71,7 @@ flow:
             - private_key_file
             - timeout
         publish:
-          - number_of_containers_in_cluster_before: number_of_containers_in_cluster
+          - number_of_containers_in_cluster_before: ${number_of_containers_in_cluster}
         navigate:
           SUCCESS: run_demo_containers
           FAILURE: GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_BEFORE_PROBLEM
@@ -100,7 +100,7 @@ flow:
             - private_key_file
             - timeout
         publish:
-          - number_of_containers_in_cluster_after: number_of_containers_in_cluster
+          - number_of_containers_in_cluster_after: ${number_of_containers_in_cluster}
         navigate:
           SUCCESS: verify_containers_created_in_cluster
           FAILURE: GET_NUMBER_OF_CONTAINERS_IN_CLUSTER_AFTER_PROBLEM
@@ -108,8 +108,8 @@ flow:
     - verify_containers_created_in_cluster:
         do:
           strings.string_equals:
-            - first_string: str(int(number_of_containers_in_cluster_before) + 2)
-            - second_string: str(number_of_containers_in_cluster_after)
+            - first_string: ${str(int(number_of_containers_in_cluster_before) + 2)}
+            - second_string: ${str(number_of_containers_in_cluster_after)}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: VERIFY_CONTAINERS_CREATED_IN_CLUSTER_PROBLEM

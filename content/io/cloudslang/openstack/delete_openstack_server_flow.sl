@@ -10,17 +10,22 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - username - OpenStack username
-#   - password - OpenStack password
+#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
+#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
+#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
+#                           'domain\user'
+#   - password - optional - password used for URL authentication
+#   - tenant_name - name of the OpenStack project that contains the server (instance) to be deleted
 #   - server_name - name of server to delete
-#   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - the proxy server used to access the OpenStack services
+#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
-#   - return_result - response of the last operation that was executed
-#   - error_message - error message of the operation that failed
+#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - error_message: return_result if statusCode is not '202'
+#   - return_code - '0' if success, '-1' otherwise
+#   - status_code - the code returned by the operation
 # Results:
 #   - SUCCESS - the OpenStack server (instance) was successfully deleted
 #   - GET_AUTHENTICATION_FAILURE - the authentication call fails
@@ -37,8 +42,8 @@ flow:
   name: delete_openstack_server_flow
   inputs:
     - host
-    - identity_port: "'5000'"
-    - compute_port: "'8774'"
+    - identity_port: '5000'
+    - compute_port: '8774'
     - username
     - password
     - tenant_name
@@ -79,7 +84,7 @@ flow:
             - proxy_host
             - proxy_port
         publish:
-          - server_list: return_result
+          - server_list: ${return_result}
           - return_result
           - error_message
         navigate:
@@ -89,8 +94,8 @@ flow:
     - get_server_id:
         do:
           openstack_utils.get_server_id:
-            - server_body: server_list
-            - server_name: server_name
+            - server_body: ${server_list}
+            - server_name: ${server_name}
         publish:
           - server_id
           - return_result

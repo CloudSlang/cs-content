@@ -13,7 +13,7 @@
 # Outputs:
 #   - parent_image - parent image parsed from the response
 #   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - error_message - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
@@ -42,7 +42,7 @@ operation:
     - parent_image
     - return_result
     - return_code
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

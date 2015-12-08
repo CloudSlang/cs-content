@@ -26,13 +26,13 @@ flow:
     - container_name
 
   workflow:
-    - clear_docker_host_prereqeust:
+    - clear_docker_host_prerequest:
        do:
          maintenance.clear_host:
-           - docker_host: host
+           - docker_host: ${host}
            - port
-           - docker_username: username
-           - docker_password: password
+           - docker_username: ${username}
+           - docker_password: ${password}
        navigate:
          SUCCESS: pull_image
          FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
@@ -56,7 +56,7 @@ flow:
             - port
             - username
             - password
-            - container_name: "'test_container'"
+            - container_name: 'test_container'
             - image_name
         navigate:
           SUCCESS: get_list
@@ -70,13 +70,13 @@ flow:
             - username
             - password
         publish:
-          - list: image_list
+          - list: ${image_list}
 
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: 'image_name + " "'
-            - second_string: list
+            - first_string: ${ image_name + " " }
+            - second_string: ${list}
         navigate:
           SUCCESS: clear_docker_host
           FAILURE: VEFIFYFAILURE
@@ -85,10 +85,10 @@ flow:
     - clear_docker_host:
         do:
           clear_containers:
-            - docker_host: host
+            - docker_host: ${host}
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${username}
+            - docker_password: ${password}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: MACHINE_IS_NOT_CLEAN

@@ -36,26 +36,26 @@ flow:
         required: false
     - private_key_file:
         required: false
-    - timeout: "'6000000'"
+    - timeout: "6000000"
     - port:
         required: false
   workflow:
     - get_all_containers:
         do:
           docker_containers.get_all_containers:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
             - all_containers: true
             - private_key_file
             - timeout
             - port
         publish:
-          - all_containers: container_list
+          - all_containers: ${ container_list }
     - clear_all_containers:
         do:
           docker_containers.clear_container:
-            - container_id: all_containers
+            - container_id: ${ all_containers }
             - docker_host
             - docker_username
             - docker_password
@@ -74,6 +74,6 @@ flow:
         publish:
           - amount_of_dangling_images_deleted
           - amount_of_images_deleted
-          - total_amount: amount_of_images_deleted + amount_of_dangling_images_deleted
+          - total_amount: ${ amount_of_images_deleted + amount_of_dangling_images_deleted }
   outputs:
-    - total_amount_of_images_deleted: "'' if 'total_amount' not in locals() else total_amount"
+    - total_amount_of_images_deleted: ${ '' if 'total_amount' not in locals() else total_amount }

@@ -45,6 +45,7 @@ test:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
+        && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
         && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
         && docker run -d -p 3000:80 --name swagger -e "URL=http://petstore.swagger.io/v2/swagger.json" ianneub/swagger-ui;
         fi
@@ -64,7 +65,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.8.5/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.1/cslang-builder.zip
         && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -87,7 +88,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest -cov ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov ;;
         1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov ;;
         2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov ;;
         esac

@@ -41,6 +41,6 @@ operation:
   outputs:
     - error_message
   results:
-    - LESS: error_message == "" and result
-    - MORE: error_message == "" and not result
+    - LESS: ${error_message == "" and result}
+    - MORE: ${error_message == "" and not result}
     - FAILURE

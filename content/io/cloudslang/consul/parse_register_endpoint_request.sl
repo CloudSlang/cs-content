@@ -31,16 +31,16 @@ operation:
   inputs:
     - node
     - address:
-        default: "''"
+        default: ''
         required: false
     - datacenter:
-        default: "''"
+        default: ''
         required: false
     - service:
-        default: "''"
+        default: ''
         required: false
     - check:
-        default: "''"
+        default: ''
         required: false
   action:
     python_script: |
@@ -66,7 +66,7 @@ operation:
     - json_request
     - returnCode
     - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

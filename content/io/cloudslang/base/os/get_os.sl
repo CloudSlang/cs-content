@@ -32,5 +32,5 @@ operation:
     - message
 
   results:
-    - LINUX: linux
+    - LINUX: ${ linux }
     - WINDOWS

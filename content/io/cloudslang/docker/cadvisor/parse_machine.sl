@@ -14,12 +14,12 @@
 #   - decoded - parsed response
 #   - num_cores - machine number of cores
 #   - cpu_frequency_khz - machine CPU
-#   - memory_capacity- machine memory
+#   - memory_capacity - machine memory
 #   - file_systems - parsed cAdvisor machine filesystems
-#   - disk_map- parsed cAdvisor machine disk map
-#   - network_devices- parsed cAdvisor machine network devices
-#   - topology- parsed cAdvisor machine topology
-#   - returnCode - 0 if parsing was successful, -1 otherwise
+#   - disk_map - parsed cAdvisor machine disk map
+#   - network_devices - parsed cAdvisor machine network devices
+#   - topology - parsed cAdvisor machine topology
+#   - returnCode - '0' if parsing was successful, '-1' otherwise
 #   - returnResult - notification string; was parsing was successful or not
 #   - errorMessage - returnResult if there was an error
 # Results:
@@ -61,7 +61,7 @@ operation:
     - topology
     - returnCode
     - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - errorMessage: ${returnResult if returnCode == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

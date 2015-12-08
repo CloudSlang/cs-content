@@ -53,10 +53,10 @@ flow:
     - private_key_file:
         required: false
     - exec_cmd:
-        default: "'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp ping'"
+        default: ${ 'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp ping' }
         overridable: false
     - command:
-        default: "'docker exec ' + container + ' ' + exec_cmd"
+        default: ${ 'docker exec ' + container + ' ' + exec_cmd }
         overridable: false
     - character_set:
         required: false
@@ -77,23 +77,23 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - privateKeyFile: ${ private_key_file }
             - command
             - arguments
-            - characterSet: character_set
+            - characterSet: ${ character_set }
             - pty
             - timeout
-            - closeSession: close_session
+            - closeSession: ${ close_session }
             - agentForwarding
         publish:
           - returnResult
-          - error_message:  standard_err if return_code == '0' else returnResult
+          - error_message:  ${ standard_err if return_code == '0' else returnResult }
 
     - verify:
         do:
           strings.string_equals:
-            - first_string: returnResult.replace("\n","")
-            - second_string: "'mysqld is alive'"
+            - first_string: ${ returnResult.replace("\n","") }
+            - second_string: "mysqld is alive"
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE

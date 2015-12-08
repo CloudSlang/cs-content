@@ -6,18 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance) and changes its status to ACTIVE.
-# PAUSED and SUSPENDED servers (instances) cannot be started.
+# This flow performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
+#   and changes its status to ACTIVE. PAUSED and SUSPENDED servers (instances) cannot be started.
 #
-#    Inputs:
-#      - provider - the cloud provider on which the instance is - Default: "'amazon'"
-#      - endpoint - the endpoint to which first request will be sent - Default: "'https://ec2.amazonaws.com'"
-#      - identity - optional - the username of your account or the Amazon Access Key ID
-#      - credential - optional - the password of the user or the Amazon Secret Access Key that correspond to the identity input
-#      - region - optional - the region where the server (instance) to be started can be found. list_regions operation can be used in order to get all regions  - Default: "'us-east-1'"
-#      - serverId - optional - the ID of the server (instance) you want to start
-#      - proxyHost - optional - the proxy server used to access the provider services
-#      - proxyPort - optional - the proxy server port used to access the provider services
+# Inputs:
+#   - provider - the cloud provider on which the instance is - Default: 'amazon'
+#   - endpoint - the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#   - identity - optional - the Amazon Access Key ID
+#   - credential - optional - the Amazon Secret Access Key that correspond to the Amazon Access Key ID
+#   - region - optional - the region where the server (instance) to be started can be found. list_regions operation
+#                         can be used in order to get all regions - Default: 'us-east-1'
+#   - serverId - the ID of the server (instance) you want to start
+#   - proxyHost - optional - the proxy server used to access the provider services
+#   - proxyPort - optional - the proxy server port used to access the provider services
 #
 # Results:
 #  SUCCESS: the server (instance) was successfully started
@@ -30,14 +31,14 @@ operation:
   name: start_server
 
   inputs:
-    - provider: "'amazon'"
-    - endpoint: "'https://ec2.amazonaws.com'"
+    - provider: 'amazon'
+    - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         required: false
     - credential:
         required: false
     - region:
-        default: "'us-east-1'"
+        default: 'us-east-1'
         required: false
     - serverId
     - proxyHost:
@@ -49,9 +50,9 @@ operation:
       className: io.cloudslang.content.jclouds.actions.StartServerAction
       methodName: execute
   outputs:
-    - return_result: returnResult
-    - return_code: returnCode
-    - exception: "'' if 'exception' not in locals() else exception"
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - exception: ${'' if 'exception' not in locals() else exception}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

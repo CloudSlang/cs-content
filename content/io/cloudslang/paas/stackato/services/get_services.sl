@@ -4,7 +4,6 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ####################################################
 # Retrieves unparsed list of all Helion Development Platform / Stackato services deployed
 #
@@ -13,14 +12,15 @@
 #   - username - Helion Development Platform / Stackato username
 #   - password - Helion Development Platform / Stackato password
 #   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services - Default: "'8080'"
+#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services
+#                           - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
 # Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message: return_result if statusCode is not "'200'"
-#   - return_code - "'0'" if success, "'-1'" otherwise
-#   - status_code - normal status code is 200
+#   - error_message: return_result if statusCode is not '200'
+#   - return_code - '0' if success, '-1' otherwise
+#   - status_code - normal status code is '200'
 #   - services_list - list of all services
 # Results:
 #   - SUCCESS - the list with services from Helion Development Platform / Stackato host was successfully retrieved
@@ -45,7 +45,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -75,15 +75,15 @@ flow:
     - get_services:
         do:
           rest.http_client_get:
-            - url: "'https://' + host + '/v2/services'"
+            - url: ${'https://' + host + '/v2/services'}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers: "'Authorization: bearer ' + token"
-            - content_type: "'application/json'"
+            - headers: "${'Authorization: bearer ' + token}"
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
@@ -95,11 +95,11 @@ flow:
 
     - get_services_list:
         do:
-          json.get_value_from_json:
-            - json_input: return_result
-            - key_list: ["'resources'"]
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ['resources']
         publish:
-          - services_list: value
+          - services_list: ${value}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: GET_SERVICES_LIST_FAILURE
@@ -108,7 +108,7 @@ flow:
     - return_result
     - return_code
     - status_code
-    - error_message: return_result if return_code == '-1' or status_code != '200' else ''
+    - error_message: ${return_result if return_code == '-1' or status_code != '200' else ''}
     - services_list
 
   results:

@@ -10,7 +10,8 @@
 #
 # Inputs:
 #   - container_id - ID of the container to be deleted
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#   - docker_options - optional - options for the docker environment
+#                               - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
@@ -44,10 +45,10 @@ flow:
           stop_container:
             - container_id
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - privateKeyFile: ${private_key_file}
             - port
         publish:
           - error_message
@@ -57,10 +58,10 @@ flow:
           delete_container:
             - container_id
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - privateKeyFile: ${private_key_file}
             - port
         publish:
           - error_message
