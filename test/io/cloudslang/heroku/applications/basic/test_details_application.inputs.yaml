@@ -1,0 +1,12 @@
+# Created by Florian TEISSEDRE - florian.teissedre@hpe.com
+
+
+testDetailsApplication:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_name_or_id: <app_name_or_id>
+  description: Test that get the details of an application
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.heroku.applications.basic.test_details_application
+  result: SUCCESS
