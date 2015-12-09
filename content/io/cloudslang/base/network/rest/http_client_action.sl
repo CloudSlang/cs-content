@@ -265,7 +265,7 @@ operation:
     - content_type:
         required: false
     - contentType:
-        default: ${(get("content_type", "text/plain")}
+        default: ${get("content_type", "text/plain")}
         overridable: false
     - request_character_set:
         required: false
