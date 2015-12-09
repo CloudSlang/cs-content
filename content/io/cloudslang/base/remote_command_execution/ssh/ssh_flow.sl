@@ -65,23 +65,23 @@ flow:
       - private_key_file:
           required: false
       - privateKeyFile:
-          default: str(get("private_key_file", ""))
+          default: ${get("private_key_file", "")}
           overridable: false
       - timeout: '90000'
       - character_set:
           required: false
       - characterSet:
-          default: str(get("character_set", "UTF-8"))
+          default: ${get("character_set", "UTF-8")}
           overridable: false
       - close_session:
           required: false
       - closeSession:
-          default: str(get("close_session", "false"))
+          default: ${get("close_session", "false")}
           overridable: false
       - agent_forwarding:
           required: false
       - agentForwarding:
-          default: str(get("agent_forwarding", ""))
+          default: ${get("agent_forwarding", "")}
           overridable: false
       - smart_recovery: True
       - retries: 5

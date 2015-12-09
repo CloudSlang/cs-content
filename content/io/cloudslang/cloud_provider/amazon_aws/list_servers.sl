@@ -43,12 +43,12 @@ operation:
     - proxy_host:
         required: false
     - proxyHost:
-        default: str(get("proxy_host", ""))
+        default: ${get("proxy_host", "")}
         overridable: false
     - proxy_port:
         required: false
     - proxyPort:
-        default: str(get("proxy_port", "8080"))
+        default: ${get("proxy_port", "8080")}
         overridable: false
     - delimiter:
         required: false

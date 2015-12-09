@@ -110,12 +110,12 @@ operation:
     - auth_type:
         required: false
     - authType:
-        default: str(get("auth_type", "basic"))
+        default: ${get("auth_type", "basic")}
         overridable: false
     - preemptive_auth:
         required: false
     - preemptiveAuth:
-        default: str(get("preemptive_auth", "true"))
+        default: ${get("preemptive_auth", "true")}
         overridable: false
     - username:
         required: false
@@ -124,194 +124,194 @@ operation:
     - kerberos_conf_file:
         required: false
     - kerberosConfFile:
-        default: str(get("kerberos_conf_file", "0"))
+        default: ${get("kerberos_conf_file", "0")}
         overridable: false
     - kerberos_login_conf_file:
         required: false
     - kerberosLoginConfFile:
-        default: str(get("kerberos_login_conf_file", ""))
+        default: ${get("kerberos_login_conf_file", "")}
         overridable: false
     - kerberos_skip_port_for_lookup:
         required: false
     - kerberosSkipPortForLookup:
-        default: str(get("kerberos_skip_port_for_lookup", "true"))
+        default: ${get("kerberos_skip_port_for_lookup", "true")}
         overridable: false
     - proxy_host:
         required: false
     - proxyHost:
-        default: str(get("proxy_host", ""))
+        default: ${get("proxy_host", "")}
         overridable: false
     - proxy_port:
         required: false
     - proxyPort:
-        default: str(get("proxy_port", "8080"))
+        default: ${get("proxy_port", "8080")}
         overridable: false
     - proxy_username:
         required: false
     - proxyUsername:
-        default: str(get("proxy_username", ""))
+        default: ${get("proxy_username", "")}
         overridable: false
     - proxy_password:
         required: false
     - proxyPassword:
-        default: str(get("proxy_password", ""))
+        default: ${get("proxy_password", "")}
         overridable: false
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: str(get("trust_all_roots", "true"))
+        default: ${get("trust_all_roots", "true")}
         overridable: false
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
-        default: str(get("x_509_hostname_verifier", "allow_all"))
+        default:${get("x_509_hostname_verifier", "allow_all")}
         overridable: false
     - trust_keystore:
         required: false
     - trustKeystore:
-        default: str(get("trust_keystore", ""))
+        default: ${get("trust_keystore", "")}
         overridable: false
     - trust_password:
         required: false
     - trustPassword:
-        default: str(get("trust_password", ""))
+        default: ${get("trust_password", "")}
         overridable: false
     - keystore:
         required: false
     - keystore_password:
         required: false
     - keystorePassword:
-        default: str(get("keystore_password", ""))
+        default: ${(get("keystore_password", "")}
         overridable: false
     - connect_timeout:
         required: false
     - connectTimeout:
-        default: str(get("connect_timeout", "0"))
+        default: ${get("connect_timeout", "0")}
         overridable: false
     - socket_timeout:
         required: false
     - socketTimeout:
-        default: str(get("socket_timeout", "0"))
+        default: ${get("socket_timeout", "0")}
         overridable: false
     - use_cookies:
         required: false
     - useCookies:
-        default: str(get("use_cookies", "true"))
+        default: ${get("use_cookies", "true")}
         overridable: false
     - keep_alive:
         required: false
     - keepAlive:
-        default: str(get("keep_alive", "false"))
+        default: ${get("keep_alive", "false")}
         overridable: false
     - connections_max_per_root:
         required: false
     - connectionsMaxPerRoot:
-        default: str(get("connections_max_per_root", "2"))
+        default: ${get("connections_max_per_root", "2")}
         overridable: false
     - connections_max_total:
         required: false
     - connectionsMaxTotal:
-        default: str(get("connections_max_total", "2"))
+        default: ${get("connections_max_total", "2")}
         overridable: false
     - headers:
         required: false
     - response_character_set:
         required: false
     - responseCharacterSet:
-        default: str(get("response_character_set", "ISO-8859-1"))
+        default: ${get("response_character_set", "ISO-8859-1")}
         overridable: false
     - destination_file:
         required: false
     - destinationFile:
-        default: str(get("destination_file", ""))
+        default: ${get("destination_file", "")}
         overridable: false
     - follow_redirects:
         required: false
     - followRedirects:
-        default: str(get("follow_redirects", "true"))
+        default: ${get("follow_redirects", "true")}
         overridable: false
     - query_params:
         required: false
     - queryParams:
-        default: str(get("query_params", ""))
+        default: ${get("query_params", "")}
         overridable: false
     - query_params_are_URL_encoded:
         required: false
     - queryParamsAreURLEncoded:
-        default: str(get("query_params_are_URL_encoded", "false"))
+        default: ${get("query_params_are_URL_encoded", "false")}
         overridable: false
     - query_params_are_form_encoded:
         required: false
     - queryParamsAreFormEncoded:
-        default: str(get("query_params_are_form_encoded", "true"))
+        default: ${get("query_params_are_form_encoded", "true")}
         overridable: false
     - form_params:
         required: false
     - formParams:
-        default: str(get("form_params", ""))
+        default: ${get("form_params", "")}
         overridable: false
     - form_params_are_URL_encoded:
         required: false
     - formParamsAreURLEncoded:
-        default: str(get("form_params_are_URL_encoded", "false"))
+        default: ${get("form_params_are_URL_encoded", "false")}
         overridable: false
     - source_file:
         required: false
     - sourceFile:
-        default: str(get("source_file", ""))
+        default: ${get("source_file", "")}
         overridable: false
     - body:
         required: false
     - content_type:
         required: false
     - contentType:
-        default: str(get("content_type", "text/plain"))
+        default: ${(get("content_type", "text/plain")}
         overridable: false
     - request_character_set:
         required: false
     - requestCharacterSet:
-        default: str(get("request_character_set", "ISO-8859-1"))
+        default: ${get("request_character_set", "ISO-8859-1")}
         overridable: false
     - multipart_bodies:
         required: false
     - multipartBodies:
-        default: str(get("multipart_bodies", ""))
+        default: ${get("multipart_bodies", "")}
         overridable: false
     - multipart_bodies_content_type:
         required: false
     - multipartBodiesContentType:
-        default: str(get("multipart_bodies_content_type", "text/plain; charset=ISO-8859-1"))
+        default: ${get("multipart_bodies_content_type", "text/plain; charset=ISO-8859-1")}
         overridable: false
     - multipart_files:
         required: false
     - multipartFiles:
-        default: str(get("multipart_files", ""))
+        default: ${get("multipart_files", "")}
         overridable: false
     - multipart_files_content_type:
         required: false
     - multipartFilesContentType:
-        default: str(get("multipart_files_content_type", "application/octet-stream"))
+        default: ${get("multipart_files_content_type", "application/octet-stream")}
         overridable: false
     - multipart_values_are_URL_encoded:
         required: false
     - multipartValuesAreURLEncoded:
-        default: str(get("multipart_values_are_URL_encoded", "false"))
+        default: ${get("multipart_values_are_URL_encoded", "false")}
         overridable: false
     - chunked_request_entity:
         required: false
     - chunkedRequestEntity:
-        default: str(get("chunked_request_entity", ""))
+        default: ${get("chunked_request_entity", "")}
         overridable: false
     - method
     - http_client_cookie_session:
         required: false
     - httpClientCookieSession:
-        default: str(get("http_client_cookie_session", ""))
+        default: ${get("http_client_cookie_session", "")}
         overridable: false
     - http_client_pooling_connection_manager:
         required: false
     - httpClientPoolingConnectionManager:
-        default: str(get("http_client_pooling_connection_manager", ""))
+        default: ${get("http_client_pooling_connection_manager", "")}
         overridable: false
     - valid_http_status_codes:
         default: ${range(200, 300)}

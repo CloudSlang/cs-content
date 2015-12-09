@@ -49,12 +49,12 @@ operation:
     - html_email:
         required: false
     - htmlEmail:
-        default: str(get("html_email", "true"))
+        default: ${get("html_email", "true")}
         overridable: false
     - read_receipt:
         required: false
     - readReceipt:
-        default: str(get("read_receipt", "false"))
+        default: ${get("read_receipt", "false")}
         overridable: false
     - attachments:
         required: false
@@ -65,19 +65,19 @@ operation:
     - character_set:
         required: false
     - characterSet:
-        default: str(get("character_set", "UTF-8"))
+        default: ${get("character_set", "UTF-8")}
         overridable: false
     - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
-        default: str(get("content_transfer_encoding", "base64"))
+        default: ${get("content_transfer_encoding", "base64")}
         overridable: false
     - delimiter:
         required: false
     - enable_TLS:
         required: false
     - enableTLS:
-        default: str(get("enable_TLS", ""))
+        default: ${get("enable_TLS", "")}
         overridable: false
   action:
     java_action:

@@ -43,29 +43,29 @@ operation:
     - source_host:
         required: false
     - sourceHost:
-        default: str(get("source_host", ""))
+        default: ${get("source_host", "")}
         overridable: false
     - source_path
     - sourcePath: ${source_path}
     - source_port:
         required: false
     - sourcePort:
-        default: str(get("source_port", "22"))
+        default: ${get("source_port", "22")}
         overridable: false
     - source_username:
         required: false
     - sourceUsername:
-        default: str(get("source_username", ""))
+        default: ${get("source_username", "")}
         overridable: false
     - source_password:
         required: false
     - sourcePassword:
-        default: str(get("source_password", ""))
+        default: ${(get("source_password", "")}
         overridable: false
     - source_private_key_file:
         required: false
     - sourcePrivateKeyFile:
-        default: str(get("source_private_key_file", ""))
+        default: ${get("source_private_key_file", "")}
         overridable: false
     - destination_host
     - destinationHost: ${destination_host}
@@ -74,29 +74,29 @@ operation:
     - destination_port:
         required: false
     - destinationPort:
-        default: str(get("destination_port", "22"))
+        default: ${get("destination_port", "22")}
         overridable: false
     - destination_username
     - destinationUsername: ${destination_username}
     - destination_password:
         required: false
     - destinationPassword:
-        default: str(get("destination_password", ""))
+        default: ${get("destination_password", "")}
         overridable: false
     - destination_private_key_file:
         required: false
     - destinationPrivateKeyFile:
-        default: str(get("destination_private_key_file", ""))
+        default: ${get("destination_private_key_file", "")}
         overridable: false
     - known_hosts_policy:
         required: false
     - knownHostsPolicy:
-        default: str(get("known_hosts_policy", "allow"))
+        default: ${get("known_hosts_policy", "allow")}
         overridable: false
     - known_hosts_path:
         required: false
     - knownHostsPath:
-        default: str(get("known_hosts_path", ""))
+        default: ${get("known_hosts_path", "")}
         overridable: false
     - timeout:
         default: '90000'
