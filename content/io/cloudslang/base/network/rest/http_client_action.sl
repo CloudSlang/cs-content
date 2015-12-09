@@ -181,7 +181,7 @@ operation:
     - keystore_password:
         required: false
     - keystorePassword:
-        default: ${(get("keystore_password", "")}
+        default: ${get("keystore_password", "")}
         overridable: false
     - connect_timeout:
         required: false
