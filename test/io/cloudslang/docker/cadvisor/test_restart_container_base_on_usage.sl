@@ -74,7 +74,7 @@ flow:
             - host
             - cadvisor_port
             - username
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
         navigate:
           SUCCESS: SUCCESS
           FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM

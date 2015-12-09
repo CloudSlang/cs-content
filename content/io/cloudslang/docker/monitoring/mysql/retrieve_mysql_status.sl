@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 
-##################################################################################################################################################
+########################################################################################################################
 # Retrieves a MySQL server status from a Docker container.
 #
 # Inputs:
@@ -30,7 +30,7 @@
 # Results:
 #   - SUCCESS - successful
 #   - FAILURE - otherwise
-##################################################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql
 
@@ -80,15 +80,15 @@ flow:
             - mysql_username
             - mysql_password
         publish:
-            - uptime
-            - threads
-            - questions
-            - slow_queries
-            - opens
-            - flush_tables
-            - open_tables
-            - queries_per_second_AVG
-            - error_message
+          - uptime
+          - threads
+          - questions
+          - slow_queries
+          - opens
+          - flush_tables
+          - open_tables
+          - queries_per_second_AVG
+          - error_message
 
   outputs:
     - uptime

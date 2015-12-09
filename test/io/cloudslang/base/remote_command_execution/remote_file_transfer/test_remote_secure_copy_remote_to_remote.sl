@@ -85,7 +85,9 @@ flow:
     - create_first_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + first_scp_host_port + ':22 -v /data1:' + container_path + ' ' + docker_scp_image }
+            - command: >
+                 ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
+                 first_scp_host_port + ':22 -v /data1:' + container_path + ' ' + docker_scp_image }
         navigate:
           SUCCESS: create_second_host
           FAILURE: FIRST_HOST_NOT_STARTED
@@ -93,7 +95,9 @@ flow:
     - create_second_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image }
+            - command: >
+                 ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
+                 second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image }
         navigate:
           SUCCESS: sleep
           FAILURE: SECOND_HOST_NOT_STARTED
@@ -109,7 +113,10 @@ flow:
     - create_file_and_copy_it_to_src_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'echo ' + text_to_check + ' > ' + scp_file + ' && scp -P ' + first_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file }
+            - command: >
+                 ${ 'echo ' + text_to_check + ' > ' + scp_file + ' && scp -P ' + first_scp_host_port +
+                 ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username +
+                 '@' + host + ':' + container_path + scp_file }
         navigate:
           SUCCESS: test_remote_secure_copy
           FAILURE: FILE_REACHING_SRC_HOST_FAIL
@@ -117,16 +124,16 @@ flow:
     - test_remote_secure_copy:
         do:
           base_rft.remote_secure_copy:
-            - sourceHost: ${ host }
-            - sourcePath: ${ container_path + scp_file }
-            - sourcePort: ${ first_scp_host_port }
-            - sourceUsername: ${ scp_username }
-            - sourcePrivateKeyFile: ${ key_name }
-            - destinationHost: ${ host }
-            - destinationPath: ${ container_path + scp_file }
-            - destinationPort: ${ second_scp_host_port }
-            - destinationUsername: ${ scp_username }
-            - destinationPrivateKeyFile: ${ key_name }
+            - source_host: ${ host }
+            - source_path: ${ container_path + scp_file }
+            - source_port: ${ first_scp_host_port }
+            - source_username: ${ scp_username }
+            - source_private_key_file: ${ key_name }
+            - destination_host: ${ host }
+            - destination_path: ${ container_path + scp_file }
+            - destination_port: ${ second_scp_host_port }
+            - destination_username: ${ scp_username }
+            - destination_private_key_file: ${ key_name }
         navigate:
           SUCCESS: get_file_from_dest_host
           FAILURE: RFT_FAILURE
@@ -136,7 +143,9 @@ flow:
     - get_file_from_dest_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  + scp_username + '@' + host + ':' + container_path + scp_file + ' ' + scp_file }
+            - command: >
+                 ${ 'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  +
+                 scp_username + '@' + host + ':' + container_path + scp_file + ' ' + scp_file }
         navigate:
           SUCCESS: read_file
           FAILURE: FILE_REACHING_DEST_HOST_FAIL

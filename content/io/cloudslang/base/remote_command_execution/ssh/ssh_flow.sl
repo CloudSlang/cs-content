@@ -5,37 +5,44 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-###############################################################################################################################################################################
-#  Validates SSH access to the host and then runs an SSH command on the host.
+########################################################################################################################
+# Validates SSH access to the host and then runs an SSH command on the host.
 #
-#  Inputs:
-#    - host - hostname or IP address
-#    - port - optional - port number for running the command - Default: 22
-#    - command - command to execute
-#    - pty - optional - whether to use pty - Valid: true, false - Default: false
-#    - username - username to connect as
-#    - password - optional - password of user
-#    - arguments - optional - arguments to pass to the command
-#    - privateKeyFile - optional - path to the private key file
-#    - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
-#    - characterSet - optional - character encoding used for input stream encoding from the target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#    - closeSession - optional - if false the ssh session will be cached for future calls of this operation during the life of the flow, if true the ssh session used by this operation will be closed - Valid: true, false - Default: false
-#    - agentForwarding - optional - the sessionObject that holds the connection if the close session is false
-#    - smart_recovery - whether the flow should try to recover in case of ssh session failure
-#                     - such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
-#                     - Default: true
-#    - retries - limit of reconnect tryings - Default: 5
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command - Default: '22'
+#   - command - command to execute
+#   - pty - optional - whether to use pty - Valid: true, false - Default: false
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - arguments - optional - arguments to pass to the command
+#   - private_key_file - optional - path to the private key file
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#   - close_session - optional - if 'false' the SSH session will be cached for future calls of this operation during the
+#                                life of the flow, if 'true' the SSH session used by this operation will be closed
+#                              - Valid: true, false - Default: false
+#   - agent_forwarding - optional - the sessionObject that holds the connection if the close session is false
+#   - smart_recovery - whether the flow should try to recover in case of ssh session failure
+#                    - such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
+#                    - Default: true
+#   - retries - limit of reconnect tryings - Default: 5
 # Outputs:
-#    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#    - standard_err - STDERR of the machine in case of successful request, null otherwise
-#    - exception - contains the stack trace in case of an exception
-#    - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is only available for certain types of channels, and only after the channel was closed (more exactly, just before the channel is closed).
-#	            Examples: 0 for a successful command, -1 if the command was not yet terminated (or this channel type has no command), 126 if the command cannot execute.
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#                                     channel type has no command), '126' if the command cannot execute.
+#   - return_code - return code of the command
 # Results:
-#    - SUCCESS - SSH access was successful and returned with code 0
-#    - FAILURE - otherwise
-###############################################################################################################################################################################
+#   - SUCCESS - SSH access was successful and returned with code '0'
+#   - FAILURE - otherwise
+########################################################################################################################
 
 namespace: io.cloudslang.base.remote_command_execution.ssh
 
@@ -55,13 +62,27 @@ flow:
           required: false
       - arguments:
           required: false
+      - private_key_file:
+          required: false
       - privateKeyFile:
-          required: false
+          default: str(get("private_key_file", ""))
+          overridable: false
       - timeout: '90000'
-      - characterSet: 'UTF-8'
-      - closeSession: 'false'
-      - agentForwarding:
+      - character_set:
           required: false
+      - characterSet:
+          default: str(get("character_set", "UTF-8"))
+          overridable: false
+      - close_session:
+          required: false
+      - closeSession:
+          default: str(get("close_session", "false"))
+          overridable: false
+      - agent_forwarding:
+          required: false
+      - agentForwarding:
+          default: str(get("agent_forwarding", ""))
+          overridable: false
       - smart_recovery: True
       - retries: 5
     workflow:
@@ -72,13 +93,13 @@ flow:
               - port
               - username
               - password
-              - privateKeyFile
+              - private_key_file
               - arguments
-              - characterSet
+              - character_set
               - pty
               - timeout
-              - closeSession
-              - agentForwarding
+              - close_session
+              - agent_forwarding
           publish:
             - return_result
             - return_code
@@ -97,19 +118,19 @@ flow:
               - port
               - username
               - password
-              - privateKeyFile
+              - private_key_file
               - command
               - arguments
-              - characterSet
+              - character_set
               - pty
               - timeout
-              - closeSession
-              - agentForwarding
+              - close_session
+              - agent_forwarding
           publish:
-            - return_result: ${ returnResult }
-            - return_code
+            - return_result
             - standard_out
             - standard_err
+            - return_code
             - exception
             - exit_status: ${ command_return_code }
           navigate:
@@ -133,12 +154,12 @@ flow:
             FAILURE_WITH_NO_MESSAGE: validate_ssh_access
             NO_ISSUE_FOUND: FAILURE
     outputs:
-      - returnResult: ${ return_result }
-      - return_code
+      - return_result
       - standard_out
       - standard_err
       - exception
       - command_return_code: ${ exit_status }
+      - return_code
     results:
       - SUCCESS
       - FAILURE

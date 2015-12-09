@@ -22,7 +22,7 @@
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - errorMessage - returnResult if there was an error
+#   - error_message - return_result if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
 #   - FAILURE - otherwise
@@ -42,13 +42,13 @@ flow:
     - retrieve_container_metrics:
         do:
           get_container_metrics:
-              - container
-              - host
-              - cadvisor_port
+            - container
+            - host
+            - cadvisor_port
         publish:
           - response_body: ${returnResult}
           - returnCode
-          - errorMessage
+          - error_message
     - retrieve_machine_memory:
         do:
           report_machine_metrics:
@@ -70,7 +70,7 @@ flow:
           - throughput_tx
           - error_rx
           - error_tx
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - timestamp
@@ -80,7 +80,7 @@ flow:
     - throughput_tx
     - error_rx
     - error_tx
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

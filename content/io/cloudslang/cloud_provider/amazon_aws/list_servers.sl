@@ -16,8 +16,8 @@
 #   - credential - optional - the Amazon Secret Access Key that correspond to the Amazon Access Key ID
 #   - region - optional - the region where the servers (instances) are. list_regions operation can be used in order
 #                         to get all regions - Default: 'us-east-1'
-#   - proxyHost - optional - the proxy server used to access the provider services
-#   - proxyPort - optional - the proxy server port used to access the provider services
+#   - proxy_host - optional - the proxy server used to access the provider services
+#   - proxy_port - optional - the proxy server port used to access the provider services - Default: '8080'
 #   - delimiter - optional - the delimiter used in result list
 #
 # Results:
@@ -40,10 +40,16 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
+    - proxy_host:
+        required: false
     - proxyHost:
+        default: str(get("proxy_host", ""))
+        overridable: false
+    - proxy_port:
         required: false
     - proxyPort:
-        required: false
+        default: str(get("proxy_port", "8080"))
+        overridable: false
     - delimiter:
         required: false
   action:

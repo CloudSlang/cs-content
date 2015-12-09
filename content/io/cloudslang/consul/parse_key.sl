@@ -12,17 +12,17 @@
 #   - json_response - response holding Consul key information
 # Outputs:
 #   - decoded - parsed response
-#   - key -key name
+#   - key - key name
 #   - flags - key flags
 #   - create_index- key create index
 #   - value - key value
 #   - modify_index - key modify index
 #   - lock_index - key lock index
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - returnResult - response of the operation
-#   - errorMessage - returnResult if there was an error
+#   - return_result - response of the operation
+#   - error_message - return_result if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -39,18 +39,18 @@ operation:
         import base64
 
         decoded = json.loads(json_response)
-        decoded= decoded[0]
-        key=decoded['Key']
-        flags=decoded['Flags']
-        create_index=decoded['CreateIndex']
-        value=encoded = base64.b64decode(decoded['Value'])
-        modify_index=decoded['ModifyIndex']
-        lock_index=decoded['LockIndex']
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        decoded = decoded[0]
+        key = decoded['Key']
+        flags = decoded['Flags']
+        create_index = decoded['CreateIndex']
+        value = encoded = base64.b64decode(decoded['Value'])
+        modify_index = decoded['ModifyIndex']
+        lock_index = decoded['LockIndex']
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error or key does not exist.'
+        return_code = '-1'
+        return_result = 'Parsing error or key does not exist.'
   outputs:
     - decoded
     - key
@@ -59,9 +59,9 @@ operation:
     - value
     - modify_index
     - lock_index
-    - returnCode
-    - returnResult
-    - errorMessage: ${returnResult if returnCode == '-1' else ''}
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
+    - return_code
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

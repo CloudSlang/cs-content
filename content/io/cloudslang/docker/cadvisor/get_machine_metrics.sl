@@ -12,10 +12,10 @@
 #   - host - Docker machine host
 #   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is '200'
-#   - returnCode - if returnCode == '-1' then there was an error
-#   - errorMessage: returnResult if returnCode == '-1' or statusCode != '200'
+#   - return_result - response of the operation
+#   - error_message: returnResult if returnCode == '-1' or statusCode != '200'
+#   - return_code - if returnCode == '-1' then there was an error
+#   - status_code - normal status code is '200'
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -31,7 +31,7 @@ operation:
         default: '8080'
         required: false
     - url:
-        default: "${'http://'+ host + ':' + cadvisor_port +'/api/v1.2/machine'}"
+        default: "${'http://' + host + ':' + cadvisor_port + '/api/v1.2/machine'}"
         overridable: false
     - method:
         default: 'get'
@@ -41,10 +41,10 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_result: ${returnResult}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${statusCode}
   results:
     - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE
