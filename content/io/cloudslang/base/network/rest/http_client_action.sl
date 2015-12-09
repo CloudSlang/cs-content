@@ -164,7 +164,7 @@ operation:
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
-        default:${get("x_509_hostname_verifier", "allow_all")}
+        default: ${get("x_509_hostname_verifier", "allow_all")}
         overridable: false
     - trust_keystore:
         required: false
