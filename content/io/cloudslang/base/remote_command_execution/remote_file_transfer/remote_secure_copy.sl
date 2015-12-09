@@ -60,7 +60,7 @@ operation:
     - source_password:
         required: false
     - sourcePassword:
-        default: ${(get("source_password", "")}
+        default: ${get("source_password", "")}
         overridable: false
     - source_private_key_file:
         required: false
