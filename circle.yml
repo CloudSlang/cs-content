@@ -9,7 +9,7 @@
 
 general:
   artifacts:
-    - "../logs/builder.log"
+    - "./cslang-builder/logs/builder.log"
     
 machine:
   environment:
