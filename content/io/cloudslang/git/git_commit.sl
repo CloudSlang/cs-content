@@ -60,7 +60,7 @@ flow:
               - port
               - username
               - password
-              - privateKeyFile: ${ private_key_file }
+              - private_key_file
               - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
               - git_files: ${ ' git commit ' + git_commit_files }
               - git_message: ${ ' -m ' + git_commit_message if git_commit_message else '' }

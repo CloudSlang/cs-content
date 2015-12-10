@@ -46,7 +46,7 @@ flow:
             - host
             - cadvisor_port
         publish:
-          - response_body: ${returnResult}
+          - response_body: ${return_result}
           - returnCode
           - error_message
     - retrieve_machine_memory:

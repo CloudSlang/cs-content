@@ -17,7 +17,7 @@
 #       - git_push_branch - the branch you want to push - Default: master
 #       - git_push_remote - the remote you want to push to - Default: origin
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+#       - private_key_file - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git branch was successfully pushed to repository
@@ -46,7 +46,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
   
   workflow:
@@ -60,7 +60,7 @@ flow:
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_push + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile
+            - private_key_file
         publish:
           - standard_err
           - standard_out

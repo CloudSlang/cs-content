@@ -76,12 +76,12 @@ flow:
           base_mail.send_mail:
             - hostname: ${email_host}
             - port: ${email_port}
-            - htmlEmail: "false"
+            - html_email: "false"
             - from: ${email_sender}
             - to: ${email_recipient}
             - subject: "New app "
             - body: "App creation succeeded."
-            - enableTLS: ${enable_tls}
+            - enable_TLS: ${enable_tls}
             - username: ${email_username}
             - password: ${email_password}
 
@@ -91,12 +91,12 @@ flow:
               base_mail.send_mail:
                 - hostname: ${email_host}
                 - port: ${email_port}
-                - htmlEmail: "false"
+                - html_email: "false"
                 - from: ${email_sender}
                 - to: ${email_recipient}
                 - subject: "New app fail"
                 - body: ${"App creation failed " + error_message}
-                - enableTLS: ${enable_tls}
+                - enable_TLS: ${enable_tls}
                 - username: ${email_username}
                 - password: ${email_password}
 

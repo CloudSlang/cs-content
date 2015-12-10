@@ -16,7 +16,7 @@
 #       - sudo_user - true or false, whether the command should execute using sudo
 #       - git_repository - the URL for cloning a git repository from
 #       - git_repository_localdir - target directory the git repository will be cloned to
-#       - privateKeyFile - the absolute path to the private key file
+#       - private_key_file - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully cloned
@@ -44,7 +44,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
   
   workflow:
@@ -57,7 +57,7 @@ flow:
             - command: ${ sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile
+            - private_key_file
         publish:
           - standard_err
           - standard_out
