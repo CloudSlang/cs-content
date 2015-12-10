@@ -114,7 +114,7 @@ operation:
     - useCookies:
         default: "true"
     - keepAlive:
-        default: "false"
+        default: "true"
     - connectionsMaxPerRoot:
         default: "2"
     - connectionsMaxTotal:
