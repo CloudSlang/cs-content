@@ -1,0 +1,10 @@
+
+
+testListApplication:
+  inputs:
+    - username: <username>
+    - password: <password>
+  description: Test that get all the application of the user
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.applications.basic.test_list_application
+  result: SUCCESS

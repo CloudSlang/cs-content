@@ -1,0 +1,9 @@
+
+testListRegions:
+  inputs:
+    - username: <username>
+    - password: <password>
+  description: Test that list the available regions of HEROKU
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.properties.test_list_regions
+  result: SUCCESS
