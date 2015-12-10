@@ -81,19 +81,19 @@ flow:
         do:
           http_client_action:
             - url
-            - authType: ${ auth_type }
+            - auth_type
             - username
             - password
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
-            - proxyUsername: ${ proxy_username }
-            - proxyPassword: ${ proxy_password }
-            - connectTimeout: ${ connect_timeout }
-            - socketTimeout: ${ socket_timeout }
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - connect_timeout
+            - socket_timeout
             - headers
-            - queryParams: ${ query_params }
+            - query_params
             - body
-            - contentType: ${ content_type }
+            - content_type
             - method
         publish:
           - return_result
