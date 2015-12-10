@@ -201,7 +201,7 @@ operation:
     - keep_alive:
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "false")}
+        default: ${get("keep_alive", "true")}
         overridable: false
     - connections_max_per_root:
         required: false
