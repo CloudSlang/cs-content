@@ -9,7 +9,7 @@
 
 general:
   artifacts:
-    - "builder.log"
+    - "../logs/builder.log"
     
 machine:
   environment:
