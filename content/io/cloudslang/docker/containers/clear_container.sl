@@ -48,7 +48,7 @@ flow:
             - host: ${docker_host}
             - username: ${docker_username}
             - password: ${docker_password}
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - port
         publish:
           - error_message
@@ -61,7 +61,7 @@ flow:
             - host: ${docker_host}
             - username: ${docker_username}
             - password: ${docker_password}
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - port
         publish:
           - error_message
