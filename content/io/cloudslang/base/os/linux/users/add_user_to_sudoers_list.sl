@@ -13,7 +13,7 @@
 #   - port - optional - port number for running the command - Default: '22'
 #   - password - optional - password of user
 #   - private_key_file - optional - the path to the private key file
-#   - user: - the user to be added in sudoers group
+#   - user - the user to be added in sudoers group
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #   - standard_out - STDOUT of the machine in case of successful request, null otherwise
