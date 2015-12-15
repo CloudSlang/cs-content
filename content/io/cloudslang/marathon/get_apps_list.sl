@@ -12,9 +12,9 @@
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - cmd - optional - filter apps to only those whose commands contain cmd
-#   - embed - optional - embeds nested resources that match supplied path - Default: none -
-#     Valid: "apps.tasks" App's tasks are not embedded in response by default
-#            "apps.failures". App's last failures are not embedded in response by default
+#   - embed - optional - embeds nested resources that match supplied path - Default: none
+#                      - Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
+#                        App's last failures are not embedded in response by default
 #   - proxy_host - optional - proxy host
 #   - proxy_port - optional - proxy port
 # Outputs:
@@ -42,7 +42,7 @@ operation:
         default: "none"
         required: false
     - url:
-        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed}
+        default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps?embed=' + embed}
         overridable: false
     - proxy_host:
         required: false
@@ -66,9 +66,9 @@ operation:
       methodName: execute
   outputs:
     - return_result: ${returnResult}
-    - status_code: ${get('statusCode', None)}
-    - return_code: ${returnCode}
     - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${get('statusCode', None)}
   results:
     - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

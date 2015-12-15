@@ -18,7 +18,7 @@
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: SJIS, EUC-JP, UTF-8
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
@@ -73,11 +73,11 @@ flow:
             - username
             - password
             - private_key_file
-            - characterSet: ${character_set}
+            - character_set
             - pty
             - timeout
-            - closeSession: ${close_session}
-            - agentForwarding: ${agent_forwarding}
+            - close_session
+            - agent_forwarding
         publish:
           - agent_container_id: ${container_id}
   outputs:

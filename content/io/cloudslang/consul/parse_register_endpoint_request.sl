@@ -15,12 +15,12 @@
 #   - service - optional - if Service key is provided, then service will also be registered
 #   - check - optional - if the Check key is provided, then a health check will also be registered
 # Outputs:
+#   - return_result - response of the operation
+#   - error_message - return_result if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - json_request - JSON request for registering endpoint
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - returnResult - response of the operation
-#   - errorMessage - returnResult if there was an error
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -46,7 +46,7 @@ operation:
     python_script: |
       try:
         import json
-        data= {}
+        data = {}
         data['Node'] = node
         if address != '':
           data['Address'] = address
@@ -57,16 +57,16 @@ operation:
         if check != '':
           data['Check'] = json.loads(check)
         json_request = json.dumps(data)
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error or key does not exist.'
+        return_code = '-1'
+        return_result = 'Parsing error or key does not exist.'
   outputs:
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
+    - return_code
     - json_request
-    - returnCode
-    - returnResult
-    - errorMessage: ${returnResult if returnCode == '-1' else ''}
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

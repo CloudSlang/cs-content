@@ -10,9 +10,10 @@
 #
 # Inputs:
 #   - list - the list of item that will be converted to string and concatenated in result - Example: [123, 'xyz']
-#   - double_quotes - optional - if True every list item will be double quoted before concatenation - Default: False
-#   - result_delimiter - optional - if True will be appended after every list item (except the last one) before concatenation - Default: "''"
-#   - result_to_lowercase - optional - if True the result will be a string in lowercase only - Default: False
+#   - double_quotes - optional - if 'True' every list item will be double quoted before concatenation - Default: False
+#   - result_delimiter - optional - if 'True' will be appended after every list item (except the last one) before
+#                                   concatenation - Default: ""
+#   - result_to_lowercase - optional - if 'True' the result will be a string in lowercase only - Default: False
 # Outputs:
 #   - result - the string that results from concatenation of list elements
 ####################################################

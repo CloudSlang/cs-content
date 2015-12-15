@@ -15,12 +15,15 @@
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - image_id - Docker image ID
-#   - privateKeyFile - optional - absolute path to private key file - Default: none, required: false
+#   - private_key_file - optional - absolute path to private key file - Default: none, required: false
 #   - arguments - optional - arguments to pass to the command - Default: none, required: false
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8, required: false
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - image_list - list containing REPOSITORY and TAG for all the Docker images
 # Results:
@@ -47,7 +50,7 @@ flow:
     - password:
         required: false
     - image_id
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - command:
         default: >
@@ -55,11 +58,11 @@ flow:
         overridable: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty: "false"
     - timeout: "30000000"
-    - closeSession: "false"
+    - close_session: "false"
 
   workflow:
     - get_image_name_from_id:
@@ -69,16 +72,16 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
-          - image_name: ${ returnResult.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","") }
+          - image_name: ${ return_result.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","") }
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE

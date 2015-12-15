@@ -125,7 +125,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - git_repository
             - git_repository_localdir
         navigate:
@@ -139,7 +139,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - git_pull_remote
             - git_branch
             - git_repository_localdir
@@ -230,7 +230,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - git_repository
             - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
@@ -244,7 +244,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - git_pull_remote
             - git_branch
             - git_repository_localdir: ${ second_git_repository_localdir }

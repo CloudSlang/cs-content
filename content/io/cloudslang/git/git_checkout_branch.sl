@@ -17,7 +17,7 @@
 #       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #       - git_branch - the git branch to checkout to
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+#       - private_key_file - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully cloned
@@ -49,7 +49,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
   
   workflow:
@@ -63,7 +63,7 @@ flow:
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git checkout ' + git_branch + ' ' + git_pull + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile
+            - private_key_file
         publish:
           - standard_err
           - standard_out

@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 
-##################################################################################################################################################
+########################################################################################################################
 # Retrieves the MySQL server status.
 #
 # Inputs:
@@ -17,10 +17,12 @@
 #   - private_key_file - optional - absolute path to the private file
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
-#   - character_set - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
 # Outputs:
 #   - uptime - number of seconds MySQL server has been running
 #   - threads - number of active threads (clients)
@@ -34,7 +36,7 @@
 # Results:
 #   - SUCCESS - action was executed successfully and STDERR of the machine contains no errors
 #   - FAILURE
-##################################################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql
 
@@ -76,26 +78,26 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - command
-            - characterSet: ${ character_set }
+            - character_set
             - pty
             - timeout
-            - closeSession: ${ close_session }
+            - close_session
         publish:
-          - returnResult
-          - return_code
+          - return_result
           - standard_err
+          - return_code
   outputs:
-    - uptime: "${ returnResult.replace(':', ' ').split('  ')[1] }"
-    - threads: "${ returnResult.replace(':', ' ').split('  ')[3] }"
-    - questions: "${ returnResult.replace(':', ' ').split('  ')[5] }"
-    - slow_queries: "${ returnResult.replace(':', ' ').split('  ')[7] }"
-    - opens: "${ returnResult.replace(':', ' ').split('  ')[9] }"
-    - flush_tables: "${ returnResult.replace(':', ' ').split('  ')[11] }"
-    - open_tables: "${ returnResult.replace(':', ' ').split('  ')[13] }"
-    - queries_per_second_AVG: "${ returnResult.replace(':', ' ').split('  ')[15] }"
-    - error_message: ${ standard_err if return_code == '0' else returnResult }
+    - uptime: "${ return_result.replace(':', ' ').split('  ')[1] }"
+    - threads: "${ return_result.replace(':', ' ').split('  ')[3] }"
+    - questions: "${ return_result.replace(':', ' ').split('  ')[5] }"
+    - slow_queries: "${ return_result.replace(':', ' ').split('  ')[7] }"
+    - opens: "${ return_result.replace(':', ' ').split('  ')[9] }"
+    - flush_tables: "${ return_result.replace(':', ' ').split('  ')[11] }"
+    - open_tables: "${ return_result.replace(':', ' ').split('  ')[13] }"
+    - queries_per_second_AVG: "${ return_result.replace(':', ' ').split('  ')[15] }"
+    - error_message: ${ standard_err if return_code == '0' else return_result }
   results:
     - SUCCESS
     - FAILURE

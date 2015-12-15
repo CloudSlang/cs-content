@@ -8,13 +8,14 @@
 ####################################################
 # This flow restart remote Linux service using ssh
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - username - username to connect as
-#       - password - password of user
-#       - service_name - linux service name to be restarted
-#       - sudo_user - optional - 'true' or 'false' whether to execute the command on behalf of username with sudo. Default: false
-#       - privateKeyFile - optional - path to the private key file
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command - Default: '22'
+#   - username - username to connect as
+#   - password - password of user
+#   - service_name - linux service name to be restarted
+#   - sudo_user - optional - 'true' or 'false' whether to execute the command on behalf of username with sudo. Default: false
+#   - private_key_file - optional - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: service on Linux host is restarted successfully
@@ -29,10 +30,10 @@ imports:
 
 flow:
   name: restart_service
-
   inputs:
     - host
     - port:
+        default: '22'
         required: false
     - username
     - password:
@@ -41,7 +42,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
   
   workflow:
@@ -54,12 +55,15 @@ flow:
             - command: ${ sudo_command + 'service ' + service_name + ' restart' + ' && echo CMD_SUCCESS' }
             - username
             - password
-            - privateKeyFile
+            - private_key_file
 
         publish: 
-          - standard_err
+          - return_result
           - standard_out
-          - return_result: ${ returnResult }
+          - standard_err
+          - exception
+          - command_return_code
+          - return_code
 
     - check_result:
         do:
@@ -71,6 +75,9 @@ flow:
           FAILURE: FAILURE
 
   outputs:
-    - standard_err
-    - standard_out
     - return_result
+    - standard_out
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code

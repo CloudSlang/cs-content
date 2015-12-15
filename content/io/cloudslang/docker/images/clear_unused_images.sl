@@ -57,7 +57,7 @@ flow:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - port
             - timeout
         publish:
@@ -69,7 +69,7 @@ flow:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - port
             - timeout
         publish:
@@ -136,7 +136,7 @@ flow:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - images: ${ images_list_safe_to_delete }
             - timeout
             - port
