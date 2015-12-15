@@ -80,7 +80,7 @@ flow:
             - host: ${node_host}
             - username: ${node_username}
             - password: ${node_password}                
-            - privateKeyFile: ${node_privkey_local}
+            - private_key_file: ${node_privkey_local}
             - command: 'sudo chef-client'
             - timeout: '600000'
         publish:

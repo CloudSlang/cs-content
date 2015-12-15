@@ -68,7 +68,9 @@ flow:
     - create_scp_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port + ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image }
+            - command: >
+                 ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port +
+                 ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image }
         navigate:
           SUCCESS: create_file_to_be_copied
           FAILURE: SCP_HOST_NOT_STARTED
@@ -92,12 +94,12 @@ flow:
     - test_remote_secure_copy:
         do:
           base_rft.remote_secure_copy:
-            - sourcePath: ${ scp_file }
-            - destinationHost: ${ host }
-            - destinationPath: ${ container_path + scp_file }
-            - destinationPort: ${ scp_host_port }
-            - destinationUsername: ${ scp_username }
-            - destinationPrivateKeyFile: ${ key_name }
+            - source_path: ${ scp_file }
+            - destination_host: ${ host }
+            - destination_path: ${ container_path + scp_file }
+            - destination_port: ${ scp_host_port }
+            - destination_username: ${ scp_username }
+            - destination_private_key_file: ${ key_name }
         navigate:
           SUCCESS: get_file_from_scp_host
           FAILURE: RFT_FAILURE
@@ -105,7 +107,9 @@ flow:
     - get_file_from_scp_host:
         do:
           base_cmd.run_command:
-            - command: ${ 'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' ' + scp_username + '@' + host + ':' + container_path + scp_file }
+            - command: >
+                ${ 'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' '
+                + scp_username + '@' + host + ':' + container_path + scp_file }
         navigate:
           SUCCESS: read_file
           FAILURE: FILE_REACHING_SCP_HOST_FAIL

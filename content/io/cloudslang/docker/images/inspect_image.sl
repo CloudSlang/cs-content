@@ -15,11 +15,13 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - private_key_file - optional - absolute path to private key file - Default: none, required: false
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - standard_out - STDOUT of the machine in case of successful request
@@ -48,18 +50,18 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - command:
         default: ${ 'docker ' + docker_options_expression + 'inspect ' + image_name }
         overridable: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
     - agent_forwarding:
         required: false
@@ -72,13 +74,13 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
             - standard_out
             - standard_err

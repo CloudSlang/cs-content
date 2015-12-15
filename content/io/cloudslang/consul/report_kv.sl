@@ -20,9 +20,9 @@
 #    - value - key value
 #    - modify_index - key modify index
 #    - lock_index - key lock index
-#    - errorMessage - returnResult if there was an error
+#    - error_message - returnResult if there was an error
 #  Results:
-#    - SUCCESS - parsing was successful (returnCode == '0')
+#    - SUCCESS - parsing was successful (return_code == '0')
 #    - FAILURE - otherwise
 ####################################################
 
@@ -44,11 +44,11 @@ flow:
             - host
             - consul_port
         publish:
-          - returnResult
+          - return_result
     - parse_key:
         do:
           parse_key:
-            - json_response: ${returnResult}
+            - json_response: ${return_result}
         publish:
           - decoded
           - key
@@ -57,7 +57,7 @@ flow:
           - value
           - modify_index
           - lock_index
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - key
@@ -66,7 +66,7 @@ flow:
     - value
     - modify_index
     - lock_index
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

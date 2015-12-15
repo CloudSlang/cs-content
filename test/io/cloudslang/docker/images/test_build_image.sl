@@ -66,7 +66,7 @@ flow:
                 ${ "mkdir -p " + workdir + " && echo -e 'FROM " + base_image + "' > " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - timeout
         navigate:
           SUCCESS: build_image
@@ -82,7 +82,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - timeout
         navigate:
           SUCCESS: get_all_images
@@ -95,7 +95,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - timeout
         publish:
           - image_list
@@ -125,7 +125,7 @@ flow:
                 ${ "rm " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - timeout
         navigate:
           SUCCESS: post_clear_docker_host

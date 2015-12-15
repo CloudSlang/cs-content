@@ -10,12 +10,12 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent port - Default: 8500
+#   - consul_port - optional - Consul agent port - Default: '8500'
 # Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode is equal to -1 then there was an error
-#   - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
+#   - return_result - response of the operation
+#   - error_message: returnResult if returnCode is equal to '-1' or statusCode different than '200'
+#   - status_code - normal status code is '200'
+#   - return_code - if returnCode is equal to '-1' then there was an error
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -28,23 +28,23 @@ operation:
   inputs:
     - host
     - consul_port:
-        default: "8500"
+        default: '8500'
         required: false
     - url:
-        default: ${'http://'+ host + ':' + consul_port +'/v1/agent/services'}
+        default: ${'http://' + host + ':' + consul_port + '/v1/agent/services'}
         overridable: false
     - method:
-        default: "get"
+        default: 'get'
         overridable: false
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_result: ${returnResult}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${statusCode}
   results:
     - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

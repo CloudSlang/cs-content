@@ -14,12 +14,14 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - Docker machine password
-#   - privateKeyFile - optional - path to the private key file
+#   - private_key_file - optional - path to the private key file
 #   - arguments - optional - arguments to pass to the command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 30000000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - dangling_image_list - list of names of dangling Docker images
@@ -47,7 +49,7 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
          required: false
     - command:
         default: >
@@ -55,16 +57,16 @@ flow:
         overridable: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         default: "30000000"
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
 
   workflow:
@@ -75,17 +77,17 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
           - dangling_image_list: >
-              ${ ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', returnResult.split('\n')[1:]))).replace(":latest", "") }
+              ${ ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', return_result.split('\n')[1:]))).replace(":latest", "") }
 
   outputs:
     - dangling_image_list

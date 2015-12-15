@@ -12,18 +12,18 @@
 #   - container_id - ID of the container to be started
 #   - container_params - optional - command parameters - Default: none
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
+#   - port - optional - SSH port - Default: '22'
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
+#   - private_key_file - optional - absolute path to private key file - Default: none
 #   - arguments - optional - arguments to pass to command - Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine
-#                             - Valid: SJIS, EUC-JP, UTF-8
-#                             - Default: UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                             - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#                             - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - optional - time in milliseconds to wait for the command to complete; Default: 90000 ms
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow,
-#                               if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                               if 'true' the SSH session used will be closed; Valid: true, false - Default: false
 # Outputs:
 #   - container_id - ID of the container that was deleted
 #   - error_message - error message
@@ -49,7 +49,7 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - arguments:
         required: false
@@ -57,13 +57,13 @@ flow:
     - command:
         default: ${'docker start ' + container_params_cmd + ' ' + container_id}
         overridable: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
 
   workflow:
@@ -74,21 +74,21 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
+            - close_session
             - agentForwarding
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
           FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - container_id: returnResult
-    - error_message: ${'' if 'STDERR' not in locals() else STDERR if returnCode == '0' else returnResult}
+    - container_id: return_result
+    - error_message: ${'' if 'STDERR' not in locals() else STDERR if return_code == '0' else return_result}

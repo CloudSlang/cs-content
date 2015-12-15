@@ -75,15 +75,15 @@ flow:
             - pty: 'false'
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - timeout
-            - characterSet: ${character_set}
-            - closeSession: ${close_session}
-            - agentForwarding: ${agent_forwarding}
+            - character_set
+            - close_session
+            - agent_forwarding
         publish:
           - container_names: >
-              ${' '.join(map(lambda line : line.split()[-1], filter(lambda line : line != '', returnResult.split('\n')[1:])))}
-          - raw_output: ${returnResult}
+              ${' '.join(map(lambda line : line.split()[-1], filter(lambda line : line != '', return_result.split('\n')[1:])))}
+          - raw_output: ${return_result}
   outputs:
     - container_names
     - raw_output

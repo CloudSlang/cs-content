@@ -75,17 +75,17 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - command
             - arguments
-            - characterSet: ${character_set}
+            - character_set
             - pty
             - timeout
-            - closeSession: ${close_session}
-            - agentForwarding: ${agent_forwarding}
+            - close_session
+            - agent_forwarding
         publish:
           - machines_id_list: >
-              ${returnResult.replace("\n"," ").replace("MACHINE ","",1).replace("...", "")[:-1]
+              ${return_result.replace("\n"," ").replace("MACHINE ","",1).replace("...", "")[:-1]
               if (return_code == '0' and (not 'ERROR' in standard_err)) else ''}
           - standard_err
 

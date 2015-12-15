@@ -10,15 +10,15 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
+#   - marathon_port - optional - Marathon agent port - Default: '8080'
 #   - app_id - app ID to delete
 #   - proxy_host - optional - proxy host
 #   - proxy_port - optional - proxy port
 # Outputs:
 #   - return_result - response of the operation
-#   - status_code - normal status code is 200
-#   - return_code - if returnCode == -1 then there was an error
-#   - error_message - returnResult if returnCode == -1 or statusCode != 200
+#   - status_code - normal status code is '200'
+#   - return_code - if returnCode == '-1' then there was an error
+#   - error_message - returnResult if returnCode == '-1' or statusCode != '200'
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
 #   - FAILURE - otherwise
@@ -35,7 +35,7 @@ operation:
         required: false
     - app_id
     - url:
-        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id}
+        default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps/' +app_id}
         overridable: false
     - method:
         default: "delete"
@@ -59,9 +59,9 @@ operation:
       methodName: execute
   outputs:
     - return_result: ${returnResult}
-    - status_code: ${statusCode}
-    - return_code: ${returnCode}
     - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${statusCode}
   results:
     - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE
