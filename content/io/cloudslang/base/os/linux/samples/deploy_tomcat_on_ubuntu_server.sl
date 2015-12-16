@@ -19,7 +19,8 @@
 #   - folder_name - the folder name to be created where tomcat installing archive will be downloaded
 #                 - Default: apache-tomcat-7.0.61.tar.gz
 #   - folder_path - optional - the absolute path under the <folder_name> will be created - Default: '/opt'
-#   - source_path - absolute path of the file about to be copied
+#   - source_path - absolute path of the file about to be copied - Example: 'C:\temp\tomcat'
+#   - script_file_name - the name of the script file - Default: 'tomcat'
 #
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -46,14 +47,15 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: deploy_tomcat
+  name: deploy_tomcat_on_ubuntu_server
 
   inputs:
     - host
     - root_password
     - user_password:
-        default: ''
+        default: 'tomcat'
         required: false
+    - java_version: 'openjdk-7-jdk'
     - download_url: 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz'
     - download_path:
         default: '/opt/apache-tomcat-7.0.61.tar.gz'
@@ -62,8 +64,26 @@ flow:
     - folder_path:
         default: '/opt'
         required: false
+    - source_path
+    - script_file_name
 
   workflow:
+    - install_java:
+        do:
+          install_java_on_ubuntu_server:
+            - host
+            - root_password
+            - java_version
+        publish:
+          - standard_err
+          - standard_out
+          - return_code
+          - command_return_code
+          - exception
+        navigate:
+          SUCCESS: verify_group_exist
+          FAILURE: INSTALL_JAVA_FAILURE
+
     - verify_group_exist:
         do:
           groups.verify_group_exist:
@@ -169,8 +189,7 @@ flow:
           ssh.ssh_flow:
             - host
             - command: >
-               ${'cd ' + folder_path + '/' + folder_name + ' && tar xvf -C ' + folder_path + '/' + folder_name +
-               ' --strip-components=1'}
+               ${'cd ' + folder_path + '/' + folder_name + ' && tar pxvf ' + folder_name + ' --strip-components=1'}
             - username: 'root'
             - password: ${root_password}
         publish:
@@ -196,8 +215,25 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: change_tomcat_folder_ownership
+          SUCCESS: install_tomcat
           FAILURE: CREATE_SYMLINK_FAILURE
+
+    - install_tomcat:
+        do:
+          ssh.ssh_flow:
+            - host
+            - command: ${'cd /usr/share/tomcat/bin' + '&& ./startup.sh'}
+            - username: 'root'
+            - password: ${root_password}
+        publish:
+          - standard_err
+          - standard_out
+          - return_code
+          - command_return_code
+          - exception
+        navigate:
+          SUCCESS: change_tomcat_folder_ownership
+          FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
 
     - change_tomcat_folder_ownership:
         do:
@@ -214,8 +250,26 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: create_init_tomcat_folder
+          SUCCESS: change_download_tomcat_folder_ownership
           FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+
+    - change_download_tomcat_folder_ownership:
+        do:
+          folders.change_folder_ownership:
+            - host
+            - root_password
+            - folder_path: ${download_path}
+            - user_name: 'tomcat'
+            - group_name: 'tomcat'
+            - recursively: True
+        publish:
+          - standard_err
+          - standard_out
+          - return_code
+          - command_return_code
+        navigate:
+          SUCCESS: create_init_tomcat_folder
+          FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - create_init_tomcat_folder:
         do:
@@ -236,11 +290,11 @@ flow:
     - upload_init_config_file:
         do:
           remote.remote_secure_copy:
-            - sourcePath: ${source_path}
-            - destinationHost: ${host}
-            - destinationPath: '/etc/init.d/tomcat'
-            - destinationUsername: 'root'
-            - destinationPassword: ${root_password}
+            - source_path
+            - destination_host: ${host}
+            - destination_path: '/etc/init.d/tomcat'
+            - destination_username: 'root'
+            - destination_password: ${root_password}
         publish:
           - return_result
           - return_code
@@ -263,40 +317,26 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: upload_server_config_file
+          SUCCESS: start_tomcat
           FAILURE: CHANGE_PERMISSIONS_FAILURE
 
-    - upload_server_config_file:
+    - start_tomcat:
         do:
-          remote.remote_secure_copy:
-            - sourcePath: ${source_path}
-            - destinationHost: ${host}
-            - destinationPath: '/usr/share/tomcat/conf'
-            - destinationUsername: 'tomcat'
-            - destinationPassword: ${user_password}
+          ssh.ssh_flow:
+            - host
+            - command: >
+                ${'cd /etc/init.d/tomcat && ./' + script_file_name + ' start'}
+            - username: 'root'
+            - password: ${root_password}
         publish:
-          - return_result
+          - standard_err
+          - standard_out
           - return_code
-          - exception
-        navigate:
-          SUCCESS: upload_users_config_file
-          FAILURE: UPLOAD_SERVER_CONFIG_FILE_FAILURE
-
-    - upload_users_config_file:
-        do:
-          remote.remote_secure_copy:
-            - sourcePath: ${source_path}
-            - destinationHost: ${host}
-            - destinationPath: '/usr/share/tomcat/conf'
-            - destinationUsername: 'tomcat'
-            - destinationPassword: ${user_password}
-        publish:
-          - return_result
-          - return_code
+          - command_return_code
           - exception
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: UPLOAD_USERS_CONFIG_FILE_FAILURE
+          FAILURE: START_TOMCAT_APPLICATION_FAILURE
 
   outputs:
     - standard_err
@@ -306,6 +346,7 @@ flow:
 
   results:
     - SUCCESS
+    - INSTALL_JAVA_FAILURE
     - SSH_VERIFY_GROUP_EXIST_FAILURE
     - CHECK_GROUP_FAILURE
     - ADD_GROUP_FAILURE
@@ -314,9 +355,10 @@ flow:
     - DOWNLOAD_TOMCAT_APPLICATION_FAILURE
     - UNTAR_TOMCAT_APPLICATION_FAILURE
     - CREATE_SYMLINK_FAILURE
+    - INSTALL_TOMCAT_APPLICATION_FAILURE
     - CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+    - CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
     - CREATE_INITIALIZATION_FOLDER_FAILURE
     - UPLOAD_INIT_CONFIG_FILE_FAILURE
     - CHANGE_PERMISSIONS_FAILURE
-    - UPLOAD_SERVER_CONFIG_FILE_FAILURE
-    - UPLOAD_USERS_CONFIG_FILE_FAILURE
+    - START_TOMCAT_APPLICATION_FAILURE

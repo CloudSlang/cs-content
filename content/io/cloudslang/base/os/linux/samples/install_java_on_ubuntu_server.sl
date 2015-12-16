@@ -6,13 +6,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to download content in <download_path> from a URL address given by <download_url>
+# This flow performs several linux commands in order to deploy Tomcat application on Ubuntu 14.04 server
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - download_url - the URL address where the content to be downloaded is - Example: 'http://www.website.com/some_content.doc'
-#   - download_path - optional - the absolute path under the content will be downloaded - Default: '/root'
+#   - java_version - the java version that will be installed
 #
 # Outputs:
 #    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -28,43 +27,37 @@
 #    - SUCCESS - SSH access was successful
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.folders
+namespace: io.cloudslang.base.os.linux.samples
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: download_content
+  name: install_java_on_ubuntu_server
 
   inputs:
     - host
     - root_password
-    - download_url
-    - download_path:
-        default: '/root'
-        required: false
+    - java_version: 'openjdk-7-jdk'
 
   workflow:
-    - download_content:
+    - install_java:
         do:
           ssh.ssh_flow:
             - host
-            - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'wget -P ' + download_path + ' ' + download_url}
+            - command: ${'apt-get install -y ' + java_version}
         publish:
           - standard_err
           - standard_out
           - return_code
           - command_return_code
+          - exception
 
   outputs:
-    - standard_err
-    - standard_out
-    - return_code
-    - command_return_code
-
-  results:
-    - SUCCESS: ${return_code == '0' and command_return_code == '0'}
-    - FAILURE
+      - standard_err
+      - standard_out
+      - return_code
+      - command_return_code
+      - exception
