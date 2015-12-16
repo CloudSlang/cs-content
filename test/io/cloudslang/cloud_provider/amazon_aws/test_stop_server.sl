@@ -24,10 +24,10 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - serverId
-    - proxyHost:
+    - server_id
+    - proxy_host:
         required: false
-    - proxyPort:
+    - proxy_port:
         required: false
     - delimiter:
         required: false
@@ -44,9 +44,9 @@ flow:
             - identity
             - credential
             - region
-            - serverId
-            - proxyHost
-            - proxyPort
+            - server_id
+            - proxy_host
+            - proxy_port
         navigate:
           SUCCESS: sleep
           FAILURE: STOP_FAILURE
@@ -66,8 +66,8 @@ flow:
             - identity
             - credential
             - region
-            - proxyHost
-            - proxyPort
+            - proxy_host
+            - proxy_port
             - delimiter
         navigate:
           SUCCESS: check_result
@@ -81,7 +81,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: ${serverId + ', state=stopped'}
+            - string_to_find: ${server_id + ', state=stopped'}
         navigate:
           SUCCESS: SUCCESS
           FAILURE: STOPPED_FAILURE

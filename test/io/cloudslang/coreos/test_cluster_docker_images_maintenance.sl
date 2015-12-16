@@ -79,7 +79,7 @@ flow:
             - port
             - username: ${coreos_username}
             - password: ${coreos_password}
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - timeout
         navigate:
           SUCCESS: run_container
@@ -121,7 +121,7 @@ flow:
                      - port
                      - username: ${coreos_username}
                      - password: ${coreos_password}
-                     - privateKeyFile: ${private_key_file}
+                     - private_key_file
                      - timeout
               publish:
                 - number_of_images_in_cluster: ${self['number_of_images_in_cluster'] + len(image_list.split())}

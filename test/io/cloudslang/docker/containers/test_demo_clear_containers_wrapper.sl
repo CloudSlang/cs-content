@@ -67,7 +67,7 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
         publish:
           - error_message
         navigate:
@@ -84,18 +84,16 @@ flow:
     - start_linked_container:
         do:
           start_linked_container:
-            - dbContainerIp: ${db_IP}
-            - dbContainerName: 'mysqldb'
-            - imageName: ${linked_image}
-            - containerName: ${linked_container_name}
-            - linkParams: ${dbContainerName + ':mysql'}
-            - cmdParams: ${'-e DB_URL=' + dbContainerIp + ' -p ' + '8080' + ':8080'}
+            - image_name: ${linked_image}
+            - container_name: ${linked_container_name}
+            - link_params: 'mysqldb:mysql'
+            - cmd_params: ${'-e DB_URL=' + db_IP + ' -p ' + '8080' + ':8080'}
             - container_cmd: ${linked_container_cmd}
             - host
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - timeout: '30000000'
         publish:
           - container_id

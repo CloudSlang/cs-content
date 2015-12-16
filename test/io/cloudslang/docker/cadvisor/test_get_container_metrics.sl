@@ -75,7 +75,7 @@ flow:
             - cadvisor_port
             - container: ${cadvisor_container_name}
         publish:
-          - returnResult
+          - return_result
         navigate:
           SUCCESS: validate_response_is_not_empty
           FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
@@ -83,7 +83,7 @@ flow:
     - validate_response_is_not_empty:
         do:
           strings.string_occurrence_counter:
-              - string_in_which_to_search: ${returnResult}
+              - string_in_which_to_search: ${return_result}
               - string_to_find: 'cpu'
         navigate:
           SUCCESS: SUCCESS

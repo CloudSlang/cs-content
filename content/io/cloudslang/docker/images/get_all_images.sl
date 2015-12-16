@@ -14,12 +14,14 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file
+#   - private_key_file - optional - absolute path to private key file
 #   - arguments - optional - arguments to pass to the command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for command to complete
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
 #   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - image_list - list containing REPOSITORY and TAG for all the Docker images
@@ -47,7 +49,7 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - command:
         default: >
@@ -55,15 +57,15 @@ flow:
         overridable: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
 
   workflow:
@@ -74,16 +76,16 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
-            - returnResult
+            - return_result
             - return_code
             - standard_err
 
@@ -107,7 +109,7 @@ flow:
 
   outputs:
     - image_list: >
-          ${ returnResult.replace("\n"," ")
+          ${ return_result.replace("\n"," ")
           .replace("<none>:<none> ","")
           .replace(":latest", "")
           .replace("REPOSITORY:TAG ","") }

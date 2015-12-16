@@ -62,7 +62,7 @@ flow:
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
         publish:
           - standard_err
           - standard_out

@@ -52,7 +52,7 @@ flow:
             - password: ${ docker_password }
             - image_name
             - port
-            - privateKeyFile: ${ private_key_file }
+            - private_key_file
             - timeout
         publish:
           - image_inspect_json: ${ standard_out }
@@ -71,7 +71,7 @@ flow:
              - host: ${ docker_host }
              - username: ${ docker_username }
              - password: ${ docker_password }
-             - privateKeyFile: ${ private_key_file }
+             - private_key_file
              - port
              - timeout
              - image_id: ${ parent_image[:10] }

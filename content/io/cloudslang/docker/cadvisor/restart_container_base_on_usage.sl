@@ -15,7 +15,7 @@
 #   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: '22'
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - path to the private key file
+#   - private_key_file - optional - path to the private key file
 #   - rule - optional - Python query to determine if the resource usages is high
 # Results:
 #   - SUCCESS - successful (returnCode == '0')
@@ -42,7 +42,7 @@ flow:
     - username
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
     - rule:
         default: ''
@@ -61,8 +61,8 @@ flow:
           - throughput_tx
           - error_rx
           - error_tx
-          - returnCode
-          - errorMessage
+          - return_code
+          - error_message
     - evaluate_resource_usage:
         do:
           evaluate_resource_usage:
@@ -73,7 +73,7 @@ flow:
             - throughput_tx
             - error_rx
             - error_tx
-            - errorMessage
+            - error_message
         navigate:
             MORE: stop_container
             LESS: SUCCESS
@@ -86,28 +86,28 @@ flow:
             - username
             - password
             - port: ${machine_connect_port}
-            - privateKeyFile
+            - private_key_file
         publish:
-          - errorMessage
+          - error_message
         navigate:
             SUCCESS: start_container
             FAILURE: FAILURE
     - start_container:
         do:
           docker_container.start_container:
-            - privateKeyFile
+            - private_key_file
             - container_id: ${container}
             - host
             - username
             - password
             - port: ${machine_connect_port}
         publish:
-          - errorMessage
+          - error_message
     - on_failure:
         - print_error:
             do:
               docker_print.print_text:
-                - text: ${'cAdvisor ended with the following error message ' + errorMessage}
+                - text: ${'cAdvisor ended with the following error message ' + error_message}
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE

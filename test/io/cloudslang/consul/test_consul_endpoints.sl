@@ -52,8 +52,8 @@ flow:
           SUCCESS: deregister_endpoint
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_register: ${returnResult}
-          - errorMessage
+          - services_after_register: ${return_result}
+          - error_message
 
     - deregister_endpoint:
         do:
@@ -75,8 +75,8 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_deregister: ${returnResult}
-          - errorMessage
+          - services_after_deregister: ${return_result}
+          - error_message
   outputs:
     - services_after_register: ${str(services_after_register)}
     - services_after_deregister: ${str(services_after_deregister)}

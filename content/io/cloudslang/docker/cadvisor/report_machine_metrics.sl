@@ -20,7 +20,7 @@
 #   - disk_map - parsed cAdvisor machine disk map
 #   - network_devices - parsed cAdvisor machine network devices
 #   - topology - parsed cAdvisor machine topology
-#   - errorMessage - returnResult if there was an error
+#   - error_message - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')
 #   - FAILURE - otherwise
@@ -39,12 +39,12 @@ flow:
     - retrieve_machine_metrics:
         do:
           get_machine_metrics:
-              - host
-              - cadvisor_port
+            - host
+            - cadvisor_port
         publish:
-          - response_body: ${returnResult}
-          - returnCode
-          - errorMessage
+          - response_body: ${return_result}
+          - error_message
+          - return_code
     - parse_machine_metrics:
         do:
           parse_machine:
@@ -58,7 +58,7 @@ flow:
           - disk_map
           - network_devices
           - topology
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - num_cores
@@ -68,7 +68,7 @@ flow:
     - disk_map
     - network_devices
     - topology
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

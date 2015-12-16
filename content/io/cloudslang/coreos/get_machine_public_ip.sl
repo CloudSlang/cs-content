@@ -76,16 +76,16 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - command
             - arguments
-            - characterSet: ${character_set}
+            - character_set
             - pty
             - timeout
-            - closeSession: ${close_session}
-            - agentForwarding: ${agent_forwarding}
+            - close_session
+            - agent_forwarding
         publish:
-          - public_ip: ${returnResult[returnResult.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 :-1]}
+          - public_ip: ${return_result[return_result.find('COREOS_PUBLIC_IPV4') + len('COREOS_PUBLIC_IPV4') + 1 :-1]}
           - standard_err
 
     - check_ssh_agent_in_stderr:

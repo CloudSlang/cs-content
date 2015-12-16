@@ -29,7 +29,7 @@ flow:
   inputs:
     - host
     - consul_port:
-        default: "8500"
+        default: '8500'
         required: false
     - node
     - datacenter:
@@ -59,10 +59,10 @@ flow:
             - consul_port
             - json_request
         publish:
-          - errorMessage
+          - error_message
 
   outputs:
-      - errorMessage
+      - error_message
   results:
       - SUCCESS
       - FAILURE

@@ -10,8 +10,9 @@
 #
 # Inputs:
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - status - optional - return only those tasks whose status matches this parameter; if not specified, all tasks are returned - Valid: running, staging - Default: none
+#   - marathon_port - optional - Marathon agent port - Default: '8080'
+#   - status - optional - return only those tasks whose status matches this parameter; if not specified, all tasks are
+#                         returned - Valid: running, staging - Default: none
 #   - proxy_host - optional - proxy host
 #   - proxy_port - optional - proxy port
 # Outputs:
@@ -37,7 +38,7 @@ operation:
         default: "none"
         required: false
     - url:
-        default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/tasks?status='+status}
+        default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/tasks?status=' +status}
         overridable: false
     - method:
         default: "get"

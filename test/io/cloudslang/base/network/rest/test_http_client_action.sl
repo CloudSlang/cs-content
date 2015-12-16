@@ -35,9 +35,9 @@ flow:
             - url
             - method: "POST"
             - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
+            - content_type
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -61,9 +61,9 @@ flow:
           http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
+            - content_type
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -128,9 +128,9 @@ flow:
             - url
             - method: "PUT"
             - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
+            - content_type
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -154,9 +154,9 @@ flow:
           http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
+            - content_type
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -211,9 +211,9 @@ flow:
           http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "DELETE"
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
+            - content_type
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
@@ -228,10 +228,10 @@ flow:
           http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
-            - contentType: ${ content_type }
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
-            - validHttpStatusCodes: [404]
+            - content_type
+            - proxy_host
+            - proxy_port
+            - valid_http_status_codes: [404]
         publish:
           - return_result
           - error_message
