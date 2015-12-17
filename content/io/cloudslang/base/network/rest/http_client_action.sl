@@ -11,7 +11,7 @@
 # Inputs:
 #   - url - URL to which the call is made
 #   - authType - optional - type of authentication used to execute the request on the target server - Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication) - Default: basic
-#   - preemptiveAuth - optional - if 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent - Default: true
+#   - preemptiveAuth - optional - if true, authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header like WWW-Authenticate: Basic realm="myRealm" only then will authentication info will be sent - Default: true
 #   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - kerberosConfFile - optional - path to the Kerberos configuration file - Default: 0
@@ -20,28 +20,28 @@
 #   - proxyHost - optional - proxy server used to access the web site
 #   - proxyPort - optional - proxy server port - Default: 8080
 #   - proxyUsername - optional - user name used when connecting to the proxy
-#   - proxyPassword - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxyPassword - optional - proxy server password associated with the proxyUsername input value
 #   - trustAllRoots - optional - specifies whether to enable weak security over SSL - Default: true
 #   - x509HostnameVerifier - optional - specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate - Valid: strict,browser_compatible,allow_all - Default: allow_all
 #   - trustKeystore - optional - location of the TrustStore file - Format: a URL or the local path to it
 #   - trustPassword - optional -  password associated with the TrustStore file
 #   - keystore - optional - location of the KeyStore file - Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
 #   - keystorePassword - optional - password associated with the KeyStore file
-#   - connectTimeout - optional - time to wait for a connection to be established, in seconds - Default: 0 (infinite timeout)
-#   - socketTimeout - optional - time to wait for data to be retrieved (maximum period inactivity between two consecutive data packets), in seconds - Default: 0 (infinite timeout)
+#   - connectTimeout - optional - time in seconds to wait for a connection to be established, in seconds - Default: 0 (infinite timeout)
+#   - socketTimeout - optional - time in seconds to wait for data to be retrieved (maximum period inactivity between two consecutive data packets) - Default: 0 (infinite timeout)
 #   - useCookies - optional - specifies whether to enable cookie tracking or not - Default: true
 #   - keepAlive - optional - specifies whether to create a shared connection that will be used in subsequent calls - Default: true
 #   - connectionsMaxPerRoot - optional - maximum limit of connections on a per route basis - Default: 2
 #   - connectionsMaxTotal - optional - maximum limit of connections in total - Default: 2
-#   - headers - optional - list containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616) - Examples: Accept:text/plain
+#   - headers - optional - list containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616) - Example: Accept:text/plain
 #   - responseCharacterSet - optional - character encoding to be used for the HTTP response - Default: ISO-8859-1
-#   - destinationFile - optional - absolute path of a file on disk where the entity returned by the response will be saved to
+#   - destinationFile - optional - absolute path of a file on disk where the entity returned by the response will be saved
 #   - followRedirects -  specifies whether the 'Get' command automatically follows redirects - Default: true
-#   - queryParams - optional - list containing query parameters to append to the URL - Examples: parameterName1=parameterValue1&parameterName2=parameterValue2;
+#   - queryParams - optional - list containing query parameters to append to the URL - Example: parameterName1=parameterValue1&parameterName2=parameterValue2;
 #   - queryParamsAreURLEncoded - optional - whether to encode  (according to the url encoding standard) the queryParams - Default: false
 #   - queryParamsAreFormEncoded - optional - whether to encode the queryParams in the form request format -  Default: true
-#   - formParams - optional - input needs to be given in form encoded format and will set the entity to be sent in the request - Examples: input1=value1&input2=value2. (The client will send: input1=value1&in+put+2=val+u%0A+e2)
-#   - formParamsAreURLEncoded - optional - formParams will be encoded  (according to the url encoding standard) if this is 'true' - Default: false
+#   - formParams - optional - input needs to be given in form encoded format and will set the entity to be sent in the request - Example: input1=value1&input2=value2. (The client will send: input1=value1&in+put+2=val+u%0A+e2)
+#   - formParamsAreURLEncoded - optional - if true, formParams will be encoded  (according to the url encoding standard) - Default: false
 #   - sourceFile - optional - absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE.
 #   - body - optional - string to include in body for HTTP POST operation. If both sourceFile and body will be provided, the body input has priority over sourceFile; should not be provided for method=GET, HEAD, TRACE
 #   - contentType - optional - content type that should be set in the request header, representing the MIME-type of the data in the message body - Default: text/plain
@@ -55,7 +55,7 @@
 #   - method - HTTP method used
 #   - httpClientCookieSession - optional - session object that holds the cookies if the useCookies input is true
 #   - httpClientPoolingConnectionManager - optional - GlobalSessionObject that holds the http client pooling connection manager
-#   - validHttpStatusCodes - optional - List/array of HTTP status codes considered to be successful (e.g. [202, 204]). Default is range 200-299
+#   - validHttpStatusCodes - optional - list/array of HTTP status codes considered to be successful (e.g. [202, 204]) - Default: 200-299
 # Outputs:
 #   - return_result - response of the operation
 #   - error_message - returnResult when the returnCode is non-zero (e.g. network or other failure)

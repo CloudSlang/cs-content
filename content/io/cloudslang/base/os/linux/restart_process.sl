@@ -6,19 +6,23 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux process using ssh
+# Restarts a remote Linux process using SSH.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - username - username to connect as
-#       - password - password of user
-#       - process_name - Linux process name to be restarted (NOTE: if Linux has several process with same name - all of them will be restarted)
-#       - privateKeyFile - the absolute path to the private key file
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - SSH port
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - process_name - Linux process name to be restarted - NOTE: if Linux has several processes with same name all of them will be restarted
+#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
+#   - privateKeyFile - absolute path to the private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 # Results:
-#  SUCCESS: process on Linux host is restarted successfully
-#  FAILURE: processes cannot be restarted due to an error
-#
+#   - SUCCESS: process on Linux host restarted successfully
+#   - FAILURE: processes was not restarted due to an error
 ####################################################
 namespace: io.cloudslang.base.os.linux
 
@@ -42,7 +46,7 @@ flow:
         required: False
     - privateKeyFile:
         required: false
-  
+
   workflow:
     - process_restart:
         do:

@@ -13,10 +13,10 @@
 #   - host - IP where the application is running
 #   - port - port on which the application is listening
 #   - attempts - attempts to reach host
-#   - time_to_sleep - time in seconds to wait between attempts
-#   - attempt_timeout - timeout in seconds for each attempt
+#   - time_to_sleep - optional - time in seconds to wait between attempts - Default: 10
+#   - attempt_timeout - optional - timeout, in seconds, for each attempt - Default: false
 # Outputs:
-#   - error_message - timeout exceeded and application did not respond
+#   - output_message - message indicating whether app is up or not
 # Results:
 #   - SUCCESS - application is up
 #   - FAILURE - application not responding or down

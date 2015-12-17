@@ -12,7 +12,7 @@
 #   - file_path - the path of the file to read
 # Outputs:
 #   - read_text - content of the file
-#   - error_message - error message if error occurred
+#   - message - error message if error occurred
 # Results:
 #   - SUCCESS - file was read successfully
 #   - FAILURE - otherwise
@@ -29,18 +29,19 @@ operation:
     python_script: |
       import sys
       read_text = ""
-      error_message = ""
+      message = ""
       try:
         f = open(file_path, 'r')
         read_text = f.read()
         f.close()
+        message = 'reading done successfully'
         res = True
       except Exception as e:
-        print e
+        message = e
         res = False
   outputs:
     - read_text
-    - error_message
+    - message
   results:
     - SUCCESS: ${res}
     - FAILURE

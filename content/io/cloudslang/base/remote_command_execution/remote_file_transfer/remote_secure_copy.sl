@@ -6,31 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ###############################################################################################################################################################################
-#   Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using the SCP protocol.
+# Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using the SCP protocol.
 #
-#   Inputs:
-#       - sourceHost - optional - host of the source machine (only if remote to remote)
-#       - sourcePath - absolute or relative path of the file about to be copied
-#       - sourceUsername - optional - username of the source machine (only if remote to remote)
-#       - sourcePassword - optional -  password of the source machine (only if remote to remote)
-#       - sourcePort - optional - port number for the source machine (only if remote to remote) - Default: 22
-#       - sourcePrivateKeyFile - optional - path to the private key file on the source machine (only if remote to remote)
-#       - destinationHost - host of the destination machine
-#       - destinationPath - absolute or relative path where the file will be copied
-#       - destinationPort - optional - port number for the destination machine - Default: 22
-#       - destinationUsername - username of the destination machine
-#       - destinationPassword - optional - password of the destination machine
-#       - destinationPrivateKeyFile optional - path to the private key file on the destination machine
-#       - knownHostsPolicy - optional - policy used for managing known_hosts file - Default: allow - Possible: allow, strict, add
-#       - knownHostsPath - path to the known_hosts file
-#       - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
-#   Outputs:
-#       - return_result - confirmation message
-#       - return_code - is equal to 0 if operation finished with SUCCESS and different than 0 otherwise
-#       - exception - exception description
-#   Results:
-#       - SUCCESS - file copied successfully
-#       - FAILURE - copy failed
+# Inputs:
+#   - sourceHost - optional - host of the source machine (only if remote to remote)
+#   - sourcePath - absolute or relative path of the file about to be copied
+#   - sourcePort - optional - port number for the source machine (only if remote to remote) - Default: 22
+#   - sourceUsername - optional - username of the source machine (only if remote to remote)
+#   - sourcePassword - optional -  password of the source machine (only if remote to remote)
+#   - sourcePrivateKeyFile - optional - path to the private key file on the source machine (only if remote to remote)
+#   - destinationHost - host of the destination machine
+#   - destinationPath - absolute or relative path where the file will be copied
+#   - destinationPort - optional - port number for the destination machine - Default: 22
+#   - destinationUsername - username of the destination machine
+#   - destinationPassword - optional - password of the destination machine
+#   - destinationPrivateKeyFile - optional - path to the private key file on the destination machine
+#   - knownHostsPolicy - optional - policy used for managing known_hosts file - Default: allow - Valid: allow, strict, add
+#   - knownHostsPath - optional - path to the known_hosts file
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000
+# Outputs:
+#   - return_result - confirmation message
+#   - return_code - 0 if operation finished with SUCCESS, not 0 otherwise
+#   - exception - exception description
+# Results:
+#   - SUCCESS - file copied successfully
+#   - FAILURE - copy failed
 ###############################################################################################################################################################################
 
 namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer

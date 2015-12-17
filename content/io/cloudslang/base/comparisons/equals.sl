@@ -9,8 +9,8 @@
 # Compares two inputs for Python equality (==).
 #
 # Inputs:
-#   - first - first object to compare
-#   - second - second object to compare
+#   - first - first Python object to compare
+#   - second - second Python object to compare
 # Results:
 #   - EQUAL - object are equal
 #   - NOT_EQUAL - objects are not equal

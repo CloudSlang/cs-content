@@ -10,11 +10,11 @@
 # If the last key in the path does not exist, the key is added as well.
 #
 # Inputs:
-#   - json_input - JSON data input
-#   - json_path - path at which to add value represented as a list of keys and/or indices - Example: ['tags', 1, 'name']
-#   - value - value to associate with key
+#   - json_input - JSON data input - Example: '{"k1": {"k2": ["v1", "v2"]}}'
+#   - json_path - path at which to add value represented as a list of keys and/or indices - Example: ["k1","k2",1]
+#   - value - value to associate with key - Example: "v3"
 # Outputs:
-#   - json_output - JSON with keys:value added
+#   - json_output - JSON with key:value added
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise

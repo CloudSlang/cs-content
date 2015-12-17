@@ -6,21 +6,23 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux host using ssh
+# Restart remote Linux host using SSH.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
-#       - username - username to connect as
-#       - password - password of user
-#       - timeout - time (in minutes) to postpone restart
-#       - privateKeyFile - the absolute path to the private key file
-#       - sudo_user - use 'sudo' prefix before command
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command - Default: 22
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - timeout - time in minutes to postpone restart
+#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
+#   - privateKeyFile - the absolute path to the private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 # Results:
-#  SUCCESS: Linux host is restarted successfully
-#  FAILURE: Linux host cannot be restarted due to an error
-#
+#  SUCCESS: Linux host restarted successfully
+#  FAILURE: Linux host was not restarted due to an error
 ####################################################
 namespace: io.cloudslang.base.os.linux
 
@@ -45,7 +47,7 @@ flow:
         required: false
     - privateKeyFile:
         required: false
-  
+
   workflow:
     - server_restart:
         do:
@@ -57,7 +59,7 @@ flow:
             - username
             - password
             - privateKeyFile
-        publish: 
+        publish:
           - standard_err
           - standard_out
           - return_result: ${ returnResult }

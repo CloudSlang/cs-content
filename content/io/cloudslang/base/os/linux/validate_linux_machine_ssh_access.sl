@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes a noop SSH command.
+# Executes a no-op SSH command.
 #
 # Inputs:
 #   - host - Docker machine host
 #   - port - optional - SSH port - Default: 22
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - arguments - optional - arguments to pass to the command - Default: none
+#   - privateKeyFile - optional - absolute path to private key file
+#   - arguments - optional - arguments to pass to the command
 #   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - timeout - time in milliseconds to wait for command to complete - Default: 30000000
@@ -23,6 +23,12 @@
 # Outputs:
 #   - response - Linux welcome message
 #   - error_message
+
+#   - return_result - contains the exception in case of failure, success message otherwise
+#   - return_code - "0" if successful, "-1" otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - exception - exception in case of failure
+#   - exit_status - return code of the remote command
 # Results:
 #   - SUCCESS
 #   - FAILURE

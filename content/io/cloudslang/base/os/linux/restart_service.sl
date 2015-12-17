@@ -6,20 +6,24 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux service using ssh
+# Restarts a remote Linux service using SSH.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - username - username to connect as
-#       - password - password of user
-#       - service_name - linux service name to be restarted
-#       - sudo_user - optional - 'true' or 'false' whether to execute the command on behalf of username with sudo. Default: false
-#       - privateKeyFile - optional - path to the private key file
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - service_name - Linux service name to be restarted
+#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
+#   - privateKeyFile - the absolute path to the private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 # Results:
-#  SUCCESS: service on Linux host is restarted successfully
-#  FAILURE: service cannot be restarted due to an error
-# 
+#  SUCCESS: service was restarted successfully
+#  FAILURE: service could not be restarted due to an error
+#
 ####################################################
 namespace: io.cloudslang.base.os.linux
 
@@ -43,7 +47,7 @@ flow:
         required: false
     - privateKeyFile:
         required: false
-  
+
   workflow:
     - service_restart:
         do:
@@ -56,7 +60,7 @@ flow:
             - password
             - privateKeyFile
 
-        publish: 
+        publish:
           - standard_err
           - standard_out
           - return_result: ${ returnResult }

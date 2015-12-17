@@ -6,19 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified user to sudoers group
+# Performs a Linux command to add a specified user to sudoers group.
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - password - optional - password of user
-#      - private_key_file - optional - the path to the private key file
-#      - user: - the user to be added in sudoers group
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - password - password of user
+#   - private_key_file - optional - the path to the private key file
+#   - user - user to be added in sudoers group
 # Results:
-#  SUCCESS: the user was successfully added
-#  FAILURE: an error occurred when trying to add user
-#
+#   - SUCCESS: user was successfully added
+#   - FAILURE: error occurred when trying to add user
 ####################################################
 namespace: io.cloudslang.base.os.linux.users
 

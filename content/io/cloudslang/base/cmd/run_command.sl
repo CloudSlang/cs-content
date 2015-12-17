@@ -9,7 +9,7 @@
 # Runs a shell command locally.
 #
 # Inputs:
-#   - command - the command to run
+#   - command - command to run
 # Results:
 #   - SUCCESS - exit code is 0
 #   - FAILURE - otherwise
