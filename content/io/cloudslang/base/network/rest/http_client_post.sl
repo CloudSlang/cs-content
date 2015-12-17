@@ -11,28 +11,29 @@
 # Inputs:
 #   - url - URL to which the call is made
 #   - auth_type - optional - type of authentication used to execute the request on the target server
-#               - Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication)
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
+#                          - Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#                          - Default: 'basic'
+#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
+#                           'domain\user'
 #   - password - optional - password used for URL authentication
 #   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port - Default: 8080
+#   - proxy_port - optional - proxy server port - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the proxyUsername input value
-#   - connect_timeout - optional - time in seconds to wait for a connection to be established - Default: 0 (infinite)
-#   - socket_timeout - optional - time in seconds to wait for data to be retrieved, in seconds - Default: 0 (infinite)
+#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #   - headers - optional - list containing the headers to use for the request separated by new line (CRLF);
-#       header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616)
-#       Example: Accept:text/plain
+#                          header name - value pair will be separated by ":" - Format: According to HTTP standard for
+#                          headers (RFC 2616) - Example: 'Accept:text/plain'
 #   - query_params - optional - list containing query parameters to append to the URL
-#       Example: parameterName1=parameterValue1&parameterName2=parameterValue2;
-#   - body - optional - string to include in body for HTTP POST operation. If both sourceFile and body will be provided,
-#       the body input has priority over sourceFile; should not be provided for method=GET, HEAD, TRACE
-#   - content_type - optional - content type that should be set in the request header, representing the MIME-type
-#       of the data in the message body - Default: text/plain
+#                             - Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#   - body - optional - string to include in body for HTTP POST operation
+#   - content_type - optional - content type that should be set in the request header, representing the MIME-type of the
+#                               data in the message body - Default: 'text/plain'
 # Outputs:
-#   - return_result - response of the operation in case of success or the error message otherwise
-#   - error_message - returnResult if statusCode is not contained in interval between "200" and "299"
-#   - return_code - "0" if success, "-1" otherwise
+#   - return_result - the response of the operation in case of success or the error message otherwise
+#   - error_message - return_result if status_code is not contained in interval between '200' and '299'
+#   - return_code - '0' if success, '-1' otherwise
 #   - status_code - status code of the HTTP call
 ################################################
 
@@ -80,19 +81,19 @@ flow:
         do:
           http_client_action:
             - url
-            - authType: ${ auth_type }
+            - auth_type
             - username
             - password
-            - proxyHost: ${ proxy_host }
-            - proxyPort: ${ proxy_port }
-            - proxyUsername: ${ proxy_username }
-            - proxyPassword: ${ proxy_password }
-            - connectTimeout: ${ connect_timeout }
-            - socketTimeout: ${ socket_timeout }
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - connect_timeout
+            - socket_timeout
             - headers
-            - queryParams: ${ query_params }
+            - query_params
             - body
-            - contentType: ${ content_type }
+            - content_type
             - method
         publish:
           - return_result

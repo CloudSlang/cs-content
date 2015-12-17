@@ -16,9 +16,9 @@
 #   - credential - optional - the Amazon Secret Access Key that correspond to the Amazon Access Key ID
 #   - region - optional - the region where the server (instance) to be started can be found. list_regions operation
 #                         can be used in order to get all regions - Default: 'us-east-1'
-#   - serverId - the ID of the server (instance) you want to start
-#   - proxyHost - optional - the proxy server used to access the provider services
-#   - proxyPort - optional - the proxy server port used to access the provider services
+#   - server_id - the ID of the server (instance) you want to start
+#   - proxy_host - optional - the proxy server used to access the provider services
+#   - proxy_port - optional - the proxy server port used to access the provider services - Default: '8080'
 #
 # Results:
 #  SUCCESS: the server (instance) was successfully started
@@ -40,11 +40,18 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - serverId
+    - server_id
+    - serverId: ${server_id}
+    - proxy_host:
+        required: false
     - proxyHost:
+        default: ${get("proxy_host", "")}
+        overridable: false
+    - proxy_port:
         required: false
     - proxyPort:
-        required: false
+        default: ${get("proxy_port", "8080")}
+        overridable: false
   action:
     java_action:
       className: io.cloudslang.content.jclouds.actions.StartServerAction

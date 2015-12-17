@@ -16,7 +16,7 @@
 #       - sudo_user - true or false, whether the command should execute using sudo
 #       - git_reset_target - the SHA you want to reset the branch to - Defaults: HEAD
 #       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
+#       - private_key_file - the absolute path to the private key file
 #
 # Results:
 #  SUCCESS: git repository successfully cleaned up using git reset
@@ -46,7 +46,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
   
   workflow:
@@ -60,7 +60,7 @@ flow:
             - command: ${ sudo_command + ' cd ' + git_repository_localdir + git_reset + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFilee
+            - private_key_file
         publish:
           - standard_err
           - standard_out

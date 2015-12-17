@@ -10,16 +10,18 @@
 #
 # Inputs:
 #   - host - Docker machine host
-#   - port - optional - SSH port
+#   - port - optional - port number for running the command - Default: '22'
 #   - username  - Docker machine username
 #   - mount - optional - mount to check disk space for - Default: '/'
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - path to private key file
+#   - private_key_file - optional - path to private key file
 #   - arguments - optional - arguments to pass to the command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - - optional - time in milliseconds to wait for command to complete
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed - Valid: true, false
 # Outputs:
 #   - disk_space - percentage - Example: 50%
 #   - error_message - error message if error occurred
@@ -38,28 +40,25 @@ flow:
   inputs:
     - host
     - port:
+        default: "22"
         required: false
     - username
     - mount:
-        required: false
         default: "/"
+        required: false
     - password:
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
-    - command:
-        default: >
-          ${"df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"}
-        overridable: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
   workflow:
     - check_linux_disk_space:
@@ -69,21 +68,22 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
-            - command
+            - private_key_file
+            - command: >
+                ${"df -kh " + mount + " | grep -v 'Filesystem' | awk '{print $5}'"}
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
+            - close_session
         publish:
+          - return_result
           - standard_out
           - standard_err
           - return_code
-          - returnResult
   outputs:
     - disk_space: ${ '' if 'standard_out' not in locals() else standard_out.strip() }
-    - error_message: ${ '' if 'standard_err' not in locals() else standard_err if return_code == '0' else returnResult }
+    - error_message: ${ '' if 'standard_err' not in locals() else standard_err if return_code == '0' else return_result }
   results:
     - SUCCESS
     - FAILURE

@@ -10,16 +10,23 @@
 #
 # Inputs:
 #   - host - hostname or IP address
-#   - port - optional - port number
+#   - port - optional - port number for running the command - Default: '22'
 #   - username - username to connect as
 #   - password - optional - password of user
 #   - service_name - Linux service name to be restarted
-#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
-#   - privateKeyFile - the absolute path to the private key file
+#   - sudo_user - optional - whether to execute the command on behalf of username with sudo. Default: false
+#   - private_key_file - optional - absolute path to the private key file
 # Outputs:
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#                                     channel type has no command), '126' if the command cannot execute.
+#   - return_code - return code of the command
 # Results:
 #  SUCCESS: service was restarted successfully
 #  FAILURE: service could not be restarted due to an error
@@ -33,10 +40,10 @@ imports:
 
 flow:
   name: restart_service
-
   inputs:
     - host
     - port:
+        default: '22'
         required: false
     - username
     - password:
@@ -45,7 +52,7 @@ flow:
     - sudo_user:
         default: false
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
 
   workflow:
@@ -58,12 +65,15 @@ flow:
             - command: ${ sudo_command + 'service ' + service_name + ' restart' + ' && echo CMD_SUCCESS' }
             - username
             - password
-            - privateKeyFile
+            - private_key_file
 
         publish:
-          - standard_err
+          - return_result
           - standard_out
-          - return_result: ${ returnResult }
+          - standard_err
+          - exception
+          - command_return_code
+          - return_code
 
     - check_result:
         do:
@@ -75,6 +85,9 @@ flow:
           FAILURE: FAILURE
 
   outputs:
-    - standard_err
-    - standard_out
     - return_result
+    - standard_out
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code

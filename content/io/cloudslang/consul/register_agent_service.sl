@@ -10,15 +10,15 @@
 #
 # Inputs:
 #   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Default: 8500
+#   - consul_port - optional - Consul agent host port - Default: '8500'
 #   - address - optional - will default to that of the agent
 #   - service_name - the service name what will be registered
 #   - service_id - optional - if omitted, service_name will be used instead
 #   - check - optional - if the Check key is provided, then a health check will also be registered
 # Outputs:
-#   - errorMessage - returnResult if there was an error
+#   - error_message - return_result if there was an error
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -29,7 +29,7 @@ flow:
   inputs:
     - host
     - consul_port:
-        default: "8500"
+        default: '8500'
         required: false
     - address:
         required: false
@@ -40,21 +40,21 @@ flow:
         required: false
   workflow:
     - parse_register_agent_service_request:
-          do:
-            parse_register_agent_service_request:
-                - address
-                - service_name
-                - service_id
-                - check
-          publish:
-            - json_request
+        do:
+          parse_register_agent_service_request:
+            - address
+            - service_name
+            - service_id
+            - check
+        publish:
+          - json_request
     - send_register_agent_service_request:
         do:
           send_register_agent_service_request:
-              - host
-              - consul_port
-              - json_request
+            - host
+            - consul_port
+            - json_request
         publish:
-            - errorMessage
+          - error_message
   outputs:
-      - errorMessage
+    - error_message

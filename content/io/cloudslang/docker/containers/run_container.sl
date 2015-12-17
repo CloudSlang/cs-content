@@ -21,13 +21,13 @@
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - arguments - optional - arguments to pass to command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine
-#                             - Valid: SJIS, EUC-JP, UTF-8
+#   - character_set - optional - character encoding used for input stream encoding from target machine
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow,
-#                               if true the SSH session used will be closed; Valid: true, false
-#   - agentForwarding - optional - whether to forward the user authentication agent
+#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#                                if 'true' the SSH session used will be closed; Valid: true, false
+#   - agent_forwarding - optional - whether to forward the user authentication agent
 # Outputs:
 #   - container_id - ID of the container
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
@@ -65,16 +65,16 @@ flow:
         required: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         default: '300000'
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
     - docker_options_expression:
         default: ${(docker_options + ' ') if bool(docker_options) else ''}
@@ -105,14 +105,14 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
           - container_id: ${standard_out[:-1]}
           - standard_err

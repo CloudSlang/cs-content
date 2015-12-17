@@ -74,11 +74,11 @@ flow:
             - username
             - password
             - private_key_file
-            - characterSet: ${character_set}
+            - character_set
             - pty
             - timeout
-            - closeSession: ${close_session}
-            - agentForwarding: ${agent_forwarding}
+            - close_session
+            - agent_forwarding
         publish:
           - manager_container_id: ${container_id}
   outputs:

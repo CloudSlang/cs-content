@@ -17,13 +17,13 @@
 #   - bcc - optional - comma-delimited list of bcc recipients - Default: none
 #   - subject - email subject
 #   - body - email text
-#   - htmlEmail - optional - Default: true
-#   - readReceipt - optional - Default: false
+#   - html_email - optional - Default: true
+#   - read_receipt - optional - Default: false
 #   - attachments - optional - Default: none
 #   - username - optional - Default: none
 #   - password - optional - Default: none
-#   - characterSet - optional - Default: UTF-8
-#   - contentTransferEncoding - optional - Default: base64
+#   - character_set - optional - Default: UTF-8
+#   - content_transfer_encoding - optional - Default: base64
 #   - delimiter - optional - Default: none
 #   - enableTLS - optional - enable startTLS - Default : false
 # Results:
@@ -46,31 +46,43 @@ operation:
         required: false
     - subject
     - body
+    - html_email:
+        required: false
     - htmlEmail:
-        default: "true"
+        default: ${get("html_email", "true")}
+        overridable: false
+    - read_receipt:
         required: false
     - readReceipt:
-        default: "false"
-        required: false
+        default: ${get("read_receipt", "false")}
+        overridable: false
     - attachments:
         required: false
     - username:
         required: false
     - password:
         required: false
+    - character_set:
+        required: false
     - characterSet:
+        default: ${get("character_set", "UTF-8")}
+        overridable: false
+    - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
-        default: "base64"
-        required: false
+        default: ${get("content_transfer_encoding", "base64")}
+        overridable: false
     - delimiter:
         required: false
-    - enableTLS:
+    - enable_TLS:
         required: false
+    - enableTLS:
+        default: ${get("enable_TLS", "")}
+        overridable: false
   action:
     java_action:
       className: io.cloudslang.content.mail.actions.SendMailAction
       methodName: execute
   results:
-    - SUCCESS: ${ returnCode == '0' }
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

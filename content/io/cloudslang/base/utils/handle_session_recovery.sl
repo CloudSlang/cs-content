@@ -5,16 +5,17 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-###############################################################################################################################################################################
+########################################################################################################################
 #  Verifies whether session recovery mechanism is enabled, if there are tries left
-#  and in such case checks whether the SSH session failed with a certain pattern.
+#  and in such case checks whether the ssh session failed with a certain pattern.
 #
 #  Inputs:
 #    - enabled - optional - whether session recovery is enabled - Default: true
 #    - retries - limit of reconnect tries
-#    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - return_code - from SSH: the return code of the remote command
-#    - exit_status - from SSH: the return code of the remote command
+#    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
+#                                exception
+#    - exception - from SSH: contains the stack trace in case of an exception
+#    - exit_status - from SSH: return code of the remote command
 #  Outputs:
 #    - retries - updated input value (decreased by 1)
 #  Results:
@@ -23,7 +24,7 @@
 #    - SESSION_IS_DOWN: session failure pattern detected
 #    - FAILURE_WITH_NO_MESSAGE: session failure pattern detected
 #    - NO_ISSUE_FOUND: no session failure pattern was detected
-###############################################################################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.utils
 
