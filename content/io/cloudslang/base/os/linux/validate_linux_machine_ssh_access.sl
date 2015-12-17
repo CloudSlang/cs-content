@@ -13,7 +13,7 @@
 #   - port - optional - SSH port - Default: '22'
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file
+#   - private_key_file - optional - absolute path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - character_set - optional - character encoding used for input stream encoding from target machine
 #                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
