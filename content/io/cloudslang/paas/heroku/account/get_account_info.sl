@@ -4,6 +4,7 @@
 # Inputs: 
 #   - username - the Heroku username - Example: 'someone@mailprovider.com'
 #   - password - the Heroku used for authentication
+#
 # Outputs: 
 #   - return_result - the response of the operation in case of success, the error message otherwise 
 #   - error_message - return_result if status_code is not '200'

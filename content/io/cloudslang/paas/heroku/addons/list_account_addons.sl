@@ -1,10 +1,11 @@
 #################################################### 
-# This flow performs an REST API call in order to get the details of all the HEROKU addons choose by the user 
+# This flow performs an REST API call in order to get the details of all Heroku add-ons available for the account
 # 
 # Inputs: 
 #   - username - the Heroku username - Example: 'someone@mailprovider.com'
 #   - password - the Heroku used for authentication
-# Outputs: 
+#
+# Outputs:
 #   - return_result - the response of the operation in case of success, the error message otherwise 
 #   - error_message - return_result if statusCode is not '200' 
 #   - return_code - '0' if success, '-1' otherwise 

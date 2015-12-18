@@ -41,6 +41,8 @@ operation:
           for key in json_path[:-1]:
             temp = temp[key]
           temp[json_path[-1]] = value
+        elif (json_path == [] and value == '' and json_input == '{}'):
+          decoded = {}
         else:
           decoded = value
         encoded = json.dumps(decoded)
