@@ -42,7 +42,8 @@ flow:
         default: "Customer"
         overridable: true
     - cp_location:
-            default: "c:/testpack/"
+        default: "c:/content_packs/"
+        overridable: true
     - cp_folder: ${cp_location + cp_name + "-cp-" + cp_version}
   workflow:
     - create_Lib_folder:
