@@ -8,11 +8,11 @@
 # This flow create a content pack which can be deployed in OO Central
 #
 # Inputs:
-#   - cp_name - The content pack name
-#   - cp_version - The content pack version
-#   - cslang_folder - The cloud slang content folder to pack
-#   - cp_publisher - The content pack publisher
-#   - cp_location - The location for the content pack jar file
+#   - cp_name - The content pack name (e.g. "base")
+#   - cp_version - The content pack version (e.g. "0.1")
+#   - cslang_folder - The cloud slang content folder to pack (e.g. "C:/cslang-cli/cslang/content/io/cloudslang/base")
+#   - cp_publisher - The content pack publisher (e.g. "Customer")
+#   - cp_location - The location for the content pack jar file (e.g. "c:/content_packs")
 #   - cp_folder -  A temporary folder for the package. This folder is archived and deleted. There is no need to change this input value.
 #
 # Results:
@@ -25,7 +25,7 @@ namespace: io.cloudslang.createCP
 
 imports:
  base_files: io.cloudslang.base.files
- #create_CP: io.cloudslang.createCP
+
 flow:
   name: create_package
   inputs:
@@ -42,9 +42,9 @@ flow:
         default: "Customer"
         overridable: true
     - cp_location:
-        default: "c:/content_packs/"
+        default: "c:/content_packs"
         overridable: true
-    - cp_folder: ${cp_location + cp_name + "-cp-" + cp_version}
+    - cp_folder: ${cp_location + "/" + cp_name + "-cp-" + cp_version}
   workflow:
     - create_Lib_folder:
         do:
@@ -111,7 +111,7 @@ flow:
         do:
            base_files.move:
              - source: ${cp_folder + "/" + cp_name + "-cp-" + cp_version + ".zip"}
-             - destination: ${cp_location + cp_name + "-cp-" + cp_version + ".jar"}
+             - destination: ${cp_location + "/" + cp_name + "-cp-" + cp_version + ".jar"}
         publish:
              - SUCCESS
              - FAILURE
