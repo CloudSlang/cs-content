@@ -19,15 +19,15 @@
 #   - home_path - optional - the path of the home folder - Default: '/home'
 #
 # Outputs:
-#    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#    - standard_err - STDERR of the machine in case of successful request, null otherwise
-#    - exception - contains the stack trace in case of an exception
-#    - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                            only available for certain types of channels, and only after the channel was closed
-#                            (more exactly, just before the channel is closed).
-#	                         Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                      channel type has no command), 126 if the command cannot execute.
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#                         Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#                                     channel type has no command), 126 if the command cannot execute.
 # Results:
 #    - SUCCESS - add user SSH command was successfully executed
 #    - FAILURE - otherwise
@@ -75,12 +75,14 @@ flow:
                 group_name_string + home_path_string + ' && echo \"' + user_name + ':' + user_password +
                 '\" | chpasswd' if user_password != '' else ''}
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
           - command_return_code
 
   outputs:
+    - return_result
     - standard_err
     - standard_out
     - return_code

@@ -23,15 +23,15 @@
 #   - script_file_name - the name of the script file - Default: 'tomcat'
 #
 # Outputs:
-#    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#    - standard_err - STDERR of the machine in case of successful request, null otherwise
-#    - exception - contains the stack trace in case of an exception
-#    - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                            only available for certain types of channels, and only after the channel was closed
-#                            (more exactly, just before the channel is closed).
-#	                         Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                      channel type has no command), 126 if the command cannot execute.
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#                                     channel type has no command), 126 if the command cannot execute.
 # Results:
 #    - SUCCESS - SSH access was successful
 #    - FAILURE - otherwise
@@ -75,6 +75,7 @@ flow:
             - root_password
             - java_version
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -91,6 +92,7 @@ flow:
             - root_password
             - group_name: 'tomcat'
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -125,6 +127,7 @@ flow:
             - root_password
             - group_name: 'tomcat'
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -144,6 +147,7 @@ flow:
             - create_home: True
             - home_path: '/usr/share/tomcat'
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -160,6 +164,7 @@ flow:
             - folder_name
             - folder_path
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -176,6 +181,7 @@ flow:
             - download_url
             - download_path
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -193,6 +199,7 @@ flow:
             - username: 'root'
             - password: ${root_password}
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -210,6 +217,7 @@ flow:
             - source_folder: ${folder_path + '/' + folder_name}
             - linked_folder: '/usr/share/tomcat'
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -226,6 +234,7 @@ flow:
             - username: 'root'
             - password: ${root_password}
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -245,6 +254,7 @@ flow:
             - group_name: 'tomcat'
             - recursively: True
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -263,6 +273,7 @@ flow:
             - group_name: 'tomcat'
             - recursively: True
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -279,6 +290,7 @@ flow:
             - folder_name: 'tomcat'
             - folder_path: '/etc/init.d'
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -312,6 +324,7 @@ flow:
             - permissions_code: '755'
             - recursively: True
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -329,6 +342,7 @@ flow:
             - username: 'root'
             - password: ${root_password}
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
@@ -339,6 +353,7 @@ flow:
           FAILURE: START_TOMCAT_APPLICATION_FAILURE
 
   outputs:
+    - return_result
     - standard_err
     - standard_out
     - return_code

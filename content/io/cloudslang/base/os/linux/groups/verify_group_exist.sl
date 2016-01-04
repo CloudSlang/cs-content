@@ -14,15 +14,15 @@
 #   - group_name - the name of the group to verify if exist
 #
 # Outputs:
-#    - returnResult - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#    - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#    - standard_err - STDERR of the machine in case of successful request, null otherwise
-#    - exception - contains the stack trace in case of an exception
-#    - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                            only available for certain types of channels, and only after the channel was closed
-#                            (more exactly, just before the channel is closed).
-#	                         Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                      channel type has no command), 126 if the command cannot execute.
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#                                     channel type has no command), 126 if the command cannot execute.
 #    - message - returns 'The "<group_name>" group exist.' if the group exist or 'The "<group_name>" group does not exist.'
 #                otherwise
 # Results:
@@ -53,12 +53,14 @@ flow:
             - command: >
                 ${'cat /etc/group | grep ' + group_name +  ' | cut -d \":\" -f1 | grep ' + group_name}
         publish:
+          - return_result
           - standard_err
           - standard_out
           - return_code
           - command_return_code
 
   outputs:
+    - return_result
     - standard_err
     - standard_out
     - return_code
