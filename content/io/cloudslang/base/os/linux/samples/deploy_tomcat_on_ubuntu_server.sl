@@ -65,7 +65,8 @@ flow:
         default: '/opt'
         required: false
     - source_path
-    - script_file_name
+    - script_file_name: 'tomcat'
+
 
   workflow:
     - install_java:
