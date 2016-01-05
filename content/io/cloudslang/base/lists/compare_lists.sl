@@ -9,13 +9,13 @@
 # Compare the first list with the second list to see if they are identical or not.
 #
 # Inputs:
-#   - list_1 - first list - ex. [123, 'xyz']
-#   - list_2 - second list - ex. [456, 'abc']
+#   - list_1 - first list - Example: [123, 'xyz']
+#   - list_2 - second list - Example: [456, 'abc']
 # Outputs:
-#   - result - if "true" first list is identical with the second list
+#   - result - true if list_1 is identical to list_2
 # Results:
-#   - SUCCESS - list are identical
-#   - FAILURE - list are not identical
+#   - SUCCESS - lists are identical
+#   - FAILURE - lists are not identical
 ####################################################
 
 namespace: io.cloudslang.base.lists
@@ -28,6 +28,8 @@ operation:
   action:
     python_script: |
       result = list_1 == list_2
+  outputs:
+    - result
   results:
     - SUCCESS: ${result}
     - FAILURE

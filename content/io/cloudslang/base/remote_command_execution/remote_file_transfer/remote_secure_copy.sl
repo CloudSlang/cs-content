@@ -4,7 +4,6 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-
 ########################################################################################################################
 # Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using
 #   the SCP protocol.

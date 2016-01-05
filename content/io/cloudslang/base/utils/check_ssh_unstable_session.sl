@@ -6,16 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-#  Checks whether the ssh session failed with a certain pattern.
-#  Cases:
-#   - session is down: return code = -1, exception is 'Session is down'
-#   - failure with no message: exit status = -1
+# Checks whether the ssh session failed with a certain pattern.
+# Cases:
+#  - session is down: return code = -1, exception is 'Session is down'
+#  - failure with no message: exit status = -1
 #
-#  Inputs:
-#    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
-#                                exception
-#    - return_code - from SSH: return code of the ssh operation
-#    - exit_status - from SSH: the return code of the remote command
+# Inputs:
+#   - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - return_code - from SSH: return code of SSH operation
+#   - exit_status - from SSH: return code of remote command
 #  Results:
 #    - SESSION_IS_DOWN: pattern detected
 #    - FAILURE_WITH_NO_MESSAGE: pattern detected

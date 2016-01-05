@@ -18,7 +18,7 @@
 #   - port - email port - System Property: io.cloudslang.base.port
 #   - from - email sender - System Property: io.cloudslang.base.from
 #   - to - email recipient - System Property: io.cloudslang.base.to
-#   - subject - email subject - Default: "'Ping Result'"
+#   - subject - email subject - Default: "Ping Result"
 #   - username - optional - username to connect to email host - System Property: io.cloudslang.base.username
 #   - password - optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
 #

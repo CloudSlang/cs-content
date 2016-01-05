@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Check is boolean is true or false, use for flow control
+# Checks if boolean is true or false. Used for flow control.
 #
 # Inputs:
 #   - bool_value - Boolean value to check

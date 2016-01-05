@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified user to sudoers group
+# Performs a Linux command to add a specified user to sudoers group.
 #
 # Inputs:
 #   - host - hostname or IP address
@@ -25,10 +25,8 @@
 #	                         Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #                                      channel type has no command), '126' if the command cannot execute.
 #   - return_code - return code of the command
-#
-# Results:
-#   SUCCESS: the user was successfully added
-#   FAILURE: an error occurred when trying to add user
+#   - SUCCESS: user was successfully added
+#   - FAILURE: error occurred when trying to add user
 ####################################################
 
 namespace: io.cloudslang.base.os.linux.users
@@ -75,7 +73,6 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ command_return_code }
             - string_to_find: "0"
-
   outputs:
     - return_result
     - standard_out

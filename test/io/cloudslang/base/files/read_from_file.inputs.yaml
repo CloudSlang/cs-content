@@ -9,7 +9,7 @@
 testReadFromFileSuccess:
   inputs:
     - expected_read_text: hello
-    - expected_error_message: ""
+    - expected_message: file was read successfully
     - read_file_path: 1.txt
   description: Tests that read_from_file.sl operation finishes with SUCCESS when all inputs are valid
   testFlowPath: io.cloudslang.base.files.test_read_from_file
@@ -27,5 +27,3 @@ testReadFromFileMissingInput:
   testFlowPath: io.cloudslang.base.files.read_from_file
   result: FAILURE
   throwsException: true
-
-

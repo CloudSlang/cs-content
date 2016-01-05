@@ -9,9 +9,9 @@
 # Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
 #
 # Inputs:
-#	- json_array - JSON array input
-#	- json_object - JSON object input
-#	- index - optional - position at which to insert the new object.
+#	  - json_array - JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
+#	  - json_object - JSON object to insert into array - Example: '{"b": "1"}'
+#	  - index - optional - position at which to insert the new object - Example: 1
 # Outputs:
 #   - json_output - JSON array with object inserted
 #   - return_result - contains the exception in case of failure, success message otherwise

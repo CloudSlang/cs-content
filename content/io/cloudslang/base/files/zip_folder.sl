@@ -9,8 +9,8 @@
 # Creates a zip archive.
 #
 # Inputs:
-#   - archive_name - name of archive to be created (without 'zip')
-#   - folder_path - path to folder to be zipped
+#   - archive_name - name of archive to be created (without '.zip')
+#   - folder_path - path to folder to be zipped. Zipped file will be created in this folder.
 # Outputs:
 #   - message - error message in case of error
 # Results:

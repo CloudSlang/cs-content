@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the given JSON input to retrieve the corresponding value addressed by the keys_list input.
+# Parses the given JSON input to retrieve the corresponding value addressed by the json_path input.
 #
 # Inputs:
-#   - json_input - JSON data input
+#   - json_input - JSON data input - Example: '{"k1": {"k2": ["v1", "v2"]}}'
 #   - json_path - path from which to retrieve value represented as a list of keys and/or indices.
-#     Passing an empty list ([]) will retrieve top level keys. - Example: ['tags', 1, 'name']
+#     Passing an empty list ([]) will retrieve the entire json_input. - Example: ["k1", "k2", 1]
 # Outputs:
-#   - value - the corresponding value of the key that results from json_path input - ex. = decode['tags'][1]['name']
+#   - value - the corresponding value of the key referred to by json_path
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise
-#   - error_message - the corresponding error message if there was an error when executing otherwise left blank
+#   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
