@@ -1,9 +1,10 @@
 #################################################### 
-# This flow performs an REST API call in order to delete an Heroku application
+# This flow performs an REST API call in order to delete an Heroku application collaborator
 # 
 # Inputs: 
 #   - username - the Heroku username - Example: 'someone@mailprovider.com'
 #   - password - the Heroku used for authentication
+#   - collaborator_email_or_id - the email or the id of the collaborator
 #   - app_id_or_name - the name or the id of the Heroku application
 #
 # Outputs: 
@@ -13,23 +14,24 @@
 #   - status_code - the code returned by the operation 
 ####################################################
 
-namespace: io.cloudslang.paas.heroku.applications
+namespace: io.cloudslang.paas.heroku.collaborators
 
 imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: delete_application
+  name: delete_application_collaborator
   inputs:
     - username
     - password
+    - collaborator_email_or_id
     - app_id_or_name
 
   workflow:
-    - delete_application:
+    - delete_app_collaborator:
         do:
           rest.http_client_delete:
-            - url: ${'https://api.heroku.com/apps/' + app_id_or_name}
+            - url: ${'https://api.heroku.com/apps/' + app_id_or_name +'/collaborators/' + collaborator_email_or_id}
             - username
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"

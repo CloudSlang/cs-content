@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 # Created by Florian TEISSEDRE - florian.teissedre@hpe.com
 ####################################################
-namespace: io.cloudslang.paas.heroku.account
+namespace: io.cloudslang.paas.heroku.collaborators
 
 imports:
   lists: io.cloudslang.base.lists
@@ -15,45 +15,48 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_get_account_info
+  name: test_create_application_collaborator
   inputs:
     - username
     - password
+    - app_id_or_name
+    - user
+    - silent:
+        default: False
+        required: false
 
   workflow:
-    - get_account_info:
+    - create_application_collaborator:
         do:
-          get_account_info:
+          create_application_collaborator:
             - username
             - password
+            - app_id_or_name
+            - user
+            - silent
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
+          - id
+          - created_at
         navigate:
           SUCCESS: check_result
-          FAILURE: GET_ACCOUNT_INFO_FAILURE
+          ADD_SILENT_VALUE_FAILURE: ADD_SILENT_VALUE_FAILURE
+          INSERT_USER_VALUE_FAILURE: INSERT_USER_VALUE_FAILURE
+          CREATE_APPLICATION_COLLABORATOR_FAILURE: CREATE_APPLICATION_COLLABORATOR_FAILURE
+          GET_ID_FAILURE: GET_ID_FAILURE
+          GET_CREATED_AT_FAILURE: GET_CREATED_AT_FAILURE
 
     - check_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
-        navigate:
-          SUCCESS: get_id
-          FAILURE: CHECK_RESULT_FAILURE
-
-    - get_id:
-        do:
-          json.get_value:
-            - json_input: ${return_result}
-            - json_path: ['id']
-        publish:
-          - id: ${value}
+            - list_2: ['', 0, 201]
         navigate:
           SUCCESS: check_id_is_present
-          FAILURE: GET_ID_FAILURE
+          FAILURE: CHECK_RESULT_FAILURE
 
     - check_id_is_present:
         do:
@@ -62,27 +65,16 @@ flow:
             - second_string: None
         navigate:
           SUCCESS: ID_IS_NOT_PRESENT
-          FAILURE: get_email
+          FAILURE: check_created_at_is_present
 
-    - get_email:
-        do:
-          json.get_value:
-            - json_input: ${return_result}
-            - json_path: ['email']
-        publish:
-          - checked_email: ${value}
-        navigate:
-          SUCCESS: check_email
-          FAILURE: GET_EMAIL_FAILURE
-
-    - check_email:
+    - check_created_at_is_present:
         do:
           strings.string_equals:
-            - first_string: ${username}
-            - second_string: ${checked_email}
+            - first_string: ${created_at}
+            - second_string: None
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_EMAIL_FAILURE
+          SUCCESS: CREATED_AT_IS_NOT_PRESENT
+          FAILURE: SUCCESS
 
   outputs:
     - return_result
@@ -90,13 +82,15 @@ flow:
     - return_code
     - status_code
     - id
-    - checked_email
+    - created_at
 
   results:
     - SUCCESS
-    - GET_ACCOUNT_INFO_FAILURE
-    - CHECK_RESULT_FAILURE
+    - ADD_SILENT_VALUE_FAILURE
+    - INSERT_USER_VALUE_FAILURE
+    - CREATE_APPLICATION_COLLABORATOR_FAILURE
     - GET_ID_FAILURE
+    - GET_CREATED_AT_FAILURE
+    - CHECK_RESULT_FAILURE
     - ID_IS_NOT_PRESENT
-    - GET_EMAIL_FAILURE
-    - CHECK_EMAIL_FAILURE
+    - CREATED_AT_IS_NOT_PRESENT

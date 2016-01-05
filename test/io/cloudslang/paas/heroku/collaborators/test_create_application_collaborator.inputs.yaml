@@ -1,15 +1,18 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testHerokuGetAccountInfo:
+testHerokuCreateApplicationCollaborator:
   inputs:
     - username: <username>
     - password: <password>
-  description: "Test that get the details of the current account"
+    - app_id_or_name: <app_id_or_name>
+    - user: <user>
+    - silent: <silent>
+  description: "Test that creates/add a new collaborator to a specified application"
   testSuites: [heroku-local]
-  testFlowPath: io.cloudslang.paas.heroku.account.test_get_account_info
+  testFlowPath: io.cloudslang.paas.heroku.collaborators.test_create_application_collaborator
   result: SUCCESS

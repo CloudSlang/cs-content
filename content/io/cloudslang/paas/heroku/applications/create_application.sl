@@ -14,6 +14,9 @@
 #   - error_message - return_result if statusCode is not '201'
 #   - return_code - '0' if success, '-1' otherwise 
 #   - status_code - the code returned by the operation
+#   - id - the id of the new created application - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
+#   - name - the name of the new created application. Useful when <name> input is not provided - Example: 'arcane-fortress-9257'
+#   - created_at - the exact time when the application was created - Example: '2016-01-04T14:49:53Z'
 #
 # Results:
 #   - SUCCESS - the application was successfully created
@@ -22,6 +25,9 @@
 #   - ADD_REGION_FAILURE - insert 'region' key:value pair in JSON body failed
 #   - ADD_STACK_FAILURE - insert 'stack' key:value pair in JSON body failed
 #   - CREATE_APPLICATION_FAILURE - the create Heroku application REST API call failed
+#   - GET_ID_FAILURE - the id of the newly created application could not be retrieved from the create REST API call response
+#   - GET_NAME_FAILURE - the name of the newly created application could not be retrieved from the create REST API call response
+#   - GET_CREATED_AT_FAILURE - the time when the newly application was created could not be retrieved from the create REST API call response
 ####################################################
 
 namespace: io.cloudslang.paas.heroku.applications
@@ -195,12 +201,12 @@ flow:
     - created_at
 
   results:
-      - SUCCESS
-      - CREATE_EMPTY_JSON_FAILURE
-      - ADD_NAME_FAILURE
-      - ADD_REGION_FAILURE
-      - ADD_STACK_FAILURE
-      - CREATE_APPLICATION_FAILURE
-      - GET_ID_FAILURE
-      - GET_NAME_FAILURE
-      - GET_CREATED_AT_FAILURE
+    - SUCCESS
+    - CREATE_EMPTY_JSON_FAILURE
+    - ADD_NAME_FAILURE
+    - ADD_REGION_FAILURE
+    - ADD_STACK_FAILURE
+    - CREATE_APPLICATION_FAILURE
+    - GET_ID_FAILURE
+    - GET_NAME_FAILURE
+    - GET_CREATED_AT_FAILURE
