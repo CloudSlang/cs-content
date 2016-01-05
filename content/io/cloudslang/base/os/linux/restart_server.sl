@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Restart remote Linux host using SSH.
+# Restarts a remote Linux host using SSH.
 #
 # Inputs:
 #   - host - hostname or IP address

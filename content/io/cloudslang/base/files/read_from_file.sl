@@ -34,7 +34,7 @@ operation:
         f = open(file_path, 'r')
         read_text = f.read()
         f.close()
-        message = 'reading done successfully'
+        message = 'file was read successfully'
         res = True
       except Exception as e:
         message = e

@@ -11,7 +11,7 @@
 # Inputs:
 #   - json_input - JSON from which to retrieve keys - Example: '{"k1": {"k2": {"k3":"v3"}}}'
 #   - json_path - path from which to retrieve key represented as a list of keys and/or indices.
-#     Passing an empty list ([]) will retrieve top level keys. - Example: ["k1", "k2"]
+#                 Passing an empty list ([]) will retrieve top level keys. - Example: ["k1", "k2"]
 # Outputs:
 #   - keys - if any keys were found, list of keys found
 #   - return_result - parsing was successful or not
