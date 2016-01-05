@@ -12,13 +12,13 @@
 #   - node_name - name of node in Chef to be deleted
 #   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - if using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
+#   - knife_password - optional - password to access server with knife
+#   - knife_privkey - optional - SSH keyfile to access server with knife (local file that resides where flow is executing)
 #   - node_host - hostname or IP of Chef node
 #   - node_username - SSH username for the Chef node
-#   - node_password - optional - if using password auth to access node
-#   - node_privkey - optional - if using keyfile auth to access node (local file that resides where flow is executing)
-#   - chef_repo - optional - relative or absolute path to the chef repository on Chef Workstation
+#   - node_password - optional - password to access node
+#   - node_privkey - optional - keyfile to access node (*REMOTE FILE* on knife server)
+#   - knife_config - optional - location of knife.rb config file
 # Outputs:
 #   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT

@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Run Chef knife command and return filtered result
+# Run Chef knife command and return filtered result.
 #
 # Inputs:
-#   - knife_cmd - knife command to run e.g. 'cookbook list'
+#   - knife_cmd - knife command to run - Example: 'cookbook list'
 #   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - if using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - knife_timeout - optional - timeout in millsecs, default is 300 seconds
-#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
+#   - knife_password - optional - password to access server with knife
+#   - knife_privkey - optional - SSH keyfile to access server with knife (local file that resides where flow is executing)
+#   - knife_timeout - optional - timeout in milliseconds - Default: '300000'
+#   - knife_config - optional - location of knife.rb config file - Default: ~/.chef/knife.rb
 # Outputs:
-#   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT
+#   - knife_result - filtered output of knife command
 #   - standard_err - any STDERR
 ####################################################
 

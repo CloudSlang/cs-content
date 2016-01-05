@@ -6,20 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Bootstrap a server so it can be managed by Chef as a new node
+# Bootstrap a server so it can be managed by Chef as a new node.
 #
 # Inputs:
 #   - node_name - new node name in Chef
 #   - node_host - hostname or IP of server to boostrap
 #   - node_username - SSH username to boostrap the new node
-#   - node_password - optional - if using password auth to access node
-#   - node_privkey - optional - if using keyfile auth to access node (*REMOTE FILE* on knife server)
+#   - node_password - optional - password to access node
+#   - node_privkey - optional - keyfile to access node (*REMOTE FILE* on knife server)
 #   - knife_host - server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - if using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - knife_timeout - optional - timeout in millsecs, default is 600 seconds
-#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
+#   - knife_privkey - optional - SSH keyfile to access server with knife (local file that resides where flow is executing)
+#   - knife_password - optional - password to access server with knife
+#   - knife_timeout - optional - timeout in milliseconds - Default: '600000'
+#   - knife_config - optional - location of knife.rb config file
 # Outputs:
 #   - raw_result - full STDOUT
 #   - knife_result - filtered output of knife command
@@ -36,17 +36,17 @@ flow:
   name: bootstrap_node
   inputs:
     - node_name
-    - node_host     
+    - node_host
     - node_username
     - node_password:
         required: false
     - node_privkey:
-        required: false      
+        required: false
     - knife_host
     - knife_username
     - knife_privkey:
         required: false
-    - knife_password: 
+    - knife_password:
         required: false
     - knife_timeout:
         default: '600000'
