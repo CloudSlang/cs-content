@@ -7,32 +7,29 @@
 #
 # Created by Florian TEISSEDRE - florian.teissedre@hpe.com
 ####################################################
-namespace: io.cloudslang.paas.heroku.collaborators
+namespace: io.cloudslang.paas.heroku.domains
 
 imports:
   lists: io.cloudslang.base.lists
+  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_application_collaborator
+  name: test_get_domain_details
   inputs:
     - username
     - password
     - app_id_or_name
-    - user
-    - silent:
-        default: False
-        required: false
+    - domain_id_or_hostname
 
   workflow:
-    - create_application_collaborator:
+    - get_domain_details:
         do:
-          create_application_collaborator:
+          get_domain_details:
             - username
             - password
             - app_id_or_name
-            - user
-            - silent
+            - domain_id_or_hostname
         publish:
           - return_result
           - error_message
@@ -40,19 +37,19 @@ flow:
           - status_code
           - id
           - created_at
+          - updated_at
         navigate:
           SUCCESS: check_result
-          ADD_SILENT_VALUE_FAILURE: ADD_SILENT_VALUE_FAILURE
-          INSERT_USER_VALUE_FAILURE: INSERT_USER_VALUE_FAILURE
-          CREATE_APPLICATION_COLLABORATOR_FAILURE: CREATE_APPLICATION_COLLABORATOR_FAILURE
+          GET_DOMAIN_DETAILS_FAILURE: GET_DOMAIN_DETAILS_FAILURE
           GET_ID_FAILURE: GET_ID_FAILURE
           GET_CREATED_AT_FAILURE: GET_CREATED_AT_FAILURE
+          GET_UPDATED_AT_FAILURE: GET_UPDATED_AT_FAILURE
 
     - check_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 201]
+            - list_2: ['', 0, 200]
         navigate:
           SUCCESS: check_id_is_present
           FAILURE: CHECK_RESULT_FAILURE
@@ -75,21 +72,12 @@ flow:
           SUCCESS: CREATED_AT_IS_NOT_PRESENT
           FAILURE: SUCCESS
 
-  outputs:
-    - return_result
-    - error_message
-    - return_code
-    - status_code
-    - id
-    - created_at
-
   results:
     - SUCCESS
-    - ADD_SILENT_VALUE_FAILURE
-    - INSERT_USER_VALUE_FAILURE
-    - CREATE_APPLICATION_COLLABORATOR_FAILURE
+    - GET_DOMAIN_DETAILS_FAILURE
     - GET_ID_FAILURE
     - GET_CREATED_AT_FAILURE
+    - GET_UPDATED_AT_FAILURE
     - CHECK_RESULT_FAILURE
     - ID_IS_NOT_PRESENT
     - CREATED_AT_IS_NOT_PRESENT

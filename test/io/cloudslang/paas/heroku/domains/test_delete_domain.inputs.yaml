@@ -5,12 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testHerokuGetApplicationBuilds:
+testHerokuDeleteDomain:
   inputs:
     - username: <username>
     - password: <password>
     - app_id_or_name: <app_id_or_name>
-  description: "Test that get a list with all the builds of specified application"
+    - domain_id_or_hostname: <domain_id_or_hostname>
+  description: "Test that successfully deletes a specified application domain"
   testSuites: [heroku-local]
-  testFlowPath: io.cloudslang.paas.heroku.builds.test_get_application_builds
+  testFlowPath: io.cloudslang.paas.heroku.domains.test_delete_domain
   result: SUCCESS

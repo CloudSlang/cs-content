@@ -5,12 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testHerokuGetApplicationBuilds:
+testHerokuCreateDomain:
   inputs:
     - username: <username>
     - password: <password>
     - app_id_or_name: <app_id_or_name>
-  description: "Test that get a list with all the builds of specified application"
+    - hostname: <hostname>
+  description: "Test that successfully creates a new domain for a specified application"
   testSuites: [heroku-local]
-  testFlowPath: io.cloudslang.paas.heroku.builds.test_get_application_builds
+  testFlowPath: io.cloudslang.paas.heroku.domains.test_create_domain
   result: SUCCESS

@@ -7,24 +7,27 @@
 #
 # Created by Florian TEISSEDRE - florian.teissedre@hpe.com
 ####################################################
-namespace: io.cloudslang.paas.heroku.regions
+namespace: io.cloudslang.paas.heroku.domains
 
 imports:
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
-  name: test_list_regions
+  name: test_delete_domain
   inputs:
     - username
     - password
+    - app_id_or_name
+    - domain_id_or_hostname
 
   workflow:
-    - list_regions:
+    - delete_domain:
         do:
-          list_regions:
+          delete_domain:
             - username
             - password
+            - app_id_or_name
+            - domain_id_or_hostname
         publish:
           - return_result
           - error_message
@@ -32,7 +35,7 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_result
-          FAILURE: LIST_REGIONS_FAILURE
+          FAILURE: DELETE_DOMAIN_FAILURE
 
     - check_result:
         do:
@@ -43,13 +46,7 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: CHECK_RESULT_FAILURE
 
-  outputs:
-    - return_result
-    - error_message
-    - return_code
-    - status_code
-
   results:
     - SUCCESS
-    - LIST_REGIONS_FAILURE
+    - DELETE_DOMAIN_FAILURE
     - CHECK_RESULT_FAILURE

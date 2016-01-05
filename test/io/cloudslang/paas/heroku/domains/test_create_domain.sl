@@ -7,32 +7,28 @@
 #
 # Created by Florian TEISSEDRE - florian.teissedre@hpe.com
 ####################################################
-namespace: io.cloudslang.paas.heroku.collaborators
+namespace: io.cloudslang.paas.heroku.domains
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_application_collaborator
+  name: test_create_domain
   inputs:
     - username
     - password
     - app_id_or_name
-    - user
-    - silent:
-        default: False
-        required: false
+    - hostname
 
   workflow:
-    - create_application_collaborator:
+    - create_domain:
         do:
-          create_application_collaborator:
+          create_domain:
             - username
             - password
             - app_id_or_name
-            - user
-            - silent
+            - hostname
         publish:
           - return_result
           - error_message
@@ -42,9 +38,8 @@ flow:
           - created_at
         navigate:
           SUCCESS: check_result
-          ADD_SILENT_VALUE_FAILURE: ADD_SILENT_VALUE_FAILURE
-          INSERT_USER_VALUE_FAILURE: INSERT_USER_VALUE_FAILURE
-          CREATE_APPLICATION_COLLABORATOR_FAILURE: CREATE_APPLICATION_COLLABORATOR_FAILURE
+          INSERT_HOSTNAME_VALUE_FAILURE: INSERT_HOSTNAME_VALUE_FAILURE
+          CREATE_DOMAIN_FAILURE: CREATE_DOMAIN_FAILURE
           GET_ID_FAILURE: GET_ID_FAILURE
           GET_CREATED_AT_FAILURE: GET_CREATED_AT_FAILURE
 
@@ -75,19 +70,10 @@ flow:
           SUCCESS: CREATED_AT_IS_NOT_PRESENT
           FAILURE: SUCCESS
 
-  outputs:
-    - return_result
-    - error_message
-    - return_code
-    - status_code
-    - id
-    - created_at
-
   results:
     - SUCCESS
-    - ADD_SILENT_VALUE_FAILURE
-    - INSERT_USER_VALUE_FAILURE
-    - CREATE_APPLICATION_COLLABORATOR_FAILURE
+    - INSERT_HOSTNAME_VALUE_FAILURE
+    - CREATE_DOMAIN_FAILURE
     - GET_ID_FAILURE
     - GET_CREATED_AT_FAILURE
     - CHECK_RESULT_FAILURE

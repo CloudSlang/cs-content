@@ -7,24 +7,25 @@
 #
 # Created by Florian TEISSEDRE - florian.teissedre@hpe.com
 ####################################################
-namespace: io.cloudslang.paas.heroku.regions
+namespace: io.cloudslang.paas.heroku.domains
 
 imports:
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
-  name: test_list_regions
+  name: test_list_domains
   inputs:
     - username
     - password
+    - app_id_or_name
 
   workflow:
-    - list_regions:
+    - list_domains:
         do:
-          list_regions:
+          list_domains:
             - username
             - password
+            - app_id_or_name
         publish:
           - return_result
           - error_message
@@ -32,7 +33,7 @@ flow:
           - status_code
         navigate:
           SUCCESS: check_result
-          FAILURE: LIST_REGIONS_FAILURE
+          FAILURE: LIST_DOMAINS_FAILURE
 
     - check_result:
         do:
@@ -43,13 +44,7 @@ flow:
           SUCCESS: SUCCESS
           FAILURE: CHECK_RESULT_FAILURE
 
-  outputs:
-    - return_result
-    - error_message
-    - return_code
-    - status_code
-
   results:
     - SUCCESS
-    - LIST_REGIONS_FAILURE
+    - LIST_DOMAINS_FAILURE
     - CHECK_RESULT_FAILURE

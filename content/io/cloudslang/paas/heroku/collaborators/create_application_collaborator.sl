@@ -4,14 +4,14 @@
 # Inputs: 
 #   - username - the Heroku username - Example: 'someone@mailprovider.com'
 #   - password - the Heroku used for authentication
-#   - app_id_or_name - the name of the Heroku application
+#   - app_id_or_name - the name or the id of the Heroku application
 #   - user - the unique identifier or email address of account of a new collaborator
 #          - Example: '01234567-89ab-cdef-0123-456789abcdef' or 'username@example.com'
 #   - silent - optional - whether to suppress email invitation when creating collaborator - Default: False
 #
 # Outputs: 
 #   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if statusCode is not '200' 
+#   - error_message - return_result if statusCode is not '201'
 #   - return_code - '0' if success, '-1' otherwise 
 #   - status_code - the code returned by the operation
 #   - id - the id of the new created application collaborator - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
