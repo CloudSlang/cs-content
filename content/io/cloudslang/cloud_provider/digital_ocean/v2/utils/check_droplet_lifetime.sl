@@ -10,13 +10,11 @@
 #
 # Inputs:
 #   - creation_time_as_string - creation time (UTC timezone) of the droplet as a string value
-#                             - format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#   - threshold - threshold to compare the droplet's lifetime to (in minutes)
-#
+#                             - Format (used by DigitalOcean): 2015-09-27T18:47:19Z
+#   - threshold - threshold in minutes to compare the droplet's lifetime to
 # Outputs:
-#   - return_result - elapsed time (in minutes) in case of success, cause of the error in case of failure
+#   - return_result - elapsed time in minutes in case of success, cause of the error in case of failure
 #   - return_code - 0 if parsing was successful, -1 otherwise
-#
 # Results:
 #   - FAILURE - an error occurred
 #   - ABOVE_THRESHOLD - lifetime of droplet reached the threshold

@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow creates a DigitalOcean droplet.
+# Creates a DigitalOcean droplet.
 #
 # Inputs:
 #   - name - human-readable string you wish to use when displaying the Droplet name
@@ -15,23 +15,20 @@
 #   - image - ID or slug identifier of the base image for your droplet
 #   - ssh_keys - optional - array containing the IDs of the SSH keys
 #                           that you wish to embed in the Droplet's root account upon creation
-#                         - Default: None
 #   - backups - optional - boolean indicating whether automated backups should be enabled for the Droplet.
 #                          Automated backups can only be enabled when the Droplet is created
 #                        - Default: false
 #   - ipv6 - optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
 #   - private_networking - optional - boolean indicating whether private networking is enabled for the Droplet
 #                        - Default: false
-#   - user_data - optional - string of the desired User Data for the Droplet. Double quotes (") need to escaped.
-#               - Default: None
+#   - user_data - optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped.
 #   - token - personal access token for DigitalOcean API
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port
 #   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-#   - connect_timeout - optional - time to wait for a connection to be established, in seconds (0 represents infinite value)
-#   - socket_timeout - optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
-#
+#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 # Outputs:
 #   - response - raw response of the API call
 #   - droplet_id - ID of the created droplet in case of success, empty in case of failure
