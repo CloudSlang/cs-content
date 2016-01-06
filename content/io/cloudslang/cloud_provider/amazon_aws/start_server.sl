@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -21,11 +21,11 @@
 #   - proxy_port - optional - the proxy server port used to access the provider services - Default: '8080'
 # Outputs:
 #   - return_result - contains the exception in case of failure, success message otherwise
-#   - return_code - "0" if inserting was successful, "-1" otherwise
+#   - return_code - '0' if operation was successfully executed, '-1' otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
 #  SUCCESS: the server (instance) was successfully started
-#  FAILURE: an error when trying to start a server (instance)
+#  FAILURE: an error occurred when trying to start a server (instance)
 ####################################################
 namespace: io.cloudslang.cloud_provider.amazon_aws
 
@@ -54,14 +54,17 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         overridable: false
+
   action:
     java_action:
       className: io.cloudslang.content.jclouds.actions.StartServerAction
       methodName: execute
+
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${'' if 'exception' not in locals() else exception}
+
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE
