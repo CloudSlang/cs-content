@@ -6,17 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow deletes a DigitalOcean droplet if it is considered a zombie.
+# Deletes a DigitalOcean droplet if it is considered a zombie.
 #
 # Inputs:
 #   - droplet_id - id of the droplet as a string value
 #   - droplet_name - name of the droplet
 #   - creation_time_as_string - creation time (UTC timezone) of the droplet as a string value
-#                             - format (used by DigitalOcean): 2015-09-27T18:47:19Z
+#                             - Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #   - time_to_live - threshold to compare the droplet's lifetime to (in minutes)
-#   - name_pattern - regex pattern for zombie droplet names - e.g. ci-([0-9]+)-coreos-([0-9]+)
+#   - name_pattern - regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
 #   - token - personal access token for DigitalOcean API
-#
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
+#   - proxy_username - optional - user name used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 # Results:
 #   - DELETED: droplet is deleted
 #   - NOT_DELETED: droplet is not deleted

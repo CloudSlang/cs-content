@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow deletes all droplets considered zombie.
+# Deletes all droplets considered as zombies.
 # A droplet is considered zombie if its name matches a given pattern and its lifetime exceeds a given value.
 #
 # Inputs:
-#   - time_to_live - optional - threshold to compare the droplet's lifetime to as number or string (in minutes)
+#   - time_to_live - optional - threshold in minutes to compare the droplet's lifetime to as number or string
 #                  - Default: 150 minutes (2.5 hours)
 #   - name_pattern - optional - regex pattern for zombie droplet names
 #                  - Default: ci-([0-9]+)-coreos-([0-9]+)
@@ -18,9 +18,9 @@
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port
 #   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-#   - connect_timeout - optional - time to wait for a connection to be established, in seconds (0 represents infinite value)
-#   - socket_timeout - optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
+#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.examples
 
