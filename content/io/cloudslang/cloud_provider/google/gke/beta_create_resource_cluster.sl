@@ -7,14 +7,13 @@
 #
 ####################################################
 # Creates a Google Container Engine resource cluster.
-# More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
+# More information at https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
 #
 # Inputs:
-#   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#                     - Default: none
-#   - name - The name of the cluster to delete
-#   - description - An optional description of this cluster
-#   - initial_node_count - The number of nodes to create in this cluster. You must ensure that your Compute Engine
+#   - zone - optional - name of the Google Compute Engine zone in which cluster resides, or none for all zones
+#   - name - name of the cluster to delete
+#   - description - optional - description of this cluster
+#   - initial_node_count - number of nodes to create in this cluster. You must ensure that your Compute Engine
 #                        resource quota is sufficient for this number of instances. You must also have available
 #                        firewall and routes quota
 #   - machine_type
@@ -36,9 +35,8 @@
 #   - status_message
 #   - node_ipv4_cidr_size
 #   - services_ipv4_cidr
-#
 # Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - return_result - response of the operation in case of success, error message otherwise
 #   - error_message - return_result if return_code is '-1'
 #   - response - JSON response body containing an instance of Operation
 #   - return_code - '0' if success, '-1' otherwise
