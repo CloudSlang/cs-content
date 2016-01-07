@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Get the id of a specified IP address
+# Get the id of a specified IP address.
 #
 # Inputs:
 #   - json_ip_list - output of the list_all_floatingips operation
-#   - ip_address - IP address we want the id for
+#   - ip_address - IP address to get the ID for
 # Outputs:
-#   - ip_id - id of IP address provided
+#   - ip_id - ID of IP address provided
 # Results:
-#   - SUCCESS - found the IP address id and returned it
+#   - SUCCESS - found the IP address ID and returned it
 #   - FAILURE - otherwise
 ####################################################
 
@@ -37,7 +37,7 @@ operation:
             break
 
   outputs:
-    - ip_id    
+    - ip_id
 
   results:
     - SUCCESS: ${len(ip_id) > 0}

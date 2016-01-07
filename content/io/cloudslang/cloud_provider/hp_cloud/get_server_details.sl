@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Call to HP Cloud API to fetch details of a server instance
+# Call to HP Cloud API to fetch details of a server instance.
 #
 # Inputs:
-#   - server_id - id of server
-#   - tenant - tenant id obtained by get_authenication_flow
+#   - server_id - ID of server
+#   - tenant - tenant ID obtained by get_authenication_flow
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - return_result - JSON response
+#   - error_message - message returned when HTTP call fails
 #   - status_code - normal status code is 200
-#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded, server deleted
 #   - FAILURE - otherwise
@@ -35,7 +35,7 @@ flow:
     - server_id
     - tenant
     - token
-    - region 
+    - region
     - proxy_host:
         required: false
     - proxy_port:
@@ -54,7 +54,7 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
   outputs:
     - return_result
     - error_message
