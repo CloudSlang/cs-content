@@ -12,9 +12,9 @@
 #   - run_list_items - a list of roles and/or recipes to be added
 #                      see https://docs.chef.io/knife_node.html#run-list-add
 #   - node_name - name of the node to assign cookbooks to
-#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
+#   - knife_host - IP of server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_privkey - optional - SSH keyfile to access server with knife (local file that resides where flow is executing)
+#   - knife_privkey - optional - path to local SSH keyfile for accessing server with knife
 #   - knife_password - optional - password to access server with knife
 #   - knife_config - optional - location of knife.rb config file
 # Outputs:
