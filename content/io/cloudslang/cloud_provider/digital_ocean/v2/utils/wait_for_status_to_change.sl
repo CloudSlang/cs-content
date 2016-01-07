@@ -10,8 +10,8 @@
 #
 # Inputs:
 #   - droplet_id - id of the droplet
-#   - status - status to wait upon
-#            - flow will wait until the droplet status is changed or timeout is reached
+#   - status - status to wait upon; will wait until the droplet status is changed or timeout is reached
+#            - Valid: "new", "active", "off", "archive"
 #   - timeout - time limit to wait for droplet to change its status as number or string - in seconds
 #   - token - personal access token for DigitalOcean API
 #   - proxy_host - optional - proxy server used to access the web site
