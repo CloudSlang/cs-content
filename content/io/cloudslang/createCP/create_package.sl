@@ -29,96 +29,98 @@ imports:
 flow:
   name: create_package
   inputs:
-    - cp_name:
-        default: "base"
-        overridable: true
-    - cp_version:
-        default: "0.1"
-        overridable: true
-    - cslang_folder:
-        default: "C:/cslang-cli/cslang/content/io/cloudslang/base"
-        overridable: true
-    - cp_publisher:
-        default: "Customer"
-        overridable: true
-    - cp_location:
-        default: "c:/content_packs"
-        overridable: true
+    - cp_name: "base"
+    - cp_version: "0.1"
+    - cslang_folder: "C:/cslang-cli/cslang/content/io/cloudslang/base"
+    - cp_publisher: "Customer"
+    - cp_location: "c:/content_packs"
     - cp_folder: ${cp_location + "/" + cp_name + "-cp-" + cp_version}
   workflow:
     - create_Lib_folder:
         do:
           create_folder_tree:
             - folder_name: ${cp_folder + "/Lib"}
-        publish:
-            - SUCCESS
-            - FAILURE
+        navigate:
+            SUCCESS: populate_Lib_folder
+            FAILURE: CREATE_LIB_FOLDER_FAILURE
     - populate_Lib_folder:
         do:
           base_files.write_to_file:
             - file_path: ${cp_folder + "/Lib/placeHolder"}
             - text: " "
-        publish:
-            - SUCCESS
-            - FAILURE
+        navigate:
+            SUCCESS: create_system_Properties_folder
+            FAILURE: PUPULATE_LIB_FOLDER_FAILURE
     - create_system_Properties_folder:
         do:
           create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Configuration/System Properties"}
-        publish:
-            - SUCCESS
-            - FAILURE
+        navigate:
+            SUCCESS: create_Library_Structure
+            FAILURE: CREATE_SYSTEM_PROPERTIES_FAILURE
     - create_Library_Structure:
         do:
            create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Library/Community/cslang/"}
-        publish:
-            - SUCCESS
-            - FAILURE
+        navigate:
+            SUCCESS: copy_content
+            FAILURE: CREATE_LIBRARY_STRUCTURE_FAILURE
     - copy_content:
         do:
           base_files.copy:
             - source: ${cslang_folder}
             - destination: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
-        publish:
-            - SUCCESS
-            - FAILURE
+        navigate:
+            SUCCESS: move_config_items
+            FAILURE: COPY_CONTENT_FAILURE
     - move_config_items:
         do:
            copy_config_items:
             - source_dir: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
             - target_dir: ${cp_folder + "/Content/Configuration/System Properties/"}
-        publish:
-             - SUCCESS
-             - FAILURE
+        navigate:
+            SUCCESS: create_cp_properties
+            FAILURE: MOVE_CONFIG_ITEMS_FAILURE
     - create_cp_properties:
         do:
            base_files.write_to_file:
              - file_path: ${cp_folder + "/contentpack.properties"}
              - text: ${"content.pack.name=" + cp_name + "\n" + "content.pack.version=" + cp_version + "\n" + "content.pack.description=" + cp_name + "\n" + "content.pack.publisher=" + cp_publisher}
-        publish:
-             - SUCCESS
-             - FAILURE
+        navigate:
+            SUCCESS: create_archive
+            FAILURE: CREATE_CP_PROPERTIES_FAILURE
     - create_archive:
         do:
            base_files.zip_folder:
              - folder_path: ${cp_folder}
              - archive_name: ${cp_name + "-cp-" + cp_version}
-        publish:
-             - SUCCESS
-             - FAILURE
+        navigate:
+            SUCCESS: create_jar
+            FAILURE: CREATE_ARCHIVE_FAILURE
     - create_jar:
         do:
            base_files.move:
              - source: ${cp_folder + "/" + cp_name + "-cp-" + cp_version + ".zip"}
              - destination: ${cp_location + "/" + cp_name + "-cp-" + cp_version + ".jar"}
-        publish:
-             - SUCCESS
-             - FAILURE
+        navigate:
+            SUCCESS: clean_folder
+            FAILURE: CREATE_JAR_FAILURE
     - clean_folder:
         do:
            base_files.delete:
              - source: ${cp_folder}
-        publish:
-             - SUCCESS
-             - FAILURE
+        navigate:
+             SUCCESS: SUCCESS
+             FAILURE: CLEAN_FOLDER_FAILURE
+  RESULTS:
+    - SUCCESS
+    - CREATE_LIB_FOLDER_FAILURE
+    - PUPULATE_LIB_FOLDER_FAILURE
+    - CREATE_SYSTEM_PROPERTIES_FAILURE
+    - CREATE_LIBRARY_STRUCTURE_FAILURE
+    - COPY_CONTENT_FAILURE
+    - MOVE_CONFIG_ITEMS_FAILURE
+    - CREATE_CP_PROPERTIES_FAILURE
+    - CREATE_ARCHIVE_FAILURE
+    - CREATE_JAR_FAILURE
+    - CLEAN_FOLDER_FAILURE
