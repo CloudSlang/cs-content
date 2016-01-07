@@ -21,7 +21,7 @@
 #   - ipv6 - optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
 #   - private_networking - optional - boolean indicating whether private networking is enabled for the Droplet
 #                        - Default: false
-#   - user_data - optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped.
+#   - user_data - optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped with a backslash (\).
 #   - token - personal access token for DigitalOcean API
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port
