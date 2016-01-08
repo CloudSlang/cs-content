@@ -60,7 +60,7 @@ flow:
             - json_path: []
             - value: ''
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -80,11 +80,11 @@ flow:
     - add_name:
         do:
           json.add_value:
-            - json_input: ${json_output}
+            - json_input: ${body_json}
             - json_path: ['name']
             - value: ${name}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -104,11 +104,11 @@ flow:
     - add_region:
         do:
           json.add_value:
-            - json_input: ${json_output}
+            - json_input: ${body_json}
             - json_path: ['region']
             - value: ${region}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -128,11 +128,11 @@ flow:
     - add_stack:
         do:
           json.add_value:
-            - json_input: ${json_output}
+            - json_input: ${body_json}
             - json_path: ['stack']
             - value: ${stack}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -147,7 +147,7 @@ flow:
             - username
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
-            - body: ${json_output}
+            - body: ${body_json}
             - content_type: "application/json"
         publish:
           - return_result

@@ -45,7 +45,7 @@ flow:
             - json_path: ['hostname']
             - value: ${hostname}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -60,7 +60,7 @@ flow:
             - username
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
-            - body: ${json_output}
+            - body: ${body_json}
             - content_type: "application/json"
         publish:
           - return_result

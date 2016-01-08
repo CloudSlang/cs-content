@@ -54,7 +54,7 @@ flow:
             - json_path: ['allow_tracking']
             - value: ${bool(allow_tracking)}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -65,11 +65,11 @@ flow:
     - add_beta_value:
         do:
           json.add_value:
-            - json_input: ${json_output}
+            - json_input: ${body_json}
             - json_path: ['beta']
             - value: ${bool(beta)}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -89,11 +89,11 @@ flow:
     - insert_account_owner_name:
         do:
           json.add_value:
-            - json_input: ${json_output}
+            - json_input: ${body_json}
             - json_path: ['name']
             - value: ${account_owner_name}
         publish:
-          - json_output
+          - body_json: ${json_output}
           - return_result
           - error_message
           - return_code
@@ -108,7 +108,7 @@ flow:
             - username
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
-            - body: ${json_output}
+            - body: ${body_json}
             - content_type: "application/json"
         publish:
           - return_result

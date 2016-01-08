@@ -1,5 +1,5 @@
 #################################################### 
-# This flow performs an REST API call in order to list all existing Heroku add-ons for <app_id_or_name> application
+# This flow performs a REST API call in order to list all existing Heroku add-ons for <app_id_or_name> application
 # 
 # Inputs: 
 #   - username - the Heroku username - Example: 'someone@mailprovider.com'
