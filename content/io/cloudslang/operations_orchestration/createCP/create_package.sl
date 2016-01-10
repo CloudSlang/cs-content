@@ -24,7 +24,7 @@
 namespace: io.cloudslang.operations_orchestration.createCP
 
 imports:
- base_files: io.cloudslang.base.files
+  files: io.cloudslang.base.files
 
 flow:
   name: create_package
@@ -38,14 +38,14 @@ flow:
   workflow:
     - create_Lib_folder:
         do:
-          base.files.create_folder_tree:
+          files.create_folder_tree:
             - folder_name: ${cp_folder + "/Lib"}
         navigate:
             SUCCESS: populate_Lib_folder
             FAILURE: CREATE_LIB_FOLDER_FAILURE
     - populate_Lib_folder:
         do:
-          base_files.write_to_file:
+          files.write_to_file:
             - file_path: ${cp_folder + "/Lib/placeHolder"}
             - text: " "
         navigate:
@@ -53,21 +53,21 @@ flow:
             FAILURE: PUPULATE_LIB_FOLDER_FAILURE
     - create_system_Properties_folder:
         do:
-          base.files.create_folder_tree:
+          files.create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Configuration/System Properties"}
         navigate:
             SUCCESS: create_Library_Structure
             FAILURE: CREATE_SYSTEM_PROPERTIES_FAILURE
     - create_Library_Structure:
         do:
-           base.files.create_folder_tree:
+           files.create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Library/Community/cslang/"}
         navigate:
             SUCCESS: copy_content
             FAILURE: CREATE_LIBRARY_STRUCTURE_FAILURE
     - copy_content:
         do:
-          base_files.copy:
+          files.copy:
             - source: ${cslang_folder}
             - destination: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
         navigate:
@@ -83,7 +83,7 @@ flow:
             FAILURE: MOVE_CONFIG_ITEMS_FAILURE
     - create_cp_properties:
         do:
-           base_files.write_to_file:
+           files.write_to_file:
              - file_path: ${cp_folder + "/contentpack.properties"}
              - text: ${"content.pack.name=" + cp_name + "\n" + "content.pack.version=" + cp_version + "\n" + "content.pack.description=" + cp_name + "\n" + "content.pack.publisher=" + cp_publisher}
         navigate:
@@ -91,7 +91,7 @@ flow:
             FAILURE: CREATE_CP_PROPERTIES_FAILURE
     - create_archive:
         do:
-           base_files.zip_folder:
+           files.zip_folder:
              - folder_path: ${cp_folder}
              - archive_name: ${cp_name + "-cp-" + cp_version}
         navigate:
@@ -99,7 +99,7 @@ flow:
             FAILURE: CREATE_ARCHIVE_FAILURE
     - create_jar:
         do:
-           base_files.move:
+           files.move:
              - source: ${cp_folder + "/" + cp_name + "-cp-" + cp_version + ".zip"}
              - destination: ${cp_location + "/" + cp_name + "-cp-" + cp_version + ".jar"}
         navigate:
@@ -107,12 +107,12 @@ flow:
             FAILURE: CREATE_JAR_FAILURE
     - clean_folder:
         do:
-           base_files.delete:
+           files.delete:
              - source: ${cp_folder}
         navigate:
              SUCCESS: SUCCESS
              FAILURE: CLEAN_FOLDER_FAILURE
-  RESULTS:
+  results:
     - SUCCESS
     - CREATE_LIB_FOLDER_FAILURE
     - PUPULATE_LIB_FOLDER_FAILURE
