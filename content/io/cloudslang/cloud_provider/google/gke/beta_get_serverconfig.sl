@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Returns configuration info about the Container Engine service in Google Container Engine platform.
+# Returns configuration info about the Container Engine service in Google Container Engine platform
 #
 # Note: Google authentication JSON key file downloaded from the Google APIs console is required.
-#       This is referred to in GOOGLE_APPLICATION_CREDENTIALS and is expected to contain information about credentials
+#       This referred to in GOOGLE_APPLICATION_CREDENTIALS is expected to contain information about credentials
 #       that are ready to use. This means either service account information or user account information with a
 #       ready-to-use refresh token.
 #
@@ -23,13 +23,14 @@
 #                                                 }
 #
 # Inputs:
-#   - project_id - Google Developers Console project ID or project number
-#   - zone - optional - name of the Google Compute Engine zone in which cluster resides, or none for all zones
-#                     - Default: '-' (none)
-#   - json_google_auth_path - path to Google authentication JSON key file
+#   - project_id - The Google Developers Console project ID or project number
+#   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#                     - Default: none
+#   - json_google_auth_path - FileSystem path to Google authentication JSON key file
 #                             System Property: io.cloudslang.cloud_provider.json_google_auth_path
+#
 # Outputs:
-#   - return_result - response of the operation in case of success, error message otherwise
+#   - return_result - the response of the operation in case of success, the error message otherwise
 #   - error_message - return_result if return_code is '-1'
 #   - response - JSON response body containing an instance of Operation
 #   - return_code - '0' if success, '-1' otherwise
