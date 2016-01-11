@@ -39,7 +39,7 @@ flow:
   workflow:
     - list_ipadresses:
         do:
-          list_all_floatingips:
+          list_all_floating_ips:
             - token
             - region
             - proxy_host
@@ -48,9 +48,9 @@ flow:
           - return_result
           - status_code
 
-    - get_floatingip_id:
+    - get_floating_ip_id:
         do:
-          utils.get_floatingip_id:
+          utils.get_floating_ip_id:
             - json_ip_list: ${return_result}
             - ip_address
         publish:

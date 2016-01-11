@@ -128,7 +128,7 @@ flow:
             - FAILURE
         navigate:
           ACTIVE: check_assign_floating
-          NOTACTIVE: FAILURE
+          NOT_ACTIVE: FAILURE
           FAILURE: FAILURE
 
     - check_assign_floating:

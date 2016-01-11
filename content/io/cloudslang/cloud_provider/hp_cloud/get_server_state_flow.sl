@@ -22,7 +22,7 @@
 # Results:
 #   - FAILURE - failure for some reason
 #   - ACTIVE - server is ACTIVE
-#   - NOTACTIVE - server is state other than ACTIVE
+#   - NOT_ACTIVE - server is state other than ACTIVE
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -87,7 +87,7 @@ flow:
             - second_string: 'ACTIVE'
         navigate:
           SUCCESS: ACTIVE
-          FAILURE: NOTACTIVE
+          FAILURE: NOT_ACTIVE
 
     - failed:
           do:
@@ -102,4 +102,4 @@ flow:
   results:
     - FAILURE
     - ACTIVE
-    - NOTACTIVE
+    - NOT_ACTIVE
