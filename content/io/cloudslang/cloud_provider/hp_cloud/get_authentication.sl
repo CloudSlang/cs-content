@@ -9,17 +9,16 @@
 # Call to HP Cloud API to get auth token
 #
 # Inputs:
-#   - username - HP Cloud account username 
-#   - password - HP Cloud account password 
-#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - username - HP Cloud account username
+#   - password - HP Cloud account password
+#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - return_result - JSON response
+#   - error_message - message returned when HTTP call fails
 #   - status_code - normal status code is 200
-#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded, token returned
 #   - FAILURE - otherwise
@@ -60,7 +59,7 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
   outputs:
     - return_result
     - error_message
