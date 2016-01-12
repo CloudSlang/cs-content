@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Removes a set of Chef roles and/or recipes from a node's run list
+# Removes a set of Chef roles and/or recipes from a node's run list.
 #
 # Inputs:
 #   - run_list_items - a list of roles and/or recipes to be removed
 #                      see https://docs.chef.io/knife_node.html#run-list-remove
 #   - node_name - name of the node to assign cookbooks to
-#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
+#   - knife_host - IP of server with configured knife accessable via SSH, can be main Chef server
 #   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - if using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
+#   - knife_privkey - optional - path to local SSH keyfile for accessing server with knife
+#   - knife_password - optional - password to access server with knife
+#   - knife_config - optional - location of knife.rb config file
 # Outputs:
 #   - knife_result - filtered output of knife command
 #   - raw_result - full STDOUT
@@ -32,12 +32,12 @@ flow:
   name: run_list_remove
   inputs:
     - run_list_items
-    - node_name    
+    - node_name
     - knife_host
     - knife_username
     - knife_privkey:
         required: false
-    - knife_password: 
+    - knife_password:
         required: false
     - knife_config:
         required: false

@@ -13,8 +13,8 @@
 #   - port - email port
 #   - from - email sender
 #   - to - email recipient
-#   - cc - optional - Default: none
-#   - bcc - optional - Default: none
+#   - cc - optional - comma-delimited list of cc recipients - Default: none
+#   - bcc - optional - comma-delimited list of bcc recipients - Default: none
 #   - subject - email subject
 #   - body - email text
 #   - html_email - optional - Default: true

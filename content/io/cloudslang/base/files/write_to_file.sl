@@ -11,6 +11,8 @@
 # Inputs:
 #   - file_path - path of the file to write to
 #   - text - text to write to the file
+# Outputs:
+#   - message - error message if error occurred
 # Results:
 #   - SUCCESS - text was written to the file
 #   - FAILURE - otherwise
@@ -28,13 +30,18 @@ operation:
         f = open(file_path, 'w')
         f.write(text)
         f.close()
+        message = 'writing done successfully'
         res = True
       except IOError as e:
-        print "ERROR: no such folder or permission denied: " + str(e)
+        message =  "ERROR: no such folder or permission denied: " + str(e)
         res = False
       except Exception as e:
-        print e
+        message =  e
         res = False
+
+  outputs:
+    - message
+
   results:
     - SUCCESS: ${res}
     - FAILURE

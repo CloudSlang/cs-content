@@ -6,27 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to create a server instance with floating IP in HP Cloud
+# Main flow to create a server instance with floating IP in HP Cloud.
 #
 # Inputs:
 #   - username - HP Cloud account username
 #   - password - HP Cloud account password
-#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
 #   - server_name - name for the new server
 #   - img_ref - image id to use for the new server (operating system)
 #   - flavor_ref - flavor id to set the new server size
 #   - keypair - keypair used to access the new server
-#   - assign_floating - allocate and assign a floating IP to server? (True/False)
-#   - network_id - optional - id of private network to add server to, can be omitted
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - assign_floating - allocate and assign a floating IP to server? (True/False)
+#   - network_id - optional - id of private network to add server to
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 #   - polling_attempts - optional - number of attempts to check that the created server became ACTIVE - Default: 60
-#   - polling_wait_time - optional - time to wait between polling of the new server's state (in seconds)
+#   - polling_wait_time - optional - time in seconds to wait between polling of the new server's state
 #                                           - Default: 10 seconds
 # Outputs:
 #   - ip_address - IP address (if allocated)
 #   - server_id - Id of new server
+#   - return_result - JSON response
 # Results:
 #   - SUCCESS - flow succeeded, server and/or IP created
 #   - FAILURE - otherwise
@@ -127,7 +128,7 @@ flow:
             - FAILURE
         navigate:
           ACTIVE: check_assign_floating
-          NOTACTIVE: FAILURE
+          NOT_ACTIVE: FAILURE
           FAILURE: FAILURE
 
     - check_assign_floating:

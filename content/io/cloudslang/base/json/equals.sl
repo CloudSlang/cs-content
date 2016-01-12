@@ -9,8 +9,8 @@
 # Test if two JSONs are equal.
 #
 # Inputs:
-#   - json_input1 - first JSON input
-#   - json_input2 - second JSON input
+#   - json_input1 - first JSON input - Example: '{"k1":"v1", "k2": "v2"}'
+#   - json_input2 - second JSON input - Example: '{"k2":"v2", "k1": "v1"}'
 # Outputs:
 #   - return_result - parsing was successful or not
 #   - return_code - "0" if parsing was successful, "-1" otherwise

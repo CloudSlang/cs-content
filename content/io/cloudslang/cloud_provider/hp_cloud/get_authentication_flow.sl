@@ -6,20 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to authenicate and login to HP Cloud
+# Main flow to authenicate and login to HP Cloud.
 #
 # Inputs:
 #   - username - HP Cloud account username
 #   - password - HP Cloud account password
-#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
-#   - token - authentication token, used for all other HP Cloud flows and operations
-#   - tenant_id - tenant id, used for many other HP Cloud flows and operations
 #   - return_result - JSON response
 #   - error_message - any errors
+#   - token - authentication token, used for all other HP Cloud flows and operations
+#   - tenant_id - tenant ID, used for many other HP Cloud flows and operations
 # Results:
 #   - SUCCESS - flow succeeded, login OK
 #   - FAILURE - otherwise

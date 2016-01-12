@@ -6,18 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Poll host repeatedly until TCP port is open
+# Poll host repeatedly until TCP port is open.
 #
 # Inputs:
 #   - host - hostname or IP to check
 #   - port - TCP port number to check
-#   - timeout - optional - timeout for each check, throttles the polling (in seconds)
-#             - Default: 10 sec
-#   - tries - optional - total number of tries - total wait time = timeout x tries
-#           - Default: 30
+#   - timeout - optional - timeout, in seconds, for each check, throttles the polling - Default: 10 sec
+#   - tries - optional - total number of tries: total wait time = timeout x tries - Default: 30
 # Results:
-#   - SUCCESS - Connection successful, host is active and listening on port
-#   - FAILURE - Host is not listening, port is closed or host down
+#   - SUCCESS - connection successful, host is active and listening on port
+#   - FAILURE - host is not listening, port is closed or host down
 ####################################################
 
 namespace: io.cloudslang.base.network
@@ -32,7 +30,7 @@ operation:
         required: false
     - tries:
         default: "30"
-        required: false    
+        required: false
 
   action:
     python_script: |
@@ -47,7 +45,7 @@ operation:
         if res in [0, 10056]:
           is_open = True
           break
-        elif res != None: 
+        elif res != None:
           time.sleep(float(timeout))
 
       sock.close()

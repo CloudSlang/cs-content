@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Delete and release a floating IP
+# Delete and release a floating IP.
 #
 # Inputs:
-#   - ip_id - id of floating IP
+#   - ip_id - ID of floating IP
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - return_result - JSON response of delete operation (should be empty if no error)
+#   - error_message - message returned when HTTP call fails
 #   - status_code - normal status code is 204
-#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise

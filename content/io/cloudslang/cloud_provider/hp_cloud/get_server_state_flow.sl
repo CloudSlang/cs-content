@@ -6,23 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Flow to poll HP Cloud API until server is ready and in ACTIVE state
+# Flow to poll HP Cloud API until server is ready and in ACTIVE state.
 # Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
 #
 # Inputs:
-#   - server_id - id of server
-#   - tenant - tenant id obtained by get_authenication_flow
+#   - server_id - ID of server
+#   - tenant - tenant ID obtained by get_authenication_flow
 #   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - delay - pause in secs before checking (when called in loop to throttle API calls)
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - delay - optional - pause in seconds before checking (when called in loop to throttle API calls) - Default: 0
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - server_status - status value string of the server
 # Results:
 #   - FAILURE - failure for some reason
 #   - ACTIVE - server is ACTIVE
-#   - NOTACTIVE - server is state other than ACTIVE
+#   - NOT_ACTIVE - server is state other than ACTIVE
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud
@@ -87,7 +87,7 @@ flow:
             - second_string: 'ACTIVE'
         navigate:
           SUCCESS: ACTIVE
-          FAILURE: NOTACTIVE
+          FAILURE: NOT_ACTIVE
 
     - failed:
           do:
@@ -102,4 +102,4 @@ flow:
   results:
     - FAILURE
     - ACTIVE
-    - NOTACTIVE
+    - NOT_ACTIVE

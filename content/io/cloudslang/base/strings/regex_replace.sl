@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Replaces a string in another by a regex expression.
+# Replaces a string in another string by a Python regex expression.
 #
 # Inputs:
-#   - regex - the regex expresssion
-#   - text - the string to replace in
-#   - replacement - the replacement string
+#   - regex - Python regex expresssion - "f\\w*r"
+#   - text - string to replace in
+#   - replacement - replacement string
 # Outputs:
-#   - result_text - the string after replacement
+#   - result_text - string after replacement
 # Results:
 #   - SUCCESS - always
 ####################################################

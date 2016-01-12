@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to call to obtain a floating IP
+# Main flow to call to obtain a floating IP.
 #
 # Inputs:
 #   - token - auth token obtained by get_authenication_flow
 #   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
-#   - ip_addres - IP address created
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202
+#   - ip_address - IP address created
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise

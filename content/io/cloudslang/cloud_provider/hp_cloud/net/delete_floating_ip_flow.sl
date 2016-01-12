@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to call to release a floating IP 
+# Main flow to call to release a floating IP.
 #
 # Inputs:
 #   - ip_address - floating IP address to be released
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - status_code - normal status code is 202
 # Results:
@@ -39,7 +39,7 @@ flow:
   workflow:
     - list_ipadresses:
         do:
-          list_all_floatingips:
+          list_all_floating_ips:
             - token
             - region
             - proxy_host
@@ -48,9 +48,9 @@ flow:
           - return_result
           - status_code
 
-    - get_floatingip_id:
+    - get_floating_ip_id:
         do:
-          utils.get_floatingip_id:
+          utils.get_floating_ip_id:
             - json_ip_list: ${return_result}
             - ip_address
         publish:
@@ -63,7 +63,7 @@ flow:
             - token
             - region
             - proxy_host
-            - proxy_port         
+            - proxy_port
         publish:
           - status_code
 
