@@ -50,7 +50,7 @@ flow:
             - text: " "
         navigate:
             SUCCESS: create_system_Properties_folder
-            FAILURE: PUPULATE_LIB_FOLDER_FAILURE
+            FAILURE: POPULATE_LIB_FOLDER_FAILURE
     - create_system_Properties_folder:
         do:
           files.create_folder_tree:
@@ -115,7 +115,7 @@ flow:
   results:
     - SUCCESS
     - CREATE_LIB_FOLDER_FAILURE
-    - PUPULATE_LIB_FOLDER_FAILURE
+    - POPULATE_LIB_FOLDER_FAILURE
     - CREATE_SYSTEM_PROPERTIES_FAILURE
     - CREATE_LIBRARY_STRUCTURE_FAILURE
     - COPY_CONTENT_FAILURE
