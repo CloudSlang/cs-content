@@ -6,18 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to terminate a server instance plus floating IP in HP Cloud
+# Main flow to terminate a server instance plus floating IP in HP Cloud.
 #
 # Inputs:
-#   - username - HP Cloud account username 
-#   - password - HP Cloud account password 
-#   - tenant_name - name of HP Cloud tenant e.g. 'bob.smith@hp.com-tenant1'
+#   - username - HP Cloud account username
+#   - password - HP Cloud account password
+#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
 #   - server_id - name for the new server
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
 #   - ip_address - IP address if releasing it
 #   - release_ip_address - release and delete floating IP (True/False)
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - return_result - JSON response
 #   - error_message - any errors
@@ -31,7 +31,7 @@ namespace: io.cloudslang.cloud_provider.hp_cloud
 imports:
   print: io.cloudslang.base.print
   base_utils: io.cloudslang.base.utils
-  net: io.cloudslang.cloud_provider.hp_cloud.net  
+  net: io.cloudslang.cloud_provider.hp_cloud.net
 
 flow:
   name: delete_server_flow
@@ -41,10 +41,10 @@ flow:
     - tenant_name
     - server_id
     - region
-    - ip_address:  
+    - ip_address:
         required: false
     - release_ip_address:
-        default: True    
+        default: True
     - proxy_host:
         required: false
     - proxy_port:
@@ -95,7 +95,7 @@ flow:
             - tenant
             - region
             - proxy_host
-            - proxy_port           
+            - proxy_port
 
     - done:
         do:
