@@ -27,7 +27,7 @@
 #   - FAILURE: an error occurred when trying to retrieve a list with all virtual machines and templates
 ########################################################################################################################
 
-namespace: io.cloudslang.cloud_provider.vmware
+namespace: io.cloudslang.cloud_provider.vmware.virtual_machines
 
 operation:
   name: list_vms_and_templates
