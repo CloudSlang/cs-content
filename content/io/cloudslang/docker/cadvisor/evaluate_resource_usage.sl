@@ -20,8 +20,8 @@
 #   - error_rx - calculated network error Tx
 #   - error_tx - calculated network error Rx
 # Outputs:
-#   - errorMessage - returnResult if returnCode == '-1' or statusCode != '200'
-#   - result - if all resource usage did not exceed the maximum
+#   - error_message - error message if error occurred
+#   - result - result if all resource usage did not exceed the maximum
 # Results:
 #   - LESS -  all resource usage did not exceed the maximum
 #   - MORE -  one or more resources' usage exceeded the maximum

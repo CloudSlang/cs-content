@@ -22,9 +22,9 @@
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - error_message - return_result if there was an error
+#   - error_message - error message
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful
 #   - FAILURE - otherwise
 ####################################################
 

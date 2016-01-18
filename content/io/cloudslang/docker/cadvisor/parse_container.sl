@@ -9,12 +9,12 @@
 # Parses the response of the cAdvisor container information.
 #
 # Inputs:
-#   - json_response - response of the cAdvisor container information
-#   - machine_memory_limit - optional - the container machine memory limit
+#   - json_response - response of cAdvisor container information
+#   - machine_memory_limit - optional - container machine memory limit - Default: -1
 # Outputs:
 #   - decoded - parsed response
 #   - spec - parsed cAdvisor spec
-#   - stat - parsed cAdvisor stat
+#   - stats - parsed cAdvisor stats
 #   - timestamp - time used to calculate the stat
 #   - cpu - parsed cAdvisor CPU
 #   - memory - parsed cAdvisor memory
@@ -26,8 +26,8 @@
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - returnResult - notification string; was parsing was successful or not
 #   - returnCode - '0' if parsing was successful, '-1' otherwise
+#   - returnResult - notification string; was parsing was successful or not
 #   - errorMessage - returnResult if there was an error
 # Results:
 #   - SUCCESS - parsing was successful (returnCode == '0')

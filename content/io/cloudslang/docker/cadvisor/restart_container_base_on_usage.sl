@@ -18,7 +18,7 @@
 #   - private_key_file - optional - path to the private key file
 #   - rule - optional - Python query to determine if the resource usages is high
 # Results:
-#   - SUCCESS - successful (returnCode == '0')
+#   - SUCCESS - successful
 #   - FAILURE - otherwise
 ####################################################
 
