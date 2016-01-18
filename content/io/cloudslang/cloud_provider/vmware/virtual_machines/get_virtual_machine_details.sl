@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-# Performs an VMware vSphere command in order to retrieve a list with all virtual machines and templates
+# Performs an VMware vSphere command in order to get all the details of a specified virtual machine
 #
 # Inputs:
 #   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
@@ -16,6 +16,9 @@
 #   - password - the password associated with <username> input
 #   - trust_everyone - optional - if 'True' will allow connections from any host, if 'False' the connection will be
 #                               allowed only using a valid vCenter certificate - Default: True
+#   - hostname - the name of the target host where the specified virtual machine belongs to
+#              - Example: 'host123.subdomain.example.com' - Default: ''
+#   - virtual_machine_name - the name of the target virtual machine to retrieve the details for
 #   - delimiter - the delimiter that will be used in response list - Default: ','
 #
 # Outputs:
@@ -23,14 +26,14 @@
 #   - return_code - '0' if operation was successfully executed, '-1' otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
-#   - SUCCESS: the list with all virtual machines and templates was successfully retrieved
+#   - SUCCESS: the details of the specified virtual machine was successfully retrieved
 #   - FAILURE: an error occurred when trying to retrieve a list with all virtual machines and templates
 ########################################################################################################################
 
 namespace: io.cloudslang.cloud_provider.vmware.virtual_machines
 
 operation:
-  name: list_vms_and_templates
+  name: get_virtual_machine_details
   inputs:
     - host
     - port:
@@ -48,14 +51,17 @@ operation:
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
+    - hostname
+    - virtual_machine_name
+    - virtualMachineName: ${virtual_machine_name}
     - delimiter:
         default: ','
         required: false
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.ListVMsAndTemplates
-      methodName: listVMsAndTemplates
+      className: io.cloudslang.content.vmware.actions.vm.conf.GetVMDetails
+      methodName: getVMDetails
 
   outputs:
     - return_result: ${'' if 'returnResult' not in locals() else returnResult}
