@@ -21,37 +21,16 @@
 #                         - Example: 'host123.subdomain.example.com' - Default: ''
 #   - virtual_machine_name - the name of the virtual machine that will be created
 #   - description - optional - the description of the virtual machine that will be created
-#   - data_store - the datastore where the disk of the new created virtual machine will reside - Example: 'DATASTORE2-vc6-1'
+#   - data_store - the datastore where the disk of the new created virtual machine will reside - Example: 'datastore2-vc6-1'
 #   - num_cpus - optional - the number that indicates how many processors will have the virtual machine that will be created
 #                        - Default: '1'
 #   - vmDiskSize - optional - the disk capacity amount (in Mb) attached to the virtual machine that will be created
 #                           - Default: '1024'
 #   - vmMemorySize - optional - the memory amount (in Mb) attached to the virtual machine that will be created
 #                             - Default: '1024'
-#   - guest_os_id - the operating system associated with the new created virtual machine
-#               - Examples (all valid values for vCenter6): 'eComStationGuest', 'debian5_64Guest', 'opensuse64Guest',
-#                          'darwin64Guest', 'debian5Guest', 'winXPProGuest', 'win95Guest', 'darwin11_64Guest',
-#                          'other26xLinux64Guest', 'openServer6Guest', 'debian4Guest', 'rhel5_64Guest', 'openServer5Guest',
-#                          'winNetStandard64Guest', 'windows8_64Guest', 'centos64Guest', 'other24xLinuxGuest',
-#                          'winNetDatacenter64Guest', 'winXPPro64Guest', 'opensuseGuest', 'netware6Guest', 'os2Guest',
-#                          'windows7Server64Guest', 'freebsdGuest', 'windows8Server64Guest', 'win31Guest', 'vmkernel6Guest',
-#                          'winNetBusinessGuest', 'sles10_64Guest', 'win2000ProGuest', 'winLonghornGuest', 'debian6_64Guest',
-#                          'windows9_64Guest', 'oracleLinux64Guest', 'win2000ServGuest', 'rhel5Guest', 'winNetEnterpriseGuest',
-#                          'darwin12_64Guest', 'dosGuest', 'coreos64Guest', 'sles64Guest', 'windows7Guest', 'sles11Guest',
-#                          'solaris9Guest', 'asianux3_64Guest', 'darwinGuest', 'rhel6Guest', 'otherLinux64Guest',
-#                          'debian6Guest', 'asianux4Guest', 'winNetStandardGuest', 'otherGuest64', 'rhel4_64Guest',
-#                          'vmkernel5Guest', 'win98Guest', 'otherGuest', 'sles11_64Guest', 'netware5Guest', 'solaris10_64Guest',
-#                          'sles12_64Guest', 'windows9Guest', 'other24xLinux64Guest', 'win2000AdvServGuest', 'rhel2Guest',
-#                          'darwin11Guest', 'darwin13_64Guest', 'asianux4_64Guest', darwin10Guest', 'vmkernelGuest',
-#                          'rhel7_64Guest', 'rhel3Guest', 'winNetDatacenterGuest', 'winVistaGuest', 'rhel3_64Guest',
-#                          'centosGuest', 'sles10Guest', 'other3xLinux64Guest', 'windows9Server64Guest', 'winNetWebGuest',
-#                          'oesGuest', 'winNetEnterprise64Guest', 'solaris11_64Guest', 'ubuntu64Guest', 'debian7_64Guest',
-#                          'fedoraGuest', 'slesGuest', 'eComStation2Guest', 'winNTGuest', 'windows7_64Guest', 'debian8Guest',
-#                          'debian4_64Guest', 'solaris8Guest', 'other3xLinuxGuest', 'darwin10_64Guest', 'fedora64Guest',
-#                          'rhel6_64Guest', 'debian7Guest', 'freebsd64Guest', 'other26xLinuxGuest', 'asianux3Guest',
-#                          'darwin14_64Guest', 'asianux5_64Guest', 'windows8Guest', 'oracleLinuxGuest', 'winVista64Guest',
-#                          'rhel4Guest', 'ubuntuGuest', 'unixWare7Guest', 'winLonghorn64Guest', 'debian8_64Guest',
-#                          'otherLinuxGuest', 'solaris10Guest'
+#   - guest_os_id - the operating system associated with the new created virtual machine. The value for this input can
+#                   be obtained by running utils/get_os_descriptors operation - Examples: 'winXPProGuest', 'win95Guest',
+#                   'centosGuest', 'fedoraGuest', 'freebsd64Guest'
 #
 # Outputs:
 #   - return_result - contains the exception in case of failure, success message otherwise
