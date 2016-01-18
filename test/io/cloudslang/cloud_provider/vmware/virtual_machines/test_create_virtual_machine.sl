@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud_provider.vmware.utils
+namespace: io.cloudslang.cloud_provider.vmware.virtual_machines
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_get_os_descriptors
+  name: test_create_virtual_machine
   inputs:
     - host
     - port:
@@ -30,14 +30,26 @@ flow:
         required: false
     - data_center_name
     - hostname
-    - delimiter:
-        default: ','
+    - virtual_machine_name
+    - description:
+        default: ''
         required: false
+    - data_store
+    - num_cpus:
+        default: '1'
+        required: false
+    - vm_disk_size:
+        default: '1024'
+        required: false
+    - vm_memory_size:
+        default: '1024'
+        required: false
+    - guest_os_id
 
   workflow:
-    - get_os_descriptors:
+    - create_virtual_machine:
         do:
-          get_os_descriptors:
+          create_virtual_machine:
             - host
             - port
             - protocol
@@ -46,14 +58,20 @@ flow:
             - trust_everyone
             - data_center_name
             - hostname
-            - delimiter
+            - virtual_machine_name
+            - description
+            - data_store
+            - num_cpus
+            - vm_disk_size
+            - vm_memory_size
+            - guest_os_id
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           SUCCESS: check_result
-          FAILURE: GET_OS_DESCRIPTORS_FAILURE
+          FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE
 
     - check_result:
         do:
@@ -68,7 +86,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
-            - string_to_find: ${'windows'}
+            - string_to_find: "${'Success: Created'}"
             - ignore_case: True
         navigate:
           SUCCESS: SUCCESS
@@ -81,6 +99,6 @@ flow:
 
   results:
     - SUCCESS
-    - GET_OS_DESCRIPTORS_FAILURE
+    - CREATE_VIRTUAL_MACHINE_FAILURE
     - CHECK_RESPONSES_FAILURE
     - GET_TEXT_OCCURRENCE_FAILURE

@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-testVMwareGetOSDescriptorsLocal:
+testVMwareCreateVirtualMachineLocal:
   inputs:
     - host: <host>
     - port: <port>
@@ -15,8 +15,14 @@ testVMwareGetOSDescriptorsLocal:
     - trust_everyone: <trust_everyone>
     - data_center_name: <data_center_name>
     - hostname: <hostname>
-    - delimiter: <delimiter>
-  description: "Test that successfully retrieves a list with all supported guest OSes."
-  testFlowPath: io.cloudslang.cloud_provider.vmware.utils.test_get_os_descriptors
+    - virtual_machine_name: <virtual_machine_name>
+    - description: <description>
+    - data_store: <data_store>
+    - num_cpus: <num_cpus>
+    - vm_disk_size: <vm_disk_size>
+    - vm_memory_size: <vm_memory_size>
+    - guest_os_id: <guest_os_id>
+  description: "Test that successfully creates a new virtual machine."
+  testFlowPath: io.cloudslang.cloud_provider.vmware.virtual_machines.test_create_virtual_machine
   testSuites: [vmware-local]
   result: SUCCESS
