@@ -10,12 +10,13 @@
 #
 # Inputs:
 #   - container_id - ID of the container to be deleted
-#   - docker_options - optional - options for the docker environment
+#   - docker_options - optional - options for the Docker environment
 #                               - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
+#   - port - optional - SSH port
 # Outputs:
 #   - error_message - error message of the operation that failed
 # Results:

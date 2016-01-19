@@ -10,25 +10,23 @@
 #
 # Inputs:
 #   - all_containers - adds all_container option to docker command. False by default, any input changes it to True
-#   - ps_params - option trigger to add all_containers option to docker command
+#   - ps_params - option trigger to add all_containers option to Docker command
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: '22'
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
 #   - arguments - optional - arguments to pass to the command
 #   - character_set - optional - character encoding used for input stream encoding from target machine;
 #                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#                              - Default: 'UTF-8'
-#   - pty - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - time in milliseconds to wait for command to complete - Default: '30000000'
+#   - pty - whether to use PTY - Valid: true, false
+#   - timeout - time in milliseconds to wait for command to complete
 #   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #                                if 'true' the SSH session used will be closed;
 #                              - Valid: true, false
-#                              - Default: false
 #   - agent_forwarding - optional - the sessionObject that holds the connection if the close session is false
 # Outputs:
-#   - container_list - list containing container ID for all the Docker containers, separated by space
+#   - container_list - list containing container IDs for all the Docker containers, separated by space
 # Results:
 #   - SUCCESS - SSH command succeeded
 #   - FAILURE - SSH command failed

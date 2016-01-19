@@ -12,6 +12,7 @@
 #   - db_container_id - ID of the DB container
 #   - linked_container_id - ID of the linked container
 #   - docker_host - Docker machine host
+#   - port - optional - SSH port
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine host password
 #   - private_key_file - optional - path to private key file

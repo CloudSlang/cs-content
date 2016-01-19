@@ -6,29 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Stop the specified Docker container.
+# Stops the specified Docker container.
 #
 # Inputs:
 #   - container_id - ID of the container to be deleted
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - cmd_params - optional - command parameters - Default: none
+#   - cmd_params - optional - command parameters
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: '22'
+#   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - absolute path to private key file
-#   - arguments - optional - arguments to pass to command - Default: none
+#   - arguments - optional - arguments to pass to command
 #   - character_set - optional - character encoding used for input stream encoding from target machine
 #                             - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#                             - Default: 'UTF-8'
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: '90000'
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
 #                                if true the SSH session used will be closed;
 #                              - Valid: true, false
-#                              - Default: false
+#   - agent_forwarding - optional - the sessionObject that holds the connection if the close session is false
 # Outputs:
-#   - result - ID of the container that was deleted
+#   - result - ID of the container that was stopped
 # Results:
 #   - SUCCESS
 #   - FAILURE
@@ -71,7 +70,7 @@ flow:
         required: false
     - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
 
   workflow:
@@ -89,7 +88,7 @@ flow:
             - pty
             - timeout
             - close_session
-            - agentForwarding
+            - agent_forwarding
         publish:
           - result: ${return_result.replace("\n","")}
           - standard_out

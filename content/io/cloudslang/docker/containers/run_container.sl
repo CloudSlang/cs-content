@@ -9,7 +9,7 @@
 # Pulls and runs a Docker container.
 #
 # Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#   - docker_options - optional - options for the Docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - detach - optional - run container in background (detached / daemon mode) - Default: true
 #   - container_name - optional - container name
 #   - container_params - optional - command parameters
