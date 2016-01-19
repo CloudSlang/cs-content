@@ -52,7 +52,8 @@ flow:
         required: false
     - arguments:
         required: false
-    - container_params_cmd: ${container_params + ' ' if bool(container_params) else ''}
+    - container_params_cmd:
+        default: ${container_params + ' ' if bool(container_params) else ''}
         overridable: false
     - command:
         default: ${'docker start ' + container_params_cmd + ' ' + container_id}
