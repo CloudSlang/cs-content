@@ -1,0 +1,20 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMwarePowerOffVirtualMachineLocal:
+  inputs:
+    - host: <host>
+    - port: <port>
+    - protocol: <protocol>
+    - username: <username>
+    - password: <password>
+    - trust_everyone: <trust_everyone>
+    - virtual_machine_name: <virtual_machine_name>
+  description: "Test that successfully powers off the specified virtual machine."
+  testFlowPath: io.cloudslang.cloud_provider.vmware.virtual_machines.test_power_off_virtual_machine
+  testSuites: [vmware-local]
+  result: SUCCESS
