@@ -57,7 +57,8 @@ operation:
 
   outputs:
     - return_result: ${'' if 'returnResult' not in locals() else returnResult}
-    - error_message: ${(exception if 'exception' in locals() or returnResult if returnCode != '0') else ''}
+    - error_message: >
+        ${exception if 'exception' in locals() else returnResult if returnCode != '0' else ''}
     - return_code: ${returnCode}
 
   results:

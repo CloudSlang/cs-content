@@ -54,12 +54,13 @@ operation:
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.ListVMsAndTemplates
+      className: io.cloudslang.content.vmware.actions.vm.ListVMsAndTemplates
       methodName: listVMsAndTemplates
 
   outputs:
     - return_result: ${'' if 'returnResult' not in locals() else returnResult}
-    - error_message: ${(exception if 'exception' in locals() or returnResult if returnCode != '0') else ''}
+    - error_message: >
+        ${exception if 'exception' in locals() else returnResult if returnCode != '0' else ''}
     - return_code: ${returnCode}
 
   results:
