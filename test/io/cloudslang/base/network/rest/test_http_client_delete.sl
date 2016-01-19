@@ -16,7 +16,7 @@ flow:
 
   inputs:
     - url:
-        default: ${ url + '/' + resource_id }
+        default: ${ url + '/' + id }
         overridable: false
     - username:
         required: false
