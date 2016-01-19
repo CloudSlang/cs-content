@@ -26,11 +26,11 @@
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - returnCode - '0' if parsing was successful, '-1' otherwise
-#   - returnResult - notification string; was parsing was successful or not
-#   - errorMessage - returnResult if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
+#   - return_result - notification string; was parsing was successful or not
+#   - error_message - return_result if there was an error
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -80,11 +80,11 @@ operation:
           if min>machine_memory_limit:
             min=machine_memory_limit
         memory_usage=memory_usage/min
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except Exception as ex:
-        returnCode = '-1'
-        returnResult = 'Parsing error: ' + str(ex)
+        return_code = '-1'
+        return_result = 'Parsing error: ' + str(ex)
   outputs:
     - decoded
     - spec
@@ -99,9 +99,9 @@ operation:
     - throughput_tx
     - error_rx
     - error_tx
-    - returnCode
-    - returnResult
-    - errorMessage: ${returnResult if returnCode == '-1' else ''}
+    - return_code
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE
