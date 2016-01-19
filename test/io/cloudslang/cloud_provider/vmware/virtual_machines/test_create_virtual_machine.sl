@@ -68,7 +68,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception
+          - exception : ${exception if exception != None else ''}
         navigate:
           SUCCESS: check_result
           FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE

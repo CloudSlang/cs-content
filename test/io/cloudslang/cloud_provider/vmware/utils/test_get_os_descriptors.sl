@@ -50,7 +50,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception
+          - exception : ${exception if exception != None else ''}
         navigate:
           SUCCESS: check_result
           FAILURE: GET_OS_DESCRIPTORS_FAILURE

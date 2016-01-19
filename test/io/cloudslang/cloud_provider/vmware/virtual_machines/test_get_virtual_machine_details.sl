@@ -50,7 +50,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception
+          - exception : ${exception if exception != None else ''}
         navigate:
           SUCCESS: check_result
           FAILURE: GET_VIRTUAL_MACHINE_DETAILS_FAILURE
@@ -68,7 +68,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
-            - string_to_find: "${'windows'}"
+            - string_to_find: "${'vmUuid'}"
             - ignore_case: True
         navigate:
           SUCCESS: SUCCESS

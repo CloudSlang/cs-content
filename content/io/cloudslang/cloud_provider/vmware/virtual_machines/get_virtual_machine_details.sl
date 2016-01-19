@@ -60,7 +60,7 @@ operation:
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.GetVMDetails
+      className: io.cloudslang.content.vmware.actions.vm.GetVMDetails
       methodName: getVMDetails
 
   outputs:
