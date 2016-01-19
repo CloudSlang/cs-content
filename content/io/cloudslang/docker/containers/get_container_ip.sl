@@ -40,7 +40,8 @@ flow:
   name: get_container_ip
   inputs:
     - container_name
-    - command: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
+    - command:
+        default: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
         overridable: false
     - host
     - port:

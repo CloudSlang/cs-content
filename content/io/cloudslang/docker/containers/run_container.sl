@@ -118,4 +118,4 @@ flow:
           - standard_err
   outputs:
     - container_id
-    - standard_err
+    - error_message: ${standard_err}

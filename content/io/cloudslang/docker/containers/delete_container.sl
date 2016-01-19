@@ -52,7 +52,8 @@ flow:
         overridable: false
     - cmd_params:
         required: false
-    - params: ${cmd_params + ' ' if bool(cmd_params) else ''}
+    - params:
+        default: ${cmd_params + ' ' if bool(cmd_params) else ''}
         overridable: false
     - host
     - port:
@@ -105,7 +106,7 @@ flow:
           FAIL_VALIDATE_SSH: FAILURE
   outputs:
     - result
-    - standard_err
+    - error_message: ${standard_err}
 
   results:
     - SUCCESS
