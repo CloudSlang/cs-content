@@ -41,6 +41,7 @@ flow:
   inputs:
     - container_name
     - command: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
+        overridable: false
     - host
     - port:
         required: false

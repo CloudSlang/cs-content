@@ -43,6 +43,7 @@ flow:
     - all_containers: false
     - ps_params: ${'-a' if bool(all_containers) else ''}
     - command: ${'docker ps -q ' + ps_params}
+        overridable: false
     - host
     - port:
         required: false
