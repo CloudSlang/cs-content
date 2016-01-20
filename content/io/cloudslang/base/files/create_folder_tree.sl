@@ -16,7 +16,7 @@
 #   - SUCCESS - folder was successfully created
 #   - FAILURE - folder was not created due to error
 ####################################################
-namespace: io.cloudslang.createCP
+namespace: io.cloudslang.base.files
 
 operation:
   name: create_folder_tree

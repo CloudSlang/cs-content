@@ -18,7 +18,7 @@
 #   - FAILURE - Any other result (false or error)
 ####################################################
 
-namespace: io.cloudslang.createCP
+namespace: io.cloudslang.operations_orchestration.createCP
 
 operation:
   name: copy_config_items
