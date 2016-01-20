@@ -12,7 +12,7 @@
 #   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
 #   - port - optional - the port to connect through - Examples: '443', '80' - Default: '443'
 #   - protocol - optional - the connection protocol - Valid: 'http', 'https' - Default: 'https'
-#   - username - optional - the VMware username use to connect
+#   - username - the VMware username use to connect
 #   - password - the password associated with <username> input
 #   - trust_everyone - optional - if 'True' will allow connections from any host, if 'False' the connection will be
 #                               allowed only using a valid vCenter certificate - Default: True
@@ -42,8 +42,7 @@ operation:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         default: 'true'

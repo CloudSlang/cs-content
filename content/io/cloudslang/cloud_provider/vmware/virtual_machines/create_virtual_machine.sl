@@ -12,7 +12,7 @@
 #   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
 #   - port - optional - the port to connect through - Examples: '443', '80' - Default: '443'
 #   - protocol - optional - the connection protocol - Valid: 'http', 'https' - Default: 'https'
-#   - username - optional - the VMware username use to connect
+#   - username - the VMware username use to connect
 #   - password - the password associated with <username> input
 #   - trust_everyone - optional - if 'True' will allow connections from any host, if 'False' the connection will be
 #                                allowed only using a valid vCenter certificate - Default: True
@@ -20,7 +20,7 @@
 #   - hostname - optional - the name of the host where the new created virtual machine will reside
 #                         - Example: 'host123.subdomain.example.com' - Default: ''
 #   - virtual_machine_name - the name of the virtual machine that will be created
-#   - description - optional - the description of the virtual machine that will be created
+#   - description - optional - the description of the virtual machine that will be created - Default: ''
 #   - data_store - the datastore where the disk of the new created virtual machine will reside - Example: 'datastore2-vc6-1'
 #   - num_cpus - optional - the number that indicates how many processors will have the virtual machine that will be created
 #                        - Default: '1'
@@ -53,8 +53,7 @@ operation:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         default: 'true'
