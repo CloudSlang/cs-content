@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,21 +6,19 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs several linux commands in order to deploy Tomcat application on Ubuntu 14.04 server
+# This flow performs several linux commands in order to deploy Tomcat application on on machines that are running Ubuntu
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
 #   - user_password - optional - the Tomcat user password - Default: ''
 #   - download_url - the URL address where the content to be downloaded is
-#                  - Default: 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz'
-#   - download_path - optional - the absolute path under the content will be downloaded
-#                   - Default: '/opt/apache-tomcat-7.0.61.tar.gz'
-#   - folder_name - the folder name to be created where tomcat installing archive will be downloaded
-#                 - Default: apache-tomcat-7.0.61.tar.gz
+#   - download_path - optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
+#   - folder_name - the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
 #   - folder_path - optional - the absolute path under the <folder_name> will be created - Default: '/opt'
+#   - file_name - the name of the Tomcat archive file - Example: 'apache-tomcat-9.0.0.M1.tar.gz'
 #   - source_path - absolute path of the file about to be copied - Example: 'C:\temp\tomcat'
-#   - script_file_name - the name of the script file - Default: 'tomcat'
+#   - script_file_name - the name of the script file
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -47,31 +45,30 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: deploy_tomcat_on_ubuntu_server
+  name: deploy_tomcat_on_ubuntu
 
   inputs:
     - host
     - root_password
-    - user_password:
-        default: 'tomcat'
-        required: false
-    - java_version: 'openjdk-7-jdk'
-    - download_url: 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz'
+    - user_password: ''
+    - java_version
+    - download_url
     - download_path:
-        default: '/opt/apache-tomcat-7.0.61.tar.gz'
+        default: '/opt/apache-tomcat'
         required: false
-    - folder_name: 'apache-tomcat-7.0.61.tar.gz'
+    - folder_name: 'apache-tomcat'
     - folder_path:
         default: '/opt'
         required: false
+    - file_name
     - source_path
-    - script_file_name: 'tomcat'
+    - script_file_name
 
 
   workflow:
     - install_java:
         do:
-          install_java_on_ubuntu_server:
+          install_java_on_ubuntu:
             - host
             - root_password
             - java_version
@@ -123,7 +120,7 @@ flow:
 
     - add_group:
         do:
-          groups.add_group:
+          groups.add_ubuntu_group:
             - host
             - root_password
             - group_name: 'tomcat'
@@ -139,7 +136,7 @@ flow:
 
     - add_user:
         do:
-          users.add_user:
+          users.add_ubuntu_user:
             - host
             - root_password
             - user_name: 'tomcat'
@@ -196,7 +193,7 @@ flow:
           ssh.ssh_flow:
             - host
             - command: >
-               ${'cd ' + folder_path + '/' + folder_name + ' && tar pxvf ' + folder_name + ' --strip-components=1'}
+               ${'cd ' + folder_path + '/' + folder_name + ' && tar pxvf ' + file_name + ' --strip-components=1'}
             - username: 'root'
             - password: ${root_password}
         publish:
@@ -212,7 +209,7 @@ flow:
 
     - create_symlink:
         do:
-          folders.create_folder_symlink:
+          folders.create_symlink:
             - host
             - root_password
             - source_folder: ${folder_path + '/' + folder_name}
@@ -231,7 +228,7 @@ flow:
         do:
           ssh.ssh_flow:
             - host
-            - command: ${'cd /usr/share/tomcat/bin' + '&& ./startup.sh'}
+            - command: ${'cd /usr/share/tomcat/' + folder_name + '/bin' + ' && ./startup.sh'}
             - username: 'root'
             - password: ${root_password}
         publish:
@@ -247,7 +244,7 @@ flow:
 
     - change_tomcat_folder_ownership:
         do:
-          folders.change_folder_ownership:
+          folders.change_ownership:
             - host
             - root_password
             - folder_path: '/usr/share/tomcat/'
@@ -266,7 +263,7 @@ flow:
 
     - change_download_tomcat_folder_ownership:
         do:
-          folders.change_folder_ownership:
+          folders.change_ownership:
             - host
             - root_password
             - folder_path: ${download_path}

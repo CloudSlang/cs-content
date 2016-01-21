@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,12 +6,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs several linux commands in order to deploy Tomcat application on Ubuntu 14.04 server
+# This flow performs a linux command to add a specified group named <group_name> on machines that are running Ubuntu
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - java_version - the java version that will be installed
+#   - group_name - the group name where to be added
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -24,42 +24,45 @@
 #	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #                                     channel type has no command), 126 if the command cannot execute.
 # Results:
-#    - SUCCESS - SSH access was successful
+#    - SUCCESS - add group SSH command was successfully executed
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.samples
+namespace: io.cloudslang.base.os.linux.groups
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: install_java_on_ubuntu_server
+  name: add_ubuntu_group
 
   inputs:
     - host
     - root_password
-    - java_version: 'openjdk-7-jdk'
+    - group_name
 
   workflow:
-    - install_java:
+    - add_group:
         do:
           ssh.ssh_flow:
             - host
+            - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'apt-get install -y ' + java_version}
+            - command: ${'addgroup ' + group_name}
         publish:
           - return_result
           - standard_err
           - standard_out
           - return_code
           - command_return_code
-          - exception
 
   outputs:
-      - return_result
-      - standard_err
-      - standard_out
-      - return_code
-      - command_return_code
-      - exception
+    - return_result
+    - standard_err
+    - standard_out
+    - return_code
+    - command_return_code
+
+  results:
+    - SUCCESS: ${return_code == '0' and command_return_code == '0'}
+    - FAILURE

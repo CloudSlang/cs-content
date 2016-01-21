@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,12 +6,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified group named <group_name>
+# This flow performs a linux command to create a symbolic link between <source_folder> and <linked_folder>
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - group_name - the group name where to be added
+#   - source_folder - the name of the folder to be linked
+#   - linked_folder - the name of the linked folder
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -24,31 +25,32 @@
 #	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #                                     channel type has no command), 126 if the command cannot execute.
 # Results:
-#    - SUCCESS - add group SSH command was successfully executed
+#    - SUCCESS - SSH access was successful
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.groups
+namespace: io.cloudslang.base.os.linux.folders
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: add_group
+  name: create_symlink
 
   inputs:
     - host
     - root_password
-    - group_name
+    - source_folder
+    - linked_folder
 
   workflow:
-    - add_group:
+    - create_symlink:
         do:
           ssh.ssh_flow:
             - host
             - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'addgroup ' + group_name}
+            - command: ${'ln -s ' + source_folder + ' ' + linked_folder}
         publish:
           - return_result
           - standard_err

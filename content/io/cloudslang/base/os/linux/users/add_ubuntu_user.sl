@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified user named <user_name>
+# This flow performs a linux command to add a specified user named <user_name> on machines that are running Ubuntu
 #
 # Inputs:
 #   - host - hostname or IP address
@@ -38,7 +38,7 @@ imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: add_user
+  name: add_ubuntu_user
 
   inputs:
     - host

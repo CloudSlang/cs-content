@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,13 +6,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to create a symbolic link between <source_folder> and <linked_folder>
+# This flow performs several linux commands in order to deploy Tomcat application on on machines that are running Ubuntu
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - source_folder - the name of the folder to be linked
-#   - linked_folder - the name of the linked folder
+#   - java_version - the java version that will be installed
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -28,43 +27,39 @@
 #    - SUCCESS - SSH access was successful
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.folders
+namespace: io.cloudslang.base.os.linux.samples
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: create_folder_symlink
+  name: install_java_on_ubuntu
 
   inputs:
     - host
     - root_password
-    - source_folder
-    - linked_folder
+    - java_version
 
   workflow:
-    - create_symlink:
+    - install_java:
         do:
           ssh.ssh_flow:
             - host
-            - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'ln -s ' + source_folder + ' ' + linked_folder}
+            - command: ${'apt-get install -y ' + java_version}
         publish:
           - return_result
           - standard_err
           - standard_out
           - return_code
           - command_return_code
+          - exception
 
   outputs:
-    - return_result
-    - standard_err
-    - standard_out
-    - return_code
-    - command_return_code
-
-  results:
-    - SUCCESS: ${return_code == '0' and command_return_code == '0'}
-    - FAILURE
+      - return_result
+      - standard_err
+      - standard_out
+      - return_code
+      - command_return_code
+      - exception
