@@ -14,6 +14,7 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
+#   - arguments - optional - arguments to pass to the command
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
 #   - private_key_file - optional - absolute path to private key file
