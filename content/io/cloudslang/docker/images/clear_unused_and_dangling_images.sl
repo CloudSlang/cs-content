@@ -6,15 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes unused and Dangling Docker images.
+# Deletes unused and dangling Docker images.
 #
 # Inputs:
 #   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password - Default: none
-#   - private_key_file - optional - path to the private key file - Default: none
+#   - docker_password - optional - Docker machine password
+#   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
+#   - port - optional - SSH port
 # Outputs:
 #   - amount_of_images_deleted - number of images deleted
 #   - amount_of_dangling_images_deleted - number of dangling images deleted

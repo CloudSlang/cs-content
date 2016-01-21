@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Register endpoint to add a new agent service
+# Registers an endpoint to add a new agent service.
 #
 # Inputs:
 #   - host - Consul agent host

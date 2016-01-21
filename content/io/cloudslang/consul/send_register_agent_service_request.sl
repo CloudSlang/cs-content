@@ -14,11 +14,11 @@
 #   - json_request - the request JSON
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message: returnResult if returnCode is equal to '-1' or statusCode different than '200'
-#   - return_code - if returnCode is equal to '-1' then there was an error
+#   - error_message: return_result if return_code is equal to '-1' or status_code different than '200'
+#   - return_code - if return_code is equal to '-1' then there was an error
 #   - status_code - normal status code is '200'
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ####################################################
 

@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates JSON for request to register new endpoint.
+# Creates a JSON for request to register a new endpoint.
 #
 # Inputs:
 #   - node - node name
-#   - address - node host
-#   - datacenter - optional - Default: matched to that of agent
-#   - service - optional - if Service key is provided, then service will also be registered
-#   - check - optional - if the Check key is provided, then a health check will also be registered
+#   - address - node host - Default: ''
+#   - datacenter - optional - Default: ''; matched to that of agent
+#   - service - optional - if Service key is provided, then service will also be registered - Default: ''
+#   - check - optional - if the Check key is provided, then a health check will also be registered - Default: ''
 # Outputs:
 #   - return_result - response of the operation
 #   - error_message - return_result if there was an error
