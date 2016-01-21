@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets a list of services in a given datacenter.
+# Gets a list of services in a given data center.
 #
 # Inputs:
 #   - host - Consul agent host
 #   - consul_port - optional - Consul agent port - Default: '8500'
-#   - datacenter - optional - Default: matched to that of agent
+#   - datacenter - optional - Default: ''; matched to that of agent
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message: returnResult if returnCode is equal to '-1' or statusCode different than '200'
-#   - return_code - if returnCode is equal to '-1' then there was an error
+#   - error_message: return_result if return_code is equal to '-1' or status_code different than '200'
+#   - return_code - if return_code is equal to '-1' then there was an error
 #   - status_code - normal status code is '200'
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ####################################################
 
