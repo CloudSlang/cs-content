@@ -12,11 +12,12 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
+#   - private_key_file - optional - absolute path to private key file
 #   - used_images - list of used images - Format: space delimited list of strings
+#   - port - optional - SSH port
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 # Outputs:
-#   - images_list_safe_to_delete - unused Docker images (including dangling ones)
+#   - dangling_images_list_safe_to_delete - unused Docker images (including dangling ones)
 #   - amount_of_dangling_images_deleted - number of dangling images that where deleted
 # Results:
 #   - SUCCESS - successful
