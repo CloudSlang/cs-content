@@ -14,11 +14,11 @@
 #   - port - optional - SSH port
 #   - username - Docker machine username
 #   - password - optional - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
 #   - mysql_username - MySQL instance username
 #   - mysql_password - MySQL instance password
+#   - private_key_file - optional - absolute path to private key file
 #   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
+#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #   - pty - optional - whether to use PTY - Valid: true, false
 #   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
