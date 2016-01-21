@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets Consul key.
+# Gets a Consul key.
 #
 # Inputs:
 #   - host - Consul agent host
@@ -14,8 +14,8 @@
 #   - key_name - name of key to get
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message: returnResult if returnCode is equal to '-1' or statusCode different than '200'
-#   - return_code - if returnCode is equal to '-1' then there was an error
+#   - error_message: return_result if return_code is equal to '-1' or status_code different than '200'
+#   - return_code - if return_code is equal to '-1' then there was an error
 #   - status_code - normal status code is '200'
 # Results:
 #   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')

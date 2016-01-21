@@ -12,12 +12,12 @@
 #   - docker_host - Docker machine host
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
-#   - image_name - image for which to check parents - ex: <repository>:<tag>
+#   - image_name - image for which to check parents - Example: <repository>:<tag>
 #   - private_key_file - optional - path to the private key file
 #   - timeout - optional - time in milliseconds to wait for the command to complete
 #   - port - optional - port number for running the command
 # Outputs:
-#   - parents - parents of the specified containers
+#   - parent_image_name - name of the parent image
 ####################################################
 namespace: io.cloudslang.docker.images
 
