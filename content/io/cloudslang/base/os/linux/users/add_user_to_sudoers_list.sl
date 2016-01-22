@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,7 +11,7 @@
 # Inputs:
 #   - host - hostname or IP address
 #   - port - optional - port number for running the command - Default: '22'
-#   - password - optional - password of user
+#   - password - password of user
 #   - private_key_file - optional - the path to the private key file
 #   - user - the user to be added in sudoers group
 # Outputs:
