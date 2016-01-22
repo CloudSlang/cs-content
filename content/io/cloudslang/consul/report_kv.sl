@@ -10,7 +10,7 @@
 #
 #  Inputs:
 #    - host - Consul agent host
-#    - consul_port - optional - Consul agent port - Default: 8500
+#    - consul_port - optional - Consul agent port - Default: '8500'
 #    - key_name - name of key to retrieve
 #  Outputs:
 #    - decoded - parsed response
@@ -20,7 +20,7 @@
 #    - value - key value
 #    - modify_index - key modify index
 #    - lock_index - key lock index
-#    - error_message - returnResult if there was an error
+#    - error_message - return_result if there was an error
 #  Results:
 #    - SUCCESS - parsing was successful (return_code == '0')
 #    - FAILURE - otherwise
