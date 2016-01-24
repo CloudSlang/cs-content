@@ -17,19 +17,17 @@
 #                                  with no authentication info will be made and if server responds with 401 and a header
 #                                  like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #                                  will be sent - Default: true
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
-#                           'domain\user'
+#   - username - optional - username used for URL authentication; for NTLM authentication - Format: 'domain\user'
 #   - password - optional - password used for URL authentication
 #   - kerberos_conf_file - optional - path to the Kerberos configuration file - Default: '0'
-#   - kerberos_login_conf_file - optional - login.conf file needed by the JAAS framework with the content similar to
-#                                           the one in examples
+#   - kerberos_login_conf_file - optional - login.conf file needed by the JAAS framework with the content similar to the one in examples
 #                              - Format: 'http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html'
 #   - kerberos_skip_port_for_lookup - optional - do not include port in the key distribution center database lookup
 #                                              - Default: true
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_username - optional - username used when connecting to the proxy
+#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
 #   - trust_all_roots - optional - specifies whether to enable weak security over SSL - Default: true
 #   - x_509_hostname_verifier - optional - specifies the way the server hostname must match a domain name in the subject's
 #                                          Common Name (CN) or subjectAltName field of the X.509 certificate
@@ -39,10 +37,9 @@
 #   - keystore - optional - location of the KeyStore file - Format: a URL or the local path to it.
 #                           This input is empty if no HTTPS client authentication is used
 #   - keystore_password - optional - password associated with the KeyStore file
-#   - connect_timeout - optional - time to wait for a connection to be established, in seconds - Default: '0'
-#                                  (infinite timeout)
-#   - socket_timeout - optional - time to wait for data to be retrieved (maximum period inactivity between two consecutive
-#                                data packets), in seconds - Default: '0' (infinite timeout)
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established - Default: '0' (infinite timeout)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (maximum period inactivity between two consecutive
+#                                data packets) - Default: '0' (infinite timeout)
 #   - use_cookies - optional - specifies whether to enable cookie tracking or not - Default: true
 #   - keep_alive - optional - specifies whether to create a shared connection that will be used in subsequent calls
 #                           - Default: true
@@ -89,7 +86,7 @@
 #   - http_client_cookie_session - optional - session object that holds the cookies if the <use_cookies> input is true
 #   - http_client_pooling_connection_manager - optional - GlobalSessionObject that holds the http client pooling
 #                                                         connection manager
-#   - valid_http_status_codes - optional - List/array of HTTP status codes considered to be successful (e.g. [202, 204])
+#   - valid_http_status_codes - optional - list/array of HTTP status codes considered to be successful - Example: [202, 204]
 #                                        - Default: 'range(200, 300)'
 # Outputs:
 #   - return_result - response of the operation

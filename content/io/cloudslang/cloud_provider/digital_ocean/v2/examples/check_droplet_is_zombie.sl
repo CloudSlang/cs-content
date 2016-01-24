@@ -6,15 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow checks whether a droplet is considered zombie.
+# Checks whether a droplet is considered a zombie.
 #
 # Inputs:
 #   - droplet_name - name of the droplet
 #   - creation_time_as_string - creation time (UTC timezone) of the droplet as a string value
-#                             - format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#   - time_to_live - threshold to compare the droplet's lifetime to (in minutes)
-#   - name_pattern - regex pattern for zombie droplet names - e.g. ci-([0-9]+)-coreos-([0-9]+)
-#
+#                             - Format (used by DigitalOcean): 2015-09-27T18:47:19Z
+#   - time_to_live - threshold in minutes to compare the droplet's lifetime to
+#   - name_pattern - regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
 # Results:
 #   - ZOMBIE: droplet is considered zombie
 #   - NOT_ZOMBIE: droplet is not considered zombie

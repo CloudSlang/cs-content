@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Convert items of a given list to string and concatenate them in result
+# Converts each item in a list to a string and concatenates them.
 #
 # Inputs:
-#   - list - the list of item that will be converted to string and concatenated in result - Example: [123, 'xyz']
-#   - double_quotes - optional - if 'True' every list item will be double quoted before concatenation - Default: False
-#   - result_delimiter - optional - if 'True' will be appended after every list item (except the last one) before
-#                                   concatenation - Default: ""
-#   - result_to_lowercase - optional - if 'True' the result will be a string in lowercase only - Default: False
+#   - list - list of items that will be converted to string and concatenated - Example: [123, 'xyz']
+#   - double_quotes - optional - if true, list items will be double quoted - Default: False
+#   - result_delimiter - optional - if true, will be appended after every list item (except the last one) - Default: "''"
+#   - result_to_lowercase - optional - if true, list items will be lowercased - Default: False
 # Outputs:
 #   - result - the string that results from concatenation of list elements
 ####################################################

@@ -12,22 +12,22 @@
 #   - host - hostname or IP address
 #   - port - optional - port number for running the command - Default: '22'
 #   - command - command to execute
-#   - pty - optional - whether to use pty - Valid: true, false - Default: false
+#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - username - username to connect as
 #   - password - optional - password of user
 #   - arguments - optional - arguments to pass to the command
 #   - private_key_file - optional - path to the private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000
 #   - character_set - optional - character encoding used for input stream encoding from target machine
 #                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #   - close_session - optional - if 'false' the SSH session will be cached for future calls of this operation during the
 #                                life of the flow, if 'true' the SSH session used by this operation will be closed
 #                              - Valid: true, false - Default: false
 #   - agent_forwarding - optional - the sessionObject that holds the connection if the close session is false
-#   - smart_recovery - whether the flow should try to recover in case of ssh session failure
+#   - smart_recovery - whether the flow should try to recover in case of SSH session failure
 #                    - such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
 #                    - Default: true
-#   - retries - limit of reconnect tryings - Default: 5
+#   - retries - limit of reconnect tries - Default: 5
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #   - standard_out - STDOUT of the machine in case of successful request, null otherwise

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,24 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
+# Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
 #   and changes its status to ACTIVE. PAUSED and SUSPENDED servers (instances) cannot be started.
 #
 # Inputs:
 #   - provider - the cloud provider on which the instance is - Default: 'amazon'
 #   - endpoint - the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #   - identity - optional - the Amazon Access Key ID
-#   - credential - optional - the Amazon Secret Access Key that correspond to the Amazon Access Key ID
+#   - credential - optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #   - region - optional - the region where the server (instance) to be started can be found. list_regions operation
 #                         can be used in order to get all regions - Default: 'us-east-1'
 #   - server_id - the ID of the server (instance) you want to start
 #   - proxy_host - optional - the proxy server used to access the provider services
 #   - proxy_port - optional - the proxy server port used to access the provider services - Default: '8080'
-#
+# Outputs:
+#   - return_result - contains the exception in case of failure, success message otherwise
+#   - return_code - '0' if operation was successfully executed, '-1' otherwise
+#   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
 #  SUCCESS: the server (instance) was successfully started
-#  FAILURE: an error when trying to start a server (instance)
-#
+#  FAILURE: an error occurred when trying to start a server (instance)
 ####################################################
 namespace: io.cloudslang.cloud_provider.amazon_aws
 
@@ -52,14 +54,17 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         overridable: false
+
   action:
     java_action:
       className: io.cloudslang.content.jclouds.actions.StartServerAction
       methodName: execute
+
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${'' if 'exception' not in locals() else exception}
+
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE

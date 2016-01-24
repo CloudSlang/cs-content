@@ -16,7 +16,7 @@ flow:
   inputs:
     - read_file_path
     - expected_read_text
-    - expected_error_message
+    - expected_message
   workflow:
     - create_file:
         do:
@@ -32,7 +32,7 @@ flow:
             - file_path: ${read_file_path}
         publish:
           - read_text
-          - error_message
+          - message
         navigate:
           SUCCESS: check_read_text
           FAILURE: FAILURE
@@ -47,8 +47,8 @@ flow:
     - check_error_message:
         do:
           strings.string_equals:
-            - first_string: ${error_message}
-            - second_string: ${expected_error_message}
+            - first_string: ${message}
+            - second_string: ${expected_message}
         navigate:
           SUCCESS: delete_created_file_outputs_checked
           FAILURE: delete_created_file_outputs_different

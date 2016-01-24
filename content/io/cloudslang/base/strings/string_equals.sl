@@ -12,8 +12,8 @@
 #   - first_string - first string to compare
 #   - second_string - second string to compare
 # Results:
-#   - SUCCESS - if strings are equal
-#   - FAILURE - otherwise
+#   - SUCCESS - strings are equal
+#   - FAILURE - strings are not equal
 ##################################################
 namespace: io.cloudslang.base.strings
 

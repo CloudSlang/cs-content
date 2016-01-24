@@ -20,13 +20,13 @@
 #   - proxy_port - optional - proxy server port - Default: '8080'
 #   - proxy_username - optional - user name used when connecting to the proxy
 #   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-#   - connect_timeout - optional - time to wait for a connection to be established, in seconds - Default: '0' (infinite)
-#   - socket_timeout - optional - time to wait for data to be retrieved, in seconds - Default: '0' (infinite)
+#   - connect_timeout - optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
+#   - socket_timeout - optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #   - headers - optional - list containing the headers to use for the request separated by new line (CRLF);
 #                          header name - value pair will be separated by ":" - Format: According to HTTP standard for
-#                          headers (RFC 2616) - Examples: 'Accept:text/plain'
+#                          headers (RFC 2616) - Example: 'Accept:text/plain'
 #   - query_params - optional - list containing query parameters to append to the URL
-#                             - Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#                             - Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #   - body - optional - string to include in body for HTTP POST operation
 #   - content_type - optional - content type that should be set in the request header, representing the MIME-type of the
 #                               data in the message body - Default: 'text/plain'

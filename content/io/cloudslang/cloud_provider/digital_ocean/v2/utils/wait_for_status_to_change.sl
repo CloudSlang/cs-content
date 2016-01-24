@@ -6,21 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# This flow waits for a droplet to change its status.
+# Waits for a droplet to change its status.
 #
 # Inputs:
 #   - droplet_id - id of the droplet
-#   - status - status to wait upon
-#            - flow will wait until the droplet status is changed or timeout is reached
+#   - status - status to wait upon; will wait until the droplet status is changed or timeout is reached
+#            - Valid: "new", "active", "off", "archive"
 #   - timeout - time limit to wait for droplet to change its status as number or string - in seconds
 #   - token - personal access token for DigitalOcean API
 #   - proxy_host - optional - proxy server used to access the web site
 #   - proxy_port - optional - proxy server port
 #   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
 #   - connect_timeout - optional - time to wait for a connection to be established, in seconds (0 represents infinite value)
 #   - socket_timeout - optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
-#
 # Results:
 #   - SUCCESS - droplet changed its status
 #   - DROPLET_NOT_FOUND - underlying GET request returned NOT_FOUND status code for droplet

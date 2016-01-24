@@ -6,8 +6,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Copies a file or folder
-# If a folder is copied then the destination directory, named by <destination>, must not already exist
+# Copies a file or folder.
+# If a folder is copied, the destination directory must not already exist.
 #
 # Inputs:
 #   - source - path of source file or folder to be copied

@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Call to HP Cloud API to create a server instance 
+# Call to HP Cloud API to create a server instance.
 #
 # Inputs:
 #   - server_name - name for the new server
@@ -15,14 +15,14 @@
 #   - keypair - keypair used to access the new server
 #   - tenant - tenant id obtained by get_authenication_flow
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - network_id - optional - id of private network to add server to, can be omitted
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - network_id - optional - ID of private network to add server to, can be omitted
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - return_result - JSON response with server details, id etc
+#   - error_message - message returned when HTTP call fails
 #   - status_code - normal status code is 202
-#   - error_message - Message returned when HTTP call fails
 # Results:
 #   - SUCCESS - operation succeeded, server created
 #   - FAILURE - otherwise
@@ -73,7 +73,7 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
   outputs:
     - return_result
     - error_message

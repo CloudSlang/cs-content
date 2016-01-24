@@ -6,16 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow restart remote Linux host using ssh
+# Restarts a remote Linux host using SSH.
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - port - optional - port number for running the command - Default: '22'
 #   - username - username to connect as
 #   - password - password of user
-#   - timeout - time (in minutes) to postpone restart
+#   - timeout - time in minutes to postpone restart
+#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
 #   - private_key_file - the absolute path to the private key file
-#   - sudo_user - use 'sudo' prefix before command
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #   - standard_out - STDOUT of the machine in case of successful request, null otherwise
@@ -53,7 +53,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-  
+
   workflow:
     - server_restart:
         do:
@@ -65,7 +65,7 @@ flow:
             - username
             - password
             - private_key_file
-        publish: 
+        publish:
           - return_result
           - standard_out
           - standard_err

@@ -9,15 +9,15 @@
 # Creates JSON for request to register new agent service.
 #
 # Inputs:
-#   - address - optional - will default to that of the agent
+#   - address - optional - will default to that of the agent - Default: ''
 #   - service_name - name of the service to be registered
 #   - service_id - optional - service_name will be used if not specified
 #   - check - optional - if the Check key is provided, then a health check will also be registered
 # Outputs:
 #   - return_result - response of the operation
-#   - json_request - JSON request for registering endpoint
-#   - return_code - '0' if parsing was successful, '-1' otherwise
 #   - error_message - return_result if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
+#   - json_request - JSON request for registering endpoint
 # Results:
 #   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise

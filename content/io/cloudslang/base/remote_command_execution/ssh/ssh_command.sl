@@ -12,12 +12,12 @@
 #   - host - hostname or IP address
 #   - port - optional - port number for running the command - Default: '22'
 #   - command - command to execute
-#   - pty - optional - whether to use pty - Valid: true, false - Default: false
+#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
 #   - username - username to connect as
 #   - password - optional - password of user
 #   - arguments - optional - arguments to pass to the command
 #   - private_key_file - optional - absolute path to private key file - Default: none
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000
 #   - character_set - optional - character encoding used for input stream encoding from target machine
 #                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #   - close_session - optional - if 'false' the SSH session will be cached for future calls of this operation during the

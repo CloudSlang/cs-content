@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# List all the networks in your HP Cloud project/tenant
+# List all the networks in your HP Cloud project/tenant.
 #
 # Inputs:
 #   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East) 
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
+#   - proxy_host - optional - proxy server used to access the web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
-#   - return_result - JSON listing all networks configured 
+#   - return_result - JSON listing all networks configured
+#   - error_message - return_result if statusCode != 200
 #   - status_code - normal status code is 200
-#   - error_message - returnResult if statusCode != 200
 # Results:
 #   - SUCCESS - operation succeeded
 #   - FAILURE - otherwise
@@ -50,7 +50,7 @@ flow:
           - return_result
           - error_message
           - status_code
-          
+
   outputs:
     - return_result
     - error_message
