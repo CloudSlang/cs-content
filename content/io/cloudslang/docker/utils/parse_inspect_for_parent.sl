@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets parent from the response of inspect_image.sl
+# Gets parent from the response of inspect_image.sl.
 #
 # Inputs:
 #   - json_response - response of inspect_container operation

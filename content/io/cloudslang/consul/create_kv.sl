@@ -6,21 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a Consul key name; if the key exists update the key.
+# Creates a Consul key name; if the key exists updates the key.
 #
 # Inputs:
 #   - host - Consul agent host
 #   - consul_port - optional - Consul agent port - Default: '8500'
 #   - key_name - name for new key
-#   - key_value - optional - value for new key - Default: null
+#   - key_value - optional - value for new key - Default: ''
 #   - flags - optional - flags for new key - Default: '0'
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message: returnResult if returnCode is equal to '-1' or statusCode different than '200'
-#   - return_code - if returnCode is equal to '-1' then there was an error
+#   - error_message: return_result if return_code is equal to '-1' or status_code different than '200'
+#   - return_code - if return_code is equal to '-1' then there was an error
 #   - status_code - normal status code is '200'
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ####################################################
 
