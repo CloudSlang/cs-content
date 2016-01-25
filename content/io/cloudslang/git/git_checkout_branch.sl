@@ -6,23 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow checks out a git branch
+# Checks out a git branch.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_pull_remote - if git_pull is set to true then specify the remote branch to pull from - Default: origin
-#       - git_branch - the git branch to checkout to
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - private_key_file - the absolute path to the private key file
-#
-# Results:
-#  SUCCESS: git repository successfully cloned
-#  FAILURE: an error when trying to clone a git repository
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - git_branch - optional - git branch to checkout
+#   - git_repository_localdir - optional - target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
+#   - git_pull_remote - optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - path to private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - command - git command
 ####################################################
 namespace: io.cloudslang.git
 
@@ -51,7 +50,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-  
+
   workflow:
     - git_clone:
         do:

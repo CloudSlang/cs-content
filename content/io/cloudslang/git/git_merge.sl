@@ -6,23 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow merges a git branch to another branch
+# Merges a git branch to another branch.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command
-#       - username - username to connect as
-#       - password - optional - password of user
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
-#                                 - Default: /tmp/repo.git
-#       - git_merge_branch - specify the branch to merge from
-#       - sudo_user - optional - true or false, whether the command should execute using sudo
-#       - private_key_file - relative or absolute path to the private key file
-#
-# Results:
-#  SUCCESS: git repository successfully merged
-#  FAILURE: an error when trying to merge a git branch
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - git_repository_localdir - optional - target directory where a git repository exists
+#                             - Default: /tmp/repo.git
+#   - git_merge_branch - optional - branch to merge from
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - relative or absolute path to private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - command - git command
 ####################################################
 namespace: io.cloudslang.git
 

@@ -6,22 +6,20 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow clones a git repository
+# Clones a git repository.
 #
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command - Default: 22
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_repository - the URL for cloning a git repository from
-#       - git_repository_localdir - target directory the git repository will be cloned to
-#       - private_key_file - the absolute path to the private key file
-#
-# Results:
-#  SUCCESS: git repository successfully cloned
-#  FAILURE: an error when trying to clone a git repository
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - git_repository - URL from which to clone a git repository
+#   - git_repository_localdir - optional - target directory the git repository will be cloned to
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - absolute path to private key file
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
 ####################################################
 namespace: io.cloudslang.git
 
@@ -46,7 +44,7 @@ flow:
         required: false
     - private_key_file:
         required: false
-  
+
   workflow:
     - git_clone:
         do:

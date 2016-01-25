@@ -6,22 +6,21 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git command to add files as staged files for a later local commit
+# Performs a git command to add files as staged files for a later local commit.
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the path to the private key file
-#      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_add_files - optional - the files that has to be added/staged - Default: "*"
-#
-# Results:
-#  SUCCESS: the files was successfully added
-#  FAILURE: an error when trying to add files
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - path to private key file
+#   - git_repository_localdir - target directory where a git repository exists - Default: /tmp/repo.git
+#   - git_add_files - optional - files to add/stage - Default: "*"
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - command - git command
 ####################################################
 namespace: io.cloudslang.git
 

@@ -6,23 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git command to commit staged files to a local repository
+# Performs a git command to commit staged files to a local repository.
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the absolute path to the private key file
-#      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_commit_files - optional - the files that has to be committed - Default: "-a"
-#      - git_commit_message - optional - the message for the commit
-#
-# Results:
-#  SUCCESS: the commit was successfully made on local repository
-#  FAILURE: an error occurred when trying to commit
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - absolute path to private key file
+#   - git_repository_localdir - optional - target directory where a git repository exists - Default: /tmp/repo.git
+#   - git_commit_files - optional - files to commit - Default: "-a"
+#   - git_commit_message - optional - message for commit
+# Outputs:
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - command - git command
 ####################################################
 namespace: io.cloudslang.git
 
