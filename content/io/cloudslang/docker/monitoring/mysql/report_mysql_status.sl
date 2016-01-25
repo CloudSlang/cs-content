@@ -12,7 +12,7 @@
 # Inputs:
 #   - container - name or ID of the Docker container that runs MySQL
 #   - docker_host - Docker machine host
-#   - docker_port - optional - Dpcker machine port
+#   - docker_port - optional - Docker machine port
 #   - docker_username - Docker machine username
 #   - docker_password - optional - Docker machine password
 #   - docker_private_key_file - optional - path to private key file

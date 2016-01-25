@@ -13,7 +13,7 @@
 #   - raw_output - raw output from 'docker ps' command
 #   - excluded_images - comma separated list of Docker images
 #                     - the containers based on these images will not be included in the result list
-#                     - e.g. swarm:latest,tomcat:7
+#                     - Example: swarm:latest,tomcat:7
 # Outputs:
 #   - container_names - comma separated list of container names
 #   - container_ids - comma separated list of container IDs
