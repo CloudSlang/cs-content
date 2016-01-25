@@ -24,9 +24,6 @@
 #   - email_sender - email sender
 #   - email_recipient - email recipient
 #   - timeout - optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
 
