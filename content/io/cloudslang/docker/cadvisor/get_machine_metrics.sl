@@ -13,11 +13,11 @@
 #   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
 # Outputs:
 #   - return_result - response of the operation
-#   - error_message: returnResult if returnCode == '-1' or statusCode != '200'
-#   - return_code - if returnCode == '-1' then there was an error
+#   - error_message: return_result if return_code == '-1' or status_code != '200'
+#   - return_code - if return_code == '-1' then there was an error
 #   - status_code - normal status code is '200'
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ####################################################
 

@@ -36,7 +36,10 @@ Argument|Description
 
 **Installing packages into the python-lib folder:**
 
-Prerequisite: **pip** - see **pip**'s [documentation](https://pip.pypa.io/en/latest/installing.html) for how to install. 
+Prerequisites:  Python 2.7 and pip.
+
+You can download Python (version 2.7) from [here] (https://www.python.org/). Python 2.7.9 and later include pip by default. If you already have Python but don't have pip, see the pip [documentation] (https://pip.pypa.io/en/latest/installing.html) for 
+installation instructions. 
 
 1. Edit the **requirements.txt** file in the **python-lib** folder, which is found at the same level as the **bin** folder that contains the CLI executable. 
 2. Enter the Python package and all its dependencies in the requirements file.

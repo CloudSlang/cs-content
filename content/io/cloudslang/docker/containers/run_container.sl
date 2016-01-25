@@ -9,7 +9,7 @@
 # Pulls and runs a Docker container.
 #
 # Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#   - docker_options - optional - options for the Docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #   - detach - optional - run container in background (detached / daemon mode) - Default: true
 #   - container_name - optional - container name
 #   - container_params - optional - command parameters
@@ -31,9 +31,6 @@
 # Outputs:
 #   - container_id - ID of the container
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -118,4 +115,4 @@ flow:
           - standard_err
   outputs:
     - container_id
-    - standard_err
+    - error_message: ${standard_err}

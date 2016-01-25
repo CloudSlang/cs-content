@@ -15,16 +15,16 @@
 # Outputs:
 #   - decoded - parsed response
 #   - timestamp - time used to calculate stat
-#   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container
-#                    memory limit and machine memory limit used to calculate
+#   - memory_usage - calculated memory usage of the container; the container memory usage divided by the
+#                    machine_memory_limit or by the minimum memory limit of the container whichever is smaller
 #   - cpu_usage - calculated CPU usage of the container
 #   - throughput_rx - calculated network Throughput Rx bytes
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - error_message - return_result if there was an error
+#   - error_message - error message
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful
 #   - FAILURE - otherwise
 ####################################################
 
