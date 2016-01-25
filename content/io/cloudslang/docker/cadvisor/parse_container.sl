@@ -9,28 +9,28 @@
 # Parses the response of the cAdvisor container information.
 #
 # Inputs:
-#   - json_response - response of the cAdvisor container information
-#   - machine_memory_limit - optional - the container machine memory limit
+#   - json_response - response of cAdvisor container information
+#   - machine_memory_limit - optional - container machine memory limit - Default: -1
 # Outputs:
 #   - decoded - parsed response
 #   - spec - parsed cAdvisor spec
-#   - stat - parsed cAdvisor stat
+#   - stats - parsed cAdvisor stats
 #   - timestamp - time used to calculate the stat
 #   - cpu - parsed cAdvisor CPU
 #   - memory - parsed cAdvisor memory
 #   - network - parsed cAdvisor network
 #   - cpu_usage - calculated CPU usage of the container
-#   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container
-#                    memory limit and machine memory limit used to calculate
+#   - memory_usage - calculated memory usage of the container; the container memory usage divided by the
+#                    machine_memory_limit or by the minimum memory limit of the container whichever is smaller
 #   - throughput_rx - calculated network Throughput Rx bytes
 #   - throughput_tx - calculated network Throughput Tx bytes
 #   - error_rx - calculated network error Rx
 #   - error_tx - calculated network error Tx
-#   - returnResult - notification string; was parsing was successful or not
-#   - returnCode - '0' if parsing was successful, '-1' otherwise
-#   - errorMessage - returnResult if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
+#   - return_result - notification string; was parsing was successful or not
+#   - error_message - return_result if there was an error
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -80,11 +80,11 @@ operation:
           if min>machine_memory_limit:
             min=machine_memory_limit
         memory_usage=memory_usage/min
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except Exception as ex:
-        returnCode = '-1'
-        returnResult = 'Parsing error: ' + str(ex)
+        return_code = '-1'
+        return_result = 'Parsing error: ' + str(ex)
   outputs:
     - decoded
     - spec
@@ -99,9 +99,9 @@ operation:
     - throughput_tx
     - error_rx
     - error_tx
-    - returnCode
-    - returnResult
-    - errorMessage: ${returnResult if returnCode == '-1' else ''}
+    - return_code
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

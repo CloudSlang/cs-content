@@ -19,11 +19,11 @@
 #   - disk_map - parsed cAdvisor machine disk map
 #   - network_devices - parsed cAdvisor machine network devices
 #   - topology - parsed cAdvisor machine topology
-#   - returnCode - '0' if parsing was successful, '-1' otherwise
-#   - returnResult - notification string; was parsing was successful or not
-#   - errorMessage - returnResult if there was an error
+#   - return_code - '0' if parsing was successful, '-1' otherwise
+#   - return_result - notification string; was parsing was successful or not
+#   - error_message - return_result if there was an error
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful (return_code == '0')
 #   - FAILURE - otherwise
 ####################################################
 
@@ -45,11 +45,11 @@ operation:
         disk_map=decoded['disk_map']
         network_devices=decoded['network_devices']
         topology=decoded['topology']
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error.'
+        return_code = '-1'
+        return_result = 'Parsing error.'
   outputs:
     - decoded
     - num_cores
@@ -59,9 +59,9 @@ operation:
     - disk_map
     - network_devices
     - topology
-    - returnCode
-    - returnResult
-    - errorMessage: ${returnResult if returnCode == '-1' else ''}
+    - return_code
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE
