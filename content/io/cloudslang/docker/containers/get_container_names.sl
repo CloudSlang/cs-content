@@ -28,9 +28,6 @@
 # Outputs:
 #   - container_names - list of container names separated by space
 #   - raw_output - unparsed return result from the machine
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers

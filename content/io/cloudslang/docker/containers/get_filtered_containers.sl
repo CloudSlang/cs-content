@@ -14,7 +14,7 @@
 #                    - any input that is different than empty string or false (as boolean type) changes its value to True
 #   - excluded_images - comma separated list of Docker images
 #                     - the containers based on these images will not be included in the result list
-#                     - e.g. swarm:latest,tomcat:7
+#                     - Example: swarm:latest,tomcat:7
 #   - host - Docker machine host
 #   - port - optional - SSH port
 #   - username - Docker machine username
@@ -23,17 +23,14 @@
 #   - character_set - optional - character encoding used for input stream encoding from target machine;
 #                              - Valid: SJIS, EUC-JP, UTF-8
 #   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 600000 ms (10 min)
+#   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
 #                                if true the SSH session used will be closed;
 #                              - Valid: true, false
 #   - agent_forwarding - optional - enables or disables the forwarding of the authentication agent connection
 # Outputs:
 #   - container_names - comma separated list of container names
-#   - container_ids - comma separated list of container names
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#   - container_ids - comma separated list of container IDs
 ####################################################
 
 namespace: io.cloudslang.docker.containers
