@@ -31,9 +31,6 @@
 # Outputs:
 #   - container_names - comma separated list of container names
 #   - container_ids - comma separated list of container IDs
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers

@@ -107,7 +107,3 @@ flow:
   outputs:
     - result
     - error_message: ${standard_err}
-
-  results:
-    - SUCCESS
-    - FAILURE

@@ -18,9 +18,6 @@
 #   - private_key_file - optional - path to private key file
 # Outputs:
 #   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
 namespace: io.cloudslang.docker.containers.examples
@@ -66,6 +63,3 @@ flow:
           - error_message
   outputs:
     - error_message
-  results:
-    - SUCCESS
-    - FAILURE

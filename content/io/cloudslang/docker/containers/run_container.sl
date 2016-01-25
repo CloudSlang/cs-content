@@ -31,9 +31,6 @@
 # Outputs:
 #   - container_id - ID of the container
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers

@@ -19,9 +19,6 @@
 #   - port - optional - SSH port
 # Outputs:
 #   - error_message - error message of the operation that failed
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
 ####################################################
 
 namespace: io.cloudslang.docker.containers

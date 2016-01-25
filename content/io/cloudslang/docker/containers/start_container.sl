@@ -26,9 +26,6 @@
 # Outputs:
 #   - container_id - ID of the container that was started
 #   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
 namespace: io.cloudslang.docker.containers

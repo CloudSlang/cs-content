@@ -27,9 +27,6 @@
 # Outputs:
 #   - container_ip - IP of the specified container
 #   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 namespace: io.cloudslang.docker.containers
 
