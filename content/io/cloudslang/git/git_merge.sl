@@ -21,7 +21,7 @@
 # Outputs:
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
 #   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - command - git command
+#   - return_code - return code of the command
 ####################################################
 namespace: io.cloudslang.git
 
@@ -65,7 +65,7 @@ flow:
         publish:
           - standard_err
           - standard_out
-          - command
+          - return_code
 
     - check_result:
         do:
@@ -75,4 +75,4 @@ flow:
   outputs:
     - standard_err
     - standard_out
-    - command
+    - return_code
