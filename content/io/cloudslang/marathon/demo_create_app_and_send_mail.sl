@@ -14,17 +14,17 @@
 #   - email_sender - email sender
 #   - email_recipient - email recipient
 #   - marathon_host - Marathon agent host
-#   - marathon_port - optional - marathon agent port - Default: 8080
+#   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - proxy_host - optional - proxy host
 #   - proxy_port - optional - proxy port
 #   - json_file - path to JSON of new app
 # Outputs:
 #   - return_result - operation response
 #   - status_code - normal status code is 200
-#   - return_code - if returnCode == -1 then there was an error
-#   - error_message - returnResult if returnCode == -1 or statusCode != 200
+#   - return_code - if return_code == -1 then there was an error
+#   - error_message - return_result if return_code == -1 or status_code != 200
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ##################################################################################################################################################
 
