@@ -13,7 +13,7 @@
 # Inputs:
 #   - url - URL to Jenkins
 #   - job_name - name of job
-#   - new_scm_url - the SCM url to assign
+#   - new_scm_url - SCM url to assign
 # Outputs:
 #   - result_message - operation results
 # Results:
