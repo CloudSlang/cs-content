@@ -13,7 +13,7 @@
 #   - port - optional - port number for running the command
 #   - username - username to connect as
 #   - password - optional - password of user
-#   - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
 #   - private_key_file - optional - path to private key file
 #   - git_repository_localdir - target directory where a git repository exists - Default: /tmp/repo.git
 #   - git_add_files - optional - files to add/stage - Default: "*"
