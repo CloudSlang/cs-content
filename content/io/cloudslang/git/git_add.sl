@@ -18,8 +18,15 @@
 #   - git_repository_localdir - target directory where a git repository exists - Default: /tmp/repo.git
 #   - git_add_files - optional - files to add/stage - Default: "*"
 # Outputs:
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #   - standard_err - STDERR of the machine in case of successful request, null otherwise
 #   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#                                     channel type has no command), '126' if the command cannot execute.
 #   - return_code - return code of the command
 ####################################################
 namespace: io.cloudslang.git
@@ -61,8 +68,11 @@ flow:
               - command: ${ 'cd ' + git_repository_localdir + ' && ' + git_add + ' && echo GIT_SUCCESS' }
 
           publish:
+            - return_result
             - standard_err
             - standard_out
+            - exception
+            - command_return_code
             - return_code
 
       - check_result:
@@ -72,6 +82,9 @@ flow:
               - string_to_find: "GIT_SUCCESS"
 
   outputs:
+    - return_result
     - standard_err
     - standard_out
+    - exception
+    - command_return_code
     - return_code
