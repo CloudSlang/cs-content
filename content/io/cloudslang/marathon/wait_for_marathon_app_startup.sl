@@ -11,6 +11,7 @@
 # Inputs:
 #   - marathon_host - Marathon host
 #   - marathon_port - optional - Marathon port
+#   - created_app_id - Marathon app id
 #   - attempts - optional - attempts to reach host - Default: 1
 #   - time_to_sleep - optional - time in seconds to wait between attempts - Default: 1
 ####################################################

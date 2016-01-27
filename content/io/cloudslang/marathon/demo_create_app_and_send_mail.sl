@@ -13,6 +13,9 @@
 #   - email_port - email port
 #   - email_sender - email sender
 #   - email_recipient - email recipient
+#   - enable_tls - enable TLS
+#   - email_username - email username
+#   - email_password - email password
 #   - marathon_host - Marathon agent host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
 #   - proxy_host - optional - proxy host
