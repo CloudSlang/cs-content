@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #######################################################################################################################
-# Sets up a simple marathon infrastructure on one host.
+# Sets up a simple Marathon infrastructure on one host.
 #
 # Inputs:
-#   - host - Docker host we work on
-#   - username - username of the Docker host
+#   - host - Docker host
+#   - username - username for Docker host
 #   - private_key_file - private key file used for host
 #   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - timeout - optional - time in milliseconds to wait for one ssh command to complete - Default: 3000000 ms (50 min)
+#   - timeout - optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
 # Results:
 #   - SUCCESS - setup succeeded
 #   - CLEAR_CONTAINERS_ON_HOST_PROBLEM - setup failed due to problem clearing containers
