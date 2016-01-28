@@ -65,7 +65,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/untagged-5f618853779dd35c57ec/cslang-builder-POC-sp.zip
+        wget https://www.dropbox.com/s/zums41t9vhxb3jp/cslang-builder-POC-sp.zip
         && unzip cslang-builder-POC-sp.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
