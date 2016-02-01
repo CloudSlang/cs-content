@@ -9,13 +9,11 @@
 # Wait for Marathon app startup.
 #
 # Inputs:
-#   - marathon_host - marathon host
-#   - marathon_port - marathon port
-#   - attempts - attempts to reach host
-#   - time_to_sleep - time in seconds to wait between attempts
-# Results:
-#   - SUCCESS - url is accessible
-#   - FAILURE - url is not accessible
+#   - marathon_host - Marathon host
+#   - marathon_port - optional - Marathon port
+#   - created_app_id - Marathon app id
+#   - attempts - optional - attempts to reach host - Default: 1
+#   - time_to_sleep - optional - time in seconds to wait between attempts - Default: 1
 ####################################################
 
 namespace: io.cloudslang.marathon
