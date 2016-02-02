@@ -13,7 +13,7 @@
 #   - cslang_folder - CloudSlang content folder to pack - Default: "C:/cslang-cli/cslang/content/io/cloudslang/base"
 #   - cp_publisher - content pack publisher - Default: "Customer"
 #   - cp_location - location for the content pack jar file - Default: "c:/content_packs"
-#   - cp_folder -  temporary folder for the package. This folder is archived and deleted. There is no need to change this input value.
+#   - cp_folder -  temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
 # Results:
 #   - SUCCESS
 #   - CREATE_LIB_FOLDER_FAILURE
