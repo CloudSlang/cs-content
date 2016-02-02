@@ -13,18 +13,18 @@
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - username - OpenStack username
 #   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - tenant_name - name of project on OpenStack
+#   - proxy_host - optional - proxy server used to access web site
+#   - proxy_port - optional - proxy server port
+#   - proxy_username - optional - username used when connecting to proxy
+#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
 # Outputs:
-#   - return_result - response of the operation
+#   - return_result - response of operation
 #   - status_code - normal status code is '200'
-#   - return_code - if returnCode == -1 then there was an error
-#   - error_message: returnResult if returnCode == -1 or statusCode != '200'
+#   - return_code - if return_code == -1 then there was an error
+#   - error_message: return_result if return_code == -1 or status_code != '200'
 # Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
+#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
 #   - FAILURE - otherwise
 ####################################################
 

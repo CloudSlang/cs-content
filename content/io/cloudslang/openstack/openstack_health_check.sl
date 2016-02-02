@@ -12,21 +12,30 @@
 #
 # Inputs:
 #   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
+#   - identity_port - optional - port used for OpenStack authentication
+#   - compute_port - optional - port used for OpenStack computations
+#   - network_id - optional - ID of private network
+#   - server_name - optional - server name - Default: 'test-server'
 #   - img_ref - image reference of the server to be created
 #   - username - OpenStack username
 #   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
-#   - server_name - optional - server name - Default: 'test-server'
+#   - tenant_name - name of project on OpenStack
+#   - proxy_host - optional - proxy server used to access web site
+#   - proxy_port - optional - proxy server port
 #   - email_host - email host
 #   - email_port - email port
 #   - to - email recipient
 #   - from - email sender
 # Results:
 #   - SUCCESS
+#   - CREATE_SERVER_FAILURE
+#   - GET_AUTHENTICATION_TOKEN_FAILURE
+#   - GET_TENANT_ID_FAILURE
+#   - GET_AUTHENTICATION_FAILURE
+#   - GET_SERVERS_FAILURE
+#   - EXTRACT_SERVERS_FAILURE
+#   - CHECK_SERVER_FAILURE
+#   - SEND_EMAIL_FAILURE
 #   - FAILURE
 ####################################################
 

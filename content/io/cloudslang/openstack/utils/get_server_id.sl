@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the server id from the response of the get_openstack_servers operation of a given server by name.
+# Retrieves the server ID from the response of the get_openstack_servers operation of a given server by name.
 #
 # Inputs:
 #   - server_body - response of get_openstack_servers operation
 #   - server_name - server name
 # Outputs:
-#   - server_id - ID of the specified server
+#   - server_id - ID of specified server
 #   - return_result - was parsing was successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - error message
