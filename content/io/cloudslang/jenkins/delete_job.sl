@@ -14,7 +14,7 @@
 #  - url - URL to Jenkins
 #  - job_name - name of job to delete
 # Outputs:
-#  - result_message - a string formatted message of the operation results
+#  - result_message - string formatted message of operation results
 # Results:
 #  - SUCCESS - return code is 0
 #  - FAILURE - otherwise

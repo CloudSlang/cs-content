@@ -6,23 +6,29 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git command to commit staged files to a local repository
+# Performs a git command to commit staged files to a local repository.
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the absolute path to the private key file
-#      - git_repository_localdir - the target directory where a git repository exists - Default: /tmp/repo.git
-#      - git_commit_files - optional - the files that has to be committed - Default: "-a"
-#      - git_commit_message - optional - the message for the commit
-#
-# Results:
-#  SUCCESS: the commit was successfully made on local repository
-#  FAILURE: an error occurred when trying to commit
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - absolute path to private key file
+#   - git_repository_localdir - optional - target directory where a git repository exists - Default: /tmp/repo.git
+#   - git_commit_files - optional - files to commit - Default: "-a"
+#   - git_commit_message - optional - message for commit
+# Outputs:
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - return code of remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#                                     channel type has no command), '126' if the command cannot execute
+#   - return_code - return code of the command
 ####################################################
 namespace: io.cloudslang.git
 
@@ -67,9 +73,12 @@ flow:
               - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS' }
 
           publish:
-            - standard_err
+            - return_result
             - standard_out
-            - command
+            - standard_err
+            - exception
+            - command_return_code
+            - return_code
 
       - check_result:
           do:
@@ -78,6 +87,9 @@ flow:
               - string_to_find: "GIT_SUCCESS"
 
   outputs:
-    - standard_err
+    - return_result
     - standard_out
-    - command
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code

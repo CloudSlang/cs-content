@@ -92,7 +92,7 @@ flow:
             - timeout
        publish:
           - expected_container_ids: ${container_id}
-          - standard_err
+          - error_message
        navigate:
          SUCCESS: execute_get_filtered_containers
          FAILURE: print_error
@@ -100,7 +100,7 @@ flow:
     - print_error:
         do:
           print.print_text:
-            - text: standard_err
+            - text: error_message
         navigate:
           SUCCESS: RUN_CONTAINER_PYTHON_PROBLEM
 

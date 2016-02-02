@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes all Docker images and containers from Docker Host.
+# Deletes all Docker images and containers from a Docker Host.
 #
 # Inputs:
 #   - docker_host - Docker machine host

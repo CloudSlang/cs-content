@@ -6,35 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Start a linked container.
+# Starts a linked container.
 #
 # Inputs:
 #   - image_name - image name
 #   - container_name - linked container name
 #   - link_params - link parameters
-#   - cmd_params - command Parameters
+#   - cmd_params - command parameters
 #   - container_cmd - optional - command to be executed in the container
 #   - host - Docker machine host
-#   - port - optional - SSH port - Default: '22'
+#   - port - optional - SSH port
 #   - username: Docker machine username
 #   - password - optional - Docker machine password
 #   - private_key_file - optional - path to private key file
-#   - arguments - optional - arguments to pass to command - Default: none
+#   - arguments - optional - arguments to pass to command
 #   - character_set - optional - character encoding used for input stream encoding from target machine
 #                             - Valid: SJIS, EUC-JP, UTF-8
-#                             - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: '90000'
+#   - pty - optional - whether to use PTY - Valid: true, false
+#   - timeout - optional - time in milliseconds to wait for command to complete
 #   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow,
 #                               if true the SSH session used will be closed;
 #                             - Valid: true, false
-#                             - Default: false
 # Outputs:
-#   - container_id - ID of the container that was started.
+#   - container_id - ID of the container that was started
 #   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
 namespace: io.cloudslang.docker.containers
