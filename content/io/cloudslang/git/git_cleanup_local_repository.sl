@@ -6,23 +6,29 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git command to cleanup and reinitialized a local repository
+# Performs a git command to cleanup and reinitialize a local repository.
 #
-#    Inputs:
-#      - host - hostname or IP address
-#      - port - optional - port number for running the command
-#      - username - username to connect as
-#      - password - optional - password of user
-#      - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
-#      - private_key_file - optional - the path to the private key file
-#      - git_repository_localdir - the target local directory where is the repository to be cleaned up - Default: /tmp/repo.git
-#      - change_path - optional - true or false, whether the command should execute in local path or not - Default: false
-#      - new_path - optional - the new path to the directory where is the repository to be cleaned up
-#
-# Results:
-#  SUCCESS: the files was successfully added
-#  FAILURE: an error when trying to add files
-#
+# Inputs:
+#   - host - hostname or IP address
+#   - port - optional - port number for running the command
+#   - username - username to connect as
+#   - password - optional - password of user
+#   - sudo_user - optional- true or false, whether the command should execute using sudo - Default: false
+#   - private_key_file - optional - path to private key file
+#   - git_repository_localdir - target local directory where the repository to be cleaned up is located - Default: /tmp/repo.git
+#   - change_path - optional - true or false, whether the command should execute in local path or not - Default: false
+#   - new_path - optional - new path to directory where the repository to be cleaned up is located
+# Outputs:
+#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
+#   - standard_err - STDERR of the machine in case of successful request, null otherwise
+#   - exception - contains the stack trace in case of an exception
+#   - command_return_code - return code of remote command corresponding to the SSH channel. The return code is
+#                           only available for certain types of channels, and only after the channel was closed
+#                           (more exactly, just before the channel is closed).
+#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#                                     channel type has no command), '126' if the command cannot execute
+#   - return_code - return code of the command
 ####################################################
 namespace: io.cloudslang.git
 
@@ -69,6 +75,9 @@ flow:
           FAILURE: FAILURE
 
   outputs:
-    - standard_err
+    - return_result
     - standard_out
-    - command
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code
