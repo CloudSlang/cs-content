@@ -6,7 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-# Performs an VMware vSphere command in order to list all supported guest OSes on a host system
+# Performs an VMware vSphere command in order to update a specified virtual machine
+#
+# Prerequisites: vim25.jar
+#   How to obtain vim25.jar:
+#     1. Go to https://my.vmware.com/web/vmware and register;
+#     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip;
+#     3. Locate the vim25.jar into ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib;
+#     4. Add the vim25.jar into the ClodSlang CLI folder under /cslang/lib
 #
 # Inputs:
 #   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
@@ -20,24 +27,34 @@
 #                                 to see how to import a certificate into Java Keystore and
 #                                 https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #                                 to see how to obtain a valid vCenter certificate
-#   - data_center_name - the data center name where the host system is - Example: 'DataCenter2'
-#   - hostname - the name of the target host to be queried to retrieve the supported guest OSes
-#              - Example: 'host123.subdomain.example.com'
-#   - delimiter - the delimiter that will be used in response list - Default: ','
+#   - virtual_machine_name - the name of the virtual machine that will be updated
+#   - operation - the possible operations that can be applied to update a specified attached device ("update" operation
+#                 is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
+#                 Valid values: "add", "remove", "update"
+#   - device - the device on which the update operation will be applied - Valid values: "cpu", "memory", "disk", "cd",
+#              "nic"
+#   - update_value - the value applied on the specified device during the virtual machine update - Valid values: "high",
+#                   "low", "normal", numeric value, label of device when removing
+#   - vm_disk_size - optional - the disk capacity amount (in Mb) attached to the virtual machine that will be created.
+#                             This input will be considered only when "add" operation and "disk" device are provided
+#                             - Default: ''
+#   - vm_disk_mode - optional - the property that specifies how the disk will be attached to the virtual machine
+#                           - Valid values: "persistent", "independent_persistent", "independent_nonpersistent"
+#                             This input will be considered only when "add" operation and "disk" device are provided
 #
 # Outputs:
 #   - return_result - contains the exception in case of failure, success message otherwise
 #   - return_code - '0' if operation was successfully executed, '-1' otherwise
 #   - error_message - error message if there was an error when executing, empty otherwise
 # Results:
-#   - SUCCESS: the list with all supported guest OSes was successfully retrieved
-#   - FAILURE: an error occurred when trying to retrieve a list with all supported guest OSes
+#   - SUCCESS: the virtual machine was successfully created
+#   - FAILURE: an error occurred when trying to create a new virtual machine
 ########################################################################################################################
 
-namespace: io.cloudslang.cloud_provider.vmware.utils
+namespace: io.cloudslang.cloud_provider.vmware.virtual_machines
 
 operation:
-  name: get_os_descriptors
+  name: update_virtual_machine
   inputs:
     - host
     - port:
@@ -55,16 +72,31 @@ operation:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - data_center_name
-    - dataCenterName: ${data_center_name}
-    - hostname
-    - delimiter:
-        default: ','
+    - virtual_machine_name
+    - virtualMachineName: ${virtual_machine_name}
+    - operation
+    - device
+    - update_value
+    - updateValue:
+        default: ${update_value}
+        overridable: false
+    - vm_disk_size:
+        default: ''
         required: false
+    - vmDiskSize:
+        default: ${vm_disk_size}
+        overridable: false
+    - vm_disk_mode:
+        default: ''
+        required: false
+    - vmDiskMode:
+        default: ${vm_disk_mode}
+        overridable: false
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.GetOSDescriptors
-      methodName: getOsDescriptors
+      className: io.cloudslang.content.vmware.actions.vm.UpdateVM
+      methodName: updateVM
 
   outputs:
     - return_result: ${'' if 'returnResult' not in locals() else returnResult}
