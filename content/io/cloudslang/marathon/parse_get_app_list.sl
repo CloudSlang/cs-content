@@ -12,7 +12,7 @@
 #   - operation_response - response of get_apps_list operation
 # Outputs:
 #   - app_list - list of app names
-#   - return_result - was parsing was successful or not
+#   - return_result - was parsing successful or not
 #   - return_code - 0 if parsing was successful, -1 otherwise
 #   - error_message - return_result if there was an error
 # Results:

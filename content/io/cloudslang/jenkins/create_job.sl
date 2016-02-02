@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a Jenkins job
+# Creates a Jenkins job.
 #
 # Prerequisites: jenkinsapi Python module
 #
 # Inputs:
 #   - url - URL to Jenkins
 #   - job_name - name of job to create
-#   - config_xml - configuration xml used to create a jenkins job, actual file must be passed not its path
+#   - config_xml - configuration xml used to create a Jenkins job, actual file must be passed not its path
 # Outputs:
 #   - result_message - operation results
 # Results:

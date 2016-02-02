@@ -20,9 +20,6 @@
 #   - email_port - email server port
 #   - email_sender - email sender
 #   - email_recipient - email recipient
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
 namespace: io.cloudslang.jenkins

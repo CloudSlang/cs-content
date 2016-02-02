@@ -20,9 +20,9 @@
 #   - disk_map - parsed cAdvisor machine disk map
 #   - network_devices - parsed cAdvisor machine network devices
 #   - topology - parsed cAdvisor machine topology
-#   - error_message - returnResult if there was an error
+#   - error_message - error message
 # Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
+#   - SUCCESS - parsing was successful
 #   - FAILURE - otherwise
 ####################################################
 

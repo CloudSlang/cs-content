@@ -8,14 +8,10 @@
 ####################################################
 # "Fixes" following issue in a Jenkins job by disabling and enabling the job.
 # After copying a job, the job cannot be directly triggered from the Jenkins UI because the "Build now" link is missing.
-# this
 #
 # Inputs:
 #   - url - the URL to Jenkins
 #   - job_name - the name of the job to fix
-# Results:
-#   - SUCCESS
-#   - FAILURE
 ####################################################
 
 namespace: io.cloudslang.jenkins
@@ -39,5 +35,3 @@ flow:
           enable_job:
             - url
             - job_name
-
-
