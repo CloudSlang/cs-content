@@ -14,20 +14,20 @@
 #   - username - OpenStack username
 #   - password - OpenStack password
 #   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_host - optional - proxy server used to access OpenStack services
+#   - proxy_port - optional - proxy server port used to access OpenStack services
+#   - proxy_username - optional - username used when connecting to proxy
+#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
 # Outputs:
-#   - return_result - response of the last operation that was executed
-#   - error_message - error message of the operation that failed
+#   - return_result - response of last operation that was executed
+#   - error_message - error message of operation that failed
 #   - token - authentication token
 #   - tenant_id - tenant ID
 # Results:
-#   - SUCCESS - the authentication on OpenStack host was successfully made
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
+#   - SUCCESS - authentication on OpenStack host was successful
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - authentication call failed
 ####################################################
 
 namespace: io.cloudslang.openstack

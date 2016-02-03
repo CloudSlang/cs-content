@@ -14,9 +14,10 @@
 #   - token - OpenStack token obtained after authentication
 #   - tenant_id - OpenStack tenantID obtained after authentication
 #   - server_name - server name
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - proxy_host - optional - proxy server used to access web site
+#   - proxy_port - optional - proxy server port
 #   - img_ref - image reference for server to be created
+#   - network_id - optional - ID of network to connect to
 # Outputs:
 #   - return_result - response of the operation
 #   - status_code - normal status code is 202

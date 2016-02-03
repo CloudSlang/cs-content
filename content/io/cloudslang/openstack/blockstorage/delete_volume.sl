@@ -12,28 +12,28 @@
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - blockstorage_port - optional - port used for deleting volumes on OpenStack - Default: '8776'
-#   - tenant_name - name of the OpenStack project where the volume to be deleted is
-#   - volume_id - id of volume to be deleted
-#   - username - optional - username used for URL authentication; for NTLM authentication,
-#                           the required format is 'domain\user'
+#   - tenant_name - name of OpenStack project where volume to be deleted is
+#   - volume_id - ID of volume to be deleted
+#   - username - optional - username used for URL authentication; for NTLM authentication
+#                           - Format: 'domain\user'
 #   - password - optional - password used for URL authentication
-#   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_host - optional - proxy server used to access OpenStack services
+#   - proxy_port - optional - proxy server port used to access OpenStack services - Default: '8080'
+#   - proxy_username - optional - username used when connecting to proxy
+#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
 # Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - return_result - response of operation in case of success, error message otherwise
 #   - error_message - return_result if status_code is not '202'
 #   - return_code - '0' if success, '-1' otherwise
-#   - status_code - the code returned by the operation
+#   - status_code - code returned by operation
 # Results:
-#   - SUCCESS - the volume was successfully deleted
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained
+#   - SUCCESS - volume was successfully deleted
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained
 #                                        from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained
+#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained
 #                             from authentication call response
-#   - DELETE_VOLUME_FAILURE - the volume could not be deleted
+#   - GET_AUTHENTICATION_FAILURE - authentication call fails
+#   - DELETE_VOLUME_FAILURE - volume could not be deleted
 ####################################################
 
 namespace: io.cloudslang.openstack.blockstorage
