@@ -10,7 +10,7 @@
 #
 # Inputs:
 #   - response_body - response of a GET operation
-#   - object_name - name of the object that is contained in the list
+#   - object_name - name of object contained in the list
 # Outputs:
 #   - object_list - comma seperated list of object names
 #   - return_result - was parsing was successful or not
