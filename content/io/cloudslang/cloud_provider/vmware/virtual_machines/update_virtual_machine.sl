@@ -71,7 +71,6 @@ operation:
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
-    - data_center_name
     - virtual_machine_name
     - virtualMachineName: ${virtual_machine_name}
     - operation
