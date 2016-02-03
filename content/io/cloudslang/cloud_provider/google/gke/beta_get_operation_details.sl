@@ -44,8 +44,7 @@ operation:
   inputs:
     - project_id
     - zone
-    - json_google_auth_path:
-        system_property: io.cloudslang.cloud_provider.json_google_auth_path
+    - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
     - operation_id
 
   action:

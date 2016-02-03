@@ -23,6 +23,7 @@
 #    - TIMEOUT - no more retries are available
 #    - SESSION_IS_DOWN: session failure pattern detected
 #    - FAILURE_WITH_NO_MESSAGE: session failure pattern detected
+#    - CUSTOM_FAILURE: general accumulator for new types of patterns (see subflow)
 #    - NO_ISSUE_FOUND: no session failure pattern was detected
 ########################################################################################################################
 
@@ -69,6 +70,7 @@ flow:
         navigate:
           SESSION_IS_DOWN: SESSION_IS_DOWN
           FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
+          CUSTOM_FAILURE: CUSTOM_FAILURE
           NO_ISSUE_FOUND: NO_ISSUE_FOUND
   outputs:
     - retries
@@ -77,4 +79,5 @@ flow:
     - TIMEOUT
     - SESSION_IS_DOWN
     - FAILURE_WITH_NO_MESSAGE
+    - CUSTOM_FAILURE
     - NO_ISSUE_FOUND

@@ -41,20 +41,16 @@ flow:
     - ip_list
     - message_body: []
     - all_nodes_are_up: True
-    - hostname:
-        system_property: io.cloudslang.base.hostname
-    - port:
-        system_property: io.cloudslang.base.port
-    - from:
-        system_property: io.cloudslang.base.from
-    - to:
-        system_property: io.cloudslang.base.to
+    - hostname: ${get_sp('io.cloudslang.base.hostname')}
+    - port: ${get_sp('io.cloudslang.base.port')}
+    - from: ${get_sp('io.cloudslang.base.from')}
+    - to: ${get_sp('io.cloudslang.base.to')}
     - subject: "Ping Result"
     - username:
-        system_property: io.cloudslang.base.username
+        default: ${get_sp('io.cloudslang.base.username')}
         required: false
     - password:
-        system_property: io.cloudslang.base.password
+        default: ${get_sp('io.cloudslang.base.password')}
         required: false
 
   workflow:
