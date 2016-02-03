@@ -10,6 +10,7 @@
 # Cases:
 #  - session is down: return code = -1, exception is 'Session is down'
 #  - failure with no message: exit status = -1
+#  - socket is not established: return result contains 'socket is not established'
 #
 # Inputs:
 #   - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -18,6 +19,7 @@
 #  Results:
 #    - SESSION_IS_DOWN: pattern detected
 #    - FAILURE_WITH_NO_MESSAGE: pattern detected
+#    - CUSTOM_FAILURE: general accumulator for new types of patterns
 #    - NO_ISSUE_FOUND: no pattern was detected
 ########################################################################################################################
 
@@ -58,8 +60,18 @@ flow:
             - second_string: ${ str(exit_status) }
         navigate:
           SUCCESS: FAILURE_WITH_NO_MESSAGE
+          FAILURE: check_socket_is_not_established
+
+    - check_socket_is_not_established:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${ return_result }
+            - string_to_find: 'socket is not established'
+        navigate:
+          SUCCESS: CUSTOM_FAILURE
           FAILURE: NO_ISSUE_FOUND
   results:
     - SESSION_IS_DOWN
     - FAILURE_WITH_NO_MESSAGE
+    - CUSTOM_FAILURE
     - NO_ISSUE_FOUND

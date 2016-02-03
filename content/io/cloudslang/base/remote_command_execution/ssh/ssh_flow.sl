@@ -152,6 +152,7 @@ flow:
             TIMEOUT: FAILURE
             SESSION_IS_DOWN: validate_ssh_access
             FAILURE_WITH_NO_MESSAGE: validate_ssh_access
+            CUSTOM_FAILURE: validate_ssh_access
             NO_ISSUE_FOUND: FAILURE
     outputs:
       - return_result
