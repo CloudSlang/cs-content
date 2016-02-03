@@ -65,8 +65,8 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://www.dropbox.com/s/zums41t9vhxb3jp/cslang-builder-POC-sp.zip
-        && unzip cslang-builder-POC-sp.zip -d cslang-builder
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.7/cslang-builder.zip
+        && unzip cslang-builder.zip -d cslang-builder
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
         && pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib

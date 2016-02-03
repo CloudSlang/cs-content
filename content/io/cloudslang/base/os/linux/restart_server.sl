@@ -47,6 +47,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - timeout: 'now'
     - sudo_user:
         default: false
@@ -60,10 +61,13 @@ flow:
           ssh_command.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command:
+                default: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+                sensitive: true
             - command: ${ sudo_command + ' shutdown -r ' + timeout }
             - username
-            - password
+            - password:
+                sensitive: true
             - private_key_file
         publish:
           - return_result
