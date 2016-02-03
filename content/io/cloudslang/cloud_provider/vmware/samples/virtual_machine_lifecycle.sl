@@ -53,6 +53,12 @@
 #                               This input will be considered only when "add" operation and "disk" device are provided
 #   - linux_oses - optional - list/array of linux OSes supported by <hostname> host - Example: ['ubuntu64Guest']
 #   - delimiter - the delimiter that will be used in response list - Default: ','
+#   - email_host
+#   - email_port
+#   - email_username
+#   - email_password
+#   - email_sender
+#   - email_recipient
 #
 # Outputs:
 #   - return_result - contains the exception in case of failure, success message otherwise
@@ -71,6 +77,7 @@ imports:
   strings: io.cloudslang.base.strings
   vms: io.cloudslang.cloud_provider.vmware.virtual_machines
   utils: io.cloudslang.cloud_provider.vmware.utils
+  base_mail: io.cloudslang.base.mail
 
 flow:
   name: virtual_machine_lifecycle
@@ -117,6 +124,12 @@ flow:
     - delimiter:
         default: ','
         required: false
+    - email_host
+    - email_port
+    - email_username
+    - email_password
+    - email_sender
+    - email_recipient
 
   workflow:
     - get_oses_list:
@@ -136,8 +149,26 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_guest_os_id_occurrence
+          SUCCESS: supported_oses_list_mail
           FAILURE: GET_OS_DESCRIPTORS_FAILURE
+
+    - supported_oses_list_mail:
+        do:
+          base_mail.send_mail:
+            - host: ${hostname}
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully retrieved supported guest OSes list for: [' + host + '] VMware host.'}"
+            - body: >
+                ${'List of all supported guest OSes:\n\n ' + return_result}
+        navigate:
+          SUCCESS: get_guest_os_id_occurrence
+          FAILURE: SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE
 
     - get_guest_os_id_occurrence:
         do:
@@ -147,7 +178,7 @@ flow:
             - ignore_case: True
         navigate:
           SUCCESS: create_vm
-          FAILURE: GET_GUEST_OS_ID_OCCURRENCE_FAILURE
+          FAILURE: GUEST_OS_ID_NOT_FOUND
 
     - create_vm:
         do:
@@ -211,7 +242,7 @@ flow:
             - ignore_case: True
         navigate:
           SUCCESS: get_created_vm_details
-          FAILURE: GET_VM_OCCURRENCE_FAILURE
+          FAILURE: VM_NOT_FOUND
 
     - get_created_vm_details:
         do:
@@ -230,8 +261,25 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_created_disk_number
+          SUCCESS: create_vm_mail
           FAILURE: GET_CREATED_VM_DETAILS_FAILURE
+
+    - create_vm_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully created: [' + virtual_machine_name + '] virtual machine.'}"
+            - body: >
+                ${'The virtual machine [' + virtual_machine_name + '] details are:\n\n ' + return_result}
+        navigate:
+          SUCCESS: get_created_disk_number
+          FAILURE: SEND_CREATED_VM_MAIL_FAILURE
 
     - get_created_disk_number:
         do:
@@ -239,10 +287,10 @@ flow:
             - json_input: ${return_result}
             - json_path: ['numDisks']
         publish:
-          - created_disks_number: ${value}
+          - before_update_value: ${value}
         navigate:
           SUCCESS: update_vm
-          FAILURE: GET_CREATED_DISK_NUMBER_FAILURE
+          FAILURE: GET_VALUE_BEFORE_UPDATE_FAILURE
 
     - update_vm:
         do:
@@ -292,10 +340,29 @@ flow:
             - json_input: ${return_result}
             - json_path: ['numDisks']
         publish:
-          - updated_disks_number: ${value}
+          - after_update_value: ${value}
+        navigate:
+          SUCCESS: update_vm_mail
+          FAILURE: GET_VALUE_AFTER_UPDATE_FAILURE
+
+    - update_vm_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully updated: [' + virtual_machine_name + '] virtual machine.'}"
+            - body: >
+                ${'Updated [' + device + '] on [' + virtual_machine_name + '] virtual machine using [' + operation
+                + '] operation ' +  ' from [' + before_update_value + '] value to [' + after_update_value
+                + '] value.\n\n The virtual machine [' + virtual_machine_name + '] details are now:\n ' + return_result}
         navigate:
           SUCCESS: power_on_vm
-          FAILURE: GET_UPDATED_DISK_NUMBER_FAILURE
+          FAILURE: SEND_UPDATED_VM_MAIL_FAILURE
 
     - power_on_vm:
         do:
@@ -322,8 +389,24 @@ flow:
             - string_to_find: "${'successfully powered on'}"
             - ignore_case: True
         navigate:
-          SUCCESS: power_off_vm
+          SUCCESS: powered_on_vm_mail
           FAILURE: NOT_POWERED_ON
+
+    - powered_on_vm_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully powered on: [' + virtual_machine_name + '] virtual machine.'}"
+            - body: ${return_result}
+        navigate:
+          SUCCESS: power_off_vm
+          FAILURE: SEND_POWERED_ON_VM_MAIL_FAILURE
 
     - power_off_vm:
         do:
@@ -350,8 +433,24 @@ flow:
             - string_to_find: "${'successfully powered off'}"
             - ignore_case: True
         navigate:
-          SUCCESS: delete_vm
+          SUCCESS: powered_off_vm_mail
           FAILURE: NOT_POWERED_OFF
+
+    - powered_off_vm_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully powered off: [' + virtual_machine_name + '] virtual machine.'}"
+            - body: ${return_result}
+        navigate:
+          SUCCESS: delete_vm
+          FAILURE: SEND_POWERED_OFF_VM_MAIL_FAILURE
 
     - delete_vm:
         do:
@@ -397,33 +496,57 @@ flow:
             - ignore_case: True
         navigate:
           SUCCESS: NOT_DELETED
-          FAILURE: SUCCESS
+          FAILURE: delete_vm_mail
+
+    - delete_vm_mail:
+        do:
+          base_mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - username: ${ email_username }
+            - password: ${ email_password }
+            - html_email: "false"
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "${'Successfully deleted: [' + virtual_machine_name + '] virtual machine.'}"
+            - body: >
+                ${'The list with all remaining virtual machines and templates in [' + data_center_name + '] are:\n\n'
+                + return_result}
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: SEND_DELETE_VM_MAIL_FAILURE
 
   outputs:
     - return_result
     - return_code
     - exception
-    - created_disks_number
-    - updated_disks_number
+    - before_update_value
+    - after_update_value
 
   results:
     - SUCCESS
     - GET_OS_DESCRIPTORS_FAILURE
-    - GET_GUEST_OS_ID_OCCURRENCE_FAILURE
+    - SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE
+    - GUEST_OS_ID_NOT_FOUND
     - CREATE_VIRTUAL_MACHINE_FAILURE
     - GET_CREATED_TEXT_OCCURRENCE_FAILURE
     - LIST_VMS_FAILURE
-    - GET_VM_OCCURRENCE_FAILURE
+    - VM_NOT_FOUND
     - GET_CREATED_VM_DETAILS_FAILURE
-    - GET_CREATED_DISK_NUMBER_FAILURE
+    - SEND_CREATED_VM_MAIL_FAILURE
+    - GET_VALUE_BEFORE_UPDATE_FAILURE
     - ADD_DISK_ON_VM_FAILURE
     - UPDATE_VM_FAILURE
     - GET_UPDATED_VM_DETAILS_FAILURE
-    - GET_UPDATED_DISK_NUMBER_FAILURE
+    - GET_VALUE_AFTER_UPDATE_FAILURE
+    - SEND_UPDATED_VM_MAIL_FAILURE
     - POWER_ON_VM_FAILURE
     - NOT_POWERED_ON
+    - SEND_POWERED_ON_VM_MAIL_FAILURE
     - POWER_OFF_VM_FAILURE
     - NOT_POWERED_OFF
+    - SEND_POWERED_OFF_VM_MAIL_FAILURE
     - DELETE_VM_FAILURE
     - SECOND_LIST_VMS_FAILURE
     - NOT_DELETED
+    - SEND_DELETE_VM_MAIL_FAILURE
