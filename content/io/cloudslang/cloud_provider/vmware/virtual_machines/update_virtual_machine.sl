@@ -33,11 +33,12 @@
 #                 Valid values: "add", "remove", "update"
 #   - device - the device on which the update operation will be applied - Valid values: "cpu", "memory", "disk", "cd",
 #              "nic"
-#   - update_value - the value applied on the specified device during the virtual machine update - Valid values: "high",
-#                   "low", "normal", numeric value, label of device when removing
+#   - update_value - optional - the value applied on the specified device during the virtual machine update
+#                             - Valid values: "high", "low", "normal", numeric value, label of device when removing
+#                               This input will be considered only when "update" operation is provided - Default: ''
 #   - vm_disk_size - optional - the disk capacity amount (in Mb) attached to the virtual machine that will be created.
 #                             This input will be considered only when "add" operation and "disk" device are provided
-#                             - Default: ''
+#                             - Default: '1024'
 #   - vm_disk_mode - optional - the property that specifies how the disk will be attached to the virtual machine
 #                           - Valid values: "persistent", "independent_persistent", "independent_nonpersistent"
 #                             This input will be considered only when "add" operation and "disk" device are provided
@@ -75,7 +76,9 @@ operation:
     - virtualMachineName: ${virtual_machine_name}
     - operation
     - device
-    - update_value
+    - update_value:
+        default: ''
+        required: false
     - updateValue:
         default: ${update_value}
         overridable: false
