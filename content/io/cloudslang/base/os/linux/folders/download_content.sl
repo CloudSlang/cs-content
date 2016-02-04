@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to download content in <download_path> from a URL address given by <download_url>
+# Perform a SSH command to download content in <download_path> from a URL address given by <download_url>
 #
 # Inputs:
 #   - host - hostname or IP address

@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified user named <user_name> on machines that are running Gentoo
+# Perform a SSH command to add a specified user named <user_name> on machines that are running Gentoo based linux
 #
 # Inputs:
 #   - host - hostname or IP address

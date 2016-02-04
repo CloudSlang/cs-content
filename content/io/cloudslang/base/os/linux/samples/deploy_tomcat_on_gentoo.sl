@@ -6,18 +6,24 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs several linux commands in order to deploy Tomcat application on on machines that are running Gentoo
+# Performs several linux commands in order to deploy Tomcat application on machines that are running Gentoo based linux
+#
+# Prerequisites: Java package
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
 #   - user_password - optional - the Tomcat user password - Default: ''
+#   - java_version - the java version that will be installed - Example: openjdk-7-jdk
 #   - download_url - the URL address where the content to be downloaded is
 #   - download_path - optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
 #   - folder_name - the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
 #   - folder_path - optional - the absolute path under the <folder_name> will be created - Default: '/opt'
-#   - file_name - the name of the Tomcat archive file - Example: 'apache-tomcat-9.0.0.M1.tar.gz'
+#   - file_name - the name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
 #   - source_path - absolute path of the file about to be copied - Example: 'C:\temp\tomcat'
+#   - permissions_code - the number that represents octal code of the folder permissions granted - Example: '755'
+#   - recursively - if True then the permissions will be granted for entire content of the targeted folder, if False
+#                   the permissions will granted only to the folder itself - Default: True
 #   - script_file_name - the name of the script file
 #
 # Outputs:
@@ -62,6 +68,8 @@ flow:
         required: false
     - file_name
     - source_path
+    - permissions_code: '755'
+    - recursively: True
     - script_file_name
 
 
@@ -250,7 +258,7 @@ flow:
             - folder_path: '/usr/share/tomcat/'
             - user_name: 'tomcat'
             - group_name: 'tomcat'
-            - recursively: True
+            - recursively
         publish:
           - return_result
           - standard_err
@@ -269,7 +277,7 @@ flow:
             - folder_path: ${download_path}
             - user_name: 'tomcat'
             - group_name: 'tomcat'
-            - recursively: True
+            - recursively
         publish:
           - return_result
           - standard_err
@@ -319,7 +327,8 @@ flow:
             - host
             - root_password
             - folder_path: '/etc/init.d/tomcat'
-            - permissions_code: '755'
+            - permissions_code
+            - recursively
         publish:
           - return_result
           - standard_err

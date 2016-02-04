@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to add a specified user named <user_name> on machines that are running Ubuntu
+# Perform a SSH command to add a specified user named <user_name> on machines that are running Ubuntu based linux
 #
 # Inputs:
 #   - host - hostname or IP address

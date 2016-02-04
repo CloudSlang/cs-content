@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs several linux commands in order to deploy Tomcat application on on machines that are running Gentoo
+# Performs SSH command in order to install Java on machine that are running Gentoo based linux
 #
 # Inputs:
 #   - host - hostname or IP address
