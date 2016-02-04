@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to change ownership of the specified folder indicated by <folder_path> to a user
+# Perform a SSH command to change ownership of the specified folder indicated by <folder_path> to a user
 #   indicated by <user_name> and with group indicated by <group_name> recursively or not
 #
 # Inputs:

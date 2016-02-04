@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to change permissions of the specified folder indicated by <folder_path> with new
+# Perform a SSH command to change permissions of the specified folder indicated by <folder_path> with new
 #   ones indicated by <permissions_code> recursively or not
 #
 # Inputs:

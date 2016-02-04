@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a Linux command to add a specified user to sudoers group.
+# Perform a SSH command to add a specified user to sudoers group.
 #
 # Inputs:
 #   - host - hostname or IP address

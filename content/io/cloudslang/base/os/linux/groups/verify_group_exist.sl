@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to verify if a specified <group_name> exist
+# Perform a SSH command to verify if a specified <group_name> exist
 #
 # Inputs:
 #   - host - hostname or IP address

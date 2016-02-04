@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to to verify if a specified <user_name> exist
+# Perform a SSH command to to verify if a specified <user_name> exist
 #
 # Inputs:
 #   - host - hostname or IP address
