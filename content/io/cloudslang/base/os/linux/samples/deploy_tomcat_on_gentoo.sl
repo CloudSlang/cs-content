@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs several linux commands in order to deploy Tomcat application on machines that are running Ubuntu based linux
+# Performs several linux commands in order to deploy Tomcat application on machines that are running Gentoo based linux
 #
 # Prerequisites: Java package
 #
@@ -20,7 +20,7 @@
 #   - folder_name - the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
 #   - folder_path - optional - the absolute path under the <folder_name> will be created - Default: '/opt'
 #   - file_name - the name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
-#   - source_path - absolute path of the file to be copied - Example: 'C:\temp\tomcat'
+#   - source_path - absolute path of the file about to be copied - Example: 'C:\temp\tomcat'
 #   - permissions_code - the number that represents octal code of the folder permissions granted - Example: '755'
 #   - recursively - if True then the permissions will be granted for entire content of the targeted folder, if False
 #                   the permissions will granted only to the folder itself - Default: True
@@ -51,7 +51,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: deploy_tomcat_on_ubuntu
+  name: deploy_tomcat_on_gentoo
 
   inputs:
     - host
@@ -76,7 +76,7 @@ flow:
   workflow:
     - install_java:
         do:
-          install_java_on_ubuntu:
+          install_java_on_gentoo:
             - host
             - root_password
             - java_version
@@ -128,7 +128,7 @@ flow:
 
     - add_group:
         do:
-          groups.add_ubuntu_group:
+          groups.add_gentoo_group:
             - host
             - root_password
             - group_name: 'tomcat'
@@ -144,7 +144,7 @@ flow:
 
     - add_user:
         do:
-          users.add_ubuntu_user:
+          users.add_gentoo_user:
             - host
             - root_password
             - user_name: 'tomcat'
@@ -293,8 +293,8 @@ flow:
           folders.make_new_folder:
             - host
             - root_password
-            - folder_name: 'tomcat'
-            - folder_path: '/etc/init.d'
+            - folder_name: 'init.d'
+            - folder_path: '/etc/'
         publish:
           - return_result
           - standard_err
@@ -318,10 +318,10 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: change_tomcat_initialization_folder_permissions
+          SUCCESS: change_tomcat_initialization_file_permissions
           FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
 
-    - change_tomcat_initialization_folder_permissions:
+    - change_tomcat_initialization_file_permissions:
         do:
           folders.change_permissions:
             - host
@@ -344,7 +344,7 @@ flow:
           ssh.ssh_flow:
             - host
             - command: >
-                ${'cd /etc/init.d/tomcat && ./' + script_file_name + ' start'}
+                ${'cd /etc/init.d/ && ./' + script_file_name + ' start'}
             - username: 'root'
             - password: ${root_password}
         publish:
@@ -381,5 +381,5 @@ flow:
     - CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
     - CREATE_INITIALIZATION_FOLDER_FAILURE
     - UPLOAD_INIT_CONFIG_FILE_FAILURE
-    - CHANGE_PERMISSIONS_FAILURE
+    - CHANGE_PERMISSIONS_FAILURE    
     - START_TOMCAT_APPLICATION_FAILURE

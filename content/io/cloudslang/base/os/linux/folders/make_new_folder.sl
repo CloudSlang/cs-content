@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to make a new folder named <folder_name> in a specified path indicated by <folder_path>
+# Perform a SSH command to make a new folder named <folder_name> in a specified path indicated by <folder_path>
 #
 # Inputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception

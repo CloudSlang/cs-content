@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,13 +6,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Perform a SSH command to download content in <download_path> from a URL address given by <download_url>
+# Perform a SSH command to add a specified user named <user_name> on machines that are running Gentoo based linux
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - download_url - the URL address where the content to be downloaded is - Example: 'http://www.website.com/some_content.doc'
-#   - download_path - optional - the absolute path under the content will be downloaded - Default: '/root'
+#   - user_name - the name of the user to verify if exist
+#   - user_password - the password to be set for the <user_name>
+#   - group_name - optional - the group name where the <user_name> will be added - Default: ''
+#   - create_home - optional - if True then a <user_name> folder with be created in <home_path> path
+#                              if False then no folder will be created - Default: True
+#   - home_path - optional - the path of the home folder - Default: '/home'
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -22,37 +26,54 @@
 #   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
 #                           only available for certain types of channels, and only after the channel was closed
 #                           (more exactly, just before the channel is closed).
-#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#                         Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #                                     channel type has no command), 126 if the command cannot execute.
 # Results:
-#    - SUCCESS - SSH access was successful
+#    - SUCCESS - add user SSH command was successfully executed
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.folders
+namespace: io.cloudslang.base.os.linux.users
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: download_content
+  name: add_gentoo_user
 
   inputs:
     - host
     - root_password
-    - download_url
-    - download_path:
-        default: '/root'
+    - user_name
+    - user_password:
+        default: ''
+        required: false
+    - group_name:
+        default: ''
+        required: false
+    - create_home:
+        default: True
+        required: false
+    - home_path:
+        default: '/home + user_name'
         required: false
 
   workflow:
-    - download_content:
+    - add_user:
         do:
           ssh.ssh_flow:
             - host
             - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'wget -P ' + download_path + ' ' + download_url}
+            - group_name_string: ${'' if group_name == '' else ' --ingroup ' + group_name}
+            - create_home_string: ${'' if create_home in [True, true, 'True', 'true'] else ' -m '}
+            - home_path_string: >
+                ${' -U ' if (home_path == '' and create_home in [True, true, 'True', 'true']) else ' -d ' +
+                home_path}
+            - command: >
+                ${'useradd ' + user_name + ' -g ' + group_name + create_home_string + home_path_string + '
+                && echo \"' + user_name + ':' + user_password +
+                '\" | chpasswd' if user_password != '' else ''}
         publish:
           - return_result
           - standard_err

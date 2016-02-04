@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a linux command to create a symbolic link between <source_folder> and <linked_folder>
+# Performs SSH command to create a symbolic link between <source_folder> and <linked_folder>
 #
 # Inputs:
 #   - host - hostname or IP address
