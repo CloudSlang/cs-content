@@ -15,12 +15,12 @@
 #!               ready-to-use refresh token.
 #!               Example:
 #!               {                                       {
-#!               'type': 'authorized_user',              'type': 'service_account',
-#!               'client_id': '...',                     'client_id': '...',
-#!               'client_secret': '...',       OR        'client_email': '...',
-#!               'refresh_token': '...,                  'private_key_id': '...',
+#!                 'type': 'authorized_user',              'type': 'service_account',
+#!                 'client_id': '...',                     'client_id': '...',
+#!                 'client_secret': '...',       OR        'client_email': '...',
+#!                 'refresh_token': '...,                  'private_key_id': '...',
 #!               }                                         'private_key': '...',
-#!               }
+#!                                                       }
 #! @input project_id: The Google Developers Console project ID or project number
 #! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
 #!              Default: none
