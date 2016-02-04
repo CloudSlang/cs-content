@@ -13,7 +13,7 @@
 #! @input password: Helion Development Platform / Stackato password
 #! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
 #! @input proxy_port: optional - the proxy server port used to access the Helion Development Platform / Stackato services
-#! @input Default: '8080'
+#!                    Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
 #! @output return_result: response of the last operation that was executed

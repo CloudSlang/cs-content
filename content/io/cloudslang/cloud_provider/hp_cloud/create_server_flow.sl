@@ -22,7 +22,7 @@
 #! @input proxy_port: optional - proxy server port
 #! @input polling_attempts: optional - number of attempts to check that the created server became ACTIVE - Default: 60
 #! @input polling_wait_time: optional - time in seconds to wait between polling of the new server's state
-#! @input Default: 10 seconds
+#!                           Default: 10 seconds
 #! @output ip_address: IP address (if allocated)
 #! @output server_id: Id of new server
 #! @output return_result: JSON response

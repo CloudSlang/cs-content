@@ -10,7 +10,7 @@
 #! @description: Executes a PATCH REST call.
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#! @input Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication)
+#!                   Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication)
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is 'domain\user'
 #! @input password: optional - password used for URL authentication
 #! @input proxy_host: optional - proxy server used to access the web site

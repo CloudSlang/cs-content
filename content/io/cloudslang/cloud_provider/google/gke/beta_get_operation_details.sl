@@ -22,7 +22,7 @@
 #!                                                       }
 #! @input project_id: The Google Developers Console project ID or project number
 #! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#! @input Default: none
+#!              Default: none
 #! @input json_google_auth_path: FileSystem path to Google authentication JSON key file
 #!                               System Property: io.cloudslang.cloud_provider.json_google_auth_path
 #! @input operation_id: The server-assigned name of the operation.

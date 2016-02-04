@@ -10,8 +10,8 @@
 #! @description: Executes a DELETE REST call.
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#! @input Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
-#! @input Default: 'basic'
+#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Default: 'basic'
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
 #! @input password: optional - password used for URL authentication
@@ -25,7 +25,7 @@
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
 #! @input query_params: optional - list containing query parameters to append to the URL
-#! @input Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'text/plain'
 #! @output return_result: the response of the operation in case of success or the error message otherwise

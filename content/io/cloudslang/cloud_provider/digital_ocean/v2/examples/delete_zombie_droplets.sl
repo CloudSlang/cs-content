@@ -10,9 +10,9 @@
 #! @description: Deletes all droplets considered as zombies.
 #!               A droplet is considered zombie if its name matches a given pattern and its lifetime exceeds a given value.
 #! @input time_to_live: optional - threshold in minutes to compare the droplet's lifetime to as number or string
-#! @input Default: 150 minutes (2.5 hours)
+#!                      Default: 150 minutes (2.5 hours)
 #! @input name_pattern: optional - regex pattern for zombie droplet names
-#! @input Default: ci: ([0-9]+)-coreos-([0-9]+)
+#!                      Default: ci-([0-9]+)-coreos-([0-9]+)
 #! @input token: personal access token for DigitalOcean API
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port

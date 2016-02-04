@@ -16,10 +16,10 @@
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input percentage: if disk space is greater than this value then unused images will be deleted
-#! @input Default: 0%
-#! @input Example: 50%
+#!                    Default: 0%
+#!                    Example: 50%
 #! @output number_of_deleted_images_per_host: how many images were deleted for every host
-#! @output Format: "ip1: number1, ip2: number2"
+#!                                            Format: "ip1: number1, ip2: number2"
 #!!#
 ####################################################
 

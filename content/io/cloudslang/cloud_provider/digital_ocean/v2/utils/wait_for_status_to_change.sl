@@ -10,7 +10,7 @@
 #! @description: Waits for a droplet to change its status.
 #! @input droplet_id: id of the droplet
 #! @input status: status to wait upon; will wait until the droplet status is changed or timeout is reached
-#! @input Valid: "new", "active", "off", "archive"
+#!                Valid: "new", "active", "off", "archive"
 #! @input timeout: time limit to wait for droplet to change its status as number or string - in seconds
 #! @input token: personal access token for DigitalOcean API
 #! @input proxy_host: optional - proxy server used to access the web site

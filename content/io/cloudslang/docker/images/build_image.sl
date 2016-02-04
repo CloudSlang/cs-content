@@ -17,7 +17,7 @@
 #! @input password: optional - Docker machine password
 #! @input private_key_file: optional - path to the private key file
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
-#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8'
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #! @input pty: optional - whether to use PTY - Valid: true, false
 #! @input timeout: time in milliseconds to wait for command to complete - Default: 3000000 ms (50 min)
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,

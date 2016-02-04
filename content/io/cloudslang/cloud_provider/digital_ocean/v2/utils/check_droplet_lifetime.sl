@@ -9,7 +9,7 @@
 #!!
 #! @description: Checks if a droplet's lifetime exceeds a given threshold.
 #! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
-#! @input Format (used by DigitalOcean): 2015: 09-27T18:47:19Z
+#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #! @input threshold: threshold in minutes to compare the droplet's lifetime to
 #! @output return_result: elapsed time in minutes in case of success, cause of the error in case of failure
 #! @output return_code: 0 if parsing was successful, -1 otherwise

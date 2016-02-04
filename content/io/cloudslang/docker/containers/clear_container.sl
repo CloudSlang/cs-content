@@ -10,7 +10,7 @@
 #! @description: Deletes a Docker container.
 #! @input container_id: ID of the container to be deleted
 #! @input docker_options: optional - options for the Docker environment
-#! @input from the construct: docker [OPTIONS] COMMAND [arg...]
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine password

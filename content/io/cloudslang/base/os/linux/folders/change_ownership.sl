@@ -17,7 +17,7 @@
 #!                    the default group for that user - Default: ''
 #! @input recursively: optional - if True the ownership change will be applied recursively to the whole content of the
 #!                     targeted folder; if False the ownership change will be applied ony to the folder itself
-#! @input Default: True
+#!                     Default: True
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise

@@ -10,7 +10,7 @@
 #! @description: Creates a Google Container Engine resource cluster.
 #!               More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
 #! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#! @input Default: none
+#!              Default: none
 #! @input name: The name of the cluster to delete
 #! @input description: An optional description of this cluster
 #! @input initial_node_count: The number of nodes to create in this cluster. You must ensure that your Compute Engine

@@ -16,10 +16,10 @@
 #!                  that you wish to embed in the Droplet's root account upon creation
 #! @input backups: optional - boolean indicating whether automated backups should be enabled for the Droplet.
 #!                 Automated backups can only be enabled when the Droplet is created
-#! @input Default: false
+#!                 Default: false
 #! @input ipv6: optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
 #! @input private_networking: optional - boolean indicating whether private networking is enabled for the Droplet
-#! @input Default: false
+#!                            Default: false
 #! @input user_data: optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped with a backslash (\).
 #! @input token: personal access token for DigitalOcean API
 #! @input proxy_host: optional - proxy server used to access the web site

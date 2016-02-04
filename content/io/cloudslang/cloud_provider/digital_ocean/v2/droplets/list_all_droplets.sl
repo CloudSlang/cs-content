@@ -17,7 +17,7 @@
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #! @output response: raw response of the API call
 #! @output droplets: list of droplet objects - JSON types (object, array) are represented as Python objects
-#! @output information can be retrieved in Python style: Example: droplet['name']
+#!                   information can be retrieved in Python style - Example: droplet['name']
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.droplets

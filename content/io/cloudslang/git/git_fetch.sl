@@ -13,7 +13,7 @@
 #! @input username: username to connect as
 #! @input password: optional - password of user
 #! @input git_repository_localdir: optional - target directory where a git repository exists
-#! @input Default: /tmp/repo.git
+#!                                 Default: /tmp/repo.git
 #! @input git_fetch_remote: optional - remote repository to fetch from - Default: origin
 #! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: optional - relative or absolute path to private key file

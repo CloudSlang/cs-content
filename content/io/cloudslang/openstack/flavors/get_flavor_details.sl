@@ -14,7 +14,7 @@
 #! @input tenant_name: name of OpenStack project that contains specified flavor with details to be retrieved
 #! @input flavor_id: ID of flavor with details to be retrieved
 #! @input username: optional - username used for URL authentication; for NTLM authentication
-#! @input Format: 'domain\user'
+#!                  Format: 'domain\user'
 #! @input password: optional - password used for URL authentication
 #! @input proxy_host: optional - proxy server used to access OpenStack services
 #! @input proxy_port: optional - proxy server port used to access OpenStack services - Default: '8080'

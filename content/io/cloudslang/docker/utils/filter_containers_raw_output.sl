@@ -11,8 +11,8 @@
 #!               Containers can be filtered based on the images they are created from.
 #! @input raw_output: raw output from 'docker ps' command
 #! @input excluded_images: comma separated list of Docker images
-#! @input the containers based on these images will not be included in the result list: 
-#! @input Example: swarm:latest,tomcat:7
+#!                         the containers based on these images will not be included in the result list
+#!                         Example: swarm:latest,tomcat:7
 #! @output container_names: comma separated list of container names
 #! @output container_ids: comma separated list of container IDs
 #! @result SUCCESS: parsing was successful (return_code == '0')

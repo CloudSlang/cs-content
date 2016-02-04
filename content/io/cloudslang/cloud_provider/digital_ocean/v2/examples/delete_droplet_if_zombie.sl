@@ -11,7 +11,7 @@
 #! @input droplet_id: id of the droplet as a string value
 #! @input droplet_name: name of the droplet
 #! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
-#! @input Format (used by DigitalOcean): 2015: 09-27T18:47:19Z
+#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #! @input time_to_live: threshold to compare the droplet's lifetime to (in minutes)
 #! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
 #! @input token: personal access token for DigitalOcean API

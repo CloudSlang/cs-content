@@ -18,8 +18,8 @@
 #! @input domain: the name of the RedHat OpenShift Online domain in which the application is
 #! @input application_name: the RedHat OpenShift Online application name to add cartridge to
 #! @input cartridge: the name of the embedded cartridge to be added
-#! @input Valid values: 'mongodb: 2.0', 'cron-1.4', 'mysql-5.1', 'postgresql-8.4', 'haproxy-1.4',
-#!                                '10gen-mms-agent-0.1', 'phpmyadmin-3.4', 'metrics-0.1', 'rockmongo-1.1', 'jenkins-client-1.4'
+#!                   Valid values: 'mongodb-2.0', 'cron-1.4', 'mysql-5.1', 'postgresql-8.4', 'haproxy-1.4',
+#!                   '10gen-mms-agent-0.1', 'phpmyadmin-3.4', 'metrics-0.1', 'rockmongo-1.1', 'jenkins-client-1.4'
 #! @output return_result: the response of the operation in case of success, the error message otherwise
 #! @output error_message: return_result if statusCode is not '201'
 #! @output return_code: '0' if success, '-1' otherwise

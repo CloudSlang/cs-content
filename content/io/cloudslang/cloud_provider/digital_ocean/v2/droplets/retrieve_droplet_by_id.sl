@@ -19,8 +19,8 @@
 #! @output response: raw response of the API call
 #! @output status_code: status code of the underlying GET request
 #! @output droplet: droplet object in case of SUCCESS - JSON types (object, array) are represented as Python objects
-#! @output information can be retrieved in Python style: Example: droplet['name']
-#! @output None in case of FAILURE: 
+#!                  information can be retrieved in Python style - Example: droplet['name']
+#!                  None in case of FAILURE
 #! @output droplet_status: status of the droplet is case of SUCCESS, empty in case of FAILURE
 #!!#
 ########################################################################################################

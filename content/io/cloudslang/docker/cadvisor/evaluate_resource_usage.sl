@@ -9,8 +9,8 @@
 #!!
 #! @description: Evaluates if a Docker container's resource usages (memory, cpu, network) exceeds the given maximum usage.
 #! @input rule: optional - Python query to determine if the resource usages is high
-#! @input Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8
-#!                 and error_rx < 0.5 and error_tx < 0.5
+#!              Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8
+#!              and error_rx < 0.5 and error_tx < 0.5
 #! @input memory_usage: calculated memory usage of container; if machine_memory_limit is given use lower of container
 #!                      memory limit and machine memory limit to calculate
 #! @input cpu_usage: calculated CPU usage of container

@@ -21,7 +21,7 @@
 #! @input destination_password: optional - password of the destination machine
 #! @input destination_private_key_file: optional - path to the private key file on the destination machine
 #! @input known_hosts_policy: optional - policy used for managing known_hosts file - Valid: 'allow', 'strict', 'add'
-#! @input Default: 'allow'
+#!                            Default: 'allow'
 #! @input known_hosts_path: path to the known_hosts file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
 #! @output return_result: confirmation message

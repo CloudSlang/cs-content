@@ -10,8 +10,8 @@
 #! @description: Executes a REST call based on the method provided.
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#! @input Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
-#! @input Default: 'basic'
+#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Default: 'basic'
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
@@ -20,9 +20,9 @@
 #! @input password: optional - password used for URL authentication
 #! @input kerberos_conf_file: optional - path to the Kerberos configuration file - Default: '0'
 #! @input kerberos_login_conf_file: optional - login.conf file needed by the JAAS framework with the content similar to the one in examples
-#! @input Format: 'http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html'
+#!                                  Format: 'http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html'
 #! @input kerberos_skip_port_for_lookup: optional - do not include port in the key distribution center database lookup
-#! @input Default: true
+#!                                       Default: true
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -30,7 +30,7 @@
 #! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
-#! @input Valid: 'strict', 'browser_compatible', 'allow_all': Default: 'allow_all'
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #! @input trust_keystore: optional - location of the TrustStore file - Format: a URL or the local path to it
 #! @input trust_password: optional -  password associated with the TrustStore file
 #! @input keystore: optional - location of the KeyStore file - Format: a URL or the local path to it.
@@ -41,7 +41,7 @@
 #!                        data packets) - Default: '0' (infinite timeout)
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
-#! @input Default: true
+#!                    Default: true
 #! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '2'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '2'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
@@ -52,16 +52,16 @@
 #!                          saved to
 #! @input follow_redirects: specifies whether the 'Get' command automatically follows redirects - Default: true
 #! @input query_params: optional - list containing query parameters to append to the URL
-#! @input Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input query_params_are_URL_encoded: optional - whether to encode (according to the url encoding standard) the <query_params>
-#! @input Default: false
+#!                                      Default: false
 #! @input query_params_are_form_encoded: optional - whether to encode the <query_params> in the form request format
-#! @input Default: true
+#!                                       Default: true
 #! @input form_params: optional - input needs to be given in form encoded format and will set the entity to be sent in the
 #!                     request - Examples: 'input1=value1&input2=value2'. (The client will send:
 #!                     'input1=value1&in+put+2=val+u%0A+e2')
 #! @input form_params_are_URL_encoded: optional - if true <form_params> will be encoded (according to the url encoding standard)
-#! @input Default: false
+#!                                     Default: false
 #! @input source_file: optional - absolute path of a file on disk from where to read the entity for the http request;
 #!                     should not be provided for method=GET, HEAD, TRACE.
 #! @input body: optional - string to include in body for HTTP POST operation. If both <source_file> and body will be provided,
@@ -78,7 +78,7 @@
 #! @input multipart_files: optional - list of name=filePath pairs
 #! @input multipart_files_content_type: optional - each entity from the multipart entity has a content-type header; only
 #!                                      specify once for all parts - Default: 'application/octet-stream'
-#! @input Examples: 'image/png', 'text/plain'
+#!                                      Examples: 'image/png', 'text/plain'
 #! @input multipart_values_are_URL_encoded: optional - set 'true' if the bodies may contain '&' and '=' - Default: false
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #! @input method: HTTP method used
@@ -86,7 +86,7 @@
 #! @input http_client_pooling_connection_manager: optional - GlobalSessionObject that holds the http client pooling
 #!                                                connection manager
 #! @input valid_http_status_codes: optional - list/array of HTTP status codes considered to be successful - Example: [202, 204]
-#! @input Default: 'range(200, 300)'
+#!                                 Default: 'range(200, 300)'
 #! @output return_result: response of the operation
 #! @output error_message: return_result when the return_code is non-zero (e.g. network or other failure)
 #! @output return_code: '0' if success, '-1' otherwise

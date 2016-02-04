@@ -12,7 +12,7 @@
 #! @input marathon_port: optional - Marathon agent port - Default: 8080
 #! @input cmd: optional - filter apps to only those whose commands contain cmd
 #! @input embed: optional - embeds nested resources that match supplied path - Default: none
-#! @input Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
+#!               Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
 #!               App's last failures are not embedded in response by default
 #! @input proxy_host: optional - proxy host
 #! @input proxy_port: optional - proxy port

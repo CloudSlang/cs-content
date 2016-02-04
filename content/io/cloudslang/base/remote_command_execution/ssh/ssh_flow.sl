@@ -18,14 +18,14 @@
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
-#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8'
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during the
 #!                       life of the flow, if 'true' the SSH session used by this operation will be closed
-#! @input Valid: true, false: Default: false
+#!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @input smart_recovery: whether the flow should try to recover in case of SSH session failure
-#! @input such failure may happen because of unstable ssh connection: e.g. 'Session is down' exception
-#! @input Default: true
+#!                        such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
+#!                        Default: true
 #! @input retries: limit of reconnect tries - Default: 5
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

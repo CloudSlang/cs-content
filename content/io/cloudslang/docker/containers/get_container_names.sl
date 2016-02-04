@@ -10,19 +10,19 @@
 #! @description: Retrieves a list of all the Docker container names.
 #! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input all_containers: optional - show all containers (both running and stopped) - Default: false, only running containers
-#! @input any input that is different than empty string or false (as boolean type) changes its value to True: 
+#!                        any input that is different than empty string or false (as boolean type) changes its value to True
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
 #! @input password: optional - Docker machine password
 #! @input private_key_file: optional - path to private key file
 #! @input character_set: optional - character encoding used for input stream encoding from target machine;
-#! @input Valid: SJIS, EUC: JP, UTF-8
+#!                       Valid: SJIS, EUC-JP, UTF-8
 #! @input pty: optional - whether to use PTY - Valid: true, false
 #! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 600000 ms (10 min)
 #! @input close_session: optional - if false SSH session will be cached for future calls during the life of the flow,
 #!                       if true the SSH session used will be closed;
-#! @input Valid: true, false
+#!                       Valid: true, false
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
 #! @output container_names: list of container names separated by space
 #! @output raw_output: unparsed return result from the machine

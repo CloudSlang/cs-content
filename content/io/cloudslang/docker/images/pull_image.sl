@@ -16,7 +16,7 @@
 #! @input private_key_file: optional - absolute path to private key file
 #! @input arguments: optional - arguments to pass to the command
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
-#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8'
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #! @input pty: whether to use PTY - Valid: true, false
 #! @input timeout: time in milliseconds to wait for command to complete - Default: 30000000
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,

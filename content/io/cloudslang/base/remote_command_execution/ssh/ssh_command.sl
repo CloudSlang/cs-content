@@ -18,10 +18,10 @@
 #! @input private_key_file: optional - absolute path to private key file - Default: none
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
-#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8' - Default: 'UTF-8'
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during the
 #!                       life of the flow, if 'true' the SSH session used by this operation will be closed
-#! @input Valid: true, false: Default: false
+#!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: return code of the command

@@ -15,17 +15,17 @@
 #! @input manager_machine_private_key_file: optional - path to private key file of the machine with the Swarm manager
 #! @input swarm_manager_port: port used by the Swarm manager container
 #! @input agent_ip_addresses: list of IP addresses - the corresponding machines will be used as Swarm agents
-#! @input Example: ['111.111.111.111', '111.111.111.222']
+#!                            Example: ['111.111.111.111', '111.111.111.222']
 #! @input agent_usernames: list of usernames for agent machines - Example: [core, core]
 #! @input agent_passwords: optional - list of password for agent machines - Example: [pass, pass]
 #! @input agent_private_key_files: optional - list of paths to private key files for agent machines
-#! @input Example: ['foo/key_rsa', 'bar/key_rsa']
+#!                                 Example: ['foo/key_rsa', 'bar/key_rsa']
 #! @input attempt: number of attempts to check whether nodes were added to the cluster
-#! @input total waiting time ~ attempt * time_to_sleep: 
-#! @input Default: '60'
+#!                 total waiting time ~ attempt * time_to_sleep
+#!                 Default: '60'
 #! @input time_to_sleep: time in seconds to sleep between successive checks of whether nodes were added to the cluster
-#! @input total waiting time ~ attempt * time_to_sleep: 
-#! @input Default: 5
+#!                       total waiting time ~ attempt * time_to_sleep
+#!                       Default: 5
 #! @result SUCCESS: nodes were successfully added
 #! @result CREATE_SWARM_CLUSTER_PROBLEM: problem occurred while creating the swarm cluster
 #! @result PRE_CLEAR_MANAGER_MACHINE_PROBLEM: problem occurred while clearing the manager machine
