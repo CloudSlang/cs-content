@@ -6,13 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Wrapper flow - logic steps:
-# - retrieves the ip addresses of the machines in the cluster
-# - cleanup on the machines (so they will not contain any images)
-# - prepares a used and an unused Docker image
-# - runs the flow
-# - verifies only one image remained in the cluster
-# - delete the used image
+#!!
+#! @description: Wrapper flow - logic steps:
+#!               - retrieves the ip addresses of the machines in the cluster
+#!               - cleanup on the machines (so they will not contain any images)
+#!               - prepares a used and an unused Docker image
+#!               - runs the flow
+#!               - verifies only one image remained in the cluster
+#!               - delete the used image
+#!!#
 ####################################################
 
 namespace: io.cloudslang.coreos

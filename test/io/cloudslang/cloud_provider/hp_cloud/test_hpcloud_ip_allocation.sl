@@ -6,10 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# TEST HP CLOUD FLOW
-# This flow tests HP Cloud floating IP content
-#  - Allocate a new floating IP
-#  - Destroy and release the IP
+#!!
+#! @description: TEST HP CLOUD FLOW
+#!               This flow tests HP Cloud floating IP content
+#!               - Allocate a new floating IP
+#!               - Destroy and release the IP
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

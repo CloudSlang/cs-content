@@ -6,17 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks that a server name is within a list of server names.
-#
-# Inputs:
-#   - server_to_find - server name that needs to be found
-#   - server_list - list of servers
-# Outputs:
-#   - return_result - string notifying if server was found or not
-#   - error_message - message of error if exists
-# Results:
-#   - SUCCESS - server was found
-#   - FAILURE - otherwise
+#!!
+#! @description: Checks that a server name is within a list of server names.
+#! @input server_to_find: server name that needs to be found
+#! @input server_list: list of servers
+#! @output return_result: string notifying if server was found or not
+#! @output error_message: message of error if exists
+#! @result SUCCESS: server was found
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.utils

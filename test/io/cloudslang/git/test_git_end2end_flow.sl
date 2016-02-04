@@ -6,56 +6,52 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  This flow performs a end to end scenario and will:
-#    - clone an existing git repository;
-#    - checkout a branch;
-#    - write to a file that will be committed;
-#    - add the file for local commit;
-#    - commit the file;
-#    - push the file to git;
-#    - clone again the repository;
-#    - checkout a branch to verify if the newly committed file exists;
-#    - read the file;
-#    - cleanup repositories;
-#
-#  Prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
-#
-#  Inputs:
-#    - host - hostname or IP address
-#    - port - optional - port number for running the command
-#    - username - username to connect as
-#    - password - optional - password of user
-#    - private_key_file - optional - the path to the private key file
-#    - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
-#    - git_repository - the URL for cloning a git repository from
-#    - git_pull_remote - optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
-#    - git_branch - the git branch to checkout to
-#    - git_repository_localdir - target directory the git repository will be cloned to - Default: /tmp/repo.git
-#    - file_name - the name of the file - if the file doesn't exist then will be created
-#    - text - optional - text to write to the file
-#    - git_add_files - optional - the files that has to be added/staged - Default: "*"
-#    - git_commit_files - optional - the files that has to be committed - Default: "-a"
-#    - git_commit_message - optional - the message for the commit
-#    - git_push_branch - the branch you want to push - Default: master
-#    - git_push_remote - the remote you want to push to - Default: origin
-#    - user - the user to be added to sudoers group
-#    - second_git_repository_localdir - test target directory where the git repository will be cloned to
-#    - new_path - path to the secondary local repository to be cleaned up
-#
-#  Results:
-#    SUCCESS: the whole scenario was successfully completed
-#    CLONE_FAILURE: an error when trying to clone a git repository
-#    CHECKOUT_FAILURE: an error when trying to checkout a git repository
-#    WRITE_IO_ERROR: an error when text could not be written to the file
-#    ADD_FAILURE: an error when trying to add files
-#    COMMIT_FAILURE: an error occur when trying to commit
-#    PUSH_FAILURE: an error occur when trying to commit
-#    ADD_TO_SUDOERS_FAILURE: an error when trying to add a user to sudoers group
-#    SECOND_CLONE_FAILURE: an error when trying to clone a git repository
-#    SECOND_CHECKOUT_FAILURE: an error when trying to checkout a git repository
-#    COMPARE_IO_ERROR: an error when either one of the files to compare could not be read
-#    COMPARE_FAILURE: the compared files are not identical
-#
+#!!
+#! @description: This flow performs a end to end scenario and will:
+#!               - clone an existing git repository;
+#!               - checkout a branch;
+#!               - write to a file that will be committed;
+#!               - add the file for local commit;
+#!               - commit the file;
+#!               - push the file to git;
+#!               - clone again the repository;
+#!               - checkout a branch to verify if the newly committed file exists;
+#!               - read the file;
+#!               - cleanup repositories;
+#! @prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
+#! @input host: hostname or IP address
+#! @input port: optional - port number for running the command
+#! @input username: username to connect as
+#! @input password: optional - password of user
+#! @input private_key_file: optional - the path to the private key file
+#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input git_repository: the URL for cloning a git repository from
+#! @input git_pull_remote: optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#! @input git_branch: the git branch to checkout to
+#! @input git_repository_localdir: target directory the git repository will be cloned to - Default: /tmp/repo.git
+#! @input file_name: the name of the file - if the file doesn't exist then will be created
+#! @input text: optional - text to write to the file
+#! @input git_add_files: optional - the files that has to be added/staged - Default: "*"
+#! @input git_commit_files: optional - the files that has to be committed - Default: "-a"
+#! @input git_commit_message: optional - the message for the commit
+#! @input git_push_branch: the branch you want to push - Default: master
+#! @input git_push_remote: the remote you want to push to - Default: origin
+#! @input user: the user to be added to sudoers group
+#! @input second_git_repository_localdir: test target directory where the git repository will be cloned to
+#! @input new_path: path to the secondary local repository to be cleaned up
+#! @result SUCCESS: the whole scenario was successfully completed
+#! @result CLONE_FAILURE: an error when trying to clone a git repository
+#! @result CHECKOUT_FAILURE: an error when trying to checkout a git repository
+#! @result WRITE_IO_ERROR: an error when text could not be written to the file
+#! @result ADD_FAILURE: an error when trying to add files
+#! @result COMMIT_FAILURE: an error occur when trying to commit
+#! @result PUSH_FAILURE: an error occur when trying to commit
+#! @result ADD_TO_SUDOERS_FAILURE: an error when trying to add a user to sudoers group
+#! @result SECOND_CLONE_FAILURE: an error when trying to clone a git repository
+#! @result SECOND_CHECKOUT_FAILURE: an error when trying to checkout a git repository
+#! @result COMPARE_IO_ERROR: an error when either one of the files to compare could not be read
+#! @result COMPARE_FAILURE: the compared files are not identical
+#!!#
 ####################################################
 
 namespace: io.cloudslang.git

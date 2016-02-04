@@ -6,21 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-# Checks whether the ssh session failed with a certain pattern.
-# Cases:
-#  - session is down: return code = -1, exception is 'Session is down'
-#  - failure with no message: exit status = -1
-#  - socket is not established: return result contains 'socket is not established'
-#
-# Inputs:
-#   - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - return_code - from SSH: return code of SSH operation
-#   - exit_status - from SSH: return code of remote command
-#  Results:
-#    - SESSION_IS_DOWN: pattern detected
-#    - FAILURE_WITH_NO_MESSAGE: pattern detected
-#    - CUSTOM_FAILURE: general accumulator for new types of patterns
-#    - NO_ISSUE_FOUND: no pattern was detected
+#!!
+#! @description: Checks whether the ssh session failed with a certain pattern.
+#!               Cases:
+#!               - session is down: return code = -1, exception is 'Session is down'
+#!               - failure with no message: exit status = -1
+#!               - socket is not established: return result contains 'socket is not established'
+#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @input return_code: from SSH: return code of SSH operation
+#! @input exit_status: from SSH: return code of remote command
+#! @result SESSION_IS_DOWN: pattern detected
+#! @result FAILURE_WITH_NO_MESSAGE: pattern detected
+#! @result CUSTOM_FAILURE: general accumulator for new types of patterns
+#! @result NO_ISSUE_FOUND: no pattern was detected
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.utils

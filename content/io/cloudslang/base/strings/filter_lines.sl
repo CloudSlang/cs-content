@@ -5,15 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Filters input text by string/regex, removing all lines that do not contain a match to the filter.
-#
-# Inputs:
-#   - text - multiline text to be filtered
-#   - filter - string or Python regex expression - Example: "f\\w*r"
-# Outputs:
-#   - filter_result - filtered text
-# Results:
-#   - SUCCESS - always
+#!!
+#! @description: Filters input text by string/regex, removing all lines that do not contain a match to the filter.
+#! @input text: multiline text to be filtered
+#! @input filter: string or Python regex expression - Example: "f\\w*r"
+#! @output filter_result: filtered text
+#! @result SUCCESS: always
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.strings

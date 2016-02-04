@@ -5,25 +5,25 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Example of how to link Docker containers. Pulls a DB Docker image container and starts it.
-# Then pulls a web application image container and starts it, linking it to the DB container.
-# The application is then tested to see that it is up and running.
-# If any of the steps fail, an error is sent notifying the error.
-#
-# Inputs:
-#   - docker_host - Docker machine host
-#   - docker_ssh_port - optional - SSH port - Default: '22'
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - db_container_name - optional - name of the DB container - Default: 'mysqldb'
-#   - app_container_name - optional - name of the app container - Default: 'spring-boot-tomcat-mysql-app'
-#   - app_port - optional - web server port for the application - Default: '8080'
-#   - email_host - email host
-#   - email_port - email port
-#   - email_sender - email sender
-#   - email_recipient - email recipient
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
+#!!
+#! @description: Example of how to link Docker containers. Pulls a DB Docker image container and starts it.
+#!               Then pulls a web application image container and starts it, linking it to the DB container.
+#!               The application is then tested to see that it is up and running.
+#!               If any of the steps fail, an error is sent notifying the error.
+#! @input docker_host: Docker machine host
+#! @input docker_ssh_port: optional - SSH port - Default: '22'
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input db_container_name: optional - name of the DB container - Default: 'mysqldb'
+#! @input app_container_name: optional - name of the app container - Default: 'spring-boot-tomcat-mysql-app'
+#! @input app_port: optional - web server port for the application - Default: '8080'
+#! @input email_host: email host
+#! @input email_port: email port
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
 

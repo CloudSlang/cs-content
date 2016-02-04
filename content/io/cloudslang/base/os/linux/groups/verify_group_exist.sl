@@ -6,28 +6,25 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Perform a SSH command to verify if a specified <group_name> exist
-#
-# Inputs:
-#   - host - hostname or IP address
-#   - root_password - the root password
-#   - group_name - the name of the group to verify if exist
-#
-# Outputs:
-#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - contains the stack trace in case of an exception
-#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                           only available for certain types of channels, and only after the channel was closed
-#                           (more exactly, just before the channel is closed).
-#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                     channel type has no command), 126 if the command cannot execute.
-#    - message - returns 'The "<group_name>" group exist.' if the group exist or 'The "<group_name>" group does not exist.'
-#                otherwise
-# Results:
-#    - SUCCESS - verify group exist SSH command was successfully executed
-#    - FAILURE - otherwise
+#!!
+#! @description: Perform a SSH command to verify if a specified <group_name> exist
+#! @input host: hostname or IP address
+#! @input root_password: the root password
+#! @input group_name: the name of the group to verify if exist
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#!                              channel type has no command), 126 if the command cannot execute.
+#! @output message: returns 'The "<group_name>" group exist.' if the group exist or 'The "<group_name>" group does not exist.'
+#!                  otherwise
+#! @result SUCCESS: verify group exist SSH command was successfully executed
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.base.os.linux.groups
 

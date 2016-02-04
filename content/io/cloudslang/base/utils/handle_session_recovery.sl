@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-#  Verifies whether session recovery mechanism is enabled, if there are tries left
-#  and in such case checks whether the ssh session failed with a certain pattern.
-#
-#  Inputs:
-#    - enabled - optional - whether session recovery is enabled - Default: true
-#    - retries - limit of reconnect tries
-#    - return_result - from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
-#                                exception
-#    - exception - from SSH: contains the stack trace in case of an exception
-#    - exit_status - from SSH: return code of the remote command
-#  Outputs:
-#    - retries - updated input value (decreased by 1)
-#  Results:
-#    - RECOVERY_DISABLED: session recovery is disabled
-#    - TIMEOUT - no more retries are available
-#    - SESSION_IS_DOWN: session failure pattern detected
-#    - FAILURE_WITH_NO_MESSAGE: session failure pattern detected
-#    - CUSTOM_FAILURE: general accumulator for new types of patterns (see subflow)
-#    - NO_ISSUE_FOUND: no session failure pattern was detected
+#!!
+#! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
+#!               and in such case checks whether the ssh session failed with a certain pattern.
+#! @input enabled: optional - whether session recovery is enabled - Default: true
+#! @input retries: limit of reconnect tries
+#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
+#!                       exception
+#! @input exception: from SSH: contains the stack trace in case of an exception
+#! @input exit_status: from SSH: return code of the remote command
+#! @output retries: updated input value (decreased by 1)
+#! @result RECOVERY_DISABLED: session recovery is disabled
+#! @result TIMEOUT: no more retries are available
+#! @result SESSION_IS_DOWN: session failure pattern detected
+#! @result FAILURE_WITH_NO_MESSAGE: session failure pattern detected
+#! @result CUSTOM_FAILURE: general accumulator for new types of patterns (see subflow)
+#! @result NO_ISSUE_FOUND: no session failure pattern was detected
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.utils

@@ -6,16 +6,14 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Unzips an archive.
-#
-# Inputs:
-#   - archive_path - path to archive to be unziped (including '.zip')
-#   - output_folder - path of folder to place unzipped files from archive
-# Outputs:
-#   - message - error message in case of error
-# Results:
-#   - SUCCESS - archive was successfully unzipped
-#   - FAILURE - archive was not unzipped due to error
+#!!
+#! @description: Unzips an archive.
+#! @input archive_path: path to archive to be unziped (including '.zip')
+#! @input output_folder: path of folder to place unzipped files from archive
+#! @output message: error message in case of error
+#! @result SUCCESS: archive was successfully unzipped
+#! @result FAILURE: archive was not unzipped due to error
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

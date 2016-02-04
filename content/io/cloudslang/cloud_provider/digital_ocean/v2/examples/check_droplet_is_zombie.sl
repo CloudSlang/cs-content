@@ -6,18 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Checks whether a droplet is considered a zombie.
-#
-# Inputs:
-#   - droplet_name - name of the droplet
-#   - creation_time_as_string - creation time (UTC timezone) of the droplet as a string value
-#                             - Format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#   - time_to_live - threshold in minutes to compare the droplet's lifetime to
-#   - name_pattern - regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
-# Results:
-#   - ZOMBIE: droplet is considered zombie
-#   - NOT_ZOMBIE: droplet is not considered zombie
-#   - FAILURE: error occurred
+#!!
+#! @description: Checks whether a droplet is considered a zombie.
+#! @input droplet_name: name of the droplet
+#! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
+#! @input Format (used by DigitalOcean): 2015: 09-27T18:47:19Z
+#! @input time_to_live: threshold in minutes to compare the droplet's lifetime to
+#! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
+#! @result ZOMBIE: droplet is considered zombie
+#! @result NOT_ZOMBIE: droplet is not considered zombie
+#! @result FAILURE: error occurred
+#!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.examples
 

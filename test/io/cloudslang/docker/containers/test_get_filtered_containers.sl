@@ -6,8 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Wrapper test flow - runs two Docker containers, retrieves and verifies their names and IDs
-# filtering out one of them based on the image it is created from.
+#!!
+#! @description: Wrapper test flow - runs two Docker containers, retrieves and verifies their names and IDs
+#!               filtering out one of them based on the image it is created from.
+#!!#
 ########################################################################################################
 
 namespace: io.cloudslang.docker.containers

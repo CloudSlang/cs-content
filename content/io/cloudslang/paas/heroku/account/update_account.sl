@@ -1,25 +1,21 @@
 ###################################################################################################
-# This flow performs an REST API call in order to update the Heroku account
-# 
-# Inputs: 
-#   - username - the HEROKU username - Example: 'someone@mailprovider.com' 
-#   - password - optional - the Heroku <username> account password - Default: None
-#   - allow_tracking - optional - whether to allow third party web activity tracking - Default: True
-#   - beta - optional - whether allowed to utilize beta Heroku features - Default: False
-#   - account_owner_name - optional - full name of the account owner - Default: None
-#
-# Outputs: 
-#   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise 
-#   - status_code - the code returned by the operation
-#
-# Results:
-#   - SUCCESS - the update Heroku account was successfully executed
-#   - ADD_ALLOW_TRACKING_FAILURE - insert 'allow_tracking' key:value pair in JSON body failed
-#   - ADD_BETA_FAILURE - insert 'beta' key:value pair in JSON body failed
-#   - ADD_ACCOUNT_OWNER_NAME_FAILURE - insert 'name' key:value pair in JSON body failed
-#   - UPDATE_ACCOUNT_FAILURE - the update Heroku account REST API call failed
+#!!
+#! @description: This flow performs an REST API call in order to update the Heroku account
+#! @input username: the HEROKU username - Example: 'someone@mailprovider.com'
+#! @input password: optional - the Heroku <username> account password - Default: None
+#! @input allow_tracking: optional - whether to allow third party web activity tracking - Default: True
+#! @input beta: optional - whether allowed to utilize beta Heroku features - Default: False
+#! @input account_owner_name: optional - full name of the account owner - Default: None
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @result SUCCESS: the update Heroku account was successfully executed
+#! @result ADD_ALLOW_TRACKING_FAILURE: insert 'allow_tracking' key:value pair in JSON body failed
+#! @result ADD_BETA_FAILURE: insert 'beta' key:value pair in JSON body failed
+#! @result ADD_ACCOUNT_OWNER_NAME_FAILURE: insert 'name' key:value pair in JSON body failed
+#! @result UPDATE_ACCOUNT_FAILURE: the update Heroku account REST API call failed
+#!!#
 ###################################################################################################
 
 namespace: io.cloudslang.paas.heroku.account

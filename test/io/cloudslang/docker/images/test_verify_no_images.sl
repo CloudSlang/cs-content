@@ -24,8 +24,9 @@ flow:
 
   workflow:
 
-#temporary task, until get_all_images use the ssh flow
-    - validate_ssh:
+#!!
+#! @description: emporary task, until get_all_images use the ssh flow
+#!!#   - validate_ssh:
         do:
           ssh.ssh_command:
             - host

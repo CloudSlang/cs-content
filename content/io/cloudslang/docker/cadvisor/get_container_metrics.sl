@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs a REST call to cAdvisor running in a Docker container.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
-#   - container - name or ID of the Docker container that runs cAdvisor
-# Outputs:
-#   - return_result - the raw response of the operation
-#   - error_message: return_result if return_code == '-1' or status_code != '200'
-#   - return_code - if return_code == '-1' then there was an error
-#   - status_code - normal status code is '200'
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Performs a REST call to cAdvisor running in a Docker container.
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input container: name or ID of the Docker container that runs cAdvisor
+#! @output return_result: the raw response of the operation
+#! @output error_message: return_result if return_code == ': 1' or status_code != '200'
+#! @output return_code: if return_code == '-1' then there was an error
+#! @output status_code: normal status code is '200'
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor

@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Writes text to a file.
-#
-# Inputs:
-#   - file_path - path of the file to write to
-#   - text - text to write to the file
-# Outputs:
-#   - message - error message if error occurred
-# Results:
-#   - SUCCESS - text was written to the file
-#   - FAILURE - otherwise
+#!!
+#! @description: Writes text to a file.
+#! @input file_path: path of the file to write to
+#! @input text: text to write to the file
+#! @output message: error message if error occurred
+#! @result SUCCESS: text was written to the file
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates on Helion Development Platform / Stackato machine and retrieves the authentication token.
-#
-# Inputs:
-#   - host - Helion Development Platform / Stackato host
-#   - username - Helion Development Platform / Stackato username
-#   - password - Helion Development Platform / Stackato password
-#   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - the proxy server port used to access the Helion Development Platform / Stackato services
-#                           - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-# Outputs:
-#   - return_result - response of the last operation that was executed
-#   - error_message - error message of the operation that failed
-#   - token - authentication token
-# Results:
-#   - SUCCESS - the authentication on Helion Development Platform / Stackato host was successfully made
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
+#!!
+#! @description: Authenticates on Helion Development Platform / Stackato machine and retrieves the authentication token.
+#! @input host: Helion Development Platform / Stackato host
+#! @input username: Helion Development Platform / Stackato username
+#! @input password: Helion Development Platform / Stackato password
+#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
+#! @input proxy_port: optional - the proxy server port used to access the Helion Development Platform / Stackato services
+#! @input Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
+#! @output return_result: response of the last operation that was executed
+#! @output error_message: error message of the operation that failed
+#! @output token: authentication token
+#! @result SUCCESS: the authentication on Helion Development Platform / Stackato host was successfully made
+#! @result GET_AUTHENTICATION_FAILURE: the authentication call fails
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
+#!!#
 ####################################################
 namespace: io.cloudslang.paas.stackato
 

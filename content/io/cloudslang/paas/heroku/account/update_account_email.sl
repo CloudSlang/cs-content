@@ -1,22 +1,18 @@
 #################################################### 
-# This flow performs an REST API call in order to update the Heroku account email
-# 
-# Inputs: 
-#   - username - the Heroku username - Example: 'someone@mailprovider.com'
-#   - password - optional - the Heroku <username> account password - Default: None
-#   - email - the new unique email address of the account which will replace the old email address
-#
-# Outputs: 
-#   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise 
-#   - status_code - the code returned by the operation 
-#
-# Results:
-#   - SUCCESS - the update Heroku account email was successfully executed
-#   - ADD_EMAIL_FAILURE - insert 'email' key:value pair in JSON body failed
-#   - ADD_PASSWORD_FAILURE - insert 'password' key:value pair in JSON body failed
-#   - UPDATE_ACCOUNT_EMAIL_FAILURE - the update Heroku account email REST API call failed
+#!!
+#! @description: This flow performs an REST API call in order to update the Heroku account email
+#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
+#! @input password: optional - the Heroku <username> account password - Default: None
+#! @input email: the new unique email address of the account which will replace the old email address
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @result SUCCESS: the update Heroku account email was successfully executed
+#! @result ADD_EMAIL_FAILURE: insert 'email' key:value pair in JSON body failed
+#! @result ADD_PASSWORD_FAILURE: insert 'password' key:value pair in JSON body failed
+#! @result UPDATE_ACCOUNT_EMAIL_FAILURE: the update Heroku account email REST API call failed
+#!!#
 ####################################################
 
 namespace: io.cloudslang.paas.heroku.account

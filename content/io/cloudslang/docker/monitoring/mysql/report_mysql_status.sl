@@ -6,27 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ########################################################################################################################
-# Retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible
-#   errors.
-#
-# Inputs:
-#   - container - name or ID of the Docker container that runs MySQL
-#   - docker_host - Docker machine host
-#   - docker_port - optional - Docker machine port
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - docker_private_key_file - optional - path to private key file
-#   - mysql_username - MySQL instance username
-#   - mysql_password - MySQL instance password
-#   - email_host - email server host
-#   - email_port - email server port
-#   - email_username - optional - email user name
-#   - email_password - optional - email password
-#   - email_sender - email sender
-#   - email_recipient - email recipient
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible
+#!               errors.
+#! @input container: name or ID of the Docker container that runs MySQL
+#! @input docker_host: Docker machine host
+#! @input docker_port: optional - Docker machine port
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input docker_private_key_file: optional - path to private key file
+#! @input mysql_username: MySQL instance username
+#! @input mysql_password: MySQL instance password
+#! @input email_host: email server host
+#! @input email_port: email server port
+#! @input email_username: optional - email user name
+#! @input email_password: optional - email password
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @result SUCCESS: successful
+#! @result FAILURE: otherwise
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

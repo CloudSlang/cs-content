@@ -6,32 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the cAdvisor container information.
-#
-# Inputs:
-#   - json_response - response of cAdvisor container information
-#   - machine_memory_limit - optional - container machine memory limit - Default: -1
-# Outputs:
-#   - decoded - parsed response
-#   - spec - parsed cAdvisor spec
-#   - stats - parsed cAdvisor stats
-#   - timestamp - time used to calculate the stat
-#   - cpu - parsed cAdvisor CPU
-#   - memory - parsed cAdvisor memory
-#   - network - parsed cAdvisor network
-#   - cpu_usage - calculated CPU usage of the container
-#   - memory_usage - calculated memory usage of the container; the container memory usage divided by the
-#                    machine_memory_limit or by the minimum memory limit of the container whichever is smaller
-#   - throughput_rx - calculated network Throughput Rx bytes
-#   - throughput_tx - calculated network Throughput Tx bytes
-#   - error_rx - calculated network error Rx
-#   - error_tx - calculated network error Tx
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - return_result - notification string; was parsing was successful or not
-#   - error_message - return_result if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses the response of the cAdvisor container information.
+#! @input json_response: response of cAdvisor container information
+#! @input machine_memory_limit: optional - container machine memory limit - Default: -1
+#! @output decoded: parsed response
+#! @output spec: parsed cAdvisor spec
+#! @output stats: parsed cAdvisor stats
+#! @output timestamp: time used to calculate the stat
+#! @output cpu: parsed cAdvisor CPU
+#! @output memory: parsed cAdvisor memory
+#! @output network: parsed cAdvisor network
+#! @output cpu_usage: calculated CPU usage of the container
+#! @output memory_usage: calculated memory usage of the container; the container memory usage divided by the
+#!                       machine_memory_limit or by the minimum memory limit of the container whichever is smaller
+#! @output throughput_rx: calculated network Throughput Rx bytes
+#! @output throughput_tx: calculated network Throughput Tx bytes
+#! @output error_rx: calculated network error Rx
+#! @output error_tx: calculated network error Tx
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output return_result: notification string; was parsing was successful or not
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor

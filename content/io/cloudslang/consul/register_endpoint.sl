@@ -6,21 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Directly registers or updates entries in the catalog.
-#
-# Inputs:
-#   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Default: '8500'
-#   - node - node name
-#   - address - node host
-#   - datacenter - optional - Default: ''; matched to that of agent
-#   - service - optional - if Service key is provided, then service will also be registered - Default: ''
-#   - check - optional - if the Check key is provided, then a health check will also be registered - Default:''
-# Outputs:
-#   - error_message - return_result if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Directly registers or updates entries in the catalog.
+#! @input host: Consul agent host
+#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input node: node name
+#! @input address: node host
+#! @input datacenter: optional - Default: ''; matched to that of agent
+#! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
+#! @input check: optional - if the Check key is provided, then a health check will also be registered - Default:''
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

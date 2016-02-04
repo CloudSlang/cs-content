@@ -6,18 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #######################################################################################################################
-# Sets up a simple Marathon infrastructure on one CoreOS host or on one Docker host based on the is_core_os input.
-#
-# Inputs:
-#   - marathon_host - Marathon host
-#   - username - username for host
-#   - private_key_file - private key file used for host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - is_core_os - true if the host is CoreOS - Default: false
-# Results:
-#   - SUCCESS
-#   - SETUP_MARATHON_PROBLEM
-#   - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+#!!
+#! @description: Sets up a simple Marathon infrastructure on one CoreOS host or on one Docker host based on the is_core_os input.
+#! @input marathon_host: Marathon host
+#! @input username: username for host
+#! @input private_key_file: private key file used for host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input is_core_os: true if the host is CoreOS - Default: false
+#! @result SUCCESS: 
+#! @result SETUP_MARATHON_PROBLEM: 
+#! @result WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: 
+#!!#
 #######################################################################################################################
 
 namespace: io.cloudslang.marathon

@@ -5,19 +5,18 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Inspects specified image and gets parent.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - image_name - image for which to check parents - Example: <repository>:<tag>
-#   - private_key_file - optional - path to the private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - port - optional - port number for running the command
-# Outputs:
-#   - parent_image_name - name of the parent image
+#!!
+#! @description: Inspects specified image and gets parent.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input image_name: image for which to check parents - Example: <repository>:<tag>
+#! @input private_key_file: optional - path to the private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input port: optional - port number for running the command
+#! @output parent_image_name: name of the parent image
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

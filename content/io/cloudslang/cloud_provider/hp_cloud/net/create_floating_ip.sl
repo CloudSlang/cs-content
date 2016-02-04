@@ -6,21 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Create a floating IP bound to the external (public) network.
-#
-# Inputs:
-#   - ext_network_id - ID of the external network to get an an IP for
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - JSON response with new IP details
-#   - error_message - message returned when HTTP call fails
-#   - status_code - normal status code is 201
-# Results:
-#   - SUCCESS - operation succeeded
-#   - FAILURE - otherwise
+#!!
+#! @description: Create a floating IP bound to the external (public) network.
+#! @input ext_network_id: ID of the external network to get an an IP for
+#! @input token: auth token obtained by get_authenication_flow
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: JSON response with new IP details
+#! @output error_message: message returned when HTTP call fails
+#! @output status_code: normal status code is 201
+#! @result SUCCESS: operation succeeded
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net

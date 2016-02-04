@@ -6,35 +6,34 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes a PUT REST call.
-#
-# Inputs:
-#   - url - URL to which the call is made
-#   - auth_type - optional - type of authentication used to execute the request on the target server
-#                          - Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
-#                          - Default: 'basic'
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
-#                           'domain\user'
-#   - password - optional - password used for URL authentication
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - connect_timeout - optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#   - socket_timeout - optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
-#   - headers - optional - list containing the headers to use for the request separated by new line (CRLF);
-#                          header name - value pair will be separated by ":" - Format: According to HTTP standard for
-#                          headers (RFC 2616) - Example: 'Accept:text/plain'
-#   - query_params - optional - list containing query parameters to append to the URL
-#                             - Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#   - body - optional - string to include in body for HTTP PUT operation
-#   - content_type - optional - content type that should be set in the request header, representing the MIME-type of the
-#                               data in the message body - Default: 'text/plain'
-# Outputs:
-#   - return_result - the response of the operation in case of success or the error message otherwise
-#   - error_message - returnResult if statusCode is not contained in interval between '200' and '299'
-#   - return_code - '0' if success, '-1' otherwise
-#   - status_code - status code of the HTTP call
+#!!
+#! @description: Executes a PUT REST call.
+#! @input url: URL to which the call is made
+#! @input auth_type: optional - type of authentication used to execute the request on the target server
+#! @input Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#! @input Default: 'basic'
+#! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
+#!                  'domain\user'
+#! @input password: optional - password used for URL authentication
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port - Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
+#! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
+#!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
+#!                 headers (RFC 2616) - Example: 'Accept:text/plain'
+#! @input query_params: optional - list containing query parameters to append to the URL
+#! @input Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input body: optional - string to include in body for HTTP PUT operation
+#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
+#!                      data in the message body - Default: 'text/plain'
+#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output error_message: returnResult if statusCode is not contained in interval between '200' and '299'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: status code of the HTTP call
+#!!#
 ################################################
 
 namespace: io.cloudslang.base.network.rest

@@ -6,13 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if boolean is true or false. Used for flow control.
-#
-# Inputs:
-#   - bool_value - Boolean value to check
-# Results:
-#   - SUCCESS - bool_value is true
-#   - FAILURE - bool_value is false
+#!!
+#! @description: Checks if boolean is true or false. Used for flow control.
+#! @input bool_value: Boolean value to check
+#! @result SUCCESS: bool_value is true
+#! @result FAILURE: bool_value is false
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.utils

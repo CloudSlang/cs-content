@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Copies yaml configuration files to the system properties folder.
-#
-# Inputs:
-#   - int_value1 - an integer for the first number
-#   - int_value2 - an integer for the second number
-# Outputs:
-#   - error_message - error message if error occurred
-# Results:
-#   - SUCCESS - int_value1 > int_value2
-#   - FAILURE - Any other result (false or error)
+#!!
+#! @description: Copies yaml configuration files to the system properties folder.
+#! @input int_value1: an integer for the first number
+#! @input int_value2: an integer for the second number
+#! @output error_message: error message if error occurred
+#! @result SUCCESS: int_value1 > int_value2
+#! @result FAILURE: Any other result (false or error)
+#!!#
 ####################################################
 
 namespace: io.cloudslang.operations_orchestration.createCP

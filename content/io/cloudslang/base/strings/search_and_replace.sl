@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ##################################################
-# Replaces a substring within a string.
-#
-# Inputs:
-#   - origin_string - original string
-#   - text_to_replace - text to replace
-#   - replace_with - text to replace with
-# Outputs:
-#   - replaced_string - string with the text replaced
-# Results:
-#   - SUCCESS - always
+#!!
+#! @description: Replaces a substring within a string.
+#! @input origin_string: original string
+#! @input text_to_replace: text to replace
+#! @input replace_with: text to replace with
+#! @output replaced_string: string with the text replaced
+#! @result SUCCESS: always
+#!!#
 ##################################################
 namespace: io.cloudslang.base.strings
 

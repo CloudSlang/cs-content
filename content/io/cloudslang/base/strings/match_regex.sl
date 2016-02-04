@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  Tests whether a Python regex expression matches a string.
-#
-#  Inputs:
-#    - regex - Python regex expresssion - Example: "f\\w*r"
-#    - text - string to match
-#  Outputs:
-#    - match_text - matched text
-#  Results:
-#    - MATCH - a match was found
-#    - NO_MATCH - no match found
+#!!
+#! @description: Tests whether a Python regex expression matches a string.
+#! @input regex: Python regex expresssion - Example: "f\\w*r"
+#! @input text: string to match
+#! @output match_text: matched text
+#! @result MATCH: a match was found
+#! @result NO_MATCH: no match found
+#!!#
 ####################################################
 namespace: io.cloudslang.base.strings
 

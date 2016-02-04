@@ -6,23 +6,20 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Workflow to test docker get_all_images operation.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - port - Docker machine port
-#   - username - Docker machine username
-#   - password - Docker machine password
-#   - image_name - Docker image name to inspect
-#
-# Results:
-#   - SUCCESS - get_all_images performed successfully
-#   - FAILURE - get_all_images finished with an error
-#   - DOWNLOAD_FAILURE - prerequest error - could not download dockerimage
-#   - VERIFY_FAILURE - fails ro verify downloaded images
-#   - DELETE_FAILURE - fails to delete downloaded image
-#   - MACHINE_IS_NOT_CLEAN - prerequest fails - machine is not clean
-#
+#!!
+#! @description: Workflow to test docker get_all_images operation.
+#! @input host: Docker machine host
+#! @input port: Docker machine port
+#! @input username: Docker machine username
+#! @input password: Docker machine password
+#! @input image_name: Docker image name to inspect
+#! @result SUCCESS: get_all_images performed successfully
+#! @result FAILURE: get_all_images finished with an error
+#! @result DOWNLOAD_FAILURE: prerequest error - could not download dockerimage
+#! @result VERIFY_FAILURE: fails ro verify downloaded images
+#! @result DELETE_FAILURE: fails to delete downloaded image
+#! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

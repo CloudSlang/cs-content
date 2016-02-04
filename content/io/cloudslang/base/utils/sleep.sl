@@ -6,12 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Sleeps for a given number of seconds.
-#
-# Inputs:
-#   - seconds - time to sleep
-# Results:
-#   - SUCCESS - always
+#!!
+#! @description: Sleeps for a given number of seconds.
+#! @input seconds: time to sleep
+#! @result SUCCESS: always
+#!!#
 ####################################################
 namespace: io.cloudslang.base.utils
 

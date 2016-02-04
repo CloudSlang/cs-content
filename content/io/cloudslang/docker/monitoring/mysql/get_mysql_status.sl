@@ -6,36 +6,34 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ########################################################################################################################
-# Retrieves the MySQL server status.
-#
-# Inputs:
-#   - container - name or ID of the Docker container that runs MySQL
-#   - host - Docker machine host
-#   - port - optional - SSH port
-#   - username - Docker machine username
-#   - password - Docker machine password
-#   - private_key_file - optional - absolute path to the private file
-#   - mysql_username - MySQL instance username
-#   - mysql_password - MySQL instance password
-#   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
-#                                if 'true' the SSH session used will be closed; Valid: true, false
-# Outputs:
-#   - uptime - number of seconds MySQL server has been running
-#   - threads - number of active threads (clients)
-#   - questions - number of questions (queries) from clients since server was started
-#   - slow_queries - number of queries that have taken more than long_query_time (MySQL system variable) seconds
-#   - opens - number of tables server has opened
-#   - flush_tables - number of flush-*, refresh, and reload commands server has executed
-#   - open_tables - number of tables that are currently open
-#   - queries_per_second_AVG - average value of number of queries per second
-#   - error_message - STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
-# Results:
-#   - SUCCESS - action was executed successfully and STDERR of the machine contains no errors
-#   - FAILURE
+#!!
+#! @description: Retrieves the MySQL server status.
+#! @input container: name or ID of the Docker container that runs MySQL
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: Docker machine password
+#! @input private_key_file: optional - absolute path to the private file
+#! @input mysql_username: MySQL instance username
+#! @input mysql_password: MySQL instance password
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed; Valid: true, false
+#! @output uptime: number of seconds MySQL server has been running
+#! @output threads: number of active threads (clients)
+#! @output questions: number of questions (queries) from clients since server was started
+#! @output slow_queries: number of queries that have taken more than long_query_time (MySQL system variable) seconds
+#! @output opens: number of tables server has opened
+#! @output flush_tables: number of flush-*, refresh, and reload commands server has executed
+#! @output open_tables: number of tables that are currently open
+#! @output queries_per_second_AVG: average value of number of queries per second
+#! @output error_message: STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
+#! @result SUCCESS: action was executed successfully and STDERR of the machine contains no errors
+#! @result FAILURE: 
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

@@ -6,18 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Disables a Jenkins job.
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job to disable
-# Outputs:
-#   - result_message - operation results
-# Results:
-#   - SUCCESS - return code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Disables a Jenkins job.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job to disable
+#! @output result_message: operation results
+#! @result SUCCESS: return code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins

@@ -5,20 +5,17 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# This flow create a content pack which can be deployed in OO Central
-#
-# Inputs:
-#   - cp_name - The content pack name (e.g. "base")
-#   - cp_version - The content pack version (e.g. "0.1")
-#   - cslang_folder - The cloud slang content folder to pack (e.g. "C:/cslang-cli/cslang/content/io/cloudslang/base")
-#   - cp_publisher - The content pack publisher (e.g. "Customer")
-#   - cp_location - The location for the content pack jar file (e.g. "c:/content_packs")
-#   - cp_folder -  A temporary folder for the package. This folder is archived and deleted. There is no need to change this input value.
-#
-# Results:
-#   - SUCCESS
-#   - FAILURE
-#
+#!!
+#! @description: This flow create a content pack which can be deployed in OO Central
+#! @input cp_name: The content pack name (e.g. "base")
+#! @input cp_version: The content pack version (e.g. "0.1")
+#! @input cslang_folder: The cloud slang content folder to pack (e.g. "C:/cslang-cli/cslang/content/io/cloudslang/base")
+#! @input cp_publisher: The content pack publisher (e.g. "Customer")
+#! @input cp_location: The location for the content pack jar file (e.g. "c:/content_packs")
+#! @input cp_folder: A temporary folder for the package. This folder is archived and deleted. There is no need to change this input value.
+#! @result SUCCESS: 
+#! @result FAILURE: 
+#!!#
 #
 ####################################################
 namespace: io.cloudslang.operations_orchestration.createCP

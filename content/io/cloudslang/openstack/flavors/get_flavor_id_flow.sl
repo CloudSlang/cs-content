@@ -6,37 +6,35 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the ID of a specified flavor within an OpenStack project.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of OpenStack project that contains images to be queried for ID
-#   - flavor_name - name of flavor to queried for ID
-#   - username - optional - username used for URL authentication; for NTLM authentication
-#                           - Format: 'domain\user'
-#   - password - optional - password used for URL authentication
-#   - proxy_host - optional - proxy server used to access OpenStack services
-#   - proxy_port - optional - proxy server port used to access OpenStack services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to proxy
-#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
-# Outputs:
-#   - flavor_id - ID of the flavor
-#   - return_result - response of operation in case of success, error message otherwise
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise
-#   - status_code - code returned by operation
-# Results:
-#   - SUCCESS - list with flavors were successfully retrieved
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained
-#                                        from authentication call response
-#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained
-#                             from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - authentication call fails
-#   - LIST_FLAVORS_FAILURE - list with flavors could not be retrieved
-#   - EXTRACT_FLAVORS_FAILURE - list with flavors could not be retrieved from list flavors REST API call
-#   - EXTRACT_FLAVOR_ID_FAILURE - parsing of flavor ID was unsuccessful
+#!!
+#! @description: Retrieves the ID of a specified flavor within an OpenStack project.
+#! @input host: OpenStack machine host
+#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
+#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input tenant_name: name of OpenStack project that contains images to be queried for ID
+#! @input flavor_name: name of flavor to queried for ID
+#! @input username: optional - username used for URL authentication; for NTLM authentication
+#! @input Format: 'domain\user'
+#! @input password: optional - password used for URL authentication
+#! @input proxy_host: optional - proxy server used to access OpenStack services
+#! @input proxy_port: optional - proxy server port used to access OpenStack services - Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @output flavor_id: ID of the flavor
+#! @output return_result: response of operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: code returned by operation
+#! @result SUCCESS: list with flavors were successfully retrieved
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained
+#!                                           from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained
+#!                                from authentication call response
+#! @result GET_AUTHENTICATION_FAILURE: authentication call fails
+#! @result LIST_FLAVORS_FAILURE: list with flavors could not be retrieved
+#! @result EXTRACT_FLAVORS_FAILURE: list with flavors could not be retrieved from list flavors REST API call
+#! @result EXTRACT_FLAVOR_ID_FAILURE: parsing of flavor ID was unsuccessful
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.flavors

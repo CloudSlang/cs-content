@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
-#
-# Inputs:
-#	  - json_array - JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
-#	  - json_object - JSON object to insert into array - Example: '{"b": "1"}'
-#	  - index - optional - position at which to insert the new object - Example: 1
-# Outputs:
-#   - json_output - JSON array with object inserted
-#   - return_result - contains the exception in case of failure, success message otherwise
-#   - return_code - "0" if inserting was successful, "-1" otherwise
-#   - error_message - error message if there was an error when executing, empty otherwise
-# Results:
-#   - SUCCESS - inserting was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
+#! @input json_array: JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
+#! @input json_object: JSON object to insert into array - Example: '{"b": "1"}'
+#! @input index: optional - position at which to insert the new object - Example: 1
+#! @output json_output: JSON array with object inserted
+#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_code: "0" if inserting was successful, "-1" otherwise
+#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @result SUCCESS: inserting was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.json

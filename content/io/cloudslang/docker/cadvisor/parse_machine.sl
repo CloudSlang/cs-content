@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the cAdvisor container information.
-#
-# Inputs:
-#   - json_response - response of the cAdvisor container information
-# Outputs:
-#   - decoded - parsed response
-#   - num_cores - machine number of cores
-#   - cpu_frequency_khz - machine CPU
-#   - memory_capacity - machine memory
-#   - file_systems - parsed cAdvisor machine filesystems
-#   - disk_map - parsed cAdvisor machine disk map
-#   - network_devices - parsed cAdvisor machine network devices
-#   - topology - parsed cAdvisor machine topology
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - return_result - notification string; was parsing was successful or not
-#   - error_message - return_result if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses the response of the cAdvisor container information.
+#! @input json_response: response of the cAdvisor container information
+#! @output decoded: parsed response
+#! @output num_cores: machine number of cores
+#! @output cpu_frequency_khz: machine CPU
+#! @output memory_capacity: machine memory
+#! @output file_systems: parsed cAdvisor machine filesystems
+#! @output disk_map: parsed cAdvisor machine disk map
+#! @output network_devices: parsed cAdvisor machine network devices
+#! @output topology: parsed cAdvisor machine topology
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output return_result: notification string; was parsing was successful or not
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor

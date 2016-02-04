@@ -6,33 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes a no-op SSH command.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - port - optional - SSH port - Default: '22'
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - private_key_file - optional - absolute path to private key file
-#   - arguments - optional - arguments to pass to the command
-#   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - time in milliseconds to wait for command to complete - Default: '30000000'
-#   - close_session - optional - if 'false' the SSH session will be cached for future calls of this operation during the
-#                                life of the flow, if 'true' the SSH session used by this operation will be closed
-#                              - Valid: true, false - Default: false
-#   - agent_forwarding - optional - the sessionObject that holds the connection if the close session is false
-# Outputs:
-#   - return_result - contains the exception in case of failure, success message otherwise
-#   - return_code - "0" if successful, "-1" otherwise
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - exception in case of failure
-#   - exit_status - return code of the remote command
-# Results:
-#   - SUCCESS - command execution finished successfully
-#   - FAILURE - otherwise
+#!!
+#! @description: Executes a no-op SSH command.
+#! @input host: Docker machine host
+#! @input port: optional - SSH port - Default: '22'
+#! @input username: Docker machine username
+#! @input password: optional - Docker machine password
+#! @input private_key_file: optional - absolute path to private key file
+#! @input arguments: optional - arguments to pass to the command
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input Valid: 'SJIS', 'EUC: JP', 'UTF-8' - Default: 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false - Default: false
+#! @input timeout: time in milliseconds to wait for command to complete - Default: '30000000'
+#! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during the
+#!                       life of the flow, if 'true' the SSH session used by this operation will be closed
+#! @input Valid: true, false: Default: false
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_code: "0" if successful, "-1" otherwise
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: exception in case of failure
+#! @output exit_status: return code of the remote command
+#! @result SUCCESS: command execution finished successfully
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.os.linux

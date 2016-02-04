@@ -6,24 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to terminate a server instance plus floating IP in HP Cloud.
-#
-# Inputs:
-#   - username - HP Cloud account username
-#   - password - HP Cloud account password
-#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
-#   - server_id - name for the new server
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - ip_address - IP address if releasing it
-#   - release_ip_address - release and delete floating IP (True/False)
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - JSON response
-#   - error_message - any errors
-# Results:
-#   - SUCCESS - flow succeeded, server and/or IP removed
-#   - FAILURE - otherwise
+#!!
+#! @description: Main flow to terminate a server instance plus floating IP in HP Cloud.
+#! @input username: HP Cloud account username
+#! @input password: HP Cloud account password
+#! @input tenant_name: name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
+#! @input server_id: name for the new server
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input ip_address: IP address if releasing it
+#! @input release_ip_address: release and delete floating IP (True/False)
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: JSON response
+#! @output error_message: any errors
+#! @result SUCCESS: flow succeeded, server and/or IP removed
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

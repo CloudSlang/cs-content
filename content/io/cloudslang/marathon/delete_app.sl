@@ -6,22 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes a Marathon app.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: '8080'
-#   - app_id - app ID to delete
-#   - proxy_host - optional - proxy host
-#   - proxy_port - optional - proxy port
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message - return_result if return_code == '-1' or status_code != '200'
-#   - return_code - if return_code == '-1' then there was an error
-#   - status_code - normal status code is '200'
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Deletes a Marathon app.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: '8080'
+#! @input app_id: app ID to delete
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code == '-1' or status_code != '200'
+#! @output return_code: if return_code == '-1' then there was an error
+#! @output status_code: normal status code is '200'
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon

@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Replaces a string in another string by a Python regex expression.
-#
-# Inputs:
-#   - regex - Python regex expresssion - "f\\w*r"
-#   - text - string to replace in
-#   - replacement - replacement string
-# Outputs:
-#   - result_text - string after replacement
-# Results:
-#   - SUCCESS - always
+#!!
+#! @description: Replaces a string in another string by a Python regex expression.
+#! @input regex: Python regex expresssion - "f\\w*r"
+#! @input text: string to replace in
+#! @input replacement: replacement string
+#! @output result_text: string after replacement
+#! @result SUCCESS: always
+#!!#
 ####################################################
 namespace: io.cloudslang.base.strings
 
