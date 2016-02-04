@@ -8,12 +8,12 @@
 # Creates a content pack from a CloudSlang content folder which can be deployed in OO Central.
 #
 # Inputs:
-#   - cp_name - optional - content pack name - Default: "base"
-#   - cp_version - optional - content pack version - Default "0.1"
-#   - cslang_folder - CloudSlang content folder to pack - Default: "C:/cslang-cli/cslang/content/io/cloudslang/base"
-#   - cp_publisher - content pack publisher - Default: "Customer"
-#   - cp_location - location for the content pack jar file - Default: "c:/content_packs"
-#   - cp_folder -  temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
+#   - cp_name - content pack name - Example: "base"
+#   - cp_version - content pack version - Example: "0.1"
+#   - cslang_folder - CloudSlang content folder to pack - Example: "C:/cslang-cli/cslang/content/io/cloudslang/base"
+#   - cp_publisher - content pack publisher - Example: "Customer"
+#   - cp_location - location for the content pack jar file - Example: "c:/content_packs"
+#   - cp_folder -  optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
 # Results:
 #   - SUCCESS
 #   - CREATE_LIB_FOLDER_FAILURE
@@ -35,11 +35,11 @@ imports:
 flow:
   name: create_package
   inputs:
-    - cp_name: "base"
-    - cp_version: "0.1"
-    - cslang_folder: "C:/cslang-cli/cslang/content/io/cloudslang/base"
-    - cp_publisher: "Customer"
-    - cp_location: "c:/content_packs"
+    - cp_name
+    - cp_version
+    - cslang_folder
+    - cp_publisher
+    - cp_location
     - cp_folder: ${cp_location + "/" + cp_name + "-cp-" + cp_version}
   workflow:
     - create_Lib_folder:
