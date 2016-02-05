@@ -6,15 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: This flow create a content pack which can be deployed in OO Central
-#! @input cp_name: The content pack name (e.g. "base")
-#! @input cp_version: The content pack version (e.g. "0.1")
-#! @input cslang_folder: The cloud slang content folder to pack (e.g. "C:/cslang-cli/cslang/content/io/cloudslang/base")
-#! @input cp_publisher: The content pack publisher (e.g. "Customer")
-#! @input cp_location: The location for the content pack jar file (e.g. "c:/content_packs")
-#! @input cp_folder: A temporary folder for the package. This folder is archived and deleted. There is no need to change this input value.
+#! @description: Creates a content pack from a CloudSlang content folder which can be deployed in OO Central.
+#! @input cp_name: content pack name - Example: "base"
+#! @input cp_version: content pack version - Example: "0.1"
+#! @input cslang_folder: CloudSlang content folder to pack - Example: "C:/cslang-cli/cslang/content/io/cloudslang/base"
+#! @input cp_publisher: content pack publisher - Example: "Customer"
+#! @input cp_location: location for the content pack jar file - Example: "c:/content_packs"
+#! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
 #! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result CREATE_LIB_FOLDER_FAILURE: 
+#! @result POPULATE_LIB_FOLDER_FAILURE: 
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: 
+#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: 
+#! @result COPY_CONTENT_FAILURE: 
+#! @result MOVE_CONFIG_ITEMS_FAILURE: 
+#! @result CREATE_CP_PROPERTIES_FAILURE: 
+#! @result CREATE_ARCHIVE_FAILURE: 
+#! @result CREATE_JAR_FAILURE: 
+#! @result CLEAN_FOLDER_FAILURE: 
 #!!#
 #
 ####################################################
@@ -26,11 +35,11 @@ imports:
 flow:
   name: create_package
   inputs:
-    - cp_name: "base"
-    - cp_version: "0.1"
-    - cslang_folder: "C:/cslang-cli/cslang/content/io/cloudslang/base"
-    - cp_publisher: "Customer"
-    - cp_location: "c:/content_packs"
+    - cp_name
+    - cp_version
+    - cslang_folder
+    - cp_publisher
+    - cp_location
     - cp_folder: ${cp_location + "/" + cp_name + "-cp-" + cp_version}
   workflow:
     - create_Lib_folder:

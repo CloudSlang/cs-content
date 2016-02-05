@@ -7,12 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Copies yaml configuration files to the system properties folder.
-#! @input int_value1: an integer for the first number
-#! @input int_value2: an integer for the second number
-#! @output error_message: error message if error occurred
-#! @result SUCCESS: int_value1 > int_value2
-#! @result FAILURE: Any other result (false or error)
+#! @description: Copies YAML configuration files to the system properties folder.
+#! @input source_dir: path of source directory
+#! @input int_value2: path of target directory
 #!!#
 ####################################################
 
