@@ -8,6 +8,13 @@
 ########################################################################################################################
 # Performs an VMware vSphere command in order to list all supported guest OSes on a host system
 #
+# Prerequisites: vim25.jar
+#   How to obtain vim25.jar:
+#     1. Go to https://my.vmware.com/web/vmware and register;
+#     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip;
+#     3. Locate the vim25.jar into /VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib;
+#     4. Add the vim25.jar into the ClodSlang CLI folder under /cslang/lib
+#
 # Inputs:
 #   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
 #   - port - optional - the port to connect through - Examples: '443', '80' - Default: '443'
@@ -67,9 +74,8 @@ operation:
       methodName: getOsDescriptors
 
   outputs:
-    - return_result: ${'' if 'returnResult' not in locals() else returnResult}
-    - error_message: >
-        ${exception if 'exception' in locals() else returnResult if returnCode != '0' else ''}
+    - return_result: ${get("returnResult", "")}
+    - error_message: ${get("exception", returnResult if returnCode != '0' else '')}
     - return_code: ${returnCode}
 
   results:
