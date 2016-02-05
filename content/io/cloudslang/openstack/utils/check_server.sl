@@ -13,7 +13,7 @@
 #   - server_list - list of servers
 # Outputs:
 #   - return_result - string notifying if server was found or not
-#   - error_message - message of the error if exists
+#   - error_message - message of error if exists
 # Results:
 #   - SUCCESS - server was found
 #   - FAILURE - otherwise
@@ -42,4 +42,3 @@ flow:
   outputs:
     - return_result
     - error_message: ${'Server was not created.' if return_result <= 1 else ''}
-

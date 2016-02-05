@@ -12,5 +12,5 @@ testPing_hosts_Success:
   description: Tests that ping_hosts finished with SUCCESS
   testSuites: [mail]
   testFlowPath: io.cloudslang.base.network.example.ping_hosts
-  systemPropertiesFile: ${project_path}/content/io/cloudslang/base/properties/mail.yaml
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/mail.sl
   result: SUCCESS

@@ -12,28 +12,27 @@
 #   - host - OpenStack machine host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - network_id - optional - the id of the network to connect to
+#   - network_id - optional - ID of network to connect to
 #   - img_ref - image reference for server to be created
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
-#                           'domain\user'
-#   - password - optional - password used for URL authentication
-#   - tenant_name - name of the OpenStack project that will contain the server (instance)
+#   - username - username used for URL authentication; for NTLM authentication - Format: 'domain\user'
+#   - password - password used for URL authentication
+#   - tenant_name - name of OpenStack project that will contain server (instance)
 #   - server_name - name of server to create
-#   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_host - optional - proxy server used to access OpenStack services
+#   - proxy_port - optional - proxy server port used to access OpenStack services - Default: '8080'
+#   - proxy_username - optional - user name used when connecting to proxy
+#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
 # Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - return_result - response of operation in case of success, error message otherwise
 #   - error_message: return_result if statusCode is not '202'
 #   - return_code - '0' if success, '-1' otherwise
-#   - status_code - the code returned by the operation
+#   - status_code - code returned by operation
 # Results:
-#   - SUCCESS - the OpenStack server (instance) was successfully created
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - CREATE_SERVER_FAILURE - the OpenStack server (instance) could not be created
+#   - SUCCESS - OpenStack server (instance) was successfully created
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - authentication call fails
+#   - CREATE_SERVER_FAILURE - OpenStack server (instance) could not be created
 ####################################################
 
 namespace: io.cloudslang.openstack

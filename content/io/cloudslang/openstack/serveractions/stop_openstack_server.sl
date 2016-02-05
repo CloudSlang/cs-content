@@ -19,25 +19,24 @@
 #   - host - OpenStack host
 #   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
 #   - compute_port - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of the OpenStack project that contains the server (instance) to be stopped
-#   - server_id - the id of the server (instance) to be stopped
-#   - username - optional - username used for URL authentication; for NTLM authentication, the required format is
-#                           'domain\user'
+#   - tenant_name - name of OpenStack project that contains server (instance) to be stopped
+#   - server_id - ID of server (instance) to be stopped
+#   - username - optional - username used for URL authentication; for NTLM authentication - Format: 'domain\user'
 #   - password - optional - password used for URL authentication
-#   - proxy_host - optional - the proxy server used to access the OpenStack services
-#   - proxy_port - optional - the proxy server port used to access the the OpenStack services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
+#   - proxy_host - optional - proxy server used to access OpenStack services
+#   - proxy_port - optional - proxy server port used to access OpenStack services - Default: '8080'
+#   - proxy_username - optional - user name used when connecting to proxy
+#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
 # Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
+#   - return_result - response of operation in case of success, error message otherwise
 #   - error_message - return_result if statusCode is not '202'
 #   - return_code - '0' if success, '-1' otherwise
-#   - status_code - the code returned by the operation
+#   - status_code - code returned by operation
 # Results:
 #   - SUCCESS - OpenStack server (instance) was successfully stopped
-#   - GET_AUTHENTICATION_FAILURE - the authentication step fail
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication step response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication
+#   - GET_AUTHENTICATION_FAILURE - authentication step fail
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication step response
+#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication
 #                             step response
 #   - STOP_SERVER_FAILURE - OpenStack server (instance) cannot be stopped
 ################################################

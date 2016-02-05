@@ -14,20 +14,20 @@
 #   - compute_port - optional - port used for OpenStack computations - Default: 8774
 #   - username - OpenStack username
 #   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access the web site - Default: none
-#   - proxy_port - optional - proxy server port - Default: none
+#   - tenant_name - name of project on OpenStack
+#   - proxy_host - optional - proxy server used to access web site
+#   - proxy_port - optional - proxy server port
 # Outputs:
 #   - server_list - list of server names
-#   - return_result - response of the last operation executed
-#   - error_message - error message of the operation that failed
+#   - return_result - response of last operation executed
+#   - error_message - error message of operation that failed
 # Results:
-#   - SUCCESS - the list of OpenStack servers (instances) was successfully retrieved
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fails
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - the tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - GET_SERVERS_FAILURE - the call for list OpenStack servers (instances) fails
-#   - EXTRACT_SERVERS_FAILURE - the list of OpenStack servers (instances) could not be retrieved
+#   - SUCCESS - list of OpenStack servers (instances) was successfully retrieved
+#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
+#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#   - GET_AUTHENTICATION_FAILURE - authentication call failed
+#   - GET_SERVERS_FAILURE - call for list OpenStack servers (instances) failed
+#   - EXTRACT_SERVERS_FAILURE - list of OpenStack servers (instances) could not be retrieved
 ####################################################
 
 namespace: io.cloudslang.openstack

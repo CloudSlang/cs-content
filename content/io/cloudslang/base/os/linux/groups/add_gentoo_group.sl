@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,13 +6,12 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Perform a SSH command to download content in <download_path> from a URL address given by <download_url>
+# Perform a SSH command to add a specified group named <group_name> on machines that are running Gentoo based linux
 #
 # Inputs:
 #   - host - hostname or IP address
 #   - root_password - the root password
-#   - download_url - the URL address where the content to be downloaded is - Example: 'http://www.website.com/some_content.doc'
-#   - download_path - optional - the absolute path under the content will be downloaded - Default: '/root'
+#   - group_name - the group name where to be added
 #
 # Outputs:
 #   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -25,34 +24,31 @@
 #	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #                                     channel type has no command), 126 if the command cannot execute.
 # Results:
-#    - SUCCESS - SSH access was successful
+#    - SUCCESS - add group SSH command was successfully executed
 #    - FAILURE - otherwise
 ####################################################
-namespace: io.cloudslang.base.os.linux.folders
+namespace: io.cloudslang.base.os.linux.groups
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: download_content
+  name: add_gentoo_group
 
   inputs:
     - host
     - root_password
-    - download_url
-    - download_path:
-        default: '/root'
-        required: false
+    - group_name
 
   workflow:
-    - download_content:
+    - add_group:
         do:
           ssh.ssh_flow:
             - host
             - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - command: ${'wget -P ' + download_path + ' ' + download_url}
+            - command: ${'groupadd ' + group_name}
         publish:
           - return_result
           - standard_err
