@@ -6,26 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status of a Docker container.
-#
-# Inputs:
-#   - container - name or ID of Docker container that runs MySQL
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
-# Outputs:
-#   - decoded - parsed response
-#   - timestamp - time used to calculate stat
-#   - memory_usage - calculated memory usage of the container; the container memory usage divided by the
-#                    machine_memory_limit or by the minimum memory limit of the container whichever is smaller
-#   - cpu_usage - calculated CPU usage of the container
-#   - throughput_rx - calculated network Throughput Rx bytes
-#   - throughput_tx - calculated network Throughput Tx bytes
-#   - error_rx - calculated network error Rx
-#   - error_tx - calculated network error Tx
-#   - error_message - error message
-# Results:
-#   - SUCCESS - parsing was successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves cAdvisor status of a Docker container.
+#! @input container: name or ID of Docker container that runs MySQL
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @output decoded: parsed response
+#! @output timestamp: time used to calculate stat
+#! @output memory_usage: calculated memory usage of the container; the container memory usage divided by the
+#!                       machine_memory_limit or by the minimum memory limit of the container whichever is smaller
+#! @output cpu_usage: calculated CPU usage of the container
+#! @output throughput_rx: calculated network Throughput Rx bytes
+#! @output throughput_tx: calculated network Throughput Tx bytes
+#! @output error_rx: calculated network error Rx
+#! @output error_tx: calculated network error Tx
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor

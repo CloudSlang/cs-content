@@ -1,22 +1,18 @@
 #################################################### 
-# This flow performs an REST API call in order to update the HEROKU password 
-# 
-# Inputs: 
-#   - username - the Heroku username - Example: 'someone@mailprovider.com'
-#   - password - optional - the Heroku <username> account password - Default: None
-#   - new_password - optional - the new password for the <username> account - Default: None
-#
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise 
-#   - status_code - the code returned by the operation 
-#
-# Results:
-#   - SUCCESS - the update Heroku account password was successfully executed
-#   - ADD_PASSWORD_FAILURE - insert 'password' key:value pair in JSON body failed
-#   - ADD_NEW_PASSWORD_FAILURE - insert 'new_password' key:value pair in JSON body failed
-#   - UPDATE_ACCOUNT_PASSWORD_FAILURE - the update Heroku password account REST API call failed
+#!!
+#! @description: This flow performs an REST API call in order to update the HEROKU password
+#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
+#! @input password: optional - the Heroku <username> account password - Default: None
+#! @input new_password: optional - the new password for the <username> account - Default: None
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @result SUCCESS: the update Heroku account password was successfully executed
+#! @result ADD_PASSWORD_FAILURE: insert 'password' key:value pair in JSON body failed
+#! @result ADD_NEW_PASSWORD_FAILURE: insert 'new_password' key:value pair in JSON body failed
+#! @result UPDATE_ACCOUNT_PASSWORD_FAILURE: the update Heroku password account REST API call failed
+#!!#
 ####################################################
 
 namespace: io.cloudslang.paas.heroku.account

@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Copies YAML configuration files to the system properties folder.
-#
-# Inputs:
-#   - source_dir - path of source directory
-#   - target_dir - path of target directory
+#!!
+#! @description: Copies YAML configuration files to the system properties folder.
+#! @input source_dir: path of source directory
+#! @input int_value2: path of target directory
+#!!#
 ####################################################
 
 namespace: io.cloudslang.operations_orchestration.createCP

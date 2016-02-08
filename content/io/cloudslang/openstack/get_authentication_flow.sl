@@ -6,28 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Authenticates an OpenStack machine.
-#
-# Inputs:
-#   - host - OpenStack host
-#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of the project on OpenStack
-#   - proxy_host - optional - proxy server used to access OpenStack services
-#   - proxy_port - optional - proxy server port used to access OpenStack services
-#   - proxy_username - optional - username used when connecting to proxy
-#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
-# Outputs:
-#   - return_result - response of last operation that was executed
-#   - error_message - error message of operation that failed
-#   - token - authentication token
-#   - tenant_id - tenant ID
-# Results:
-#   - SUCCESS - authentication on OpenStack host was successful
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - authentication call failed
+#!!
+#! @description: Authenticates an OpenStack machine.
+#! @input host: OpenStack host
+#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
+#! @input username: OpenStack username
+#! @input password: OpenStack password
+#! @input tenant_name: name of the project on OpenStack
+#! @input proxy_host: optional - proxy server used to access OpenStack services
+#! @input proxy_port: optional - proxy server port used to access OpenStack services
+#! @input proxy_username: optional - username used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @output return_result: response of last operation that was executed
+#! @output error_message: error message of operation that failed
+#! @output token: authentication token
+#! @output tenant_id: tenant ID
+#! @result SUCCESS: authentication on OpenStack host was successful
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack

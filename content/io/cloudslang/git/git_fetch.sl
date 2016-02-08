@@ -6,29 +6,28 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Fetches a git branch.
-#
-# Inputs:
-#   - host - hostname or IP address
-#   - port - optional - port number for running the command
-#   - username - username to connect as
-#   - password - optional - password of user
-#   - git_repository_localdir - optional - target directory where a git repository exists
-#                             - Default: /tmp/repo.git
-#   - git_fetch_remote - optional - remote repository to fetch from - Default: origin
-#   - sudo_user - optional - true or false, whether the command should execute using sudo - Default: false
-#   - private_key_file - optional - relative or absolute path to private key file
-# Outputs:
-#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - contains the stack trace in case of an exception
-#   - command_return_code - return code of remote command corresponding to the SSH channel. The return code is
-#                           only available for certain types of channels, and only after the channel was closed
-#                           (more exactly, just before the channel is closed).
-#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
-#                                     channel type has no command), '126' if the command cannot execute
-#   - return_code - return code of the command
+#!!
+#! @description: Fetches a git branch.
+#! @input host: hostname or IP address
+#! @input port: optional - port number for running the command
+#! @input username: username to connect as
+#! @input password: optional - password of user
+#! @input git_repository_localdir: optional - target directory where a git repository exists
+#!                                 Default: /tmp/repo.git
+#! @input git_fetch_remote: optional - remote repository to fetch from - Default: origin
+#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input private_key_file: optional - relative or absolute path to private key file
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: return code of remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute
+#! @output return_code: return code of the command
+#!!#
 ####################################################
 namespace: io.cloudslang.git
 

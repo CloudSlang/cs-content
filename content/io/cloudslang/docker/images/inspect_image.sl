@@ -6,29 +6,27 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Inspects Docker image.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - image_name - name of image to be inspected
-#   - host - Docker machine host
-#   - port - optional - SSH port
-#   - username - Docker machine username
-#   - password - Docker machine password
-#   - private_key_file - optional - absolute path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
-#                                if 'true' the SSH session used will be closed; Valid: true, false
-#   - agent_forwarding - optional - whether to forward the user authentication agent
-# Outputs:
-#   - standard_out - STDOUT of the machine in case of successful request
-#   - standard_err - STDERR of the machine in case of unsuccessful request
-# Results:
-#   - SUCCESS
-#   - FAILURE
+#!!
+#! @description: Inspects Docker image.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input image_name: name of image to be inspected
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: Docker machine password
+#! @input private_key_file: optional - absolute path to private key file
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed; Valid: true, false
+#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @output standard_out: STDOUT of the machine in case of successful request
+#! @output standard_err: STDERR of the machine in case of unsuccessful request
+#! @result SUCCESS: 
+#! @result FAILURE: 
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

@@ -5,29 +5,27 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Authenticates and retrieves a list of all Helion Development Platform / Stackato spaces
-#
-# Inputs:
-#   - host - Helion Development Platform / Stackato host
-#   - username - Helion Development Platform / Stackato username
-#   - password - Helion Development Platform / Stackato password
-#   - proxy_host - optional - the proxy server used to access the Helion Development Platform / Stackato services
-#   - proxy_port - optional - proxy server port - the proxy server port used to access the Helion Development Platform
-#                                                 / Stackato services - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxyUsername> input value
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise
-#   - status_code - the code returned by the operation
-#   - spaces_list - list of all spaces on Helion Development Platform / Stackato instance
-# Results:
-#   - SUCCESS - the list with spaces on Helion Development Platform / Stackato host was successfully retrieved
-#   - GET_AUTHENTICATION_FAILURE - the authentication call fail
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - the authentication token cannot be obtained from authentication call response
-#   - GET_SPACES_FAILURE - the get spaces call fail
-#   - GET_SPACES_LIST_FAILURE - the list with spaces on Helion Development Platform / Stackato could not be retrieved
+#!!
+#! @description: Authenticates and retrieves a list of all Helion Development Platform / Stackato spaces
+#! @input host: Helion Development Platform / Stackato host
+#! @input username: Helion Development Platform / Stackato username
+#! @input password: Helion Development Platform / Stackato password
+#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
+#! @input proxy_port: optional - proxy server port - the proxy server port used to access the Helion Development Platform
+#!                    / Stackato services - Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @output spaces_list: list of all spaces on Helion Development Platform / Stackato instance
+#! @result SUCCESS: the list with spaces on Helion Development Platform / Stackato host was successfully retrieved
+#! @result GET_AUTHENTICATION_FAILURE: the authentication call fail
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
+#! @result GET_SPACES_FAILURE: the get spaces call fail
+#! @result GET_SPACES_LIST_FAILURE: the list with spaces on Helion Development Platform / Stackato could not be retrieved
+#!!#
 ####################################################
 namespace: io.cloudslang.paas.stackato.spaces
 

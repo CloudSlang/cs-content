@@ -6,17 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ##################################################
-# Generates a random number.
-#
-# Inputs:
-#   - max - maximum number that can be returned
-#   - min - minimum number that can be returned
-# Outputs:
-#   - random_number - random number between max and min (inclusive)
-#   - error_message - error message if error occurred
-# Results:
-#   - SUCCESS - a number was generated
-#   - FAILURE - otherwise
+#!!
+#! @description: Generates a random number.
+#! @input max: maximum number that can be returned
+#! @input min: minimum number that can be returned
+#! @output random_number: random number between max and min (inclusive)
+#! @output error_message: error message if error occurred
+#! @result SUCCESS: a number was generated
+#! @result FAILURE: otherwise
+#!!#
 ##################################################
 namespace: io.cloudslang.base.utils
 

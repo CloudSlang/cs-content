@@ -6,22 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #######################################################################################################################
-# Sets up a simple Marathon infrastructure on one host.
-#
-# Inputs:
-#   - host - Docker host
-#   - username - username for Docker host
-#   - private_key_file - private key file used for host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - timeout - optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
-# Results:
-#   - SUCCESS - setup succeeded
-#   - CLEAR_CONTAINERS_ON_HOST_PROBLEM - setup failed due to problem clearing containers
-#   - START_ZOOKEEPER_PROBLEM - setup failed due to problem starting zookeeper
-#   - START_MESOS_MASTER_PROBLEM - setup failed due to problem starting Mesos master
-#   - START_MESOS_SLAVE_PROBLEM - setup failed due to problem starting Mesos slave
-#   - START_MARATHON_PROBLEM - setup failed due to problem starting Marathon
-#
+#!!
+#! @description: Sets up a simple Marathon infrastructure on one host.
+#! @input host: Docker host
+#! @input username: username for Docker host
+#! @input private_key_file: private key file used for host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input timeout: optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
+#! @result SUCCESS: setup succeeded
+#! @result CLEAR_CONTAINERS_ON_HOST_PROBLEM: setup failed due to problem clearing containers
+#! @result START_ZOOKEEPER_PROBLEM: setup failed due to problem starting zookeeper
+#! @result START_MESOS_MASTER_PROBLEM: setup failed due to problem starting Mesos master
+#! @result START_MESOS_SLAVE_PROBLEM: setup failed due to problem starting Mesos slave
+#! @result START_MARATHON_PROBLEM: setup failed due to problem starting Marathon
+#!!#
 #######################################################################################################################
 
 namespace: io.cloudslang.marathon

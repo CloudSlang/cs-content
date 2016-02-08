@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of Marathon tasks.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: '8080'
-#   - status - optional - return only those tasks whose status matches this parameter; if not specified, all tasks are
-#                         returned - Valid: running, staging - Default: none
-#   - proxy_host - optional - proxy host
-#   - proxy_port - optional - proxy port
-# Outputs:
-#   - return_result - response of the operation
-#   - status_code - normal status code is 200
-#   - return_code - if return_code == -1 then there was an error
-#   - error_message - return_result if return_code == -1 or status_code != 200
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves a list of Marathon tasks.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: '8080'
+#! @input status: optional - return only those tasks whose status matches this parameter; if not specified, all tasks are
+#!                returned - Valid: running, staging - Default: none
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output status_code: normal status code is 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon

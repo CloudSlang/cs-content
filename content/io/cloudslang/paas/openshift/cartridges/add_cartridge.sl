@@ -6,26 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs an REST API call in order to add an embedded cartridge to an specified RedHat OpenShift Online application
-#
-# Inputs:
-#   - host - RedHat OpenShift Online host
-#   - username - optional - the RedHat OpenShift Online username - Example: 'someone@mailprovider.com'
-#   - password - optional - the RedHat OpenShift Online password used for authentication
-#   - proxy_host - optional - proxy server used to access the RedHat OpenShift Online web site
-#   - proxy_port - optional - proxy server port - Default: '8080'
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - domain - the name of the RedHat OpenShift Online domain in which the application is
-#   - application_name - the RedHat OpenShift Online application name to add cartridge to
-#   - cartridge - the name of the embedded cartridge to be added
-#               - Valid values: 'mongodb-2.0', 'cron-1.4', 'mysql-5.1', 'postgresql-8.4', 'haproxy-1.4',
-#                               '10gen-mms-agent-0.1', 'phpmyadmin-3.4', 'metrics-0.1', 'rockmongo-1.1', 'jenkins-client-1.4'
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if statusCode is not '201'
-#   - return_code - '0' if success, '-1' otherwise
-#   - status_code - the code returned by the operation
+#!!
+#! @description: This flow performs an REST API call in order to add an embedded cartridge to an specified RedHat OpenShift Online application
+#! @input host: RedHat OpenShift Online host
+#! @input username: optional - the RedHat OpenShift Online username - Example: 'someone@mailprovider.com'
+#! @input password: optional - the RedHat OpenShift Online password used for authentication
+#! @input proxy_host: optional - proxy server used to access the RedHat OpenShift Online web site
+#! @input proxy_port: optional - proxy server port - Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input domain: the name of the RedHat OpenShift Online domain in which the application is
+#! @input application_name: the RedHat OpenShift Online application name to add cartridge to
+#! @input cartridge: the name of the embedded cartridge to be added
+#!                   Valid values: 'mongodb-2.0', 'cron-1.4', 'mysql-5.1', 'postgresql-8.4', 'haproxy-1.4',
+#!                   '10gen-mms-agent-0.1', 'phpmyadmin-3.4', 'metrics-0.1', 'rockmongo-1.1', 'jenkins-client-1.4'
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if statusCode is not '201'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#!!#
 ####################################################
 
 namespace: io.cloudslang.paas.openshift.cartridges

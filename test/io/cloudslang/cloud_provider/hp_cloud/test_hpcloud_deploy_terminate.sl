@@ -6,11 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# TEST HP CLOUD FLOW
-# This flow tests HP Cloud server content
-#  - Deploy server in HP Cloud with floating IP
-#  - Wait until server is active and booted up (SSH connect)
-#  - Terminate and delete the server
+#!!
+#! @description: TEST HP CLOUD FLOW
+#!               This flow tests HP Cloud server content
+#!               - Deploy server in HP Cloud with floating IP
+#!               - Wait until server is active and booted up (SSH connect)
+#!               - Terminate and delete the server
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

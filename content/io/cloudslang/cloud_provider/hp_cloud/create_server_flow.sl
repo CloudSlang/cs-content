@@ -6,31 +6,29 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to create a server instance with floating IP in HP Cloud.
-#
-# Inputs:
-#   - username - HP Cloud account username
-#   - password - HP Cloud account password
-#   - tenant_name - name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
-#   - server_name - name for the new server
-#   - img_ref - image id to use for the new server (operating system)
-#   - flavor_ref - flavor id to set the new server size
-#   - keypair - keypair used to access the new server
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - assign_floating - allocate and assign a floating IP to server? (True/False)
-#   - network_id - optional - id of private network to add server to
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-#   - polling_attempts - optional - number of attempts to check that the created server became ACTIVE - Default: 60
-#   - polling_wait_time - optional - time in seconds to wait between polling of the new server's state
-#                                           - Default: 10 seconds
-# Outputs:
-#   - ip_address - IP address (if allocated)
-#   - server_id - Id of new server
-#   - return_result - JSON response
-# Results:
-#   - SUCCESS - flow succeeded, server and/or IP created
-#   - FAILURE - otherwise
+#!!
+#! @description: Main flow to create a server instance with floating IP in HP Cloud.
+#! @input username: HP Cloud account username
+#! @input password: HP Cloud account password
+#! @input tenant_name: name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
+#! @input server_name: name for the new server
+#! @input img_ref: image id to use for the new server (operating system)
+#! @input flavor_ref: flavor id to set the new server size
+#! @input keypair: keypair used to access the new server
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input assign_floating: allocate and assign a floating IP to server? (True/False)
+#! @input network_id: optional - id of private network to add server to
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @input polling_attempts: optional - number of attempts to check that the created server became ACTIVE - Default: 60
+#! @input polling_wait_time: optional - time in seconds to wait between polling of the new server's state
+#!                           Default: 10 seconds
+#! @output ip_address: IP address (if allocated)
+#! @output server_id: Id of new server
+#! @output return_result: JSON response
+#! @result SUCCESS: flow succeeded, server and/or IP created
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

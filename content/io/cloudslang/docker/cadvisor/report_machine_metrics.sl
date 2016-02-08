@@ -6,24 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status of a Docker container.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: '8080'
-# Outputs:
-#   - decoded - parsed response
-#   - num_cores - machine number of cores
-#   - cpu_frequency_khz - machine CPU
-#   - memory_capacity - machine memory
-#   - file_systems - parsed cAdvisor machine filesystems
-#   - disk_map - parsed cAdvisor machine disk map
-#   - network_devices - parsed cAdvisor machine network devices
-#   - topology - parsed cAdvisor machine topology
-#   - error_message - error message
-# Results:
-#   - SUCCESS - parsing was successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves cAdvisor status of a Docker container.
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @output decoded: parsed response
+#! @output num_cores: machine number of cores
+#! @output cpu_frequency_khz: machine CPU
+#! @output memory_capacity: machine memory
+#! @output file_systems: parsed cAdvisor machine filesystems
+#! @output disk_map: parsed cAdvisor machine disk map
+#! @output network_devices: parsed cAdvisor machine network devices
+#! @output topology: parsed cAdvisor machine topology
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor

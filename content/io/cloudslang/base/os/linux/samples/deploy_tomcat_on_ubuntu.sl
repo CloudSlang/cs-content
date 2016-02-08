@@ -6,39 +6,35 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs several linux commands in order to deploy Tomcat application on machines that are running Ubuntu based linux
-#
-# Prerequisites: Java package
-#
-# Inputs:
-#   - host - hostname or IP address
-#   - root_password - the root password
-#   - user_password - optional - the Tomcat user password - Default: ''
-#   - java_version - the java version that will be installed - Example: openjdk-7-jdk
-#   - download_url - the URL address where the content to be downloaded is
-#   - download_path - optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
-#   - folder_name - the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
-#   - folder_path - optional - the absolute path under the <folder_name> will be created - Default: '/opt'
-#   - file_name - the name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
-#   - source_path - absolute path of the file to be copied - Example: 'C:\temp\tomcat'
-#   - permissions_code - the number that represents octal code of the folder permissions granted - Example: '755'
-#   - recursively - if True then the permissions will be granted for entire content of the targeted folder, if False
-#                   the permissions will granted only to the folder itself - Default: True
-#   - script_file_name - the name of the script file
-#
-# Outputs:
-#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - contains the stack trace in case of an exception
-#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                           only available for certain types of channels, and only after the channel was closed
-#                           (more exactly, just before the channel is closed).
-#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                     channel type has no command), 126 if the command cannot execute.
-# Results:
-#    - SUCCESS - SSH access was successful
-#    - FAILURE - otherwise
+#!!
+#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running Ubuntu based linux
+#! @prerequisites: Java package
+#! @input host: hostname or IP address
+#! @input root_password: the root password
+#! @input user_password: optional - the Tomcat user password - Default: ''
+#! @input java_version: the java version that will be installed - Example: openjdk-7-jdk
+#! @input download_url: the URL address where the content to be downloaded is
+#! @input download_path: optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
+#! @input folder_name: the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
+#! @input folder_path: optional - the absolute path under the <folder_name> will be created - Default: '/opt'
+#! @input file_name: the name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
+#! @input source_path: absolute path of the file to be copied - Example: 'C:\temp\tomcat'
+#! @input permissions_code: the number that represents octal code of the folder permissions granted - Example: '755'
+#! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
+#!                     the permissions will granted only to the folder itself - Default: True
+#! @input script_file_name: the name of the script file
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#!                              channel type has no command), 126 if the command cannot execute.
+#! @result SUCCESS: SSH access was successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.base.os.linux.samples
 

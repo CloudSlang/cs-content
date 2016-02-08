@@ -6,19 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Deletes a DigitalOcean droplet based on its ID.
-#
-# Inputs:
-#   - token - personal access token for DigitalOcean API
-#   - droplet_id - ID of the droplet as a string value
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
-# Outputs:
-#   - response - raw response of the API call
+#!!
+#! @description: Deletes a DigitalOcean droplet based on its ID.
+#! @input token: personal access token for DigitalOcean API
+#! @input droplet_id: ID of the droplet as a string value
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @output response: raw response of the API call
+#!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.droplets
 

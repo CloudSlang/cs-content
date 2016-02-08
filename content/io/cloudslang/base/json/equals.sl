@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Test if two JSONs are equal.
-#
-# Inputs:
-#   - json_input1 - first JSON input - Example: '{"k1":"v1", "k2": "v2"}'
-#   - json_input2 - second JSON input - Example: '{"k2":"v2", "k1": "v1"}'
-# Outputs:
-#   - return_result - parsing was successful or not
-#   - return_code - "0" if parsing was successful, "-1" otherwise
-#   - error_message - error message if there was an error when executing, empty otherwise
-# Results:
-#   - EQUALS - two JSONs are equal
-#   - NOT_EQUALS - two JSONs are not equal
-#   - FAILURE - parsing was unsuccessful (return_code != '0')
+#!!
+#! @description: Test if two JSONs are equal.
+#! @input json_input1: first JSON input - Example: '{"k1":"v1", "k2": "v2"}'
+#! @input json_input2: second JSON input - Example: '{"k2":"v2", "k1": "v1"}'
+#! @output return_result: parsing was successful or not
+#! @output return_code: "0" if parsing was successful, "-1" otherwise
+#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @result EQUALS: two JSONs are equal
+#! @result NOT_EQUALS: two JSONs are not equal
+#! @result FAILURE: parsing was unsuccessful (return_code != '0')
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.json

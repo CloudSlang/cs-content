@@ -6,18 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #####################################################
-# Retrieves the public IPs of machines in a CoreOS cluster.
-#
-# Inputs:
-#   - coreos_host - CoreOS machine host;
-#                   Can be any machine from the cluster
-#   - coreos_username - CoreOS machine username
-#   - coreos_password - optional - CoreOS machine password;
-#                                  Can be empty since CoreOS machines use private key file authentication
-#   - private_key_file - optional - path to the private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-# Outputs:
-#   - machines_public_ip_list: list of public IP addresses of the machines in the cluster (delimiter: space)
+#!!
+#! @description: Retrieves the public IPs of machines in a CoreOS cluster.
+#! @input coreos_host: CoreOS machine host;
+#!                     Can be any machine from the cluster
+#! @input coreos_username: CoreOS machine username
+#! @input coreos_password: optional - CoreOS machine password;
+#!                         Can be empty since CoreOS machines use private key file authentication
+#! @input private_key_file: optional - path to the private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @output machines_public_ip_list: list of public IP addresses of the machines in the cluster (delimiter: space)
+#!!#
 #####################################################
 
 namespace: io.cloudslang.coreos

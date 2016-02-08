@@ -6,22 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if a job exists in Jenkins.
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job to check
-#   - expected_status - true if job is expected to exist, false otherwise
-# Outputs:
-#   - exists - true if job exists
-#   - result_message - operation results
-# Results:
-#   - EXISTS_EXPECTED: job was expected to exist and does exist
-#   - EXISTS_UNEXPECTED: job was not expected to exist, but does exist
-#   - NOT_EXISTS: job does not exist
-#   - FAILURE: error occurred
+#!!
+#! @description: Checks if a job exists in Jenkins.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job to check
+#! @input expected_status: true if job is expected to exist, false otherwise
+#! @output exists: true if job exists
+#! @output result_message: operation results
+#! @result EXISTS_EXPECTED: job was expected to exist and does exist
+#! @result EXISTS_UNEXPECTED: job was not expected to exist, but does exist
+#! @result NOT_EXISTS: job does not exist
+#! @result FAILURE: error occurred
+#!!#
 ####################################################
 namespace: io.cloudslang.jenkins
 

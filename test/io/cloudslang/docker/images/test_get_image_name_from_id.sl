@@ -6,25 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Workflow to test docker get_image_name_from_id.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - port - Docker machine port
-#   - username - Docker machine username
-#   - password - Docker machine password
-#   - image_id - Docker image ID
-#
-# Results:
-#   - SUCCESS - get_image_name_from_id performed successfully
-#   - FAILURE - get_image_name_from_id finished with an error
-#   - DOWNLOADFAIL - prerequest error - could not download dockerimage
-#   - VEFIFYFAILURE - fails ro verify downloaded images
-#   - DELETEFAIL - fails to delete downloaded image
-#   - MACHINE_IS_NOT_CLEAN - prerequest fails - machine is not clean
-#   - FAIL_VALIDATE_SSH - ssh connection fails
-#   - FAIL_GET_ALL_IMAGES_BEFORE - fails to verify machine images
-#
+#!!
+#! @description: Workflow to test docker get_image_name_from_id.
+#! @input host: Docker machine host
+#! @input port: Docker machine port
+#! @input username: Docker machine username
+#! @input password: Docker machine password
+#! @input image_id: Docker image ID
+#! @result SUCCESS: get_image_name_from_id performed successfully
+#! @result FAILURE: get_image_name_from_id finished with an error
+#! @result DOWNLOADFAIL: prerequest error - could not download dockerimage
+#! @result VEFIFYFAILURE: fails ro verify downloaded images
+#! @result DELETEFAIL: fails to delete downloaded image
+#! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
+#! @result FAIL_VALIDATE_SSH: ssh connection fails
+#! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

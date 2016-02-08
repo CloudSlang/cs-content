@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the server ID from the response of the get_openstack_servers operation of a given server by name.
-#
-# Inputs:
-#   - server_body - response of get_openstack_servers operation
-#   - server_name - server name
-# Outputs:
-#   - server_id - ID of specified server
-#   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - error message
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the server ID from the response of the get_openstack_servers operation of a given server by name.
+#! @input server_body: response of get_openstack_servers operation
+#! @input server_name: server name
+#! @output server_id: ID of specified server
+#! @output return_result: was parsing was successful or not
+#! @output return_code: 0 if parsing was successful, -1 otherwise
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful (returnCode == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.utils

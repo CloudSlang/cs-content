@@ -6,28 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Bootstrap a server so it can be managed by Chef as a new node.
-#
-# Inputs:
-#   - node_name - new node name in Chef
-#   - node_host - hostname or IP of server to boostrap
-#   - node_username - SSH username to boostrap the new node
-#   - node_password - optional - password to access node
-#   - node_privkey - optional - path on <knife_host> to keyfile for accessing node
-#   - knife_host - IP of server with configured knife accessable via SSH, can be main Chef server
-#   - knife_username - SSH username to access server with knife
-#   - knife_privkey - optional - path to local SSH keyfile for accessing server with knife
-#   - knife_password - optional - password to access server with knife
-#   - knife_timeout - optional - timeout in milliseconds - Default: '600000'
-#   - knife_config - optional - location of knife.rb config file
-# Outputs:
-#   - raw_result - full STDOUT
-#   - knife_result - filtered output of knife command
-#   - standard_err - any STDERR
-#   - node_name - new node name in Chef
-# Results:
-#   - SUCCESS - bootstrap process completed without errors
-#   - FAILURE - otherwise
+#!!
+#! @description: Bootstrap a server so it can be managed by Chef as a new node.
+#! @input node_name: new node name in Chef
+#! @input node_host: hostname or IP of server to boostrap
+#! @input node_username: SSH username to boostrap the new node
+#! @input node_password: optional - password to access node
+#! @input node_privkey: optional - path on <knife_host> to keyfile for accessing node
+#! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
+#! @input knife_username: SSH username to access server with knife
+#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
+#! @input knife_password: optional - password to access server with knife
+#! @input knife_timeout: optional - timeout in milliseconds - Default: '600000'
+#! @input knife_config: optional - location of knife.rb config file
+#! @output raw_result: full STDOUT
+#! @output knife_result: filtered output of knife command
+#! @output standard_err: any STDERR
+#! @output node_name: new node name in Chef
+#! @result SUCCESS: bootstrap process completed without errors
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.chef

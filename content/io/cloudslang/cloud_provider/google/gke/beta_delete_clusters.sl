@@ -6,37 +6,33 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes the cluster, including the Kubernetes endpoint and all worker nodes in Google Container Engine platform
-# Firewalls and routes that were configured during cluster creation are also deleted.
-#
-# Note: Google authentication JSON key file downloaded from the Google APIs console is required.
-#       This referred to in GOOGLE_APPLICATION_CREDENTIALS is expected to contain information about credentials that
-#       are ready to use. This means either service account information or user account information with a
-#       ready-to-use refresh token.
-#
-#       Example:
-#         {                                       {
-#           'type': 'authorized_user',              'type': 'service_account',
-#           'client_id': '...',                     'client_id': '...',
-#           'client_secret': '...',       OR        'client_email': '...',
-#           'refresh_token': '...,                  'private_key_id': '...',
-#         }                                         'private_key': '...',
-#                                                 }
-#
-# Inputs:
-#   - project_id - The Google Developers Console project ID or project number
-#   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#                     - Default: none
-#   - json_google_auth_path - FileSystem path to Google authentication JSON key file
-#                             System Property: io.cloudslang.cloud_provider.json_google_auth_path
-#   - cluster_id - The name of the cluster to delete
-#
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is '-1'
-#   - response - jSon response body containing an instance of Operation
-#   - return_code - '0' if success, '-1' otherwise
-#   - cluster_name - cluster name identifier
+#!!
+#! @description: Deletes the cluster, including the Kubernetes endpoint and all worker nodes in Google Container Engine platform
+#!               Firewalls and routes that were configured during cluster creation are also deleted.
+#!               Note: Google authentication JSON key file downloaded from the Google APIs console is required.
+#!               This referred to in GOOGLE_APPLICATION_CREDENTIALS is expected to contain information about credentials that
+#!               are ready to use. This means either service account information or user account information with a
+#!               ready-to-use refresh token.
+#!               Example:
+#!               {                                       {
+#!                 'type': 'authorized_user',              'type': 'service_account',
+#!                 'client_id': '...',                     'client_id': '...',
+#!                 'client_secret': '...',       OR        'client_email': '...',
+#!                 'refresh_token': '...,                  'private_key_id': '...',
+#!               }                                         'private_key': '...',
+#!                                                       }
+#! @input project_id: The Google Developers Console project ID or project number
+#! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#!              Default: none
+#! @input json_google_auth_path: FileSystem path to Google authentication JSON key file
+#!                               System Property: io.cloudslang.cloud_provider.json_google_auth_path
+#! @input cluster_id: The name of the cluster to delete
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if return_code is '-1'
+#! @output response: jSon response body containing an instance of Operation
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output cluster_name: cluster name identifier
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.google.gke

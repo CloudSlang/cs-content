@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ###############################################################################
-# Updates an app.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - app_id - app ID to update
-#   - json_file - path to JSON of the app
-#   - proxy_host - optional - proxy host
-#   - proxy_port - optional - proxy port
-# Outputs:
-#   - return_result - response of the operation
-#   - status_code - normal status code is 200
-#   - return_code - if return_code == -1 then there was an error
-#   - error_message - return_result if return_code == -1 or status_code != 200
-# Results:
-#   - SUCCESS - app updated successfully
-#   - FAILURE - otherwise
+#!!
+#! @description: Updates an app.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input app_id: app ID to update
+#! @input json_file: path to JSON of the app
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output status_code: normal status code is 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @result SUCCESS: app updated successfully
+#! @result FAILURE: otherwise
+#!!#
 ###############################################################################
 
 namespace: io.cloudslang.marathon

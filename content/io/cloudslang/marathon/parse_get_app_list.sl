@@ -6,18 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Builds a list of Marathon app names from the response of the get_apps_list operation.
-#
-# Inputs:
-#   - operation_response - response of get_apps_list operation
-# Outputs:
-#   - app_list - list of app names
-#   - return_result - was parsing successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - return_result if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Builds a list of Marathon app names from the response of the get_apps_list operation.
+#! @input operation_response: response of get_apps_list operation
+#! @output app_list: list of app names
+#! @output return_result: was parsing successful or not
+#! @output return_code: 0 if parsing was successful, -1 otherwise
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon

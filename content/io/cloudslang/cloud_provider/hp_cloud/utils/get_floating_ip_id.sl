@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Get the id of a specified IP address.
-#
-# Inputs:
-#   - json_ip_list - output of the list_all_floating_ips operation
-#   - ip_address - IP address to get the ID for
-# Outputs:
-#   - ip_id - ID of IP address provided
-# Results:
-#   - SUCCESS - found the IP address ID and returned it
-#   - FAILURE - otherwise
+#!!
+#! @description: Get the id of a specified IP address.
+#! @input json_ip_list: output of the list_all_floating_ips operation
+#! @input ip_address: IP address to get the ID for
+#! @output ip_id: ID of IP address provided
+#! @result SUCCESS: found the IP address ID and returned it
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.utils

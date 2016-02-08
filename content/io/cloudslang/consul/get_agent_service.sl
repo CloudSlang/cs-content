@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets a list of services the agent is managing.
-#
-# Inputs:
-#   - host - Consul agent host
-#   - consul_port - optional - Consul agent port - Default: '8500'
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message: return_result if return_code is equal to '-1' or status_code different than '200'
-#   - return_code - if return_code is equal to '-1' then there was an error
-#   - status_code - normal status code is '200'
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Gets a list of services the agent is managing.
+#! @input host: Consul agent host
+#! @input consul_port: optional - Consul agent port - Default: '8500'
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code is equal to ': 1' or status_code different than '200'
+#! @output return_code: if return_code is equal to '-1' then there was an error
+#! @output status_code: normal status code is '200'
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

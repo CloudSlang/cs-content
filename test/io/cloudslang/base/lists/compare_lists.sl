@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Compare the first list with the second list to see if they are identical or not.
-#
-# Inputs:
-#   - list_1 - first list - ex. [123, 'xyz']
-#   - list_2 - second list - ex. [456, 'abc']
-# Outputs:
-#   - result - if "true" first list is identical with the second list
-# Results:
-#   - SUCCESS - list are identical
-#   - FAILURE - list are not identical
+#!!
+#! @description: Compare the first list with the second list to see if they are identical or not.
+#! @input list_1: first list - ex. [123, 'xyz']
+#! @input list_2: second list - ex. [456, 'abc']
+#! @output result: if "true" first list is identical with the second list
+#! @result SUCCESS: list are identical
+#! @result FAILURE: list are not identical
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.lists

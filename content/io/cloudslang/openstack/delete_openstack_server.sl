@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes an OpenStack server.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - token - OpenStack token obtained after authentication
-#   - tenant_id - OpenStack tenantID obtained after authentication
-#   - server_id - ID of server to be deleted
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - response of the operation
-#   - status_code - normal status code is '204'
-#   - error_message: return_result if status_code != '204'
-# Results:
-#   - SUCCESS - operation succeeded (status_code == '204')
-#   - FAILURE - otherwise
+#!!
+#! @description: Deletes an OpenStack server.
+#! @input host: OpenStack machine host
+#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input token: OpenStack token obtained after authentication
+#! @input tenant_id: OpenStack tenantID obtained after authentication
+#! @input server_id: ID of server to be deleted
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: response of the operation
+#! @output status_code: normal status code is '204'
+#! @output error_message: return_result if status_code != '204'
+#! @result SUCCESS: operation succeeded (status_code == '204')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack

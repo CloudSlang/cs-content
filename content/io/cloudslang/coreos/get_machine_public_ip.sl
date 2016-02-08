@@ -6,31 +6,29 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 #####################################################
-# Retrieves the public IP address of a machine (based on its ID) deployed in a CoreOS cluster.
-#
-# Inputs:
-#   - machine_id - ID of the machine
-#   - host - CoreOS machine host;
-#            Can be any machine from the cluster
-#   - port - optional - SSH port
-#   - username - CoreOS machine username
-#   - password - optional - CoreOS machine password;
-#                           Can be empty since CoreOS machines use private key file authentication
-#   - private_key_file - optional - path to the private key file
-#   - arguments - optional - arguments to pass to the command
-#   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: SJIS, EUC-JP, UTF-8
-#   - pty - optional - whether to use PTY
-#                    - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls of this operation during life
-#                                of the flow, if true SSH session used by this operation will be closed
-#                              - Valid: true, false
-# Outputs:
-#   - public_ip: public IP address of the machine based on its ID
-# Results:
-#   - SUCCESS - the action was executed successfully and no error message is found in the STDERR
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the public IP address of a machine (based on its ID) deployed in a CoreOS cluster.
+#! @input machine_id: ID of the machine
+#! @input host: CoreOS machine host;
+#!              Can be any machine from the cluster
+#! @input port: optional - SSH port
+#! @input username: CoreOS machine username
+#! @input password: optional - CoreOS machine password;
+#!                  Can be empty since CoreOS machines use private key file authentication
+#! @input private_key_file: optional - path to the private key file
+#! @input arguments: optional - arguments to pass to the command
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: SJIS, EUC-JP, UTF-8
+#! @input pty: optional - whether to use PTY
+#!             Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input close_session: optional - if false SSH session will be cached for future calls of this operation during life
+#!                       of the flow, if true SSH session used by this operation will be closed
+#!                       Valid: true, false
+#! @output public_ip: public IP address of the machine based on its ID
+#! @result SUCCESS: the action was executed successfully and no error message is found in the STDERR
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.coreos

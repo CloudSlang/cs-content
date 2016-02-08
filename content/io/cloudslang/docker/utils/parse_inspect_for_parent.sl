@@ -6,18 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets parent from the response of inspect_image.sl.
-#
-# Inputs:
-#   - json_response - response of inspect_container operation
-# Outputs:
-#   - parent_image - parent image parsed from the response
-#   - return_result - was parsing was successful or not
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - error_message - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Gets parent from the response of inspect_image.sl.
+#! @input json_response: response of inspect_container operation
+#! @output parent_image: parent image parsed from the response
+#! @output return_result: was parsing was successful or not
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output error_message: returnResult if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.utils

@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Compares two inputs for Python equality (==).
-#
-# Inputs:
-#   - first - first Python object to compare
-#   - second - second Python object to compare
-# Results:
-#   - EQUAL - object are equal
-#   - NOT_EQUAL - objects are not equal
+#!!
+#! @description: Compares two inputs for Python equality (==).
+#! @input first: first Python object to compare
+#! @input second: second Python object to compare
+#! @result EQUAL: object are equal
+#! @result NOT_EQUAL: objects are not equal
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.comparisons

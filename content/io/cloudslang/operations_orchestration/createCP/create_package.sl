@@ -5,27 +5,27 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Creates a content pack from a CloudSlang content folder which can be deployed in OO Central.
+#!!
+#! @description: Creates a content pack from a CloudSlang content folder which can be deployed in OO Central.
+#! @input cp_name: content pack name - Example: "base"
+#! @input cp_version: content pack version - Example: "0.1"
+#! @input cslang_folder: CloudSlang content folder to pack - Example: "C:/cslang-cli/cslang/content/io/cloudslang/base"
+#! @input cp_publisher: content pack publisher - Example: "Customer"
+#! @input cp_location: location for the content pack jar file - Example: "c:/content_packs"
+#! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
+#! @result SUCCESS: 
+#! @result CREATE_LIB_FOLDER_FAILURE: 
+#! @result POPULATE_LIB_FOLDER_FAILURE: 
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: 
+#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: 
+#! @result COPY_CONTENT_FAILURE: 
+#! @result MOVE_CONFIG_ITEMS_FAILURE: 
+#! @result CREATE_CP_PROPERTIES_FAILURE: 
+#! @result CREATE_ARCHIVE_FAILURE: 
+#! @result CREATE_JAR_FAILURE: 
+#! @result CLEAN_FOLDER_FAILURE: 
+#!!#
 #
-# Inputs:
-#   - cp_name - content pack name - Example: "base"
-#   - cp_version - content pack version - Example: "0.1"
-#   - cslang_folder - CloudSlang content folder to pack - Example: "C:/cslang-cli/cslang/content/io/cloudslang/base"
-#   - cp_publisher - content pack publisher - Example: "Customer"
-#   - cp_location - location for the content pack jar file - Example: "c:/content_packs"
-#   - cp_folder -  optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
-# Results:
-#   - SUCCESS
-#   - CREATE_LIB_FOLDER_FAILURE
-#   - POPULATE_LIB_FOLDER_FAILURE
-#   - CREATE_SYSTEM_PROPERTIES_FAILURE
-#   - CREATE_LIBRARY_STRUCTURE_FAILURE
-#   - COPY_CONTENT_FAILURE
-#   - MOVE_CONFIG_ITEMS_FAILURE
-#   - CREATE_CP_PROPERTIES_FAILURE
-#   - CREATE_ARCHIVE_FAILURE
-#   - CREATE_JAR_FAILURE
-#   - CLEAN_FOLDER_FAILURE
 ####################################################
 namespace: io.cloudslang.operations_orchestration.createCP
 

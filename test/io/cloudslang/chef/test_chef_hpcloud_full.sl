@@ -4,14 +4,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# CHEF AND HP CLOUD FULL TEST DEPLOYMENT FLOW
-# This flow tests both HP Cloud and Chef content
-#  - Deploy server in HP Cloud with floating IP
-#  - Wait until server is active and booted up (SSH connect)
-#  - Chef bootstrap the server
-#  - Assign Chef cookbooks (e.g. Tomcat or Apache)
-#  - Run Chef client
-#  - Check deployed app is installed and running (port 8080 or 80 test)
+#!!
+#! @description: CHEF AND HP CLOUD FULL TEST DEPLOYMENT FLOW
+#!               This flow tests both HP Cloud and Chef content
+#!               - Deploy server in HP Cloud with floating IP
+#!               - Wait until server is active and booted up (SSH connect)
+#!               - Chef bootstrap the server
+#!               - Assign Chef cookbooks (e.g. Tomcat or Apache)
+#!               - Run Chef client
+#!               - Check deployed app is installed and running (port 8080 or 80 test)
+#!!#
 ####################################################
 
 namespace: io.cloudslang.chef

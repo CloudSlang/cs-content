@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Main flow to call to release a floating IP.
-#
-# Inputs:
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - JSON listing all floating IP and details
-#   - error_message - message returned when HTTP call fails
-#   - status_code - normal status code is 200
-# Results:
-#   - SUCCESS - operation succeeded
-#   - FAILURE - otherwise
+#!!
+#! @description: Main flow to call to release a floating IP.
+#! @input token: auth token obtained by get_authenication_flow
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: JSON listing all floating IP and details
+#! @output error_message: message returned when HTTP call fails
+#! @output status_code: normal status code is 200
+#! @result SUCCESS: operation succeeded
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net

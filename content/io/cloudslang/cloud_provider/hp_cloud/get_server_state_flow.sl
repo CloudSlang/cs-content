@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Flow to poll HP Cloud API until server is ready and in ACTIVE state.
-# Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
-#
-# Inputs:
-#   - server_id - ID of server
-#   - tenant - tenant ID obtained by get_authenication_flow
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - delay - optional - pause in seconds before checking (when called in loop to throttle API calls) - Default: 0
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - server_status - status value string of the server
-# Results:
-#   - FAILURE - failure for some reason
-#   - ACTIVE - server is ACTIVE
-#   - NOT_ACTIVE - server is state other than ACTIVE
+#!!
+#! @description: Flow to poll HP Cloud API until server is ready and in ACTIVE state.
+#!               Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
+#! @input server_id: ID of server
+#! @input tenant: tenant ID obtained by get_authenication_flow
+#! @input token: auth token obtained by get_authenication_flow
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input delay: optional - pause in seconds before checking (when called in loop to throttle API calls) - Default: 0
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output server_status: status value string of the server
+#! @result FAILURE: failure for some reason
+#! @result ACTIVE: server is ACTIVE
+#! @result NOT_ACTIVE: server is state other than ACTIVE
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

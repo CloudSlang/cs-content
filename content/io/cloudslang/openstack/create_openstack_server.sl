@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an OpenStack server.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - token - OpenStack token obtained after authentication
-#   - tenant_id - OpenStack tenantID obtained after authentication
-#   - server_name - server name
-#   - proxy_host - optional - proxy server used to access web site
-#   - proxy_port - optional - proxy server port
-#   - img_ref - image reference for server to be created
-#   - network_id - optional - ID of network to connect to
-# Outputs:
-#   - return_result - response of the operation
-#   - status_code - normal status code is 202
-#   - error_message: returnResult if statusCode != '202'
-# Results:
-#   - SUCCESS - operation succeeded (statusCode == '202')
-#   - FAILURE - otherwise
+#!!
+#! @description: Creates an OpenStack server.
+#! @input host: OpenStack machine host
+#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input token: OpenStack token obtained after authentication
+#! @input tenant_id: OpenStack tenantID obtained after authentication
+#! @input server_name: server name
+#! @input proxy_host: optional - proxy server used to access web site
+#! @input proxy_port: optional - proxy server port
+#! @input img_ref: image reference for server to be created
+#! @input network_id: optional - ID of network to connect to
+#! @output return_result: response of the operation
+#! @output status_code: normal status code is 202
+#! @output error_message: returnResult if statusCode != '202'
+#! @result SUCCESS: operation succeeded (statusCode == '202')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack

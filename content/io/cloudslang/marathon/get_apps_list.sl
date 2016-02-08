@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of Marathon apps.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - cmd - optional - filter apps to only those whose commands contain cmd
-#   - embed - optional - embeds nested resources that match supplied path - Default: none
-#                      - Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
-#                        App's last failures are not embedded in response by default
-#   - proxy_host - optional - proxy host
-#   - proxy_port - optional - proxy port
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message - return_result if return_code == -1 or status_code != 200
-#   - return_code - if return_code == -1 then there was an error
-#   - status_code - normal status code is 200
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves a list of Marathon apps.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input cmd: optional - filter apps to only those whose commands contain cmd
+#! @input embed: optional - embeds nested resources that match supplied path - Default: none
+#!               Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
+#!               App's last failures are not embedded in response by default
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output status_code: normal status code is 200
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon

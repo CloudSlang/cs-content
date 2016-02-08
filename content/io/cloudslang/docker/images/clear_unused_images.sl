@@ -5,25 +5,23 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Deletes unused Docker images.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - port - optional - SSH port
-#   - private_key_file - optional - path to the private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - all_parent_images - list of parent images
-# Outputs:
-#   - images_list_safe_to_delete - unused Docker images
-#   - amount_of_images_deleted - how many images where deleted
-#   - used_images_list - list of used Docker images
-#   - all_parent_images - list of parent images - will not be deleted
-# Results:
-#   SUCCESS - flow ends with SUCCESS
-#   FAILURE - some step ended with FAILURE
+#!!
+#! @description: Deletes unused Docker images.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input port: optional - SSH port
+#! @input private_key_file: optional - path to the private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input all_parent_images: list of parent images
+#! @output images_list_safe_to_delete: unused Docker images
+#! @output amount_of_images_deleted: how many images where deleted
+#! @output used_images_list: list of used Docker images
+#! @output all_parent_images: list of parent images - will not be deleted
+#! @result SUCCESS - flow ends with SUCCESS: 
+#! @result FAILURE - some step ended with FAILURE: 
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 
