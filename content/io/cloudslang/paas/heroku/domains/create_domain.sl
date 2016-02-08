@@ -1,22 +1,25 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to create/add a new domain on a specified application
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: the Heroku used for authentication
-#! @input app_id_or_name: the name or the id of the Heroku application to create a domain for
-#! @input hostname: full hostname of the new domain to be created - Example: 'subdomain.example.com'
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '201'
+#! @description: Performs a REST API call to create/add a new domain on a specified application.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku password used for authentication
+#! @input app_id_or_name: ID or name of the Heroku application
+#! @input hostname: full hostname of new domain to be created
+#!                  example: 'subdomain.example.com'
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output id: the id of the created domain - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#! @output created_at: the exact time when the domain was created - Example: '2016-01-04T14:49:53Z'
-#! @result SUCCESS: the new domain was successfully created/added
+#! @output status_code: code returned by the operation
+#! @output id: ID of created domain
+#!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
+#! @output created_at: exact time when domain was created
+#!                     example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: new domain was successfully created/added
 #! @result INSERT_HOSTNAME_VALUE_FAILURE: insert 'hostname' key:value pair in a empty JSON step failed
-#! @result CREATE_DOMAIN_FAILURE: the create Heroku application domain REST API call failed
-#! @result GET_ID_FAILURE: the id of the newly created domain could not be retrieved from the create REST API call response
-#! @result GET_CREATED_AT_FAILURE: the time when the newly domain was created could not be retrieved from the create REST API
-#!                                 call response
+#! @result CREATE_DOMAIN_FAILURE: create Heroku application domain REST API call failed
+#! @result GET_ID_FAILURE: ID of newly created domain could not be retrieved from create REST API call response
+#! @result GET_CREATED_AT_FAILURE: time when newly created domain was created could not be retrieved from create REST API call response
 #!!#
 ####################################################
 namespace: io.cloudslang.paas.heroku.domains

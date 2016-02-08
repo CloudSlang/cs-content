@@ -1,22 +1,25 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to get the details of a specified Heroku collaborator
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: the Heroku used for authentication
-#! @input app_id_or_name: the name or the id of the Heroku application that the collaborator is associated
-#! @input collaborator_email_or_id: the email or the id of the collaborator
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '200'
+#! @description: Performs a REST API call to get the details of a specified Heroku collaborator.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku password used for authentication
+#! @input app_id_or_name: ID or name of Heroku application that collaborator is associated with
+#! @input collaborator_email_or_id: email or ID of collaborator
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output id: the id of the collaborator. Useful when <collaborator_email_or_id> is a name
-#! @output created_at: the time when collaborator was created/added - Example: '2016-01-04T14:49:53Z'
-#! @output updated_at: the time when the collaborator was last time updated - Example: '2016-01-04T14:49:53Z'
-#! @result SUCCESS: the Heroku collaborator details were successfully retrieved
-#! @result GET_COLLABORATOR_DETAILS_FAILURE: the Heroku collaborator details could not be retrieved
-#! @result GET_COLLABORATOR_ID_FAILURE: the id of collaborator could not be retrieved from the get REST API call response
-#! @result GET_CREATED_AT_FAILURE: the created_at collaborator time could not be retrieved from the get REST API call response
-#! @result GET_UPDATED_AT_FAILURE: the updated_at collaborator time could not be retrieved from the get REST API call response
+#! @output status_code: code returned by operation
+#! @output id: ID of the collaborator; useful when <collaborator_email_or_id> is a name
+#! @output created_at: time when collaborator was created/added
+#!                     example: '2016-01-04T14:49:53Z'
+#! @output updated_at: time when collaborator was last updated
+#!                     example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: Heroku collaborator details were successfully retrieved
+#! @result GET_COLLABORATOR_DETAILS_FAILURE: Heroku collaborator details could not be retrieved
+#! @result GET_COLLABORATOR_ID_FAILURE: ID of collaborator could not be retrieved from GET REST API call response
+#! @result GET_CREATED_AT_FAILURE: created_at collaborator time could not be retrieved from GET REST API call response
+#! @result GET_UPDATED_AT_FAILURE: updated_at collaborator time could not be retrieved from GET REST API call response
 #!!#
 ####################################################
 

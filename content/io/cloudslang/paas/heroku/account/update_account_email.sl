@@ -1,17 +1,20 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to update the Heroku account email
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: optional - the Heroku <username> account password - Default: None
-#! @input email: the new unique email address of the account which will replace the old email address
-#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @description: Performs a REST API call to update the Heroku account email address.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku <username> account password
+#!                  optional
+#!                  default: None
+#! @input email: new unique email address of account which will replace old email address
+#! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @result SUCCESS: the update Heroku account email was successfully executed
+#! @output status_code: code returned by the operation
+#! @result SUCCESS: update Heroku account email was successfully executed
 #! @result ADD_EMAIL_FAILURE: insert 'email' key:value pair in JSON body failed
 #! @result ADD_PASSWORD_FAILURE: insert 'password' key:value pair in JSON body failed
-#! @result UPDATE_ACCOUNT_EMAIL_FAILURE: the update Heroku account email REST API call failed
+#! @result UPDATE_ACCOUNT_EMAIL_FAILURE: update Heroku account email REST API call failed
 #!!#
 ####################################################
 
