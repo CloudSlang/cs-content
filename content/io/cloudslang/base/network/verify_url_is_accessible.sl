@@ -6,17 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if a url is accessible.
-#
-# Inputs:
-#   - url - the url
-#   - attempts - attempts to reach host
-#   - time_to_sleep - time in seconds to wait between attempts
-# Outputs:
-#   - output_message - timeout exceeded and url was not accessible
-# Results:
-#   - SUCCESS - url is accessible
-#   - FAILURE - url is not accessible
+#!!
+#! @description: Checks if a url is accessible.
+#! @input url: the url
+#! @input attempts: attempts to reach host
+#! @input time_to_sleep: time in seconds to wait between attempts
+#! @output output_message: timeout exceeded and url was not accessible
+#! @result SUCCESS: url is accessible
+#! @result FAILURE: url is not accessible
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.network

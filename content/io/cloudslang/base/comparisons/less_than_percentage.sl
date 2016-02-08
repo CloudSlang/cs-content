@@ -6,17 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if one percentage is less than another.
-#
-# Inputs:
-#   - first_percentage - string which represents a percentage - Example: "50%"
-#   - second_percentage - string which represents a percentage - Example: "50%"
-# Outputs:
-#   - error_message - error message if error occurred
-# Results:
-#   - LESS - first_percentage < second_percentage
-#   - MORE - first_percentage >= second_percentage
-#   - FAILURE - input was not in correct format
+#!!
+#! @description: Checks if one percentage is less than another.
+#! @input first_percentage: string which represents a percentage - Example: "50%"
+#! @input second_percentage: string which represents a percentage - Example: "50%"
+#! @output error_message: error message if error occurred
+#! @result LESS: first_percentage < second_percentage
+#! @result MORE: first_percentage >= second_percentage
+#! @result FAILURE: input was not in correct format
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.comparisons

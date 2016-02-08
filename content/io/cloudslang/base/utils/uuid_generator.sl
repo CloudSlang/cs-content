@@ -6,12 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Generates a new uuid.
-#
-# Outputs:
-#   - new_uuid - generated uuid
-# Results:
-#   - SUCCESS - always
+#!!
+#! @description: Generates a new uuid.
+#! @output new_uuid: generated uuid
+#! @result SUCCESS: always
+#!!#
 ####################################################
 namespace: io.cloudslang.base.utils
 

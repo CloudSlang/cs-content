@@ -6,19 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if the disk space on a Linux machine is less than a given percentage.
-#
-# Inputs:
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - private_key_file - optional - path to the private key file
-#   - percentage - Example: 50%
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-# Results:
-#   - SUCCESS - disk space less than percentage
-#   - FAILURE - error occurred
-#   - NOT_ENOUGH_DISKSPACE - disk space more than percentage
+#!!
+#! @description: Checks if the disk space on a Linux machine is less than a given percentage.
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input private_key_file: optional - path to the private key file
+#! @input percentage: Example: 50%
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @result SUCCESS: disk space less than percentage
+#! @result FAILURE: error occurred
+#! @result NOT_ENOUGH_DISKSPACE: disk space more than percentage
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.os.linux

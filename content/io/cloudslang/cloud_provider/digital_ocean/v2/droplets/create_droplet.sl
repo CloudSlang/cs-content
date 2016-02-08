@@ -6,32 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Creates a DigitalOcean droplet.
-#
-# Inputs:
-#   - name - human-readable string you wish to use when displaying the Droplet name
-#   - region - optional - unique slug identifier for the region that you wish to deploy in - Default: ams3
-#   - size - unique slug identifier for the size that you wish to select for this Droplet - Default: 512mb
-#   - image - ID or slug identifier of the base image for your droplet
-#   - ssh_keys - optional - array containing the IDs of the SSH keys
-#                           that you wish to embed in the Droplet's root account upon creation
-#   - backups - optional - boolean indicating whether automated backups should be enabled for the Droplet.
-#                          Automated backups can only be enabled when the Droplet is created
-#                        - Default: false
-#   - ipv6 - optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
-#   - private_networking - optional - boolean indicating whether private networking is enabled for the Droplet
-#                        - Default: false
-#   - user_data - optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped with a backslash (\).
-#   - token - personal access token for DigitalOcean API
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
-# Outputs:
-#   - response - raw response of the API call
-#   - droplet_id - ID of the created droplet in case of success, empty in case of failure
+#!!
+#! @description: Creates a DigitalOcean droplet.
+#! @input name: human-readable string you wish to use when displaying the Droplet name
+#! @input region: optional - unique slug identifier for the region that you wish to deploy in - Default: ams3
+#! @input size: unique slug identifier for the size that you wish to select for this Droplet - Default: 512mb
+#! @input image: ID or slug identifier of the base image for your droplet
+#! @input ssh_keys: optional - array containing the IDs of the SSH keys
+#!                  that you wish to embed in the Droplet's root account upon creation
+#! @input backups: optional - boolean indicating whether automated backups should be enabled for the Droplet.
+#!                 Automated backups can only be enabled when the Droplet is created
+#!                 Default: false
+#! @input ipv6: optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
+#! @input private_networking: optional - boolean indicating whether private networking is enabled for the Droplet
+#!                            Default: false
+#! @input user_data: optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped with a backslash (\).
+#! @input token: personal access token for DigitalOcean API
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @output response: raw response of the API call
+#! @output droplet_id: ID of the created droplet in case of success, empty in case of failure
+#!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.droplets
 

@@ -1,30 +1,26 @@
 #################################################### 
-# This flow performs an REST API call in order to get the Heroku application details
-# 
-# Inputs: 
-#   - username - the Heroku username - Example: 'someone@mailprovider.com'
-#   - password - the Heroku used for authentication
-#   - app_id_or_name - the name or the id of the Heroku application
-#
-# Outputs: 
-#   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if statusCode is not '200' 
-#   - return_code - '0' if success, '-1' otherwise 
-#   - status_code - the code returned by the operation
-#   - id - the id of the application. Useful when <app_id_or_name> is a name
-#   - name - the name of the application. Useful when <app_id_or_name> is id
-#   - region - the region were the application resides
-#   - stack - the name of the stack were application belong
-#   - created_at - the time when application was created - Example: '2016-01-04T14:49:53Z'
-#
-# Results:
-#   - SUCCESS - the Heroku application details were successfully retrieved
-#   - GET_APPLICATION_DETAILS_FAILURE - the Heroku application details could not be retrieved
-#   - GET_ID_FAILURE - the id of application could not be retrieved from the get REST API call response
-#   - GET_NAME_FAILURE - the name of application could not be retrieved from the get REST API call response
-#   - GET_REGION_FAILURE - the region were application resides could not be retrieved from the get REST API call response
-#   - GET_STACK_FAILURE - the stack name of application could not be retrieved from the get REST API call response
-#   - GET_CREATED_AT_FAILURE - the created_at application time could not be retrieved from the get REST API call response
+#!!
+#! @description: This flow performs an REST API call in order to get the Heroku application details
+#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
+#! @input password: the Heroku used for authentication
+#! @input app_id_or_name: the name or the id of the Heroku application
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if statusCode is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @output id: the id of the application. Useful when <app_id_or_name> is a name
+#! @output name: the name of the application. Useful when <app_id_or_name> is id
+#! @output region: the region were the application resides
+#! @output stack: the name of the stack were application belong
+#! @output created_at: the time when application was created - Example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: the Heroku application details were successfully retrieved
+#! @result GET_APPLICATION_DETAILS_FAILURE: the Heroku application details could not be retrieved
+#! @result GET_ID_FAILURE: the id of application could not be retrieved from the get REST API call response
+#! @result GET_NAME_FAILURE: the name of application could not be retrieved from the get REST API call response
+#! @result GET_REGION_FAILURE: the region were application resides could not be retrieved from the get REST API call response
+#! @result GET_STACK_FAILURE: the stack name of application could not be retrieved from the get REST API call response
+#! @result GET_CREATED_AT_FAILURE: the created_at application time could not be retrieved from the get REST API call response
+#!!#
 ####################################################
 
 namespace: io.cloudslang.paas.heroku.applications

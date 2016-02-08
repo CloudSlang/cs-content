@@ -6,30 +6,28 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Restarts a remote Linux host using SSH.
-#
-# Inputs:
-#   - host - hostname or IP address
-#   - port - optional - port number for running the command - Default: '22'
-#   - username - username to connect as
-#   - password - password of user
-#   - timeout - time in minutes to postpone restart
-#   - sudo_user - optional - whether to use 'sudo' prefix before command - Default: false
-#   - private_key_file - the absolute path to the private key file
-# Outputs:
-#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - contains the stack trace in case of an exception
-#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                           only available for certain types of channels, and only after the channel was closed
-#                           (more exactly, just before the channel is closed).
-#	                        Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
-#                                     channel type has no command), '126' if the command cannot execute.
-#   - return_code - return code of the command
-# Results:
-#  SUCCESS: Linux host is restarted successfully
-#  FAILURE: Linux host cannot be restarted due to an error
+#!!
+#! @description: Restarts a remote Linux host using SSH.
+#! @input host: hostname or IP address
+#! @input port: optional - port number for running the command - Default: '22'
+#! @input username: username to connect as
+#! @input password: password of user
+#! @input timeout: time in minutes to postpone restart
+#! @input sudo_user: optional - whether to use 'sudo' prefix before command - Default: false
+#! @input private_key_file: the absolute path to the private key file
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute.
+#! @output return_code: return code of the command
+#! @result SUCCESS: Linux host is restarted successfully
+#! @result FAILURE: Linux host cannot be restarted due to an error
+#!!#
 ####################################################
 namespace: io.cloudslang.base.os.linux
 

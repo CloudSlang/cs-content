@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Builds a list of object names from the response of the OpenStack GET operations.
-#
-# Inputs:
-#   - response_body - response of a GET operation
-#   - object_name - name of object contained in the list
-# Outputs:
-#   - object_list - comma seperated list of object names
-#   - return_result - was parsing was successful or not
-#   - return_code - 0 if parsing was successful, -1 otherwise
-#   - error_message - return_result if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Builds a list of object names from the response of the OpenStack GET operations.
+#! @input response_body: response of a GET operation
+#! @input object_name: name of object contained in the list
+#! @output object_list: comma seperated list of object names
+#! @output return_result: was parsing was successful or not
+#! @output return_code: 0 if parsing was successful, -1 otherwise
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.utils

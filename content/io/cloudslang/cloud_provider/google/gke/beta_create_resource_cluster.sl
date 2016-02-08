@@ -6,42 +6,40 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a Google Container Engine resource cluster.
-# More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
-#
-# Inputs:
-#   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#                     - Default: none
-#   - name - The name of the cluster to delete
-#   - description - An optional description of this cluster
-#   - initial_node_count - The number of nodes to create in this cluster. You must ensure that your Compute Engine
-#                        resource quota is sufficient for this number of instances. You must also have available
-#                        firewall and routes quota
-#   - machine_type
-#   - disk_size_gb
-#   - oauth_scopes
-#   - masterauth_username
-#   - masterauth_password
-#   - logging_service
-#   - monitoring_service
-#   - network
-#   - cluster_ipv4_cidr
-#   - self_link
-#   - endpoint
-#   - initial_cluster_version
-#   - current_master_version
-#   - current_node_version
-#   - create_time
-#   - status
-#   - status_message
-#   - node_ipv4_cidr_size
-#   - services_ipv4_cidr
-#
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is '-1'
-#   - response - JSON response body containing an instance of Operation
-#   - return_code - '0' if success, '-1' otherwise
+#!!
+#! @description: Creates a Google Container Engine resource cluster.
+#!               More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
+#! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#!              Default: none
+#! @input name: The name of the cluster to delete
+#! @input description: An optional description of this cluster
+#! @input initial_node_count: The number of nodes to create in this cluster. You must ensure that your Compute Engine
+#!                            resource quota is sufficient for this number of instances. You must also have available
+#!                            firewall and routes quota
+#! @input machine_type: 
+#! @input disk_size_gb: 
+#! @input oauth_scopes: 
+#! @input masterauth_username: 
+#! @input masterauth_password: 
+#! @input logging_service: 
+#! @input monitoring_service: 
+#! @input network: 
+#! @input cluster_ipv4_cidr: 
+#! @input self_link: 
+#! @input endpoint: 
+#! @input initial_cluster_version: 
+#! @input current_master_version: 
+#! @input current_node_version: 
+#! @input create_time: 
+#! @input status: 
+#! @input status_message: 
+#! @input node_ipv4_cidr_size: 
+#! @input services_ipv4_cidr: 
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if return_code is '-1'
+#! @output response: JSON response body containing an instance of Operation
+#! @output return_code: '0' if success, '-1' otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.google.gke

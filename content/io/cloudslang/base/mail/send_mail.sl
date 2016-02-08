@@ -6,29 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Sends an email.
-#
-# Inputs:
-#   - hostname - email host
-#   - port - email port
-#   - from - email sender
-#   - to - email recipient
-#   - cc - optional - comma-delimited list of cc recipients - Default: none
-#   - bcc - optional - comma-delimited list of bcc recipients - Default: none
-#   - subject - email subject
-#   - body - email text
-#   - html_email - optional - Default: true
-#   - read_receipt - optional - Default: false
-#   - attachments - optional - Default: none
-#   - username - optional - Default: none
-#   - password - optional - Default: none
-#   - character_set - optional - Default: UTF-8
-#   - content_transfer_encoding - optional - Default: base64
-#   - delimiter - optional - Default: none
-#   - enableTLS - optional - enable startTLS - Default : false
-# Results:
-#   - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
-#   - FAILURE - otherwise
+#!!
+#! @description: Sends an email.
+#! @input hostname: email host
+#! @input port: email port
+#! @input from: email sender
+#! @input to: email recipient
+#! @input cc: optional - comma-delimited list of cc recipients - Default: none
+#! @input bcc: optional - comma-delimited list of bcc recipients - Default: none
+#! @input subject: email subject
+#! @input body: email text
+#! @input html_email: optional - Default: true
+#! @input read_receipt: optional - Default: false
+#! @input attachments: optional - Default: none
+#! @input username: optional - Default: none
+#! @input password: optional - Default: none
+#! @input character_set: optional - Default: UTF-8
+#! @input content_transfer_encoding: optional - Default: base64
+#! @input delimiter: optional - Default: none
+#! @input enableTLS: optional - enable startTLS - Default : false
+#! @result SUCCESS: succeeds if mail was sent successfully (returnCode is equal to 0)
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.mail

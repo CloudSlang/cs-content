@@ -1,33 +1,29 @@
 #################################################### 
-# This flow performs an REST API call in order to create a Heroku application
-# 
-# Inputs: 
-#   - username - the Heroku username - Example: 'someone@mailprovider.com'
-#   - password - the Heroku used for authentication
-#   - name - optional - the name of the application. If not provided then the name will be generate by Heroku
-#                     - Default: None
-#   - region - optional - the unique identifier or name of region - Example: 'us' - Default: None
-#   - stack - optional - the unique identifier or name of stack - Example: 'cedar-14' - Default: None
-#
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise 
-#   - error_message - return_result if statusCode is not '201'
-#   - return_code - '0' if success, '-1' otherwise 
-#   - status_code - the code returned by the operation
-#   - id - the id of the new created application - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#   - name - the name of the new created application. Useful when <name> input is not provided - Example: 'arcane-fortress-9257'
-#   - created_at - the exact time when the application was created - Example: '2016-01-04T14:49:53Z'
-#
-# Results:
-#   - SUCCESS - the application was successfully created
-#   - CREATE_EMPTY_JSON_FAILURE - create empty json step failed
-#   - ADD_NAME_FAILURE - insert 'name' key:value pair in JSON body failed
-#   - ADD_REGION_FAILURE - insert 'region' key:value pair in JSON body failed
-#   - ADD_STACK_FAILURE - insert 'stack' key:value pair in JSON body failed
-#   - CREATE_APPLICATION_FAILURE - the create Heroku application REST API call failed
-#   - GET_ID_FAILURE - the id of the newly created application could not be retrieved from the create REST API call response
-#   - GET_NAME_FAILURE - the name of the newly created application could not be retrieved from the create REST API call response
-#   - GET_CREATED_AT_FAILURE - the time when the newly application was created could not be retrieved from the create REST API call response
+#!!
+#! @description: This flow performs an REST API call in order to create a Heroku application
+#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
+#! @input password: the Heroku used for authentication
+#! @input name: optional - the name of the application. If not provided then the name will be generate by Heroku
+#!              Default: None
+#! @input region: optional - the unique identifier or name of region - Example: 'us' - Default: None
+#! @input stack: optional - the unique identifier or name of stack - Example: 'cedar-14' - Default: None
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if statusCode is not '201'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: the code returned by the operation
+#! @output id: the id of the new created application - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
+#! @output name: the name of the new created application. Useful when <name> input is not provided - Example: 'arcane-fortress-9257'
+#! @output created_at: the exact time when the application was created - Example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: the application was successfully created
+#! @result CREATE_EMPTY_JSON_FAILURE: create empty json step failed
+#! @result ADD_NAME_FAILURE: insert 'name' key:value pair in JSON body failed
+#! @result ADD_REGION_FAILURE: insert 'region' key:value pair in JSON body failed
+#! @result ADD_STACK_FAILURE: insert 'stack' key:value pair in JSON body failed
+#! @result CREATE_APPLICATION_FAILURE: the create Heroku application REST API call failed
+#! @result GET_ID_FAILURE: the id of the newly created application could not be retrieved from the create REST API call response
+#! @result GET_NAME_FAILURE: the name of the newly created application could not be retrieved from the create REST API call response
+#! @result GET_CREATED_AT_FAILURE: the time when the newly application was created could not be retrieved from the create REST API call response
+#!!#
 ####################################################
 
 namespace: io.cloudslang.paas.heroku.applications

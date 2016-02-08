@@ -6,26 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Call to HP Cloud API to create a server instance.
-#
-# Inputs:
-#   - server_name - name for the new server
-#   - img_ref - image id to use for the new server (operating system)
-#   - flavor_ref - flavor id to set the new server size
-#   - keypair - keypair used to access the new server
-#   - tenant - tenant id obtained by get_authenication_flow
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - network_id - optional - ID of private network to add server to, can be omitted
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - JSON response with server details, id etc
-#   - error_message - message returned when HTTP call fails
-#   - status_code - normal status code is 202
-# Results:
-#   - SUCCESS - operation succeeded, server created
-#   - FAILURE - otherwise
+#!!
+#! @description: Call to HP Cloud API to create a server instance.
+#! @input server_name: name for the new server
+#! @input img_ref: image id to use for the new server (operating system)
+#! @input flavor_ref: flavor id to set the new server size
+#! @input keypair: keypair used to access the new server
+#! @input tenant: tenant id obtained by get_authenication_flow
+#! @input token: auth token obtained by get_authenication_flow
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input network_id: optional - ID of private network to add server to, can be omitted
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: JSON response with server details, id etc
+#! @output error_message: message returned when HTTP call fails
+#! @output status_code: normal status code is 202
+#! @result SUCCESS: operation succeeded, server created
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud

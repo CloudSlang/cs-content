@@ -6,29 +6,27 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Demo that creates a new Marathon app and sends a status email.
-#
-# Inputs:
-#   - email_host - email host
-#   - email_port - email port
-#   - email_sender - email sender
-#   - email_recipient - email recipient
-#   - enable_tls - enable TLS
-#   - email_username - email username
-#   - email_password - email password
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - proxy_host - optional - proxy host
-#   - proxy_port - optional - proxy port
-#   - json_file - path to JSON of new app
-# Outputs:
-#   - return_result - operation response
-#   - status_code - normal status code is 200
-#   - return_code - if return_code == -1 then there was an error
-#   - error_message - return_result if return_code == -1 or status_code != 200
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Demo that creates a new Marathon app and sends a status email.
+#! @input email_host: email host
+#! @input email_port: email port
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @input enable_tls: enable TLS
+#! @input email_username: email username
+#! @input email_password: email password
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @input json_file: path to JSON of new app
+#! @output return_result: operation response
+#! @output status_code: normal status code is 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ##################################################################################################################################################
 
 namespace: io.cloudslang.marathon

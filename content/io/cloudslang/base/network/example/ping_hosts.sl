@@ -6,26 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Pings addresses from input list and sends an email with results.
-#
-# Prerequisites: system property file with email properties
-#
-# Inputs:
-#   - ip_list - list of IPs to be checked
-#   - message_body - the message to be sent in emails
-#   - all_nodes_are_up - whether the nodes are up or not - Default: True
-#   - hostname - email host - System Property: io.cloudslang.base.hostname
-#   - port - email port - System Property: io.cloudslang.base.port
-#   - from - email sender - System Property: io.cloudslang.base.from
-#   - to - email recipient - System Property: io.cloudslang.base.to
-#   - subject - email subject - Default: "Ping Result"
-#   - username - optional - username to connect to email host - System Property: io.cloudslang.base.username
-#   - password - optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
-#
-# Results:
-#   - SUCCESS - addressee will get an email with result
-#   - FAILURE - addressee will get an email with exception of operation
-#
+#!!
+#! @description: Pings addresses from input list and sends an email with results.
+#! @prerequisites: system property file with email properties
+#! @input ip_list: list of IPs to be checked
+#! @input message_body: the message to be sent in emails
+#! @input all_nodes_are_up: whether the nodes are up or not - Default: True
+#! @input hostname: email host - System Property: io.cloudslang.base.hostname
+#! @input port: email port - System Property: io.cloudslang.base.port
+#! @input from: email sender - System Property: io.cloudslang.base.from
+#! @input to: email recipient - System Property: io.cloudslang.base.to
+#! @input subject: email subject - Default: "Ping Result"
+#! @input username: optional - username to connect to email host - System Property: io.cloudslang.base.username
+#! @input password: optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
+#! @result SUCCESS: addressee will get an email with result
+#! @result FAILURE: addressee will get an email with exception of operation
+#!!#
 ####################################################
 namespace: io.cloudslang.base.network.example
 

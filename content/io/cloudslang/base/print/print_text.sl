@@ -6,12 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Prints text to the screen.
-#
-# Inputs:
-#   - text - text to print
-# Results:
-#   - SUCCESS
+#!!
+#! @description: Prints text to the screen.
+#! @input text: text to print
+#! @result SUCCESS: 
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.print

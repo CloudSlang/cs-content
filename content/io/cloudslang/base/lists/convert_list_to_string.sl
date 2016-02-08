@@ -6,15 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Converts each item in a list to a string and concatenates them.
-#
-# Inputs:
-#   - list - list of items that will be converted to string and concatenated - Example: [123, 'xyz']
-#   - double_quotes - optional - if true, list items will be double quoted - Default: False
-#   - result_delimiter - optional - if true, will be appended after every list item (except the last one) - Default: "''"
-#   - result_to_lowercase - optional - if true, list items will be lowercased - Default: False
-# Outputs:
-#   - result - the string that results from concatenation of list elements
+#!!
+#! @description: Converts each item in a list to a string and concatenates them.
+#! @input list: list of items that will be converted to string and concatenated - Example: [123, 'xyz']
+#! @input double_quotes: optional - if true, list items will be double quoted - Default: False
+#! @input result_delimiter: optional - if true, will be appended after every list item (except the last one) - Default: "''"
+#! @input result_to_lowercase: optional - if true, list items will be lowercased - Default: False
+#! @output result: the string that results from concatenation of list elements
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.lists

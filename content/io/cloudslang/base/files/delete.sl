@@ -6,15 +6,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes a file or folder.
-#
-# Inputs:
-#   - source - path of source file or folder to be deleted
-# Outputs:
-#   - message - error message in case of error
-# Results:
-#   - SUCCESS - file or folder was successfully deleted
-#   - FAILURE - file or folder was not deleted due to error
+#!!
+#! @description: Deletes a file or folder.
+#! @input source: path of source file or folder to be deleted
+#! @output message: error message in case of error
+#! @result SUCCESS: file or folder was successfully deleted
+#! @result FAILURE: file or folder was not deleted due to error
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

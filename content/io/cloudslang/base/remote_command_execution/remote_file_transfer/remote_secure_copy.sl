@@ -5,33 +5,31 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
-# Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using
-#   the SCP protocol.
-#
-# Inputs:
-#   - source_host - optional - host of the source machine (only if remote to remote)
-#   - source_path - absolute or relative path of the file about to be copied
-#   - source_port - optional - port number for the source machine (only if remote to remote) - Default: '22'
-#   - source_username - optional - username of the source machine (only if remote to remote)
-#   - source_password - optional -  password of the source machine (only if remote to remote)
-#   - source_private_key_file - optional - path to the private key file on the source machine (only if remote to remote)
-#   - destination_host - host of the destination machine
-#   - destination_path - absolute or relative path where the file will be copied
-#   - destination_port - optional - port number for the destination machine - Default: '22'
-#   - destination_username - username of the destination machine
-#   - destination_password - optional - password of the destination machine
-#   - destination_private_key_file - optional - path to the private key file on the destination machine
-#   - known_hosts_policy - optional - policy used for managing known_hosts file - Valid: 'allow', 'strict', 'add'
-#                                   - Default: 'allow'
-#   - known_hosts_path - path to the known_hosts file
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
-# Outputs:
-#   - return_result - confirmation message
-#   - return_code - '0' if operation finished with SUCCESS, different than '0' otherwise
-#   - exception - exception description
-# Results:
-#   - SUCCESS - file copied successfully
-#   - FAILURE - copy failed
+#!!
+#! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using
+#!               the SCP protocol.
+#! @input source_host: optional - host of the source machine (only if remote to remote)
+#! @input source_path: absolute or relative path of the file about to be copied
+#! @input source_port: optional - port number for the source machine (only if remote to remote) - Default: '22'
+#! @input source_username: optional - username of the source machine (only if remote to remote)
+#! @input source_password: optional -  password of the source machine (only if remote to remote)
+#! @input source_private_key_file: optional - path to the private key file on the source machine (only if remote to remote)
+#! @input destination_host: host of the destination machine
+#! @input destination_path: absolute or relative path where the file will be copied
+#! @input destination_port: optional - port number for the destination machine - Default: '22'
+#! @input destination_username: username of the destination machine
+#! @input destination_password: optional - password of the destination machine
+#! @input destination_private_key_file: optional - path to the private key file on the destination machine
+#! @input known_hosts_policy: optional - policy used for managing known_hosts file - Valid: 'allow', 'strict', 'add'
+#!                            Default: 'allow'
+#! @input known_hosts_path: path to the known_hosts file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#! @output return_result: confirmation message
+#! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise
+#! @output exception: exception description
+#! @result SUCCESS: file copied successfully
+#! @result FAILURE: copy failed
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer

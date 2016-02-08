@@ -6,17 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Workflow to test unzip operation.
-#
-# Inputs:
-#   - path - path to the archive
-#   - out_folder - path of folder to place unzipped files from archive
-# Results:
-#   - SUCCESS - archive unziped successfully
-#   - ZIPFAILURE - ziping archive failed
-#   - UNZIPFAILURE - unziping operation failed
-#   - DELETEFAILURE - deleting archive failed
-#
+#!!
+#! @description: Workflow to test unzip operation.
+#! @input path: path to the archive
+#! @input out_folder: path of folder to place unzipped files from archive
+#! @result SUCCESS: archive unziped successfully
+#! @result ZIPFAILURE: ziping archive failed
+#! @result UNZIPFAILURE: unziping operation failed
+#! @result DELETEFAILURE: deleting archive failed
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

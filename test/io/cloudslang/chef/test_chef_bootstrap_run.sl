@@ -4,11 +4,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# CHEF TEST FLOW
-# This flow tests Chef content
-#  - Chef bootstrap existing Linux host
-#  - Assign Chef cookbook(s)
-#  - Run Chef client
+#!!
+#! @description: CHEF TEST FLOW
+#!               This flow tests Chef content
+#!               - Chef bootstrap existing Linux host
+#!               - Assign Chef cookbook(s)
+#!               - Run Chef client
+#!!#
 ####################################################
 
 namespace: io.cloudslang.chef

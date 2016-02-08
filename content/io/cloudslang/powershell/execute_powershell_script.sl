@@ -6,19 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Executes PowerShell script on a given remote host.
-#
-# Inputs:
-#   - host - the hostname or IP address of the PowerShell host
-#   - user_name - The username used to connect to the the remote machine.
-#   - password - The password used to connect to the remote machine.
-#   - script - The PowerShell script that will run on the remote machine.
-#   - winrm_enable_https - If set to true, HTTPS is used to connect to the WinRM server.
-#                         Otherwise HTTP is used. Default: false.
-# Outputs:
-#   - return_result - output of the powershell script
-#   - status_code - status code of the execution
-#   - error_message - error
+#!!
+#! @description: Executes PowerShell script on a given remote host.
+#! @input host: the hostname or IP address of the PowerShell host
+#! @input user_name: The username used to connect to the the remote machine.
+#! @input password: The password used to connect to the remote machine.
+#! @input script: The PowerShell script that will run on the remote machine.
+#! @input winrm_enable_https: If set to true, HTTPS is used to connect to the WinRM server.
+#!                            Otherwise HTTP is used. Default: false.
+#! @output return_result: output of the powershell script
+#! @output status_code: status code of the execution
+#! @output error_message: error
+#!!#
 ####################################################
 namespace: io.cloudslang.powershell
 

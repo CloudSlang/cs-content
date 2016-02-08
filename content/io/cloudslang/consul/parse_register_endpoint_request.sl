@@ -6,22 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a JSON for request to register a new endpoint.
-#
-# Inputs:
-#   - node - node name
-#   - address - node host - Default: ''
-#   - datacenter - optional - Default: ''; matched to that of agent
-#   - service - optional - if Service key is provided, then service will also be registered - Default: ''
-#   - check - optional - if the Check key is provided, then a health check will also be registered - Default: ''
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message - return_result if there was an error
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - json_request - JSON request for registering endpoint
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Creates a JSON for request to register a new endpoint.
+#! @input node: node name
+#! @input address: node host - Default: ''
+#! @input datacenter: optional - Default: ''; matched to that of agent
+#! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
+#! @input check: optional - if the Check key is provided, then a health check will also be registered - Default: ''
+#! @output return_result: response of the operation
+#! @output error_message: return_result if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output json_request: JSON request for registering endpoint
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

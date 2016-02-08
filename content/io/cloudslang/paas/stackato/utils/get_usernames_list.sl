@@ -6,18 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses a json input and retrieves a list of usernames
-#
-# Inputs:
-#   - json_input - the response of get users flow
-# Outputs:
-#   - return_result - was parsing was successful or not
-#   - error_message - returnResult if there was an error
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - usernames_list - the list with all usernames
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses a json input and retrieves a list of usernames
+#! @input json_input: the response of get users flow
+#! @output return_result: was parsing was successful or not
+#! @output error_message: returnResult if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output usernames_list: the list with all usernames
+#! @result SUCCESS: parsing was successful (returnCode == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.paas.stackato.utils
 

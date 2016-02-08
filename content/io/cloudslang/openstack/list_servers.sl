@@ -6,28 +6,26 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of servers on an OpenStack machine.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: 5000
-#   - compute_port - optional - port used for OpenStack computations - Default: 8774
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of project on OpenStack
-#   - proxy_host - optional - proxy server used to access web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - server_list - list of server names
-#   - return_result - response of last operation executed
-#   - error_message - error message of operation that failed
-# Results:
-#   - SUCCESS - list of OpenStack servers (instances) was successfully retrieved
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - authentication call failed
-#   - GET_SERVERS_FAILURE - call for list OpenStack servers (instances) failed
-#   - EXTRACT_SERVERS_FAILURE - list of OpenStack servers (instances) could not be retrieved
+#!!
+#! @description: Retrieves a list of servers on an OpenStack machine.
+#! @input host: OpenStack machine host
+#! @input identity_port: optional - port used for OpenStack authentication - Default: 5000
+#! @input compute_port: optional - port used for OpenStack computations - Default: 8774
+#! @input username: OpenStack username
+#! @input password: OpenStack password
+#! @input tenant_name: name of project on OpenStack
+#! @input proxy_host: optional - proxy server used to access web site
+#! @input proxy_port: optional - proxy server port
+#! @output server_list: list of server names
+#! @output return_result: response of last operation executed
+#! @output error_message: error message of operation that failed
+#! @result SUCCESS: list of OpenStack servers (instances) was successfully retrieved
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) failed
+#! @result EXTRACT_SERVERS_FAILURE: list of OpenStack servers (instances) could not be retrieved
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack

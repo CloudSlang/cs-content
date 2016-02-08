@@ -6,24 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses a JSON response holding Consul key information.
-#
-# Inputs:
-#   - json_response - response holding Consul key information
-# Outputs:
-#   - decoded - parsed response
-#   - key - key name
-#   - flags - key flags
-#   - create_index- key create index
-#   - value - key value
-#   - modify_index - key modify index
-#   - lock_index - key lock index
-#   - return_result - response of the operation
-#   - error_message - return_result if there was an error
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses a JSON response holding Consul key information.
+#! @input json_response: response holding Consul key information
+#! @output decoded: parsed response
+#! @output key: key name
+#! @output flags: key flags
+#! @output create_index: key create index
+#! @output value: key value
+#! @output modify_index: key modify index
+#! @output lock_index: key lock index
+#! @output return_result: response of the operation
+#! @output error_message: return_result if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

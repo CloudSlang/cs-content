@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Wait for Marathon app startup.
-#
-# Inputs:
-#   - marathon_host - Marathon host
-#   - marathon_port - optional - Marathon port
-#   - created_app_id - Marathon app id
-#   - attempts - optional - attempts to reach host - Default: 1
-#   - time_to_sleep - optional - time in seconds to wait between attempts - Default: 1
+#!!
+#! @description: Wait for Marathon app startup.
+#! @input marathon_host: Marathon host
+#! @input marathon_port: optional - Marathon port
+#! @input created_app_id: Marathon app id
+#! @input attempts: optional - attempts to reach host - Default: 1
+#! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 1
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon

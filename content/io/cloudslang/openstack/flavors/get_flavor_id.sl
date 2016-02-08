@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the flavor ID from the response of the list_flavors operation of a given flavor by name.
-#
-# Inputs:
-#   - flavor_body - response of list_flavors operation
-#   - flavor_name - flavor name
-# Outputs:
-#   - flavor_id - ID of specified flavor
-#   - return_result - was parsing was successful or not
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - error_message - error message
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the flavor ID from the response of the list_flavors operation of a given flavor by name.
+#! @input flavor_body: response of list_flavors operation
+#! @input flavor_name: flavor name
+#! @output flavor_id: ID of specified flavor
+#! @output return_result: was parsing was successful or not
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.flavors

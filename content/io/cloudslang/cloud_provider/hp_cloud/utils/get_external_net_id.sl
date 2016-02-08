@@ -6,15 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Get the id of the one external network from a JSON list of networks.
-#
-# Inputs:
-#   - json_network_list - output of the list_all_networks operation
-# Outputs:
-#   - ext_network_id - ID of external network
-# Results:
-#   - SUCCESS - found the external network ID and returned it
-#   - FAILURE - otherwise
+#!!
+#! @description: Get the id of the one external network from a JSON list of networks.
+#! @input json_network_list: output of the list_all_networks operation
+#! @output ext_network_id: ID of external network
+#! @result SUCCESS: found the external network ID and returned it
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.utils

@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Counts the occurrences of a string in another string.
-#
-# Inputs:
-#   - string_in_which_to_search - string where to search
-#   - string_to_find - string to be found
-#   - ignore_case - optional - ignores case if set to true - Default: true
-# Outputs:
-#   - return_result - number of times string_to_find was found in container
-#   - return_code - 0 if everything went ok, -1 if an error was thrown
-#   - error_message: returnResult if occurrence == '0'  else ''
-# Results:
-#   - SUCCESS - string is found at least once
-#   - FAILURE - otherwise
+#!!
+#! @description: Counts the occurrences of a string in another string.
+#! @input string_in_which_to_search: string where to search
+#! @input string_to_find: string to be found
+#! @input ignore_case: optional - ignores case if set to true - Default: true
+#! @output return_result: number of times string_to_find was found in container
+#! @output return_code: 0 if everything went ok, -1 if an error was thrown
+#! @output error_message: returnResult if occurrence == '0'  else ''
+#! @result SUCCESS: string is found at least once
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.strings

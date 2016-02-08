@@ -6,16 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Reads a file from the given path and returns its content.
-#
-# Inputs:
-#   - file_path - the path of the file to read
-# Outputs:
-#   - read_text - content of the file
-#   - message - error message if error occurred
-# Results:
-#   - SUCCESS - file was read successfully
-#   - FAILURE - otherwise
+#!!
+#! @description: Reads a file from the given path and returns its content.
+#! @input file_path: the path of the file to read
+#! @output read_text: content of the file
+#! @output message: error message if error occurred
+#! @result SUCCESS: file was read successfully
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

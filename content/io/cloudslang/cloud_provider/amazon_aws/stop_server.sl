@@ -6,26 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
-#   and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
-#
-# Inputs:
-#   - provider - the cloud provider on which the instance is - Default: 'amazon'
-#   - endpoint - the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#   - identity - optional - the Amazon Access Key ID
-#   - credential - optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#   - region - optional - the region where the server (instance) to be stopped can be found
-#                         list_regions operation can be used in order to get all regions - Default: 'us-east-1'
-#   - server_id - the ID of the server (instance) you want to stop
-#   - proxyHost - optional - the proxy server used to access the provider services
-#   - proxyPort - optional - the proxy server port used to access the provider services
-# Outputs:
-#   - return_result - contains the exception in case of failure, success message otherwise
-#   - return_code - '0' if operation was successfully executed, '-1' otherwise
-#   - error_message - error message if there was an error when executing, empty otherwise
-# Results:
-#  SUCCESS: the server (instance) was successfully stopped
-#  FAILURE: an error occurred when trying to stop a server (instance)
+#!!
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
+#!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
+#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
+#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: optional - the Amazon Access Key ID
+#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input region: optional - the region where the server (instance) to be stopped can be found
+#!                list_regions operation can be used in order to get all regions - Default: 'us-east-1'
+#! @input server_id: the ID of the server (instance) you want to stop
+#! @input proxyHost: optional - the proxy server used to access the provider services
+#! @input proxyPort: optional - the proxy server port used to access the provider services
+#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
+#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @result SUCCESS: the server (instance) was successfully stopped
+#! @result FAILURE: an error occurred when trying to stop a server (instance)
+#!!#
 ####################################################
 namespace: io.cloudslang.cloud_provider.amazon_aws
 

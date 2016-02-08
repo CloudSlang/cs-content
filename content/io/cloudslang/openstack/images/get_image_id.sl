@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the image ID from the response of the list_images operation of a given image by name.
-#
-# Inputs:
-#   - image_body - response of list_images operation
-#   - image_name - image name
-# Outputs:
-#   - image_id - ID of specified image
-#   - return_result - was parsing was successful or not
-#   - return_code - '0' if success, '-1' otherwise
-#   - error_message - error message
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the image ID from the response of the list_images operation of a given image by name.
+#! @input image_body: response of list_images operation
+#! @input image_name: image name
+#! @output image_id: ID of specified image
+#! @output return_result: was parsing was successful or not
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.images

@@ -6,18 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Copies a file or folder.
-# If a folder is copied, the destination directory must not already exist.
-#
-# Inputs:
-#   - source - path of source file or folder to be copied
-#   - destination - path of destination for file or folder to be copied to. If copying a folder, destination path must
-#                   include folder name. If copying a file, destination path must include file name.
-# Outputs:
-#   - message - error message in case of error
-# Results:
-#   - SUCCESS - file or folder was successfully copied
-#   - FAILURE - file or folder was not copied due to an error
+#!!
+#! @description: Copies a file or folder.
+#!               If a folder is copied, the destination directory must not already exist.
+#! @input source: path of source file or folder to be copied
+#! @input destination: path of destination for file or folder to be copied to. If copying a folder, destination path must
+#!                     include folder name. If copying a file, destination path must include file name.
+#! @output message: error message in case of error
+#! @result SUCCESS: file or folder was successfully copied
+#! @result FAILURE: file or folder was not copied due to an error
+#!!#
 ####################################################
 namespace: io.cloudslang.base.files
 

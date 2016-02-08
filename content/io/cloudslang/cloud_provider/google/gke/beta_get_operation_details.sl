@@ -6,35 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets the specified operation details.
-#
-# Note : Google authentication JSON key file downloaded from the Google APIs console is required.
-#        This referred to in GOOGLE_APPLICATION_CREDENTIALS is expected to contain information about credentials
-#        that are ready to use. This means either service account information or user account information with a
-#        ready-to-use refresh token.
-#
-#        Example:
-#          {                                       {
-#            'type': 'authorized_user',               'type': 'service_account',
-#            'client_id': '...',                      'client_id': '...',
-#            'client_secret': '...',       OR         'client_email': '...',
-#            'refresh_token': '...,                   'private_key_id': '...',
-#          }                                          'private_key': '...',
-#                                                  }
-#
-# Inputs:
-#   - project_id - The Google Developers Console project ID or project number
-#   - zone - optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
-#                     - Default: none
-#   - json_google_auth_path - FileSystem path to Google authentication JSON key file
-#                             System Property: io.cloudslang.cloud_provider.json_google_auth_path
-#   - operation_id - The server-assigned name of the operation.
-#
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is '-1'
-#   - response - JSON response body containing an instance of Operation
-#   - return_code - '0' if success, '-1' otherwise
+#!!
+#! @description: Gets the specified operation details.
+#!               Note : Google authentication JSON key file downloaded from the Google APIs console is required.
+#!               This referred to in GOOGLE_APPLICATION_CREDENTIALS is expected to contain information about credentials
+#!               that are ready to use. This means either service account information or user account information with a
+#!               ready-to-use refresh token.
+#!               Example:
+#!               {                                       {
+#!                 'type': 'authorized_user',               'type': 'service_account',
+#!                 'client_id': '...',                      'client_id': '...',
+#!                 'client_secret': '...',       OR         'client_email': '...',
+#!                 'refresh_token': '...,                   'private_key_id': '...',
+#!               }                                          'private_key': '...',
+#!                                                       }
+#! @input project_id: The Google Developers Console project ID or project number
+#! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#!              Default: none
+#! @input json_google_auth_path: FileSystem path to Google authentication JSON key file
+#!                               System Property: io.cloudslang.cloud_provider.json_google_auth_path
+#! @input operation_id: The server-assigned name of the operation.
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if return_code is '-1'
+#! @output response: JSON response body containing an instance of Operation
+#! @output return_code: '0' if success, '-1' otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.google.gke

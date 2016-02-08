@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ##################################################
-# Verifies two strings are equal.
-#
-# Inputs:
-#   - first_string - first string to compare
-#   - second_string - second string to compare
-# Results:
-#   - SUCCESS - strings are equal
-#   - FAILURE - strings are not equal
+#!!
+#! @description: Verifies two strings are equal.
+#! @input first_string: first string to compare
+#! @input second_string: second string to compare
+#! @result SUCCESS: strings are equal
+#! @result FAILURE: strings are not equal
+#!!#
 ##################################################
 namespace: io.cloudslang.base.strings
 

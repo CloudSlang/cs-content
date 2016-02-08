@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if an application is up and running.
-#
-# Inputs:
-#   - ssl - specify whether the host is over SSL or not
-#   - host - IP where the application is running
-#   - port - port on which the application is listening
-#   - attempts - attempts to reach host
-#   - time_to_sleep - optional - time in seconds to wait between attempts - Default: 10
-#   - attempt_timeout - optional - timeout, in seconds, for each attempt - Default: false
-# Outputs:
-#   - output_message - message indicating whether app is up or not
-# Results:
-#   - SUCCESS - application is up
-#   - FAILURE - application not responding or down
+#!!
+#! @description: Checks if an application is up and running.
+#! @input ssl: specify whether the host is over SSL or not
+#! @input host: IP where the application is running
+#! @input port: port on which the application is listening
+#! @input attempts: attempts to reach host
+#! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 10
+#! @input attempt_timeout: optional - timeout, in seconds, for each attempt - Default: false
+#! @output output_message: message indicating whether app is up or not
+#! @result SUCCESS: application is up
+#! @result FAILURE: application not responding or down
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.network

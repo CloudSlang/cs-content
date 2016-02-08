@@ -6,32 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ########################################################################################################################
-# Checks if the MySQL server is up, meaning its state is alive.
-#
-# Inputs:
-#   - container - name or ID of the Docker container that runs MySQL
-#   - host - Docker machine host
-#   - port - optional - SSH port
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - arguments - optional - arguments to pass to the command
-#   - mysql_username - MySQL instance username
-#   - mysql_password - MySQL instance password
-#   - private_key_file - optional - absolute path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine
-#                              - Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if 'false' SSH session will be cached for future calls during the life of the flow,
-#                                if 'true' the SSH session used will be closed; Valid: true, false
-#   - agent_forwarding - optional - whether to forward the user authentication agent
-# Outputs:
-#   - return_result - the return result of the command
-#   - error_message - contains the STDERR of the machine if the SSH action was executed successfully, the cause of the
-#                     exception otherwise
-# Results:
-#   - SUCCESS - action was executed successfully and MySQL server state is alive
-#   - FAILURE - some problem occurred, more information in errorMessage output
+#!!
+#! @description: Checks if the MySQL server is up, meaning its state is alive.
+#! @input container: name or ID of the Docker container that runs MySQL
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: optional - Docker machine password
+#! @input arguments: optional - arguments to pass to the command
+#! @input mysql_username: MySQL instance username
+#! @input mysql_password: MySQL instance password
+#! @input private_key_file: optional - absolute path to private key file
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed; Valid: true, false
+#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @output return_result: the return result of the command
+#! @output error_message: contains the STDERR of the machine if the SSH action was executed successfully, the cause of the
+#!                        exception otherwise
+#! @result SUCCESS: action was executed successfully and MySQL server state is alive
+#! @result FAILURE: some problem occurred, more information in errorMessage output
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

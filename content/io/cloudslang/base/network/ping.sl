@@ -6,20 +6,18 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Pings an address.
-#
-# Inputs:
-#   - address - address to ping
-#   - ttl - time to live ping parameter
-#   - size - ping buffer size
-#   - timeout - timeout in milliseconds to wait for reply
-# Outputs:
-#   - message - error message if error occurred
-#   - is_up - whether pinged address is up or not
-# Results:
-#   - UP - address is up
-#   - DOWN - address is down
-#   - FAILURE - ping cannot be performed due to an error
+#!!
+#! @description: Pings an address.
+#! @input address: address to ping
+#! @input ttl: time to live ping parameter
+#! @input size: ping buffer size
+#! @input timeout: timeout in milliseconds to wait for reply
+#! @output message: error message if error occurred
+#! @output is_up: whether pinged address is up or not
+#! @result UP: address is up
+#! @result DOWN: address is down
+#! @result FAILURE: ping cannot be performed due to an error
+#!!#
 ####################################################
 namespace: io.cloudslang.base.network
 

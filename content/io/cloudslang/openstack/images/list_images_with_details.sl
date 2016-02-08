@@ -6,33 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of OpenStack images with all details.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - tenant_name - name of OpenStack project that contains specified image with details to be retrieved
-#   - username - optional - username used for URL authentication; for NTLM authentication,
-#                           -Format: 'domain\user'
-#   - password - optional - password used for URL authentication
-#   - proxy_host - optional - proxy server used to access OpenStack services
-#   - proxy_port - optional - proxy server port used to access OpenStack services - Default: '8080'
-#   - proxy_username - optional - username used when connecting to proxy
-#   - proxy_password - optional - proxy server password associated with <proxy_username> input value
-# Outputs:
-#   - return_result - response of operation in case of success, error message otherwise
-#   - error_message - return_result if status_code is not '200'
-#   - return_code - '0' if success, '-1' otherwise
-#   - status_code - code returned by operation
-# Results:
-#   - SUCCESS - list with images details were successfully retrieved
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained
-#                                        from authentication call response
-#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained
-#                             from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - authentication call fails
-#   - LIST_IMAGES_WITH_DETAILS_FAILURE - list with images details could not be retrieved
+#!!
+#! @description: Retrieves a list of OpenStack images with all details.
+#! @input host: OpenStack machine host
+#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
+#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input tenant_name: name of OpenStack project that contains specified image with details to be retrieved
+#! @input username: optional - username used for URL authentication; for NTLM authentication,
+#!                  Format: 'domain\user'
+#! @input password: optional - password used for URL authentication
+#! @input proxy_host: optional - proxy server used to access OpenStack services
+#! @input proxy_port: optional - proxy server port used to access OpenStack services - Default: '8080'
+#! @input proxy_username: optional - username used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @output return_result: response of operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '200'
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: code returned by operation
+#! @result SUCCESS: list with images details were successfully retrieved
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained
+#!                                           from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained
+#!                                from authentication call response
+#! @result GET_AUTHENTICATION_FAILURE: authentication call fails
+#! @result LIST_IMAGES_WITH_DETAILS_FAILURE: list with images details could not be retrieved
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack.images

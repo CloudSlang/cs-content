@@ -6,29 +6,27 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Checks if an OpenStack server exists.
-#
-# Inputs:
-#   - host - OpenStack machine host
-#   - identity_port - optional - port used for OpenStack authentication - Default: '5000'
-#   - compute_port - optional - port used for OpenStack computations - Default: '8774'
-#   - username - OpenStack username
-#   - password - OpenStack password
-#   - tenant_name - name of OpenStack project
-#   - proxy_host - optional - proxy server used to access web site
-#   - proxy_port - optional - proxy server port
-#   - server_name - server name to check
-# Outputs:
-#   - return_result - response of last operation executed
-#   - error_message - error message of operation that failed
-# Results:
-#   - SUCCESS - the OpenStack server (instance) exist
-#   - GET_AUTHENTICATION_TOKEN_FAILURE - authentication token cannot be obtained from authentication call response
-#   - GET_TENANT_ID_FAILURE - tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#   - GET_AUTHENTICATION_FAILURE - authentication call fails
-#   - GET_SERVERS_FAILURE - call for list OpenStack servers (instances) fails
-#   - EXTRACT_SERVERS_FAILURE - list of OpenStack servers (instances) could not be retrieved
-#   - CHECK_SERVER_FAILURE - check for specified OpenStack server (instance) fails
+#!!
+#! @description: Checks if an OpenStack server exists.
+#! @input host: OpenStack machine host
+#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
+#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input username: OpenStack username
+#! @input password: OpenStack password
+#! @input tenant_name: name of OpenStack project
+#! @input proxy_host: optional - proxy server used to access web site
+#! @input proxy_port: optional - proxy server port
+#! @input server_name: server name to check
+#! @output return_result: response of last operation executed
+#! @output error_message: error message of operation that failed
+#! @result SUCCESS: the OpenStack server (instance) exist
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#! @result GET_AUTHENTICATION_FAILURE: authentication call fails
+#! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) fails
+#! @result EXTRACT_SERVERS_FAILURE: list of OpenStack servers (instances) could not be retrieved
+#! @result CHECK_SERVER_FAILURE: check for specified OpenStack server (instance) fails
+#!!#
 ####################################################
 
 namespace: io.cloudslang.openstack

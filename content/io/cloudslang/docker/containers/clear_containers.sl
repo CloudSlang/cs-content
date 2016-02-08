@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes all Docker images and containers from a Docker Host.
-#
-# Inputs:
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: '6000000'
-#   - port - optional - SSH port
+#!!
+#! @description: Deletes all Docker images and containers from a Docker Host.
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: '6000000'
+#! @input port: optional - SSH port
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers

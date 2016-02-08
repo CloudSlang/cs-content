@@ -6,18 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes two Docker containers.
-#
-# Inputs:
-#   - db_container_id - ID of the DB container
-#   - linked_container_id - ID of the linked container
-#   - docker_host - Docker machine host
-#   - port - optional - SSH port
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine host password
-#   - private_key_file - optional - path to private key file
-# Outputs:
-#   - error_message - error message
+#!!
+#! @description: Deletes two Docker containers.
+#! @input db_container_id: ID of the DB container
+#! @input linked_container_id: ID of the linked container
+#! @input docker_host: Docker machine host
+#! @input port: optional - SSH port
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine host password
+#! @input private_key_file: optional - path to private key file
+#! @output error_message: error message
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers.examples

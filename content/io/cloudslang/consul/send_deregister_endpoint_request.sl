@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Send a request to delete an endpoint.
-#
-# Inputs:
-#   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Default: '8500'
-#   - json_request - the request JSON
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message - return_result if return_code is equal to '-1' or status_code different than '200'
-#   - return_code - if return_code is equal to '-1' then there was an error
-#   - statusCode - normal status code is '200'
-# Results:
-#   - SUCCESS - operation succeeded (return_code != '-1' and status_code == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Send a request to delete an endpoint.
+#! @input host: Consul agent host
+#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input json_request: the request JSON
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code is equal to '-1' or status_code different than '200'
+#! @output return_code: if return_code is equal to '-1' then there was an error
+#! @output statusCode: normal status code is '200'
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

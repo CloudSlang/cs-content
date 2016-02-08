@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Assigns a floating IP to a server instance.
-#
-# Inputs:
-#   - ip_address - floating IP to be added to server
-#   - server_id - server instance ID
-#   - tenant - tenant ID obtained by get_authenication_flow
-#   - token - auth token obtained by get_authenication_flow
-#   - region - HP Cloud region; 'a' or 'b'  (US West or US East)
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-# Outputs:
-#   - return_result - JSON response of the operation
-#   - error_message - message returned when HTTP call fails
-#   - status_code - normal status code is 202
-# Results:
-#   - SUCCESS - operation succeeded
-#   - FAILURE - otherwise
+#!!
+#! @description: Assigns a floating IP to a server instance.
+#! @input ip_address: floating IP to be added to server
+#! @input server_id: server instance ID
+#! @input tenant: tenant ID obtained by get_authenication_flow
+#! @input token: auth token obtained by get_authenication_flow
+#! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @output return_result: JSON response of the operation
+#! @output error_message: message returned when HTTP call fails
+#! @output status_code: normal status code is 202
+#! @result SUCCESS: operation succeeded
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.cloud_provider.hp_cloud.net

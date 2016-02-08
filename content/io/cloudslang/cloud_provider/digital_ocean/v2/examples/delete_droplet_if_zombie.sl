@@ -6,26 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################
-# Deletes a DigitalOcean droplet if it is considered a zombie.
-#
-# Inputs:
-#   - droplet_id - id of the droplet as a string value
-#   - droplet_name - name of the droplet
-#   - creation_time_as_string - creation time (UTC timezone) of the droplet as a string value
-#                             - Format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#   - time_to_live - threshold to compare the droplet's lifetime to (in minutes)
-#   - name_pattern - regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
-#   - token - personal access token for DigitalOcean API
-#   - proxy_host - optional - proxy server used to access the web site
-#   - proxy_port - optional - proxy server port
-#   - proxy_username - optional - user name used when connecting to the proxy
-#   - proxy_password - optional - proxy server password associated with the <proxy_username> input value
-#   - connect_timeout - optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#   - socket_timeout - optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
-# Results:
-#   - DELETED: droplet is deleted
-#   - NOT_DELETED: droplet is not deleted
-#   - FAILURE: an error occurred
+#!!
+#! @description: Deletes a DigitalOcean droplet if it is considered a zombie.
+#! @input droplet_id: id of the droplet as a string value
+#! @input droplet_name: name of the droplet
+#! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
+#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
+#! @input time_to_live: threshold to compare the droplet's lifetime to (in minutes)
+#! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
+#! @input token: personal access token for DigitalOcean API
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @result DELETED: droplet is deleted
+#! @result NOT_DELETED: droplet is not deleted
+#! @result FAILURE: an error occurred
+#!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud_provider.digital_ocean.v2.examples
 

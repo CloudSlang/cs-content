@@ -6,26 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Remove node and client from Chef, delete /etc/chef folder on node.
-#
-# Inputs:
-#   - node_name - name of node in Chef to be deleted
-#   - knife_host - IP of server with configured knife accessable via SSH, can be main Chef server
-#   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - password to access server with knife
-#   - knife_privkey - optional - path to local SSH keyfile for accessing server with knife
-#   - node_host - hostname or IP of Chef node
-#   - node_username - SSH username for the Chef node
-#   - node_password - optional - password to access node
-#   - node_privkey - optional - path on <knife_host> to keyfile for accessing node
-#   - knife_config - optional - location of knife.rb config file
-# Outputs:
-#   - knife_result - filtered output of knife command
-#   - raw_result - full STDOUT
-#   - standard_err - any STDERR
-# Results:
-#   - SUCCESS - node deleted OK
-#   - FAILURE - otherwise
+#!!
+#! @description: Remove node and client from Chef, delete /etc/chef folder on node.
+#! @input node_name: name of node in Chef to be deleted
+#! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
+#! @input knife_username: SSH username to access server with knife
+#! @input knife_password: optional - password to access server with knife
+#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
+#! @input node_host: hostname or IP of Chef node
+#! @input node_username: SSH username for the Chef node
+#! @input node_password: optional - password to access node
+#! @input node_privkey: optional - path on <knife_host> to keyfile for accessing node
+#! @input knife_config: optional - location of knife.rb config file
+#! @output knife_result: filtered output of knife command
+#! @output raw_result: full STDOUT
+#! @output standard_err: any STDERR
+#! @result SUCCESS: node deleted OK
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.chef

@@ -6,21 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates JSON for request to register new agent service.
-#
-# Inputs:
-#   - address - optional - will default to that of the agent - Default: ''
-#   - service_name - name of the service to be registered
-#   - service_id - optional - service_name will be used if not specified
-#   - check - optional - if the Check key is provided, then a health check will also be registered
-# Outputs:
-#   - return_result - response of the operation
-#   - error_message - return_result if there was an error
-#   - return_code - '0' if parsing was successful, '-1' otherwise
-#   - json_request - JSON request for registering endpoint
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Creates JSON for request to register new agent service.
+#! @input address: optional - will default to that of the agent - Default: ''
+#! @input service_name: name of the service to be registered
+#! @input service_id: optional - service_name will be used if not specified
+#! @input check: optional - if the Check key is provided, then a health check will also be registered
+#! @output return_result: response of the operation
+#! @output error_message: return_result if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output json_request: JSON request for registering endpoint
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul

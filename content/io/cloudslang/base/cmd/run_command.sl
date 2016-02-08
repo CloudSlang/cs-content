@@ -6,13 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Runs a shell command locally.
-#
-# Inputs:
-#   - command - command to run
-# Results:
-#   - SUCCESS - exit code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Runs a shell command locally.
+#! @input command: command to run
+#! @result SUCCESS: exit code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.cmd
