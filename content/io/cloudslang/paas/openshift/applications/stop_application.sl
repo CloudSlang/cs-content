@@ -7,20 +7,28 @@
 #
 ####################################################
 #!!
-#! @description: This flow performs an REST API call in order to stop an existing RedHat OpenShift Online application
+#! @description: Performs a REST API call to stop an existing RedHat OpenShift Online application.
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - the RedHat OpenShift Online username - Example: 'someone@mailprovider.com'
-#! @input password: optional - the RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access the RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input domain: the name of the RedHat OpenShift Online domain from where the application belongs to
-#! @input application_name: the RedHat OpenShift Online application name that will be stopped
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '200'
+#! @input username: RedHat OpenShift Online username
+#!                  optional
+#!                  example: 'someone@mailprovider.com'
+#! @input password: RedHat OpenShift Online password used for authentication
+#!                  optional
+#! @input proxy_host: proxy server used to access RedHat OpenShift Online web site
+#!                    optional
+#! @input proxy_port: proxy server port
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @input domain: name of RedHat OpenShift Online domain application belongs to
+#! @input application_name: RedHat OpenShift Online application name that will be stopped
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
+#! @output status_code: code returned by the operation
 #!!#
 ####################################################
 
