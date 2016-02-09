@@ -7,26 +7,42 @@
 #
 ####################################################
 #!!
-#! @description: This flow performs an REST API call in order to create a new RedHat OpenShift Online application
+#! @description: Performs a REST API call to create a new RedHat OpenShift Online application.
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - the RedHat OpenShift Online username - Example: 'someone@mailprovider.com'
-#! @input password: optional - the RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access the RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input domain: the name of the RedHat OpenShift Online domain in which the application will be created
-#!                Note: The domain must be created first in order to can create applications
-#! @input application_name: the RedHat OpenShift Online application name
-#! @input cartridge: the list with names of the frameworks to be added in RedHat OpenShift Online application
-#!                   Example: ['ruby-1.8']
-#! @input scale: optional - mark RedHat OpenShift Online application as scalable - Default: False
-#! @input gear_profile: optional - size of the gear - Default: 'small'
-#! @input initial_git_url: optional - URL to Git source repository
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '201'
+#! @input username: RedHat OpenShift Online username
+#!                  optional
+#!                  example: 'someone@mailprovider.com'
+#! @input password: RedHat OpenShift Online password used for authentication
+#!                  optional
+#! @input proxy_host: proxy server used to access RedHat OpenShift Online web site
+#!                    optional
+#! @input proxy_port: proxy server port
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @input domain: name of RedHat OpenShift Online domain in which application will be created
+#!                note: domain must be created first in order to create applications
+#! @input application_name: RedHat OpenShift Online application name
+#! @input cartridge: list with names of frameworks to be added in RedHat OpenShift Online application
+#!                   example: ['ruby-1.8']
+#! @input scale: mark RedHat OpenShift Online application as scalable
+#!               optional
+#!               default: False
+#! @input gear_profile: size of the gear
+#!                      optional
+#!                      default: 'small'
+#! @input initial_git_url: URL to Git source repository
+#!                         optional
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
+#! @output status_code: code returned by the operation
+#! @result SUCCESS: new RedHat OpenShift Online application was created successfully
+#! @result CONVERT_LIST_TO_STRING_FAILURE
+#! @result CREATE_APPLICATION_FAILURE
 #!!#
 ####################################################
 
