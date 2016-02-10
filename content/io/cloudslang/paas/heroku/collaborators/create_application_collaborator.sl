@@ -1,24 +1,29 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to create a Heroku collaborator on a specified application
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: the Heroku used for authentication
-#! @input app_id_or_name: the name or the id of the Heroku application
-#! @input user: the unique identifier or email address of account of a new collaborator
-#!              Example: '01234567-89ab-cdef-0123-456789abcdef' or 'username@example.com'
-#! @input silent: optional - whether to suppress email invitation when creating collaborator - Default: False
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '201'
+#! @description: Performs a REST API call to create a Heroku collaborator on a specified application.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku password used for authentication
+#! @input app_id_or_name: ID or name of the Heroku application
+#! @input user: unique identifier or email address of account of a new collaborator
+#!              example: '01234567-89ab-cdef-0123-456789abcdef' or 'username@example.com'
+#! @input silent: whether to suppress email invitation when creating collaborator
+#!                optional
+#!                default: False
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output id: the id of the new created application collaborator - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#! @output created_at: the exact time when the application collaborator was created - Example: '2016-01-04T14:49:53Z'
-#! @result SUCCESS: the application collaborator was successfully created/added
+#! @output status_code: code returned by the operation
+#! @output id: ID of the newly created application collaborator
+#!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
+#! @output created_at: exact time when application collaborator was created
+#!                     example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: application collaborator was successfully created/added
 #! @result ADD_SILENT_VALUE_FAILURE: insert 'silent' key:value pair in a empty JSON step failed
 #! @result INSERT_USER_VALUE_FAILURE: insert 'user' key:value pair in JSON body failed
-#! @result CREATE_APPLICATION_COLLABORATOR_FAILURE: the create Heroku application collaborator REST API call failed
-#! @result GET_ID_FAILURE: the id of the newly created application could not be retrieved from the create REST API call response
-#! @result GET_CREATED_AT_FAILURE: the time when the newly application was created could not be retrieved from the create REST API call response
+#! @result CREATE_APPLICATION_COLLABORATOR_FAILURE: create Heroku application collaborator REST API call failed
+#! @result GET_ID_FAILURE: ID of newly created application could not be retrieved from create REST API call response
+#! @result GET_CREATED_AT_FAILURE: time when newly created application was created could not be retrieved from create REST API call response
 #!!#
 ####################################################
 

@@ -1,25 +1,27 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to get the Heroku application details
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: the Heroku used for authentication
-#! @input app_id_or_name: the name or the id of the Heroku application
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '200'
+#! @description: Performs a REST API call to get the Heroku application details.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku password used for authentication
+#! @input app_id_or_name: name or ID of the Heroku application
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output id: the id of the application. Useful when <app_id_or_name> is a name
-#! @output name: the name of the application. Useful when <app_id_or_name> is id
-#! @output region: the region were the application resides
-#! @output stack: the name of the stack were application belong
-#! @output created_at: the time when application was created - Example: '2016-01-04T14:49:53Z'
-#! @result SUCCESS: the Heroku application details were successfully retrieved
-#! @result GET_APPLICATION_DETAILS_FAILURE: the Heroku application details could not be retrieved
-#! @result GET_ID_FAILURE: the id of application could not be retrieved from the get REST API call response
-#! @result GET_NAME_FAILURE: the name of application could not be retrieved from the get REST API call response
-#! @result GET_REGION_FAILURE: the region were application resides could not be retrieved from the get REST API call response
-#! @result GET_STACK_FAILURE: the stack name of application could not be retrieved from the get REST API call response
-#! @result GET_CREATED_AT_FAILURE: the created_at application time could not be retrieved from the get REST API call response
+#! @output status_code: code returned by the operation
+#! @output id: ID of the application; useful when <app_id_or_name> is a name
+#! @output name: name of the application; useful when <app_id_or_name> is an ID
+#! @output region: region were application resides
+#! @output stack: name of stack were application belongs
+#! @output created_at: time when application was created
+#!                     example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: Heroku application details were successfully retrieved
+#! @result GET_APPLICATION_DETAILS_FAILURE: Heroku application details could not be retrieved
+#! @result GET_ID_FAILURE: ID of application could not be retrieved from the GET REST API call response
+#! @result GET_NAME_FAILURE: name of application could not be retrieved from the GET REST API call response
+#! @result GET_REGION_FAILURE: region were application resides could not be retrieved from the GET REST API call response
+#! @result GET_STACK_FAILURE: stack name of application could not be retrieved from the GET REST API call response
+#! @result GET_CREATED_AT_FAILURE: created_at application time could not be retrieved from the GET REST API call response
 #!!#
 ####################################################
 

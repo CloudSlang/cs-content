@@ -1,28 +1,39 @@
-#################################################### 
+####################################################
 #!!
-#! @description: This flow performs an REST API call in order to create a Heroku application
-#! @input username: the Heroku username - Example: 'someone@mailprovider.com'
-#! @input password: the Heroku used for authentication
-#! @input name: optional - the name of the application. If not provided then the name will be generate by Heroku
-#!              Default: None
-#! @input region: optional - the unique identifier or name of region - Example: 'us' - Default: None
-#! @input stack: optional - the unique identifier or name of stack - Example: 'cedar-14' - Default: None
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '201'
+#! @description: Performs a REST API call to create a Heroku application.
+#! @input username: Heroku username
+#!                  example: 'someone@mailprovider.com'
+#! @input password: Heroku password used for authentication
+#! @input name: name of application; if not provided, name will be generate by Heroku
+#!              optional
+#!              default: None
+#! @input region: unique identifier or name of region
+#!                optional
+#!                default: None
+#!                example: 'us'
+#! @input stack: optional unique identifier or name of stack
+#!               optional
+#!               default: None
+#!               example: 'cedar-14'
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output id: the id of the new created application - Example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#! @output name: the name of the new created application. Useful when <name> input is not provided - Example: 'arcane-fortress-9257'
-#! @output created_at: the exact time when the application was created - Example: '2016-01-04T14:49:53Z'
-#! @result SUCCESS: the application was successfully created
-#! @result CREATE_EMPTY_JSON_FAILURE: create empty json step failed
+#! @output status_code: code returned by the operation
+#! @output id: ID of the newly created application
+#!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
+#! @output name: name of the new created application; useful when <name> input is not provided
+#!               example: 'arcane-fortress-9257'
+#! @output created_at: exact time when application was created
+#!                     example: '2016-01-04T14:49:53Z'
+#! @result SUCCESS: application was created successfully
+#! @result CREATE_EMPTY_JSON_FAILURE: create empty JSON step failed
 #! @result ADD_NAME_FAILURE: insert 'name' key:value pair in JSON body failed
 #! @result ADD_REGION_FAILURE: insert 'region' key:value pair in JSON body failed
 #! @result ADD_STACK_FAILURE: insert 'stack' key:value pair in JSON body failed
-#! @result CREATE_APPLICATION_FAILURE: the create Heroku application REST API call failed
-#! @result GET_ID_FAILURE: the id of the newly created application could not be retrieved from the create REST API call response
-#! @result GET_NAME_FAILURE: the name of the newly created application could not be retrieved from the create REST API call response
-#! @result GET_CREATED_AT_FAILURE: the time when the newly application was created could not be retrieved from the create REST API call response
+#! @result CREATE_APPLICATION_FAILURE: create Heroku application REST API call failed
+#! @result GET_ID_FAILURE: ID of newly created application could not be retrieved from create REST API call response
+#! @result GET_NAME_FAILURE: name of newly created application could not be retrieved from create REST API call response
+#! @result GET_CREATED_AT_FAILURE: time when newly created application was created could not be retrieved from the create REST API call response
 #!!#
 ####################################################
 
