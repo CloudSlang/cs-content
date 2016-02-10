@@ -7,36 +7,35 @@
 #
 ####################################################
 #!!
-#! @description: Checks if an OpenStack server exists.
+#! @description: Retrieves a list of servers on an OpenStack machine.
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input identity_port: optional - port used for OpenStack authentication - Default: 5000
+#! @input compute_port: optional - port used for OpenStack computations - Default: 8774
 #! @input username: OpenStack username
 #! @input password: OpenStack password
-#! @input tenant_name: name of OpenStack project
+#! @input tenant_name: name of project on OpenStack
 #! @input proxy_host: optional - proxy server used to access web site
 #! @input proxy_port: optional - proxy server port
-#! @input server_name: server name to check
+#! @output server_list: list of server names
 #! @output return_result: response of last operation executed
 #! @output error_message: error message of operation that failed
-#! @result SUCCESS: the OpenStack server (instance) exist
+#! @result SUCCESS: list of OpenStack servers (instances) was successfully retrieved
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
 #! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#! @result GET_AUTHENTICATION_FAILURE: authentication call fails
-#! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) fails
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) failed
 #! @result EXTRACT_SERVERS_FAILURE: list of OpenStack servers (instances) could not be retrieved
-#! @result CHECK_SERVER_FAILURE: check for specified OpenStack server (instance) fails
 #!!#
 ####################################################
 
-namespace: io.cloudslang.openstack
+namespace: io.cloudslang.openstack.servers
 
 imports:
+  openstack: io.cloudslang.openstack
   openstack_utils: io.cloudslang.openstack.utils
-  servers: io.cloudslang.openstack.servers
 
 flow:
-  name: validate_server_exists
+  name: list_servers
   inputs:
     - host
     - identity_port: '5000'
@@ -48,44 +47,59 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - server_name
-
   workflow:
-    - get_server_list:
+    - authentication:
         do:
-          servers.list_servers:
+          openstack.get_authentication_flow:
             - host
             - identity_port
-            - compute_port
             - username
             - password
             - tenant_name
             - proxy_host
             - proxy_port
         publish:
-          - server_list
+          - token
+          - tenant_id
           - return_result
           - error_message
         navigate:
-          SUCCESS: check_server
+          SUCCESS: get_servers
           GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
           GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
           GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_SERVERS_FAILURE: GET_SERVERS_FAILURE
-          EXTRACT_SERVERS_FAILURE: EXTRACT_SERVERS_FAILURE
 
-    - check_server:
+    - get_servers:
         do:
-          openstack_utils.check_server:
-            - server_to_find: ${server_name}
-            - server_list
+          get_servers:
+            - host
+            - compute_port
+            - token
+            - tenant_id
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - error_message
+          - status_code
+        navigate:
+          SUCCESS: extract_servers
+          FAILURE: GET_SERVERS_FAILURE
+
+    - extract_servers:
+        do:
+          openstack_utils.extract_object_list_from_json_response:
+            - response_body: ${return_result}
+            - object_name: 'servers'
+        publish:
+          - object_list
+          - error_message
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_SERVER_FAILURE
+          FAILURE: EXTRACT_SERVERS_FAILURE
+
   outputs:
+    - server_list: ${object_list}
     - return_result
     - error_message
 
@@ -96,4 +110,3 @@ flow:
     - GET_AUTHENTICATION_FAILURE
     - GET_SERVERS_FAILURE
     - EXTRACT_SERVERS_FAILURE
-    - CHECK_SERVER_FAILURE
