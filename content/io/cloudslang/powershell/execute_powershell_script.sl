@@ -7,15 +7,17 @@
 #
 ####################################################
 #!!
-#! @description: Executes PowerShell script on a given remote host.
-#! @input host: the hostname or IP address of the PowerShell host
-#! @input user_name: The username used to connect to the the remote machine.
-#! @input password: The password used to connect to the remote machine.
-#! @input script: The PowerShell script that will run on the remote machine.
-#! @input winrm_enable_https: If set to true, HTTPS is used to connect to the WinRM server.
-#!                            Otherwise HTTP is used. Default: false.
-#! @output return_result: output of the powershell script
-#! @output status_code: status code of the execution
+#! @description: Executes a PowerShell script on a given remote host.
+#! @input host: hostname or IP address of PowerShell host
+#! @input user_name: username used to connect to remote machine
+#! @input password: password used to connect to remote machine
+#! @input script: PowerShell script that will run on remote machine
+#! @input winrm_enable_https: if true, HTTPS is used to connect to the WinRM server,
+#!                            otherwise, HTTP is used
+#!                            optional
+#!                            default: false
+#! @output return_result: output of PowerShell script
+#! @output return_code: status code of execution
 #! @output error_message: error
 #!!#
 ####################################################

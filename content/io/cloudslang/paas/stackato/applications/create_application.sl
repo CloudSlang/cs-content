@@ -6,28 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Creates and deploys an application in Helion Development Platform / Stackato instance
+#! @description: Creates and deploys an application in Helion Development Platform / Stackato instance.
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input application_name: Name of the application to create
-#! @input space_guid: GUID of the Helion Development Platform / Stackato space to deploy to
-#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
-#! @input proxy_port: optional - the proxy server port used to access the Helion Development Platform / Stackato services
-#!                    Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if statusCode is not '201'
+#! @input application_name: name of the application to create
+#! @input space_guid: GUID of Helion Development Platform / Stackato space to deploy to
+#! @input proxy_host: proxy server used to access Helion Development Platform / Stackato services
+#!                    optional
+#! @input proxy_port: proxy server port used to access Helion Development Platform / Stackato services
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
-#! @output application_guid: the application id
-#! @result SUCCESS: the application on Helion Development Platform / Stackato host was successfully created/deployed
-#! @result GET_AUTHENTICATION_FAILURE: the authentication call fail
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
-#! @result CREATE_APPLICATION_FAILURE: the application on Helion Development Platform / Stackato host could not be
-#!                                     created/deployed
-#! @result GET_APPLICATION_GUID_FAILURE: the application guid cannot be obtained from create call response
+#! @output status_code: code returned by the operation
+#! @output application_guid: application ID
+#! @result SUCCESS: application on Helion Development Platform / Stackato host was successfully created/deployed
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
+#! @result CREATE_APPLICATION_FAILURE: application on Helion Development Platform / Stackato host could not be created/deployed
+#! @result GET_APPLICATION_GUID_FAILURE: application GUID could not be obtained from create call response
 #!!#
 ####################################################
 namespace: io.cloudslang.paas.stackato.applications
