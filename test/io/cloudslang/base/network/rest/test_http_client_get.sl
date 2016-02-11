@@ -20,16 +20,13 @@ flow:
         required: false
     - password:
         required: false
-    - content_type:
-        default: "application/json"
-        overridable: false
-    - method:
-        default: "GET"
-        overridable: false
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - content_type:
+        default: "application/json"
+        overridable: false
 
   workflow:
     - get:
@@ -38,27 +35,26 @@ flow:
             - url
             - username
             - password
-            - content_type
-            - method
             - proxy_host
             - proxy_port
+            - content_type
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
+          SUCCESS: check_results
           FAILURE: HTTP_CLIENT_GET_FAILURE
 
-    - check_result:
+    - check_results:
         do:
           lists.compare_lists:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_FAILURE
+          FAILURE: CHECK_RESULTS_FAILURE
 
   outputs:
     - return_result
@@ -69,4 +65,4 @@ flow:
   results:
     - SUCCESS
     - HTTP_CLIENT_GET_FAILURE
-    - CHECK_FAILURE
+    - CHECK_RESULTS_FAILURE

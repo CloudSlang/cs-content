@@ -23,16 +23,13 @@ flow:
     - content_type:
         default: "application/json"
         overridable: false
-    - method:
-        default: "PUT"
-        overridable: false
-    - body:
-        default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
-        overridable: false
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - body:
+        default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
+        overridable: false
 
   workflow:
     - put:
@@ -42,27 +39,26 @@ flow:
             - username
             - password
             - content_type
-            - method
-            - body
             - proxy_host
             - proxy_port
+            - body
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
+          SUCCESS: check_results
           FAILURE: HTTP_CLIENT_PUT_FAILURE
 
-    - check_result:
+    - check_results:
         do:
           lists.compare_lists:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_FAILURE
+          FAILURE: CHECK_RESULTS_FAILURE
 
   outputs:
     - return_result
@@ -73,4 +69,4 @@ flow:
   results:
     - SUCCESS
     - HTTP_CLIENT_PUT_FAILURE
-    - CHECK_FAILURE
+    - CHECK_RESULTS_FAILURE
