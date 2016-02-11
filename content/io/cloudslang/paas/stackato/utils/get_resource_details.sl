@@ -7,17 +7,17 @@
 #
 ####################################################
 #!!
-#! @description: Parses a json input and retrieves the specific details of the resource identified by <key_name>
-#! @input json_input: the response of get resources operation (e.g.: get_applications, get_services, get_spaces, get_users)
-#! @input key_name: name of the resource to get details on
+#! @description: Parses a JSON input and retrieves the specific details of the resource identified by <key_name>.
+#! @input json_input: response of get resources operation (get_applications, get_services, get_spaces, get_users)
+#! @input key_name: name of resource to get details on
 #! @output return_result: was parsing was successful or not
-#! @output error_message: returnResult if there was an error
+#! @output error_message: return_result if there was an error
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
-#! @output resource_guid: the GUID of the resource identified by <key_name>
-#! @output resource_url: URL of the resource identified by <key_name>
-#! @output resource_created_at: the creation date of the resource identified by <key_name>
-#! @output resource_updated_at: the last updated date of the resource identified by <key_name>
-#! @result SUCCESS: parsing was successful (returnCode == '0')
+#! @output resource_guid: GUID of resource identified by <key_name>
+#! @output resource_url: URL of resource identified by <key_name>
+#! @output resource_created_at: creation date of the resource identified by <key_name>
+#! @output resource_updated_at: last updated date of the resource identified by <key_name>
+#! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
 ####################################################

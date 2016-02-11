@@ -11,17 +11,21 @@
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
-#! @input proxy_port: optional - the proxy server port used to access the Helion Development Platform / Stackato services
-#!                    Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
-#! @output return_result: response of the last operation that was executed
-#! @output error_message: error message of the operation that failed
+#! @input proxy_host: proxy server used to access Helion Development Platform / Stackato services
+#!                    optional
+#! @input proxy_port: proxy server port used to access Helion Development Platform / Stackato services
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @output return_result: response of last operation that was executed
+#! @output error_message: error message of operation that failed
 #! @output token: authentication token
-#! @result SUCCESS: the authentication on Helion Development Platform / Stackato host was successfully made
-#! @result GET_AUTHENTICATION_FAILURE: the authentication call fails
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
+#! @result SUCCESS: authentication on Helion Development Platform / Stackato host was successful
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failsed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
 #!!#
 ####################################################
 namespace: io.cloudslang.paas.stackato
