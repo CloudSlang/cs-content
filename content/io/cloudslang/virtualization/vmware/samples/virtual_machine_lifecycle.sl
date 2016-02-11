@@ -5,68 +5,90 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
-# Performs a complete virtual machine lifecycle (Create-Read-Update-Delete scenario) against a VMware data center
-#   using vSphere commands
-#
-# Prerequisites: vim25.jar
-#   How to obtain vim25.jar:
-#     1. Go to https://my.vmware.com/web/vmware and register;
-#     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip;
-#     3. Locate the vim25.jar into ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib;
-#     4. Add the vim25.jar into the ClodSlang CLI folder under /cslang/lib
-#
-# Inputs:
-#   - host - VMware host or IP - Example: 'vc6.subdomain.example.com'
-#   - port - optional - the port to connect through - Examples: '443', '80' - Default: '443'
-#   - protocol - optional - the connection protocol - Valid: 'http', 'https' - Default: 'https'
-#   - username - the VMware username use to connect
-#   - password - the password associated with <username> input
-#   - trust_everyone - optional - if 'True' will allow connections from any host, if 'False' the connection will be
-#                                 allowed only using a valid vCenter certificate - Default: True
-#                                 Check the: https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
-#                                 to see how to import a certificate into Java Keystore and
-#                                 https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
-#                                 to see how to obtain a valid vCenter certificate
-#   - data_center_name - the virtual machine's data center name - Example: 'DataCenter2'
-#   - hostname - optional - the name of the host where the new created virtual machine will reside
-#                         - Example: 'host123.subdomain.example.com' - Default: ''
-#   - virtual_machine_name - the name of the virtual machine that will be created
-#   - description - optional - the description of the virtual machine that will be created - Default: ''
-#   - data_store - the datastore where the disk of the new created virtual machine will reside - Example: 'datastore2-vc6-1'
-#   - num_cpus - optional - the number that indicates how many processors will have the virtual machine that will be created
-#                        - Default: '1'
-#   - vm_disk_size - optional - the disk capacity amount (in Mb) attached to the virtual machine that will be created
-#                           - Default: '1024'
-#   - vm_memory_size - optional - the memory amount (in Mb) attached to the virtual machine that will be createdm
-#                             - Default: '1024'
-#   - guest_os_id - the operating system associated with the new created virtual machine. The value for this input can
-#                   be obtained by running utils/get_os_descriptors operation - Examples: 'ubuntu64Guest'
-#   - operation - the possible operations that can be applied to update a specified attached device ("update" operation
-#                 is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
-#                 Valid values: "add", "remove", "update"
-#   - device - the device on which the update operation will be applied - Valid values: "cpu", "memory", "disk", "cd",
-#              "nic"
-#   - update_value - the value applied on the specified device during the virtual machine update - Valid values: "high",
-#                   "low", "normal", numeric value, label of device when removing
-#   - vm_disk_mode - optional - the property that specifies how the disk will be attached to the virtual machine
-#                             - Valid values: "persistent", "independent_persistent", "independent_nonpersistent"
-#                               This input will be considered only when "add" operation and "disk" device are provided
-#   - linux_oses - optional - list/array of linux OSes supported by <hostname> host - Example: ['ubuntu64Guest']
-#   - delimiter - the delimiter that will be used in response list - Default: ','
-#   - email_host
-#   - email_port
-#   - email_username
-#   - email_password
-#   - email_sender
-#   - email_recipient
-#
-# Outputs:
-#   - return_result - contains the exception in case of failure, success message otherwise
-#   - return_code - '0' if operation was successfully executed, '-1' otherwise
-#   - error_message - error message if there was an error when executing, empty otherwise
-# Results:
-#   - SUCCESS: the virtual machine was successfully created
-#   - FAILURE: an error occurred when trying to create a new virtual machine
+#!!
+#! @description: Performs a complete virtual machine lifecycle (Create-Read-Update-Delete scenario) against a VMware data center
+#!   using vSphere commands.
+#!
+#! @prerequisites: vim25.jar
+#!   How to obtain the vim25.jar:
+#!     1. Go to https://my.vmware.com/web/vmware and register.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
+#!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
+#!
+#!
+#! @input host: VMware host or IP
+#!              example: 'vc6.subdomain.example.com'
+#! @input port: port to connect through
+#!              optional
+#!              examples: '443', '80'
+#!              default: '443'
+#! @input protocol: connection protocol
+#!                  optional
+#!                  valid: 'http', 'https'
+#!                  default: 'https'
+#! @input username: VMware username to connect with
+#! @input password: password associated with <username>
+#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#!                        allowed only using a valid vCenter certificate
+#!                        optional
+#!                        default: True
+#!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
+#!                        to see how to import a certificate into Java Keystore and
+#!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
+#!                        to see how to obtain a valid vCenter certificate.
+#! @input data_center_name: virtual machine's data center name
+#!                          example: 'DataCenter2'
+#! @input hostname: name of host where newly created virtual machine will reside
+#!                  optional
+#!                  example: 'host123.subdomain.example.com'
+#!                  default: ''
+#! @input virtual_machine_name: name of virtual machine that will be created
+#! @input description: description of virtual machine that will be created
+#!                     optional
+#!                     default: ''
+#! @input data_store: datastore where disk of the newly created virtual machine will reside
+#!                    example: 'datastore2-vc6-1'
+#! @input num_cpus: number that indicates how many processors the newly created virtual machine will have
+#!                  optional
+#!                  default: '1'
+#! @input vm_disk_size: disk capacity (in Mb) attached to virtual machine that will be created
+#!                      optional
+#!                      default: '1024'
+#! @input vm_memory_size: amount of memory (in Mb) attached to virtual machine that will be created
+#!                        optional
+#!                        default: '1024'
+#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
+#!                     be obtained by running utils/get_os_descriptors operation
+#!                     example: 'ubuntu64Guest'
+#! @input operation: possible operations that can be applied to update a specified attached device ("update" operation
+#!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
+#!                   valid: "add", "remove", "update"
+#! @input device: device on which update operation will be applied
+#!                valid values: "cpu", "memory", "disk", "cd", "nic"
+#! @input update_value: value applied on specified device during virtual machine update
+#!                      valid: "high", "low", "normal", numeric value, label of device when removing
+#! @input vm_disk_mode: property that specifies how disk will be attached to the virtual machine
+#!                      optional
+#!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
+#!                      This input will be considered only when "add" operation and "disk" device are provided.
+#! @input linux_oses: list/array of Linux OSs supported by <hostname> host
+#!                    optional
+#!                    example: ['ubuntu64Guest']
+#! @input delimiter: delimiter that will be used in response list
+#!                   default: ','
+#! @input email_host: email host
+#! @input email_port: email port
+#! @input email_username: email username
+#! @input email_password: email password
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
+#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @result SUCCESS: virtual machine was successfully created
+#! @result FAILURE: an error occurred when trying to create a new virtual machine
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.virtualization.vmware.samples
