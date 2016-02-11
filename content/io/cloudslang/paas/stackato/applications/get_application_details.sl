@@ -8,7 +8,6 @@
 #!!
 #! @description: Authenticates and retrieves details about a specified Helion Development Platform / Stackato
 #!               instance application (filtered by application_name).
-
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
