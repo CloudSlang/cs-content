@@ -1,0 +1,28 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMwareCreateVirtualMachineLocal:
+  testSuites: [vmware-local]
+  description: "Test that successfully creates a new virtual machine."
+  testFlowPath: io.cloudslang.virtualization.vmware.virtual_machines.test_create_virtual_machine
+  inputs:
+    - host: <host>
+    - port: <port>
+    - protocol: <protocol>
+    - username: <username>
+    - password: <password>
+    - trust_everyone: <trust_everyone>
+    - data_center_name: <data_center_name>
+    - hostname: <hostname>
+    - virtual_machine_name: <virtual_machine_name>
+    - description: <description>
+    - data_store: <data_store>
+    - num_cpus: <num_cpus>
+    - vm_disk_size: <vm_disk_size>
+    - vm_memory_size: <vm_memory_size>
+    - guest_os_id: <guest_os_id>
+  result: SUCCESS
