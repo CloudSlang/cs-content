@@ -6,25 +6,29 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Authenticates and retrieves a list of all Helion Development Platform / Stackato spaces
+#! @description: Authenticates and retrieves a list of all Helion Development Platform / Stackato spaces.
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
-#! @input proxy_port: optional - proxy server port - the proxy server port used to access the Helion Development Platform
-#!                    / Stackato services - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
-#! @output return_result: the response of the operation in case of success, the error message otherwise
-#! @output error_message: return_result if status_code is not '200'
+#! @input proxy_host: proxy server used to access Helion Development Platform / Stackato services
+#!                    optional
+#! @input proxy_port: proxy server port used to access Helion Development Platform / Stackato services
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @output return_result: response of the operation in case of success, error message otherwise
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: the code returned by the operation
+#! @output status_code: code returned by the operation
+#! @output error_message: return_result if status_code is not '200'
 #! @output spaces_list: list of all spaces on Helion Development Platform / Stackato instance
-#! @result SUCCESS: the list with spaces on Helion Development Platform / Stackato host was successfully retrieved
-#! @result GET_AUTHENTICATION_FAILURE: the authentication call fail
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
-#! @result GET_SPACES_FAILURE: the get spaces call fail
-#! @result GET_SPACES_LIST_FAILURE: the list with spaces on Helion Development Platform / Stackato could not be retrieved
+#! @result SUCCESS: list with spaces on Helion Development Platform / Stackato host was successfully retrieved
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
+#! @result GET_SPACES_FAILURE: get spaces call failed
+#! @result GET_SPACES_LIST_FAILURE: list with spaces on Helion Development Platform / Stackato could not be retrieved
 #!!#
 ####################################################
 namespace: io.cloudslang.cloud.stackato.spaces

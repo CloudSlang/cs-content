@@ -7,29 +7,34 @@
 ####################################################
 #!!
 #! @description: Authenticates and retrieves details about a specified Helion Development Platform / Stackato space
-#!               (filtered by space_name)
+#!               (filtered by space_name).
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input space_name: Name of the space to get details about
-#! @input proxy_host: optional - the proxy server used to access the Helion Development Platform / Stackato services
-#! @input proxy_port: optional - the proxy server port used to access the Helion Development Platform / Stackato services
-#!                    Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
-#! @output return_result: response of the last operation that was executed
+#! @input space_name: name of the space to get details about
+#! @input proxy_host: proxy server used to access Helion Development Platform / Stackato services
+#!                    optional
+#! @input proxy_port: proxy server port used to access Helion Development Platform / Stackato services
+#!                    optional
+#!                    default: '8080'
+#! @input proxy_username: user name used when connecting to proxy
+#!                        optional
+#! @input proxy_password: proxy server password associated with <proxy_username> input value
+#!                        optional
+#! @output return_result: response of last operation that was executed
 #! @output error_message: error message of the operation that failed
-#! @output resource_guid: the GUID of the specified space
-#! @output resource_url: the URL of the specified space
-#! @output resource_created_at: date when the specified space was created
-#! @output resource_updated_at: the last time when the specified space was updated
-#! @result SUCCESS: the details of the specified space on Helion Development Platform / Stackato host was successfully
-#!                  retrieved
-#! @result GET_AUTHENTICATION_FAILURE: the authentication call fail
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: the authentication token cannot be obtained from authentication call response
-#! @result GET_SPACES_FAILURE: the get spaces call fail
-#! @result GET_SPACES_LIST_FAILURE: the list with spaces on Helion Development Platform / Stackato could not be retrieved
-#! @result GET_SPACE_DETAILS_FAILURE: the details about a specified Helion Development Platform / Stackato space
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output status_code: normal status code is '200'
+#! @output resource_guid: GUID of specified space
+#! @output resource_url: URL of specified space
+#! @output resource_created_at: date when specified space was created
+#! @output resource_updated_at: last time when specified space was updated
+#! @result SUCCESS: details of specified space on Helion Development Platform / Stackato host was successfully retrieved
+#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
+#! @result GET_SPACES_FAILURE: get spaces call failed
+#! @result GET_SPACES_LIST_FAILURE: list with spaces on Helion Development Platform / Stackato could not be retrieved
+#! @result GET_SPACE_DETAILS_FAILURE: details about a specified Helion Development Platform / Stackato space
 #!                                    (filtered by space_name) could not be retrieved
 #!!#
 ####################################################

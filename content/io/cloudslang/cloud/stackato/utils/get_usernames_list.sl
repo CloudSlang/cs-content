@@ -7,13 +7,13 @@
 #
 ####################################################
 #!!
-#! @description: Parses a json input and retrieves a list of usernames
-#! @input json_input: the response of get users flow
+#! @description: Parses a JSON input and retrieves a list of usernames.
+#! @input json_input: response of get_users flow
 #! @output return_result: was parsing was successful or not
-#! @output error_message: returnResult if there was an error
+#! @output error_message: return_result if there was an error
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
-#! @output usernames_list: the list with all usernames
-#! @result SUCCESS: parsing was successful (returnCode == '0')
+#! @output usernames_list: list with all usernames
+#! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
