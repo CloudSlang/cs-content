@@ -6,15 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#!!
-#! @description: Sample system property file for email protocol
-#!               io.cloudslang.base.hostname: host name - Example: smtp.example.com
-#!               io.cloudslang.base.port: port
-#!               io.cloudslang.base.from: sender email
-#!               io.cloudslang.base.to: receiver email
-#!               io.cloudslang.base.username: sender username
-#!               io.cloudslang.base.password: sender password
-#!!#
+# Sample system property file for email protocol
+#
+# io.cloudslang.base.hostname: host name - Example: smtp.example.com
+# io.cloudslang.base.port: port
+# io.cloudslang.base.from: sender email
+# io.cloudslang.base.to: receiver email
+# io.cloudslang.base.username: sender username
+# io.cloudslang.base.password: sender password
+#
 ####################################################
 
 namespace: io.cloudslang.base
