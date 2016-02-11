@@ -1,0 +1,19 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_execute_powershell_script_success:
+  testSuites: [powershell-ignore]
+  description: Tests SUCCESS case
+  testFlowPath: io.cloudslang.base.powershell.execute_powershell_script
+  inputs:
+    - host: <windows_host>
+    - user_name: <username>
+    - password: <password>
+    - script: <powershell_script>
+    - winrm_enable_https: <winrm_enable_https>
+  result: SUCCESS

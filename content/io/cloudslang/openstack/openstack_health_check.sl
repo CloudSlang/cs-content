@@ -42,6 +42,7 @@ namespace: io.cloudslang.openstack
 
 imports:
   email: io.cloudslang.base.mail
+  servers: io.cloudslang.openstack.servers
 
 flow:
   name: openstack_health_check
@@ -66,10 +67,11 @@ flow:
     - email_port
     - to
     - from
+
   workflow:
     - create_server:
         do:
-          create_openstack_server_flow:
+          servers.create_server_flow:
             - host
             - identity_port
             - compute_port
@@ -117,7 +119,7 @@ flow:
 
     - delete_server:
         do:
-          delete_openstack_server_flow:
+          servers.delete_server_flow:
             - host
             - identity_port
             - compute_port
