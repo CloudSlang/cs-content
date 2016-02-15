@@ -130,7 +130,7 @@ flow:
         do:
           get_cluster_info:
             - swarm_manager_ip: ${manager_machine_ip}
-            - manager_machine_port
+            - swarm_manager_port: ${manager_machine_port}
             - host: ${manager_machine_ip}
             - username: ${manager_machine_username}
             - password: ${manager_machine_password}
