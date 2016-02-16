@@ -1,7 +1,0 @@
-provider: "amazon"
-endpoint: "https://ec2.amazonaws.com"
-identity: "AKIAIZVIPET3WVUTHYTQ"
-credential: "lBxknTlq4h5jEDoybSvVEH1aO2jxr4zsGfpMxB5K"
-proxy_host: "proxy.houston.hp.com"
-proxy_port: "8080"
-delimiter: ","

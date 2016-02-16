@@ -7,25 +7,28 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list all regions.
-#! @input provider: the cloud provider - Default: 'amazon'
-#! @input endpoint: the endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to suspend an ACTIVE server (instance)
+#!               and changes its status to SUSPENDED. PAUSED servers (instances) cannot be suspended.
+#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
+#! @input endpoint: the endpoint to which request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input region: optional - the region where the server (instance) to be suspended can be found. list_regions operation
+#!                can be used in order to get all regions - Default: 'us-east-1'
+#! @input server_id: the ID of the server (instance) you want to suspend
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
-#! @input delimiter: optional - the delimiter used in result list
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the list with existing regions was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve the regions list
+#! @result SUCCESS: the server (instance) was successfully suspended
+#! @result FAILURE: an error occurred when trying to suspend a server (instance)
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws.regions
+namespace: io.cloudslang.cloud.amazon_aws
 
 operation:
-  name: list_regions
+  name: suspend_server
 
   inputs:
     - provider: 'amazon'
@@ -34,6 +37,11 @@ operation:
         required: false
     - credential:
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - server_id
+    - serverId: ${server_id}
     - proxy_host:
         required: false
     - proxyHost:
@@ -44,12 +52,10 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         overridable: false
-    - delimiter:
-        required: false
 
   action:
     java_action:
-      className: io.cloudslang.content.jclouds.actions.ListRegionsAction
+      className: io.cloudslang.content.jclouds.actions.SuspendServerAction
       methodName: execute
 
   outputs:
