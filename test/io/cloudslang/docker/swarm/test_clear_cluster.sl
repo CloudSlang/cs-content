@@ -50,7 +50,7 @@ flow:
             - manager_machine_username: ${username}
             - manager_machine_password: ${password}
             - manager_machine_private_key_file: ${private_key_file}
-            - swarm_manager_port
+            - manager_machine_port: ${swarm_manager_port}
             - agent_ip_addresses
             - agent_usernames: ${[username, username]}
             - agent_passwords: ${[password, password]}

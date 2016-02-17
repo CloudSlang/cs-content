@@ -9,11 +9,11 @@
 #!!
 #! @description: Creates a new Swarm cluster, clears the machines, starts a Swarm manager, registers the Swarm agents
 #!               and validates the agents were added.
-#! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
+#! @input manager_machine_ip: IP address of the machine with the Swarm manager container
 #! @input manager_machine_username: username of the machine with the Swarm manager
 #! @input manager_machine_password: optional - password of the machine with the Swarm manager
 #! @input manager_machine_private_key_file: optional - path to private key file of the machine with the Swarm manager
-#! @input swarm_manager_port: port used by the Swarm manager container
+#! @input manager_machine_port: port used by the Swarm manager container
 #! @input agent_ip_addresses: list of IP addresses - the corresponding machines will be used as Swarm agents
 #!                            Example: ['111.111.111.111', '111.111.111.222']
 #! @input agent_usernames: list of usernames for agent machines - Example: [core, core]
@@ -54,7 +54,7 @@ flow:
         required: false
     - manager_machine_private_key_file:
         required: false
-    - swarm_manager_port
+    - manager_machine_port
     - agent_ip_addresses
     - agent_usernames
     - agent_passwords:
@@ -102,7 +102,7 @@ flow:
     - start_manager_container:
         do:
           start_manager:
-            - swarm_port: ${swarm_manager_port}
+            - swarm_port: ${manager_machine_port}
             - cluster_id
             - host: ${manager_machine_ip}
             - username: ${manager_machine_username}
@@ -130,7 +130,7 @@ flow:
         do:
           get_cluster_info:
             - swarm_manager_ip: ${manager_machine_ip}
-            - swarm_manager_port
+            - swarm_manager_port: ${manager_machine_port}
             - host: ${manager_machine_ip}
             - username: ${manager_machine_username}
             - password: ${manager_machine_password}
