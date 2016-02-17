@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testStartServerLocal:
+testStartAmazonServerLocal:
   testSuites: [amazon-local]
   description: "Test the fact that an Amazon AWS EC2 instance was started."
   testFlowPath: io.cloudslang.cloud.amazon_aws.test_start_server
@@ -16,10 +16,9 @@ testStartServerLocal:
     - identity: <identity>
     - credential: <credential>
     - region: <region>
-    - serverId: <serverId>
-    - proxyHost: <proxyHost>
-    - proxyPort: <proxyPort>
+    - server_id: <server_id>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
     - delimiter: <delimiter>
     - seconds: <seconds>
   result: SUCCESS
-
