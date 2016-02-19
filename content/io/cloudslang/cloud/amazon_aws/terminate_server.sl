@@ -62,7 +62,7 @@ operation:
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if 'exception' not in locals() else exception}
+    - exception: ${'' if exception not in locals() else exception}
 
   results:
     - SUCCESS: ${returnCode == '0'}
