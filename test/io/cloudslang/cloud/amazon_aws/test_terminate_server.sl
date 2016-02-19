@@ -48,19 +48,38 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: check_result
-          FAILURE: TERMINATE_SERVER_FAILURE
+          SUCCESS: check_call_result
+          FAILURE: TERMINATE_SERVER_CALL_FAILURE
 
-    - check_result:
+    - check_call_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
+          SUCCESS: check_first_possible_current_state_result
+          FAILURE: CHECK_CALL_RESULT_FAILURE
+
+    - check_first_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=terminated'
+        navigate:
           SUCCESS: SUCCESS
-          FAILURE: CHECK_RESULT_FAILURE
+          FAILURE: check_second_possible_current_state_result
+
+    - check_second_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=shutting-down'
+        navigate:
+          SUCCESS: SUCCESS
+          FAILURE: SHUTTING_DOWN_FAILURE
 
   results:
     - SUCCESS
-    - TERMINATE_SERVER_FAILURE
-    - CHECK_RESULT_FAILURE
+    - TERMINATE_SERVER_CALL_FAILURE
+    - CHECK_CALL_RESULT_FAILURE
+    - SHUTTING_DOWN_FAILURE
