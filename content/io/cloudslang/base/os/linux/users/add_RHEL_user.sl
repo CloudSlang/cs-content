@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Perform a SSH command to add a specified user named <user_name> on machines that are running Ubuntu based linux
+#! @description: Perform a SSH command to add a specified user named <user_name> on machines that are running RHEL based linux
 #! @input host: hostname or IP address
 #! @input root_password: the root password
 #! @input user_name: the name of the user to verify if exist
