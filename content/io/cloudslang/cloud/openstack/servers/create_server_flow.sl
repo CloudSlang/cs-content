@@ -60,10 +60,10 @@
 #! @output error_message: return_result if statusCode is not '202'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by operation
-#! @result SUCCESS: OpenStack server (instance) was successfully created
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
-#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
-#! @result ADD_NAME_FAILURE:
+#! @result SUCCESS
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE
+#! @result GET_TENANT_ID_FAILURE
+#! @result ADD_NAME_FAILURE
 #! @result ADD_IMG_REF_FAILURE
 #! @result ADD_FLAVOR_REF_FAILURE
 #! @result ADD_KEY_NAME_FAILURE
@@ -75,7 +75,7 @@
 #! @result ADD_PERSONALITY_FAILURE
 #! @result ADD_INSTANCE_SOURCE_BOOT_FAILURE
 #! @result ADD_SERVER_OBJECT_JSON_FAILURE
-#! @result CREATE_SERVER_FAILURE: could not create OpenStack server (instance)
+#! @result CREATE_SERVER_FAILURE
 #!!#
 ####################################################
 
@@ -343,7 +343,7 @@ flow:
 
     - add_metadata:
         do:
-          utils.add_json_object:
+          json.add_entry_in_object:
             - json_object: ${body_json}
             - key: 'metadata'
             - value: ${metadata}

@@ -52,5 +52,5 @@ operation:
     - error_message: ${ return_result if return_code == '-1' else '' }
 
   results:
-    - SUCCESS
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

@@ -20,10 +20,10 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.cloud.openstack.utils
+namespace: io.cloudslang.base.json
 
 operation:
-  name: add_json_object
+  name: add_entry_in_object
   inputs:
     - json_object
     - key
@@ -52,5 +52,5 @@ operation:
     - error_message: ${ return_result if return_code == '-1' else '' }
 
   results:
-    - SUCCESS
+    - SUCCESS: ${return_code == '0'}
     - FAILURE
