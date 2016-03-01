@@ -309,7 +309,7 @@ flow:
             - password: ${root_password}
             - source_path
             - destination_path: '/etc/init.d/tomcat'
-            - command: ${'cp ' + source_path+'/*.sh ' + destination_path}
+            - command: ${'cp ' + source_path + '/*.sh ' + destination_path}
         publish:
           - return_result
           - return_code
