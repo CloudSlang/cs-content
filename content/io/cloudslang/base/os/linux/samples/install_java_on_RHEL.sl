@@ -6,29 +6,28 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs several linux commands in order to install java on machines running Ubuntu RHEL (tested on RHEL6.x)
-#
-# Inputs:
-#   - host - hostname or IP address
-#   - root_password - the root password
-#   - java_version - the java version that will be installed
-#   - set_default - choose whether to set the java version that will be installed as default or keep the current version
-#                   optional
-#!                  default: True (Update current version)
-# Outputs:
-#   - return_result - STDOUT of the remote machine in case of success or the cause of the error in case of exception
-#   - standard_out - STDOUT of the machine in case of successful request, null otherwise
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-#   - exception - contains the stack trace in case of an exception
-#   - command_return_code - The return code of the remote command corresponding to the SSH channel. The return code is
-#                           only available for certain types of channels, and only after the channel was closed
-#                           (more exactly, just before the channel is closed).
-#	                        Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
-#                                     channel type has no command), 126 if the command cannot execute.
-#   - default_java - what java version running on the machine
-# Results:
-#    - SUCCESS - SSH access was successful
-#    - FAILURE - otherwise
+#!! 
+#! @description: This flow performs several linux commands in order to install java on machines running Ubuntu RHEL (tested on RHEL6.x)
+#!
+#! @input host: hostname or IP address
+#! @input root_password: the root password
+#! @input java_version: the java version that will be installed
+#! @input set_default: optional - choose whether to set the java version that will be installed as default or keep the current version
+#!                     Valid: True, False
+#!                     Default: True
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: the return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!	                            Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
+#!                              channel type has no command), 126 if the command cannot execute.
+#! @output default_java: what java version running on the machine
+#! @result SUCCESS: SSH access was successful
+#! @result FAILURE:otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.base.os.linux.samples
 
@@ -62,12 +61,18 @@ flow:
           - return_code
           - command_return_code
           - exception
+        navigate:
+          SUCCESS: is_default
+          FAILURE: FAILED_JAVA_INSTALLATION
 
     - is_default:
         do:
           strings.string_equals:
             - first_string: ${set_default}
             - second_string: 'true'
+        navigate:
+          SUCCESS: strip_java_input
+          FAILURE: KEEP_DEFAULT_JAVA
 
 
     - strip_java_input:
@@ -78,6 +83,8 @@ flow:
             - replacement: ""
         publish:
           - version: ${result_text}
+        navigate:
+          SUCCESS: run_alternatives_java
 
     - run_alternatives_java:
         do:
@@ -99,3 +106,8 @@ flow:
       - command_return_code
       - exception
       - default_java
+  results:
+      - SUCCESS
+      - KEEP_DEFAULT_JAVA
+      - FAILURE
+      - FAILED_JAVA_INSTALLATION
