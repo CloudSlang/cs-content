@@ -8,23 +8,7 @@
 ####################################################
 #!! 
 #! @description: Checks if one version is older than another.(Based on python distutils.version.LooseVersion Class)
-#!               The following are valid version numbers:
-#!               1.5.1
-#!               1.5.2b2
-#!               161
-#!               3.10a
-#!               8.02
-#!               3.4j
-#!               1996.07.12
-#!               3.2.pl0
-#!               3.1.1.6
-#!               2g6
-#!               11g
-#!               0.960923
-#!               2.2beta29
-#!               1.13++
-#!               5.5.kw
-#!               2.0b1pl0
+#!               Valid : 1.5.1, 1.5.2b2, 161, 3.10a, 8.02, 3.4j, 1996.07.12, 3.2.pl0, 3.1.1.6, 2g6, 11g, 0.960923, 2.2beta29, 1.13++, 5.5.kw, 2.0b1pl0
 #!
 #!
 #! @input first_version: string which represents a version
