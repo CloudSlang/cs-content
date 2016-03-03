@@ -33,7 +33,7 @@
 namespace: io.cloudslang.base.xml
 
 operation:
-  name: xpath_select
+  name: select
 
   inputs:
   - xml_document
@@ -60,7 +60,7 @@ operation:
 
   action:
     java_action:
-      className: io.cloudslang.content.xml.actions.XPathSelect
+      className: io.cloudslang.content.xml.actions.Select
       methodName: execute
 
   outputs:
