@@ -16,6 +16,6 @@ inputs:
 - username: root
 - password: screencast
 - process_name: ps
-- first_image_name: "ubuntu:12.04"
-- second_image_name: "ubuntu:12.04"
+- first_image_name: busybox
+- second_image_name: busybox
 result: SUCCESS
