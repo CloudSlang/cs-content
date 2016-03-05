@@ -7,8 +7,6 @@
 #
 ####################################################
 test_find_containers_with_process:
-
-test_get_all_containers:
   inputs:
     - host: localhost
     - port: "49153"
