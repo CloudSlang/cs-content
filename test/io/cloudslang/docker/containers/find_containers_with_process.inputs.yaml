@@ -6,10 +6,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_clear_container_success:
-testSuites: [docker,containers]
-description: Tests that find_containers_with_process works
-testFlowPath: io.cloudslang.docker.containers.test_find_containers_with_process
+test_find_containers_with_process:
+
 inputs:
 - host: localhost
 - port: "49153"
@@ -19,3 +17,17 @@ inputs:
 - first_image_name: busybox
 - second_image_name: busybox
 result: SUCCESS
+
+test_get_all_containers:
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - username: root
+    - password: screencast
+    - process_name: ps
+    - first_image_name: busybox
+    - second_image_name: busybox
+  description: Tests that find_containers_with_process operation works
+  testFlowPath: io.cloudslang.docker.containers.test_find_containers_with_process
+  testSuites: [docker,containers]
+  result: SUCCESS
