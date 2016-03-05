@@ -23,6 +23,8 @@ flow:
     - username
     - password
     - process_name
+    - first_image_name
+    - second_image_name
 
   workflow:
     - clear_docker_host_prereqeust:
