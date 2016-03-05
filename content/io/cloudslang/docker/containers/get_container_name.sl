@@ -7,8 +7,8 @@
 #
 ####################################################
 #!!
-#! @description: Checks if a certain process runs on a container.
-#! @input container_id: container name
+#! @description: Returns the name of a container
+#! @input container_id: container id
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
@@ -23,7 +23,7 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
-#! @output runing_process: the names of the runing processes
+#! @output container_name: container name
 #! @output standard_err: error message
 #!!#
 ####################################################
@@ -37,7 +37,7 @@ flow:
   inputs:
     - container_id
     - command:
-        default: ${"INCEPUT=$(docker ps -af id=" + container_id + " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id="+ container_id +" | sed "+'"s/^.\{$INCEPUT\}//"'+" | awk 'NR==2'"}
+        default: ${"CHARS_TO_DELETE=$(docker ps -af id=" + container_id + " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id="+ container_id +" | sed "+'"s/^.\{$CHARS_TO_DELETE\}//"'+" | awk 'NR==2'"}
         overridable: false
     - host
     - port:
@@ -77,13 +77,11 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_name: ${returnResult}
+          - container_name: ${return_result}
           - standard_err
         navigate:
           SUCCESS: SUCCESS
           FAILURE: FAILURE
-
-
   outputs:
     - container_name
     - standard_err

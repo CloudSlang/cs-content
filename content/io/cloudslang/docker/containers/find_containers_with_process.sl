@@ -28,37 +28,34 @@
 ####################################################
 namespace: io.cloudslang.docker.containers
 
-imports:
-
-
-
 flow:
   name: find_containers_with_process
   inputs:
-    - all_containers: false
-    - ps_params: ${'-a' if bool(all_containers) else ''}
-    - proc_command: ${'docker ps -q ' + ps_params}
     - host
     - port:
         required: false
+    - proc_command: 
+        default: 'docker ps -q'
+        overridable: false
     - username
     - password:
         required: false
+    - process_name
     - private_key_file:
         required: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
-    - process_name
+
     - containers_with_process:
         default: ''
         overridable: false
@@ -79,11 +76,11 @@ flow:
             - password
             - private_key_file
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
           - container_list
         navigate:
@@ -96,6 +93,7 @@ flow:
             check_run_process:
               - container_id
               - process_name
+              - container_id_list: ${container_ids}
               - host
               - port
               - username
@@ -108,9 +106,10 @@ flow:
               - close_session
               - agent_forwarding
           publish:
-            - container_ids: ${self['container_ids'] + self['container_id'] + ' '}
+            - container_ids: ${container_id_list}
           navigate:
-            SUCCESS: loop_get_name
+            RUNNING: loop_get_name
+            NOT_RUNNING: loop_get_name
             FAILURE: FAILURE
     - loop_get_name:
         loop:

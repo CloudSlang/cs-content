@@ -7,14 +7,13 @@
 #
 ####################################################
 #!!
-#! @description: Checks if a certain process runs on a container and appends it to a list.
+#! @description: Returns the list of the running processes on a container.
 #! @input container_id: container id
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
 #! @input password: Docker machine password
 #! @input process_name: name of the process
-#! @input container_id_list: a list where container_id will be appended if process_name runs on the container
 #! @input private_key_file: optional - absolute path to private key file
 #! @input arguments: optional - arguments to pass to the command
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
@@ -26,20 +25,23 @@
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output standard_err: error message
-
+#! @output return_result: list of running processes on the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 
 imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
   regex: io.cloudslang.base.strings
   print: io.cloudslang.base.print
 
 flow:
-  name: check_run_process
+  name: get_running_processes
   inputs:
     - container_id
-    - process_name
+    - command:
+        default: ${"docker exec " + container_id + " ps axco command"}
+        overridable: false
     - host
     - port:
         required: false
@@ -60,20 +62,17 @@ flow:
         required: false
     - agent_forwarding:
         required: false
-    - container_id_list:
-        default: ''
-        required: false
 
   workflow:
     - get_running_processes:
         do:
-          get_running_processes:
-            - container_id
+          ssh.ssh_flow:
             - host
             - port
             - username
             - password
             - private_key_file
+            - command
             - arguments
             - character_set
             - pty
@@ -84,29 +83,8 @@ flow:
           - return_result
           - standard_err
         navigate:
-          SUCCESS: check_if_is_running
+          SUCCESS: SUCCESS
           FAILURE: FAILURE
-    - check_if_is_running:
-        do:
-          regex.match_regex:
-            - regex: ${process_name}
-            - text: ${return_result}
-        navigate:
-          MATCH: append_to_list
-          NO_MATCH: NOT_RUNNING
-    - append_to_list:
-        do:
-          print.print_text:
-            - text: ${container_id}
-        publish:
-          - container_id_list: ${self['container_id_list'] + self['container_id'] + ' '}
-        navigate:
-          SUCCESS: RUNNING
-          FAILURE: FAILURE
-  results:
-    - FAILURE: FAILURE
-    - RUNNING
-    - NOT_RUNNING: NO_MATCH
   outputs:
-    - container_id_list
+    - return_result
     - standard_err
