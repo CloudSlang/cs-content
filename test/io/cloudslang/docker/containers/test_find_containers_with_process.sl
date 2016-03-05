@@ -88,7 +88,7 @@ flow:
         publish:
           - error_message
         navigate:
-          SUCCESS: get_all_containers
+          SUCCESS: find_containers_with_process
           FAILURE: FAIL_RUN_IMAGE
 
     - find_containers_with_process:
