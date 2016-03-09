@@ -62,7 +62,6 @@ operation:
         required: false
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}

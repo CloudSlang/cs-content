@@ -96,56 +96,66 @@ operation:
     - username
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - virtual_machine_name
-    - virtualMachineName: ${virtual_machine_name}
+    - virtualMachineName:
+         default: ${get("virtual_machine_name")}
+         overridable: false
     - clone_name
-    - cloneName: ${clone_name}
+    - cloneName:
+         default: ${get("clone_name")}
+         overridable: false
     - folder_name:
-        default: ''
         required: false
-    - folderName: ${folder_name}
+    - folderName:
+        default: ${get("folder_name", "")}
+        overridable: false
     - clone_host:
-        default: ''
         required: false
-    - cloneHost: ${clone_host}
+    - cloneHost:
+        default: ${get("clone_host", "")}
+        overridable: false
     - clone_resource_pool:
-        default: ''
         required: false
-    - cloneResourcePool: ${clone_resource_pool}
+    - cloneResourcePool:
+        default: ${get("clone_resource_pool", "")}
+        overridable: false
     - clone_data_store:
-        default: ''
         required: false
-    - cloneDataStore: ${clone_data_store}
+    - cloneDataStore:
+        default: ${get("clone_data_store", "")}
+        overridable: false
     - thick_provision:
-        default: ''
         required: false
-    - thickProvision: ${thick_provision}
+    - thickProvision:
+        default: ${get("thick_provision", "false")}
+        overridable: false
     - is_template:
-        default: False
         required: false
-    - isTemplate: ${is_template}
+    - isTemplate:
+        default: ${get("is_template", "false")}
+        overridable: false
     - num_cpus:
-        default: '1'
         required: false
     - cpuNum:
         default: ${get("num_cpus", "1")}
         overridable: false
     - cores_per_socket:
-        default: '1'
         required: false
-    - coresPerSocket: ${get("cores_per_socket", "1")}
+    - coresPerSocket:
+        default: ${get("cores_per_socket", "1")}
+        overridable: false
     - memory:
         default: '1024'
         required: false
     - clone_description:
-        default: ''
         required: false
-    - cloneDescription: ${clone_description}
+    - cloneDescription:
+        default: ${get("clone_description", "")}
+        overridable: false
 
   action:
     java_action:

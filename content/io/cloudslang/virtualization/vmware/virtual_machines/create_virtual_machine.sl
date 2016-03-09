@@ -81,43 +81,47 @@ operation:
     - username
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - data_center_name
-    - dataCenterName: ${data_center_name}
+    - dataCenterName:
+        default: ${get("data_center_name")}
+        overridable: false
     - hostname:
         default: ''
         required: false
     - virtual_machine_name
-    - virtualMachineName: ${virtual_machine_name}
+    - virtualMachineName:
+        default: ${get("virtual_machine_name")}
+        overridable: false
     - description:
         default: ''
         required: false
     - data_store
-    - dataStore: ${data_store}
+    - dataStore:
+        default: ${get("data_store", "")}
+        overridable: false
     - num_cpus:
-        default: '1'
         required: false
     - numCPUs:
         default: ${get("num_cpus", "1")}
         overridable: false
     - vm_disk_size:
-        default: '1024'
         required: false
     - vmDiskSize:
         default: ${get("vm_disk_size", "1024")}
         overridable: false
     - vm_memory_size:
-        default: '1024'
         required: false
     - vmMemorySize:
         default: ${get("vm_memory_size", "1024")}
         overridable: false
     - guest_os_id
-    - guestOsId: ${guest_os_id}
+    - guestOsId:
+        default: ${get("guest_os_id")}
+        overridable: false
 
   action:
     java_action:
