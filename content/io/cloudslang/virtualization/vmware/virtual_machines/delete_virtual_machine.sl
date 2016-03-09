@@ -67,7 +67,7 @@ operation:
         overridable: false
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name")}
+        default: ${get("virtual_machine_name", None)}
         overridable: false
 
   action:

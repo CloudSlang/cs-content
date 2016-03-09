@@ -102,11 +102,11 @@ operation:
         overridable: false
     - virtual_machine_name
     - virtualMachineName:
-         default: ${get("virtual_machine_name")}
+         default: ${get("virtual_machine_name", None)}
          overridable: false
     - clone_name
     - cloneName:
-         default: ${get("clone_name")}
+         default: ${get("clone_name", None)}
          overridable: false
     - folder_name:
         required: false

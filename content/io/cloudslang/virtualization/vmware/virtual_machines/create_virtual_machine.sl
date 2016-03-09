@@ -87,14 +87,14 @@ operation:
         overridable: false
     - data_center_name
     - dataCenterName:
-        default: ${get("data_center_name")}
+        default: ${get("data_center_name", None)}
         overridable: false
     - hostname:
         default: ''
         required: false
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name")}
+        default: ${get("virtual_machine_name", None)}
         overridable: false
     - description:
         default: ''
@@ -120,7 +120,7 @@ operation:
         overridable: false
     - guest_os_id
     - guestOsId:
-        default: ${get("guest_os_id")}
+        default: ${get("guest_os_id", None)}
         overridable: false
 
   action:

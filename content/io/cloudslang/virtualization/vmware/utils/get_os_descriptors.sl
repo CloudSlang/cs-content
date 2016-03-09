@@ -71,7 +71,7 @@ operation:
         overridable: false
     - data_center_name
     - dataCenterName:
-        default: ${get("data_center_name")}
+        default: ${get("data_center_name", None)}
         overridable: false
     - hostname
     - delimiter:
