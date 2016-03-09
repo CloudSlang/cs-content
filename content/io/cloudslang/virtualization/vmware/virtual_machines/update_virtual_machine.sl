@@ -92,7 +92,7 @@ operation:
     - update_value:
         required: false
     - updateValue:
-        default: ${get("virtual_machine_name", "")}
+        default: ${get("update_value", "")}
         overridable: false
     - vm_disk_size:
         required: false
