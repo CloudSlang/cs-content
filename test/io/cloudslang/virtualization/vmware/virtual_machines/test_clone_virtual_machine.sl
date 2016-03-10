@@ -46,7 +46,7 @@ flow:
         default: ''
         required: false
     - is_template:
-        default: False
+        default: 'false'
         required: false
     - num_cpus:
         default: '1'
