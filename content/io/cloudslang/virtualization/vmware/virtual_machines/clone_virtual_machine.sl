@@ -38,7 +38,7 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #! @input virtual_machine_name: name of virtual machine that will be cloned
 #! @input clone_name: name that will be assigned to the cloned virtual machine
-#! @input folder_name: name of the folder where the cloned virtual machine will reside. If not provided then the parent
+#! @input folder_name: name of the folder where the cloned virtual machine will reside. If not provided then the top parent
 #!                     folder will be used
 #!                     optional
 #!                     default: ''
@@ -48,7 +48,7 @@
 #!                    default: ''
 #!                    example: 'host123.subdomain.example.com'
 #! @input clone_resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource
-#!                             pool be used
+#!                             pool will be used
 #!                             optional
 #!                             default: ''
 #! @input clone_data_store: datastore where disk of newly cloned virtual machine will reside. If not provided then the
@@ -72,7 +72,8 @@
 #!                optional
 #!                default: '1024'
 #! @input clone_description: description of virtual machine that will be cloned
-#!                     default: ''
+#!                           optional
+#!                           default: ''
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
