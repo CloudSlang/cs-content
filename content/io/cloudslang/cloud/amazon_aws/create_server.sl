@@ -7,29 +7,33 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to shut down an instance. If you
-#!               terminate an instance more than once, each call succeeds. Terminated instances remain visible after
-#!               termination for approximately one hour
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch (create) one ore more new
+#!               instance/instances
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be started can be found. "regions/list_regions" operation
-#!                           can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to terminate
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input region: optional - the region where the server (instance) to be created/launched can be found.
+#!                           "regions/list_regions" operation can be used in order to get all regions - Default: 'us-east-1'
+#! @input availability_zone: optional - specifies the placement constraints for launching instance. Amazon automatically
+#!                                     selects an availability zone by default - Default: ''
+#! @input image_ref: the ID of the AMI. For more information go to: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
+#!                   - Examples: 'ami-fce3c696', 'ami-4b91bb21'
+#! @input min_count: optional - The minimum number of launched instances - Default: '1'
+#! @input max_count: optional - The maximum number of launched instances - Default: '1'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the server (instance) was successfully terminated
-#! @result FAILURE: an error occurred when trying to terminate a server (instance)
+#! @result SUCCESS: the server (instance) was successfully launched/created
+#! @result FAILURE: an error occurred when trying to launch/create a server (instance)
 #!!#
 ####################################################
 namespace: io.cloudslang.cloud.amazon_aws
 
 operation:
-  name: terminate_server
+  name: create_server
 
   inputs:
     - provider: 'amazon'
@@ -38,11 +42,6 @@ operation:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
-    - serverId: ${server_id}
     - proxy_host:
         required: false
     - proxyHost:
@@ -53,10 +52,35 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         overridable: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - availability_zone:
+        default: ''
+        required: false
+    - availabilityZone:
+        default: ${get("availability_zone", "")}
+        overridable: false
+    - image_ref
+    - imageRef:
+        default: ${image_ref}
+        overridable: false
+    - min_count:
+        default: '1'
+        required: false
+    - minCount:
+        default: ${get("min_count", "1")}
+        overridable: false
+    - max_count:
+        default: '1'
+        required: false
+    - maxCount:
+        default: ${get("max_count", "1")}
+        overridable: false
 
   action:
     java_action:
-      className: io.cloudslang.content.jclouds.actions.RemoveServerAction
+      className: io.cloudslang.content.jclouds.actions.CreateServerAction
       methodName: execute
 
   outputs:
