@@ -155,8 +155,9 @@ flow:
           comparisons.compare_numbers:
             - value1: ${attempts}
             - value2: 0
+            - attempts
         publish:
-          - attempts: ${int(self['attempts']) - 1}
+          - attempts: ${int(attempts) - 1}
         navigate:
           GREATER_THAN: sleep
           EQUALS: NODES_NOT_ADDED

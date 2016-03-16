@@ -99,8 +99,9 @@ flow:
           comparisons.compare_numbers:
             - value1: ${time_left}
             - value2: 0
+            - time_left
         publish:
-          - time_left: ${self['time_left'] - 1}
+          - time_left: ${time_left - 1}
         navigate:
           GREATER_THAN: sleep
           EQUALS: TIMEOUT

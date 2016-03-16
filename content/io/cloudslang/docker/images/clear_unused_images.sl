@@ -114,9 +114,10 @@ flow:
                 - private_key_file
                 - timeout
                 - port
+                - all_parent_images
             publish:
                 - all_parent_images: >
-                    ${ self['all_parent_images'] if self['all_parent_images'] is not None else "" + parent_image_name + " " }
+                    ${ all_parent_images if all_parent_images is not None else "" + parent_image_name + " " }
     - substract_parent_images:
         do:
           base_lists.subtract_sets:

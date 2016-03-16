@@ -125,8 +125,9 @@ flow:
                      - password: ${coreos_password}
                      - private_key_file
                      - timeout
+                     - number_of_images_in_cluster
               publish:
-                - number_of_images_in_cluster: ${self['number_of_images_in_cluster'] + len(image_list.split())}
+                - number_of_images_in_cluster: ${number_of_images_in_cluster + len(image_list.split())}
               navigate:
                 SUCCESS: verify_number_of_remaining_images
                 FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
