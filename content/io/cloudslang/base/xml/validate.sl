@@ -34,6 +34,11 @@ operation:
   - xsdDocument:
       default: ${get("xsd_document", "")}
       overridable: false
+  - secure_processing:
+      required: false
+  - secureProcessing:
+      default: ${get("secure_processing", "false")}
+      overridable: false
 
   action:
     java_action:

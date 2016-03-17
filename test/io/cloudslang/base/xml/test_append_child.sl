@@ -31,7 +31,7 @@ flow:
           FAILURE: APPEND_FAILURE
     - find_appended:
         do:
-          xpath_select:
+          select:
             - xml_document: ${result_xml}
             - xpath_query: ${xpath_test_query}
         publish:

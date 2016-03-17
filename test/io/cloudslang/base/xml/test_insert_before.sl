@@ -31,7 +31,7 @@ flow:
           FAILURE: INSERT_FAILURE
     - find_inserted:
         do:
-          xpath_select:
+          select:
             - xml_document: ${result_xml}
             - xpath_query: ${xpath_test_query}
         publish:
