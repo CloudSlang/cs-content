@@ -61,13 +61,14 @@ operation:
         required: false
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - virtual_machine_name
-    - virtualMachineName: ${virtual_machine_name}
+    - virtualMachineName:
+        default: ${get("virtual_machine_name", None)}
+        overridable: false
 
   action:
     java_action:
