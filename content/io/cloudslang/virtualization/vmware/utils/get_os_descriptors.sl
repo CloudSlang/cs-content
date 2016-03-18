@@ -65,13 +65,14 @@ operation:
     - username
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - data_center_name
-    - dataCenterName: ${data_center_name}
+    - dataCenterName:
+        default: ${get("data_center_name", None)}
+        overridable: false
     - hostname
     - delimiter:
         default: ','
