@@ -63,7 +63,6 @@ flow:
           - exception
         navigate:
           SUCCESS: is_default
-          FAILURE: FAILED_JAVA_INSTALLATION
 
     - is_default:
         do:
@@ -72,7 +71,7 @@ flow:
             - second_string: 'true'
         navigate:
           SUCCESS: strip_java_input
-          FAILURE: KEEP_DEFAULT_JAVA
+          FAILURE: SUCCESS
 
 
     - strip_java_input:
@@ -108,6 +107,4 @@ flow:
       - default_java
   results:
       - SUCCESS
-      - KEEP_DEFAULT_JAVA
       - FAILURE
-      - FAILED_JAVA_INSTALLATION
