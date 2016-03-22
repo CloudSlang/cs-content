@@ -33,5 +33,5 @@ testSubtractStr:
   description: Tests that subtract_numbers.sl operation finishes with result = -2.0
   testFlowPath: io.cloudslang.base.math.subtract.subtract_numbers
   outputs:
-    - result: 2.0
+    - result: -2.0
   result: SUCCESS

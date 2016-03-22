@@ -13,7 +13,7 @@ testMultiplyInt:
   description: Tests that multiply_numbers.sl operation finishes with result = 14.0
   testFlowPath: io.cloudslang.base.math.multiply.multiply_numbers
   outputs:
-    - result: 4.0
+    - result: 14.0
   result: SUCCESS
 
 testMyltiplyFloat:

@@ -31,4 +31,4 @@ testAddString:
   description: Tests that add_numbers.sl operation finishes with result = 8.0
   testFlowPath: io.cloudslang.base.math.add.add_numbers
   outputs:
-    - result: 8
+    - result: 8.0
