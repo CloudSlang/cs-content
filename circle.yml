@@ -46,7 +46,7 @@ test:
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
         && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
-        && docker run -d -p 8500:8500 -p 8600:8600/udp fhalim/consul
+        && docker run -d -p 8400:8400 -p 8500:8500 -p 8600:53/udp progrium/consul
         && docker run -d -p 3000:80 --name swagger -e "URL=http://petstore.swagger.io/v2/swagger.json" ianneub/swagger-ui;
         fi
       : parallel: true
