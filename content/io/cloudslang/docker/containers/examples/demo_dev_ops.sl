@@ -100,7 +100,7 @@ flow:
             - port: ${docker_ssh_port}
             - username: ${docker_username}
             - password: ${docker_password}
-            - private_key_file: ${private_key_file}
+            - private_key_file
             - timeout
         publish:
           - container_id
