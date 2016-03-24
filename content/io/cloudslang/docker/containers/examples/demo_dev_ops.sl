@@ -22,6 +22,9 @@
 #! @input email_port: email port
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#! @input email_username: optional - email username
+#! @input email_password: optional - email password
+#! @input email_enable_TLS: optional - enable startTLS
 #! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
 #!!#
 ####################################################
@@ -50,6 +53,12 @@ flow:
     - email_port
     - email_sender
     - email_recipient
+    - email_username:
+        required: false
+    - email_password:
+        required: false
+    - email_enable_TLS:
+        required: false
     - timeout: '30000000'
   workflow:
 
@@ -116,6 +125,9 @@ flow:
                 - to: ${email_recipient}
                 - subject: 'Flow failure'
                 - body: "${'Operation failed with the following error:<br>' + error_message}"
+                - username: ${email_username}
+                - password: ${email_password}
+                - enable_TLS: ${email_enable_TLS}
             navigate:
               SUCCESS: FAILURE
               FAILURE: FAILURE
