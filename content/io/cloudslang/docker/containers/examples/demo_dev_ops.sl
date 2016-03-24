@@ -83,17 +83,15 @@ flow:
     - start_linked_container:
         do:
           docker_containers.start_linked_container:
-            - dbContainerIp: ${db_IP}
-            - dbContainerName: ${db_container_name}
-            - imageName: 'meirwa/spring-boot-tomcat-mysql-app'
-            - containerName: ${app_container_name}
-            - linkParams: "${dbContainerName + ':mysql'}"
-            - cmdParams: "${'-e DB_URL=' + dbContainerIp + ' -p ' + app_port + ':8080'}"
+            - image_name: 'meirwa/spring-boot-tomcat-mysql-app'
+            - container_name: ${app_container_name}
+            - link_params: "${db_container_name + ':mysql'}"
+            - cmd_params: "${'-e DB_URL=' + db_IP + ' -p ' + app_port + ':8080'}"
             - host: ${docker_host}
             - port: ${docker_ssh_port}
             - username: ${docker_username}
             - password: ${docker_password}
-            - privateKeyFile: ${private_key_file}
+            - private_key_file: ${private_key_file}
             - timeout
         publish:
           - container_id
@@ -106,7 +104,7 @@ flow:
             - attempts: 20
             - time_to_sleep: 10
         publish:
-          - error_message: output_message
+          - error_message: ${output_message}
 
     - on_failure:
         - send_error_mail:
