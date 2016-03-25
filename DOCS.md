@@ -22,7 +22,6 @@ The following is an overview of what is included in the ready-made content:
     + **math:** Numeric operations.
     + **network:** Network related actions, such as: pinging and performing REST calls.
     + **os:** Content for working with operating systems, such as determining the OS, checking disk space and validating SSH access.
-    + **powershell:** PowerShell related content.
     + **print:** Printing text.
     + **remote_command_execution:**
       + **remote_file_transfer:** Remote file transfer related content.
