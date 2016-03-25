@@ -1,0 +1,47 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testDivideInt:
+  inputs:
+    - value1: 6
+    - value2: 2
+  description: Tests that divide_numbers.sl operation finishes with result = 3.0
+  testFlowPath: io.cloudslang.base.math.divide.divide_numbers
+  outputs:
+    - result: 3.0
+  result: SUCSESS
+
+testDivideFloat:
+  inputs:
+    - value1: .3
+    - value2: 5
+  description: Tests that divide_numbers.sl operation finishes with result = 0.06
+  testFlowPath: io.cloudslang.base.math.divide.divide_numbers
+  outputs:
+    - result: 0.06
+  result: SUCSESS
+
+testDivideStr:
+  inputs:
+    - value1: '10'
+    - value2: '5'
+  description: Tests that add_numbers.sl operation finishes with result = 2.0
+  testFlowPath: io.cloudslang.base.math.divide.divide_numbers
+  outputs:
+    - result: 2.0
+  result: SUCSESS
+
+testDivideIllegal:
+  inputs:
+    - value1: 5
+    - value2: 0
+  description: Tests that add_numbers.sl operation finishes with result = Cannot divide by zero
+  testFlowPath: io.cloudslang.base.math.divide.divide_numbers
+  outputs:
+    - result: Cannot divide by zero
+  result: ILLEGAL
