@@ -65,4 +65,4 @@ flow:
           SUCCESS: http_get
 
   outputs:
-    - output_message: "Url is not accessible"
+    - output_message: ${ "" if attempts > 0 else "Url is not accessible" }
