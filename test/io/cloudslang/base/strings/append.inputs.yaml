@@ -1,0 +1,27 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testAppendSuccess:
+  inputs:
+    - string: "Good "
+    - text: "morning!"
+  description: Tests that append.sl operation finishes with result = "Good morning!"
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - result: "Good morning!"
+  result: SUCCESS
+
+testAppendSpecialCharacters:
+  inputs:
+    - string: error
+    - text: t%&e$\"
+  description: Tests that append.sl operation finishes with result = errort%&e$\"
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - result: errort%&e$\"
+  result: SUCCESS
