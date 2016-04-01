@@ -81,7 +81,7 @@ flow:
             - agent_forwarding
         publish:
             - return_result
-            - error_message: ${ standard_err }
+            - error_message: ${ standard_err if return_code == 0 else return_result }
   outputs:
     - return_result
     - error_message

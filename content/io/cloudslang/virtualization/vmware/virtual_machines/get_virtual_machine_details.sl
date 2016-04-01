@@ -66,14 +66,15 @@ operation:
         required: false
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - hostname
     - virtual_machine_name
-    - virtualMachineName: ${virtual_machine_name}
+    - virtualMachineName:
+        default: ${get("virtual_machine_name", None)}
+        overridable: false
     - delimiter:
         default: ','
         required: false

@@ -49,7 +49,7 @@ flow:
             - port
             - username
             - passworde
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - timeout
         publish:
           - error_message
