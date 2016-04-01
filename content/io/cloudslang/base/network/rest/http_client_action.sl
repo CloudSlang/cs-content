@@ -321,5 +321,5 @@ operation:
     - return_code: ${returnCode}
     - status_code: ${'' if 'statusCode' not in locals() else statusCode}
   results:
-    - SUCCESS : ${returnCode == '0' and int(statusCode) in self['valid_http_status_codes']}
+    - SUCCESS : ${returnCode == '0' and int(statusCode) in valid_http_status_codes}
     - FAILURE
