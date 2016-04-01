@@ -38,14 +38,25 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #! @input data_center_name: data center name where host system is
 #!                          example: 'DataCenter2'
-#! @input hostname: name of target host to be queried to retrieve supported guest OSs
+#! @input hostname: name of target host to be queried to retrieve supported guest OSes
 #!                  example: 'host123.subdomain.example.com'
 #! @input virtual_machine_name: name of virtual machine that will be created
-#!                              optional
-#! @input description: description of virtual machine that will be created
-#!                     default: ''
 #! @input data_store: datastore where disk of newly created virtual machine will reside
 #!                    example: 'datastore2-vc6-1'
+#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
+#!                     be obtained by running utils/get_os_descriptors operation
+#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
+#! @input folder_name: name of the folder where the virtual machine will be created. If not provided then the top parent
+#!                     folder will be used
+#!                     optional
+#!                     default: ''
+#! @input resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource pool
+#!                       will be used
+#!                       optional
+#!                       default: ''
+#! @input description: description of virtual machine that will be created
+#!                     optional
+#!                     default: ''
 #! @input num_cpus: number that indicates how many processors the newly created virtual machine will have
 #!                  optional
 #!                  default: '1'
@@ -55,9 +66,6 @@
 #! @input vm_memory_size: amount of memory (in Mb) attached to virtual machine that will be created
 #!                        optional
 #!                        default: '1024'
-#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
-#!                     be obtained by running utils/get_os_descriptors operation
-#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -87,22 +95,33 @@ operation:
         overridable: false
     - data_center_name
     - dataCenterName:
-        default: ${get("data_center_name", None)}
+        default: ${data_center_name}
         overridable: false
-    - hostname:
-        default: ''
-        required: false
+    - hostname
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${virtual_machine_name}
+        overridable: false
+    - data_store
+    - dataStore:
+        default: ${data_store}
+        overridable: false
+    - guest_os_id
+    - guestOsId:
+        default: ${guest_os_id}
+        overridable: false
+    - folder_name:
+        required: false
+    - folderName:
+        default: ${get("folder_name", "")}
+        overridable: false
+    - resource_pool
+    - resourcePool:
+        default: ${get("resource_pool", "")}
         overridable: false
     - description:
         default: ''
         required: false
-    - data_store
-    - dataStore:
-        default: ${get("data_store", "")}
-        overridable: false
     - num_cpus:
         required: false
     - numCPUs:
@@ -117,10 +136,6 @@ operation:
         required: false
     - vmMemorySize:
         default: ${get("vm_memory_size", "1024")}
-        overridable: false
-    - guest_os_id
-    - guestOsId:
-        default: ${get("guest_os_id", None)}
         overridable: false
 
   action:
