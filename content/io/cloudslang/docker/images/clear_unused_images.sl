@@ -147,7 +147,7 @@ flow:
     - images_list_safe_to_delete
     - amount_of_images_deleted: ${ 0 if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
-    - all_parent_images: ${ 0 if 'all_parent_images' not in locals() else all_parent_images" }
+    - all_parent_images: ${ get('all_parent_images', 0) }
   results:
     - SUCCESS
     - FAILURE
