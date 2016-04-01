@@ -70,7 +70,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${get("exception", '')}
         navigate:
           SUCCESS: check_result
           FAILURE: CUSTOMIZE_LINUX_GUEST_FAILURE
@@ -82,7 +82,7 @@ flow:
             - list_2: ['', 0]
         navigate:
           SUCCESS: get_text_occurrence
-          FAILURE: CHECK_RESPONSES_FAILURE
+          FAILURE: CHECK_RESULT_FAILURE
 
     - get_text_occurrence:
         do:
@@ -102,5 +102,5 @@ flow:
   results:
     - SUCCESS
     - CUSTOMIZE_LINUX_GUEST_FAILURE
-    - CHECK_RESPONSES_FAILURE
+    - CHECK_RESULT_FAILURE
     - GET_TEXT_OCCURRENCE_FAILURE
