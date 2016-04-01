@@ -12,6 +12,7 @@
 #! @input element: The element we want to add to the list.
 #! @input unique_element: The element we want to add to the set. 
 #! @output result: list or Set with new element.
+#! @output error_message: Error message if unique_element is already in list.
 #!!#
 ####################################################
 
