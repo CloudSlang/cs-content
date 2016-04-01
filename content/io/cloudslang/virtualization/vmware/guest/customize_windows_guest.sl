@@ -51,7 +51,7 @@
 #!                        The user must have the privileges required to add computers to the domain
 #!                        optional
 #!                        default: ''
-#! @input domain_password: he password for the domain user account used for authentication if the virtual machine is
+#! @input domain_password: the password for the domain user account used for authentication if the virtual machine is
 #!                         joining a domain
 #!                         optional
 #!                         default: ''
@@ -103,7 +103,7 @@
 #!                          your setup requires a number of reboots, you may want to increase it
 #!                          optional
 #!                          default: '1'
-#! @input autoUsers: this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
+#! @input auto_users: this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
 #!                   integer value indicates the number of client licenses purchased for the VirtualCenter server being
 #!                   installed
 #!                   optional
@@ -111,8 +111,6 @@
 #! @input time_zone: the time zone for the new virtual machine according with https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
 #!                   optional
 #!                   default: '360'
-#! @input
-#! @input
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
