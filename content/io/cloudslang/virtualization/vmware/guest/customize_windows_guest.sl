@@ -239,7 +239,7 @@ operation:
     - time_zone:
         required: false
     - timeZone:
-        default: ${get("time_zone", "")}
+        default: ${get("time_zone", "360")}
         overridable: false
 
   action:
