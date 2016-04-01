@@ -115,7 +115,8 @@ operation:
     - folderName:
         default: ${get("folder_name", "")}
         overridable: false
-    - resource_pool
+    - resource_pool:
+        required: false
     - resourcePool:
         default: ${get("resource_pool", "")}
         overridable: false

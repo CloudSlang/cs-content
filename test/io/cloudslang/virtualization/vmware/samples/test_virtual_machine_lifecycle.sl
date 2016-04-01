@@ -222,18 +222,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: get_text_occurrence
-          FAILURE: CHECK_RESULT_FAILURE
-
-    - get_text_occurrence:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: ${str(return_result)}
-            - string_to_find: "${'successfully customized'}"
-            - ignore_case: True
-        navigate:
           SUCCESS: SUCCESS
-          FAILURE: GET_TEXT_OCCURRENCE_FAILURE
+          FAILURE: CHECK_RESULT_FAILURE
 
   outputs:
     - return_result
@@ -270,4 +260,3 @@ flow:
     - NOT_DELETED
     - SEND_DELETE_VM_MAIL_FAILURE
     - CHECK_RESULT_FAILURE
-    - GET_TEXT_OCCURRENCE_FAILURE
