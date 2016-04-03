@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testLengthSuccess:
+testLengthStringSuccess:
   inputs:
     - string: "morning"
   description: Tests that length.sl operation finishes with result = 7
