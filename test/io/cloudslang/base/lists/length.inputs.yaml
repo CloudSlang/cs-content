@@ -1,0 +1,16 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testLengthSuccess:
+  inputs:
+    - list: [element1,element2,element3,element4]
+  description: Tests that length.sl operation finishes with result = 4
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 4
+  result: SUCCESS

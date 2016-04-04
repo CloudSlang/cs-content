@@ -117,7 +117,8 @@ flow:
         do:
           utils.sleep:
               - seconds: ${time_to_sleep}
+              - attempts
         publish:
-          - attempts: ${self['attempts'] - 1}
+          - attempts: ${attempts - 1}
         navigate:
           SUCCESS: list_marathon_apps
