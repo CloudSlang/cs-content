@@ -18,7 +18,7 @@ namespace: io.cloudslang.base.maps
 operation:
   name: get_values
   inputs:
-   - map
+    - map
   action:
     python_script: |
       values=[]

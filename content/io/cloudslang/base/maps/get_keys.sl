@@ -18,14 +18,11 @@ namespace: io.cloudslang.base.maps
 operation:
   name: get_keys
   inputs:
-  - map
+     - map
   action:
     python_script: |
        keys=[]
        for key, item in map.items():
-         if isinstance(key, basestring):
-            keys.append(str(key))
-         else:
-            keys.append(key)
+          keys.append(str(key))
   outputs:
     - result: ${keys}
