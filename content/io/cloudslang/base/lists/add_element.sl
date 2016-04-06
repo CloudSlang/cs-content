@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Add element to list or set.
-#! @input list: list in which we need to add the element  - Example: [123, 'xyz']
+#! @input list: List in which we need to add the element  - Example: [123, 'xyz']
 #! @input element: The element we want to add to the list.
 #! @input unique_element: The element we want to add to the set. 
 #! @output result: list or Set with new element.
@@ -37,8 +37,7 @@ operation:
         error_message = ("Already in list")
       elif unique_element not in list and unique_element != '':
         list.append(unique_element)
-      else:
-        unique_element == '' and element != ''
+      elif unique_element == '' and element != '':
         list.append(element)
 
   outputs:
