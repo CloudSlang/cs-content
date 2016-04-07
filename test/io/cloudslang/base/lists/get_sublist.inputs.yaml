@@ -41,7 +41,7 @@ testGetSublistStartBiggerThanStopFailure:
   description: Tests that get_sublist.sl operation finishes with result = Start index cannot be bigger than stop index
   testFlowPath: io.cloudslang.base.lists.get_sublist
   outputs:
-    - error_message: Start index cannot be bigger than stop index
+    - error_message: start index cannot be bigger than stop index
   result: FAILURE
 
 testGetSublistLengthExceededFailure:
