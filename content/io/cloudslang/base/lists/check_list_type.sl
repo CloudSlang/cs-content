@@ -29,7 +29,7 @@ operation:
       if all(isinstance(item, basestring) for item in list):
         message = "All elements in list are STR"
       elif all(isinstance(item, int) for item in list):
-        message = "All alements in list are INT"
+        message = "All elements in list are INT"
       else:
         if any(isinstance(item, (str, int)) for item in list):
           error_message = "List contains STR and INT elements"
