@@ -36,6 +36,10 @@
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
+#! @input data_center_name: data center name where host system is
+#!                          example: 'DataCenter2'
+#! @input hostname: name of target host to be queried to retrieve supported guest OSes
+#!                  example: 'host123.subdomain.example.com'
 #! @input virtual_machine_name: name of virtual machine that will be cloned
 #! @input clone_name: name that will be assigned to the cloned virtual machine
 #! @input folder_name: name of the folder where the cloned virtual machine will reside. If not provided then the top parent
@@ -101,6 +105,11 @@ operation:
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
+    - data_center_name
+    - dataCenterName:
+        default: ${data_center_name}
+        overridable: false
+    - hostname
     - virtual_machine_name
     - virtualMachineName:
          default: ${get("virtual_machine_name", None)}
