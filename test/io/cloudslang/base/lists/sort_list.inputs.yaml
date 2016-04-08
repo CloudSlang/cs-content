@@ -1,0 +1,25 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testSortListIntSuccess:
+  inputs:
+    - input_list: [1,5,3,4,2,9,6,8,7]
+  description: Tests that sort_list.sl operation finishes with result = [1, 2, 3, 4, 5, 7, 8, 9]
+  testFlowPath: io.cloudslang.base.lists.sort_list
+  outputs:
+    - result: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  result: SUCCESS
+
+testSortListStrSuccess:
+  inputs:
+    - input_list: ['element5', 'element3', 'element4', 'element2', 'element7', 'element1', 'element6']
+  description: Tests that sort_list.sl operation finishes with result = ['element1', 'element2', 'element3', 'element4', 'element5', 'element6', 'element7']
+  testFlowPath: io.cloudslang.base.lists.sort_list
+  outputs:
+    - result: ["'element1'", "'element2'", "'element3'", "'element4'", "'element5'", "'element6'", "'element7'"]
+  result: SUCCESS
