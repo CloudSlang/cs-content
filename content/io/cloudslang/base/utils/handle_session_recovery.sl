@@ -44,8 +44,8 @@ flow:
           is_true:
             - bool_value: ${ enabled }
         navigate:
-          SUCCESS: check_retries
-          FAILURE: RECOVERY_DISABLED
+          - SUCCESS: check_retries
+          - FAILURE: RECOVERY_DISABLED
 
     - check_retries:
         do:
@@ -56,9 +56,9 @@ flow:
         publish:
           - retries: ${ int(retries) - 1 }
         navigate:
-          GREATER_THAN: check_unstable_session
-          EQUALS: TIMEOUT
-          LESS_THAN: TIMEOUT
+          - GREATER_THAN: check_unstable_session
+          - EQUALS: TIMEOUT
+          - LESS_THAN: TIMEOUT
 
     - check_unstable_session:
         do:
@@ -67,10 +67,10 @@ flow:
             - return_code
             - exit_status
         navigate:
-          SESSION_IS_DOWN: SESSION_IS_DOWN
-          FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
-          CUSTOM_FAILURE: CUSTOM_FAILURE
-          NO_ISSUE_FOUND: NO_ISSUE_FOUND
+          - SESSION_IS_DOWN: SESSION_IS_DOWN
+          - FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
+          - CUSTOM_FAILURE: CUSTOM_FAILURE
+          - NO_ISSUE_FOUND: NO_ISSUE_FOUND
   outputs:
     - retries
   results:

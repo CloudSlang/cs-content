@@ -92,8 +92,8 @@ flow:
             - string_in_which_to_search: ${standard_err}
             - string_to_find: 'ssh-agent'
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: check_unable_in_stderr
+          - SUCCESS: FAILURE
+          - FAILURE: check_unable_in_stderr
 
     - check_unable_in_stderr:
         do:
@@ -101,7 +101,7 @@ flow:
             - string_in_which_to_search: ${standard_err}
             - string_to_find: 'Unable'
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: SUCCESS
   outputs:
     - public_ip

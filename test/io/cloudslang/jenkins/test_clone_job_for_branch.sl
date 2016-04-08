@@ -34,22 +34,22 @@ flow:
             - job_name
             - config_xml
         navigate:
-          SUCCESS: build_jenkins_job
-          FAILURE: FAIL_TO_CREATE_JOB
+          - SUCCESS: build_jenkins_job
+          - FAILURE: FAIL_TO_CREATE_JOB
     - build_jenkins_job:
         do:
           invoke_job:
             - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
         navigate:
-          SUCCESS: wait
-          FAILURE: FAIL_TO_CREATE_JOB
+          - SUCCESS: wait
+          - FAILURE: FAIL_TO_CREATE_JOB
     - wait:
         do:
           base_utils.sleep:
             - seconds: 10
         navigate:
-          SUCCESS: get_last_buildnumber
+          - SUCCESS: get_last_buildnumber
     - get_last_buildnumber:
         do:
           get_last_buildnumber:
@@ -58,8 +58,8 @@ flow:
         publish:
           - last_buildnumber
         navigate:
-          SUCCESS: clone_job
-          FAILURE: FAIL_TO_GET_BUILDNUMBER
+          - SUCCESS: clone_job
+          - FAILURE: FAIL_TO_GET_BUILDNUMBER
 
     - clone_job:
         do:
@@ -74,8 +74,8 @@ flow:
             - email_sender: "email@hp.com"
             - email_recipient: "email@hp.com"
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_CLONE_JOB
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_CLONE_JOB
   outputs:
     - last_buildnumber
   results:

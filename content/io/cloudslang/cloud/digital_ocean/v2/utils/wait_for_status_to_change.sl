@@ -73,8 +73,8 @@ flow:
           - actual_status: ${droplet_status}
           - status_code
         navigate:
-          SUCCESS: check_status
-          FAILURE: check_droplet_not_found
+          - SUCCESS: check_status
+          - FAILURE: check_droplet_not_found
 
     - check_droplet_not_found:
         do:
@@ -82,8 +82,8 @@ flow:
             - first_string: '404'
             - second_string: ${status_code}
         navigate:
-          SUCCESS: DROPLET_NOT_FOUND
-          FAILURE: FAILURE
+          - SUCCESS: DROPLET_NOT_FOUND
+          - FAILURE: FAILURE
 
     - check_status:
         do:
@@ -91,8 +91,8 @@ flow:
             - first_string: ${status}
             - second_string: ${actual_status}
         navigate:
-          SUCCESS: check_timeout
-          FAILURE: SUCCESS
+          - SUCCESS: check_timeout
+          - FAILURE: SUCCESS
 
     - check_timeout:
         do:
@@ -103,16 +103,16 @@ flow:
         publish:
           - time_left: ${time_left - 1}
         navigate:
-          GREATER_THAN: sleep
-          EQUALS: TIMEOUT
-          LESS_THAN: TIMEOUT
+          - GREATER_THAN: sleep
+          - EQUALS: TIMEOUT
+          - LESS_THAN: TIMEOUT
 
     - sleep:
         do:
           utils.sleep:
             - seconds: 1
         navigate:
-          SUCCESS: get_droplet_status
+          - SUCCESS: get_droplet_status
   results:
     - SUCCESS
     - DROPLET_NOT_FOUND

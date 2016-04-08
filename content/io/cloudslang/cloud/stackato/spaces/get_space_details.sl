@@ -77,11 +77,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_space_details
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_SPACES_FAILURE: GET_SPACES_FAILURE
-          GET_SPACES_LIST_FAILURE: GET_SPACES_LIST_FAILURE
+          - SUCCESS: get_space_details
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_SPACES_FAILURE: GET_SPACES_FAILURE
+          - GET_SPACES_LIST_FAILURE: GET_SPACES_LIST_FAILURE
 
     - get_space_details:
         do:
@@ -96,8 +96,8 @@ flow:
           - resource_created_at
           - resource_updated_at
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_SPACE_DETAILS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_SPACE_DETAILS_FAILURE
 
   outputs:
     - return_result

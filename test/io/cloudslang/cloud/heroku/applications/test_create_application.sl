@@ -44,15 +44,15 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          CREATE_EMPTY_JSON_FAILURE: CREATE_EMPTY_JSON_FAILURE
-          ADD_NAME_FAILURE: ADD_NAME_FAILURE
-          ADD_REGION_FAILURE: ADD_REGION_FAILURE
-          ADD_STACK_FAILURE: ADD_STACK_FAILURE
-          CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
-          GET_ID_FAILURE: GET_ID_FAILURE
-          GET_NAME_FAILURE: GET_NAME_FAILURE
-          GET_CREATED_AT_FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: check_result
+          - CREATE_EMPTY_JSON_FAILURE: CREATE_EMPTY_JSON_FAILURE
+          - ADD_NAME_FAILURE: ADD_NAME_FAILURE
+          - ADD_REGION_FAILURE: ADD_REGION_FAILURE
+          - ADD_STACK_FAILURE: ADD_STACK_FAILURE
+          - CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
+          - GET_ID_FAILURE: GET_ID_FAILURE
+          - GET_NAME_FAILURE: GET_NAME_FAILURE
+          - GET_CREATED_AT_FAILURE: GET_CREATED_AT_FAILURE
 
     - check_result:
         do:
@@ -60,8 +60,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 201]
         navigate:
-          SUCCESS: get_id
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_id:
         do:
@@ -71,8 +71,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: check_id_is_present
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: check_id_is_present
+          - FAILURE: GET_ID_FAILURE
 
     - check_id_is_present:
         do:
@@ -80,8 +80,8 @@ flow:
             - first_string: ${id}
             - second_string: None
         navigate:
-          SUCCESS: ID_IS_NOT_PRESENT
-          FAILURE: get_name_from_response
+          - SUCCESS: ID_IS_NOT_PRESENT
+          - FAILURE: get_name_from_response
 
     - get_name_from_response:
         do:
@@ -91,8 +91,8 @@ flow:
         publish:
           - checked_name: ${value}
         navigate:
-          SUCCESS: check_name_is_present
-          FAILURE: GET_NAME_FAILURE
+          - SUCCESS: check_name_is_present
+          - FAILURE: GET_NAME_FAILURE
 
     - check_name_is_present:
         do:
@@ -100,8 +100,8 @@ flow:
             - first_string: ${checked_name}
             - second_string: None
         navigate:
-          SUCCESS: CHECK_NAME_IS_NOT_PRESENT
-          FAILURE: verify_names
+          - SUCCESS: CHECK_NAME_IS_NOT_PRESENT
+          - FAILURE: verify_names
 
     - verify_names:
         do:
@@ -109,8 +109,8 @@ flow:
             - first_string: ${checked_name}
             - second_string: ${name if name in locals() else checked_name}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: NAMES_ARE_NOT_THE_SAME
+          - SUCCESS: get_created_at
+          - FAILURE: NAMES_ARE_NOT_THE_SAME
 
     - get_created_at:
         do:
@@ -120,8 +120,8 @@ flow:
         publish:
           - created_at: ${value}
         navigate:
-          SUCCESS: check_created_at_is_present
-          FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: check_created_at_is_present
+          - FAILURE: GET_CREATED_AT_FAILURE
 
     - check_created_at_is_present:
         do:
@@ -129,8 +129,8 @@ flow:
             - first_string: ${created_at}
             - second_string: None
         navigate:
-          SUCCESS: CREATED_AT_IS_NOT_PRESENT
-          FAILURE: SUCCESS
+          - SUCCESS: CREATED_AT_IS_NOT_PRESENT
+          - FAILURE: SUCCESS
 
   outputs:
     - return_result

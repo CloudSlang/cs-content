@@ -67,12 +67,12 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: check_server
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_SERVERS_FAILURE: GET_SERVERS_FAILURE
-          EXTRACT_SERVERS_FAILURE: EXTRACT_SERVERS_FAILURE
+          - SUCCESS: check_server
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_SERVERS_FAILURE: GET_SERVERS_FAILURE
+          - EXTRACT_SERVERS_FAILURE: EXTRACT_SERVERS_FAILURE
 
     - check_server:
         do:
@@ -83,8 +83,8 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_SERVER_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_SERVER_FAILURE
   outputs:
     - return_result
     - error_message

@@ -47,8 +47,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_password_value
-          FAILURE: ADD_EMAIL_FAILURE
+          - SUCCESS: add_password_value
+          - FAILURE: ADD_EMAIL_FAILURE
 
     - validate_password_input:
         do:
@@ -56,8 +56,8 @@ flow:
             - first_string: ${password}
             - second_string: None
         navigate:
-          SUCCESS: update_account_email
-          FAILURE: add_password_value
+          - SUCCESS: update_account_email
+          - FAILURE: add_password_value
 
     - add_password_value:
         do:
@@ -71,8 +71,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: update_account_email
-          FAILURE: ADD_PASSWORD_FAILURE
+          - SUCCESS: update_account_email
+          - FAILURE: ADD_PASSWORD_FAILURE
 
     - update_account_email:
         do:
@@ -89,8 +89,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: UPDATE_ACCOUNT_EMAIL_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: UPDATE_ACCOUNT_EMAIL_FAILURE
 
   outputs:
     - return_result

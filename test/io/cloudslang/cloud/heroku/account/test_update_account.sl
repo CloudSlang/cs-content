@@ -46,11 +46,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          ADD_ALLOW_TRACKING_FAILURE: ADD_ALLOW_TRACKING_FAILURE
-          ADD_BETA_FAILURE: ADD_BETA_FAILURE
-          ADD_ACCOUNT_OWNER_NAME_FAILURE: ADD_ACCOUNT_OWNER_NAME_FAILURE
-          UPDATE_ACCOUNT_FAILURE: UPDATE_ACCOUNT_FAILURE
+          - SUCCESS: check_result
+          - ADD_ALLOW_TRACKING_FAILURE: ADD_ALLOW_TRACKING_FAILURE
+          - ADD_BETA_FAILURE: ADD_BETA_FAILURE
+          - ADD_ACCOUNT_OWNER_NAME_FAILURE: ADD_ACCOUNT_OWNER_NAME_FAILURE
+          - UPDATE_ACCOUNT_FAILURE: UPDATE_ACCOUNT_FAILURE
 
     - check_result:
         do:
@@ -58,8 +58,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: get_name
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: get_name
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_name:
         do:
@@ -69,8 +69,8 @@ flow:
         publish:
           - name: ${value}
         navigate:
-          SUCCESS: check_name
-          FAILURE: GET_NAME_FAILURE
+          - SUCCESS: check_name
+          - FAILURE: GET_NAME_FAILURE
 
     - check_name:
         do:
@@ -78,8 +78,8 @@ flow:
             - first_string: "Test_CloudSlang"
             - second_string: ${name}
         navigate:
-          SUCCESS: get_allow_tracking
-          FAILURE: CHECK_NAME_FAILURE
+          - SUCCESS: get_allow_tracking
+          - FAILURE: CHECK_NAME_FAILURE
 
     - get_allow_tracking:
         do:
@@ -89,8 +89,8 @@ flow:
         publish:
           - tracking: ${value}
         navigate:
-          SUCCESS: check_allow_tracking
-          FAILURE: GET_ALLOW_TRACKING_FAILURE
+          - SUCCESS: check_allow_tracking
+          - FAILURE: GET_ALLOW_TRACKING_FAILURE
 
     - check_allow_tracking:
         do:
@@ -98,8 +98,8 @@ flow:
             - first_string: ${allow_tracking}
             - second_string: ${tracking}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_ALLOW_TRACKING_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_ALLOW_TRACKING_FAILURE
 
   outputs:
     - return_result

@@ -42,8 +42,8 @@ flow:
              - docker_password: ${password}
              - private_key_file
          navigate:
-           SUCCESS: start_mysql_container
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: start_mysql_container
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - start_mysql_container:
         do:
@@ -56,8 +56,8 @@ flow:
         publish:
           - db_IP
         navigate:
-          SUCCESS: pull_linked_image
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: pull_linked_image
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - pull_linked_image:
         do:
@@ -71,15 +71,15 @@ flow:
         publish:
           - error_message
         navigate:
-          SUCCESS: start_linked_container
-          FAILURE: print_pull_linked_image_error
+          - SUCCESS: start_linked_container
+          - FAILURE: print_pull_linked_image_error
 
     - print_pull_linked_image_error:
         do:
           print.print_text:
             - text: error_message
         navigate:
-          SUCCESS: FAIL_TO_PULL_LINKED_CONTAINER
+          - SUCCESS: FAIL_TO_PULL_LINKED_CONTAINER
 
     - start_linked_container:
         do:
@@ -110,8 +110,8 @@ flow:
             - docker_password: ${password}
             - private_key_file
         navigate:
-          SUCCESS: verify
-          FAILURE: FAILURE
+          - SUCCESS: verify
+          - FAILURE: FAILURE
 
     - verify:
         do:
@@ -131,8 +131,8 @@ flow:
             - first_string: ${all_containers}
             - second_string: ''
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAILURE
+          - SUCCESS: clear_docker_host
+          - FAILURE: FAILURE
 
     - clear_docker_host:
         do:
@@ -143,8 +143,8 @@ flow:
            - docker_password: ${password}
            - private_key_file
         navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: SUCCESS
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

@@ -45,8 +45,8 @@ flow:
             - first_string: ${password}
             - second_string: None
         navigate:
-          SUCCESS: validate_new_password_input
-          FAILURE: add_password_value
+          - SUCCESS: validate_new_password_input
+          - FAILURE: add_password_value
 
     - add_password_value:
         do:
@@ -60,8 +60,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_new_password_input
-          FAILURE: ADD_PASSWORD_FAILURE
+          - SUCCESS: validate_new_password_input
+          - FAILURE: ADD_PASSWORD_FAILURE
 
     - validate_new_password_input:
         do:
@@ -69,8 +69,8 @@ flow:
             - first_string: ${new_password}
             - second_string: None
         navigate:
-          SUCCESS: update_account_password
-          FAILURE: add_new_password_value
+          - SUCCESS: update_account_password
+          - FAILURE: add_new_password_value
 
     - add_new_password_value:
         do:
@@ -84,8 +84,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: update_account_password
-          FAILURE: ADD_NEW_PASSWORD_FAILURE
+          - SUCCESS: update_account_password
+          - FAILURE: ADD_NEW_PASSWORD_FAILURE
 
     - update_account_password:
         do:
@@ -102,8 +102,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: UPDATE_ACCOUNT_PASSWORD_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: UPDATE_ACCOUNT_PASSWORD_FAILURE
 
   outputs:
     - return_result

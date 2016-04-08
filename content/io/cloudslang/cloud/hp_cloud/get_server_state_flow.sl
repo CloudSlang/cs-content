@@ -64,8 +64,8 @@ flow:
           - return_result
           - status_code
         navigate:
-          SUCCESS: extract_status
-          FAILURE: failed
+          - SUCCESS: extract_status
+          - FAILURE: failed
 
     - extract_status:
         do:
@@ -75,8 +75,8 @@ flow:
         publish:
           - server_status: ${value}
         navigate:
-          SUCCESS: check_active
-          FAILURE: failed
+          - SUCCESS: check_active
+          - FAILURE: failed
 
     - check_active:
         do:
@@ -84,15 +84,15 @@ flow:
             - first_string: ${server_status}
             - second_string: 'ACTIVE'
         navigate:
-          SUCCESS: ACTIVE
-          FAILURE: NOT_ACTIVE
+          - SUCCESS: ACTIVE
+          - FAILURE: NOT_ACTIVE
 
     - failed:
           do:
             print.print_text:
               - text: "${'! ERROR GETTING SERVER INFO: \\nStatus:' + status_code + '\\n' + return_result}"
           navigate:
-            SUCCESS: FAILURE
+            - SUCCESS: FAILURE
 
   outputs:
     - server_status

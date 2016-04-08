@@ -64,8 +64,8 @@ flow:
         publish:
           - droplet_id
         navigate:
-          SUCCESS: wait_for_create_event
-          FAILURE: CREATE_DROPLET_FAILURE
+          - SUCCESS: wait_for_create_event
+          - FAILURE: CREATE_DROPLET_FAILURE
 
     - wait_for_create_event:
         do:
@@ -79,10 +79,10 @@ flow:
             - proxy_username
             - proxy_password
         navigate:
-          SUCCESS: remove_zombie_droplets
-          DROPLET_NOT_FOUND: WAIT_FOR_CREATE_EVENT_DROPLET_NOT_FOUND
-          FAILURE: WAIT_FOR_CREATE_EVENT_FAILURE
-          TIMEOUT: WAIT_FOR_CREATE_EVENT_TIMEOUT
+          - SUCCESS: remove_zombie_droplets
+          - DROPLET_NOT_FOUND: WAIT_FOR_CREATE_EVENT_DROPLET_NOT_FOUND
+          - FAILURE: WAIT_FOR_CREATE_EVENT_FAILURE
+          - TIMEOUT: WAIT_FOR_CREATE_EVENT_TIMEOUT
 
     - remove_zombie_droplets:
         do:
@@ -95,8 +95,8 @@ flow:
             - proxy_username
             - proxy_password
         navigate:
-          SUCCESS: wait_for_remove_event
-          FAILURE: REMOVE_ZOMBIE_DROPLETS_FAILURE
+          - SUCCESS: wait_for_remove_event
+          - FAILURE: REMOVE_ZOMBIE_DROPLETS_FAILURE
 
     - wait_for_remove_event:
         do:
@@ -110,10 +110,10 @@ flow:
             - proxy_username
             - proxy_password
         navigate:
-          SUCCESS: WAIT_FOR_REMOVE_EVENT_UNEXPECTED_RESULT
-          DROPLET_NOT_FOUND: SUCCESS
-          FAILURE: WAIT_FOR_REMOVE_EVENT_FAILURE
-          TIMEOUT: WAIT_FOR_REMOVE_EVENT_TIMEOUT
+          - SUCCESS: WAIT_FOR_REMOVE_EVENT_UNEXPECTED_RESULT
+          - DROPLET_NOT_FOUND: SUCCESS
+          - FAILURE: WAIT_FOR_REMOVE_EVENT_FAILURE
+          - TIMEOUT: WAIT_FOR_REMOVE_EVENT_TIMEOUT
   results:
     - SUCCESS
     - CREATE_DROPLET_FAILURE

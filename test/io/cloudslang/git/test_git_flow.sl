@@ -36,8 +36,8 @@ flow:
             - git_repository
             - git_repository_localdir
         navigate:
-          SUCCESS: checkout_git_branch
-          FAILURE: CLONEFAILURE
+          - SUCCESS: checkout_git_branch
+          - FAILURE: CLONEFAILURE
 
     - checkout_git_branch:
         do:
@@ -50,8 +50,8 @@ flow:
             - git_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: fetch_git_branch
-          FAILURE: CHECKOUTFAILURE
+          - SUCCESS: fetch_git_branch
+          - FAILURE: CHECKOUTFAILURE
         publish:
           - standard_out
 
@@ -65,8 +65,8 @@ flow:
             - git_fetch_remote
             - git_repository_localdir
         navigate:
-          SUCCESS: merge_git_branch
-          FAILURE: FETCHFAILURE
+          - SUCCESS: merge_git_branch
+          - FAILURE: FETCHFAILURE
         publish:
           - standard_out
 
@@ -80,8 +80,8 @@ flow:
             - git_merge_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: reset_git_branch
-          FAILURE: MERGEFAILURE
+          - SUCCESS: reset_git_branch
+          - FAILURE: MERGEFAILURE
         publish:
           - standard_out
 
@@ -95,8 +95,8 @@ flow:
             - git_reset_target
             - git_repository_localdir
         navigate:
-          SUCCESS: git_cleanup
-          FAILURE: RESETFAILURE
+          - SUCCESS: git_cleanup
+          - FAILURE: RESETFAILURE
         publish:
           - standard_out
 
@@ -109,8 +109,8 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEANUPFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CLEANUPFAILURE
         publish:
           - standard_out
 

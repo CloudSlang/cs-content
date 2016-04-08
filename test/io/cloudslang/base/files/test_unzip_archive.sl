@@ -36,8 +36,8 @@ flow:
               - source: ${f}
           break: []
         navigate:
-          SUCCESS: test_folder_creation
-          FAILURE: test_folder_creation
+          - SUCCESS: test_folder_creation
+          - FAILURE: test_folder_creation
 
     - test_folder_creation:
         loop:
@@ -47,8 +47,8 @@ flow:
               - folder_name: ${folder}
           break: []
         navigate:
-          SUCCESS: test_file_creation
-          FAILURE: test_file_creation
+          - SUCCESS: test_file_creation
+          - FAILURE: test_file_creation
 
     - test_file_creation:
         do:
@@ -56,8 +56,8 @@ flow:
             - file_path: ${path + '/test.txt'}
             - text: 'Workflow to test unzip operation'
         navigate:
-          SUCCESS: zip_folder
-          FAILURE: PREREQUESTFAILURE
+          - SUCCESS: zip_folder
+          - FAILURE: PREREQUESTFAILURE
 
     - zip_folder:
         do:
@@ -65,8 +65,8 @@ flow:
             - archive_name: ${name.split('.')[0]}
             - folder_path: ${path}
         navigate:
-          SUCCESS: unzip_folder
-          FAILURE: ZIPFAILURE
+          - SUCCESS: unzip_folder
+          - FAILURE: ZIPFAILURE
 
     - unzip_folder:
         do:
@@ -76,24 +76,24 @@ flow:
         publish:
             - unzip_message: ${message}
         navigate:
-          SUCCESS: delete_output_folder
-          FAILURE: UNZIPFAILURE
+          - SUCCESS: delete_output_folder
+          - FAILURE: UNZIPFAILURE
 
     - delete_output_folder:
         do:
           delete:
             - source: ${out_folder}
         navigate:
-          SUCCESS: delete_test_folder
-          FAILURE: DELETEFAILURE
+          - SUCCESS: delete_test_folder
+          - FAILURE: DELETEFAILURE
 
     - delete_test_folder:
         do:
           delete:
             - source: ${path}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
 
   outputs:
     - unzip_message

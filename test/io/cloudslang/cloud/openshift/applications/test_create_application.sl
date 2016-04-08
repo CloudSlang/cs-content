@@ -66,9 +66,9 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          CONVERT_LIST_TO_STRING_FAILURE: CREATE_APPLICATION_FAILURE
-          CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
+          - SUCCESS: check_result
+          - CONVERT_LIST_TO_STRING_FAILURE: CREATE_APPLICATION_FAILURE
+          - CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
 
     - check_result:
         do:
@@ -76,8 +76,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 201]
         navigate:
-          SUCCESS: get_status
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: get_status
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
     - get_status:
         do:
@@ -87,8 +87,8 @@ flow:
         publish:
           - status: ${value}
         navigate:
-          SUCCESS: verify_status
-          FAILURE: GET_STATUS_FAILURE
+          - SUCCESS: verify_status
+          - FAILURE: GET_STATUS_FAILURE
 
     - verify_status:
         do:
@@ -96,8 +96,8 @@ flow:
             - first_string: 'created'
             - second_string: ${status}
         navigate:
-          SUCCESS: get_messages
-          FAILURE: VERIFY_STATUS_FAILURE
+          - SUCCESS: get_messages
+          - FAILURE: VERIFY_STATUS_FAILURE
 
     - get_messages:
         do:
@@ -107,8 +107,8 @@ flow:
         publish:
           - messages: ${value}
         navigate:
-          SUCCESS: get_text_occurrence
-          FAILURE: GET_MESSAGES_FAILURE
+          - SUCCESS: get_text_occurrence
+          - FAILURE: GET_MESSAGES_FAILURE
 
     - get_text_occurrence:
         do:
@@ -119,8 +119,8 @@ flow:
         publish:
           - text_occurrence: ${return_result}
         navigate:
-          SUCCESS: verify_text
-          FAILURE: GET_TEXT_OCCURRENCE_FAILURE
+          - SUCCESS: verify_text
+          - FAILURE: GET_TEXT_OCCURRENCE_FAILURE
 
     - verify_text:
         do:
@@ -128,8 +128,8 @@ flow:
             - first_string: ${str(text_occurrence)}
             - second_string: ${str(1)}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_TEXT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_TEXT_FAILURE
 
   outputs:
     - return_result

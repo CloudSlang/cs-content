@@ -45,8 +45,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_response
-          FAILURE: check_if_timed_out
+          - SUCCESS: parse_response
+          - FAILURE: check_if_timed_out
 
     - parse_response:
          do:
@@ -55,8 +55,8 @@ flow:
          publish:
            - app_list
          navigate:
-           SUCCESS: check_app_was_created
-           FAILURE: FAILURE
+           - SUCCESS: check_app_was_created
+           - FAILURE: FAILURE
 
     - check_app_was_created:
         do:
@@ -66,8 +66,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: list_mesos_tasks
-          FAILURE: check_if_timed_out
+          - SUCCESS: list_mesos_tasks
+          - FAILURE: check_if_timed_out
 
     - list_mesos_tasks:
         do:
@@ -77,15 +77,15 @@ flow:
         publish:
           - tasks_list: ${return_result}
         navigate:
-          SUCCESS: print_before_check_task
-          FAILURE: check_if_timed_out
+          - SUCCESS: print_before_check_task
+          - FAILURE: check_if_timed_out
 
     - print_before_check_task:
         do:
           print.print_text:
               - text: "Check if task was created."
         navigate:
-          SUCCESS: check_task_was_created
+          - SUCCESS: check_task_was_created
 
     - check_task_was_created:
         do:
@@ -93,15 +93,15 @@ flow:
             - string_in_which_to_search: ${tasks_list}
             - string_to_find: ${created_app_id}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: print_before_check_timeout
+          - SUCCESS: SUCCESS
+          - FAILURE: print_before_check_timeout
 
     - print_before_check_timeout:
         do:
           print.print_text:
               - text: "Check if timeout after check that task was created failed."
         navigate:
-          SUCCESS: check_if_timed_out
+          - SUCCESS: check_if_timed_out
 
     - check_if_timed_out:
          do:
@@ -109,9 +109,9 @@ flow:
               - value1: ${attempts}
               - value2: 0
          navigate:
-           GREATER_THAN: wait
-           EQUALS: FAILURE
-           LESS_THAN: FAILURE
+           - GREATER_THAN: wait
+           - EQUALS: FAILURE
+           - LESS_THAN: FAILURE
 
     - wait:
         do:
@@ -121,4 +121,4 @@ flow:
         publish:
           - attempts: ${attempts - 1}
         navigate:
-          SUCCESS: list_marathon_apps
+          - SUCCESS: list_marathon_apps

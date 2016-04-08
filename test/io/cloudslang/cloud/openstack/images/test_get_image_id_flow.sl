@@ -59,13 +59,13 @@ flow:
           - status_code
           - image_id
         navigate:
-          SUCCESS: check_get_image_id_flow_responses
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          LIST_IMAGES_FAILURE: LIST_IMAGES_FAILURE
-          EXTRACT_IMAGES_FAILURE: EXTRACT_IMAGES_FAILURE
-          EXTRACT_IMAGE_ID_FAILURE: EXTRACT_IMAGE_ID_FAILURE
+          - SUCCESS: check_get_image_id_flow_responses
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - LIST_IMAGES_FAILURE: LIST_IMAGES_FAILURE
+          - EXTRACT_IMAGES_FAILURE: EXTRACT_IMAGES_FAILURE
+          - EXTRACT_IMAGE_ID_FAILURE: EXTRACT_IMAGE_ID_FAILURE
 
     - check_get_image_id_flow_responses:
         do:
@@ -73,8 +73,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: check_image_id_is_empty
-          FAILURE: CHECK_GET_IMAGE_ID_FLOW_RESPONSES_FAILURE
+          - SUCCESS: check_image_id_is_empty
+          - FAILURE: CHECK_GET_IMAGE_ID_FLOW_RESPONSES_FAILURE
 
     - check_image_id_is_empty:
         do:
@@ -82,8 +82,8 @@ flow:
             - first_string: ${str(image_id)}
             - second_string: ''
         navigate:
-          SUCCESS: CHECK_IMAGE_ID_IS_EMPTY_FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: CHECK_IMAGE_ID_IS_EMPTY_FAILURE
+          - FAILURE: SUCCESS
 
   outputs:
     - return_result

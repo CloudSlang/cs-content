@@ -33,16 +33,16 @@ flow:
             - address
             - service_name
         navigate:
-          SUCCESS: get_agent_services
-          FAILURE: FAIL_TO_REGISTER
+          - SUCCESS: get_agent_services
+          - FAILURE: FAIL_TO_REGISTER
 
     - get_agent_services:
         do:
           get_agent_service:
             - host
         navigate:
-          SUCCESS: deregister_agent_service
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: deregister_agent_service
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_register: ${return_result}
           - error_message
@@ -53,15 +53,15 @@ flow:
             - host
             - service_id: service_name
         navigate:
-          SUCCESS: get_agent_services2
-          FAILURE: FAIL_TO_DEREGISTER
+          - SUCCESS: get_agent_services2
+          - FAILURE: FAIL_TO_DEREGISTER
     - get_agent_services2:
         do:
           get_agent_service:
             - host
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_deregister: ${return_result}
           - error_message

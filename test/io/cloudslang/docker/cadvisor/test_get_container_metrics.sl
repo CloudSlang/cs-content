@@ -34,8 +34,8 @@ flow:
            - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: create_cAdvisor_container
-         FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
+         - SUCCESS: create_cAdvisor_container
+         - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - create_cAdvisor_container:
         do:
@@ -58,15 +58,15 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: sleep
-          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+          - SUCCESS: sleep
+          - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - sleep:
         do:
           utils.sleep:
             - seconds: 5
         navigate:
-          SUCCESS: call_get_container_metrics
+          - SUCCESS: call_get_container_metrics
 
     - call_get_container_metrics:
         do:
@@ -77,8 +77,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: validate_response_is_not_empty
-          FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
+          - SUCCESS: validate_response_is_not_empty
+          - FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
 
     - validate_response_is_not_empty:
         do:
@@ -86,8 +86,8 @@ flow:
               - string_in_which_to_search: ${return_result}
               - string_to_find: 'cpu'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
 
   results:
     - SUCCESS

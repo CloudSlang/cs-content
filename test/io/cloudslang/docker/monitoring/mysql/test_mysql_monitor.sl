@@ -32,8 +32,8 @@ flow:
              - docker_username: ${ username }
              - docker_password: ${ password }
          navigate:
-           SUCCESS: start_mysql_container
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: start_mysql_container
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - start_mysql_container:
         do:
@@ -43,16 +43,16 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: sleep
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: sleep
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - sleep:
         do:
           utils.sleep:
             - seconds: 20
         navigate:
-          SUCCESS: get_mysql_status
-          FAILURE: FAILED_TO_SLEEP
+          - SUCCESS: get_mysql_status
+          - FAILURE: FAILED_TO_SLEEP
 
     - get_mysql_status:
         do:
@@ -65,8 +65,8 @@ flow:
             - mysql_username: "user"
             - mysql_password: "pass"
         navigate:
-          SUCCESS: post_test_cleanup
-          FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
+          - SUCCESS: post_test_cleanup
+          - FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
     - post_test_cleanup:
          do:
@@ -76,8 +76,8 @@ flow:
              - docker_username: ${ username }
              - docker_password: ${ password }
          navigate:
-           SUCCESS: SUCCESS
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: SUCCESS
+           - FAILURE: MACHINE_IS_NOT_CLEAN
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH

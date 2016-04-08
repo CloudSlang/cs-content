@@ -79,6 +79,6 @@ flow:
               - connect_timeout
               - socket_timeout
           navigate:
-            DELETED: SUCCESS
-            NOT_DELETED: SUCCESS
-            FAILURE: FAILURE
+            - DELETED: SUCCESS
+            - NOT_DELETED: SUCCESS
+            - FAILURE: FAILURE

@@ -51,8 +51,8 @@ flow:
             - private_key_file
             - timeout
        navigate:
-         SUCCESS: run_container2
-         FAILURE: RUN_CONTAINER1_PROBLEM
+         - SUCCESS: run_container2
+         - FAILURE: RUN_CONTAINER1_PROBLEM
 
     - run_container2:
        do:
@@ -67,8 +67,8 @@ flow:
             - private_key_file
             - timeout
        navigate:
-         SUCCESS: get_container_names
-         FAILURE: RUN_CONTAINER2_PROBLEM
+         - SUCCESS: get_container_names
+         - FAILURE: RUN_CONTAINER2_PROBLEM
 
     - get_container_names:
        do:
@@ -82,8 +82,8 @@ flow:
        publish:
         - container_names
        navigate:
-         SUCCESS: subtract_names
-         FAILURE: FAILURE
+         - SUCCESS: subtract_names
+         - FAILURE: FAILURE
 
     - subtract_names:
         do:
@@ -102,8 +102,8 @@ flow:
             - first_string: ${result_set}
             - second_string: ''
         navigate:
-          SUCCESS: clear_machine
-          FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
+          - SUCCESS: clear_machine
+          - FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
 
     - clear_machine:
         do:
@@ -115,8 +115,8 @@ flow:
             - timeout
             - port
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: CLEAR_DOCKER_HOST_PROBLEM
 
   results:
     - SUCCESS

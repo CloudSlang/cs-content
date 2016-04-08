@@ -70,8 +70,8 @@ flow:
             - git_init_command: " && git reset --hard HEAD"
             - command: ${ sudo_command + change_path_command + 'rm -r ' + git_repository_localdir + git_init_command }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result

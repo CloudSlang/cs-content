@@ -21,16 +21,16 @@ flow:
         publish:
           - new_uuid
         navigate:
-          SUCCESS: verify_output_is_not_empty
-          FAILURE: FAILURE
+          - SUCCESS: verify_output_is_not_empty
+          - FAILURE: FAILURE
     - verify_output_is_not_empty:
         do:
           strings.string_equals:
             - first_string: ''
             - second_string: ${ new_uuid }
         navigate:
-          SUCCESS: OUTPUT_IS_EMPTY
-          FAILURE: SUCCESS
+          - SUCCESS: OUTPUT_IS_EMPTY
+          - FAILURE: SUCCESS
 
   results:
     - SUCCESS

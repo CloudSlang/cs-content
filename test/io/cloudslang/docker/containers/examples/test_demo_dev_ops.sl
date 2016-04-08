@@ -30,8 +30,8 @@ flow:
              - docker_username
              - private_key_file
          navigate:
-           SUCCESS: execute_demo_dev_ops
-           FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
+           - SUCCESS: execute_demo_dev_ops
+           - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - execute_demo_dev_ops:
         do:
@@ -45,8 +45,8 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXECUTE_DEMO_DEV_OPS_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: EXECUTE_DEMO_DEV_OPS_PROBLEM
 
   results:
     - SUCCESS
