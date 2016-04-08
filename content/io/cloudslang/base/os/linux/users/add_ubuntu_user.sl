@@ -33,6 +33,7 @@ namespace: io.cloudslang.base.os.linux.users
 
 imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
+  utils: io.cloudslang.base.utils
 
 flow:
   name: add_ubuntu_user
@@ -78,6 +79,10 @@ flow:
           - return_code
           - command_return_code
 
+    - evaluate_result:
+        do:
+          utils.is_true:
+            - bool_value: ${return_code == '0' and command_return_code == '0'}
   outputs:
     - return_result
     - standard_err
@@ -86,5 +91,5 @@ flow:
     - command_return_code
 
   results:
-    - SUCCESS: ${return_code == '0' and command_return_code == '0'}
+    - SUCCESS
     - FAILURE
