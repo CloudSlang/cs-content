@@ -1,0 +1,43 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testAddUniqueElementFailure:
+  inputs:
+    - list: [element1,element2,element3,element4]
+    - element:
+    - unique_element: element4
+
+  description: Tests that add_element.sl operation finishes with FAILURE and message "Already in list"
+  testFlowPath: io.cloudslang.base.lists.add_element
+  outputs:
+    - error_message: Already in list
+  result: FAILURE
+
+testAddUniqueElementSuccess:
+  inputs:
+    - list: [element1,element2,element3,element4]
+    - element:
+    - unique_element: element5
+
+  description: Tests that add_element.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.lists.add_element
+  outputs:
+    - result: [element1,element2,element3,element4,element5]
+  result: SUCCESS
+
+testAddElementSuccess:
+  inputs:
+    - list: [element1,element2,element3,element4]
+    - element: element5
+    - unique_element:
+
+  description: Tests that add_element.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.lists.add_element
+  outputs:
+    - result: [element1,element2,element3,element4,element5]
+  result: SUCCESS
