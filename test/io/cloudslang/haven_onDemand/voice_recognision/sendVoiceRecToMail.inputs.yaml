@@ -1,0 +1,23 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testSendVoiceRecToMail:
+  inputs:
+    - apikey: "c0e7aae8-f657-4f00-aad4-f839f956800e"
+    - urlOfVideo: "https%3A%2F%2Fwww.havenondemand.com%2Fsample-content%2Fvideos%2Fhpnext.mp4"
+    - url: "https://api.havenondemand.com/1/api/async/recognizespeech/v1?url="
+    - urlForResult: "https://api.havenondemand.com/1/job/result/"
+    - proxy_host: proxy.houston.hp.com
+    - proxy_port: '8080'
+    - email: "daria.pasternak@hpe.com"
+    - hostname: "smtp3.hpe.com"
+    - port: "25"
+  description: Test that sendVoiceRecToMail.sl finished with result = SUCCESS
+  testFlowPath: io.cloudslang.haven_onDemand.voice_recognision.sendVoiceRecToMail
+  result: SUCCESS
+  testSuites: [haven]
