@@ -72,8 +72,8 @@ flow:
           - return_code
           - exception: ${get("exception", '')}
         navigate:
-          SUCCESS: check_result
-          FAILURE: CUSTOMIZE_LINUX_GUEST_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: CUSTOMIZE_LINUX_GUEST_FAILURE
 
     - check_result:
         do:
@@ -81,8 +81,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: get_text_occurrence
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: get_text_occurrence
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_text_occurrence:
         do:
@@ -91,8 +91,8 @@ flow:
             - string_to_find: "${'successfully customized'}"
             - ignore_case: True
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_TEXT_OCCURRENCE_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_TEXT_OCCURRENCE_FAILURE
 
   outputs:
     - return_result
