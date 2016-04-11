@@ -33,11 +33,10 @@ flow:
     - urlOfVideo: ${get_sp('io.cloudslang.haven_onDemand.urlOfVideo')}
     - url: ${get_sp('io.cloudslang.haven_onDemand.url') + str(urlOfVideo) + "&apikey=" + str(apikey)}
     - urlForResult: ${get_sp('io.cloudslang.haven_onDemand.urlForResult')}
-    - proxy_host:
-        required: false
-    - proxy_port:
-        required: false
-    - email
+    - proxy_host
+    - proxy_port
+    - from
+    - to
     - hostname
     - port
 
@@ -71,8 +70,8 @@ flow:
           mail.send_mail:
             - hostname
             - port
-            - from: "daria.pasternak@hpe.com"
-            - to: ${email}
+            - from: ${from}
+            - to: ${to}
             - subject: "${'Test recognision'}"
             - body: >
                 ${'Recult of recognision : ' + str(result) }

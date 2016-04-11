@@ -14,7 +14,8 @@ testSendVoiceRecToMail:
     - urlForResult: "https://api.havenondemand.com/1/job/result/"
     - proxy_host: proxy.houston.hp.com
     - proxy_port: '8080'
-    - email: "daria.pasternak@hpe.com"
+    - from: "daria.pasternak@hpe.com"
+    - to: "daria.pasternak@hpe.com"
     - hostname: "smtp3.hpe.com"
     - port: "25"
   description: Test that sendVoiceRecToMail.sl finished with result = SUCCESS
