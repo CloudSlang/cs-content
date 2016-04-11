@@ -46,8 +46,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: check_result
-          FAILURE: POWER_ON_VIRTUAL_MACHINE_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: POWER_ON_VIRTUAL_MACHINE_FAILURE
 
     - check_result:
         do:
@@ -55,8 +55,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: get_text_occurrence
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: get_text_occurrence
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
     - get_text_occurrence:
         do:
@@ -65,8 +65,8 @@ flow:
             - string_to_find: "${'successfully powered on'}"
             - ignore_case: True
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_TEXT_OCCURRENCE_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_TEXT_OCCURRENCE_FAILURE
 
   outputs:
     - return_result

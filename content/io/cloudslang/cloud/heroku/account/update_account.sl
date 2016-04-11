@@ -64,8 +64,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_beta_value
-          FAILURE: ADD_ALLOW_TRACKING_FAILURE
+          - SUCCESS: add_beta_value
+          - FAILURE: ADD_ALLOW_TRACKING_FAILURE
 
     - add_beta_value:
         do:
@@ -79,8 +79,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_account_owner_name_input
-          FAILURE: ADD_BETA_FAILURE
+          - SUCCESS: validate_account_owner_name_input
+          - FAILURE: ADD_BETA_FAILURE
 
     - validate_account_owner_name_input:
         do:
@@ -88,8 +88,8 @@ flow:
             - first_string: ${account_owner_name}
             - second_string: None
         navigate:
-          SUCCESS: update_account
-          FAILURE: insert_account_owner_name
+          - SUCCESS: update_account
+          - FAILURE: insert_account_owner_name
 
     - insert_account_owner_name:
         do:
@@ -103,8 +103,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: update_account
-          FAILURE: ADD_ACCOUNT_OWNER_NAME_FAILURE
+          - SUCCESS: update_account
+          - FAILURE: ADD_ACCOUNT_OWNER_NAME_FAILURE
 
     - update_account:
         do:
@@ -121,8 +121,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: UPDATE_ACCOUNT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: UPDATE_ACCOUNT_FAILURE
 
   outputs:
     - return_result

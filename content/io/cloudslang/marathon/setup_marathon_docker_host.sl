@@ -42,8 +42,8 @@ flow:
            - docker_username: username
            - private_key_file
        navigate:
-         SUCCESS: start_zookeeper
-         FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
+         - SUCCESS: start_zookeeper
+         - FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
 
     - start_zookeeper:
        do:
@@ -59,8 +59,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_mesos_master
-         FAILURE: START_ZOOKEEPER_PROBLEM
+         - SUCCESS: start_mesos_master
+         - FAILURE: START_ZOOKEEPER_PROBLEM
 
     - start_mesos_master:
        do:
@@ -79,8 +79,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_mesos_slave
-         FAILURE: START_MESOS_MASTER_PROBLEM
+         - SUCCESS: start_mesos_slave
+         - FAILURE: START_MESOS_MASTER_PROBLEM
 
     - start_mesos_slave:
        do:
@@ -100,8 +100,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_marathon
-         FAILURE: START_MESOS_SLAVE_PROBLEM
+         - SUCCESS: start_marathon
+         - FAILURE: START_MESOS_SLAVE_PROBLEM
 
     - start_marathon:
        do:
@@ -120,8 +120,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: SUCCESS
-         FAILURE: START_MARATHON_PROBLEM
+         - SUCCESS: SUCCESS
+         - FAILURE: START_MARATHON_PROBLEM
   results:
     - SUCCESS
     - CLEAR_CONTAINERS_ON_HOST_PROBLEM

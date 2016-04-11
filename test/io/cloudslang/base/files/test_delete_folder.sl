@@ -18,8 +18,8 @@ flow:
           create_folder:
             - folder_name: ${delete_source}
         navigate:
-          SUCCESS: test_delete_operation
-          FAILURE: WRITEFAILURE
+          - SUCCESS: test_delete_operation
+          - FAILURE: WRITEFAILURE
     - test_delete_operation:
         do:
           delete:
@@ -27,8 +27,8 @@ flow:
         publish:
           - message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
 
   outputs:
     - message

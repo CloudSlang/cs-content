@@ -171,8 +171,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: supported_oses_list_mail
-          FAILURE: GET_OS_DESCRIPTORS_FAILURE
+          - SUCCESS: supported_oses_list_mail
+          - FAILURE: GET_OS_DESCRIPTORS_FAILURE
 
     - supported_oses_list_mail:
         do:
@@ -189,8 +189,8 @@ flow:
             - body: >
                 ${'List of all supported guest OSes:\n\n ' + return_result}
         navigate:
-          SUCCESS: get_guest_os_id_occurrence
-          FAILURE: SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE
+          - SUCCESS: get_guest_os_id_occurrence
+          - FAILURE: SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE
 
     - get_guest_os_id_occurrence:
         do:
@@ -199,8 +199,8 @@ flow:
             - string_to_find: ${guest_os_id}
             - ignore_case: True
         navigate:
-          SUCCESS: create_vm
-          FAILURE: GUEST_OS_ID_NOT_FOUND
+          - SUCCESS: create_vm
+          - FAILURE: GUEST_OS_ID_NOT_FOUND
 
     - create_vm:
         do:
@@ -225,8 +225,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_created_text_occurrence
-          FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE
+          - SUCCESS: get_created_text_occurrence
+          - FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE
 
     - get_created_text_occurrence:
         do:
@@ -235,8 +235,8 @@ flow:
             - string_to_find: "${'Success: Created'}"
             - ignore_case: True
         navigate:
-          SUCCESS: list_all_vms
-          FAILURE: GET_CREATED_TEXT_OCCURRENCE_FAILURE
+          - SUCCESS: list_all_vms
+          - FAILURE: GET_CREATED_TEXT_OCCURRENCE_FAILURE
 
     - list_all_vms:
         do:
@@ -253,8 +253,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_vm_occurrence
-          FAILURE: LIST_VMS_FAILURE
+          - SUCCESS: get_vm_occurrence
+          - FAILURE: LIST_VMS_FAILURE
 
     - get_vm_occurrence:
         do:
@@ -263,8 +263,8 @@ flow:
             - string_to_find: ${virtual_machine_name}
             - ignore_case: True
         navigate:
-          SUCCESS: get_created_vm_details
-          FAILURE: VM_NOT_FOUND
+          - SUCCESS: get_created_vm_details
+          - FAILURE: VM_NOT_FOUND
 
     - get_created_vm_details:
         do:
@@ -283,8 +283,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: create_vm_mail
-          FAILURE: GET_CREATED_VM_DETAILS_FAILURE
+          - SUCCESS: create_vm_mail
+          - FAILURE: GET_CREATED_VM_DETAILS_FAILURE
 
     - create_vm_mail:
         do:
@@ -300,8 +300,8 @@ flow:
             - body: >
                 ${'The virtual machine [' + virtual_machine_name + '] details are:\n\n ' + return_result}
         navigate:
-          SUCCESS: get_created_disk_number
-          FAILURE: SEND_CREATED_VM_MAIL_FAILURE
+          - SUCCESS: get_created_disk_number
+          - FAILURE: SEND_CREATED_VM_MAIL_FAILURE
 
     - get_created_disk_number:
         do:
@@ -311,8 +311,8 @@ flow:
         publish:
           - before_update_value: ${value}
         navigate:
-          SUCCESS: update_vm
-          FAILURE: GET_VALUE_BEFORE_UPDATE_FAILURE
+          - SUCCESS: update_vm
+          - FAILURE: GET_VALUE_BEFORE_UPDATE_FAILURE
 
     - update_vm:
         do:
@@ -333,8 +333,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_updated_vm_details
-          FAILURE: UPDATE_VM_FAILURE
+          - SUCCESS: get_updated_vm_details
+          - FAILURE: UPDATE_VM_FAILURE
 
     - get_updated_vm_details:
         do:
@@ -353,8 +353,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: get_updated_disk_number
-          FAILURE: GET_UPDATED_VM_DETAILS_FAILURE
+          - SUCCESS: get_updated_disk_number
+          - FAILURE: GET_UPDATED_VM_DETAILS_FAILURE
 
     - get_updated_disk_number:
         do:
@@ -364,8 +364,8 @@ flow:
         publish:
           - after_update_value: ${value}
         navigate:
-          SUCCESS: update_vm_mail
-          FAILURE: GET_VALUE_AFTER_UPDATE_FAILURE
+          - SUCCESS: update_vm_mail
+          - FAILURE: GET_VALUE_AFTER_UPDATE_FAILURE
 
     - update_vm_mail:
         do:
@@ -383,8 +383,8 @@ flow:
                 + '] operation ' +  ' from [' + before_update_value + '] value to [' + after_update_value
                 + '] value.\n\n The virtual machine [' + virtual_machine_name + '] details are now:\n ' + return_result}
         navigate:
-          SUCCESS: power_on_vm
-          FAILURE: SEND_UPDATED_VM_MAIL_FAILURE
+          - SUCCESS: power_on_vm
+          - FAILURE: SEND_UPDATED_VM_MAIL_FAILURE
 
     - power_on_vm:
         do:
@@ -401,8 +401,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: is_vm_powered_on
-          FAILURE: POWER_ON_VM_FAILURE
+          - SUCCESS: is_vm_powered_on
+          - FAILURE: POWER_ON_VM_FAILURE
 
     - is_vm_powered_on:
         do:
@@ -411,8 +411,8 @@ flow:
             - string_to_find: "${'successfully powered on'}"
             - ignore_case: True
         navigate:
-          SUCCESS: powered_on_vm_mail
-          FAILURE: NOT_POWERED_ON
+          - SUCCESS: powered_on_vm_mail
+          - FAILURE: NOT_POWERED_ON
 
     - powered_on_vm_mail:
         do:
@@ -427,8 +427,8 @@ flow:
             - subject: "${'Successfully powered on: [' + virtual_machine_name + '] virtual machine.'}"
             - body: ${return_result}
         navigate:
-          SUCCESS: power_off_vm
-          FAILURE: SEND_POWERED_ON_VM_MAIL_FAILURE
+          - SUCCESS: power_off_vm
+          - FAILURE: SEND_POWERED_ON_VM_MAIL_FAILURE
 
     - power_off_vm:
         do:
@@ -445,8 +445,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: is_vm_powered_off
-          FAILURE: POWER_OFF_VM_FAILURE
+          - SUCCESS: is_vm_powered_off
+          - FAILURE: POWER_OFF_VM_FAILURE
 
     - is_vm_powered_off:
         do:
@@ -455,8 +455,8 @@ flow:
             - string_to_find: "${'successfully powered off'}"
             - ignore_case: True
         navigate:
-          SUCCESS: powered_off_vm_mail
-          FAILURE: NOT_POWERED_OFF
+          - SUCCESS: powered_off_vm_mail
+          - FAILURE: NOT_POWERED_OFF
 
     - powered_off_vm_mail:
         do:
@@ -471,8 +471,8 @@ flow:
             - subject: "${'Successfully powered off: [' + virtual_machine_name + '] virtual machine.'}"
             - body: ${return_result}
         navigate:
-          SUCCESS: delete_vm
-          FAILURE: SEND_POWERED_OFF_VM_MAIL_FAILURE
+          - SUCCESS: delete_vm
+          - FAILURE: SEND_POWERED_OFF_VM_MAIL_FAILURE
 
     - delete_vm:
         do:
@@ -489,8 +489,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: second_list_all_vms
-          FAILURE: DELETE_VM_FAILURE
+          - SUCCESS: second_list_all_vms
+          - FAILURE: DELETE_VM_FAILURE
 
     - second_list_all_vms:
         do:
@@ -507,8 +507,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: second_get_vm_occurrence
-          FAILURE: SECOND_LIST_VMS_FAILURE
+          - SUCCESS: second_get_vm_occurrence
+          - FAILURE: SECOND_LIST_VMS_FAILURE
 
     - second_get_vm_occurrence:
         do:
@@ -517,8 +517,8 @@ flow:
             - string_to_find: ${virtual_machine_name}
             - ignore_case: True
         navigate:
-          SUCCESS: NOT_DELETED
-          FAILURE: delete_vm_mail
+          - SUCCESS: NOT_DELETED
+          - FAILURE: delete_vm_mail
 
     - delete_vm_mail:
         do:
@@ -535,8 +535,8 @@ flow:
                 ${'The list with all remaining virtual machines and templates in [' + data_center_name + '] are:\n\n'
                 + return_result}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: SEND_DELETE_VM_MAIL_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: SEND_DELETE_VM_MAIL_FAILURE
 
   outputs:
     - return_result

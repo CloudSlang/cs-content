@@ -106,8 +106,8 @@ flow:
             - exception
             - exit_status
           navigate:
-            SUCCESS: ssh_command
-            FAILURE: handle_ssh_session_recovery
+            - SUCCESS: ssh_command
+            - FAILURE: handle_ssh_session_recovery
 
       - ssh_command:
           do:
@@ -132,8 +132,8 @@ flow:
             - exception
             - exit_status: ${ command_return_code }
           navigate:
-            SUCCESS: SUCCESS
-            FAILURE: handle_ssh_session_recovery
+            - SUCCESS: SUCCESS
+            - FAILURE: handle_ssh_session_recovery
 
       - handle_ssh_session_recovery:
           do:
@@ -146,12 +146,12 @@ flow:
           publish:
             - retries
           navigate:
-            RECOVERY_DISABLED: FAILURE
-            TIMEOUT: FAILURE
-            SESSION_IS_DOWN: validate_ssh_access
-            FAILURE_WITH_NO_MESSAGE: validate_ssh_access
-            CUSTOM_FAILURE: validate_ssh_access
-            NO_ISSUE_FOUND: FAILURE
+            - RECOVERY_DISABLED: FAILURE
+            - TIMEOUT: FAILURE
+            - SESSION_IS_DOWN: validate_ssh_access
+            - FAILURE_WITH_NO_MESSAGE: validate_ssh_access
+            - CUSTOM_FAILURE: validate_ssh_access
+            - NO_ISSUE_FOUND: FAILURE
     outputs:
       - return_result
       - standard_out

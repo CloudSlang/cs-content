@@ -44,8 +44,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_results
-          FAILURE: HTTP_CLIENT_GET_FAILURE
+          - SUCCESS: check_results
+          - FAILURE: HTTP_CLIENT_GET_FAILURE
 
     - check_results:
         do:
@@ -53,8 +53,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_RESULTS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_RESULTS_FAILURE
 
   outputs:
     - return_result

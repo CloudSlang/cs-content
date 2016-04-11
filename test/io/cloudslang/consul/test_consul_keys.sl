@@ -35,8 +35,8 @@ flow:
             - key_name
             - key_value
         navigate:
-          SUCCESS: get_key
-          FAILURE: FAIL_CREATING_KEY
+          - SUCCESS: get_key
+          - FAILURE: FAIL_CREATING_KEY
     - get_key:
         do:
           report_kv:
@@ -50,16 +50,16 @@ flow:
           - flags
           - value
         navigate:
-          SUCCESS: delete_key
-          FAILURE: FAIL_GETTING_KEY
+          - SUCCESS: delete_key
+          - FAILURE: FAIL_GETTING_KEY
     - delete_key:
         do:
           delete_kv:
             - host
             - key_name
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_DELETING_KEY
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_DELETING_KEY
 
   outputs:
     - create_index

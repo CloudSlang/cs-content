@@ -70,9 +70,9 @@ flow:
           - error_message
           - token
         navigate:
-          SUCCESS: get_services
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - SUCCESS: get_services
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
     - get_services:
         do:
@@ -92,8 +92,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_services_list
-          FAILURE: GET_SERVICES_FAILURE
+          - SUCCESS: get_services_list
+          - FAILURE: GET_SERVICES_FAILURE
 
     - get_services_list:
         do:
@@ -103,8 +103,8 @@ flow:
         publish:
           - services_list: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_SERVICES_LIST_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_SERVICES_LIST_FAILURE
 
   outputs:
     - return_result

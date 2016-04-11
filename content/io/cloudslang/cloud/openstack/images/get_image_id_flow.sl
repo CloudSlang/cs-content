@@ -86,12 +86,12 @@ flow:
           - status_code
           - image_list
         navigate:
-          SUCCESS: get_image_id
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          LIST_IMAGES_FAILURE: LIST_IMAGES_FAILURE
-          EXTRACT_IMAGES_FAILURE: EXTRACT_IMAGES_FAILURE
+          - SUCCESS: get_image_id
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - LIST_IMAGES_FAILURE: LIST_IMAGES_FAILURE
+          - EXTRACT_IMAGES_FAILURE: EXTRACT_IMAGES_FAILURE
 
     - get_image_id:
         do:
@@ -103,8 +103,8 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXTRACT_IMAGE_ID_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: EXTRACT_IMAGE_ID_FAILURE
 
   outputs:
     - image_id

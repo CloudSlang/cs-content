@@ -79,11 +79,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_application_details
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_APPLICATIONS_FAILURE: GET_APPLICATIONS_FAILURE
-          GET_APPLICATIONS_LIST_FAILURE: GET_APPLICATIONS_LIST_FAILURE
+          - SUCCESS: get_application_details
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_APPLICATIONS_FAILURE: GET_APPLICATIONS_FAILURE
+          - GET_APPLICATIONS_LIST_FAILURE: GET_APPLICATIONS_LIST_FAILURE
 
     - get_application_details:
         do:
@@ -98,8 +98,8 @@ flow:
           - resource_created_at
           - resource_updated_at
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_APPLICATION_DETAILS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_APPLICATION_DETAILS_FAILURE
 
   outputs:
     - return_result

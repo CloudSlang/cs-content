@@ -32,8 +32,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          FAILURE: GET_ACCOUNT_INFO_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: GET_ACCOUNT_INFO_FAILURE
 
     - check_result:
         do:
@@ -41,8 +41,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: get_id
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_id:
         do:
@@ -52,8 +52,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: check_id_is_present
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: check_id_is_present
+          - FAILURE: GET_ID_FAILURE
 
     - check_id_is_present:
         do:
@@ -61,8 +61,8 @@ flow:
             - first_string: ${id}
             - second_string: None
         navigate:
-          SUCCESS: ID_IS_NOT_PRESENT
-          FAILURE: get_email
+          - SUCCESS: ID_IS_NOT_PRESENT
+          - FAILURE: get_email
 
     - get_email:
         do:
@@ -72,8 +72,8 @@ flow:
         publish:
           - checked_email: ${value}
         navigate:
-          SUCCESS: check_email
-          FAILURE: GET_EMAIL_FAILURE
+          - SUCCESS: check_email
+          - FAILURE: GET_EMAIL_FAILURE
 
     - check_email:
         do:
@@ -81,8 +81,8 @@ flow:
             - first_string: ${username}
             - second_string: ${checked_email}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_EMAIL_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_EMAIL_FAILURE
 
   outputs:
     - return_result

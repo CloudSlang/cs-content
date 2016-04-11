@@ -58,11 +58,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_get_image_details_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_IMAGE_DETAILS_FAILURE: GET_IMAGE_DETAILS_FAILURE
+          - SUCCESS: check_get_image_details_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_IMAGE_DETAILS_FAILURE: GET_IMAGE_DETAILS_FAILURE
 
     - check_get_image_details_result:
         do:
@@ -70,8 +70,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: retrieve_image_id
-          FAILURE: CHECK_GET_IMAGE_DETAILS_FAILURE
+          - SUCCESS: retrieve_image_id
+          - FAILURE: CHECK_GET_IMAGE_DETAILS_FAILURE
 
     - retrieve_image_id:
         do:
@@ -81,8 +81,8 @@ flow:
         publish:
           - retrieved_id: ${value}
         navigate:
-          SUCCESS: verify_retrieved_id
-          FAILURE: RETRIEVE_IMAGE_ID_FAILURE
+          - SUCCESS: verify_retrieved_id
+          - FAILURE: RETRIEVE_IMAGE_ID_FAILURE
 
     - verify_retrieved_id:
         do:
@@ -90,8 +90,8 @@ flow:
             - first_string: ${image_id}
             - second_string: ${str(retrieved_id)}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_RETRIEVED_ID_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_RETRIEVED_ID_FAILURE
 
   outputs:
     - return_result

@@ -49,8 +49,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: create_domain
-          FAILURE: INSERT_HOSTNAME_VALUE_FAILURE
+          - SUCCESS: create_domain
+          - FAILURE: INSERT_HOSTNAME_VALUE_FAILURE
 
     - create_domain:
         do:
@@ -67,8 +67,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_id
-          FAILURE: CREATE_DOMAIN_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CREATE_DOMAIN_FAILURE
 
     - get_id:
         do:
@@ -78,8 +78,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: get_created_at
+          - FAILURE: GET_ID_FAILURE
 
     - get_created_at:
         do:
@@ -89,8 +89,8 @@ flow:
         publish:
           - created_at: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_CREATED_AT_FAILURE
 
   outputs:
     - return_result

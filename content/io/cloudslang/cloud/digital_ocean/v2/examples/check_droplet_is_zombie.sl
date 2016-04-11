@@ -40,8 +40,8 @@ flow:
             - text: ${droplet_name}
             - regex: ${name_pattern}
         navigate:
-          MATCH: check_droplet_lifetime
-          NO_MATCH: NOT_ZOMBIE
+          - MATCH: check_droplet_lifetime
+          - NO_MATCH: NOT_ZOMBIE
 
     - check_droplet_lifetime:
         do:
@@ -49,9 +49,9 @@ flow:
             - creation_time_as_string
             - threshold: ${time_to_live}
         navigate:
-          FAILURE: FAILURE
-          ABOVE_THRESHOLD: ZOMBIE
-          BELOW_THRESHOLD: NOT_ZOMBIE
+          - FAILURE: FAILURE
+          - ABOVE_THRESHOLD: ZOMBIE
+          - BELOW_THRESHOLD: NOT_ZOMBIE
   results:
     - ZOMBIE
     - NOT_ZOMBIE

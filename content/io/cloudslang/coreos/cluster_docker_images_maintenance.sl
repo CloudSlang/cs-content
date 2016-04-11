@@ -68,9 +68,11 @@ flow:
               - private_key_file
               - percentage
               - timeout
+              - number_of_deleted_images_per_host
+              - machine_public_ip
           publish:
             - number_of_deleted_images_per_host: >
-                ${self['number_of_deleted_images_per_host'] + self['machine_public_ip'] + ': ' + str(total_amount_of_images_deleted) + ','}
+                ${number_of_deleted_images_per_host + machine_public_ip + ': ' + str(total_amount_of_images_deleted) + ','}
 
   outputs:
     - number_of_deleted_images_per_host: ${number_of_deleted_images_per_host[:-1]}

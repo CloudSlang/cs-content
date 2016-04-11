@@ -62,9 +62,9 @@ flow:
             - time_to_live
             - name_pattern
         navigate:
-          ZOMBIE: delete_droplet
-          NOT_ZOMBIE: NOT_DELETED
-          FAILURE: FAILURE
+          - ZOMBIE: delete_droplet
+          - NOT_ZOMBIE: NOT_DELETED
+          - FAILURE: FAILURE
 
     - delete_droplet:
         do:
@@ -78,8 +78,8 @@ flow:
             - connect_timeout
             - socket_timeout
         navigate:
-          SUCCESS: DELETED
-          FAILURE: FAILURE
+          - SUCCESS: DELETED
+          - FAILURE: FAILURE
   results:
     - DELETED
     - NOT_DELETED

@@ -81,10 +81,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_image_details
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: get_image_details
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_image_details:
         do:
@@ -102,8 +102,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_IMAGE_DETAILS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_IMAGE_DETAILS_FAILURE
 
   outputs:
     - return_result

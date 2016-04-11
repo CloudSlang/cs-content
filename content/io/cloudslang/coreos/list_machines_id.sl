@@ -93,7 +93,7 @@ flow:
             - string_in_which_to_search: ${standard_err}
             - string_to_find: 'ERROR'
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: SUCCESS
   outputs:
     - machines_id_list

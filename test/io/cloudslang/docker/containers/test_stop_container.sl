@@ -34,8 +34,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
        navigate:
-         SUCCESS: pull_image
-         FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+         - SUCCESS: pull_image
+         - FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -46,8 +46,8 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: run_container
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: run_container
+          - FAILURE: FAIL_PULL_IMAGE
 
     - run_container:
         do:
@@ -60,8 +60,8 @@ flow:
             - image_name
             - container_params: '-p 49165:22'
         navigate:
-          SUCCESS: stop_container
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: stop_container
+          - FAILURE: FAIL_RUN_IMAGE
 
     - stop_container:
         do:
@@ -72,8 +72,8 @@ flow:
             - password
             - container_id: ${container_name}
         navigate:
-          SUCCESS: verify
-          FAILURE: FAILURE
+          - SUCCESS: verify
+          - FAILURE: FAILURE
 
     - verify:
         do:
@@ -90,8 +90,8 @@ flow:
             - first_string: ${all_containers}
             - second_string: ''
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
     - clear_docker_host:
         do:
@@ -101,8 +101,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
         navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: SUCCESS
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

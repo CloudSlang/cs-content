@@ -82,10 +82,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: list_flavors
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: list_flavors
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - list_flavors:
         do:
@@ -103,8 +103,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: extract_flavors
-          FAILURE: LIST_FLAVORS_FAILURE
+          - SUCCESS: extract_flavors
+          - FAILURE: LIST_FLAVORS_FAILURE
 
     - extract_flavors:
         do:
@@ -115,8 +115,8 @@ flow:
           - flavors_list: ${object_list}
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXTRACT_FLAVORS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: EXTRACT_FLAVORS_FAILURE
 
   outputs:
     - return_result

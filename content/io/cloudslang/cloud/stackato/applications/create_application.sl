@@ -74,9 +74,9 @@ flow:
           - error_message
           - token
         navigate:
-          SUCCESS: create_app
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - SUCCESS: create_app
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
     - create_app:
         do:
@@ -97,8 +97,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_application_guid
-          FAILURE: CREATE_APPLICATION_FAILURE
+          - SUCCESS: get_application_guid
+          - FAILURE: CREATE_APPLICATION_FAILURE
 
     - get_application_guid:
         do:
@@ -108,8 +108,8 @@ flow:
         publish:
           - application_guid: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_APPLICATION_GUID_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_APPLICATION_GUID_FAILURE
 
   outputs:
     - return_result

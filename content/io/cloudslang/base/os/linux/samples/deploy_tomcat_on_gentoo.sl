@@ -84,8 +84,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: verify_group_exist
-          FAILURE: INSTALL_JAVA_FAILURE
+          - SUCCESS: verify_group_exist
+          - FAILURE: INSTALL_JAVA_FAILURE
 
     - verify_group_exist:
         do:
@@ -101,8 +101,8 @@ flow:
           - command_return_code
           - message
         navigate:
-          SUCCESS: check_group_not_exist_result
-          FAILURE: SSH_VERIFY_GROUP_EXIST_FAILURE
+          - SUCCESS: check_group_not_exist_result
+          - FAILURE: SSH_VERIFY_GROUP_EXIST_FAILURE
 
     - check_group_not_exist_result:
         do:
@@ -110,8 +110,8 @@ flow:
             - string_in_which_to_search: ${message}
             - string_to_find: 'group does not exist'
         navigate:
-          SUCCESS: add_group
-          FAILURE: check_group_exist_result
+          - SUCCESS: add_group
+          - FAILURE: check_group_exist_result
 
     - check_group_exist_result:
         do:
@@ -119,8 +119,8 @@ flow:
             - string_in_which_to_search: ${message}
             - string_to_find: 'group exist'
         navigate:
-          SUCCESS: add_user
-          FAILURE: CHECK_GROUP_FAILURE
+          - SUCCESS: add_user
+          - FAILURE: CHECK_GROUP_FAILURE
 
     - add_group:
         do:
@@ -135,8 +135,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: add_user
-          FAILURE: ADD_GROUP_FAILURE
+          - SUCCESS: add_user
+          - FAILURE: ADD_GROUP_FAILURE
 
     - add_user:
         do:
@@ -155,8 +155,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: prepare_for_download
-          FAILURE: ADD_USER_FAILURE
+          - SUCCESS: prepare_for_download
+          - FAILURE: ADD_USER_FAILURE
 
     - prepare_for_download:
         do:
@@ -172,8 +172,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: download_tomcat
-          FAILURE: CREATE_DOWNLOADING_FOLDER_FAILURE
+          - SUCCESS: download_tomcat
+          - FAILURE: CREATE_DOWNLOADING_FOLDER_FAILURE
 
     - download_tomcat:
         do:
@@ -189,8 +189,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: untar_tomcat
-          FAILURE: DOWNLOAD_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: untar_tomcat
+          - FAILURE: DOWNLOAD_TOMCAT_APPLICATION_FAILURE
 
     - untar_tomcat:
         do:
@@ -208,8 +208,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: create_symlink
-          FAILURE: UNTAR_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: create_symlink
+          - FAILURE: UNTAR_TOMCAT_APPLICATION_FAILURE
 
     - create_symlink:
         do:
@@ -225,8 +225,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: install_tomcat
-          FAILURE: CREATE_SYMLINK_FAILURE
+          - SUCCESS: install_tomcat
+          - FAILURE: CREATE_SYMLINK_FAILURE
 
     - install_tomcat:
         do:
@@ -243,8 +243,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: change_tomcat_folder_ownership
-          FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: change_tomcat_folder_ownership
+          - FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
 
     - change_tomcat_folder_ownership:
         do:
@@ -262,8 +262,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: change_download_tomcat_folder_ownership
-          FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+          - SUCCESS: change_download_tomcat_folder_ownership
+          - FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - change_download_tomcat_folder_ownership:
         do:
@@ -281,8 +281,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: create_init_tomcat_folder
-          FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+          - SUCCESS: create_init_tomcat_folder
+          - FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - create_init_tomcat_folder:
         do:
@@ -298,8 +298,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: upload_init_config_file
-          FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
+          - SUCCESS: upload_init_config_file
+          - FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
 
     - upload_init_config_file:
         do:
@@ -314,8 +314,8 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: change_tomcat_initialization_file_permissions
-          FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
+          - SUCCESS: change_tomcat_initialization_file_permissions
+          - FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
 
     - change_tomcat_initialization_file_permissions:
         do:
@@ -332,8 +332,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: start_tomcat
-          FAILURE: CHANGE_PERMISSIONS_FAILURE
+          - SUCCESS: start_tomcat
+          - FAILURE: CHANGE_PERMISSIONS_FAILURE
 
     - start_tomcat:
         do:
@@ -351,8 +351,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: START_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: START_TOMCAT_APPLICATION_FAILURE
 
   outputs:
     - return_result

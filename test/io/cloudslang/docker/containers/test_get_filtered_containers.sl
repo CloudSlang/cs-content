@@ -62,8 +62,8 @@ flow:
             - timeout
             - port
         navigate:
-          SUCCESS: run_container_busybox
-          FAILURE: PRE_CLEAR_MACHINE_PROBLEM
+          - SUCCESS: run_container_busybox
+          - FAILURE: PRE_CLEAR_MACHINE_PROBLEM
 
     - run_container_busybox:
        do:
@@ -78,8 +78,8 @@ flow:
             - private_key_file
             - timeout
        navigate:
-         SUCCESS: run_container_staticpython
-         FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
+         - SUCCESS: run_container_staticpython
+         - FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
 
     - run_container_staticpython:
        do:
@@ -96,15 +96,15 @@ flow:
           - expected_container_ids: ${container_id}
           - error_message
        navigate:
-         SUCCESS: execute_get_filtered_containers
-         FAILURE: print_error
+         - SUCCESS: execute_get_filtered_containers
+         - FAILURE: print_error
 
     - print_error:
         do:
           print.print_text:
             - text: error_message
         navigate:
-          SUCCESS: RUN_CONTAINER_PYTHON_PROBLEM
+          - SUCCESS: RUN_CONTAINER_PYTHON_PROBLEM
 
     - execute_get_filtered_containers:
        do:
@@ -121,8 +121,8 @@ flow:
          - actual_container_names: ${container_names}
          - actual_container_ids: ${container_ids}
        navigate:
-         SUCCESS: check_container_names
-         FAILURE: FAILURE
+         - SUCCESS: check_container_names
+         - FAILURE: FAILURE
 
     - check_container_names:
         do:
@@ -130,8 +130,8 @@ flow:
             - first_string: ${expected_container_names}
             - second_string: ${actual_container_names}
         navigate:
-          SUCCESS: check_container_ids
-          FAILURE: CHECK_CONTAINER_NAMES_PROBLEM
+          - SUCCESS: check_container_ids
+          - FAILURE: CHECK_CONTAINER_NAMES_PROBLEM
 
     - check_container_ids:
         do:
@@ -139,8 +139,8 @@ flow:
             - string_in_which_to_search: ${expected_container_ids} # e.g. 086a88b556b61cc8e84a923f81ea077462f9e195136f48713d4dc021011b43ec
             - string_to_find: ${actual_container_ids} # e.g. 086a88b556b6
         navigate:
-          SUCCESS: post_clear_machine
-          FAILURE: CHECK_CONTAINER_IDS_PROBLEM
+          - SUCCESS: post_clear_machine
+          - FAILURE: CHECK_CONTAINER_IDS_PROBLEM
 
     - post_clear_machine:
         do:
@@ -152,8 +152,8 @@ flow:
             - timeout
             - port
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: POST_CLEAR_MACHINE_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: POST_CLEAR_MACHINE_PROBLEM
   results:
     - SUCCESS
     - FAILURE

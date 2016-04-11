@@ -79,10 +79,10 @@ flow:
           - token
           - tenant_id
         navigate:
-          SUCCESS: hard_reboot_server
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - SUCCESS: hard_reboot_server
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
 
     - hard_reboot_server:
         do:
@@ -101,8 +101,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: HARD_REBOOT_SERVER_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: HARD_REBOOT_SERVER_FAILURE
 
   outputs:
     - return_result

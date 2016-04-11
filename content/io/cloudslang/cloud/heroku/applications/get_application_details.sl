@@ -53,8 +53,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_id
-          FAILURE: GET_APPLICATION_DETAILS_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: GET_APPLICATION_DETAILS_FAILURE
 
     - get_id:
         do:
@@ -64,8 +64,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: get_name
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: get_name
+          - FAILURE: GET_ID_FAILURE
 
     - get_name:
         do:
@@ -75,8 +75,8 @@ flow:
         publish:
           - name: ${value}
         navigate:
-          SUCCESS: get_region
-          FAILURE: GET_NAME_FAILURE
+          - SUCCESS: get_region
+          - FAILURE: GET_NAME_FAILURE
 
     - get_region:
         do:
@@ -86,8 +86,8 @@ flow:
         publish:
           - region: ${value}
         navigate:
-          SUCCESS: get_stack
-          FAILURE: GET_REGION_FAILURE
+          - SUCCESS: get_stack
+          - FAILURE: GET_REGION_FAILURE
 
     - get_stack:
         do:
@@ -97,8 +97,8 @@ flow:
         publish:
           - stack: ${value}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: GET_STACK_FAILURE
+          - SUCCESS: get_created_at
+          - FAILURE: GET_STACK_FAILURE
 
     - get_created_at:
         do:
@@ -108,8 +108,8 @@ flow:
         publish:
           - created_at: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_CREATED_AT_FAILURE
 
   outputs:
     - return_result

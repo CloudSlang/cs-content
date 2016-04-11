@@ -82,9 +82,9 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+          - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - container_id: return_result

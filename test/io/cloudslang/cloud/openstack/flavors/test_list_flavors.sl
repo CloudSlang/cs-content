@@ -54,12 +54,12 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_list_flavors_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
-          EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
+          - SUCCESS: check_list_flavors_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
+          - EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
 
     - check_list_flavors_result:
         do:
@@ -67,8 +67,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_LIST_FLAVORS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_LIST_FLAVORS_FAILURE
 
   outputs:
     - return_result

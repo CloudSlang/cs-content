@@ -20,15 +20,15 @@ flow:
             - file_path
             - text
         navigate:
-          SUCCESS: delete_created_file
-          FAILURE: WRITEFAILURE
+          - SUCCESS: delete_created_file
+          - FAILURE: WRITEFAILURE
     - delete_created_file:
         do:
           delete:
             - source: ${file_path}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
 
   results:
     - SUCCESS
