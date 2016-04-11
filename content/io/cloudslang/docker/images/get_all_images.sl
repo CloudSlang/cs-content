@@ -93,8 +93,8 @@ flow:
             - string_in_which_to_search: ${ standard_err }
             - string_to_find: "command not found"
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: verify_no_daemon_in_stderr
+          - SUCCESS: FAILURE
+          - FAILURE: verify_no_daemon_in_stderr
 
     - verify_no_daemon_in_stderr:
         do:
@@ -102,8 +102,8 @@ flow:
             - string_in_which_to_search: ${ standard_err }
             - string_to_find: "daemon"
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: SUCCESS
 
   outputs:
     - image_list: >

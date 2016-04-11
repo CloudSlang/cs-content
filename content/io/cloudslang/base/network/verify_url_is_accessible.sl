@@ -42,8 +42,8 @@ flow:
             - content_type
             - connect_timeout: "20"
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: check_if_timed_out
+          - SUCCESS: SUCCESS
+          - FAILURE: check_if_timed_out
 
     - check_if_timed_out:
          do:
@@ -51,9 +51,9 @@ flow:
               - value1: ${attempts}
               - value2: 0
          navigate:
-           GREATER_THAN: wait
-           EQUALS: FAILURE
-           LESS_THAN: FAILURE
+           - GREATER_THAN: wait
+           - EQUALS: FAILURE
+           - LESS_THAN: FAILURE
 
     - wait:
         do:
@@ -63,7 +63,7 @@ flow:
         publish:
           - attempts: ${attempts - 1}
         navigate:
-          SUCCESS: http_get
+          - SUCCESS: http_get
 
   outputs:
     - output_message: ${ "" if attempts > 0 else "Url is not accessible" }

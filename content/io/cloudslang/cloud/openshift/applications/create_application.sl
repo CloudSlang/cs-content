@@ -92,8 +92,8 @@ flow:
         publish:
           - cartridge_str: ${result}
         navigate:
-          SUCCESS: create_app
-          FAILURE: CONVERT_LIST_TO_STRING_FAILURE
+          - SUCCESS: create_app
+          - FAILURE: CONVERT_LIST_TO_STRING_FAILURE
 
     - create_app:
         do:
@@ -119,8 +119,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CREATE_APPLICATION_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CREATE_APPLICATION_FAILURE
 
   outputs:
     - return_result

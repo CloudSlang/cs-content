@@ -28,8 +28,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: test_equality
-          FAILURE: CREATEFAILURE
+          - SUCCESS: test_equality
+          - FAILURE: CREATEFAILURE
     - test_equality:
         do:
           comp.equals:
@@ -37,8 +37,8 @@ flow:
             - second: ${ found_value }
 
         navigate:
-          EQUALS: SUCCESS
-          NOT_EQUALS: EQUALITY_FAILURE
+          - EQUALS: SUCCESS
+          - NOT_EQUALS: EQUALITY_FAILURE
 
   results:
     - SUCCESS

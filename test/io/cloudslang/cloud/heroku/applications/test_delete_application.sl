@@ -32,8 +32,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          FAILURE: DELETE_APPLICATION_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: DELETE_APPLICATION_FAILURE
 
     - check_result:
         do:
@@ -41,8 +41,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_RESULT_FAILURE
 
   outputs:
     - return_result

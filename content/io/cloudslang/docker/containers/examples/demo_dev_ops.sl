@@ -129,5 +129,5 @@ flow:
                 - password: ${email_password}
                 - enable_TLS: ${email_enable_TLS}
             navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              - SUCCESS: FAILURE
+              - FAILURE: FAILURE

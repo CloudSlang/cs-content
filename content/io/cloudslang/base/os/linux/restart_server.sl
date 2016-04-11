@@ -77,8 +77,8 @@ flow:
             - string_in_which_to_search: ${ standard_err }
             - string_to_find: 'shutdown'
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: SUCCESS
 
   outputs:
     - return_result

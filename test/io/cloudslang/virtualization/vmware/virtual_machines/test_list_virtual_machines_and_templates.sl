@@ -47,8 +47,8 @@ flow:
           - return_code
           - exception : ${exception if exception != None else ''}
         navigate:
-          SUCCESS: check_result
-          FAILURE: LIST_VIRTUAL_MACHINES_AND_TEMPLATES_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: LIST_VIRTUAL_MACHINES_AND_TEMPLATES_FAILURE
 
     - check_result:
         do:
@@ -56,8 +56,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
   outputs:
     - return_result

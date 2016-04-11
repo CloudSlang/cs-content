@@ -41,8 +41,8 @@ flow:
           utils.is_true:
             - bool_value: ${bool(is_core_os)}
         navigate:
-          SUCCESS: setup_marathon_core_os
-          FAILURE: setup_marathon_docker_host
+          - SUCCESS: setup_marathon_core_os
+          - FAILURE: setup_marathon_docker_host
 
     - setup_marathon_core_os:
         do:
@@ -52,12 +52,12 @@ flow:
             - private_key_file
             - marathon_port
         navigate:
-          SUCCESS: print_before_wait
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - SUCCESS: print_before_wait
+          - CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
 
     - setup_marathon_docker_host:
         do:
@@ -67,19 +67,19 @@ flow:
             - private_key_file
             - marathon_port
         navigate:
-          SUCCESS: print_before_wait
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - SUCCESS: print_before_wait
+          - CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
+          - START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
 
     - print_before_wait:
         do:
           print.print_text:
               - text: "Wait for Marathon start-up."
         navigate:
-          SUCCESS: wait_for_marathon_startup
+          - SUCCESS: wait_for_marathon_startup
 
     - wait_for_marathon_startup:
         do:
@@ -88,8 +88,8 @@ flow:
               - attempts: 30
               - time_to_sleep: 10
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          - SUCCESS: SUCCESS
+          - FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
   results:
     - SUCCESS

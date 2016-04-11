@@ -97,8 +97,8 @@ flow:
             - first_string: ${ return_result.replace("\n","") }
             - second_string: "mysqld is alive"
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
       - return_result

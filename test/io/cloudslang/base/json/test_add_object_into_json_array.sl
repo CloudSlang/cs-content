@@ -28,8 +28,8 @@ flow:
         publish:
           - json_output
         navigate:
-          SUCCESS: test_equality
-          FAILURE: CREATEFAILURE
+          - SUCCESS: test_equality
+          - FAILURE: CREATEFAILURE
     - test_equality:
         do:
           equals:
@@ -37,9 +37,9 @@ flow:
             - json_input2: ${ json_after }
 
         navigate:
-          EQUALS: SUCCESS
-          NOT_EQUALS: EQUALITY_FAILURE
-          FAILURE: FAILURE
+          - EQUALS: SUCCESS
+          - NOT_EQUALS: EQUALITY_FAILURE
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS

@@ -91,16 +91,16 @@ flow:
             - first_string: ${ all_images_list }
             - second_string: ""
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: verify_used_images_list_not_empty
+          - SUCCESS: SUCCESS
+          - FAILURE: verify_used_images_list_not_empty
     - verify_used_images_list_not_empty:
         do:
           base_strings.string_equals:
             - first_string: ${ used_images_list }
             - second_string: ""
         navigate:
-          SUCCESS: delete_images
-          FAILURE: get_parent_images
+          - SUCCESS: delete_images
+          - FAILURE: get_parent_images
     - get_parent_images:
         loop:
             for: image in used_images_list.split()

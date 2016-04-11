@@ -57,8 +57,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: insert_user_value
-          FAILURE: ADD_SILENT_VALUE_FAILURE
+          - SUCCESS: insert_user_value
+          - FAILURE: ADD_SILENT_VALUE_FAILURE
 
     - insert_user_value:
         do:
@@ -72,8 +72,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: create_application_collaborator
-          FAILURE: INSERT_USER_VALUE_FAILURE
+          - SUCCESS: create_application_collaborator
+          - FAILURE: INSERT_USER_VALUE_FAILURE
 
     - create_application_collaborator:
         do:
@@ -90,8 +90,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_id
-          FAILURE: CREATE_APPLICATION_COLLABORATOR_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CREATE_APPLICATION_COLLABORATOR_FAILURE
 
     - get_id:
         do:
@@ -101,8 +101,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: get_created_at
+          - FAILURE: GET_ID_FAILURE
 
     - get_created_at:
             do:
@@ -112,8 +112,8 @@ flow:
             publish:
               - created_at: ${value}
             navigate:
-              SUCCESS: SUCCESS
-              FAILURE: GET_CREATED_AT_FAILURE
+              - SUCCESS: SUCCESS
+              - FAILURE: GET_CREATED_AT_FAILURE
 
   outputs:
     - return_result

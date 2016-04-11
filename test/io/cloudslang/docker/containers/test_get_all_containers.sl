@@ -34,8 +34,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
        navigate:
-         SUCCESS: pull_first_image
-         FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
+         - SUCCESS: pull_first_image
+         - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
     - pull_first_image:
         do:
@@ -46,8 +46,8 @@ flow:
             - password
             - image_name: ${first_image_name}
         navigate:
-          SUCCESS: pull_second_image
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: pull_second_image
+          - FAILURE: FAIL_PULL_IMAGE
 
     - pull_second_image:
         do:
@@ -58,8 +58,8 @@ flow:
             - password
             - image_name: ${second_image_name}
         navigate:
-          SUCCESS: run_first_container
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: run_first_container
+          - FAILURE: FAIL_PULL_IMAGE
 
 
     - run_first_container:
@@ -74,8 +74,8 @@ flow:
         publish:
           - error_message
         navigate:
-          SUCCESS: run_second_container
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: run_second_container
+          - FAILURE: FAIL_RUN_IMAGE
 
     - run_second_container:
         do:
@@ -89,8 +89,8 @@ flow:
         publish:
           - error_message
         navigate:
-          SUCCESS: get_all_containers
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: get_all_containers
+          - FAILURE: FAIL_RUN_IMAGE
 
     - get_all_containers:
         do:
@@ -110,8 +110,8 @@ flow:
                 ${len(list.rstrip().split(" "))}
             - second_string: 2
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAILURE
+          - SUCCESS: clear_docker_host
+          - FAILURE: FAILURE
 
     - clear_docker_host:
         do:
@@ -121,8 +121,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
         navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: SUCCESS
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

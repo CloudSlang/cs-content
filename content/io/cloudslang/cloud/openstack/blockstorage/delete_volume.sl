@@ -81,10 +81,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: delete_volume
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: delete_volume
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - delete_volume:
         do:
@@ -102,8 +102,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETE_VOLUME_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETE_VOLUME_FAILURE
 
   outputs:
     - return_result

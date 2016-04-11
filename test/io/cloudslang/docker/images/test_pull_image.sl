@@ -33,8 +33,8 @@ flow:
            - docker_username: ${ username }
            - docker_password: ${ password }
        navigate:
-         SUCCESS: pull_image
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: pull_image
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images:
         do:
@@ -44,10 +44,10 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: pull_image
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: pull_image
+          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
         do:
@@ -61,8 +61,8 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: get_all_images
+          - FAILURE: FAIL_PULL_IMAGE
 
     - get_all_images:
         do:
@@ -74,8 +74,8 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_image_name
-          FAILURE: FAIL_GET_ALL_IMAGES
+          - SUCCESS: verify_image_name
+          - FAILURE: FAIL_GET_ALL_IMAGES
 
     - verify_image_name:
         do:
@@ -83,8 +83,8 @@ flow:
             - string_in_which_to_search: ${ image_list }
             - string_to_find: ${ image_name }
         navigate:
-          SUCCESS: clear_image
-          FAILURE: FAILURE
+          - SUCCESS: clear_image
+          - FAILURE: FAILURE
 
     - clear_image:
         do:
@@ -95,8 +95,8 @@ flow:
             - password
             - images: ${ image_name }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_CLEAR_IMAGE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_CLEAR_IMAGE
 
   results:
     - SUCCESS

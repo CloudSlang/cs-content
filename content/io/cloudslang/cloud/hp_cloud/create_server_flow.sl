@@ -125,17 +125,17 @@ flow:
             - ACTIVE
             - FAILURE
         navigate:
-          ACTIVE: check_assign_floating
-          NOT_ACTIVE: FAILURE
-          FAILURE: FAILURE
+          - ACTIVE: check_assign_floating
+          - NOT_ACTIVE: FAILURE
+          - FAILURE: FAILURE
 
     - check_assign_floating:
         do:
           base_utils.is_true:
             - bool_value: ${assign_floating}
         navigate:
-          SUCCESS: allocate_new_ip
-          FAILURE: done
+          - SUCCESS: allocate_new_ip
+          - FAILURE: done
 
     - allocate_new_ip:
         do:

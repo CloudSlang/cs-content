@@ -52,8 +52,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_id
-          FAILURE: GET_COLLABORATOR_DETAILS_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: GET_COLLABORATOR_DETAILS_FAILURE
 
     - get_id:
         do:
@@ -63,8 +63,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: GET_COLLABORATOR_ID_FAILURE
+          - SUCCESS: get_created_at
+          - FAILURE: GET_COLLABORATOR_ID_FAILURE
 
     - get_created_at:
         do:
@@ -74,8 +74,8 @@ flow:
         publish:
           - created_at: ${value}
         navigate:
-          SUCCESS: get_updated_at
-          FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: get_updated_at
+          - FAILURE: GET_CREATED_AT_FAILURE
 
     - get_updated_at:
         do:
@@ -85,8 +85,8 @@ flow:
         publish:
           - updated_at: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_UPDATED_AT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_UPDATED_AT_FAILURE
 
   outputs:
     - return_result

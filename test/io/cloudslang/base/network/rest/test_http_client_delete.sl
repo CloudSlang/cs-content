@@ -45,8 +45,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_get_result
-          FAILURE: HTTP_CLIENT_GET_FAILURE
+          - SUCCESS: check_get_result
+          - FAILURE: HTTP_CLIENT_GET_FAILURE
 
     - check_get_result:
         do:
@@ -54,8 +54,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: get_id
-          FAILURE: CHECK_GET_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CHECK_GET_FAILURE
 
     - get_id:
         do:
@@ -65,8 +65,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: delete
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: delete
+          - FAILURE: GET_ID_FAILURE
 
     - delete:
         do:
@@ -83,8 +83,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_delete_result
-          FAILURE: HTTP_CLIENT_DELETE_FAILURE
+          - SUCCESS: check_delete_result
+          - FAILURE: HTTP_CLIENT_DELETE_FAILURE
 
     - check_delete_result:
         do:
@@ -92,8 +92,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_DELETE_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_DELETE_FAILURE
 
   outputs:
     - return_result

@@ -74,9 +74,9 @@ flow:
             - error_tx
             - error_message
         navigate:
-            MORE: stop_container
-            LESS: SUCCESS
-            FAILURE: FAILURE
+            - MORE: stop_container
+            - LESS: SUCCESS
+            - FAILURE: FAILURE
     - stop_container:
         do:
           docker_container.stop_container:
@@ -89,8 +89,8 @@ flow:
         publish:
           - error_message
         navigate:
-            SUCCESS: start_container
-            FAILURE: FAILURE
+            - SUCCESS: start_container
+            - FAILURE: FAILURE
     - start_container:
         do:
           docker_container.start_container:
@@ -108,8 +108,8 @@ flow:
               docker_print.print_text:
                 - text: ${'cAdvisor ended with the following error message ' + error_message}
             navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              - SUCCESS: FAILURE
+              - FAILURE: FAILURE
   results:
     - SUCCESS
     - FAILURE

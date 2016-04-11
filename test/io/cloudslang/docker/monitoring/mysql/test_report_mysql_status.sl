@@ -34,8 +34,8 @@ flow:
              - docker_username
              - docker_password
          navigate:
-           SUCCESS: run_postfix
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: run_postfix
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - run_postfix:
         do:
@@ -55,8 +55,8 @@ flow:
             - username: ${ docker_username }
             - password: ${ docker_password }
         navigate:
-          SUCCESS: wait_for_mysql
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: wait_for_mysql
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - wait_for_mysql:
         do:
@@ -80,8 +80,8 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: post_test_cleanup
-          FAILURE: FAILURE
+          - SUCCESS: post_test_cleanup
+          - FAILURE: FAILURE
 
     - post_test_cleanup:
          do:
@@ -91,16 +91,16 @@ flow:
              - docker_username
              - docker_password
          navigate:
-           SUCCESS: postfix_cleanup
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: postfix_cleanup
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - postfix_cleanup:
            do:
              cmd.run_command:
                - command: "docker rm -f postfix && docker rmi catatnight/postfix"
            navigate:
-             SUCCESS: SUCCESS
-             FAILURE: FAIL_TO_CLEAN_POSTFIX
+             - SUCCESS: SUCCESS
+             - FAILURE: FAIL_TO_CLEAN_POSTFIX
 
   results:
     - SUCCESS

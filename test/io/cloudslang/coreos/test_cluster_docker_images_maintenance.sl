@@ -56,8 +56,8 @@ flow:
         publish:
             - machines_public_ip_list
         navigate:
-          SUCCESS: clear_docker_hosts_in_cluster
-          FAILURE: LIST_MACHINES_PROBLEM
+          - SUCCESS: clear_docker_hosts_in_cluster
+          - FAILURE: LIST_MACHINES_PROBLEM
 
     - clear_docker_hosts_in_cluster:
           loop:
@@ -70,8 +70,8 @@ flow:
                      - docker_password: ${coreos_password}
                      - private_key_file
               navigate:
-                SUCCESS: pull_unused_image
-                FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
+                - SUCCESS: pull_unused_image
+                - FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
 
     - pull_unused_image:
         do:
@@ -84,8 +84,8 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: run_container
-          FAILURE: PULL_UNUSED_IMAGE_PROBLEM
+          - SUCCESS: run_container
+          - FAILURE: PULL_UNUSED_IMAGE_PROBLEM
 
     - run_container:
         do:
@@ -98,8 +98,8 @@ flow:
             - private_key_file
             - timeout
         navigate:
-           SUCCESS: delete_unused_images
-           FAILURE: RUN_CONTAINER_PROBLEM
+           - SUCCESS: delete_unused_images
+           - FAILURE: RUN_CONTAINER_PROBLEM
 
     - delete_unused_images:
         do:
@@ -111,8 +111,8 @@ flow:
             - percentage
             - timeout
         navigate:
-          SUCCESS: count_images_in_cluster
-          FAILURE: FAILURE
+          - SUCCESS: count_images_in_cluster
+          - FAILURE: FAILURE
 
     - count_images_in_cluster:
           loop:
@@ -129,8 +129,8 @@ flow:
               publish:
                 - number_of_images_in_cluster: ${number_of_images_in_cluster + len(image_list.split())}
               navigate:
-                SUCCESS: verify_number_of_remaining_images
-                FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
+                - SUCCESS: verify_number_of_remaining_images
+                - FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
 
     - verify_number_of_remaining_images:
         do:
@@ -138,8 +138,8 @@ flow:
             - first_string: '1'
             - second_string: ${str(number_of_images_in_cluster)}
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
+          - SUCCESS: clear_docker_host
+          - FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
 
     - clear_docker_host: # at this stage only one machine from the cluster is not clean
         do:
@@ -150,8 +150,8 @@ flow:
             - docker_password: ${coreos_password}
             - private_key_file
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: CLEAR_DOCKER_HOST_PROBLEM
 
   results:
     - SUCCESS
