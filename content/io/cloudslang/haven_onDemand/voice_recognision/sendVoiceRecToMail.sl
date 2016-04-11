@@ -36,12 +36,10 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-       required: false
-    - email: ${get_sp('io.cloudslang.haven_onDemand.email')}
-    - hostname:
-       default: "smtp3.hpe.com"
-    - port:
-        default: "25"
+        required: false
+    - email
+    - hostname
+    - port
 
 
   workflow:
@@ -50,6 +48,8 @@ flow:
           do:
             speechRecognision:
                - url
+               - proxy_host
+               - proxy_port
           publish:
              - jobID
 
