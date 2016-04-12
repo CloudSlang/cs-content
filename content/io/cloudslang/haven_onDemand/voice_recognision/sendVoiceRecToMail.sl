@@ -10,10 +10,13 @@
 #!!
 #! @description: Sends to email results of Speech Recognision, with was made by HPE Haven OnDemand API.
 #! @input apikey: user's API Keys
-#! @input urlOfVideo: url of video, witch recognising (use example from www.havenondemand.com)
+#! @input video: path to video, witch recognising
 #! @input url: URL to Speech Recognision API
 #! @input urlForResult: URL for getting response from Haven OnDemand
-#! @input email: user's email
+#! @input hostname: email host
+#! @input port: email port
+#! @input from: email sender
+#! @input to: email recipient
 #!!#
 ####################################################
 
@@ -24,22 +27,20 @@ imports:
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   mail: io.cloudslang.base.mail
+  base: io.cloudslang.base.print
 
 flow:
   name: sendVoiceRecToMail
 
   inputs:
     - apikey: ${get_sp('io.cloudslang.haven_onDemand.apikey')}
-    - urlOfVideo: ${get_sp('io.cloudslang.haven_onDemand.urlOfVideo')}
-    - url: ${get_sp('io.cloudslang.haven_onDemand.url') + str(urlOfVideo) + "&apikey=" + str(apikey)}
+    - url: ${get_sp('io.cloudslang.haven_onDemand.url')}
+    - video: ${get_sp('io.cloudslang.haven_onDemand.video')}
     - urlForResult: ${get_sp('io.cloudslang.haven_onDemand.urlForResult')}
-    - proxy_host
-    - proxy_port
-    - from
-    - to
-    - hostname
-    - port
-
+    - hostname: "smtp3.hpe.com"
+    - port: "25"
+    - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
+    - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
 
   workflow:
 
@@ -47,10 +48,15 @@ flow:
           do:
             speechRecognision:
                - url
-               - proxy_host
-               - proxy_port
+               - video
+               - apikey
+
           publish:
              - jobID
+             - error_message
+          navigate:
+            SUCCESS: getResultRecognision
+            FAILURE: print
 
     - getResultRecognision:
            do:
@@ -58,25 +64,32 @@ flow:
                - url: ${urlForResult}
                - jobID: ${jobID}
                - apikey: ${apikey}
-               - proxy_host
-               - proxy_port
 
            publish:
              - error_message
              - result: ${resultOfRecogn}
+           navigate:
+              SUCCESS: send_mail
+              FAILURE: print
 
     - send_mail:
         do:
           mail.send_mail:
             - hostname
             - port
-            - from: ${from}
-            - to: ${to}
-            - subject: "${'Test recognision'}"
+            - from
+            - to
+            - subject: "${'Result of ecognision ' + str(video)'}"
             - body: >
-                ${'Recult of recognision : ' + str(result) }
+                ${'Description: ' + str(result) + '\n'}
         publish:
           - error_message
+
+    - on_failure:
+            - print:
+                 do:
+                   base.print_text:
+                      - text: ${error_message if error_message=="" else " Connection faild" }
 
   results:
     - SUCCESS: ${error_message==''}

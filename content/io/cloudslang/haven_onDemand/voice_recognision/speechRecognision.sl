@@ -25,6 +25,8 @@ flow:
 
   inputs:
     - url
+    - video
+    - apikey
     - proxy_host:
         required: false
     - proxy_port:
@@ -33,19 +35,26 @@ flow:
 
     - connect_to_server:
         do:
-          rest.http_client_post:
-             - url
-             - proxy_host
-             - proxy_port
+          rest.http_client_action:
+            - url
+            - proxy_host: proxy.houston.hp.com
+            - proxy_port: '8080'
+            - method: POST
+            - multipart_bodies: ${"apikey=" + str(apikey)}
+            - multipart_files: ${video}
+
         publish:
             - error_message
             - return_result
             - return_code
+        navigate:
+            SUCCESS: get_result_value
+            FAILURE: print_fail
 
     - get_result_value:
         do:
          json.get_value:
-           - json_input: ${return_result if error_message=='' else "{}"}
+           - json_input: ${return_result}
            - json_path: [jobID]
         publish:
            - value
@@ -54,7 +63,9 @@ flow:
           - print_fail:
                 do:
                   base.print_text:
-                    - text: "${'Failed connection'}"
-
+                    - text: "${error_message}"
   outputs:
       - jobID: ${value if error_message=='' else 0}
+  results:
+     - SUCCESS: ${error_message==''}
+     - FAILURE

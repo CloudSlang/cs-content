@@ -41,17 +41,20 @@ flow:
           do:
             rest.http_client_get:
                - url: ${str(url) + str(jobID) + "?apikey=" + str(apikey)}
-               - proxy_host
-               - proxy_port
+               - proxy_host: proxy.houston.hp.com
+               - proxy_port: '8080'
           publish:
              - error_message
              - return_result
              - return_code
+          navigate:
+               SUCCESS: get_result_value
+               FAILURE: checkStatus
 
      - get_result_value:
         do:
           json.get_value:
-            - json_input: ${return_result if error_message=='' else "{}"}
+            - json_input: ${return_result}
             - json_path: ['actions',0,'result','document',0,'content']
 
         publish:
@@ -62,7 +65,10 @@ flow:
             - print_fail:
                   do:
                     base.print_text:
-                        - text: "${'Failed connection'}"
+                        - text: "${error_message}"
   outputs:
       - result: ${return_result}
       - resultOfRecogn: ${value if error_message=='' else 0}
+  results:
+    - SUCCESS: ${error_message==''}
+    - FAILURE

@@ -9,15 +9,15 @@
 testSendVoiceRecToMail:
   inputs:
     - apikey: "c0e7aae8-f657-4f00-aad4-f839f956800e"
-    - urlOfVideo: "https%3A%2F%2Fwww.havenondemand.com%2Fsample-content%2Fvideos%2Fhpnext.mp4"
-    - url: "https://api.havenondemand.com/1/api/async/recognizespeech/v1?url="
+    - url: "https://api.havenondemand.com/1/api/async/recognizespeech/v1"
+    - video: "file=C:/Users/pasternd/Downloads/CloudSlang.mp4"
     - urlForResult: "https://api.havenondemand.com/1/job/result/"
     - proxy_host: proxy.houston.hp.com
     - proxy_port: '8080'
-    - from: "daria.pasternak@hpe.com"
-    - to: "daria.pasternak@hpe.com"
     - hostname: "smtp3.hpe.com"
     - port: "25"
+    - from: "daria.pasternak@hpe.com"
+    - to: "daria.pasternak@hpe.com"
   description: Test that sendVoiceRecToMail.sl finished with result = SUCCESS
   testFlowPath: io.cloudslang.haven_onDemand.voice_recognision.sendVoiceRecToMail
   result: SUCCESS
