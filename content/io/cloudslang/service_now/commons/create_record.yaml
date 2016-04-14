@@ -1,0 +1,7 @@
+host: "https://dev15515.service-now.com"
+table_name: "incident"
+username: "admin"
+password: "Servicenow20#"
+proxy_host: "proxy.houston.hp.com"
+proxy_port: "8080"
+body: "{'short_description': 'Cslang incident','category': 'hardware','impact': '1','urgency': '1','priority': '1','contact_type': 'Email'}"

@@ -1,0 +1,7 @@
+host: "https://dev15515.service-now.com"
+system_id: "46fb383c4f3a1200d4627ab28110c7c3"
+table_name: "incident"
+username: "admin"
+password: "Servicenow20#"
+proxy_host: "proxy.houston.hp.com"
+proxy_port: "8080"
