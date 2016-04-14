@@ -95,15 +95,10 @@ flow:
             - error_message
             - return_code
             - status_code
-          navigate:
-            - SUCCESS: print_result
-            - FAILURE: print_result
-      - print_result:
-           do:
-             print.print_text:
-               - text: ${'Http response status code= ' + status_code + ' Response message= ' + return_result}
-           navigate:
-             - SUCCESS: SUCCESS
+
+  outputs:
+    - message: ${return_result}
+
   results:
     - SUCCESS
     - FAILURE
