@@ -10,11 +10,6 @@
 #! @description: Retrieves a paginated list of the Servers associated with your New Relic account.
 #! @input endpoint: New Relic servers API endpoint
 #! @input api_key: the New Relic REST API key
-#! @input filter_name: optional - filters list by name
-#! @input filter_host: optional - filters list by host
-#! @input filter_ids: optional - filters list by ids
-#! @input filter_labels: optional - filters list by labels
-#! @input page: optional - pagination index
 #! @input proxy_host: optional - proxy server used to access web site
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - username used when connecting to proxy
@@ -61,9 +56,6 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - query_params:
-        default: ${'filter[name]' + '=' + filter_name}
-        required: false
 
   workflow:
     - list_servers:
@@ -74,7 +66,6 @@ flow:
             - proxy_port
             - headers: ${'X-Api-Key:' + api_key}
             - content_type: "application/json"
-            - query_params
 
         publish:
           - return_result
