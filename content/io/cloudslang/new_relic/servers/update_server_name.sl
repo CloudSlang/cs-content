@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves a single Server, identified by ID. The time range for summary data is the last 10 minutes.
+#! @description: Renames a server
 #! @input endpoint: the New Relic servers API endpoint
 #! @input api_key: the New Relic REST API key
 #! @input server_id: the server id
