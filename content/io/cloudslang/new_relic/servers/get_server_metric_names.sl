@@ -7,8 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Deletes a server and all of its reported data. Only servers that have stopped reporting can be deleted.
-#!               This is an irreversible process which will delete all reported data for this server.
+#! @description: Returns a list of known metrics and their value names for the given resource.
 #! @input endpoint: the New Relic servers API endpoint
 #! @input api_key: the New Relic REST API key
 #! @input server_id: the server id
@@ -31,7 +30,7 @@ imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: delete_server
+  name: get_server_metric_names
   inputs:
     - servers_endpoint:
         default: "https://api.newrelic.com/v2/servers"
@@ -50,15 +49,12 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - query_params:
-        default:
-        required: false
 
   workflow:
-    - list_servers:
+    - get_server_metric_names:
         do:
-          rest.http_client_delete:
-            - url: ${servers_endpoint + '/' + server_id + '.json'}
+          rest.http_client_get:
+            - url: ${servers_endpoint + '/' + server_id + '/' + 'metrics.json'}
             - proxy_host
             - proxy_port
             - headers: ${'X-Api-Key:' + api_key}
