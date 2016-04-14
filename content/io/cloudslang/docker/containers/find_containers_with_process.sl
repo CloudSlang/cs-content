@@ -82,7 +82,7 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_list: ${container_list if container_list is not None else ''}
+          - container_list
         navigate:
           SUCCESS: loop_runs_on_this_container
           FAILURE: FAILURE
