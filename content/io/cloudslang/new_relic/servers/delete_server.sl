@@ -7,14 +7,11 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves a paginated list of the Servers associated with your New Relic account.
-#! @input endpoint: New Relic servers API endpoint
+#! @description: Deletes a server and all of its reported data. Only servers that have stopped reporting can be deleted.
+#!               This is an irreversible process which will delete all reported data for this server.
+#! @input endpoint: the New Relic servers API endpoint
 #! @input api_key: the New Relic REST API key
-#! @input filter_name: optional - filters list by name
-#! @input filter_host: optional - filters list by host
-#! @input filter_ids: optional - filters list by ids
-#! @input filter_labels: optional - filters list by labels
-#! @input page: optional - pagination index
+#! @input server_id: the server id
 #! @input proxy_host: optional - proxy server used to access web site
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - username used when connecting to proxy
@@ -34,23 +31,15 @@ imports:
   rest: io.cloudslang.base.network.rest
 
 flow:
-  name: list_servers
+  name: delete_server
   inputs:
     - servers_endpoint:
         default: "https://api.newrelic.com/v2/servers"
         required: false
     - api_key:
         required: true
-    - filter_name:
-        default: ''
-        required: false
-    - filter_host:
-        default: ''
-        required: false
-    - filter_ids:
-        required: false
-    - filter_labels:
-        required: false
+    - server_id:
+        required: true
     - proxy_host:
         default: "proxy.houston.hp.com"
         required: false
@@ -62,19 +51,18 @@ flow:
     - proxy_password:
         required: false
     - query_params:
-        default: ${'filter[name]' + '=' + filter_name}
+        default:
         required: false
 
   workflow:
     - list_servers:
         do:
-          rest.http_client_get:
-            - url: ${servers_endpoint + '.json'}
+          rest.http_client_delete:
+            - url: ${servers_endpoint + '/' + server_id + '.json'}
             - proxy_host
             - proxy_port
             - headers: ${'X-Api-Key:' + api_key}
             - content_type: "application/json"
-            - query_params
 
         publish:
           - return_result
