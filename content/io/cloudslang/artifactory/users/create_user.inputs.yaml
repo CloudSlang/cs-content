@@ -1,0 +1,7 @@
+host: "localhost"
+port: "8180"
+admin_user: "admin"
+admin_password: "password"
+user_name: "derp7"
+user_password: "derp"
+user_email: "derp@derp.com"
