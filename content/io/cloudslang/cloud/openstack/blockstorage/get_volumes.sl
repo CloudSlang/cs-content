@@ -80,10 +80,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_volumes
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: get_volumes
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_volumes:
         do:
@@ -101,8 +101,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: extract_volumes
-          FAILURE: GET_VOLUMES_FAILURE
+          - SUCCESS: extract_volumes
+          - FAILURE: GET_VOLUMES_FAILURE
 
     - extract_volumes:
         do:
@@ -113,8 +113,8 @@ flow:
           - volume_list: ${object_list}
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXTRACT_VOLUMES_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: EXTRACT_VOLUMES_FAILURE
 
   outputs:
     - return_result

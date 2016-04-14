@@ -23,8 +23,8 @@ flow:
             - file_path: ${folder_path}
             - text: 'text-to-be-copied'
         navigate:
-          SUCCESS: test_zip_folder_operation
-          FAILURE: CREATEFAILURE
+          - SUCCESS: test_zip_folder_operation
+          - FAILURE: CREATEFAILURE
 
     - test_zip_folder_operation:
         do:
@@ -32,29 +32,29 @@ flow:
             - archive_name
             - folder_path
         navigate:
-          SUCCESS: delete_archive
-          FAILURE: delete_created_file_from_zip_failure
+          - SUCCESS: delete_archive
+          - FAILURE: delete_created_file_from_zip_failure
     - delete_archive:
         do:
           delete:
             - source: ${'./' + folder_path + '/' + archive_name + '.zip'}
         navigate:
-          SUCCESS: delete_created_file_from_zip_success
-          FAILURE: DELETEFAILURE
+          - SUCCESS: delete_created_file_from_zip_success
+          - FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_failure:
         do:
           delete:
             - source: ${folder_path}
         navigate:
-          SUCCESS: ZIPFAILURE
-          FAILURE: DELETEFAILURE
+          - SUCCESS: ZIPFAILURE
+          - FAILURE: DELETEFAILURE
     - delete_created_file_from_zip_success:
         do:
           delete:
             - source: ${folder_path}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
   results:
     - SUCCESS
     - CREATEFAILURE

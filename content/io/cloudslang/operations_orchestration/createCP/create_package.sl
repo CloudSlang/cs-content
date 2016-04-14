@@ -47,77 +47,77 @@ flow:
           files.create_folder_tree:
             - folder_name: ${cp_folder + "/Lib"}
         navigate:
-            SUCCESS: populate_Lib_folder
-            FAILURE: CREATE_LIB_FOLDER_FAILURE
+            - SUCCESS: populate_Lib_folder
+            - FAILURE: CREATE_LIB_FOLDER_FAILURE
     - populate_Lib_folder:
         do:
           files.write_to_file:
             - file_path: ${cp_folder + "/Lib/placeHolder"}
             - text: " "
         navigate:
-            SUCCESS: create_system_Properties_folder
-            FAILURE: POPULATE_LIB_FOLDER_FAILURE
+            - SUCCESS: create_system_Properties_folder
+            - FAILURE: POPULATE_LIB_FOLDER_FAILURE
     - create_system_Properties_folder:
         do:
           files.create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Configuration/System Properties"}
         navigate:
-            SUCCESS: create_Library_Structure
-            FAILURE: CREATE_SYSTEM_PROPERTIES_FAILURE
+            - SUCCESS: create_Library_Structure
+            - FAILURE: CREATE_SYSTEM_PROPERTIES_FAILURE
     - create_Library_Structure:
         do:
            files.create_folder_tree:
             - folder_name: ${cp_folder + "/Content/Library/Community/cslang/"}
         navigate:
-            SUCCESS: copy_content
-            FAILURE: CREATE_LIBRARY_STRUCTURE_FAILURE
+            - SUCCESS: copy_content
+            - FAILURE: CREATE_LIBRARY_STRUCTURE_FAILURE
     - copy_content:
         do:
           files.copy:
             - source: ${cslang_folder}
             - destination: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
         navigate:
-            SUCCESS: move_config_items
-            FAILURE: COPY_CONTENT_FAILURE
+            - SUCCESS: move_config_items
+            - FAILURE: COPY_CONTENT_FAILURE
     - move_config_items:
         do:
            copy_config_items:
             - source_dir: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
             - target_dir: ${cp_folder + "/Content/Configuration/System Properties/"}
         navigate:
-            SUCCESS: create_cp_properties
-            FAILURE: MOVE_CONFIG_ITEMS_FAILURE
+            - SUCCESS: create_cp_properties
+            - FAILURE: MOVE_CONFIG_ITEMS_FAILURE
     - create_cp_properties:
         do:
            files.write_to_file:
              - file_path: ${cp_folder + "/contentpack.properties"}
              - text: ${"content.pack.name=" + cp_name + "\n" + "content.pack.version=" + cp_version + "\n" + "content.pack.description=" + cp_name + "\n" + "content.pack.publisher=" + cp_publisher}
         navigate:
-            SUCCESS: create_archive
-            FAILURE: CREATE_CP_PROPERTIES_FAILURE
+            - SUCCESS: create_archive
+            - FAILURE: CREATE_CP_PROPERTIES_FAILURE
     - create_archive:
         do:
            files.zip_folder:
              - folder_path: ${cp_folder}
              - archive_name: ${cp_name + "-cp-" + cp_version}
         navigate:
-            SUCCESS: create_jar
-            FAILURE: CREATE_ARCHIVE_FAILURE
+            - SUCCESS: create_jar
+            - FAILURE: CREATE_ARCHIVE_FAILURE
     - create_jar:
         do:
            files.move:
              - source: ${cp_folder + "/" + cp_name + "-cp-" + cp_version + ".zip"}
              - destination: ${cp_location + "/" + cp_name + "-cp-" + cp_version + ".jar"}
         navigate:
-            SUCCESS: clean_folder
-            FAILURE: CREATE_JAR_FAILURE
+            - SUCCESS: clean_folder
+            - FAILURE: CREATE_JAR_FAILURE
     - clean_folder:
         do:
            files.delete:
              - source: ${cp_folder}
         navigate:
-             SUCCESS: SUCCESS
-             FAILURE: CLEAN_FOLDER_FAILURE
+             - SUCCESS: SUCCESS
+             - FAILURE: CLEAN_FOLDER_FAILURE
   results:
     - SUCCESS
     - CREATE_LIB_FOLDER_FAILURE

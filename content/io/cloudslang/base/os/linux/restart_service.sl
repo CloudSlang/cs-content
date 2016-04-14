@@ -78,8 +78,8 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: 'CMD_SUCCESS'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result

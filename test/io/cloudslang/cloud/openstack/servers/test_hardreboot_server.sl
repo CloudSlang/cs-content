@@ -58,11 +58,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_hard_reboot_server_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          HARD_REBOOT_SERVER_FAILURE: HARD_REBOOT_SERVER_FAILURE
+          - SUCCESS: check_hard_reboot_server_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - HARD_REBOOT_SERVER_FAILURE: HARD_REBOOT_SERVER_FAILURE
 
     - check_hard_reboot_server_result:
         do:
@@ -70,8 +70,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 202]
         navigate:
-          SUCCESS: get_server_details
-          FAILURE: CHECK_HARD_REBOOT_SERVER_RESPONSES_FAILURE
+          - SUCCESS: get_server_details
+          - FAILURE: CHECK_HARD_REBOOT_SERVER_RESPONSES_FAILURE
 
     - get_server_details:
         do:
@@ -93,11 +93,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_get_server_details_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
+          - SUCCESS: check_get_server_details_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
         do:
@@ -105,8 +105,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: get_status
-          FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
+          - SUCCESS: get_status
+          - FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
 
     - get_status:
         do:
@@ -116,8 +116,8 @@ flow:
         publish:
           - status: ${value}
         navigate:
-          SUCCESS: verify_status
-          FAILURE: GET_STATUS_FAILURE
+          - SUCCESS: verify_status
+          - FAILURE: GET_STATUS_FAILURE
 
     - verify_status:
         do:
@@ -125,8 +125,8 @@ flow:
             - first_string: 'HARD_REBOOT'
             - second_string: ${str(status)}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_STATUS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_STATUS_FAILURE
 
   outputs:
     - return_result

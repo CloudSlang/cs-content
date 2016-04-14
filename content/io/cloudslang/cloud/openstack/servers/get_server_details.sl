@@ -78,10 +78,10 @@ flow:
           - token
           - tenant_id
         navigate:
-          SUCCESS: get_server_details
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - SUCCESS: get_server_details
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
 
     - get_server_details:
         do:
@@ -99,8 +99,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_SERVER_DETAILS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_SERVER_DETAILS_FAILURE
 
   outputs:
     - return_result

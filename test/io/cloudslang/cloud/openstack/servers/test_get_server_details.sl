@@ -56,11 +56,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_get_server_details_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
+          - SUCCESS: check_get_server_details_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_SERVER_DETAILS_FAILURE: GET_SERVER_DETAILS_FAILURE
 
     - check_get_server_details_result:
         do:
@@ -68,8 +68,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
 
   results:
     - SUCCESS

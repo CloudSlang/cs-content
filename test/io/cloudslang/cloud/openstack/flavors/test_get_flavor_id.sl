@@ -59,13 +59,13 @@ flow:
           - status_code
           - flavor_id
         navigate:
-          SUCCESS: check_get_flavor_id_flow_responses
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
-          EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
-          EXTRACT_FLAVOR_ID_FAILURE: EXTRACT_FLAVOR_ID_FAILURE
+          - SUCCESS: check_get_flavor_id_flow_responses
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - LIST_FLAVORS_FAILURE: LIST_FLAVORS_FAILURE
+          - EXTRACT_FLAVORS_FAILURE: EXTRACT_FLAVORS_FAILURE
+          - EXTRACT_FLAVOR_ID_FAILURE: EXTRACT_FLAVOR_ID_FAILURE
 
     - check_get_flavor_id_flow_responses:
         do:
@@ -73,8 +73,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 200]
         navigate:
-          SUCCESS: check_flavor_id_is_empty
-          FAILURE: CHECK_GET_FLAVOR_ID_FLOW_RESPONSES_FAILURE
+          - SUCCESS: check_flavor_id_is_empty
+          - FAILURE: CHECK_GET_FLAVOR_ID_FLOW_RESPONSES_FAILURE
 
     - check_flavor_id_is_empty:
         do:
@@ -82,8 +82,8 @@ flow:
             - first_string: ${str(flavor_id)}
             - second_string: ''
         navigate:
-          SUCCESS: CHECK_FLAVOR_ID_IS_EMPTY_FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: CHECK_FLAVOR_ID_IS_EMPTY_FAILURE
+          - FAILURE: SUCCESS
 
   outputs:
     - return_result

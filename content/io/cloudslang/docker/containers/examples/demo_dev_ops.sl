@@ -22,6 +22,9 @@
 #! @input email_port: email port
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#! @input email_username: optional - email username
+#! @input email_password: optional - email password
+#! @input email_enable_TLS: optional - enable startTLS
 #! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
 #!!#
 ####################################################
@@ -50,6 +53,12 @@ flow:
     - email_port
     - email_sender
     - email_recipient
+    - email_username:
+        required: false
+    - email_password:
+        required: false
+    - email_enable_TLS:
+        required: false
     - timeout: '30000000'
   workflow:
 
@@ -83,17 +92,15 @@ flow:
     - start_linked_container:
         do:
           docker_containers.start_linked_container:
-            - dbContainerIp: ${db_IP}
-            - dbContainerName: ${db_container_name}
-            - imageName: 'meirwa/spring-boot-tomcat-mysql-app'
-            - containerName: ${app_container_name}
-            - linkParams: "${dbContainerName + ':mysql'}"
-            - cmdParams: "${'-e DB_URL=' + dbContainerIp + ' -p ' + app_port + ':8080'}"
+            - image_name: 'meirwa/spring-boot-tomcat-mysql-app'
+            - container_name: ${app_container_name}
+            - link_params: "${db_container_name + ':mysql'}"
+            - cmd_params: "${'-e DB_URL=' + db_IP + ' -p ' + app_port + ':8080'}"
             - host: ${docker_host}
             - port: ${docker_ssh_port}
             - username: ${docker_username}
             - password: ${docker_password}
-            - privateKeyFile: ${private_key_file}
+            - private_key_file
             - timeout
         publish:
           - container_id
@@ -106,7 +113,7 @@ flow:
             - attempts: 20
             - time_to_sleep: 10
         publish:
-          - error_message: output_message
+          - error_message: ${output_message}
 
     - on_failure:
         - send_error_mail:
@@ -118,6 +125,9 @@ flow:
                 - to: ${email_recipient}
                 - subject: 'Flow failure'
                 - body: "${'Operation failed with the following error:<br>' + error_message}"
+                - username: ${email_username}
+                - password: ${email_password}
+                - enable_TLS: ${email_enable_TLS}
             navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              - SUCCESS: FAILURE
+              - FAILURE: FAILURE

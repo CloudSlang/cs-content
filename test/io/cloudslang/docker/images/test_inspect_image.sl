@@ -47,8 +47,8 @@ flow:
              - docker_username: ${ username }
              - docker_password: ${ password }
          navigate:
-           SUCCESS: pull_image
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: pull_image
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -59,8 +59,8 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: inspect_image
-          FAILURE: DOWNLOAD_FAILURE
+          - SUCCESS: inspect_image
+          - FAILURE: DOWNLOAD_FAILURE
 
     - inspect_image:
         do:
@@ -73,8 +73,8 @@ flow:
         publish:
             - standard_out
         navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
+          - SUCCESS: verify_output
+          - FAILURE: FAILURE
 
     - verify_output:
         do:
@@ -82,8 +82,8 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: "/hello"
         navigate:
-          SUCCESS: clear_after
-          FAILURE: VERIFY_FAILURE
+          - SUCCESS: clear_after
+          - FAILURE: VERIFY_FAILURE
 
     - clear_after:
         do:
@@ -94,8 +94,8 @@ flow:
             - password
             - images: ${ image_name }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETE_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETE_FAILURE
 
   results:
     - SUCCESS

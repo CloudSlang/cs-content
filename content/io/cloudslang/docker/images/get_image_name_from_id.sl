@@ -80,9 +80,9 @@ flow:
         publish:
           - image_name: ${ return_result.replace("\n"," ").replace("<none>:<none> ","").replace("REPOSITORY:TAG ","") }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+          - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - image_name

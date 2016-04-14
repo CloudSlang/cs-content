@@ -40,8 +40,8 @@ flow:
             - first_string: '0'
             - second_string: ${ str(return_code) }
         navigate:
-          SUCCESS: NO_ISSUE_FOUND
-          FAILURE: check_session_is_down
+          - SUCCESS: NO_ISSUE_FOUND
+          - FAILURE: check_session_is_down
 
     - check_session_is_down:
         do:
@@ -49,8 +49,8 @@ flow:
             - string_in_which_to_search: ${ return_result }
             - string_to_find: 'session is down'
         navigate:
-          SUCCESS: SESSION_IS_DOWN
-          FAILURE: check_failure_with_no_message
+          - SUCCESS: SESSION_IS_DOWN
+          - FAILURE: check_failure_with_no_message
 
     - check_failure_with_no_message:
         do:
@@ -58,8 +58,8 @@ flow:
             - first_string: '-1'
             - second_string: ${ str(exit_status) }
         navigate:
-          SUCCESS: FAILURE_WITH_NO_MESSAGE
-          FAILURE: check_socket_is_not_established
+          - SUCCESS: FAILURE_WITH_NO_MESSAGE
+          - FAILURE: check_socket_is_not_established
 
     - check_socket_is_not_established:
         do:
@@ -67,8 +67,8 @@ flow:
             - string_in_which_to_search: ${ return_result }
             - string_to_find: 'socket is not established'
         navigate:
-          SUCCESS: CUSTOM_FAILURE
-          FAILURE: NO_ISSUE_FOUND
+          - SUCCESS: CUSTOM_FAILURE
+          - FAILURE: NO_ISSUE_FOUND
   results:
     - SESSION_IS_DOWN
     - FAILURE_WITH_NO_MESSAGE

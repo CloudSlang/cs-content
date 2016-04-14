@@ -20,37 +20,37 @@ flow:
             - file_path: ${move_source}
             - text: "text-to-be-copied"
         navigate:
-          SUCCESS: test_move_operation
-          FAILURE: create_folder_to_be_moved
+          - SUCCESS: test_move_operation
+          - FAILURE: create_folder_to_be_moved
     - create_folder_to_be_moved:
         do:
           create_folder:
             - folder_name: ${move_source}
         navigate:
-          SUCCESS: test_move_operation
-          FAILURE: CREATEFAILURE
+          - SUCCESS: test_move_operation
+          - FAILURE: CREATEFAILURE
     - test_move_operation:
         do:
           move:
             - source: ${move_source}
             - destination: ${move_destination}
         navigate:
-          SUCCESS: delete_moved_file
-          FAILURE: delete_moved_file_after_move_failure
+          - SUCCESS: delete_moved_file
+          - FAILURE: delete_moved_file_after_move_failure
     - delete_moved_file_after_move_failure:
         do:
           delete:
             - source: ${move_source}
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: DELETEFAILURE
+          - SUCCESS: FAILURE
+          - FAILURE: DELETEFAILURE
     - delete_moved_file:
         do:
           delete:
             - source: ${move_destination}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
   results:
     - SUCCESS
     - CREATEFAILURE

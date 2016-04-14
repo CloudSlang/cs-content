@@ -34,8 +34,8 @@ flow:
            - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: create_cAdvisor_container
-         FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
+         - SUCCESS: create_cAdvisor_container
+         - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - create_cAdvisor_container:
         do:
@@ -58,15 +58,15 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: sleep
-          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+          - SUCCESS: sleep
+          - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - sleep:
         do:
           utils.sleep:
             - seconds: 5
         navigate:
-          SUCCESS: call_report_machine_metrics
+          - SUCCESS: call_report_machine_metrics
 
     - call_report_machine_metrics:
         do:
@@ -76,8 +76,8 @@ flow:
         publish:
           - memory_capacity
         navigate:
-          SUCCESS: validate_response_is_not_empty
-          FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
+          - SUCCESS: validate_response_is_not_empty
+          - FAILURE: CALL_GET_CONTAINER_METRICS_PROBLEM
 
     - validate_response_is_not_empty:
         do:
@@ -85,8 +85,8 @@ flow:
               - first_string: ${str(memory_capacity)}
               - second_string: '0'
         navigate:
-          SUCCESS: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
-          FAILURE: SUCCESS
+          - SUCCESS: VALIDATE_RESPONSE_IS_NOT_EMPTY_PROBLEM
+          - FAILURE: SUCCESS
 
   results:
     - SUCCESS

@@ -22,8 +22,8 @@ flow:
           create_folder:
             - folder_name: ${folder_path}
         navigate:
-          SUCCESS: test_zip_folder_operation
-          FAILURE: CREATEFAILURE
+          - SUCCESS: test_zip_folder_operation
+          - FAILURE: CREATEFAILURE
 
     - test_zip_folder_operation:
         do:
@@ -31,22 +31,22 @@ flow:
             - archive_name
             - folder_path
         navigate:
-          SUCCESS: delete_archive
-          FAILURE: ZIPFAILURE
+          - SUCCESS: delete_archive
+          - FAILURE: ZIPFAILURE
     - delete_archive:
         do:
           delete:
             - source: ${'./' + folder_path + '/' + archive_name + '.zip'}
         navigate:
-          SUCCESS: delete_created_folder
-          FAILURE: DELETEFAILURE
+          - SUCCESS: delete_created_folder
+          - FAILURE: DELETEFAILURE
     - delete_created_folder:
         do:
           delete:
             - source: ${folder_path}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
   results:
     - SUCCESS
     - CREATEFAILURE

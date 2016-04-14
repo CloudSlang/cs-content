@@ -64,10 +64,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_servers
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: get_servers
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_servers:
         do:
@@ -83,8 +83,8 @@ flow:
           - error_message
           - status_code
         navigate:
-          SUCCESS: extract_servers
-          FAILURE: GET_SERVERS_FAILURE
+          - SUCCESS: extract_servers
+          - FAILURE: GET_SERVERS_FAILURE
 
     - extract_servers:
         do:
@@ -95,8 +95,8 @@ flow:
           - object_list
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXTRACT_SERVERS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: EXTRACT_SERVERS_FAILURE
 
   outputs:
     - server_list: ${object_list}

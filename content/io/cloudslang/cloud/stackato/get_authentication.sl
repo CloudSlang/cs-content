@@ -70,8 +70,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_authentication_token
-          FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: get_authentication_token
+          - FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_authentication_token:
         do:
@@ -82,8 +82,8 @@ flow:
           - token: ${value}
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
   outputs:
     - return_result

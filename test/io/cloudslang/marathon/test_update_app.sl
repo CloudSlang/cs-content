@@ -35,9 +35,9 @@ flow:
             - marathon_port
             - is_core_os
         navigate:
-          SUCCESS: create_marathon_app
-          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          - SUCCESS: create_marathon_app
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - create_marathon_app:
          do:
@@ -46,8 +46,8 @@ flow:
              - marathon_port
              - json_file: ${json_file_for_creation}
          navigate:
-           SUCCESS: wait_for_marathon_app_startup
-           FAILURE: FAIL_TO_CREATE
+           - SUCCESS: wait_for_marathon_app_startup
+           - FAILURE: FAIL_TO_CREATE
 
     - wait_for_marathon_app_startup:
         do:
@@ -58,8 +58,8 @@ flow:
               - attempts: 30
               - time_to_sleep: 10
         navigate:
-          SUCCESS: update_marathon_app
-          FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
+          - SUCCESS: update_marathon_app
+          - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
 
     - update_marathon_app:
         do:
@@ -69,8 +69,8 @@ flow:
             - json_file: ${json_file_for_update}
             - app_id: ${created_app_id}
         navigate:
-          SUCCESS: delete_marathon_app
-          FAILURE: FAIL_TO_UPDATE
+          - SUCCESS: delete_marathon_app
+          - FAILURE: FAIL_TO_UPDATE
 
     - delete_marathon_app:
         do:
@@ -79,8 +79,8 @@ flow:
              - marathon_port
              - app_id: ${created_app_id}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_DELETE
 
   results:
     - SUCCESS

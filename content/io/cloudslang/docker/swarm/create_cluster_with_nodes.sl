@@ -74,8 +74,8 @@ flow:
         publish:
            - cluster_id
         navigate:
-          SUCCESS: pre_clear_manager_machine
-          FAILURE: CREATE_SWARM_CLUSTER_PROBLEM
+          - SUCCESS: pre_clear_manager_machine
+          - FAILURE: CREATE_SWARM_CLUSTER_PROBLEM
 
     - pre_clear_manager_machine:
        do:
@@ -84,8 +84,8 @@ flow:
            - docker_username: ${manager_machine_username}
            - private_key_file: ${manager_machine_private_key_file}
        navigate:
-         SUCCESS: pre_clear_agent_machines
-         FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
+         - SUCCESS: pre_clear_agent_machines
+         - FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
 
     - pre_clear_agent_machines:
         async_loop:
@@ -96,8 +96,8 @@ flow:
               - docker_username: ${agent_usernames[0]}
               - private_key_file: ${agent_private_key_files[0]}
         navigate:
-          SUCCESS: start_manager_container
-          FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
+          - SUCCESS: start_manager_container
+          - FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
 
     - start_manager_container:
         do:
@@ -109,8 +109,8 @@ flow:
             - password: ${manager_machine_password}
             - private_key_file: ${manager_machine_private_key_file}
         navigate:
-          SUCCESS: add_nodes_to_the_cluster
-          FAILURE: START_MANAGER_CONTAINER_PROBLEM
+          - SUCCESS: add_nodes_to_the_cluster
+          - FAILURE: START_MANAGER_CONTAINER_PROBLEM
 
     - add_nodes_to_the_cluster:
         async_loop:
@@ -123,8 +123,8 @@ flow:
               - username: ${agent_usernames[0]}
               - private_key_file: ${agent_private_key_files[0]}
         navigate:
-          SUCCESS: get_number_of_nodes_in_cluster
-          FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
+          - SUCCESS: get_number_of_nodes_in_cluster
+          - FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
 
     - get_number_of_nodes_in_cluster:
         do:
@@ -138,8 +138,8 @@ flow:
         publish:
           - number_of_nodes_in_cluster: ${number_of_nodes_in_cluster}
         navigate:
-          SUCCESS: verify_node_is_added
-          FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
+          - SUCCESS: verify_node_is_added
+          - FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
 
     - verify_node_is_added:
         do:
@@ -147,27 +147,28 @@ flow:
             - first_string: ${str(len(agent_ip_addresses))}
             - second_string: ${number_of_nodes_in_cluster}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: check_attempts
+          - SUCCESS: SUCCESS
+          - FAILURE: check_attempts
 
     - check_attempts:
         do:
           comparisons.compare_numbers:
             - value1: ${attempts}
             - value2: 0
+            - attempts
         publish:
-          - attempts: ${int(self['attempts']) - 1}
+          - attempts: ${int(attempts) - 1}
         navigate:
-          GREATER_THAN: sleep
-          EQUALS: NODES_NOT_ADDED
-          LESS_THAN: NODES_NOT_ADDED
+          - GREATER_THAN: sleep
+          - EQUALS: NODES_NOT_ADDED
+          - LESS_THAN: NODES_NOT_ADDED
 
     - sleep:
         do:
           utils.sleep:
             - seconds: ${time_to_sleep}
         navigate:
-          SUCCESS: get_number_of_nodes_in_cluster
+          - SUCCESS: get_number_of_nodes_in_cluster
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM

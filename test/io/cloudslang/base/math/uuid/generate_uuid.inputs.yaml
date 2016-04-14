@@ -6,14 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-test_execute_powershell_script_success:
-  testSuites: [powershell-ignore]
-  description: Tests SUCCESS case
-  testFlowPath: io.cloudslang.base.powershell.execute_powershell_script
-  inputs:
-    - host: <windows_host>
-    - user_name: <username>
-    - password: <password>
-    - script: <powershell_script>
-    - winrm_enable_https: <winrm_enable_https>
+testRandInt:
+  description: Tests that generate_uuid.sl operation finishes with result = SUCCESS
+  testFlowPath: io.cloudslang.base.math.uuid.generate_uuid
   result: SUCCESS

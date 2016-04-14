@@ -24,6 +24,7 @@ namespace: io.cloudslang.cloud.hp_cloud.net
 
 imports:
   rest: io.cloudslang.base.network.rest
+  utils: io.cloudslang.base.utils
 
 flow:
   name: list_all_networks
@@ -49,10 +50,14 @@ flow:
           - error_message
           - status_code
 
+    - evaluate_result:
+        do:
+          utils.is_true:
+            - bool_value: ${'status_code' in locals() and status_code == '200'}
   outputs:
     - return_result
     - error_message
     - status_code
   results:
-    - SUCCESS: ${'status_code' in locals() and status_code == '200'}
+    - SUCCESS
     - FAILURE

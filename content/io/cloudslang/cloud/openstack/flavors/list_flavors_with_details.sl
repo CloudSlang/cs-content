@@ -79,10 +79,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: list_flavors_with_details
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: list_flavors_with_details
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - list_flavors_with_details:
         do:
@@ -100,8 +100,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: LIST_FLAVORS_WITH_DETAILS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: LIST_FLAVORS_WITH_DETAILS_FAILURE
 
   outputs:
     - return_result

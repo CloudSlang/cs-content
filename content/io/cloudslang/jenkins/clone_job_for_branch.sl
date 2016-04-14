@@ -46,10 +46,10 @@ flow:
             - job_name: ${ jnks_new_job_name }
             - expected_status: ${ delete_job_if_existing }
         navigate:
-          EXISTS_EXPECTED: delete_job
-          EXISTS_UNEXPECTED: fail_with_job_existing
-          NOT_EXISTS: copy_job
-          FAILURE: FAILURE
+          - EXISTS_EXPECTED: delete_job
+          - EXISTS_UNEXPECTED: fail_with_job_existing
+          - NOT_EXISTS: copy_job
+          - FAILURE: FAILURE
 
     - delete_job:
         do:
@@ -83,8 +83,8 @@ flow:
         publish:
           - result_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
     - fail_with_job_existing:
         do:
@@ -96,8 +96,8 @@ flow:
             - subject: "Flow failure"
             - body: ${ 'Job ' + jnks_new_job_name + ' is already existing.' }
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+          - SUCCESS: FAILURE
+          - FAILURE: FAILURE
 
     - on_failure:
         - send_error_mail:
@@ -110,5 +110,5 @@ flow:
                 - subject: "Flow failure"
                 - body: "${ 'Operation failed: ' + result_message }"
             navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              - SUCCESS: FAILURE
+              - FAILURE: FAILURE

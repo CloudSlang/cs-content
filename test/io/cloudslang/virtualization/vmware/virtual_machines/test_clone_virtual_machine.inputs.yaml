@@ -1,0 +1,31 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMwareCloneVirtualMachineLocal:
+  testSuites: [vmware-local]
+  description: "Test that successfully clones an existing virtual machine."
+  testFlowPath: io.cloudslang.virtualization.vmware.virtual_machines.test_clone_virtual_machine
+  inputs:
+    - host: <host>
+    - port: <port>
+    - protocol: <protocol>
+    - username: <username>
+    - password: <password>
+    - trust_everyone: <trust_everyone>
+    - virtual_machine_name: <virtual_machine_name>
+    - clone_name: <clone_name>
+    - folder_name: <folder_name>
+    - clone_host: <clone_host>
+    - clone_resource_pool: <clone_resource_pool>
+    - clone_data_store: <clone_data_store>
+    - thick_provision: <thick_provision>
+    - is_template: <is_template>
+    - num_cpus: <num_cpus>
+    - cores_per_socket: <cores_per_socket>
+    - memory: <memory>
+    - clone_description: <clone_description>
+  result: SUCCESS

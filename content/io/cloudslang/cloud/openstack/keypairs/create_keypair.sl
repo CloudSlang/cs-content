@@ -83,10 +83,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: create_keypair
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: create_keypair
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - create_keypair:
         do:
@@ -106,8 +106,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CREATE_KEYPAIR_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CREATE_KEYPAIR_FAILURE
 
   outputs:
     - return_result

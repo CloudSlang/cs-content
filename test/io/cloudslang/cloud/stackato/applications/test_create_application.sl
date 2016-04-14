@@ -50,11 +50,11 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: check_result
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
-          GET_APPLICATION_GUID_FAILURE: GET_APPLICATION_GUID_FAILURE
+          - SUCCESS: check_result
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
+          - GET_APPLICATION_GUID_FAILURE: GET_APPLICATION_GUID_FAILURE
 
     - check_result:
         do:
@@ -62,8 +62,8 @@ flow:
             - list_1: ${[str(error_message), int(return_code), int(status_code)]}
             - list_2: ['', 0, 201]
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
   outputs:
     - return_result

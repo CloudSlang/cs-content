@@ -75,9 +75,9 @@ flow:
           - error_message
           - token
         navigate:
-          SUCCESS: get_users_call
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - SUCCESS: get_users_call
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
     - get_users_call:
         do:
@@ -97,8 +97,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_users_list
-          FAILURE: GET_USERS_FAILURE
+          - SUCCESS: get_users_list
+          - FAILURE: GET_USERS_FAILURE
 
     - get_users_list:
         do:
@@ -108,8 +108,8 @@ flow:
         publish:
           - users_list: ${value}
         navigate:
-          SUCCESS: get_usernames_list
-          FAILURE: GET_USERS_LIST_FAILURE
+          - SUCCESS: get_usernames_list
+          - FAILURE: GET_USERS_LIST_FAILURE
 
     - get_usernames_list:
         do:
@@ -118,8 +118,8 @@ flow:
         publish:
           - usernames_list
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_USERNAMES_LIST_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_USERNAMES_LIST_FAILURE
 
   outputs:
     - return_result

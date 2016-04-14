@@ -47,10 +47,10 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: hello_world_image_download
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: hello_world_image_download
+          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - hello_world_image_download:
         do:
@@ -61,8 +61,8 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: DOWNLOADFAIL
+          - SUCCESS: get_all_images
+          - FAILURE: DOWNLOADFAIL
 
     - get_all_images:
         do:
@@ -74,8 +74,8 @@ flow:
         publish:
             - list: ${image_list}
         navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
+          - SUCCESS: verify_output
+          - FAILURE: FAILURE
 
     - verify_output:
         do:
@@ -83,8 +83,8 @@ flow:
             - first_string: ${ image_name + ' ' }
             - second_string: ${ list }
         navigate:
-          SUCCESS: delete_downloaded_image
-          FAILURE: VERIFYFAILURE
+          - SUCCESS: delete_downloaded_image
+          - FAILURE: VERIFYFAILURE
 
     - delete_downloaded_image:
         do:
@@ -95,8 +95,8 @@ flow:
             - password
             - images: ${ image_name }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAIL
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAIL
 
   results:
     - SUCCESS

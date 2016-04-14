@@ -1,0 +1,38 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testContainsSuccess:
+  inputs:
+    - list: [element1,element2,element3,element4]
+    - element: element1
+  description: Tests that contains.sl operation finishes with result = true
+  testFlowPath: io.cloudslang.base.lists.contains
+  outputs:
+    - result: true
+  result: SUCCESS
+
+testContainsStrSuccess:
+  inputs:
+    - list: ['Daria','Max','Ron']
+    - element: 'Max'
+  description: Tests that contains.sl operation finishes with result = true
+  testFlowPath: io.cloudslang.base.lists.contains
+  outputs:
+    - result: true
+  result: SUCCESS
+
+
+testContainsIntSuccess:
+  inputs:
+    - list: [1,5,8]
+    - element: 9
+  description: Tests that contains.sl operation finishes with result = false
+  testFlowPath: io.cloudslang.base.lists.contains
+  outputs:
+    - result: false
+  result: SUCCESS

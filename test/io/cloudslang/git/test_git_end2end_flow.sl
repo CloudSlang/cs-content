@@ -125,8 +125,8 @@ flow:
             - git_repository
             - git_repository_localdir
         navigate:
-          SUCCESS: checkout_git_branch
-          FAILURE: CLONE_FAILURE
+          - SUCCESS: checkout_git_branch
+          - FAILURE: CLONE_FAILURE
 
     - checkout_git_branch:
         do:
@@ -140,8 +140,8 @@ flow:
             - git_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: write_in_file_to_be_committed
-          FAILURE: CHECKOUT_FAILURE
+          - SUCCESS: write_in_file_to_be_committed
+          - FAILURE: CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -155,8 +155,8 @@ flow:
             - private_key_file
             - command: ${ 'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name }
         navigate:
-          SUCCESS: add_files_to_stage_area
-          FAILURE: WRITE_IO_ERROR
+          - SUCCESS: add_files_to_stage_area
+          - FAILURE: WRITE_IO_ERROR
 
     - add_files_to_stage_area:
         do:
@@ -170,8 +170,8 @@ flow:
             - git_repository_localdir
             - git_add_files
         navigate:
-          SUCCESS: commit_staged_files
-          FAILURE: ADD_FAILURE
+          - SUCCESS: commit_staged_files
+          - FAILURE: ADD_FAILURE
 
     - commit_staged_files:
         do:
@@ -186,8 +186,8 @@ flow:
             - git_commit_files
             - git_commit_message
         navigate:
-          SUCCESS: git_push
-          FAILURE: COMMIT_FAILURE
+          - SUCCESS: git_push
+          - FAILURE: COMMIT_FAILURE
 
     - git_push:
         do:
@@ -202,8 +202,8 @@ flow:
             - git_push_branch
             - git_push_remote
         navigate:
-          SUCCESS: add_user_to_sudoers_list
-          FAILURE: PUSH_FAILURE
+          - SUCCESS: add_user_to_sudoers_list
+          - FAILURE: PUSH_FAILURE
 
     - add_user_to_sudoers_list:
         do:
@@ -216,8 +216,8 @@ flow:
             - private_key_file
             - user
         navigate:
-          SUCCESS: second_clone_a_git_repository
-          FAILURE: ADD_TO_SUDOERS_FAILURE
+          - SUCCESS: second_clone_a_git_repository
+          - FAILURE: ADD_TO_SUDOERS_FAILURE
 
     - second_clone_a_git_repository:
         do:
@@ -230,8 +230,8 @@ flow:
             - git_repository
             - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
-          SUCCESS: second_checkout_git_branch
-          FAILURE: SECOND_CLONE_FAILURE
+          - SUCCESS: second_checkout_git_branch
+          - FAILURE: SECOND_CLONE_FAILURE
 
     - second_checkout_git_branch:
         do:
@@ -245,8 +245,8 @@ flow:
             - git_branch
             - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
-          SUCCESS: compare_files
-          FAILURE: SECOND_CHECKOUT_FAILURE
+          - SUCCESS: compare_files
+          - FAILURE: SECOND_CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -261,8 +261,8 @@ flow:
             - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
             - command: ${ sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name }
         navigate:
-          SUCCESS: check_result
-          FAILURE: COMPARE_IO_ERROR
+          - SUCCESS: check_result
+          - FAILURE: COMPARE_IO_ERROR
         publish:
           - standard_err
           - standard_out
@@ -274,8 +274,8 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: "are identical"
         navigate:
-          SUCCESS: git_cleanup_first_repository
-          FAILURE: COMPARE_FAILURE
+          - SUCCESS: git_cleanup_first_repository
+          - FAILURE: COMPARE_FAILURE
 
     - git_cleanup_first_repository:
         do:
@@ -289,8 +289,8 @@ flow:
             - change_path: false
             - new_path: ""
         navigate:
-          SUCCESS: git_cleanup_second_repository
-          FAILURE: FIRST_CLEANUP_FAILURE
+          - SUCCESS: git_cleanup_second_repository
+          - FAILURE: FIRST_CLEANUP_FAILURE
         publish:
           - standard_out
 

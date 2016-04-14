@@ -33,8 +33,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
        navigate:
-         SUCCESS: pull_image
-         FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
+         - SUCCESS: pull_image
+         - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -45,8 +45,8 @@ flow:
             - password
             - image_name: ${container_name}
         navigate:
-          SUCCESS: run_container
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: run_container
+          - FAILURE: FAIL_PULL_IMAGE
 
     - run_container:
         do:
@@ -58,8 +58,8 @@ flow:
             - container_name
             - image_name: ${container_name}
         navigate:
-          SUCCESS: get_used_images
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: get_used_images
+          - FAILURE: FAIL_RUN_IMAGE
 
     - get_used_images:
         do:
@@ -69,8 +69,8 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: delete_container
-          FAILURE: FAIL_STOP_CONTAINER
+          - SUCCESS: delete_container
+          - FAILURE: FAIL_STOP_CONTAINER
 
     - delete_container:
         do:
@@ -81,8 +81,8 @@ flow:
             - password
             - container_id: ${container_name}
         navigate:
-          SUCCESS: verify
-          FAILURE: DELETE_CONTAINER_FAILURE
+          - SUCCESS: verify
+          - FAILURE: DELETE_CONTAINER_FAILURE
 
     - verify:
         do:
@@ -100,8 +100,8 @@ flow:
             - first_string: ${all_containers}
             - second_string: ''
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_FAILURE
 
     - clear_docker_host:
         do:
@@ -111,8 +111,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
         navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: SUCCESS
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

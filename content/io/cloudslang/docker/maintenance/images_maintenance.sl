@@ -48,9 +48,9 @@ flow:
             - percentage
             - timeout
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          NOT_ENOUGH_DISKSPACE: clear_unused_images
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+          - NOT_ENOUGH_DISKSPACE: clear_unused_images
     - clear_unused_images:
         do:
           docker_images.clear_unused_and_dangling_images:
