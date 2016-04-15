@@ -47,7 +47,6 @@ flow:
     - filter_labels:
         required: false
     - proxy_host:
-        default: "proxy.houston.hp.com"
         required: false
     - proxy_port:
         default: "8080"

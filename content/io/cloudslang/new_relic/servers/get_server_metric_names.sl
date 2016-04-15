@@ -40,7 +40,6 @@ flow:
     - server_id:
         required: true
     - proxy_host:
-        default: "proxy.houston.hp.com"
         required: false
     - proxy_port:
         default: "8080"
