@@ -37,7 +37,7 @@
 #!!#
 ################################################
 
-namespace: io.cloudslang.servicenow.commons
+namespace: io.cloudslang.service_now.commons
 
 imports:
   rest: io.cloudslang.base.network.rest
