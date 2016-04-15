@@ -43,7 +43,7 @@ imports:
   ssh: io.cloudslang.base.remote_command_execution.ssh
 
 flow:
-  name: start_server_monitor
+  name: stop_server_monitor
   inputs:
     - host:
         required: true
