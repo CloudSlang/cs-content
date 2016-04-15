@@ -119,7 +119,7 @@ flow:
 
         navigate:
           - SUCCESS: get_sys_id
-          - FAILURE: FAILURE
+          - FAILURE: REST_POST_API_CALL_FAILURE
 
     - get_sys_id:
         do:
