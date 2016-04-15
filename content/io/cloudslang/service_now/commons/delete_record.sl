@@ -1,15 +1,18 @@
 ####################################################
 #!!
 #! @description: This flow is used to perform a REST Delete request to any ServiceNow table.
-#! @input host: required - The URL of the ServiceNow instance.
-#!              Example:https://dev10000.service-now.com
+#! @input host: required - The URL of the ServiceNow instance
+#!              Example: 'dev10000.service-now.com'
+#! @input protocol: optional - The protocol that is used to send the request
+#!                  Valid: https
+#!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Valid: 'basic', 'anonymous' (When OAuth token is provided)
 #!                   Default: 'basic'
 #! @input api_version: optional - the servicenow api version to be used for the call
 #!                   Valid: 'v1'
-#!                   Default: 'latest'
-#! @input system_id: required - the system id of the ServiceNow record to be deletedl
+#!                   Default: ''
+#! @input system_id: required - the system id of the ServiceNow record to be deleted
 #!                   Example: 71c7ac460f811200ff7eb17ce1050e7a
 #! @input table_name: required - the name of the servicenow table which should be used for the request.
 #!                    Example: incident, problem , change
@@ -27,7 +30,7 @@
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'text/plain'
+#!                      data in the message body - Default: 'application/sjon'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -45,9 +48,12 @@ flow:
 
   inputs:
   - host
+  - protocol:
+      required: false
+      default: "https"
   - auth_type:
       required: false
-      default: ''
+      default: "basic"
   - api_version:
       required: false
       default: ''
@@ -93,7 +99,7 @@ flow:
     - delete_record:
         do:
           rest.http_client_delete:
-            - url: ${host + '/api/now/' + api_version + '/table/' + table_name + '/' + system_id}
+            - url: ${protocol + '://' + host + '/api/now/' + api_version + '/table/' + table_name + '/' + system_id}
             - auth_type
             - username
             - password

@@ -1,14 +1,17 @@
 ####################################################
 #!!
 #! @description: This flow is used to perform a REST Post request to any ServiceNow table.
-#! @input host: required - The URL of the ServiceNow instance.
-#!              Example:https://dev10000.service-now.com
+#! @input host: required - The URL of the ServiceNow instance
+#!              Example: 'dev10000.service-now.com'
+#! @input protocol: optional - The protocol that is used to send the request
+#!                  Valid: https
+#!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Valid: 'basic', 'anonymous' (When OAuth token is provided)
 #!                   Default: 'basic'
 #! @input api_version: optional - the servicenow api version to be used for the call
 #!                   Valid: 'v1'
-#!                   Default: 'latest'
+#!                   Default: ''
 #! @input table_name: required - the name of the servicenow table which should be used for the request.
 #!                    Example: incident, problem , change
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
@@ -28,7 +31,7 @@
 #! @input body: optional - The string to include in the body of the request, in the format accepted by ServiceNow.
 #!              Example: {'short_description':'Example description','severity':'1','assigned_to':'46c1293aa9fe1981000dc753e75ebeee'}
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'text/plain'
+#!                      data in the message body - Default: 'application/sjon'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output system_id: the system id of the record created
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
@@ -48,9 +51,12 @@ flow:
 
   inputs:
     - host
+    - protocol:
+        required: false
+        default: "https"
     - auth_type:
         required: false
-        default: ''
+        default: "basic"
     - api_version:
         required: false
         default: ''
@@ -97,7 +103,8 @@ flow:
     - create_record:
         do:
           rest.http_client_post:
-            - url: ${host + '/api/now/' + api_version + '/table/' + table_name}
+            - url: >
+                ${protocol + '://' + host + '/api/now/' + api_version + '/table/' + table_name}
             - auth_type
             - username
             - password
@@ -131,5 +138,18 @@ flow:
         publish:
             - system_id: ${value}
 
+        navigate:
+            - SUCCESS: SUCCESS
+            - FAILURE: GET_SYSID_FAILURE
+
   outputs:
     - system_id
+    - return_result
+    - error_message
+    - return_code
+    - status_code
+
+  results:
+    - SUCCESS
+    - REST_POST_API_CALL_FAILURE
+    - GET_SYSID_FAILURE
