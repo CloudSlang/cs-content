@@ -9,15 +9,16 @@
 ####################################################
 #!!
 #! @description: Gets results of Speech Recognision, with was made by HPE Haven OnDemand API.
-#! @input url: URL to Speech Recognision API
+#! @input speechResultApi: API which waits until the job has finished and then returns the result
 #! @input apikey: user's API Keys
 #! @input jobID: name of request, witch is returned by havenondemand.com
+#! @output status: status of request
 #! @output result: JSON result of  from API
-#! @output resultOfRecogn: results of Speech Recognision
+#! @output transcript: results of Speech Recognision
 #!!#
 ####################################################
 
-namespace: io.cloudslang.haven_onDemand.voice_recognision
+namespace: io.cloudslang.haven_onDemand.speech_recognision
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -28,37 +29,41 @@ flow:
   name: checkStatus
 
   inputs:
-    - url
+    - speechResultApi
     - jobID
     - apikey
-    - proxy_host:
-        required: false
-    - proxy_port:
-       required: false
 
   workflow:
      - checkStatus:
           do:
             rest.http_client_get:
-               - url: ${str(url) + str(jobID) + "?apikey=" + str(apikey)}
-               - proxy_host: proxy.houston.hp.com
-               - proxy_port: '8080'
+               - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
+          
           publish:
              - error_message
              - return_result
              - return_code
           navigate:
-               SUCCESS: get_result_value
-               FAILURE: checkStatus
+             - SUCCESS: get_status_recognision
+             - FAILURE: checkStatus
 
-     - get_result_value:
+     - get_status_recognision:
+            do:
+              json.get_value:
+                - json_input: ${return_result}
+                - json_path: ['status']
+            publish:
+              - status: ${value}
+              - error_message
+
+     - get_result_recognision:
         do:
           json.get_value:
             - json_input: ${return_result}
             - json_path: ['actions',0,'result','document',0,'content']
 
         publish:
-          - value
+          - transcript: ${value}
           - error_message
 
      - on_failure:
@@ -68,7 +73,5 @@ flow:
                         - text: "${error_message}"
   outputs:
       - result: ${return_result}
-      - resultOfRecogn: ${value if error_message=='' else 0}
-  results:
-    - SUCCESS: ${error_message==''}
-    - FAILURE
+      - transcript : ${transcript if error_message=='' else 0}
+      - status: ${status}

@@ -8,11 +8,11 @@
 #
 ####################################################
 #!!
-#! @description: Sends to email results of Speech Recognision, with was made by HPE Haven OnDemand API.
+#! @description: Sends to email transcript of the text in an audio or video file, with was created by Speech Recognition API.
 #! @input apikey: user's API Keys
-#! @input video: path to video, witch recognising
-#! @input url: URL to Speech Recognision API
-#! @input urlForResult: URL for getting response from Haven OnDemand
+#! @input speechApi:  Speech Recognision API
+#! @input file: path to video/audio, witch recognising
+#! @input speechResultApi: API which waits until the job has finished and then returns the result
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
@@ -20,7 +20,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.haven_onDemand.voice_recognision
+namespace: io.cloudslang.haven_onDemand.speech_recognision
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -30,15 +30,15 @@ imports:
   base: io.cloudslang.base.print
 
 flow:
-  name: sendVoiceRecToMail
+  name: sendTranscriptToMail
 
   inputs:
     - apikey: ${get_sp('io.cloudslang.haven_onDemand.apikey')}
-    - url: ${get_sp('io.cloudslang.haven_onDemand.url')}
-    - video: ${get_sp('io.cloudslang.haven_onDemand.video')}
-    - urlForResult: ${get_sp('io.cloudslang.haven_onDemand.urlForResult')}
-    - hostname: "smtp3.hpe.com"
-    - port: "25"
+    - speechApi: ${get_sp('io.cloudslang.haven_onDemand.speechApi')}
+    - file: ${get_sp('io.cloudslang.haven_onDemand.file')}
+    - speechResultApi: ${get_sp('io.cloudslang.haven_onDemand.speechResultApi')}
+    - hostname: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
+    - port: ${get_sp('io.cloudslang.haven_onDemand.port')}
     - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
     - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
 
@@ -47,30 +47,25 @@ flow:
     - startingConnection:
           do:
             speechRecognision:
-               - url
-               - video
+               - speechApi
+               - file
                - apikey
 
           publish:
              - jobID
              - error_message
-          navigate:
-            SUCCESS: getResultRecognision
-            FAILURE: print
 
     - getResultRecognision:
            do:
              checkStatus:
-               - url: ${urlForResult}
-               - jobID: ${jobID}
-               - apikey: ${apikey}
+               - speechResultApi
+               - jobID
+               - apikey
 
            publish:
              - error_message
-             - result: ${resultOfRecogn}
-           navigate:
-              SUCCESS: send_mail
-              FAILURE: print
+             - status
+             - transcript
 
     - send_mail:
         do:
@@ -79,9 +74,9 @@ flow:
             - port
             - from
             - to
-            - subject: "${'Result of ecognision ' + str(video)'}"
+            - subject: "${'Result of ecognision ' + str(video)}"
             - body: >
-                ${'Description: ' + str(result) + '\n'}
+                ${'Description: ' + str(transcript) + '\n'}
         publish:
           - error_message
 
@@ -91,6 +86,5 @@ flow:
                    base.print_text:
                       - text: ${error_message if error_message=="" else " Connection faild" }
 
-  results:
-    - SUCCESS: ${error_message==''}
-    - FAILURE
+  outputs:
+     - result: ${ " jobID "  + str(jobID) +  " status " + status}

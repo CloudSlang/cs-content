@@ -9,11 +9,11 @@
 ####################################################
 #!!
 #! @description: Makes Speech Recognision by HPE Haven OnDemand API.
-#! @input url: URL to Speech Recognision API
+#! @input speechApi: Speech Recognision API
 #! @output jobID: name of request, witch is returned by havenondemand.com
 #!!#
 ####################################################
-namespace: io.cloudslang.haven_onDemand.voice_recognision
+namespace: io.cloudslang.haven_onDemand.speech_recognision
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -24,32 +24,24 @@ flow:
   name: speechRecognision
 
   inputs:
-    - url
-    - video
+    - speechApi
+    - file
     - apikey
-    - proxy_host:
-        required: false
-    - proxy_port:
-       required: false
+
   workflow:
 
     - connect_to_server:
         do:
           rest.http_client_action:
-            - url
-            - proxy_host: proxy.houston.hp.com
-            - proxy_port: '8080'
+            - url: ${speechApi}
             - method: POST
             - multipart_bodies: ${"apikey=" + str(apikey)}
-            - multipart_files: ${video}
+            - multipart_files: ${file}
 
         publish:
             - error_message
             - return_result
             - return_code
-        navigate:
-            SUCCESS: get_result_value
-            FAILURE: print_fail
 
     - get_result_value:
         do:
@@ -59,6 +51,7 @@ flow:
         publish:
            - value
            - error_message
+
     - on_failure:
           - print_fail:
                 do:
@@ -66,6 +59,3 @@ flow:
                     - text: "${error_message}"
   outputs:
       - jobID: ${value if error_message=='' else 0}
-  results:
-     - SUCCESS: ${error_message==''}
-     - FAILURE
