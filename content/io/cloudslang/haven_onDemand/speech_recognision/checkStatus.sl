@@ -38,7 +38,7 @@ flow:
           do:
             rest.http_client_get:
                - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
-          
+
           publish:
              - error_message
              - return_result
@@ -73,5 +73,5 @@ flow:
                         - text: "${error_message}"
   outputs:
       - result: ${return_result}
-      - transcript : ${transcript if error_message=='' else 0}
+      - transcript : ${transcript}
       - status: ${status}

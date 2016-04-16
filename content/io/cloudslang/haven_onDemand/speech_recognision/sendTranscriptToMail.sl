@@ -74,7 +74,7 @@ flow:
             - port
             - from
             - to
-            - subject: "${'Result of ecognision ' + str(file)}"
+            - subject: "${'Result of recognision ' + str(file)}"
             - body: >
                 ${'Description: ' + str(transcript) + '\n'}
         publish:

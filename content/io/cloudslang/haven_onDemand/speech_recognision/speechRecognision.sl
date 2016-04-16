@@ -58,4 +58,4 @@ flow:
                   base.print_text:
                     - text: "${error_message}"
   outputs:
-      - jobID: ${value if error_message=='' else 0}
+      - jobID: ${value}
