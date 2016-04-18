@@ -35,25 +35,25 @@ operation:
   name: set_value
 
   inputs:
-  - xml_document
-  - xmlDocument:
-      default: ${get("xml_document", "")}
-      overridable: false
-  - xpath_element_query
-  - xPathElementQuery:
-      default: ${get("xpath_element_query", "")}
-      overridable: false
-  - attribute_name:
-      required: false
-  - attributeName:
-      default: ${get("attribute_name", "")}
-      overridable: false
-  - value
-  - secure_processing:
-      required: false
-  - secureProcessing:
-      default: ${get("secure_processing", "false")}
-      overridable: false
+    - xml_document
+    - xmlDocument:
+        default: ${get("xml_document", "")}
+        overridable: false
+    - xpath_element_query
+    - xPathElementQuery:
+        default: ${get("xpath_element_query", "")}
+        overridable: false
+    - attribute_name:
+        required: false
+    - attributeName:
+        default: ${get("attribute_name", "")}
+        overridable: false
+    - value
+    - secure_processing:
+        required: false
+    - secureProcessing:
+        default: ${get("secure_processing", "false")}
+        overridable: false
 
   action:
     java_action:

@@ -27,8 +27,8 @@ flow:
         publish:
           - result_xml
         navigate:
-          SUCCESS: find_appended
-          FAILURE: APPEND_FAILURE
+          - SUCCESS: find_appended
+          - FAILURE: APPEND_FAILURE
     - find_appended:
         do:
           select:
@@ -37,8 +37,8 @@ flow:
         publish:
           - selected_value
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FIND_APPENDED_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FIND_APPENDED_FAILURE
 
   outputs:
     - selected_value

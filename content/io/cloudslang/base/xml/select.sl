@@ -36,27 +36,27 @@ operation:
   name: select
 
   inputs:
-  - xml_document
-  - xmlDocument:
-      default: ${get("xml_document", "")}
-      overridable: false
-  - xpath_query
-  - xPathQuery:
-      default: ${get("xpath_query", "")}
-      overridable: false
-  - query_type:
-      required: false
-  - queryType:
-      default: ${get("query_type", "node")}
-      overridable: false
-  - delimiter:
-      required: false
-      default: ','
-  - secure_processing:
-      required: false
-  - secureProcessing:
-      default: ${get("secure_processing", "false")}
-      overridable: false
+    - xml_document
+    - xmlDocument:
+        default: ${get("xml_document", "")}
+        overridable: false
+    - xpath_query
+    - xPathQuery:
+        default: ${get("xpath_query", "")}
+        overridable: false
+    - query_type:
+        required: false
+    - queryType:
+        default: ${get("query_type", "node")}
+        overridable: false
+    - delimiter:
+        required: false
+        default: ','
+    - secure_processing:
+        required: false
+    - secureProcessing:
+        default: ${get("secure_processing", "false")}
+        overridable: false
 
   action:
     java_action:

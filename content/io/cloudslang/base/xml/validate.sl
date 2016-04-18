@@ -25,20 +25,20 @@ operation:
   name: validate
 
   inputs:
-  - xml_document
-  - xmlDocument:
-      default: ${get("xml_document", "")}
-      overridable: false
-  - xsd_document:
-      required: false
-  - xsdDocument:
-      default: ${get("xsd_document", "")}
-      overridable: false
-  - secure_processing:
-      required: false
-  - secureProcessing:
-      default: ${get("secure_processing", "false")}
-      overridable: false
+    - xml_document
+    - xmlDocument:
+        default: ${get("xml_document", "")}
+        overridable: false
+    - xsd_document:
+        required: false
+    - xsdDocument:
+        default: ${get("xsd_document", "")}
+        overridable: false
+    - secure_processing:
+        required: false
+    - secureProcessing:
+        default: ${get("secure_processing", "false")}
+        overridable: false
 
   action:
     java_action:

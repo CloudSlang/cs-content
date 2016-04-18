@@ -27,8 +27,8 @@ flow:
         publish:
           - result_xml
         navigate:
-          SUCCESS: find_inserted
-          FAILURE: INSERT_FAILURE
+          - SUCCESS: find_inserted
+          - FAILURE: INSERT_FAILURE
     - find_inserted:
         do:
           select:
@@ -37,8 +37,8 @@ flow:
         publish:
           - selected_value
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FIND_INSERTED_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FIND_INSERTED_FAILURE
 
   outputs:
     - selected_value
