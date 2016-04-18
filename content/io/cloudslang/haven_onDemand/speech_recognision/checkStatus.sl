@@ -38,7 +38,7 @@ flow:
           do:
             rest.http_client_get:
                - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
-              
+
           publish:
              - error_message
              - return_result
@@ -92,11 +92,6 @@ flow:
           publish:
             - transcript: ${value}
             - error_message
-
-     - fail_get_result:
-               do:
-                 base.print_text:
-                     - text: "${'get_result_recognision was faild with '+ error_message}"
 
      - on_failure:
             - print_fail:
