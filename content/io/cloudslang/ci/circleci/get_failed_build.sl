@@ -8,8 +8,15 @@
 ####################################################
 #!!
 #! @description: Retrieves build failure from CircieCI - Github branch.
+#!               If the last build from a branch has not failed, it will send an email to reflect that.
 #! @input token - CircleCi user token.
-#! #input protocol - https or http.
+#!                To authenticate, add an API token using your account dashboard
+#!                Log in to CircleCi: https://circleci.com/vcs-authorize/
+#!                Go to : https://circleci.com/account/api and copy the API token.
+#!                If you don`t have any token generated, enter a new token name and then click on
+#! @input protocol: optional - connection protocol
+#!                  valid: 'http', 'https'
+#!                  default: 'https'
 #! @input host: circleci address
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
@@ -27,7 +34,7 @@
 #! @input port - email port
 #! @input from - email sender
 #! @input to - email recipient
-#! @input cc - optional - comma-delimited list of cc recipients - Default: none
+#! @input cc - optional - comma-delimited list of cc recipients - Default: Supervisor email.
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -42,9 +49,8 @@ namespace: io.cloudslang.ci.circleci
 imports:
   rest: io.cloudslang.base.network.rest
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
-  lists: io.cloudslang.base.lists
   mail: io.cloudslang.base.mail
+  lists: io.cloudslang.base.lists
 
 flow:
   name: get_failed_build
@@ -53,6 +59,7 @@ flow:
     - protocol
     - host:
         default: "circleci.com"
+        overridable: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -63,8 +70,10 @@ flow:
     - branch
     - content_type:
         default: "application/json"
+        overridable: false
     - headers:
         default: "Accept:application/json"
+        overridable: false
     - committer_email
     - supervisor
     - hostname
@@ -75,29 +84,36 @@ flow:
         required: false
 
   workflow:
-    - http_client_get:
-        loop:
-          for: branch in ['circleci']
-          do:
-            rest.http_client_get:
-              - url: ${protocol + '://' + host + '/api/v1/project/' + username + '/' + project + '/tree/' + branch + '?circle-token=:' + token + '&limit=1&filter=failed'}
-              - protocol
-              - host
-              - proxy_host
-              - proxy_port
-              - content_type
-              - headers
+    - get_failed_build:
+        do:
+          rest.http_client_get:
+            - url: ${protocol + '://' + host + '/api/v1/project/' + username + '/' + project + '/tree/' + branch + '?circle-token=' + token + '&limit=1&filter=failed'}
+            - protocol
+            - host
+            - proxy_host
+            - proxy_port
+            - content_type
+            - headers
 
-
-          publish:
-            - return_result
-            - return_code
-            - status_code
-            - error_message
+        publish:
+          - return_result
+          - return_code
+          - status_code
+          - error_message
 
         navigate:
-          - SUCCESS: get_username
+          - SUCCESS: match_if_failed
           - FAILURE: FAILURE
+
+    - match_if_failed:
+        do:
+          lists.compare_lists:
+            - list_1: ${return_result}
+            - list_2: '[]'
+
+        navigate:
+          - SUCCESS: no_failure_mail_send
+          - FAILURE: get_username
 
     - get_username:
         do:
@@ -208,10 +224,10 @@ flow:
           - error_message
 
         navigate:
-          - SUCCESS: get_failed_build
+          - SUCCESS: mail_failed_build
           - FAILURE: FAILURE
 
-    - get_failed_build:
+    - mail_failed_build:
           do:
             mail.send_mail:
               - hostname
@@ -274,11 +290,29 @@ flow:
                   '</tr>' +
                   '</table>'}
 
+    - on_failure:
+        - no_failure_mail_send:
+            do:
+              mail.send_mail:
+                - hostname
+                - port
+                - from
+                - to: ${committer_email}
+                - subject: ${'[Build' + '] ' + 'Success:' + username + '/' + reponame + '/' + branch}
+                - body: ${'Latest build finished successfully.'}
+                - username
+                - password
+
+            navigate:
+              - SUCCESS: SUCCESS
+              - FAILURE: FAILURE
+
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - second_string
 
   results:
     - SUCCESS
