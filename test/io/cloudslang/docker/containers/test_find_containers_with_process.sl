@@ -32,7 +32,7 @@ flow:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
-           - docker_password: ${password}
+           - docker_password: 'screencast'
        navigate:
          - SUCCESS: pull_first_image
          - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -43,7 +43,7 @@ flow:
             - host
             - port
             - username
-            - password
+            - password: 'screencast'
             - image_name: ${first_image_name}
         navigate:
           - SUCCESS: pull_second_image
@@ -55,7 +55,7 @@ flow:
             - host
             - port
             - username
-            - password
+            - password: 'screencast'
             - image_name: ${second_image_name}
         navigate:
           - SUCCESS: run_first_container
@@ -67,7 +67,7 @@ flow:
             - host
             - port
             - username
-            - password
+            - password: 'screencast'
             - container_name: 'first_test_container'
             - image_name: ${first_image_name}
         publish:
@@ -82,7 +82,7 @@ flow:
             - host
             - port
             - username
-            - password
+            - password: 'screencast'
             - container_name: 'second_test_container'
             - image_name: ${second_image_name}
         publish:
@@ -97,7 +97,7 @@ flow:
             - host
             - port
             - username
-            - password
+            - password: 'screencast'
             - process_name
         publish:
           - list: ${containers_with_process}
@@ -118,7 +118,7 @@ flow:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
-           - docker_password: ${password}
+           - docker_password: 'screencast'
         navigate:
          - SUCCESS: SUCCESS
          - FAILURE: MACHINE_IS_NOT_CLEAN
