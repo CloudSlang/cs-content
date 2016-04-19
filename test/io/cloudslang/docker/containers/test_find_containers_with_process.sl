@@ -15,13 +15,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_get_all_containers
+  name: test_find_containers_with_process
   inputs:
     - host
     - port:
+        default: '22'
         required: false
     - username
-    - password
+    - password: 'screencast'
     - first_image_name
     - second_image_name
 
@@ -61,7 +62,6 @@ flow:
           - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
 
-
     - run_first_container:
         do:
           run_container:
@@ -89,19 +89,19 @@ flow:
         publish:
           - error_message
         navigate:
-          - SUCCESS: get_all_containers
+          - SUCCESS: find_containers_with_process
           - FAILURE: FAIL_RUN_IMAGE
 
-    - get_all_containers:
+    - find_containers_with_process:
         do:
-          get_all_containers:
+          find_containers_with_process:
             - host
             - port
             - username
             - password
-            - all_containers: true
+            - process_name
         publish:
-          - list: ${container_list}
+          - list: ${containers_with_process}
 
     - verify_list:
         do:

@@ -12,9 +12,10 @@ test_find_containers_with_process:
     - port: "49153"
     - username: root
     - password: screencast
+    - process_name: ps
     - first_image_name: busybox
     - second_image_name: busybox
-  description: Tests that get_all_containers operation works
-  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
+  description: Tests that find_containers_with_process operation works
+  testFlowPath: io.cloudslang.docker.containers.test_find_containers_with_process
   testSuites: [docker,containers]
   result: SUCCESS
