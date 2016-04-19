@@ -29,7 +29,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  concatenate: io.cloudslang.base.strings
+  strings: io.cloudslang.base.strings
 
 flow:
   name: find_containers_with_process
@@ -93,10 +93,18 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_list: ${container_list if container_list is not None else ''}
+          - container_list: ${container_list}
         navigate:
-          - SUCCESS: loop_runs_on_this_container
+          - SUCCESS: check_container_list_not_empty
           - FAILURE: FAILURE
+    - check_container_list_not_empty:
+        do:
+          strings.string_equals:
+            - first_string: ${container_list}
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: loop_runs_on_this_container
     - loop_runs_on_this_container:
         loop:
           for: container_id in container_list.split()
@@ -117,11 +125,19 @@ flow:
               - close_session
               - agent_forwarding
           publish:
-            - container_ids: ${container_id_list if container_id_list is not None else ''}
+            - container_ids: ${container_id_list}
           navigate:
-            - RUNNING: loop_get_name
-            - NOT_RUNNING: loop_get_name
+            - RUNNING: check_container_ids_not_empty
+            - NOT_RUNNING: check_container_ids_not_empty
             - FAILURE: FAILURE
+    - check_container_ids_not_empty:
+        do:
+          strings.string_equals:
+            - first_string: ${container_ids}
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: loop_get_name
     - loop_get_name:
         loop:
           for: container_id in container_ids.split()
@@ -146,9 +162,9 @@ flow:
           - FAILURE: FAILURE
     - append_to_list:
         do:
-          concatenate.append:
+          strings.append:
             - string: ${containers_with_process}
-            - text: ${container_name}
+            - text: ${container_name + ' '}
         publish:
           - containers_with_process: ${result}
         navigate:

@@ -33,7 +33,7 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   regex: io.cloudslang.base.strings
-  concatenate: io.cloudslang.base.strings
+  strings: io.cloudslang.base.strings
 
 flow:
   name: check_run_process
@@ -105,9 +105,9 @@ flow:
           - NO_MATCH: NOT_RUNNING
     - append_to_list:
         do:
-          concatenate.append:
+          strings.append:
             - string: ${container_id_list}
-            - text: ${container_id}
+            - text: ${container_id + ' '}
         publish:
           - container_id_list: ${result}
         navigate:
