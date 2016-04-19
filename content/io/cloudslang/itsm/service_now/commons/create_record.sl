@@ -1,13 +1,20 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ####################################################
 #!!
 #! @description: This flow is used to perform a REST Post request to any ServiceNow table.
 #! @input host: required - The URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
 #! @input protocol: optional - The protocol that is used to send the request
-#!                  Valid: https
+#!                  Valid: https. Obs: ServiceNow uses only this protocol
 #!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'anonymous' (When OAuth token is provided)
+#!                   Valid: 'basic', 'anonymous' (When OAuth token is provided). Obs: ServiceNow uses only these
 #!                   Default: 'basic'
 #! @input api_version: optional - the servicenow api version to be used for the call
 #!                   Valid: 'v1'
@@ -40,7 +47,7 @@
 #!!#
 ################################################
 
-namespace: io.cloudslang.service_now.commons
+namespace: io.cloudslang.itsm.service_now.commons
 
 imports:
   rest: io.cloudslang.base.network.rest
