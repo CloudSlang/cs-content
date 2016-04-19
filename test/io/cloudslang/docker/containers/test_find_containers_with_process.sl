@@ -22,7 +22,9 @@ flow:
         default: '22'
         required: false
     - username
-    - password
+    - password:
+        default: ''
+        required: false
     - first_image_name
     - second_image_name
 
@@ -61,7 +63,6 @@ flow:
         navigate:
           - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
-
 
     - run_first_container:
         do:
