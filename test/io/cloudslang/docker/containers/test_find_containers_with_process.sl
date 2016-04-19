@@ -22,7 +22,7 @@ flow:
         required: false
     - username
     - process_name
-    - password:
+    - password
     - first_image_name
     - second_image_name
 
