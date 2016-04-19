@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,31 +13,30 @@ imports:
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: test_find_containers_with_process
   inputs:
     - host
     - port:
+        default: '22'
         required: false
     - username
-    - process_name
     - password
     - first_image_name
     - second_image_name
 
   workflow:
     - clear_docker_host_prereqeust:
-        do:
-          clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-        navigate:
-          - SUCCESS: pull_first_image
-          - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
+       do:
+         clear_containers:
+           - docker_host: ${host}
+           - port
+           - docker_username: ${username}
+           - docker_password: ${password}
+       navigate:
+         - SUCCESS: pull_first_image
+         - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
     - pull_first_image:
         do:
@@ -63,6 +62,7 @@ flow:
           - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
 
+
     - run_first_container:
         do:
           run_container:
@@ -70,7 +70,6 @@ flow:
             - port
             - username
             - password
-            - container_params: '-t '
             - container_name: 'first_test_container'
             - image_name: ${first_image_name}
         publish:
@@ -86,7 +85,6 @@ flow:
             - port
             - username
             - password
-            - container_params: '-t '
             - container_name: 'second_test_container'
             - image_name: ${second_image_name}
         publish:
