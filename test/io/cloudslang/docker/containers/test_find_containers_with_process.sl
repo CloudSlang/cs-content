@@ -22,7 +22,6 @@ flow:
         default: '22'
         required: false
     - username
-    - password: 'screencast'
     - first_image_name
     - second_image_name
 
