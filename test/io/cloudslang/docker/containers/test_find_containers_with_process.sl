@@ -112,7 +112,7 @@ flow:
             - second_string: 2
         navigate:
           - SUCCESS: clear_docker_host
-          - FAILURE: FAILURE
+          - FAILURE: SUCCESS
 
     - clear_docker_host:
         do:
