@@ -113,10 +113,10 @@ flow:
           strings.string_equals:
             - first_string: >
                 ${len(list.rstrip().split(" "))}
-            - second_string: 2
+            - second_string: 1
         navigate:
           - SUCCESS: clear_docker_host
-          - FAILURE: clear_docker_host
+          - FAILURE: FAILURE
 
     - clear_docker_host:
         do:
