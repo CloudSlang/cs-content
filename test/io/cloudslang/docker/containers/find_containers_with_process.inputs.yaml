@@ -11,7 +11,6 @@ test_find_containers_with_process:
     - host: localhost
     - port: "49153"
     - username: root
-    - password: screencast
     - process_name: ps
     - first_image_name: busybox
     - second_image_name: busybox
