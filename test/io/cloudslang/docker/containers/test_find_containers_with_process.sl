@@ -21,7 +21,10 @@ flow:
     - port:
         default: '22'
         required: false
-    - username
+    - username:
+    - password:
+        default: ''
+        required: false
     - first_image_name
     - second_image_name
 
@@ -32,7 +35,7 @@ flow:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
-           - docker_password: 'screencast'
+           - docker_password: ${password}
        navigate:
          - SUCCESS: pull_first_image
          - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -43,7 +46,7 @@ flow:
             - host
             - port
             - username
-            - password: 'screencast'
+            - password
             - image_name: ${first_image_name}
         navigate:
           - SUCCESS: pull_second_image
@@ -55,7 +58,7 @@ flow:
             - host
             - port
             - username
-            - password: 'screencast'
+            - password
             - image_name: ${second_image_name}
         navigate:
           - SUCCESS: run_first_container
@@ -67,7 +70,7 @@ flow:
             - host
             - port
             - username
-            - password: 'screencast'
+            - password
             - container_name: 'first_test_container'
             - image_name: ${first_image_name}
         publish:
@@ -82,7 +85,7 @@ flow:
             - host
             - port
             - username
-            - password: 'screencast'
+            - password
             - container_name: 'second_test_container'
             - image_name: ${second_image_name}
         publish:
@@ -97,7 +100,7 @@ flow:
             - host
             - port
             - username
-            - password: 'screencast'
+            - password
             - process_name
         publish:
           - list: ${containers_with_process}
@@ -118,7 +121,7 @@ flow:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
-           - docker_password: 'screencast'
+           - docker_password: ${password}
         navigate:
          - SUCCESS: SUCCESS
          - FAILURE: MACHINE_IS_NOT_CLEAN
