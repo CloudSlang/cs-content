@@ -1,0 +1,16 @@
+response_headers: "Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-CSRF-HEADER: X-CSRF-TOKEN
+X-CSRF-PARAM: _csrf
+Set-Cookie: JSESSIONID=1474EF7CF7F81C79B8871478C838DFFB; Path=/oo/; HttpOnly
+X-CSRF-TOKEN: 1368e3e8-13b8-40fb-bc4b-caeff50702ac
+Set-Cookie: X-CSRF-TOKEN-OO=1368e3e8-13b8-40fb-bc4b-caeff50702ac; Path=/oo; HttpOnly
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Tue, 19 Apr 2016 07:12:52 GMT
+Server: OO"
+header_name: "Set-Cookie"
+#split_character: " "

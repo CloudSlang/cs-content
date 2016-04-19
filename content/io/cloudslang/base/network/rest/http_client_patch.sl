@@ -97,8 +97,10 @@ flow:
           - error_message
           - return_code
           - status_code
+          - response_headers
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - response_headers
