@@ -29,15 +29,15 @@ flow:
 
   workflow:
     - clear_docker_host_prereqeust:
-       do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-       navigate:
-         - SUCCESS: pull_first_image
-         - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
+        do:
+          clear_containers:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
+        navigate:
+          - SUCCESS: pull_first_image
+          - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
 
     - pull_first_image:
         do:
@@ -62,7 +62,6 @@ flow:
         navigate:
           - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
-
 
     - run_first_container:
         do:
