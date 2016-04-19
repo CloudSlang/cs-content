@@ -7,7 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Returns all container names where a certain process runs.
+#! @description: Retrieves a list of all the Docker container names.
+#! @input container_id: container id
+#! @input containers_with_process: the string where the container id will be appended - Default: ''
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
 #! @input username: Docker machine username
@@ -22,26 +24,24 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
-#! @output runing_process: the names of the runing processes
+#! @output containers_with_process: container names
 #! @output standard_err: error message
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 
 imports:
+  ssh: io.cloudslang.base.remote_command_execution.ssh
   strings: io.cloudslang.base.strings
 
 flow:
-  name: find_containers_with_process
+  name: get_container_names_with_ids
   inputs:
-    - process_name
+    - container_id
     - host
     - port:
         default: '22'
         required: false
-    - proc_command: 
-        default: 'docker ps -q'
-        overridable: false
     - username
     - password:
         default: ''
@@ -69,20 +69,14 @@ flow:
         required: false
     - containers_with_process:
         default: ''
-        overridable: false
-    - container_ids:
-        default: ''
-        overridable: false
 
   workflow:
-    - get_containers:
+    - get_container_name:
         do:
-          get_all_containers:
-            - all_containers
-            - ps_params
-            - command:${proc_command}
+          get_container_name:
+            - container_id
             - host
-            - port
+            - port   
             - username
             - password
             - private_key_file
@@ -93,74 +87,20 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_list: ${container_list}
+          - container_name
         navigate:
-          - SUCCESS: check_container_list_not_empty
+          - SUCCESS: append_to_list
           - FAILURE: FAILURE
-    - check_container_list_not_empty:
+    - append_to_list:
         do:
-          strings.string_equals:
-            - first_string: ${container_list}
-            - second_string: ''
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: loop_runs_on_this_container
-    - loop_runs_on_this_container:
-        loop:
-          for: container_id in container_list.split()
-          do:
-            check_run_process:
-              - container_id
-              - process_name
-              - container_id_list: ${container_ids}
-              - host
-              - port
-              - username
-              - password
-              - private_key_file
-              - arguments
-              - character_set
-              - pty
-              - timeout
-              - close_session
-              - agent_forwarding
-          publish:
-            - container_ids: ${container_id_list}
-          navigate:
-            - RUNNING: check_container_ids_not_empty
-            - NOT_RUNNING: check_container_ids_not_empty
-            - FAILURE: FAILURE
-    - check_container_ids_not_empty:
-        do:
-          strings.string_equals:
-            - first_string: ${container_ids}
-            - second_string: ''
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: loop_get_name
-    - loop_get_name:
-        loop:
-          for: container_id in container_ids.split()
-          do:
-            get_container_names_with_ids:
-              - containers_with_process
-              - container_id
-              - host
-              - port   
-              - username
-              - password
-              - private_key_file
-              - arguments
-              - character_set
-              - pty
-              - timeout
-              - close_session
-              - agent_forwarding
+          strings.append:
+            - string: ${containers_with_process}
+            - text: ${container_name + ' '}
         publish:
-          - containers_with_process
+          - containers_with_process: ${result}
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: FAILURE 
   outputs:
     - containers_with_process
     - standard_err
