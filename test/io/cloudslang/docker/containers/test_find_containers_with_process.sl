@@ -27,6 +27,7 @@ flow:
         required: false
     - first_image_name
     - second_image_name
+    - process_name
 
   workflow:
     - clear_docker_host_prereqeust:
