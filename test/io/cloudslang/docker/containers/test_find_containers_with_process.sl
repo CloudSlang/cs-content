@@ -48,6 +48,7 @@ flow:
             - port
             - username
             - password
+            - container_params: '-t'
             - image_name: ${first_image_name}
         navigate:
           - SUCCESS: pull_second_image
@@ -60,6 +61,7 @@ flow:
             - port
             - username
             - password
+            - container_params: ' -t '
             - image_name: ${second_image_name}
         navigate:
           - SUCCESS: run_first_container
