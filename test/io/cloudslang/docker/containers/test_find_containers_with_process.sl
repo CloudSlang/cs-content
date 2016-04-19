@@ -13,6 +13,7 @@ imports:
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
+  print: io.cloudslang.base.print
 
 flow:
   name: test_find_containers_with_process
@@ -22,9 +23,7 @@ flow:
         default: '22'
         required: false
     - username
-    - password:
-        default: ''
-        required: false
+    - password
     - first_image_name
     - second_image_name
     - process_name
@@ -48,7 +47,6 @@ flow:
             - port
             - username
             - password
-            - container_params: ' -t '
             - image_name: ${first_image_name}
         navigate:
           - SUCCESS: pull_second_image
@@ -61,7 +59,6 @@ flow:
             - port
             - username
             - password
-            - container_params: ' -t '
             - image_name: ${second_image_name}
         navigate:
           - SUCCESS: run_first_container
@@ -74,6 +71,7 @@ flow:
             - port
             - username
             - password
+            - container_params: '-t'
             - container_name: 'first_test_container'
             - image_name: ${first_image_name}
         publish:
@@ -88,6 +86,7 @@ flow:
             - host
             - port
             - username
+            - container_params: '-t'
             - password
             - container_name: 'second_test_container'
             - image_name: ${second_image_name}
@@ -112,7 +111,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: >
-                ${len(list.split(' '))}
+                ${len(list.rstrip().split(" "))}
             - second_string: 2
         navigate:
           - SUCCESS: clear_docker_host
