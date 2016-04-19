@@ -48,7 +48,7 @@ flow:
             - port
             - username
             - password
-            - container_params: '-t'
+            - container_params: ' -t '
             - image_name: ${first_image_name}
         navigate:
           - SUCCESS: pull_second_image
@@ -112,8 +112,8 @@ flow:
         do:
           strings.string_equals:
             - first_string: >
-                ${len(list.rstrip().split(" "))}
-            - second_string: 1
+                ${len(list.rstrip().split('\n'))}
+            - second_string: 2
         navigate:
           - SUCCESS: clear_docker_host
           - FAILURE: FAILURE
