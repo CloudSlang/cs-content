@@ -66,8 +66,8 @@
 #!                           purchased for each computer that accesses the VirtualCenter server. 'perSeat' indicates that
 #!                           client access licenses have been purchased for the server, allowing a certain number of concurrent
 #!                           connections to the VirtualCenter server.
-#!                           valid: 'perServer', 'perSeat'
-#!                           default: 'perServer'
+#!                           valid: '', ''perServer', 'perSeat'
+#!                           default: ''
 #! @input dns_server: the server IP address to use for DNS lookup in a Windows guest operating system
 #!                    optional
 #!                    default: ''
@@ -85,8 +85,8 @@
 #!                     default: ''
 #! @input auto_logon: specifies whether or not the machine automatically logs on as Administrator
 #!                    optional
-#!                    valid: 'true', 'false'
-#!                    default: 'false'
+#!                    valid: '', ''true', 'false'
+#!                    default: ''
 #! @input delete_accounts: specifies whether if all user accounts will be removed from the system as part of the customization
 #!                         or not. This input can be use only for older than API 2.5 versions. Since API 2.5 this value
 #!                         is ignored and removing user accounts during customization is no longer supported. For older
@@ -102,7 +102,7 @@
 #!                          the machine should automatically log on as Administrator. Generally it should be 1, but if
 #!                          your setup requires a number of reboots, you may want to increase it
 #!                          optional
-#!                          default: '1'
+#!                          default: ''
 #! @input auto_users: this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
 #!                   integer value indicates the number of client licenses purchased for the VirtualCenter server being
 #!                   installed
@@ -110,7 +110,7 @@
 #!                   default: ''
 #! @input time_zone: the time zone for the new virtual machine according with https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
 #!                   optional
-#!                   default: '360'
+#!                   default: '0'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
