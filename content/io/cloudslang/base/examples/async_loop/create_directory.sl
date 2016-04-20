@@ -1,19 +1,15 @@
 ####################################################
 #!!
-#! @description: Flow_description
+#! @description: Wrapper over create_folder
 #!
-#! @input input_name: input_description
-#!                    input_description
-#! @input input_name: input_description
-#! @output output_name: output_description
-#! @result result_name: result_description
+#! @input directory_name: name of directory to be created
+#! @output error_msg: error message
 #!!#
 ####################################################
 
-namespace: io.cloudslang.base.examples.asyncLoop
+namespace: io.cloudslang.base.examples.async_loop
 
 imports:
-  base: io.cloudslang.base
   files: io.cloudslang.base.files
   print: io.cloudslang.base.print
 
@@ -29,11 +25,10 @@ flow:
           print.print_text:
             - text: ${'Creating directory ' + directory_name}
 
-    - create-directory:
+    - create_directory:
         do:
           files.create_folder:
             - folder_name : ${directory_name}
-
         publish:
          - message
 
