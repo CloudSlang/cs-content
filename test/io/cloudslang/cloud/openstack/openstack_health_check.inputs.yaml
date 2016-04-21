@@ -21,4 +21,5 @@ test_openstack_health_check_success:
     - to: ""
     - from: ""
     - server_name: "test_server"
+    - uuid: ""
   result: SUCCESS
