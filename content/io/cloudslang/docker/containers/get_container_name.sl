@@ -86,7 +86,7 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_name: ${return_result}
+          - container_name: ${return_result[:-1]}
           - standard_err
         navigate:
           - SUCCESS: SUCCESS
