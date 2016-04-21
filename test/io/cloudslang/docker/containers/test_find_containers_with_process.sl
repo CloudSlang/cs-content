@@ -110,8 +110,7 @@ flow:
     - verify_list:
         do:
           strings.string_equals:
-            - first_string: >
-                ${len(list.rstrip().split(" "))}
+            - first_string: ${len(list.rstrip().split(" "))}
             - second_string: 2
         navigate:
           - SUCCESS: clear_docker_host
@@ -119,14 +118,14 @@ flow:
 
     - clear_docker_host:
         do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
+          clear_containers:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
         navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
+          - SUCCESS: SUCCESS
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
