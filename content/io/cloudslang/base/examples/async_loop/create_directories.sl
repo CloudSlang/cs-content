@@ -11,7 +11,7 @@
 ####################################################
 
 
-namespace: io.cloudslang.base.examples.asyncLoop
+namespace: io.cloudslang.base.examples.async_loop
 
 imports:
   print: io.cloudslang.base.print
