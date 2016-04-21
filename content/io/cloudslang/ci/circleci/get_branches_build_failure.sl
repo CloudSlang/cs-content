@@ -7,7 +7,16 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves build failure from CircieCI - Github branches.
+#! @description: Retrieves build failure from CircieCI - Github project - branches.
+#!               If the latest build has failed, it will send an email,
+#!               to the supervisor and commiter with the following:
+#!               Example:
+#!                        Repository: repository name
+#!                        Branch: branch name
+#!                        Username: github username
+#!                        Commiter email: email of github username
+#!                        Subject: Last commit subject
+#!                        Branch: failed
 #!               If the last build from a branch has not failed, it will send an email to reflect that.
 #! @input token - CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard

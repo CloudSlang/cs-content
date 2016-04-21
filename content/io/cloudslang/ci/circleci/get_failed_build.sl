@@ -7,8 +7,17 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves build failure from CircieCI - Github branch.
-#!               If the last build from a branch has not failed, it will send an email to reflect that.
+#! @description: Checks if the latest build of a project's branch from CircieCI has failed.
+#!               If the latest build from the branch has failed, it will send an email,
+#!               to the supervisor and commiter with the following:
+#!               Example:
+#!                        Repository: repository name
+#!                        Branch: branch name
+#!                        Username: github username
+#!                        Commiter email: email of github username
+#!                        Subject: Last commit subject
+#!                        Branch: failed
+#!               If the last build from the branch has not failed, it will send an email to reflect that.
 #! @input token - CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
@@ -112,7 +121,7 @@ flow:
             - list_2: '[]'
 
         navigate:
-          - SUCCESS: no_failure_mail_send
+          - SUCCESS: mail_success_build
           - FAILURE: get_username
 
     - get_username:
@@ -140,18 +149,8 @@ flow:
           - error_message
 
         navigate:
-          - SUCCESS: get_reponame
+          - SUCCESS: get_branch
           - FAILURE: FAILURE
-
-    - get_reponame:
-        do:
-          json.get_value:
-            - json_input: ${return_result}
-            - json_path: [0,'reponame']
-
-        publish:
-          - reponame: ${value}
-          - error_message
 
         navigate:
           - SUCCESS: get_branch
@@ -227,25 +226,41 @@ flow:
           - SUCCESS: mail_failed_build
           - FAILURE: FAILURE
 
+    - mail_success_build:
+         do:
+           mail.send_mail:
+             - hostname
+             - port
+             - from
+             - to: ${committer_email}
+             - subject: ${'[Build' + '] ' + 'Success:' + username + '/' + project + '/' + branch}
+             - body: ${'Latest build finished successfully.'}
+             - username
+             - password
+
+         navigate:
+                - SUCCESS: SUCCESS
+                - FAILURE: FAILURE
+
     - mail_failed_build:
-          do:
-            mail.send_mail:
-              - hostname
-              - port
-              - from
-              - to: ${committer_email}
-              - cc: ${supervisor}
-              - subject: ${'[Build' + '] ' + 'Failed:' + username + '/' + reponame + '/' + branch}
-              - htmlEmail: True
-              - body: >
-                  ${'<p align=center>' + 'Build failure on repository:' + reponame + '-' + 'branch:' + branch + '</p>'
+         do:
+           mail.send_mail:
+             - hostname
+             - port
+             - from
+             - to: ${committer_email}
+             - cc: ${supervisor}
+             - subject: ${'[Build' + '] ' + 'Failed:' + username + '/' + project + '/' + branch}
+             - htmlEmail: True
+             - body: >
+                  ${'<p align=center>' + 'Build failure on repository:' + project + '-' + 'branch:' + branch + '</p>'
                   '<table align="center" border="1" cellpadding="0" cellspacing="0" width="400">' +
                   '<tr>' +
                   '<td>' +
                   'Repository:' +
                   '</td>' +
                   '<td bgcolor="#70bbd9">' +
-                  reponame +
+                  project +
                   '</td>' +
                   '</tr>' +
                   '<tr>' +
@@ -289,30 +304,15 @@ flow:
                   '</td>' +
                   '</tr>' +
                   '</table>'}
-
-    - on_failure:
-        - no_failure_mail_send:
-            do:
-              mail.send_mail:
-                - hostname
-                - port
-                - from
-                - to: ${committer_email}
-                - subject: ${'[Build' + '] ' + 'Success:' + username + '/' + reponame + '/' + branch}
-                - body: ${'Latest build finished successfully.'}
-                - username
-                - password
-
-            navigate:
-              - SUCCESS: SUCCESS
-              - FAILURE: FAILURE
+         navigate:
+           - SUCCESS: SUCCESS
+           - FAILURE: FAILURE
 
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
-    - second_string
 
   results:
     - SUCCESS

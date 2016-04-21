@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves the number of branches from a Github project.
+#! @description: Retrieves the list of branches from a Github project.
 #! @input token - CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
