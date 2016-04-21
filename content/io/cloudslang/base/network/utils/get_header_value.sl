@@ -18,6 +18,7 @@ operation:
 
   action:
     python_script: |
+      result = ''
       error_message = ''
       try:
         begin_index = response_headers.find(header_name + ':')
@@ -26,6 +27,7 @@ operation:
           result = response_headers.split(' ')[0]
         else:
           error_message = 'Could not find specified header: ' + header_name
+          result = error_message
       except Exception as exception:
         error_message = exception
   outputs:
