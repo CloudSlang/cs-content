@@ -33,38 +33,32 @@ flow:
   inputs:
     - servers_endpoint:
         default: "https://api.newrelic.com/v2/servers"
-        required: false
     - api_key:
         required: true
-    - filter_name:
-        default: ''
-        required: false
-    - filter_host:
-        default: ''
-        required: false
-    - filter_ids:
-        required: false
-    - filter_labels:
-        required: false
     - proxy_host:
         required: false
+        default: ''
     - proxy_port:
-        default: "8080"
+        default: ''
         required: false
     - proxy_username:
         required: false
+        default: ''
     - proxy_password:
         required: false
+        default: ''
 
   workflow:
     - list_servers:
         do:
           rest.http_client_get:
             - url: ${servers_endpoint + '.json'}
-            - proxy_host
-            - proxy_port
             - headers: ${'X-Api-Key:' + api_key}
             - content_type: "application/json"
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
 
         publish:
           - return_result

@@ -45,13 +45,16 @@ flow:
         required: true
     - proxy_host:
         required: false
+        default: ''
     - proxy_port:
-        default: "8080"
         required: false
+        default: ''
     - proxy_username:
         required: false
+        default: ''
     - proxy_password:
         required: false
+        default: ''
 
   workflow:
     - add_name:
@@ -72,6 +75,8 @@ flow:
             - url: ${servers_endpoint + '/' + server_id + '.json'}
             - proxy_host
             - proxy_port
+            - proxy_username
+            - porxy_password
             - headers: ${'X-Api-Key:' + api_key}
             - content_type: "application/json"
             - body: ${body_json}

@@ -53,14 +53,21 @@ flow:
         required: true
     - password:
         required: true
+    - command:
+        required: true
     - closeSession:
         required: false
+        default: ''
     - private_key_file:
         required: false
+        default: ''
     - timeout:
         required: false
+        default: ''
     - character_set:
         required: false
+        default: ''
+
 
 
   workflow:
@@ -74,6 +81,8 @@ flow:
             - closeSession
             - command: "/etc/init.d/newrelic-sysmond stop"
             - timeout
+            - private_key_file
+            - character_set
 
         publish:
           - return_result
