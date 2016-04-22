@@ -297,7 +297,7 @@ flow:
                   '</tr>' +
                   '<tr>' +
                   '<td>' +
-                  'Branch:' +
+                  'Status:' +
                   '</td>' +
                   '<td bgcolor="#ee4c50">' +
                   outcome +
