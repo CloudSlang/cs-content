@@ -62,9 +62,6 @@ flow:
     - character_set:
         required: false
 
-
-    - command: "/etc/init.d/newrelic-sysmond start"
-
   workflow:
     - start_server_monitor:
         do:
@@ -74,7 +71,7 @@ flow:
             - username
             - password
             - closeSession
-            - command
+            - command: "/etc/init.d/newrelic-sysmond start"
             - timeout
 
         publish:

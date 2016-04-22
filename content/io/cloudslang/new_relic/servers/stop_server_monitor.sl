@@ -63,8 +63,6 @@ flow:
         required: false
 
 
-    - command: "/etc/init.d/newrelic-sysmond stop"
-
   workflow:
     - start_server_monitor:
         do:
@@ -74,7 +72,7 @@ flow:
             - username
             - password
             - closeSession
-            - command
+            - command: "/etc/init.d/newrelic-sysmond stop"
             - timeout
 
         publish:
