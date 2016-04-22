@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ##################################################
 #!!
-#! @description: This operation encodes a clear string into a Base64-encoded string..
+#! @description: This operation encodes a clear string into a Base64-encoded string.
 #! @input data: string to encode
 #! @input character_set: The character encoding used for the data string. If you do not specify a value for this input,
 #!                       it uses the system's default character encoding which depends on the RAS system.
