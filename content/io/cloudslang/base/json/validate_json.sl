@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Validate json input.
+#! @description: Checks if a json input is valid.
 #! @input json_input: JSON from which to retrieve keys - Example: '{"k1": {"k2": {"k3":"v3"}}}'
 #! @output return_result: parsing was successful or not
 #! @output return_code: "0" if is a valid json, "-1" otherwise

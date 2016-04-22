@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -29,13 +29,14 @@ operation:
     - json_object
     - index:
         required: false
+        default: ''
   action:
     python_script: |
       try:
         import json
         decoded_json_array = json.loads(json_array)
         decoded_json_object = json.loads (json_object)
-        index = locals().get('index')
+        index = None
         if index is None:
          decoded_json_array.remove(decoded_json_object)
         else:
