@@ -45,14 +45,10 @@ imports:
 flow:
   name: start_server_monitor
   inputs:
-    - host:
-        required: true
-    - port:
-        required: true
-    - username:
-        required: true
-    - password:
-        required: true
+    - host
+    - port
+    - username
+    - password
     - closeSession:
         required: false
         default: ''

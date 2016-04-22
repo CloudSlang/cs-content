@@ -31,16 +31,14 @@ imports:
 flow:
   name: list_servers
   inputs:
-    - servers_endpoint:
-        default: "https://api.newrelic.com/v2/servers"
-    - api_key:
-        required: true
+    - servers_endpoint: "https://api.newrelic.com/v2/servers"
+    - api_key
     - proxy_host:
         required: false
         default: ''
     - proxy_port:
-        default: ''
         required: false
+        default: ''
     - proxy_username:
         required: false
         default: ''

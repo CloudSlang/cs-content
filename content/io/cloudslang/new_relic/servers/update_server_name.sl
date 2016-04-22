@@ -34,15 +34,10 @@ imports:
 flow:
   name: update_server_name
   inputs:
-    - servers_endpoint:
-        default: "https://api.newrelic.com/v2/servers"
-        required: false
-    - api_key:
-        required: true
-    - server_id:
-        required: true
-    - server_name:
-        required: true
+    - servers_endpoint: "https://api.newrelic.com/v2/servers"
+    - api_key
+    - server_id
+    - server_name
     - proxy_host:
         required: false
         default: ''

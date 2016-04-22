@@ -45,16 +45,11 @@ imports:
 flow:
   name: stop_server_monitor
   inputs:
-    - host:
-        required: true
-    - port:
-        required: true
-    - username:
-        required: true
-    - password:
-        required: true
-    - command:
-        required: true
+    - host
+    - port
+    - username
+    - password
+    - command
     - closeSession:
         required: false
         default: ''
@@ -67,8 +62,6 @@ flow:
     - character_set:
         required: false
         default: ''
-
-
 
   workflow:
     - start_server_monitor:
