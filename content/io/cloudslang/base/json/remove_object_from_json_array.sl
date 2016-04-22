@@ -29,7 +29,7 @@ operation:
     - json_object
     - index:
         required: false
-        default: ''
+        default: None
   action:
     python_script: |
       try:

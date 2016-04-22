@@ -16,7 +16,7 @@ flow:
     - json_object
     - index:
         required: false
-        default: ''
+        default: None
     - json_after
 
   workflow:
