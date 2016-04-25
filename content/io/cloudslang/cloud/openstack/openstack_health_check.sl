@@ -25,6 +25,7 @@
 #! @input email_port: email port
 #! @input to: email recipient
 #! @input from: email sender
+#! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
 #! @result SUCCESS: 
 #! @result CREATE_SERVER_FAILURE: 
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: 
@@ -67,6 +68,7 @@ flow:
     - email_port
     - to
     - from
+    - uuid
 
   workflow:
     - create_server:
@@ -83,6 +85,7 @@ flow:
             - server_name
             - proxy_host
             - proxy_port
+            - uuid
         publish:
           - subflow_error: >
               ${'"Create Server": ' + error_message}

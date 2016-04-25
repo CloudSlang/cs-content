@@ -316,10 +316,11 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: ${'' if 'returnResult' not in locals() else returnResult}
+    - return_result: ${get('returnResult', '')}
     - error_message: ${returnResult if returnCode != '0' else ''}
     - return_code: ${returnCode}
-    - status_code: ${'' if 'statusCode' not in locals() else statusCode}
+    - status_code: ${get('statusCode', '')}
+    - response_headers: ${get('responseHeaders', '')}
   results:
     - SUCCESS : ${returnCode == '0' and int(statusCode) in valid_http_status_codes}
     - FAILURE

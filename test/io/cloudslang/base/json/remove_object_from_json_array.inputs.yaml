@@ -1,0 +1,57 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+
+testRemoveObjectFromJsonArraySize2:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - json_object: '{"firstName":"Darth", "lastName":"Vader"}'
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: SUCCESS
+  
+testRemoveObjectFromJsonArraySize3:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
+    - json_object: '{"firstName":"Darth", "lastName":"Vader"}'
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: SUCCESS
+  
+testRemoveObjectFromJsonArrayAtIndex0:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - json_object: '{"firstName":"Obi-wan", "lastName":"Kenobi"}'
+    - index: 0
+    - json_after: '[{"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: SUCCESS
+
+testRemoveObjectFromJsonArrayAtIndex1:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - json_object: '{"firstName":"Luke", "lastName":"Skywalker"}'
+    - index: 1
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Darth", "lastName":"Vader"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: SUCCESS
+
+testRemoveObjectFromJsonArrayAtIndex2:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - json_object: '{"firstName":"Darth", "lastName":"Vader"}'
+    - index: 2
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: SUCCESS
