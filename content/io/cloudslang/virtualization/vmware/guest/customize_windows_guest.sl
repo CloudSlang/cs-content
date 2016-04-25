@@ -41,7 +41,8 @@
 #!                       valid: 'noreboot', 'reboot', 'shutdown'
 #!                       default: 'reboot'
 #! @input computer_name: the network host name of the (Windows) virtual machine
-#! @input computer_password: the new password for the (Windows) virtual machine
+#! @input computer_password: the new password for the (Windows) virtual machine. This cannot be set to empty string in
+#!                           order to remove the existing computer password.
 #! @input owner_name: the user's full name
 #! @input owner_organization: the user's organization
 #! @input product_key: a valid serial number to be included in the answer file
