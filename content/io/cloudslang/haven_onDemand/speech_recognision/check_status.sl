@@ -9,9 +9,9 @@
 ####################################################
 #!!
 #! @description: Gets results of Speech Recognision, with was made by HPE Haven OnDemand API.
-#! @input speechResultApi: API which waits until the job has finished and then returns the result
-#! @input apikey: user's API Keys
-#! @input jobID: name of request, witch is returned by havenondemand.com
+#! @input speech_result_api: API which waits until the job has finished and then returns the result
+#! @input api_key: user's API Keys
+#! @input job_id: name of request, witch is returned by havenondemand.com
 #! @output status: status of request
 #! @output result: JSON result of  from API
 #! @output transcript: results of Speech Recognision
@@ -26,18 +26,18 @@ imports:
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
 flow:
-  name: checkStatus
+  name: check_status
 
   inputs:
-    - speechResultApi
-    - jobID
-    - apikey
+    - speech_result_api
+    - job_id
+    - api_key
 
   workflow:
-     - checkStatus:
+     - check_status:
           do:
             rest.http_client_get:
-               - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
+               - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
 
           publish:
              - error_message
@@ -53,16 +53,15 @@ flow:
              for: counter in range (0,5)
              do:
               rest.http_client_get:
-                 - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
-                 - proxy_host: proxy.houston.hp.com
-                 - proxy_port: '8080'
+                 - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
+
              publish:
                - error_message
                - return_result
                - return_code
                - status_code
              break:
-                - status_code: 200
+                - SUCCESS
           navigate:
              - SUCCESS: get_status_recognision
              - FAILURE: print_fail
