@@ -56,13 +56,15 @@ flow:
           do:
             network.ping:
               - address
+              - message_body
+              - all_nodes_are_up
         publish:
-          - messagebody: ${ self['message_body'].append(message) }
-          - all_nodes_are_up: ${ self['all_nodes_are_up'] and is_up }
+          - messagebody: ${ message_body.append(message) }
+          - all_nodes_are_up: ${ all_nodes_are_up and is_up }
         navigate:
-          UP: check_result
-          DOWN: failure_mail_send
-          FAILURE: failure_mail_send
+          - UP: check_result
+          - DOWN: failure_mail_send
+          - FAILURE: failure_mail_send
 
     - check_result:
         do:
@@ -70,8 +72,8 @@ flow:
             - first_string: ${ str(all_nodes_are_up) }
             - second_string: "True"
         navigate:
-          SUCCESS: mail_send
-          FAILURE: failure_mail_send
+          - SUCCESS: mail_send
+          - FAILURE: failure_mail_send
 
     - mail_send:
         do:

@@ -45,9 +45,9 @@ flow:
             - marathon_port
             - is_core_os
         navigate:
-          SUCCESS: list_initial_marathon_apps
-          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          - SUCCESS: list_initial_marathon_apps
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
@@ -57,8 +57,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_initial_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_initial_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_initial_response:
          do:
@@ -67,8 +67,8 @@ flow:
          publish:
            - app_list
          navigate:
-           SUCCESS: check_if_list_is_empty
-           FAILURE: PARSE_FAILURE
+           - SUCCESS: check_if_list_is_empty
+           - FAILURE: PARSE_FAILURE
 
     - check_if_list_is_empty:
          do:
@@ -76,8 +76,8 @@ flow:
               - first_string: ${app_list}
               - second_string: ''
          navigate:
-           SUCCESS: demo_create_app_and_send_mail
-           FAILURE: delete_initial_apps
+           - SUCCESS: demo_create_app_and_send_mail
+           - FAILURE: delete_initial_apps
 
     - delete_initial_apps:
         loop:
@@ -88,8 +88,8 @@ flow:
                 - marathon_port
                 - app_id: app
         navigate:
-          SUCCESS: demo_create_app_and_send_mail
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: demo_create_app_and_send_mail
+          - FAILURE: FAIL_TO_DELETE
 
     - demo_create_app_and_send_mail:
         do:
@@ -105,8 +105,8 @@ flow:
              - email_username
              - email_password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS

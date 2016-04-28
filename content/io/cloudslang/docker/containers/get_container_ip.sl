@@ -80,9 +80,9 @@ flow:
           - return_result
           - standard_err
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+          - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - container_ip: ${return_result[:-1]}

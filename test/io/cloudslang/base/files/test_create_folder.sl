@@ -18,15 +18,15 @@ flow:
           create_folder:
             - folder_name
         navigate:
-          SUCCESS: delete_copied_folder
-          FAILURE: FOLDERFAILURE
+          - SUCCESS: delete_copied_folder
+          - FAILURE: FOLDERFAILURE
     - delete_copied_folder:
         do:
           delete:
             - source: ${folder_name}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
   results:
     - SUCCESS
     - FOLDERFAILURE

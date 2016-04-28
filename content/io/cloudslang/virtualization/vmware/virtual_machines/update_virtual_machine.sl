@@ -79,32 +79,30 @@ operation:
     - username
     - password
     - trust_everyone:
-        default: 'true'
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         overridable: false
     - virtual_machine_name
-    - virtualMachineName: ${virtual_machine_name}
+    - virtualMachineName:
+        default: ${get("virtual_machine_name", None)}
+        overridable: false
     - operation
     - device
     - update_value:
-        default: ''
         required: false
     - updateValue:
-        default: ${update_value}
+        default: ${get("update_value", "")}
         overridable: false
     - vm_disk_size:
-        default: ''
         required: false
     - vmDiskSize:
-        default: ${vm_disk_size}
+        default: ${get("vm_disk_size", "1024")}
         overridable: false
     - vm_disk_mode:
-        default: ''
         required: false
     - vmDiskMode:
-        default: ${vm_disk_mode}
+        default: ${get("vm_disk_mode", "")}
         overridable: false
 
   action:

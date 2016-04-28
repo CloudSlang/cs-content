@@ -10,77 +10,45 @@ namespace: io.cloudslang.docker.containers.examples
 
 imports:
   containers: io.cloudslang.docker.containers
-  maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_demo_dev_ops
   inputs:
     - docker_host
-    - docker_ssh_port:
-        default: '22'
     - docker_username
-    - docker_password:
-        required: false
-    - private_key_file:
-        required: false
-    - db_container_name:
-        default: 'mysqldb'
-    - app_container_name:
-        default: 'spring-boot-tomcat-mysql-app'
-    - app_port:
-        default: '8080'
+    - private_key_file
+    - app_port
     - email_host
     - email_port
     - email_sender
     - email_recipient
-    - timeout:
-        default: '30000000'
   workflow:
-    - clear_docker_host_prereqeust:
+    - clear_docker_containers:
          do:
            containers.clear_containers:
              - docker_host
-             - port: ${docker_ssh_port}
              - docker_username
-             - docker_password
              - private_key_file
          navigate:
-           SUCCESS: execute_demo_dev_ops
-           FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+           - SUCCESS: execute_demo_dev_ops
+           - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - execute_demo_dev_ops:
         do:
           demo_dev_ops:
             - docker_host
-            - docker_ssh_port
             - docker_username
-            - docker_password
             - private_key_file
-            - db_container_name
-            - app_container_name
             - app_port
             - email_host
             - email_port
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host
-            - docker_username
-            - docker_password
-            - private_key_file
-            - timeout
-            - port: docker_ssh_port
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: EXECUTE_DEMO_DEV_OPS_PROBLEM
 
   results:
     - SUCCESS
-    - CLEAR_DOCKER_HOST_PROBLEM
-    - FAILURE
+    - CLEAR_DOCKER_CONTAINERS_PROBLEM
+    - EXECUTE_DEMO_DEV_OPS_PROBLEM

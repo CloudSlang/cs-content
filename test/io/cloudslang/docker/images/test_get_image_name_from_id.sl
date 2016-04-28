@@ -48,8 +48,8 @@ flow:
            - docker_username: ${ username }
            - docker_password: ${ password }
         navigate:
-         SUCCESS: hello_world_image_download
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: hello_world_image_download
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - hello_world_image_download:
         do:
@@ -60,8 +60,8 @@ flow:
             - password
             - image_name: "raskin/hello-world"
         navigate:
-          SUCCESS: get_image_name_from_id
-          FAILURE: DOWNLOADFAIL
+          - SUCCESS: get_image_name_from_id
+          - FAILURE: DOWNLOADFAIL
 
     - get_image_name_from_id:
         do:
@@ -74,8 +74,8 @@ flow:
         publish:
             - image_name : ${ image_name }
         navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
+          - SUCCESS: verify_output
+          - FAILURE: FAILURE
 
     - verify_output:
         do:
@@ -83,8 +83,8 @@ flow:
             - first_string: "raskin/hello-world:latest "
             - second_string: ${ image_name }
         navigate:
-          SUCCESS: delete_downloaded_image
-          FAILURE: VEFIFYFAILURE
+          - SUCCESS: delete_downloaded_image
+          - FAILURE: VEFIFYFAILURE
 
     - delete_downloaded_image:
         do:
@@ -95,8 +95,8 @@ flow:
             - password
             - images: "raskin/hello-world"
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAIL
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAIL
 
   results:
     - SUCCESS

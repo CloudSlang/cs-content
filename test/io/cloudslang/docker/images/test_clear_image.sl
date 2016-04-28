@@ -33,14 +33,14 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: get_all_images_after
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
-          MACHINE_IS_NOT_CLEAN: MACHINE_IS_NOT_CLEAN
-          FAIL_PULL_IMAGE: FAIL_PULL_IMAGE
-          FAIL_GET_ALL_IMAGES: FAIL_GET_ALL_IMAGES
-          FAILURE: FAILURE
-          FAIL_CLEAR_IMAGE: FAIL_CLEAR_IMAGE
+          - SUCCESS: get_all_images_after
+          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - MACHINE_IS_NOT_CLEAN: MACHINE_IS_NOT_CLEAN
+          - FAIL_PULL_IMAGE: FAIL_PULL_IMAGE
+          - FAIL_GET_ALL_IMAGES: FAIL_GET_ALL_IMAGES
+          - FAILURE: FAILURE
+          - FAIL_CLEAR_IMAGE: FAIL_CLEAR_IMAGE
 
     - get_all_images_after:
         do:
@@ -52,8 +52,8 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: validate_image_cleared
-          FAILURE: FAIL_GET_ALL_IMAGES
+          - SUCCESS: validate_image_cleared
+          - FAILURE: FAIL_GET_ALL_IMAGES
 
     - validate_image_cleared:
         do:
@@ -61,8 +61,8 @@ flow:
             - string_in_which_to_search: ${ image_list }
             - string_to_find: ${ image_name }
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: SUCCESS
 
 
   results:

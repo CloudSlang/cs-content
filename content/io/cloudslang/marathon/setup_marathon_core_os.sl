@@ -43,15 +43,15 @@ flow:
            - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: print_before_zookeeper
-         FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
+         - SUCCESS: print_before_zookeeper
+         - FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
 
     - print_before_zookeeper:
         do:
           print.print_text:
               - text: "Start zookeeper."
         navigate:
-          SUCCESS: start_zookeeper
+          - SUCCESS: start_zookeeper
 
     - start_zookeeper:
        do:
@@ -67,15 +67,15 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: print_before_mesos_master
-         FAILURE: START_ZOOKEEPER_PROBLEM
+         - SUCCESS: print_before_mesos_master
+         - FAILURE: START_ZOOKEEPER_PROBLEM
 
     - print_before_mesos_master:
         do:
           print.print_text:
               - text: "Start mesos master."
         navigate:
-          SUCCESS: start_mesos_master
+          - SUCCESS: start_mesos_master
 
     - start_mesos_master:
        do:
@@ -94,15 +94,15 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: print_before_mesos_slave
-         FAILURE: START_MESOS_MASTER_PROBLEM
+         - SUCCESS: print_before_mesos_slave
+         - FAILURE: START_MESOS_MASTER_PROBLEM
 
     - print_before_mesos_slave:
         do:
           print.print_text:
               - text: "Start mesos slave."
         navigate:
-          SUCCESS: start_mesos_slave
+          - SUCCESS: start_mesos_slave
 
     - start_mesos_slave:
        do:
@@ -128,15 +128,15 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: print_before_marathon
-         FAILURE: START_MESOS_SLAVE_PROBLEM
+         - SUCCESS: print_before_marathon
+         - FAILURE: START_MESOS_SLAVE_PROBLEM
 
     - print_before_marathon:
         do:
           print.print_text:
               - text: "Start Marathon."
         navigate:
-          SUCCESS: start_marathon
+          - SUCCESS: start_marathon
 
     - start_marathon:
        do:
@@ -155,8 +155,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: SUCCESS
-         FAILURE: START_MARATHON_PROBLEM
+         - SUCCESS: SUCCESS
+         - FAILURE: START_MARATHON_PROBLEM
   results:
     - SUCCESS
     - CLEAR_CONTAINERS_ON_HOST_PROBLEM

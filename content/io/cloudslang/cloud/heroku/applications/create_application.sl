@@ -72,8 +72,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_name_input
-          FAILURE: CREATE_EMPTY_JSON_FAILURE
+          - SUCCESS: validate_name_input
+          - FAILURE: CREATE_EMPTY_JSON_FAILURE
 
     - validate_name_input:
         do:
@@ -81,8 +81,8 @@ flow:
             - first_string: ${name}
             - second_string: None
         navigate:
-          SUCCESS: validate_region_input
-          FAILURE: add_name
+          - SUCCESS: validate_region_input
+          - FAILURE: add_name
 
     - add_name:
         do:
@@ -96,8 +96,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_region_input
-          FAILURE: ADD_NAME_FAILURE
+          - SUCCESS: validate_region_input
+          - FAILURE: ADD_NAME_FAILURE
 
     - validate_region_input:
         do:
@@ -105,8 +105,8 @@ flow:
             - first_string: ${region}
             - second_string: None
         navigate:
-          SUCCESS: validate_stack_input
-          FAILURE: add_region
+          - SUCCESS: validate_stack_input
+          - FAILURE: add_region
 
     - add_region:
         do:
@@ -120,8 +120,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_stack_input
-          FAILURE: ADD_REGION_FAILURE
+          - SUCCESS: validate_stack_input
+          - FAILURE: ADD_REGION_FAILURE
 
     - validate_stack_input:
         do:
@@ -129,8 +129,8 @@ flow:
             - first_string: ${stack}
             - second_string: None
         navigate:
-          SUCCESS: create_application
-          FAILURE: add_stack
+          - SUCCESS: create_application
+          - FAILURE: add_stack
 
     - add_stack:
         do:
@@ -144,8 +144,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: create_application
-          FAILURE: ADD_STACK_FAILURE
+          - SUCCESS: create_application
+          - FAILURE: ADD_STACK_FAILURE
 
     - create_application:
         do:
@@ -162,8 +162,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_id
-          FAILURE: CREATE_APPLICATION_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: CREATE_APPLICATION_FAILURE
 
     - get_id:
         do:
@@ -173,8 +173,8 @@ flow:
         publish:
           - id: ${value}
         navigate:
-          SUCCESS: get_name
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: get_name
+          - FAILURE: GET_ID_FAILURE
 
     - get_name:
         do:
@@ -184,8 +184,8 @@ flow:
         publish:
           - name: ${value}
         navigate:
-          SUCCESS: get_created_at
-          FAILURE: GET_NAME_FAILURE
+          - SUCCESS: get_created_at
+          - FAILURE: GET_NAME_FAILURE
 
     - get_created_at:
         do:
@@ -195,8 +195,8 @@ flow:
         publish:
           - created_at: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_CREATED_AT_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_CREATED_AT_FAILURE
 
   outputs:
     - return_result

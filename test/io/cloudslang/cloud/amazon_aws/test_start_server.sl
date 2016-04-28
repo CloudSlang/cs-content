@@ -48,15 +48,15 @@ flow:
             - proxy_host
             - proxy_port
         navigate:
-          SUCCESS: sleep
-          FAILURE: START_FAILURE
+          - SUCCESS: sleep
+          - FAILURE: START_FAILURE
 
     - sleep:
         do:
           utils.sleep:
             - seconds
         navigate:
-          SUCCESS: list_amazon_instances
+          - SUCCESS: list_amazon_instances
 
     - list_amazon_instances:
         do:
@@ -70,8 +70,8 @@ flow:
             - proxy_port
             - delimiter
         navigate:
-          SUCCESS: check_result
-          FAILURE: LIST_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: LIST_FAILURE
         publish:
           - return_result
           - return_code
@@ -83,8 +83,8 @@ flow:
             - string_in_which_to_search: ${return_result}
             - string_to_find: ${server_id + ', state=running'}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: RUNNING_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: RUNNING_FAILURE
 
   results:
     - SUCCESS

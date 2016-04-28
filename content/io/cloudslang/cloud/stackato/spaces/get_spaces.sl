@@ -70,9 +70,9 @@ flow:
           - error_message
           - token
         navigate:
-          SUCCESS: get_spaces
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - SUCCESS: get_spaces
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
 
     - get_spaces:
         do:
@@ -92,8 +92,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_spaces_list
-          FAILURE: GET_SPACES_FAILURE
+          - SUCCESS: get_spaces_list
+          - FAILURE: GET_SPACES_FAILURE
 
     - get_spaces_list:
         do:
@@ -103,8 +103,8 @@ flow:
         publish:
           - spaces_list: ${value}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: GET_SPACES_LIST_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_SPACES_LIST_FAILURE
 
   outputs:
     - return_result

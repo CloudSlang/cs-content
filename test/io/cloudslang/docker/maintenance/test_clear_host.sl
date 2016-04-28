@@ -35,8 +35,8 @@ flow:
                  - docker_username: ${ username }
                  - docker_password: ${ password }
              navigate:
-               SUCCESS: test_verify_no_images
-               FAILURE: MACHINE_IS_NOT_CLEAN
+               - SUCCESS: test_verify_no_images
+               - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images:
         do:
@@ -46,10 +46,10 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: pull_image
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: pull_image
+          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
         do:
@@ -60,8 +60,8 @@ flow:
             - password
             - image_name: ${ image_name_to_pull }
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: clear_docker_host
+          - FAILURE: FAIL_PULL_IMAGE
 
     - run_container:
         do:
@@ -73,8 +73,8 @@ flow:
             - container_name: "xxx"
             - image_name: ${ image_name_to_run }
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: clear_docker_host
+          - FAILURE: FAIL_RUN_IMAGE
 
     - clear_docker_host:
              do:
@@ -84,8 +84,8 @@ flow:
                  - docker_username: ${ username }
                  - docker_password: ${ password }
              navigate:
-               SUCCESS: test_verify_no_images_post_cleanup
-               FAILURE: MACHINE_IS_NOT_CLEAN
+               - SUCCESS: test_verify_no_images_post_cleanup
+               - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images_post_cleanup:
         do:
@@ -95,10 +95,10 @@ flow:
             - username
             - password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: SUCCESS
+          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
   results:
     - SUCCESS

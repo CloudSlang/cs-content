@@ -81,10 +81,10 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_keypairs
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - SUCCESS: get_keypairs
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
 
     - get_keypairs:
         do:
@@ -102,8 +102,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: extract_keypairs
-          FAILURE: GET_KEYPAIRS_FAILURE
+          - SUCCESS: extract_keypairs
+          - FAILURE: GET_KEYPAIRS_FAILURE
 
     - extract_keypairs:
         do:
@@ -114,8 +114,8 @@ flow:
           - keypairs_list: ${object_list}
           - error_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: EXTRACT_KEYPAIRS_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: EXTRACT_KEYPAIRS_FAILURE
 
   outputs:
     - return_result

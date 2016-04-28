@@ -35,8 +35,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
        navigate:
-         SUCCESS: pull_image
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: pull_image
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -47,8 +47,8 @@ flow:
             - password
             - image_name
         navigate:
-          SUCCESS: run_container
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: run_container
+          - FAILURE: FAIL_PULL_IMAGE
 
     - run_container:
         do:
@@ -61,8 +61,8 @@ flow:
             - image_name
             - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
         navigate:
-          SUCCESS: stop_container
-          FAILURE: FAIL_RUN_IMAGE
+          - SUCCESS: stop_container
+          - FAILURE: FAIL_RUN_IMAGE
 
     - stop_container:
         do:
@@ -73,8 +73,8 @@ flow:
             - password
             - container_id: ${container_name}
         navigate:
-          SUCCESS: get_container_names
-          FAILURE: FAIL_STOP_CONTAINERS
+          - SUCCESS: get_container_names
+          - FAILURE: FAIL_STOP_CONTAINERS
 
     - get_container_names:
         do:
@@ -92,8 +92,8 @@ flow:
             - first_string: ''
             - second_string: ${list}
         navigate:
-          SUCCESS: start_container
-          FAILURE: VEFIFYFAILURE
+          - SUCCESS: start_container
+          - FAILURE: VEFIFYFAILURE
 
     - start_container:
         do:
@@ -104,8 +104,8 @@ flow:
             - password
             - container_id: ${container_name}
         navigate:
-          SUCCESS: get_running_container_names
-          FAILURE: FAILURE
+          - SUCCESS: get_running_container_names
+          - FAILURE: FAILURE
 
     - get_running_container_names:
         do:
@@ -123,8 +123,8 @@ flow:
             - first_string: ${container_name}
             - second_string: ${list}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
 
     - clear_docker_host:
@@ -135,8 +135,8 @@ flow:
            - docker_username: ${username}
            - docker_password: ${password}
         navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+         - SUCCESS: SUCCESS
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

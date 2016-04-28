@@ -83,8 +83,8 @@ flow:
         publish:
           - errs_c: ${return_result}
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: filter_bootstrap_result
+          - SUCCESS: FAILURE
+          - FAILURE: filter_bootstrap_result
 
     - filter_bootstrap_result:
         do:

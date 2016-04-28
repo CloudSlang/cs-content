@@ -18,29 +18,29 @@ flow:
           create_folder:
             - folder_name
         navigate:
-          SUCCESS: test_create_folder_already_existent
-          FAILURE: FOLDERFAILURE
+          - SUCCESS: test_create_folder_already_existent
+          - FAILURE: FOLDERFAILURE
     - test_create_folder_already_existent:
         do:
           create_folder:
             - folder_name
         navigate:
-          SUCCESS: delete_folder_from_success
-          FAILURE: delete_folder_from_failure
+          - SUCCESS: delete_folder_from_success
+          - FAILURE: delete_folder_from_failure
     - delete_folder_from_success:
         do:
           delete:
             - source: ${folder_name}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: DELETEFAILURE
     - delete_folder_from_failure:
         do:
           delete:
             - source: ${folder_name}
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: DELETEFAILURE
+          - SUCCESS: FAILURE
+          - FAILURE: DELETEFAILURE
   results:
     - SUCCESS
     - FOLDERFAILURE

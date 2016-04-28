@@ -91,16 +91,16 @@ flow:
             - first_string: ${ all_images_list }
             - second_string: ""
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: verify_used_images_list_not_empty
+          - SUCCESS: SUCCESS
+          - FAILURE: verify_used_images_list_not_empty
     - verify_used_images_list_not_empty:
         do:
           base_strings.string_equals:
             - first_string: ${ used_images_list }
             - second_string: ""
         navigate:
-          SUCCESS: delete_images
-          FAILURE: get_parent_images
+          - SUCCESS: delete_images
+          - FAILURE: get_parent_images
     - get_parent_images:
         loop:
             for: image in used_images_list.split()
@@ -114,9 +114,10 @@ flow:
                 - private_key_file
                 - timeout
                 - port
+                - all_parent_images
             publish:
                 - all_parent_images: >
-                    ${ self['all_parent_images'] if self['all_parent_images'] is not None else "" + parent_image_name + " " }
+                    ${ all_parent_images if all_parent_images is not None else "" + parent_image_name + " " }
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
@@ -146,7 +147,7 @@ flow:
     - images_list_safe_to_delete
     - amount_of_images_deleted: ${ 0 if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
-    - all_parent_images: ${ 0 if 'all_parent_images' not in locals() else all_parent_images" }
+    - all_parent_images: ${ get('all_parent_images', 0) }
   results:
     - SUCCESS
     - FAILURE

@@ -44,8 +44,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: verify_post_create_pet
-          FAILURE: HTTP_CLIENT_POST_FAILURE
+          - SUCCESS: verify_post_create_pet
+          - FAILURE: HTTP_CLIENT_POST_FAILURE
 
     - verify_post_create_pet:
         do:
@@ -53,8 +53,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: get_pet_details
-          FAILURE: VERIFY_POST_CREATE_PET_FAILURE
+          - SUCCESS: get_pet_details
+          - FAILURE: VERIFY_POST_CREATE_PET_FAILURE
 
     - get_pet_details:
         do:
@@ -70,8 +70,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: verify_get_pet_details
-          FAILURE: GET_PET_DETAILS_FAILURE
+          - SUCCESS: verify_get_pet_details
+          - FAILURE: GET_PET_DETAILS_FAILURE
 
     - verify_get_pet_details:
         do:
@@ -79,8 +79,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: get_id
-          FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
+          - SUCCESS: get_id
+          - FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
 
     - get_id:
         do:
@@ -90,8 +90,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: verify_id
-          FAILURE: GET_ID_FAILURE
+          - SUCCESS: verify_id
+          - FAILURE: GET_ID_FAILURE
 
     - verify_id:
         do:
@@ -99,8 +99,8 @@ flow:
             - first_string: ${ resource_id }
             - second_string: ${ str(value) }
         navigate:
-          SUCCESS: get_name
-          FAILURE: VERIFY_ID_FAILURE
+          - SUCCESS: get_name
+          - FAILURE: VERIFY_ID_FAILURE
 
     - get_name:
         do:
@@ -110,8 +110,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: verify_name
-          FAILURE: GET_NAME_FAILURE
+          - SUCCESS: verify_name
+          - FAILURE: GET_NAME_FAILURE
 
     - verify_name:
         do:
@@ -119,8 +119,8 @@ flow:
             - first_string: ${ resource_name }
             - second_string: ${ str(value) }
         navigate:
-          SUCCESS: put_update_pet
-          FAILURE: VERIFY_NAME_FAILURE
+          - SUCCESS: put_update_pet
+          - FAILURE: VERIFY_NAME_FAILURE
 
     - put_update_pet:
         do:
@@ -137,8 +137,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: verify_put_update_pet
-          FAILURE: HTTP_CLIENT_PUT_FAILURE
+          - SUCCESS: verify_put_update_pet
+          - FAILURE: HTTP_CLIENT_PUT_FAILURE
 
     - verify_put_update_pet:
         do:
@@ -146,8 +146,8 @@ flow:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
             - list_2: ["", 0, 200]
         navigate:
-          SUCCESS: get_updated_pet_details
-          FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE
+          - SUCCESS: get_updated_pet_details
+          - FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE
 
     - get_updated_pet_details:
         do:
@@ -163,8 +163,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_updated_name
-          FAILURE: GET_UPDATED_PET_DETAILS_FAILURE
+          - SUCCESS: get_updated_name
+          - FAILURE: GET_UPDATED_PET_DETAILS_FAILURE
 
     - get_updated_name:
         do:
@@ -174,8 +174,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: verify_updated_name
-          FAILURE: GET_UPDATED_NAME_FAILURE
+          - SUCCESS: verify_updated_name
+          - FAILURE: GET_UPDATED_NAME_FAILURE
 
     - verify_updated_name:
         do:
@@ -183,8 +183,8 @@ flow:
             - first_string: ${ resource_name + '_updated' }
             - second_string: ${ str(value) }
         navigate:
-          SUCCESS: get_updated_status
-          FAILURE: VERIFY_UPDATED_NAME_FAILURE
+          - SUCCESS: get_updated_status
+          - FAILURE: VERIFY_UPDATED_NAME_FAILURE
 
     - get_updated_status:
         do:
@@ -194,8 +194,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: verify_updated_status
-          FAILURE: GET_UPDATED_STATUS_FAILURE
+          - SUCCESS: verify_updated_status
+          - FAILURE: GET_UPDATED_STATUS_FAILURE
 
     - verify_updated_status:
         do:
@@ -203,8 +203,8 @@ flow:
             - first_string: "sold"
             - second_string: ${ str(value) }
         navigate:
-          SUCCESS: delete_pet
-          FAILURE: VERIFY_UPDATED_STATUS_FAILURE
+          - SUCCESS: delete_pet
+          - FAILURE: VERIFY_UPDATED_STATUS_FAILURE
 
     - delete_pet:
         do:
@@ -220,8 +220,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_pet_after_delete
-          FAILURE: HTTP_CLIENT_DELETE_FAILURE
+          - SUCCESS: get_pet_after_delete
+          - FAILURE: HTTP_CLIENT_DELETE_FAILURE
 
     - get_pet_after_delete:
         do:
@@ -238,8 +238,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: get_message
-          FAILURE: GET_PET_AFTER_DELETE_FAILURE
+          - SUCCESS: get_message
+          - FAILURE: GET_PET_AFTER_DELETE_FAILURE
 
     - get_message:
         do:
@@ -249,8 +249,8 @@ flow:
         publish:
           - value
         navigate:
-          SUCCESS: verify_not_found_message
-          FAILURE: GET_MESSAGE_FAILURE
+          - SUCCESS: verify_not_found_message
+          - FAILURE: GET_MESSAGE_FAILURE
 
     - verify_not_found_message:
         do:
@@ -258,8 +258,8 @@ flow:
             - first_string: "Pet not found"
             - second_string: ${ str(value) }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE
 
   outputs:
     - return_result

@@ -160,10 +160,10 @@ flow:
           - token
           - tenant_id
         navigate:
-          SUCCESS: add_name
-          GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
-          GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
-          GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
+          - SUCCESS: add_name
+          - GET_AUTHENTICATION_FAILURE: GET_AUTHENTICATION_FAILURE
+          - GET_AUTHENTICATION_TOKEN_FAILURE: GET_AUTHENTICATION_TOKEN_FAILURE
+          - GET_TENANT_ID_FAILURE: GET_TENANT_ID_FAILURE
 
     - add_name:
         do:
@@ -178,8 +178,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_img_ref
-          FAILURE: ADD_NAME_FAILURE
+          - SUCCESS: add_img_ref
+          - FAILURE: ADD_NAME_FAILURE
 
     - add_img_ref:
         do:
@@ -193,8 +193,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_flavor_ref
-          FAILURE: ADD_IMG_REF_FAILURE
+          - SUCCESS: add_flavor_ref
+          - FAILURE: ADD_IMG_REF_FAILURE
 
     - add_flavor_ref:
         do:
@@ -208,8 +208,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: create_boot_json
-          FAILURE: ADD_FLAVOR_REF_FAILURE
+          - SUCCESS: create_boot_json
+          - FAILURE: ADD_FLAVOR_REF_FAILURE
 
     - create_boot_json:
         do:
@@ -224,11 +224,11 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: update_body_json_with_boot_json
-          ADD_BOOT_INDEX_FAILURE: ADD_BOOT_INDEX_FAILURE
-          ADD_UUID_FAILURE: ADD_UUID_FAILURE
-          ADD_SOURCE_TYPE_FAILURE: ADD_SOURCE_TYPE_FAILURE
-          ADD_DELETE_ON_TERMINATION_FAILURE: ADD_DELETE_ON_TERMINATION_FAILURE
+          - SUCCESS: update_body_json_with_boot_json
+          - ADD_BOOT_INDEX_FAILURE: ADD_BOOT_INDEX_FAILURE
+          - ADD_UUID_FAILURE: ADD_UUID_FAILURE
+          - ADD_SOURCE_TYPE_FAILURE: ADD_SOURCE_TYPE_FAILURE
+          - ADD_DELETE_ON_TERMINATION_FAILURE: ADD_DELETE_ON_TERMINATION_FAILURE
 
     - update_body_json_with_boot_json:
         do:
@@ -242,8 +242,8 @@ flow:
           - return_code
           - error_message:
         navigate:
-          SUCCESS: add_availability_zone
-          FAILURE: ADD_BLOCK_DEVICE_MAPPING_FAILURE
+          - SUCCESS: add_availability_zone
+          - FAILURE: ADD_BLOCK_DEVICE_MAPPING_FAILURE
 
     - add_availability_zone:
         do:
@@ -257,8 +257,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_key_name
-          FAILURE: ADD_AVAILABILITY_ZONE_FAILURE
+          - SUCCESS: validate_key_name
+          - FAILURE: ADD_AVAILABILITY_ZONE_FAILURE
 
     - validate_key_name:
         do:
@@ -266,8 +266,8 @@ flow:
             - first_string: ${key_name}
             - second_string: ''
         navigate:
-          SUCCESS: validate_admin_pass
-          FAILURE: add_key_name
+          - SUCCESS: validate_admin_pass
+          - FAILURE: add_key_name
 
     - add_key_name:
         do:
@@ -281,8 +281,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_admin_pass
-          FAILURE: ADD_KEY_NAME_FAILURE
+          - SUCCESS: validate_admin_pass
+          - FAILURE: ADD_KEY_NAME_FAILURE
 
     - validate_admin_pass:
         do:
@@ -290,8 +290,8 @@ flow:
             - first_string: ${admin_pass}
             - second_string: ''
         navigate:
-          SUCCESS: validate_user_data
-          FAILURE: add_admin_pass
+          - SUCCESS: validate_user_data
+          - FAILURE: add_admin_pass
 
     - add_admin_pass:
         do:
@@ -305,8 +305,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_user_data
-          FAILURE: ADD_ADMIN_PASS_FAILURE
+          - SUCCESS: validate_user_data
+          - FAILURE: ADD_ADMIN_PASS_FAILURE
 
     - validate_user_data:
         do:
@@ -314,8 +314,8 @@ flow:
             - first_string: ${user_data}
             - second_string: ''
         navigate:
-          SUCCESS: validate_metadata_input
-          FAILURE: add_user_data
+          - SUCCESS: validate_metadata_input
+          - FAILURE: add_user_data
 
     - add_user_data:
         do:
@@ -329,8 +329,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_metadata_input
-          FAILURE: ADD_USER_DATA_FAILURE
+          - SUCCESS: validate_metadata_input
+          - FAILURE: ADD_USER_DATA_FAILURE
 
     - validate_metadata_input:
         do:
@@ -338,8 +338,8 @@ flow:
             - first_string: ${metadata}
             - second_string: ''
         navigate:
-          SUCCESS: validate_security_groups
-          FAILURE: add_metadata
+          - SUCCESS: validate_security_groups
+          - FAILURE: add_metadata
 
     - add_metadata:
         do:
@@ -353,8 +353,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_security_groups
-          FAILURE: ADD_METADATA_FAILURE
+          - SUCCESS: validate_security_groups
+          - FAILURE: ADD_METADATA_FAILURE
 
     - validate_security_groups:
         do:
@@ -362,8 +362,8 @@ flow:
             - first_string: ${security_groups}
             - second_string: ''
         navigate:
-          SUCCESS: add_default_security_groups
-          FAILURE: add_security_groups
+          - SUCCESS: add_default_security_groups
+          - FAILURE: add_security_groups
 
     - add_default_security_groups:
         do:
@@ -378,8 +378,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_personality
-          FAILURE: ADD_DEFAULT_SECURITY_GROUP_FAILURE
+          - SUCCESS: validate_personality
+          - FAILURE: ADD_DEFAULT_SECURITY_GROUP_FAILURE
 
     - add_security_groups:
         do:
@@ -393,8 +393,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_personality
-          FAILURE: ADD_SECURITY_GROUPS_FAILURE
+          - SUCCESS: validate_personality
+          - FAILURE: ADD_SECURITY_GROUPS_FAILURE
 
     - validate_personality:
         do:
@@ -402,8 +402,8 @@ flow:
             - first_string: ${personality}
             - second_string: ''
         navigate:
-          SUCCESS: validate_network_id_input
-          FAILURE: add_personality
+          - SUCCESS: validate_network_id_input
+          - FAILURE: add_personality
 
     - add_personality:
         do:
@@ -417,8 +417,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: validate_network_id_input
-          FAILURE: ADD_PERSONALITY_FAILURE
+          - SUCCESS: validate_network_id_input
+          - FAILURE: ADD_PERSONALITY_FAILURE
 
     - validate_network_id_input:
         do:
@@ -426,8 +426,8 @@ flow:
             - first_string: ${network_id}
             - second_string: ''
         navigate:
-          SUCCESS: create_server
-          FAILURE: add_network
+          - SUCCESS: create_server
+          - FAILURE: add_network
 
     - add_network:
         do:
@@ -442,8 +442,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: create_server
-          FAILURE: ADD_NETWORK_FAILURE
+          - SUCCESS: create_server
+          - FAILURE: ADD_NETWORK_FAILURE
 
     - create_server:
         do:
@@ -462,8 +462,8 @@ flow:
           - return_code
           - status_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CREATE_SERVER_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CREATE_SERVER_FAILURE
 
   outputs:
     - return_result

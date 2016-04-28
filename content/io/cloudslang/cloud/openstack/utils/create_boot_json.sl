@@ -50,8 +50,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_uuid
-          FAILURE: ADD_BOOT_INDEX_FAILURE
+          - SUCCESS: add_uuid
+          - FAILURE: ADD_BOOT_INDEX_FAILURE
 
     - add_uuid:
         do:
@@ -65,8 +65,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_source_type
-          FAILURE: ADD_UUID_FAILURE
+          - SUCCESS: add_source_type
+          - FAILURE: ADD_UUID_FAILURE
 
     - add_source_type:
         do:
@@ -80,8 +80,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: add_delete_on_termination
-          FAILURE: ADD_SOURCE_TYPE_FAILURE
+          - SUCCESS: add_delete_on_termination
+          - FAILURE: ADD_SOURCE_TYPE_FAILURE
 
     - add_delete_on_termination:
         do:
@@ -95,8 +95,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: ADD_DELETE_ON_TERMINATION_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: ADD_DELETE_ON_TERMINATION_FAILURE
 
   outputs:
     - boot_json

@@ -35,9 +35,9 @@ flow:
             - marathon_port
             - is_core_os
         navigate:
-          SUCCESS: list_initial_marathon_apps
-          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          - SUCCESS: list_initial_marathon_apps
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
@@ -47,8 +47,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_initial_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_initial_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_initial_response:
          do:
@@ -57,8 +57,8 @@ flow:
          publish:
            - app_list
          navigate:
-           SUCCESS: check_if_list_is_empty
-           FAILURE: PARSE_FAILURE
+           - SUCCESS: check_if_list_is_empty
+           - FAILURE: PARSE_FAILURE
 
     - check_if_list_is_empty:
          do:
@@ -66,8 +66,8 @@ flow:
               - first_string: ${app_list}
               - second_string: ''
          navigate:
-           SUCCESS: create_marathon_app
-           FAILURE: delete_initial_apps
+           - SUCCESS: create_marathon_app
+           - FAILURE: delete_initial_apps
 
     - delete_initial_apps:
         loop:
@@ -78,8 +78,8 @@ flow:
                 - marathon_port
                 - app_id: app
         navigate:
-          SUCCESS: create_marathon_app
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: create_marathon_app
+          - FAILURE: FAIL_TO_DELETE
 
     - create_marathon_app:
          do:
@@ -88,8 +88,8 @@ flow:
              - marathon_port
              - json_file
          navigate:
-           SUCCESS: wait_for_marathon_app_startup
-           FAILURE: FAIL_TO_CREATE
+           - SUCCESS: wait_for_marathon_app_startup
+           - FAILURE: FAIL_TO_CREATE
 
     - wait_for_marathon_app_startup:
         do:
@@ -100,8 +100,8 @@ flow:
               - attempts: 30
               - time_to_sleep: 20
         navigate:
-          SUCCESS: list_marathon_apps
-          FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
+          - SUCCESS: list_marathon_apps
+          - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
 
     - list_marathon_apps:
         do:
@@ -111,8 +111,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_response:
          do:
@@ -121,8 +121,8 @@ flow:
          publish:
            - app_list
          navigate:
-           SUCCESS: check_app_was_created
-           FAILURE: PARSE_FAILURE
+           - SUCCESS: check_app_was_created
+           - FAILURE: PARSE_FAILURE
 
     - check_app_was_created:
         do:
@@ -132,8 +132,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: list_mesos_tasks
-          FAILURE: APP_NOT_CREATED
+          - SUCCESS: list_mesos_tasks
+          - FAILURE: APP_NOT_CREATED
 
     - list_mesos_tasks:
         do:
@@ -143,8 +143,8 @@ flow:
         publish:
           - tasks_list: ${return_result}
         navigate:
-          SUCCESS: check_task_was_created
-          FAILURE: TASKS_NOT_RETRIEVED
+          - SUCCESS: check_task_was_created
+          - FAILURE: TASKS_NOT_RETRIEVED
 
     - check_task_was_created:
         do:
@@ -152,8 +152,8 @@ flow:
             - string_in_which_to_search: ${tasks_list}
             - string_to_find: ${created_app_id}
         navigate:
-          SUCCESS: delete_marathon_app
-          FAILURE: TASK_NOT_CREATED
+          - SUCCESS: delete_marathon_app
+          - FAILURE: TASK_NOT_CREATED
 
     - delete_marathon_app:
         do:
@@ -162,8 +162,8 @@ flow:
              - marathon_port
              - app_id: ${created_app_id}
         navigate:
-          SUCCESS: list_marathon_apps_again
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: list_marathon_apps_again
+          - FAILURE: FAIL_TO_DELETE
 
     - list_marathon_apps_again:
         do:
@@ -173,8 +173,8 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_second_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_second_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_second_response:
          do:
@@ -183,8 +183,8 @@ flow:
          publish:
            - app_list
          navigate:
-           SUCCESS: verify_there_are_no_servers
-           FAILURE: PARSE_FAILURE
+           - SUCCESS: verify_there_are_no_servers
+           - FAILURE: PARSE_FAILURE
 
     - verify_there_are_no_servers:
          do:
@@ -192,8 +192,8 @@ flow:
               - first_string: ${app_list}
               - second_string: ''
          navigate:
-           SUCCESS: SUCCESS
-           FAILURE: APP_STILL_UP
+           - SUCCESS: SUCCESS
+           - FAILURE: APP_STILL_UP
 
   results:
     - SUCCESS

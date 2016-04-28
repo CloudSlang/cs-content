@@ -35,8 +35,8 @@ flow:
             - command: " "
             - timeout: "30000000"
         navigate:
-          SUCCESS: get_all_images_before
-          FAILURE: FAIL_VALIDATE_SSH
+          - SUCCESS: get_all_images_before
+          - FAILURE: FAIL_VALIDATE_SSH
 
     - get_all_images_before:
         do:
@@ -48,8 +48,8 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_no_images_before
-          FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: verify_no_images_before
+          - FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - verify_no_images_before:
         do:
