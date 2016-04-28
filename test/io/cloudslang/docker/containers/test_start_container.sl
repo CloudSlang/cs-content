@@ -125,19 +125,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-
-    - clear_docker_host:
-        do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
-
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH

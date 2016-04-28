@@ -71,7 +71,7 @@ flow:
         required: false
     - method:
         default: "GET"
-        overridable: false
+        private: true
 
   workflow:
     - http_client_action_get:

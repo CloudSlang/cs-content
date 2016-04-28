@@ -50,10 +50,10 @@ flow:
         required: false
     - container_params_cmd:
         default: ${container_params + ' ' if bool(container_params) else ''}
-        overridable: false
+        private: true
     - command:
         default: ${'docker start ' + container_params_cmd + ' ' + container_id}
-        overridable: false
+        private: true
     - character_set:
         required: false
     - pty:

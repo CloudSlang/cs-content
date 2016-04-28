@@ -84,44 +84,44 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - data_center_name
     - dataCenterName:
         default: ${get("data_center_name", None)}
-        overridable: false
+        private: true
     - hostname:
         default: ''
         required: false
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
     - description:
         default: ''
         required: false
     - data_store
     - dataStore:
         default: ${get("data_store", "")}
-        overridable: false
+        private: true
     - num_cpus:
         required: false
     - numCPUs:
         default: ${get("num_cpus", "1")}
-        overridable: false
+        private: true
     - vm_disk_size:
         required: false
     - vmDiskSize:
         default: ${get("vm_disk_size", "1024")}
-        overridable: false
+        private: true
     - vm_memory_size:
         required: false
     - vmMemorySize:
         default: ${get("vm_memory_size", "1024")}
-        overridable: false
+        private: true
     - guest_os_id
     - guestOsId:
         default: ${get("guest_os_id", None)}
-        overridable: false
+        private: true
 
   action:
     java_action:

@@ -32,10 +32,10 @@ operation:
     - key_name
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/kv/' + key_name}
-        overridable: false
+        private: true
     - method:
         default: "delete"
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

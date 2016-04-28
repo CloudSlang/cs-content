@@ -80,7 +80,7 @@ flow:
         required: false
     - method:
         default: "TRACE"
-        overridable: false
+        private: true
 
   workflow:
     - http_client_action_trace:

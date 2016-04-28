@@ -63,19 +63,6 @@ flow:
           - SUCCESS: clear_docker_host
           - FAILURE: FAIL_PULL_IMAGE
 
-    - run_container:
-        do:
-          containers.run_container:
-            - host
-            - port
-            - username
-            - password
-            - container_name: "xxx"
-            - image_name: ${ image_name_to_run }
-        navigate:
-          - SUCCESS: clear_docker_host
-          - FAILURE: FAIL_RUN_IMAGE
-
     - clear_docker_host:
              do:
                clear_host:
@@ -109,4 +96,3 @@ flow:
     - FAIL_GET_ALL_IMAGES
     - FAILURE
     - FAIL_CLEAR_IMAGE
-    - FAIL_RUN_IMAGE

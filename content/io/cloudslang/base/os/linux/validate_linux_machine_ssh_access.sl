@@ -49,29 +49,29 @@ operation:
         required: false
     - privateKeyFile:
         default: ${get("private_key_file", "")}
-        overridable: false
+        private: true
     - command:
         default: ':'
-        overridable: false
+        private: true
     - arguments:
         required: false
     - character_set:
         required: false
     - characterSet:
         default: ${get("character_set", "UTF-8")}
-        overridable: false
+        private: true
     - pty: 'false'
     - timeout: '30000000'
     - close_session:
         required: false
     - closeSession:
         default: ${get("close_session", "false")}
-        overridable: false
+        private: true
     - agent_forwarding:
         required: false
     - agentForwarding:
         default: ${get("agent_forwarding", "")}
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
