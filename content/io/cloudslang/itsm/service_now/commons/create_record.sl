@@ -104,7 +104,7 @@ flow:
     - content_type:
         default: "application/json"
         required: false
-        overridable: false
+        private: true
 
   workflow:
     - create_record:

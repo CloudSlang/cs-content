@@ -69,12 +69,12 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - hostname
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
     - delimiter:
         default: ','
         required: false

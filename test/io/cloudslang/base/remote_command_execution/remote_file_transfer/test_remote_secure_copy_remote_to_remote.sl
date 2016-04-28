@@ -33,13 +33,13 @@ flow:
     - text_to_check
     - docker_scp_image:
         default: 'gituser173/docker-scp-server'
-        overridable: false
+        private: true
     - authorized_keys_path:
         default: '~/.ssh/authorized_keys'
-        overridable: false
+        private: true
     - container_path:
         default: '/home/data/'
-        overridable: false
+        private: true
 
   workflow:
 

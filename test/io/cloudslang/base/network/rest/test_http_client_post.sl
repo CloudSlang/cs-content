@@ -22,14 +22,14 @@ flow:
         required: false
     - content_type:
         default: "application/json"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxy_port:
         required: false
     - body:
         default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
-        overridable: false
+        private: true
 
   workflow:
     - post:

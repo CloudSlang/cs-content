@@ -20,7 +20,7 @@ flow:
     - url
     - content_type:
         default: "application/json"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxy_port:

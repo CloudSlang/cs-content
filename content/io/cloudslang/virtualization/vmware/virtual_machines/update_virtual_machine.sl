@@ -82,28 +82,28 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
     - operation
     - device
     - update_value:
         required: false
     - updateValue:
         default: ${get("update_value", "")}
-        overridable: false
+        private: true
     - vm_disk_size:
         required: false
     - vmDiskSize:
         default: ${get("vm_disk_size", "1024")}
-        overridable: false
+        private: true
     - vm_disk_mode:
         required: false
     - vmDiskMode:
         default: ${get("vm_disk_mode", "")}
-        overridable: false
+        private: true
 
   action:
     java_action:

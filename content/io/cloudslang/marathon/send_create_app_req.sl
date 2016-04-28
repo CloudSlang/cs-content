@@ -34,13 +34,13 @@ operation:
     - body
     - url:
         default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}
-        overridable: false
+        private: true
     - method:
         default: "post"
-        overridable: false
+        private: true
     - contentType:
         default: "application/json"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:

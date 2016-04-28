@@ -34,22 +34,22 @@ flow:
         required: false
     - excluded_images:
         default: 'busybox:latest'
-        overridable: false
+        private: true
     - image_name_busybox:
         default: 'busybox:latest'
-        overridable: false
+        private: true
     - container_name_busybox:
         default: 'busybox'
-        overridable: false
+        private: true
     - image_name_staticpython:
         default: 'elyase/staticpython:latest'
-        overridable: false
+        private: true
     - container_name_staticpython:
         default: 'staticpython'
-        overridable: false
+        private: true
     - expected_container_names:
         default: ${container_name_staticpython}
-        overridable: false
+        private: true
 
   workflow:
     - pre_clear_machine:
