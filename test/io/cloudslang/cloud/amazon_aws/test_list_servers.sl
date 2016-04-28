@@ -13,28 +13,34 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_reboot_server
+  name: test_list_servers
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
+        default: ''
         required: false
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
     - proxy_host:
+        default: ''
         required: false
     - proxy_port:
+        default: '8080'
+        required: false
+    - delimiter:
+        default: ''
         required: false
 
   workflow:
-    - reboot_server:
+    - list_servers:
         do:
-          reboot_server:
+          list_servers:
             - provider
             - endpoint
             - identity
@@ -49,7 +55,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_result
-          - FAILURE: REBOOT_SERVER_FAILURE
+          - FAILURE: LIST_SERVERS_FAILURE
 
     - check_result:
         do:
@@ -62,5 +68,5 @@ flow:
 
   results:
     - SUCCESS
-    - REBOOT_SERVER_FAILURE
+    - LIST_SERVERS_FAILURE
     - CHECK_RESULT_FAILURE

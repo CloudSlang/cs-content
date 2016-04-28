@@ -13,43 +13,59 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_reboot_server
+  name: test_run_server
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
+        default: ''
+        required: false
+    - proxy_host:
+        default: ''
+        required: false
+    - proxy_port:
+        default: '8080'
         required: false
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - proxy_host:
+    - availability_zone:
+        default: ''
         required: false
-    - proxy_port:
+    - image_ref
+    - min_count:
+        default: '1'
+        required: false
+    - max_count:
+        default: '1'
         required: false
 
   workflow:
-    - reboot_server:
+    - run_server:
         do:
-          reboot_server:
+          run_server:
             - provider
             - endpoint
             - identity
             - credential
-            - region
-            - server_id
             - proxy_host
             - proxy_port
+            - region
+            - availability_zone
+            - image_ref
+            - min_count
+            - max_count
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           - SUCCESS: check_result
-          - FAILURE: REBOOT_SERVER_FAILURE
+          - FAILURE: RUN_SERVERS_FAILURE
 
     - check_result:
         do:
@@ -62,5 +78,5 @@ flow:
 
   results:
     - SUCCESS
-    - REBOOT_SERVER_FAILURE
+    - RUN_SERVERS_FAILURE
     - CHECK_RESULT_FAILURE

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,8 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch (create) one ore more new
-#!               instance/instances
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
@@ -33,12 +32,13 @@
 namespace: io.cloudslang.cloud.amazon_aws
 
 operation:
-  name: create_server
+  name: run_server
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
         required: false
@@ -56,7 +56,6 @@ operation:
         default: 'us-east-1'
         required: false
     - availability_zone:
-        default: ''
         required: false
     - availabilityZone:
         default: ${get("availability_zone", "")}
@@ -66,13 +65,11 @@ operation:
         default: ${image_ref}
         overridable: false
     - min_count:
-        default: '1'
         required: false
     - minCount:
         default: ${get("min_count", "1")}
         overridable: false
     - max_count:
-        default: '1'
         required: false
     - maxCount:
         default: ${get("max_count", "1")}
@@ -80,7 +77,7 @@ operation:
 
   action:
     java_action:
-      className: io.cloudslang.content.jclouds.actions.CreateServerAction
+      className: io.cloudslang.content.jclouds.actions.RunServerAction
       methodName: execute
 
   outputs:

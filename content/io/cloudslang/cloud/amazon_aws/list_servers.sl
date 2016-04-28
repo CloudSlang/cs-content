@@ -51,6 +51,7 @@ operation:
         default: ${get("proxy_port", "8080")}
         overridable: false
     - delimiter:
+        default: ''
         required: false
 
   action:

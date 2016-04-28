@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update type of a specified instance
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
@@ -39,8 +39,10 @@ operation:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
+        default: ''
         required: false
     - proxy_host:
         required: false
@@ -58,19 +60,16 @@ operation:
     - server_id
     - serverId: ${server_id}
     - server_type:
-        default: ''
         required: false
     - serverType:
         default: ${get("server_type", "")}
         overridable: false
     - operation_timeout:
-        default: ''
         required: false
     - operationTimeout:
         default: ${get("operation_timeout", "")}
         overridable: false
     - pooling_interval:
-        default: ''
         required: false
     - poolingInterval:
         default: ${get("pooling_interval", "")}

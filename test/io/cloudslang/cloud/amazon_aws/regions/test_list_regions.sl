@@ -45,8 +45,8 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: check_result
-          FAILURE: LIST_REGION_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: LIST_REGION_FAILURE
 
     - check_result:
         do:
@@ -54,8 +54,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: check_default_region_exist
-          FAILURE: CHECK_RESULT_FAILURE
+          - SUCCESS: check_default_region_exist
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - check_default_region_exist:
         do:
@@ -63,8 +63,8 @@ flow:
             - string_in_which_to_search: ${return_result}
             - string_to_find: 'us-east-1'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_DEFAULT_REGION_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_DEFAULT_REGION_FAILURE
 
   results:
     - SUCCESS

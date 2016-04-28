@@ -6,17 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testTerminateAmazonServerLocal:
+testListAmazonServersLocal:
   testSuites: [amazon-local]
-  description: "Test the fact that an Amazon AWS EC2 instance was terminated."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.test_terminate_server
+  description: "Test successfully retrieved a list with all Amazon AWS EC2 instances within a specified zone."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.test_list_servers
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - region: <region>
-    - server_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - delimiter: <delimiter>
   result: SUCCESS

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -48,8 +48,8 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: check_call_result
-          FAILURE: TERMINATE_SERVER_CALL_FAILURE
+          - SUCCESS: check_call_result
+          - FAILURE: TERMINATE_SERVER_CALL_FAILURE
 
     - check_call_result:
         do:
@@ -57,8 +57,8 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          SUCCESS: check_first_possible_current_state_result
-          FAILURE: CHECK_CALL_RESULT_FAILURE
+          - SUCCESS: check_first_possible_current_state_result
+          - FAILURE: CHECK_CALL_RESULT_FAILURE
 
     - check_first_possible_current_state_result:
         do:
@@ -66,8 +66,8 @@ flow:
             - string_in_which_to_search: ${return_result}
             - string_to_find: 'currentState=terminated'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: check_second_possible_current_state_result
+          - SUCCESS: SUCCESS
+          - FAILURE: check_second_possible_current_state_result
 
     - check_second_possible_current_state_result:
         do:
@@ -75,8 +75,8 @@ flow:
             - string_in_which_to_search: ${return_result}
             - string_to_find: 'currentState=shutting-down'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: SHUTTING_DOWN_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: SHUTTING_DOWN_FAILURE
 
   results:
     - SUCCESS
