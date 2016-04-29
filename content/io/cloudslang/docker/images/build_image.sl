@@ -61,11 +61,11 @@ flow:
     - dockerfile_name_expression:
         default: >
             ${ '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' ' }
-        overridable: false
+        private: true
     - command:
         default: >
             ${ 'docker build ' + dockerfile_name_expression + '-t="' + docker_image + '" ' + workdir }
-        overridable: false
+        private: true
 
   workflow:
     - build_image_command:

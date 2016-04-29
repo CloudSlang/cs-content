@@ -43,7 +43,7 @@ flow:
     - percentage: '0%'
     - number_of_deleted_images_per_host:
         default: ''
-        overridable: false
+        private: true
 
   workflow:
     - list_machines_public_ip:

@@ -64,23 +64,23 @@ flow:
           required: false
       - privateKeyFile:
           default: ${get("private_key_file", "")}
-          overridable: false
+          private: true
       - timeout: '90000'
       - character_set:
           required: false
       - characterSet:
           default: ${get("character_set", "UTF-8")}
-          overridable: false
+          private: true
       - close_session:
           required: false
       - closeSession:
           default: ${get("close_session", "false")}
-          overridable: false
+          private: true
       - agent_forwarding:
           required: false
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
-          overridable: false
+          private: true
       - smart_recovery: True
       - retries: 5
     workflow:

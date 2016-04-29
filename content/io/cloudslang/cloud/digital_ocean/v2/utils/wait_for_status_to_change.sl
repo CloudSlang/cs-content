@@ -55,7 +55,7 @@ flow:
         required: false
     - time_left:
         default: ${int(timeout)}
-        overridable: false
+        private: true
 
   workflow:
     - get_droplet_status:

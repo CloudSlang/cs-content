@@ -72,7 +72,7 @@ flow:
         required: false
     - method:
         default: "PATCH"
-        overridable: false
+        private: true
   workflow:
     - http_client_action_patch:
         do:

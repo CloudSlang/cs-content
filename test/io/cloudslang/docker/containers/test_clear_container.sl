@@ -59,7 +59,7 @@ flow:
             - password
             - image_name: ${second_image_name}
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
 
     - run_first_container:
@@ -86,7 +86,7 @@ flow:
             - image_name: ${second_image_name}
             - container_params: '-p 49165:22'
         navigate:
-          - SUCCESS: get_all_containers
+          - SUCCESS: clear_container
           - FAILURE: FAIL_RUN_IMAGE
 
     - clear_container:
@@ -119,18 +119,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
-
   results:
     - SUCCESS
     - FAIL_VALIDATE_SSH

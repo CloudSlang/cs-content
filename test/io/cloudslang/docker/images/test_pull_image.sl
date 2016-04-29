@@ -36,19 +36,6 @@ flow:
          - SUCCESS: pull_image
          - FAILURE: MACHINE_IS_NOT_CLEAN
 
-    - test_verify_no_images:
-        do:
-          test_verify_no_images:
-            - host
-            - port
-            - username
-            - password
-        navigate:
-          - SUCCESS: pull_image
-          - FAILURE: MACHINE_IS_NOT_CLEAN
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
-
     - pull_image:
         do:
           pull_image:
@@ -100,8 +87,6 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
