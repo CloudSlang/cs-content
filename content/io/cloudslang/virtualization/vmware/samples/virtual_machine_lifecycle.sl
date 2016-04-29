@@ -72,9 +72,6 @@
 #!                      optional
 #!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
-#! @input linux_oses: list/array of Linux OSs supported by <hostname> host
-#!                    optional
-#!                    example: ['ubuntu64Guest']
 #! @input delimiter: delimiter that will be used in response list
 #!                   default: ','
 #! @input email_host: email host
@@ -111,8 +108,7 @@ flow:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         default: 'true'
@@ -140,9 +136,6 @@ flow:
         required: false
     - vm_disk_mode: 'persistent'
     - guest_os_id: 'ubuntu64Guest'
-    - linux_oses:
-        default: ['ubuntu64Guest']
-        required: false
     - delimiter:
         default: ','
         required: false

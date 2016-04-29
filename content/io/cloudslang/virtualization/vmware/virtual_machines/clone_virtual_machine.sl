@@ -105,20 +105,19 @@ operation:
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         private: true
-        overridable: false
     - data_center_name
     - dataCenterName:
         default: ${data_center_name}
-        overridable: false
+        private: true
     - hostname
     - virtual_machine_name
     - virtualMachineName:
-         default: ${get("virtual_machine_name", None)}
-         private: true
+        default: ${get("virtual_machine_name", None)}
+        private: true
     - clone_name
     - cloneName:
-         default: ${get("clone_name", None)}
-         private: true
+        default: ${get("clone_name", None)}
+        private: true
     - folder_name:
         required: false
     - folderName:

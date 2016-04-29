@@ -41,13 +41,16 @@
 #! @input domain: the fully qualified domain name
 #!                optional
 #!                default: ''
-#! @input ip_address: the static ip address
+#! @input ip_address: the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs should be
+#!                    specified as well
 #!                    optional
 #!                    default: ''
-#! @input subnet_mask: the subnet mask for the virtual network adapter
+#! @input subnet_mask: the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#!                     <default_gateway> inputs should be specified as well
 #!                     optional
 #!                     default: ''
-#! @input default_gateway: the default gateway for network adapter with a static IP address
+#! @input default_gateway: the default gateway for network adapter with a static IP address. If specified then the
+#!                         <ip_address> and <subnet_mask> inputs should be specified as well
 #!                         optional
 #!                         default: ''
 #! @input hw_clock_utc: specifies whether the hardware clock is in UTC or local time. True when the hardware clock is in UTC
@@ -83,15 +86,15 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - virtual_machine_name
     - virtualMachineName:
         default: ${virtual_machine_name}
-        overridable: false
+        private: true
     - computer_name
     - computerName:
         default: ${computer_name}
-        overridable: false
+        private: true
     - domain:
         default: ''
         required: false
@@ -99,27 +102,27 @@ operation:
         required: false
     - ipAddress:
         default: ${get("ip_address", "")}
-        overridable: false
+        private: true
     - subnet_mask:
         required: false
     - subnetMask:
         default: ${get("subnet_mask", "")}
-        overridable: false
+        private: true
     - default_gateway:
         required: false
     - defaultGateway:
         default: ${get("default_gateway", "")}
-        overridable: false
+        private: true
     - hw_clock_utc:
         required: false
     - hwClockUTC:
         default: ${get("hw_clock_utc", "true")}
-        overridable: false
+        private: true
     - time_zone:
         required: false
     - timeZone:
         default: ${get("time_zone", "")}
-        overridable: false
+        private: true
 
   action:
     java_action:

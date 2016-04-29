@@ -72,13 +72,16 @@
 #! @input dns_server: the server IP address to use for DNS lookup in a Windows guest operating system
 #!                    optional
 #!                    default: ''
-#! @input ip_address: the static ip address
+#! @input ip_address: the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs should be
+#!                    specified as well
 #!                    optional
 #!                    default: ''
-#! @input subnet_mask: the subnet mask for the virtual network adapter
+#! @input subnet_mask: the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#!                     <default_gateway> inputs should be specified as well
 #!                     optional
 #!                     default: ''
-#! @input default_gateway: the default gateway for network adapter with a static IP address
+#! @input default_gateway: the default gateway for network adapter with a static IP address. If specified then the
+#!                         <ip_address> and <subnet_mask> inputs should be specified as well
 #!                         optional
 #!                         default: ''
 #! @input mac_address: the MAC address for network adapter with a static IP address
@@ -138,46 +141,46 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - virtual_machine_name
     - virtualMachineName:
         default: ${virtual_machine_name}
-        overridable: false
+        private: true
     - reboot_option: 'reboot'
     - rebootOption:
         default: ${reboot_option}
-        overridable: false
+        private: true
     - computer_name
     - computerName:
         default: ${computer_name}
-        overridable: false
+        private: true
     - computer_password
     - computerPassword:
         default: ${computer_password}
-        overridable: false
+        private: true
     - owner_name
     - ownerName:
         default: ${owner_name}
-        overridable: false
+        private: true
     - owner_organization
     - ownerOrganization:
         default: ${owner_organization}
-        overridable: false
+        private: true
     - product_key:
         required: false
     - productKey:
         default: ${get("product_key", "")}
-        overridable: false
+        private: true
     - domain_username:
         required: false
     - domainUsername:
         default: ${get("domain_username", "")}
-        overridable: false
+        private: true
     - domain_password:
         required: false
     - domainPassword:
         default: ${get("domain_password", "")}
-        overridable: false
+        private: true
     - domain:
         default: ''
         required: false
@@ -187,42 +190,42 @@ operation:
     - license_data_mode: 'perServer'
     - licenseDataMode:
         default: ${license_data_mode}
-        overridable: false
+        private: true
     - dns_server:
         required: false
     - dnsServer:
         default: ${get("dns_server", "")}
-        overridable: false
+        private: true
     - ip_address:
         required: false
     - ipAddress:
         default: ${get("ip_address", "")}
-        overridable: false
+        private: true
     - subnet_mask:
         required: false
     - subnetMask:
         default: ${get("subnet_mask", "")}
-        overridable: false
+        private: true
     - default_gateway:
         required: false
     - defaultGateway:
         default: ${get("default_gateway", "")}
-        overridable: false
+        private: true
     - mac_address:
         required: false
     - macAddress:
         default: ${get("mac_address", "")}
-        overridable: false
+        private: true
     - auto_logon:
         required: false
     - autoLogon:
         default: ${get("auto_logon", "false")}
-        overridable: false
+        private: true
     - delete_accounts:
         required: false
     - deleteAccounts:
         default: ${get("delete_accounts", "")}
-        overridable: false
+        private: true
     - change_sid: 'true'
     - changeSID:
         default: ${change_sid}
@@ -231,17 +234,17 @@ operation:
         required: false
     - autoLogonCount:
         default: ${get("auto_logon_count", "1")}
-        overridable: false
+        private: true
     - auto_users:
         required: false
     - autoUsers:
         default: ${get("auto_users", "")}
-        overridable: false
+        private: true
     - time_zone:
         required: false
     - timeZone:
         default: ${get("time_zone", "0")}
-        overridable: false
+        private: true
 
   action:
     java_action:
