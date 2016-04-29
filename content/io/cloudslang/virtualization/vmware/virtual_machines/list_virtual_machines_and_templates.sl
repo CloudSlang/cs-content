@@ -64,7 +64,7 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - delimiter:
         default: ','
         required: false

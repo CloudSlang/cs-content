@@ -47,7 +47,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: add_password_value
+          - SUCCESS: validate_password_input
           - FAILURE: ADD_EMAIL_FAILURE
 
     - validate_password_input:

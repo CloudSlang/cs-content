@@ -46,31 +46,31 @@ operation:
         required: false
     - proxyHost:
         default: ${proxy_host if proxy_host is not None else ''}
-        overridable: false
+        private: true
     - proxyPort:
         default: ${proxy_port if proxy_port is not None else ''}
-        overridable: false
+        private: true
     - proxyUsername:
         default: ${proxy_username if proxy_username is not None else ''}
-        overridable: false
+        private: true
     - proxyPassword:
         default: ${proxy_password if proxy_password is not None else ''}
-        overridable: false
+        private: true
     - url:
         default: ${'http://'+ host + ':' + identity_port + '/v2.0/tokens'}
-        overridable: false
+        private: true
     - body:
         default: >
           ${'{"auth": {"tenantName": "' + tenant_name +
           '","passwordCredentials": {"username": "' + username +
           '", "password": "' + password + '"}}}'}
-        overridable: false
+        private: true
     - method:
         default: 'post'
-        overridable: false
+        private: true
     - contentType:
         default: 'application/json'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

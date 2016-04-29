@@ -104,6 +104,7 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
+        private: true
         overridable: false
     - data_center_name
     - dataCenterName:
@@ -113,51 +114,51 @@ operation:
     - virtual_machine_name
     - virtualMachineName:
          default: ${get("virtual_machine_name", None)}
-         overridable: false
+         private: true
     - clone_name
     - cloneName:
          default: ${get("clone_name", None)}
-         overridable: false
+         private: true
     - folder_name:
         required: false
     - folderName:
         default: ${get("folder_name", "")}
-        overridable: false
+        private: true
     - clone_host:
         required: false
     - cloneHost:
         default: ${get("clone_host", "")}
-        overridable: false
+        private: true
     - clone_resource_pool:
         required: false
     - cloneResourcePool:
         default: ${get("clone_resource_pool", "")}
-        overridable: false
+        private: true
     - clone_data_store:
         required: false
     - cloneDataStore:
         default: ${get("clone_data_store", "")}
-        overridable: false
+        private: true
     - thick_provision:
         required: false
     - thickProvision:
         default: ${get("thick_provision", "false")}
-        overridable: false
+        private: true
     - is_template:
         required: false
     - isTemplate:
         default: ${get("is_template", "false")}
-        overridable: false
+        private: true
     - num_cpus:
         required: false
     - cpuNum:
         default: ${get("num_cpus", "1")}
-        overridable: false
+        private: true
     - cores_per_socket:
         required: false
     - coresPerSocket:
         default: ${get("cores_per_socket", "1")}
-        overridable: false
+        private: true
     - memory:
         default: '1024'
         required: false
@@ -165,7 +166,7 @@ operation:
         required: false
     - cloneDescription:
         default: ${get("clone_description", "")}
-        overridable: false
+        private: true
 
   action:
     java_action:

@@ -66,7 +66,7 @@ flow:
         required: false
     - docker_options:
         default: ${'-H tcp://' + swarm_manager_ip + ':' + swarm_manager_port}
-        overridable: false
+        private: true
 
   workflow:
     - get_containers_in_cluster:

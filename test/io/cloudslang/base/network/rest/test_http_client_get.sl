@@ -26,7 +26,7 @@ flow:
         required: false
     - content_type:
         default: "application/json"
-        overridable: false
+        private: true
 
   workflow:
     - get:
