@@ -1,0 +1,10 @@
+
+testListAppBuilds:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_name_or_id: <app_name_or_id>
+  description: Test that list al the builds of an application
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.builds.test_list_app_builds
+  result: SUCCESS

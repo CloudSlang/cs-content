@@ -1,0 +1,11 @@
+
+
+testUpdateEmailAccount:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - email: <email>
+  description: Test that change the account email
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.account.test_update_email_account
+  result: SUCCESS

@@ -55,6 +55,7 @@ flow:
             - username: ${node_username}
             - password: ${node_password}
             - command: ${'cd '+ app_source_path+'/'+app_name+' && stackato push -n'}
+            - timeout: '99999'
         publish:
           - return_result
           - standard_err
