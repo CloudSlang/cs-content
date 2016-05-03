@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,9 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Check if list contains the given element.
+#! @description: Checks if list contains the given element.
 #! @input list: list in which to check - Example: [123, 'xyz']
-#! @output element: element to check
+#! @output element: element to check for
 #! @output result: true - if list contains the element, false - if not
 #!!#
 ####################################################
