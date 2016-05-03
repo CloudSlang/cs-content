@@ -48,12 +48,12 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        overridable: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        overridable: false
+        private: true
     - region:
         default: 'us-east-1'
         required: false
@@ -63,17 +63,17 @@ operation:
         required: false
     - serverType:
         default: ${get("server_type", "")}
-        overridable: false
+        private: true
     - operation_timeout:
         required: false
     - operationTimeout:
         default: ${get("operation_timeout", "")}
-        overridable: false
+        private: true
     - pooling_interval:
         required: false
     - poolingInterval:
         default: ${get("pooling_interval", "")}
-        overridable: false
+        private: true
 
   action:
     java_action:

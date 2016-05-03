@@ -46,12 +46,12 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        overridable: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        overridable: false
+        private: true
     - region:
         default: 'us-east-1'
         required: false
@@ -59,21 +59,21 @@ operation:
         required: false
     - availabilityZone:
         default: ${get("availability_zone", "")}
-        overridable: false
+        private: true
     - image_ref
     - imageRef:
         default: ${image_ref}
-        overridable: false
+        private: true
     - min_count:
         required: false
     - minCount:
         default: ${get("min_count", "1")}
-        overridable: false
+        private: true
     - max_count:
         required: false
     - maxCount:
         default: ${get("max_count", "1")}
-        overridable: false
+        private: true
 
   action:
     java_action:
