@@ -36,21 +36,21 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
-        overridable: false
+        private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
-        overridable: false
+        private: true
     - attribute_name:
         required: false
     - attributeName:
         default: ${get("attribute_name", "")}
-        overridable: false
+        private: true
     - secure_processing:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
-        overridable: false
+        private: true
 
   action:
     java_action:

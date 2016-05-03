@@ -39,16 +39,16 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
-        overridable: false
+        private: true
     - xpath_query
     - xPathQuery:
         default: ${get("xpath_query", "")}
-        overridable: false
+        private: true
     - query_type:
         required: false
     - queryType:
         default: ${get("query_type", "node")}
-        overridable: false
+        private: true
     - delimiter:
         required: false
         default: ','
@@ -56,7 +56,7 @@ operation:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
-        overridable: false
+        private: true
 
   action:
     java_action:

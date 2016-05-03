@@ -28,17 +28,17 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
-        overridable: false
+        private: true
     - xsd_document:
         required: false
     - xsdDocument:
         default: ${get("xsd_document", "")}
-        overridable: false
+        private: true
     - secure_processing:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
-        overridable: false
+        private: true
 
   action:
     java_action:
