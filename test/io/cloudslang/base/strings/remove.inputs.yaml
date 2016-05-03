@@ -25,3 +25,23 @@ testStringRemoveSpecialCharacters:
   outputs:
     - result: error
   result: SUCCESS
+
+testStringRemoveEntireString:
+  inputs:
+    - string: "SPAM"
+    - text: "SPAM"
+  description: Tests that remove.sl operation returns the empty string when removing all characters
+  testFlowPath: io.cloudslang.base.strings.remove
+  outputs:
+    - result: ""
+  result: SUCCESS
+
+testStringRemoveAllInstances:
+  inputs:
+    - string: "instance, 2nd instance"
+    - text: "instance"
+  description: Tests that remove.sl operation removes all instances of text in string
+  testFlowPath: io.cloudslang.base.strings.remove
+  outputs:
+    - result: ", 2nd "
+  result: SUCCESS

@@ -46,7 +46,7 @@ flow:
     - network:
         default: >
           ${', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''}
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxy_port:

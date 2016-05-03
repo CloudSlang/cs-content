@@ -32,13 +32,13 @@ operation:
     - json_request
     - body:
         default: ${json_request}
-        overridable: false
+        private: true
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/catalog/deregister'}
-        overridable: false
+        private: true
     - method:
         default: 'put'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction
