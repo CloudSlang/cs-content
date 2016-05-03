@@ -10,6 +10,7 @@
 #! @output error_message: return_result if statusCode is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by operation
+#! @output response_headers: response headers string from the HTTP Client REST call
 #!!#
 ####################################################
 

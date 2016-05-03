@@ -32,6 +32,7 @@
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#! @output response_headers: response headers string from the HTTP Client REST call
 #!!#
 ################################################
 

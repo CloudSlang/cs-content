@@ -6,9 +6,9 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Trims sring.
- #! @input string: string   - Example: " good "
- #! @output result: string without " "
+ #! @description: Trims given string.
+ #! @input string: original string - Example: " good "
+ #! @output result: trimmed string - Example: "good"
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings

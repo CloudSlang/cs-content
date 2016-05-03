@@ -7,7 +7,7 @@
 #
 ########################################################################################################
 #!!
-#! @description: Compares two numbers as floating point values.
+#! @description: Generates a random number.
 #! @input max: maximum number that can be returned
 #! @input min: minimum number that can be returned
 #! @output result: random number between max and min

@@ -7,11 +7,11 @@
 #
 ####################################################
 #!!
-#! @description: Check if the list is int or string.
-#! @input list: Type of list
-#! @output result: STR or INT elements.
-#! @result SUCCESS: all elements in the list are STR or INT.
-#! @result FAILURE: list contains STR and INT elements.
+#! @description: Check if the list contains ints or strings.
+#! @input list: list to check
+#! @output result: message indicating whether the list contains int or string elements
+#! @result SUCCESS: all elements in the list are ints or strings.
+#! @result FAILURE: list contains both ints and string elements.
 #!!#
 ####################################################
 
@@ -33,11 +33,11 @@ operation:
       else:
         if any(isinstance(item, (str, int)) for item in list):
           error_message = "List contains STR and INT elements"
-      
+
   outputs:
     - result: ${message}
     - error_message
-    
+
   results:
     - SUCCESS: ${error_message == ""}
     - FAILURE

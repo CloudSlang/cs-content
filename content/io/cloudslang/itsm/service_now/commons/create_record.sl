@@ -7,21 +7,21 @@
 #
 ####################################################
 #!!
-#! @description: This flow is used to perform a REST Post request to any ServiceNow table.
-#! @input host: required - The URL of the ServiceNow instance
+#! @description: Performs a REST Post request to any ServiceNow table.
+#! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
-#! @input protocol: optional - The protocol that is used to send the request
+#! @input protocol: optional - protocol that is used to send the request
 #!                  Valid: https. Obs: ServiceNow uses only this protocol
 #!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'anonymous' (When OAuth token is provided). Obs: ServiceNow uses only these
 #!                   Default: 'basic'
-#! @input api_version: optional - the servicenow api version to be used for the call
+#! @input api_version: optional - servicenow api version to be used for the call
 #!                   Valid: 'v1'
 #!                   Default: ''
-#! @input table_name: required - the name of the servicenow table which should be used for the request.
+#! @input table_name: required - name of the servicenow table which should be used for the request.
 #!                    Example: incident, problem , change
-#! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
+#! @input username: optional - username used for URL authentication; for NTLM authentication, required format is
 #!                  'domain\user'
 #! @input password: optional - password used for URL authentication
 #! @input proxy_host: optional - proxy server used to access the web site
@@ -35,12 +35,12 @@
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input body: optional - The string to include in the body of the request, in the format accepted by ServiceNow.
+#! @input body: optional - string to include in the body of the request, in the format accepted by ServiceNow
 #!              Example: {'short_description':'Example description','severity':'1','assigned_to':'46c1293aa9fe1981000dc753e75ebeee'}
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'application/sjon'
-#! @output return_result: the response of the operation in case of success or the error message otherwise
-#! @output system_id: the system id of the record created
+#!                      data in the message body - Default: 'application/json'
+#! @output return_result: response of the operation in case of success or the error message otherwise
+#! @output system_id: system id of the record created
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call

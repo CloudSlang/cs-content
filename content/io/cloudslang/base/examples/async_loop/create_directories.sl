@@ -1,8 +1,8 @@
 
 ####################################################
 #!!
-#! @description: How Do I Asynch Loop Flow Example
-#! The flow creates directories in asynch loop
+#! @description: Example of using an async loop.
+#! The flow creates directories in asynchronous loop.
 #! @input base_dir_name: path of base name of created directories
 #! @input num_of_directories: number of directories to create - Default: 10
 #!!#

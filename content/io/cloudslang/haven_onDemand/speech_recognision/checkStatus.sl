@@ -8,13 +8,13 @@
 #
 ####################################################
 #!!
-#! @description: Gets results of Speech Recognision, with was made by HPE Haven OnDemand API.
+#! @description: Gets results of speech recognition, with was made by HPE Haven OnDemand API.
 #! @input speechResultApi: API which waits until the job has finished and then returns the result
-#! @input apikey: user's API Keys
-#! @input jobID: name of request, witch is returned by havenondemand.com
+#! @input apikey: user's API key
+#! @input jobID: name of request returned by havenondemand.com
 #! @output status: status of request
-#! @output result: JSON result of  from API
-#! @output transcript: results of Speech Recognision
+#! @output result: JSON result of from API
+#! @output transcript: results of speech recognition
 #!!#
 ####################################################
 

@@ -7,14 +7,14 @@
 #
 ##################################################
 #!!
-#! @description: This operation decodes a Base64-encoded string into a clear string
+#! @description: Decodes a Base64-encoded string into a clear string
 #! @input data: string to decode
 #! @input character_set: The character decoding used for the data string. If you do not specify a value for this input,
-#!                       it uses the system's default character decoding which depends on the RAS system.
+#!                       it uses the system's default character decoding.
 #!                       Examples: UTF-8, ISO-8859-1, US-ASCII or Shift_JIS.
-#! @output result: the decoded string
-#! @result SUCCESS: the operation completed successfully
-#! @result FAILURE: the operation failed
+#! @output result: decoded string
+#! @result SUCCESS: operation completed successfully
+#! @result FAILURE: operation failed
 #!!#
 ##################################################
 namespace: io.cloudslang.base.utils

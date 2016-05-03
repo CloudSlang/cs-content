@@ -6,9 +6,9 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Removes text in string.
-#! @input string: string   - Example: "SPAMgood morning"
-#! @input text: text witch need to be removed - Example: "SPAM"
+#! @description: Removes text from a string.
+#! @input string: original string - Example: "SPAMgood morning"
+#! @input text: text to be removed - Example: "SPAM"
 #! @output result: string after removing - Example: "good morning"
 #!!#
 ####################################################

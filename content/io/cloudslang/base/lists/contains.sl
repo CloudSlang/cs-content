@@ -7,10 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: Check element in the list.
-#! @input list: list in wich we need check element  - Example: [123, 'xyz']
-#! @output element: element witch we want to check
-#! @output result: true - if list contains, false - if not
+#! @description: Check if list contains the given element.
+#! @input list: list in which to check - Example: [123, 'xyz']
+#! @output element: element to check
+#! @output result: true - if list contains the element, false - if not
 #!!#
 ####################################################
 

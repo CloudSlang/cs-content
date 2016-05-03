@@ -1,6 +1,6 @@
 ####################################################
 #!!
-#! @description: Wrapper over create_folder
+#! @description: Wrapper over the files/create_folder operation.
 #!
 #! @input directory_name: name of directory to be created
 #! @output error_msg: error message

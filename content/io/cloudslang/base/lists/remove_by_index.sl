@@ -7,9 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Remove element from list be index.
-#! @input list: list from wich we want to remove element  - Example: [123, 'xyz']
-#! @output index: ingex of this element
+#! @description: Remove element from list by index.
+#! @input list: list from which to remove element - Example: [123, 'xyz']
+#! @output index: index of the element to remove
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists

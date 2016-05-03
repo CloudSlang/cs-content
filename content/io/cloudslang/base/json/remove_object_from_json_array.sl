@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: remove an object from a JSON array, optionally specifying the position from which to remove the existing object.
+#! @description: Removes an object from a JSON array, optionally specifying the position from which to remove the existing object.
 #! @input json_array: JSON array to remove object from - Example: '[{"a": "0"}, {"b": "1"}, {"c": "2"}]'
 #! @input json_object: JSON object to remove from array - Example: '{"b": "1"}'
 #! @input index: optional - position from which to remove the existing object - Example: 1

@@ -8,9 +8,11 @@
 ####################################################
 #!!
 #! @description: Get element from list.
-#! @input list: list from wich we want to get  element  - Example: [123, 'xyz']
-#! @output index: ingex of this element
-#! @output result: element
+#! @input list: list from which to get element - Example: [123, 'xyz']
+#! @output index: index of the element to get
+#! @output result: element at index
+#! @result SUCCESS: element was found
+#! @result FAILURE: element was not found
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
