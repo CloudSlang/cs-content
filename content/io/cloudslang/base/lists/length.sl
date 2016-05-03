@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Return length of list.
-#! @input list: list in wich we need add element  - Example: [123, 'xyz']
+#! @input list: list which we want to get the length of  - Example: [123, 'xyz']
 #! @output result: length of list
 #!!#
 ####################################################

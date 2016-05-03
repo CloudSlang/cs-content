@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,8 +8,8 @@
 ####################################################
 #!!
 #! @description: Check element in the list.
-#! @input list: list in wich we need check element  - Example: [123, 'xyz']
-#! @output element: element witch we want to check
+#! @input list: list in which we need to check the element  - Example: [123, 'xyz']
+#! @output element: element which we want to check
 #! @output result: true - if list contains, false - if not
 #!!#
 ####################################################
