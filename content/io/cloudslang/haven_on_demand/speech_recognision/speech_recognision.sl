@@ -13,7 +13,7 @@
 #! @output job_id: name of request, witch is returned by havenondemand.com
 #!!#
 ####################################################
-namespace: io.cloudslang.haven_onDemand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognision
 
 imports:
   rest: io.cloudslang.base.network.rest

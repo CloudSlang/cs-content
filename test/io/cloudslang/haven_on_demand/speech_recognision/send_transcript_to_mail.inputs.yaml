@@ -17,6 +17,6 @@ testsendTranscriptToMail:
     - from: <email>
     - to: <email>
   description: Test that sendVoiceRecToMail.sl finished with result = SUCCESS
-  testFlowPath: io.cloudslang.haven_onDemand.voice_recognision.send_transcript_to_mail
+  testFlowPath: io.cloudslang.haven_on_demand.voice_recognision.send_transcript_to_mail
   result: SUCCESS
   testSuites: [haven-local]
