@@ -124,7 +124,7 @@ flow:
 
     - add_group:
         do:
-          groups.add_ubuntu_group:
+          groups.add_RHEL_group:
             - host
             - root_password
             - group_name: 'tomcat'
