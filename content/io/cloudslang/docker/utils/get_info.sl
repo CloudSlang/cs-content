@@ -58,7 +58,7 @@ flow:
         required: false
     - command:
         default: ${'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'}
-        overridable: false
+        private: true
 
   workflow:
     - get_docker_info:

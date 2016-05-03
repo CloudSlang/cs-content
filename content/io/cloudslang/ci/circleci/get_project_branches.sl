@@ -49,7 +49,7 @@ flow:
   inputs:
     - host:
         default: "circleci.com"
-        overridable: false
+        private: true
     - protocol:
         default: "https"
     - proxy_host:
@@ -60,10 +60,10 @@ flow:
     - token
     - content_type:
         default: "application/json"
-        overridable: false
+        private: true
     - headers:
         default: "Accept:application/json"
-        overridable: false
+        private: true
 
   workflow:
     - get_project_info:

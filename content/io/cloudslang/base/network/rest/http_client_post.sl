@@ -74,7 +74,7 @@ flow:
         required: false
     - method:
         default: "POST"
-        overridable: false
+        private: true
   workflow:
     - http_client_action_post:
         do:

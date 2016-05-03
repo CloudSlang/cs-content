@@ -20,9 +20,9 @@
 namespace: io.cloudslang.base
 
 properties:
-  hostname: localhost
-  port: "49154"
-  from: user@example.com
-  to: otheruser@example.com
-  username: user
-  password: pwd
+  - hostname: localhost
+  - port: "49154"
+  - from: user@example.com
+  - to: otheruser@example.com
+  - username: user
+  - password: pwd

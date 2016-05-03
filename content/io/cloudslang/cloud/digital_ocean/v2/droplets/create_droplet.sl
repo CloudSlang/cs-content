@@ -69,10 +69,10 @@ flow:
         required: false
     - ssh_keys_formatted:
         default: ${str(ssh_keys) if ssh_keys else 'null'}
-        overridable: false
+        private: true
     - user_data_formatted:
         default: ${user_data if user_data else 'null'}
-        overridable: false
+        private: true
 
   workflow:
     - execute_post_request:

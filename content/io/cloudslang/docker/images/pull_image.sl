@@ -48,7 +48,7 @@ flow:
         required: false
     - command:
         default: ${ 'docker pull ' + image_name }
-        overridable: false
+        private: true
     - arguments:
         required: false
     - character_set:

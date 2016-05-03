@@ -41,29 +41,29 @@ operation:
         required: false
     - sourceHost:
         default: ${get("source_host", "")}
-        overridable: false
+        private: true
     - source_path
     - sourcePath: ${source_path}
     - source_port:
         required: false
     - sourcePort:
         default: ${get("source_port", "22")}
-        overridable: false
+        private: true
     - source_username:
         required: false
     - sourceUsername:
         default: ${get("source_username", "")}
-        overridable: false
+        private: true
     - source_password:
         required: false
     - sourcePassword:
         default: ${get("source_password", "")}
-        overridable: false
+        private: true
     - source_private_key_file:
         required: false
     - sourcePrivateKeyFile:
         default: ${get("source_private_key_file", "")}
-        overridable: false
+        private: true
     - destination_host
     - destinationHost: ${destination_host}
     - destination_path
@@ -72,29 +72,29 @@ operation:
         required: false
     - destinationPort:
         default: ${get("destination_port", "22")}
-        overridable: false
+        private: true
     - destination_username
     - destinationUsername: ${destination_username}
     - destination_password:
         required: false
     - destinationPassword:
         default: ${get("destination_password", "")}
-        overridable: false
+        private: true
     - destination_private_key_file:
         required: false
     - destinationPrivateKeyFile:
         default: ${get("destination_private_key_file", "")}
-        overridable: false
+        private: true
     - known_hosts_policy:
         required: false
     - knownHostsPolicy:
         default: ${get("known_hosts_policy", "allow")}
-        overridable: false
+        private: true
     - known_hosts_path:
         required: false
     - knownHostsPath:
         default: ${get("known_hosts_path", "")}
-        overridable: false
+        private: true
     - timeout:
         default: '90000'
         required: false

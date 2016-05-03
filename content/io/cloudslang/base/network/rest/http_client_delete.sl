@@ -71,7 +71,7 @@ flow:
         required: false
     - method:
         default: "DELETE"
-        overridable: false
+        private: true
   workflow:
     - http_client_action_delete:
         do:

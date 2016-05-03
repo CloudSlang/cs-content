@@ -46,12 +46,12 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        overridable: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        overridable: false
+        private: true
 
   action:
     java_action:
