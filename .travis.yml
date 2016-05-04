@@ -35,4 +35,4 @@ script:
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
     
 # cat prints only part of the file for some reason so we print ourselves
-after_failure: while read line; do printf "%s\n" "$line"; done < builder.log
+after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
