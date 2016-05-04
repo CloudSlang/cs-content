@@ -20,8 +20,11 @@ testVMwareVirtualMachineLifecycleLocal:
     - data_center_name: <data_center_name>
     - hostname: <hostname>
     - virtual_machine_name: <virtual_machine_name>
-    - description: <description>
     - data_store: <data_store>
+    - guest_os_id: <guest_os_id>
+    - folder_name: <folder_name>
+    - resource_pool: <resource_pool>
+    - description: <description>
     - num_cpus: <num_cpus>
     - vm_disk_size: <vm_disk_size>
     - vm_memory_size: <vm_memory_size>
@@ -29,8 +32,6 @@ testVMwareVirtualMachineLifecycleLocal:
     - device: <device>
     - update_value: <update_value>
     - vm_disk_mode: <vm_disk_mode>
-    - guest_os_id: <guest_os_id>
-    - linux_oses: <linux_oses>
     - delimiter: <delimiter>
     - email_host: <email_host>
     - email_port: <email_port>

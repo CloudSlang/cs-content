@@ -44,11 +44,22 @@
 #!                  example: 'host123.subdomain.example.com'
 #!                  default: ''
 #! @input virtual_machine_name: name of virtual machine that will be created
+#! @input data_store: datastore where disk of the newly created virtual machine will reside
+#!                    example: 'datastore2-vc6-1'
+#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
+#!                     be obtained by running utils/get_os_descriptors operation
+#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
+#! @input folder_name: name of the folder where the virtual machine will be created. If not provided then the top parent
+#!                     folder will be used
+#!                     optional
+#!                     default: ''
+#! @input resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource pool
+#!                       will be used
+#!                       optional
+#!                       default: ''
 #! @input description: description of virtual machine that will be created
 #!                     optional
 #!                     default: ''
-#! @input data_store: datastore where disk of the newly created virtual machine will reside
-#!                    example: 'datastore2-vc6-1'
 #! @input num_cpus: number that indicates how many processors the newly created virtual machine will have
 #!                  optional
 #!                  default: '1'
@@ -58,9 +69,6 @@
 #! @input vm_memory_size: amount of memory (in Mb) attached to virtual machine that will be created
 #!                        optional
 #!                        default: '1024'
-#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
-#!                     be obtained by running utils/get_os_descriptors operation
-#!                     example: 'ubuntu64Guest'
 #! @input operation: possible operations that can be applied to update a specified attached device ("update" operation
 #!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
 #!                   valid: "add", "remove", "update"
@@ -120,10 +128,13 @@ flow:
     - data_center_name
     - hostname
     - virtual_machine_name
+    - data_store
+    - guest_os_id: 'ubuntu64Guest'
+    - folder_name
+    - resource_pool
     - description:
         default: ''
         required: false
-    - data_store
     - num_cpus:
         default: '1'
         required: false
@@ -140,9 +151,6 @@ flow:
         required: false
     - vm_disk_mode: 'persistent'
     - guest_os_id: 'ubuntu64Guest'
-    - linux_oses:
-        default: ['ubuntu64Guest']
-        required: false
     - delimiter:
         default: ','
         required: false
@@ -166,8 +174,11 @@ flow:
             - data_center_name
             - hostname
             - virtual_machine_name
-            - description
             - data_store
+            - guest_os_id
+            - folder_name
+            - resource_pool
+            - description
             - num_cpus
             - vm_disk_size
             - vm_memory_size
@@ -175,7 +186,6 @@ flow:
             - device
             - update_value
             - vm_disk_mode
-            - guest_os_id
             - linux_oses
             - delimiter
             - email_host
