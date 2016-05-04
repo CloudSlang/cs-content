@@ -1,18 +1,16 @@
 namespace: io.cloudslang.base.datetime
 
 operation:
-  name: offset_time_by
+  name: get_time
 
   inputs:
-    - date
-    - offset
     - localeLang
     - localeCountry
 
   action:
     java_action:
-      className: io.cloudslang.content.datetime.actions.OffsetTimeBy
-      methodName: OffsetTimeBy
+      className: io.cloudslang.content.datetime.actions.GetCurrentDateTime
+      methodName: execute
 
   outputs:
     - result: ${returnResult}
