@@ -38,7 +38,7 @@ flow:
     - container_name
     - command:
         default: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
-        overridable: false
+        private: true
     - host
     - port:
         required: false

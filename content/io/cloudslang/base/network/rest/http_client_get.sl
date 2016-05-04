@@ -71,7 +71,7 @@ flow:
         required: false
     - method:
         default: "GET"
-        overridable: false
+        private: true
 
   workflow:
     - http_client_action_get:
@@ -96,8 +96,10 @@ flow:
           - error_message
           - return_code
           - status_code
+          - response_headers
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
+    - response_headers

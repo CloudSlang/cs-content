@@ -41,7 +41,7 @@ operation:
         required: false
     - url:
         default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps?embed=' + embed}
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -54,10 +54,10 @@ operation:
         required: false
     - method:
         default: "get"
-        overridable: false
+        private: true
     - contentType:
         default: "application/json"
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

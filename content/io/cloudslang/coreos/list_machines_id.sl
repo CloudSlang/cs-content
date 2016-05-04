@@ -63,7 +63,7 @@ flow:
         required: false
     - command:
         default: "fleetctl list-machines | awk '{print $1}'"
-        overridable: false
+        private: true
 
   workflow:
     - get_machine_public_ip:

@@ -106,12 +106,12 @@ operation:
         required: false
     - authType:
         default: ${get("auth_type", "basic")}
-        overridable: false
+        private: true
     - preemptive_auth:
         required: false
     - preemptiveAuth:
         default: ${get("preemptive_auth", "true")}
-        overridable: false
+        private: true
     - username:
         required: false
     - password:
@@ -120,194 +120,194 @@ operation:
         required: false
     - kerberosConfFile:
         default: ${get("kerberos_conf_file", "0")}
-        overridable: false
+        private: true
     - kerberos_login_conf_file:
         required: false
     - kerberosLoginConfFile:
         default: ${get("kerberos_login_conf_file", "")}
-        overridable: false
+        private: true
     - kerberos_skip_port_for_lookup:
         required: false
     - kerberosSkipPortForLookup:
         default: ${get("kerberos_skip_port_for_lookup", "true")}
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        overridable: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        overridable: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        overridable: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        overridable: false
+        private: true
     - trust_all_roots:
         required: false
     - trustAllRoots:
         default: ${get("trust_all_roots", "true")}
-        overridable: false
+        private: true
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
         default: ${get("x_509_hostname_verifier", "allow_all")}
-        overridable: false
+        private: true
     - trust_keystore:
         required: false
     - trustKeystore:
         default: ${get("trust_keystore", "")}
-        overridable: false
+        private: true
     - trust_password:
         required: false
     - trustPassword:
         default: ${get("trust_password", "")}
-        overridable: false
+        private: true
     - keystore:
         required: false
     - keystore_password:
         required: false
     - keystorePassword:
         default: ${get("keystore_password", "")}
-        overridable: false
+        private: true
     - connect_timeout:
         required: false
     - connectTimeout:
         default: ${get("connect_timeout", "0")}
-        overridable: false
+        private: true
     - socket_timeout:
         required: false
     - socketTimeout:
         default: ${get("socket_timeout", "0")}
-        overridable: false
+        private: true
     - use_cookies:
         required: false
     - useCookies:
         default: ${get("use_cookies", "true")}
-        overridable: false
+        private: true
     - keep_alive:
         required: false
     - keepAlive:
         default: ${get("keep_alive", "true")}
-        overridable: false
+        private: true
     - connections_max_per_root:
         required: false
     - connectionsMaxPerRoot:
         default: ${get("connections_max_per_root", "2")}
-        overridable: false
+        private: true
     - connections_max_total:
         required: false
     - connectionsMaxTotal:
         default: ${get("connections_max_total", "2")}
-        overridable: false
+        private: true
     - headers:
         required: false
     - response_character_set:
         required: false
     - responseCharacterSet:
         default: ${get("response_character_set", "ISO-8859-1")}
-        overridable: false
+        private: true
     - destination_file:
         required: false
     - destinationFile:
         default: ${get("destination_file", "")}
-        overridable: false
+        private: true
     - follow_redirects:
         required: false
     - followRedirects:
         default: ${get("follow_redirects", "true")}
-        overridable: false
+        private: true
     - query_params:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        overridable: false
+        private: true
     - query_params_are_URL_encoded:
         required: false
     - queryParamsAreURLEncoded:
         default: ${get("query_params_are_URL_encoded", "false")}
-        overridable: false
+        private: true
     - query_params_are_form_encoded:
         required: false
     - queryParamsAreFormEncoded:
         default: ${get("query_params_are_form_encoded", "true")}
-        overridable: false
+        private: true
     - form_params:
         required: false
     - formParams:
         default: ${get("form_params", "")}
-        overridable: false
+        private: true
     - form_params_are_URL_encoded:
         required: false
     - formParamsAreURLEncoded:
         default: ${get("form_params_are_URL_encoded", "false")}
-        overridable: false
+        private: true
     - source_file:
         required: false
     - sourceFile:
         default: ${get("source_file", "")}
-        overridable: false
+        private: true
     - body:
         required: false
     - content_type:
         required: false
     - contentType:
         default: ${get("content_type", "text/plain")}
-        overridable: false
+        private: true
     - request_character_set:
         required: false
     - requestCharacterSet:
         default: ${get("request_character_set", "ISO-8859-1")}
-        overridable: false
+        private: true
     - multipart_bodies:
         required: false
     - multipartBodies:
         default: ${get("multipart_bodies", "")}
-        overridable: false
+        private: true
     - multipart_bodies_content_type:
         required: false
     - multipartBodiesContentType:
         default: ${get("multipart_bodies_content_type", "text/plain; charset=ISO-8859-1")}
-        overridable: false
+        private: true
     - multipart_files:
         required: false
     - multipartFiles:
         default: ${get("multipart_files", "")}
-        overridable: false
+        private: true
     - multipart_files_content_type:
         required: false
     - multipartFilesContentType:
         default: ${get("multipart_files_content_type", "application/octet-stream")}
-        overridable: false
+        private: true
     - multipart_values_are_URL_encoded:
         required: false
     - multipartValuesAreURLEncoded:
         default: ${get("multipart_values_are_URL_encoded", "false")}
-        overridable: false
+        private: true
     - chunked_request_entity:
         required: false
     - chunkedRequestEntity:
         default: ${get("chunked_request_entity", "")}
-        overridable: false
+        private: true
     - method
     - http_client_cookie_session:
         required: false
     - httpClientCookieSession:
         default: ${get("http_client_cookie_session", "")}
-        overridable: false
+        private: true
     - http_client_pooling_connection_manager:
         required: false
     - httpClientPoolingConnectionManager:
         default: ${get("http_client_pooling_connection_manager", "")}
-        overridable: false
+        private: true
     - valid_http_status_codes:
         default: ${range(200, 300)}
 
@@ -316,10 +316,11 @@ operation:
       className: io.cloudslang.content.httpclient.HttpClientAction
       methodName: execute
   outputs:
-    - return_result: ${'' if 'returnResult' not in locals() else returnResult}
+    - return_result: ${get('returnResult', '')}
     - error_message: ${returnResult if returnCode != '0' else ''}
     - return_code: ${returnCode}
-    - status_code: ${'' if 'statusCode' not in locals() else statusCode}
+    - status_code: ${get('statusCode', '')}
+    - response_headers: ${get('responseHeaders', '')}
   results:
     - SUCCESS : ${returnCode == '0' and int(statusCode) in valid_http_status_codes}
     - FAILURE

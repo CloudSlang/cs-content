@@ -39,19 +39,19 @@ operation:
         required: false
     - proxyHost:
         default: ${proxy_host if proxy_host else ''}
-        overridable: false
+        private: true
     - proxyPort:
         default: ${proxy_port if proxy_port else ''}
-        overridable: false
+        private: true
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}
-        overridable: false
+        private: true
     - url:
         default: ${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/servers/' + server_id}
-        overridable: false
+        private: true
     - method:
         default: 'delete'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

@@ -34,13 +34,13 @@ operation:
         required: false
     - dc:
         default: ${'?dc=' + datacenter if bool(datacenter) else ''}
-        overridable: false
+        private: true
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/catalog/services' + dc}
-        overridable: false
+        private: true
     - method:
         default: 'get'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

@@ -65,12 +65,12 @@ flow:
         required: false
     - container_cmd_expression:
         default: ${' ' + container_cmd if container_cmd else ''}
-        overridable: false
+        private: true
     - command:
         default: >
           ${'docker run --name ' + container_name + ' --link ' + link_params + ' ' + cmd_params +
           ' -d ' + image_name + container_cmd_expression}
-        overridable: false
+        private: true
 
   workflow:
     - start_linked_container:

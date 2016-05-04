@@ -42,7 +42,7 @@ flow:
     - used_image_name: 'busybox'
     - number_of_images_in_cluster:
         default: 0
-        overridable: false
+        private: true
 
   workflow:
     - list_machines_public_ip:

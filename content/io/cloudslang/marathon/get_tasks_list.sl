@@ -37,13 +37,13 @@ operation:
         required: false
     - url:
         default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/tasks?status=' +status}
-        overridable: false
+        private: true
     - method:
         default: "get"
-        overridable: false
+        private: true
     - contentType:
         default: "application/json"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:

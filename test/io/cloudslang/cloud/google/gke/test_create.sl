@@ -74,7 +74,7 @@ flow:
             - project_id
             - zone
             - json_google_auth_path
-            - clusterId: ${name}
+            - cluster_id: ${name}
         publish:
           - return_result
           - response
