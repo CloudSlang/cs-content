@@ -130,8 +130,12 @@ flow:
     - virtual_machine_name
     - data_store
     - guest_os_id: 'ubuntu64Guest'
-    - folder_name
-    - resource_pool
+    - folder_name:
+        default: ''
+        required: false
+    - resource_pool:
+        default: ''
+        required: false
     - description:
         default: ''
         required: false
