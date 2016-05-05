@@ -13,7 +13,7 @@
 #! @result SUCCESS: always
 #!!#
 ########################################################################################################
-namespace: io.cloudslang.base.math.subtract
+namespace: io.cloudslang.base.math
 
 operation:
   name: subtract_numbers

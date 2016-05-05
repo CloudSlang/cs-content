@@ -29,7 +29,7 @@ namespace: io.cloudslang.base.utils
 
 imports:
   ssh: io.cloudslang.base.ssh
-  comparisons: io.cloudslang.base.math.comparisons
+  math: io.cloudslang.base.math
 
 flow:
   name: handle_session_recovery
@@ -50,7 +50,7 @@ flow:
 
     - check_retries:
         do:
-          comparisons.compare_numbers:
+          math.compare_numbers:
             - value1: ${ retries }
             - value2: 0
             - retries

@@ -15,7 +15,7 @@
 #! @result SUCCESS: values divided
 #!!#
 ########################################################################################################
-namespace: io.cloudslang.base.math.divide
+namespace: io.cloudslang.base.math
 
 operation:
   name: divide_numbers

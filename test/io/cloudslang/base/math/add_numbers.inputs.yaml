@@ -11,7 +11,7 @@ testAddInt:
     - value1: 3
     - value2: 5
   description: Tests that add_numbers.sl operation finishes with result = 8.0
-  testFlowPath: io.cloudslang.base.math.add.add_numbers
+  testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
     - result: 8.0
   result: SUCCESS
@@ -21,7 +21,7 @@ testAddFloat:
     - value1: .3
     - value2: 5
   description: Tests that add_numbers.sl operation finishes with result = 5.3
-  testFlowPath: io.cloudslang.base.math.add.add_numbers
+  testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
     - result: 5.3
   result: SUCCESS
@@ -31,7 +31,7 @@ testAddString:
     - value1: '3'
     - value2: '5'
   description: Tests that add_numbers.sl operation finishes with result = 8.0
-  testFlowPath: io.cloudslang.base.math.add.add_numbers
+  testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
     - result: 8.0
   result: SUCCESS

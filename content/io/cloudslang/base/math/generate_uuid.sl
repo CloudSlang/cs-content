@@ -7,22 +7,19 @@
 #
 ########################################################################################################
 #!!
-#! @description: Multiply two numbers as floating point values.
-#! @input value1: first value as number or string
-#! @input value2: second value as number or string
-#! @result SUCCESS: always
+#! @description: Compares two numbers as floating point values.
+#! @output result: new uuid
 #!!#
 ########################################################################################################
-namespace: io.cloudslang.base.math.multiply
+
+namespace: io.cloudslang.base.math
 
 operation:
-  name: multiply_numbers
-  inputs:
-    - value1
-    - value2
+  name: generate_uuid
+
   action:
     python_script: |
-      value1 = float(value1)
-      value2 = float(value2)
+      import uuid
+      new_uuid = str(uuid.uuid1())
   outputs:
-     - result: ${value1 * value2}
+    - result: ${new_uuid}

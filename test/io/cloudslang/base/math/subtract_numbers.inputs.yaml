@@ -11,7 +11,7 @@ testSubtractInt:
     - value1: 6
     - value2: 2
   description: Tests that subtract_numbers.sl operation finishes with result = 4.0
-  testFlowPath: io.cloudslang.base.math.subtract.subtract_numbers
+  testFlowPath: io.cloudslang.base.math.subtract_numbers
   outputs:
     - result: 4.0
   result: SUCCESS
@@ -21,7 +21,7 @@ testSubtractFloat:
     - value1: .7
     - value2: 2
   description: Tests that subtract_numbers.sl operation finishes with result = -1.3
-  testFlowPath: io.cloudslang.base.math.subtract.subtract_numbers
+  testFlowPath: io.cloudslang.base.math.subtract_numbers
   outputs:
     - result: -1.3
   result: SUCCESS
@@ -31,7 +31,7 @@ testSubtractStr:
     - value1: '3'
     - value2: '5'
   description: Tests that subtract_numbers.sl operation finishes with result = -2.0
-  testFlowPath: io.cloudslang.base.math.subtract.subtract_numbers
+  testFlowPath: io.cloudslang.base.math.subtract_numbers
   outputs:
     - result: -2.0
   result: SUCCESS

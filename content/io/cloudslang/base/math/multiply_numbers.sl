@@ -7,17 +7,16 @@
 #
 ########################################################################################################
 #!!
-#! @description: Adds two numbers as floating point values.
+#! @description: Multiply two numbers as floating point values.
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
-#! @output result: value1 add value2
 #! @result SUCCESS: always
 #!!#
 ########################################################################################################
-namespace: io.cloudslang.base.math.add
+namespace: io.cloudslang.base.math
 
 operation:
-  name: add_numbers
+  name: multiply_numbers
   inputs:
     - value1
     - value2
@@ -26,4 +25,4 @@ operation:
       value1 = float(value1)
       value2 = float(value2)
   outputs:
-     - result: ${value1 + value2}
+     - result: ${value1 * value2}

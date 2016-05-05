@@ -8,5 +8,5 @@
 ####################################################
 testRandInt:
   description: Tests that generate_uuid.sl operation finishes with result = SUCCESS
-  testFlowPath: io.cloudslang.base.math.uuid.generate_uuid
+  testFlowPath: io.cloudslang.base.math.generate_uuid
   result: SUCCESS

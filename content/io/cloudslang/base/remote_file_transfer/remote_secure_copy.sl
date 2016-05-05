@@ -32,7 +32,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer
+namespace: io.cloudslang.base.remote_file_transfer
 
 operation:
   name: remote_secure_copy

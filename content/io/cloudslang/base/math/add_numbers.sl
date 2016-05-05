@@ -7,19 +7,23 @@
 #
 ########################################################################################################
 #!!
-#! @description: Compares two numbers as floating point values.
-#! @output result: new uuid
+#! @description: Adds two numbers as floating point values.
+#! @input value1: first value as number or string
+#! @input value2: second value as number or string
+#! @output result: value1 add value2
+#! @result SUCCESS: always
 #!!#
 ########################################################################################################
-
-namespace: io.cloudslang.base.math.uuid
+namespace: io.cloudslang.base.math
 
 operation:
-  name: generate_uuid
-
+  name: add_numbers
+  inputs:
+    - value1
+    - value2
   action:
     python_script: |
-      import uuid
-      new_uuid = str(uuid.uuid1())
+      value1 = float(value1)
+      value2 = float(value2)
   outputs:
-    - result: ${new_uuid}
+     - result: ${value1 + value2}

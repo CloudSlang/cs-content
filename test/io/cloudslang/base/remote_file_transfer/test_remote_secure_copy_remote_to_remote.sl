@@ -7,11 +7,11 @@
 #
 ####################################################
 
-namespace: io.cloudslang.base.remote_command_execution.remote_file_transfer
+namespace: io.cloudslang.base.remote_file_transfer
 
 imports:
   base_cmd: io.cloudslang.base.cmd
-  base_rft: io.cloudslang.base.remote_command_execution.remote_file_transfer
+  base_rft: io.cloudslang.base.remote_file_transfer
   base_files: io.cloudslang.base.files
   base_strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance

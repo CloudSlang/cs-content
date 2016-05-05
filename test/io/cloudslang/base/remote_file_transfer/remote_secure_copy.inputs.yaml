@@ -18,7 +18,7 @@ testRemoteSecureCopySucessRemoteToRemote:
     - scp_file: file.txt
     - text_to_check: "helloworld"
   description: Tests rft successfully transfers a file from one remote to another
-  testFlowPath: io.cloudslang.base.remote_command_execution.remote_file_transfer.test_remote_secure_copy_remote_to_remote
+  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_remote_to_remote
   testSuites: [remote-copy]
   result: SUCCESS
 
@@ -33,6 +33,6 @@ testRemoteSecureCopySucessLocalToRemote:
     - scp_file: file.txt
     - text_to_check: "helloworld"
   description: Tests rft successfully transfers a file from local to another
-  testFlowPath: io.cloudslang.base.remote_command_execution.remote_file_transfer.test_remote_secure_copy_local_to_remote
+  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_local_to_remote
   testSuites: [remote-copy]
   result: SUCCESS

@@ -17,7 +17,7 @@
 #!!#
 ########################################################################################################
 
-namespace: io.cloudslang.base.math.random
+namespace: io.cloudslang.base.math
 
 operation:
   name: generate_random_numbers

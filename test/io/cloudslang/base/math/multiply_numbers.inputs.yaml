@@ -11,7 +11,7 @@ testMultiplyInt:
     - value1: 7
     - value2: 2
   description: Tests that multiply_numbers.sl operation finishes with result = 14.0
-  testFlowPath: io.cloudslang.base.math.multiply.multiply_numbers
+  testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
     - result: 14.0
   result: SUCCESS
@@ -21,7 +21,7 @@ testMyltiplyFloat:
     - value1: .3
     - value2: 2
   description: Tests that multiply_numbers.sl operation finishes with result = 0.6
-  testFlowPath: io.cloudslang.base.math.multiply.multiply_numbers
+  testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
     - result: 0.6
   result: SUCCESS
@@ -31,7 +31,7 @@ testMyltiplyStr:
     - value1: '3'
     - value2: '5'
   description: Tests that multiply_numbers.sl operation finishes with result = 15.0
-  testFlowPath: io.cloudslang.base.math.multiply.multiply_numbers
+  testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
     - result: 15.0
   result: SUCCESS

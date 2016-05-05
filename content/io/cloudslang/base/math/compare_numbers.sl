@@ -16,7 +16,7 @@
 #!!#
 ########################################################################################################
 
-namespace: io.cloudslang.base.math.comparisons
+namespace: io.cloudslang.base.math
 
 operation:
   name: compare_numbers

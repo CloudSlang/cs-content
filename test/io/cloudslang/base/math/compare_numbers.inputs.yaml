@@ -11,7 +11,7 @@ testCompareIntLess:
     - value1: 3
     - value2: 5
   description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: LESS_THAN
 
 testCompareIntEqual:
@@ -19,7 +19,7 @@ testCompareIntEqual:
     - value1: 5
     - value2: 5
   description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: EQUALS
 
 testCompareIntGreater:
@@ -27,7 +27,7 @@ testCompareIntGreater:
     - value1: 5
     - value2: 3
   description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: GREATER_THAN
 
 testCompareFloatLess:
@@ -35,7 +35,7 @@ testCompareFloatLess:
     - value1: 0.3
     - value2: 0.5
   description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: LESS_THAN
 
 testCompareFloatEqual:
@@ -43,7 +43,7 @@ testCompareFloatEqual:
     - value1: .5
     - value2: .5
   description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: EQUALS
 
 testCompareFloatGreater:
@@ -51,7 +51,7 @@ testCompareFloatGreater:
     - value1: 0.5
     - value2: 0.3
   description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: GREATER_THAN
 
 testCompareIntLessStr:
@@ -59,7 +59,7 @@ testCompareIntLessStr:
     - value1: '3'
     - value2: '5'
   description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: LESS_THAN
 
 testCompareIntEqualStr:
@@ -67,7 +67,7 @@ testCompareIntEqualStr:
     - value1: '5'
     - value2: '5'
   description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: EQUALS
 
 testCompareIntGreaterStr:
@@ -75,7 +75,7 @@ testCompareIntGreaterStr:
     - value1: '5'
     - value2: '3'
   description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: GREATER_THAN
 
 testCompareFloatLessStr:
@@ -83,7 +83,7 @@ testCompareFloatLessStr:
     - value1: '0.3'
     - value2: '0.5'
   description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: LESS_THAN
 
 testCompareFloatEqualStr:
@@ -91,7 +91,7 @@ testCompareFloatEqualStr:
     - value1: '0.5'
     - value2: '0.5'
   description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: EQUALS
 
 testCompareFloatGreaterStr:
@@ -99,5 +99,5 @@ testCompareFloatGreaterStr:
     - value1: '0.5'
     - value2: '0.3'
   description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
-  testFlowPath: io.cloudslang.base.math.comparisons.compare_numbers
+  testFlowPath: io.cloudslang.base.math.compare_numbers
   result: GREATER_THAN
