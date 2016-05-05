@@ -8,12 +8,12 @@
 #
 ####################################################
 #!!
-#! @description: Calls the Speech Recognition by HPE Haven OnDemand API.
-#! @input speechApi: Speech Recognision API
-#! @output jobID: name of request returned by havenondemand.com
+#! @description: Makes a call to the Speech Recognition by HPE Haven OnDemand API.
+#! @input speech_api: speech Recognition API
+#! @output job_id: name of request, which is returned by havenondemand.com
 #!!#
 ####################################################
-namespace: io.cloudslang.haven_onDemand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -21,21 +21,21 @@ imports:
   base: io.cloudslang.base.print
 
 flow:
-  name: speechRecognision
+  name: speech_recognition
 
   inputs:
-    - speechApi
+    - speech_api
     - file
-    - apikey
+    - api_key
 
   workflow:
 
     - connect_to_server:
         do:
           rest.http_client_action:
-            - url: ${speechApi}
+            - url: ${speech_api}
             - method: POST
-            - multipart_bodies: ${"apikey=" + str(apikey)}
+            - multipart_bodies: ${"apikey=" + str(api_key)}
             - multipart_files: ${file}
 
         publish:
@@ -58,4 +58,4 @@ flow:
                   base.print_text:
                     - text: "${error_message}"
   outputs:
-      - jobID: ${value}
+      - job_id: ${value}

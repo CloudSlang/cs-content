@@ -8,17 +8,17 @@
 #
 ####################################################
 #!!
-#! @description: Gets results of speech recognition, with was made by HPE Haven OnDemand API.
-#! @input speechResultApi: API which waits until the job has finished and then returns the result
-#! @input apikey: user's API key
-#! @input jobID: name of request returned by havenondemand.com
+#! @description: Gets results of Speech Recognition, which was made by HPE Haven OnDemand API.
+#! @input speech_result_api: API which waits until the job has finished and then returns the result
+#! @input api_key: user's API Keys
+#! @input job_id: name of request returned by havenondemand.com
 #! @output status: status of request
 #! @output result: JSON result of from API
 #! @output transcript: results of speech recognition
 #!!#
 ####################################################
 
-namespace: io.cloudslang.haven_onDemand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -26,18 +26,18 @@ imports:
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
 flow:
-  name: checkStatus
+  name: check_status
 
   inputs:
-    - speechResultApi
-    - jobID
-    - apikey
+    - speech_result_api
+    - job_id
+    - api_key
 
   workflow:
-     - checkStatus:
+     - check_status:
           do:
             rest.http_client_get:
-               - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
+               - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
 
           publish:
              - error_message
@@ -45,29 +45,28 @@ flow:
              - return_code
              - status_code
           navigate:
-             - SUCCESS: get_status_recognision
-             - FAILURE: wait_for_recognision
+             - SUCCESS: get_status_recognition
+             - FAILURE: wait_for_recognition
 
-     - wait_for_recognision:
+     - wait_for_recognition:
           loop:
              for: counter in range (0,5)
              do:
               rest.http_client_get:
-                 - url: ${str(speechResultApi) + str(jobID) + "?apikey=" + str(apikey)}
-                 - proxy_host: proxy.houston.hp.com
-                 - proxy_port: '8080'
+                 - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
+
              publish:
                - error_message
                - return_result
                - return_code
                - status_code
              break:
-                - status_code: 200
+                - SUCCESS
           navigate:
-             - SUCCESS: get_status_recognision
+             - SUCCESS: get_status_recognition
              - FAILURE: print_fail
 
-     - get_status_recognision:
+     - get_status_recognition:
             do:
               json.get_value:
                 - json_input: ${return_result}
@@ -76,15 +75,15 @@ flow:
               - status: ${value}
               - error_message
             navigate:
-                - SUCCESS: get_result_recognision
+                - SUCCESS: get_result_recognition
                 - FAILURE: fail_get_status
 
      - fail_get_status:
           do:
             base.print_text:
-                - text: "${'get_status_recognision was faild with 'error_message}"
+                - text: "${'get_status_recognition was faild with 'error_message}"
 
-     - get_result_recognision:
+     - get_result_recognition:
           do:
             json.get_value:
               - json_input: ${return_result}
