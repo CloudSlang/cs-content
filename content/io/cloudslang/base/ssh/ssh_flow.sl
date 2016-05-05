@@ -42,7 +42,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.ssh
+namespace: io.cloudslang.base.ssh
 
 imports:
   linux: io.cloudslang.base.os.linux

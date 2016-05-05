@@ -23,7 +23,7 @@
 namespace: io.cloudslang.cloud.hp_cloud.net
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   utils: io.cloudslang.base.utils
 
 flow:

@@ -16,6 +16,6 @@ testLocalHttpClientPostRaw:
                  "location":"Bangalore"
             }"
   description: "Test the fact that the Http Client Post Raw call is successfully made."
-  testFlowPath: io.cloudslang.base.network.rest.test_http_client_post_raw
+  testFlowPath: io.cloudslang.base.http.test_http_client_post_raw
   testSuites: [rest-local]
   result: SUCCESS

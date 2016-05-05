@@ -6,12 +6,12 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testHttpClientPut:
+testHttpClientAction:
   inputs:
     - url: "http://petstore.swagger.io/v2/pet"
-    - resource_id: "0"
-    - resource_name: "cloudslang_test_http_client"
-  description: "Test the Http Client Put against a REST API."
-  testFlowPath: io.cloudslang.base.network.rest.test_http_client_put
-  testSuites: [rest]
+    - resource_id: "123"
+    - resource_name: "cloud_slang_test_CI"
+  description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
+  testFlowPath: io.cloudslang.base.http.test_http_client_action
+  testSuites: [http]
   result: SUCCESS

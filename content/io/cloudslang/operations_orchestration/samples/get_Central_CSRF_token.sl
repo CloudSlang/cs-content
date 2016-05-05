@@ -17,8 +17,8 @@
 namespace: io.cloudslang.operations_orchestration.samples
 
 imports:
-  rest: io.cloudslang.base.network.rest
-  utils: io.cloudslang.base.network.utils
+  rest: io.cloudslang.base.http
+  utils: io.cloudslang.base.http.utils
 
 flow:
   name: get_Central_CSRF_token

@@ -16,7 +16,7 @@
 namespace: io.cloudslang.haven_on_demand.speech_recognision
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 

@@ -39,7 +39,7 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_mysql_status

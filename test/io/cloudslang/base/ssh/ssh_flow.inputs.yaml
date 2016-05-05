@@ -14,7 +14,7 @@ testSSHBasicallyWorks:
     - username: root
     - password: screencast
   description: Tests ssh actually works
-  testFlowPath: io.cloudslang.base.remote_command_execution.ssh.ssh_flow
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
   outputs:
     - standard_out: |
         testing

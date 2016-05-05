@@ -8,7 +8,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.base.network.utils
+namespace: io.cloudslang.base.http.utils
 
 operation:
   name: get_header_value

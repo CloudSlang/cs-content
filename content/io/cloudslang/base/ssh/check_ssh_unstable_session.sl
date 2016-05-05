@@ -22,7 +22,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.ssh
 
 imports:
   strings: io.cloudslang.base.strings

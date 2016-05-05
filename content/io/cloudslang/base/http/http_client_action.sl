@@ -96,7 +96,7 @@
 #!!#
 ################################################
 
-namespace: io.cloudslang.base.network.rest
+namespace: io.cloudslang.base.http
 
 operation:
   name: http_client_action

@@ -22,7 +22,7 @@
 namespace: io.cloudslang.cloud.digital_ocean.v2.droplets
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   strings: io.cloudslang.base.strings
 
 flow:

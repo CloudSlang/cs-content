@@ -12,6 +12,6 @@ testHttpClientPost:
     - resource_id: "123456789"
     - resource_name: "cloudslang_test_http_client"
   description: "Test the Http Client Post against a REST API."
-  testFlowPath: io.cloudslang.base.network.rest.test_http_client_post
+  testFlowPath: io.cloudslang.base.http.test_http_client_post
   testSuites: [rest]
   result: SUCCESS

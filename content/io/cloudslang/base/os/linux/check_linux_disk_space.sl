@@ -31,7 +31,7 @@
 namespace: io.cloudslang.base.os.linux
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: check_linux_disk_space

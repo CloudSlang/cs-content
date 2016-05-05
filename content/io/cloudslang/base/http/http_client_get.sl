@@ -35,7 +35,7 @@
 #!!#
 ################################################
 
-namespace: io.cloudslang.base.network.rest
+namespace: io.cloudslang.base.http
 
 flow:
   name: http_client_get

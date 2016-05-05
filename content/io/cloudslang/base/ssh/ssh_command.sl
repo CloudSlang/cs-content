@@ -38,7 +38,7 @@
 #!!#
 ###############################################################################################################################################################################
 
-namespace: io.cloudslang.base.remote_command_execution.ssh
+namespace: io.cloudslang.base.ssh
 
 operation:
     name: ssh_command

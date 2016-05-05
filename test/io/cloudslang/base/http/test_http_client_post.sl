@@ -6,13 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.base.network.rest
+namespace: io.cloudslang.base.http
 
 imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_http_client_put
+  name: test_http_client_post
 
   inputs:
     - url
@@ -28,13 +28,13 @@ flow:
     - proxy_port:
         required: false
     - body:
-        default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
+        default: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
         private: true
 
   workflow:
-    - put:
+    - post:
         do:
-          http_client_put:
+          http_client_post:
             - url
             - username
             - password
@@ -48,10 +48,10 @@ flow:
           - return_code
           - status_code
         navigate:
-          - SUCCESS: check_results
-          - FAILURE: HTTP_CLIENT_PUT_FAILURE
+          - SUCCESS: check_resultS
+          - FAILURE: HTTP_CLIENT_POST_FAILURE
 
-    - check_results:
+    - check_resultS:
         do:
           lists.compare_lists:
             - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
@@ -68,5 +68,5 @@ flow:
 
   results:
     - SUCCESS
-    - HTTP_CLIENT_PUT_FAILURE
+    - HTTP_CLIENT_POST_FAILURE
     - CHECK_RESULTS_FAILURE

@@ -6,39 +6,42 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.base.network.rest
+namespace: io.cloudslang.base.http
 
 imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_http_client_trace
+  name: test_http_client_post_raw
 
   inputs:
     - url
     - username:
-        default: ""
         required: false
     - password:
-        default: ""
         required: false
+    - content_type:
+        default: "application/json"
+        private: true
     - proxy_host:
-        default: ""
         required: false
     - proxy_port:
-        default: ""
         required: false
+    - body:
+        default: ""
+        private: true
 
   workflow:
-    - trace:
+    - post:
         do:
-          http_client_trace:
+          http_client_post:
             - url
             - username
             - password
+            - content_type
             - proxy_host
             - proxy_port
-            - content_type
+            - body
         publish:
           - return_result
           - error_message
@@ -46,7 +49,7 @@ flow:
           - status_code
         navigate:
           - SUCCESS: check_results
-          - FAILURE: HTTP_CLIENT_TRACE_FAILURE
+          - FAILURE: HTTP_CLIENT_POST_FAILURE
 
     - check_results:
         do:
@@ -65,5 +68,5 @@ flow:
 
   results:
     - SUCCESS
-    - HTTP_CLIENT_TRACE_FAILURE
+    - HTTP_CLIENT_POST_FAILURE
     - CHECK_RESULTS_FAILURE

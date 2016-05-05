@@ -28,6 +28,7 @@
 namespace: io.cloudslang.base.utils
 
 imports:
+  ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.math.comparisons
 
 flow:
@@ -62,7 +63,7 @@ flow:
 
     - check_unstable_session:
         do:
-          check_ssh_unstable_session:
+          ssh.check_ssh_unstable_session:
             - return_result
             - return_code
             - exit_status

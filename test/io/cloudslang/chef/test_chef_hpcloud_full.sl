@@ -22,7 +22,7 @@ imports:
   hpcloud: io.cloudslang.cloud.hp_cloud
   print: io.cloudslang.base.print
   chef: io.cloudslang.chef
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   net: io.cloudslang.base.network
 
 flow:

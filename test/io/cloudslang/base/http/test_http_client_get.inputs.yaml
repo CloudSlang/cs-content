@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testHttpClientDelete:
+testHttpClientGet:
   inputs:
-    - url: "http://petstore.swagger.io/v2/pet"
-  description: "Test the Http Client Delete against a REST API."
-  testFlowPath: io.cloudslang.base.network.rest.test_http_client_delete
+    - url: "http://petstore.swagger.io/v2/pet/findByStatus?status=available"
+  description: "Test the Http Client Get against a REST API."
+  testFlowPath: io.cloudslang.base.http.test_http_client_get
   testSuites: [rest]
   result: SUCCESS

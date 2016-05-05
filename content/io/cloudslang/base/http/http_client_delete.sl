@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,8 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Executes a TRACE REST call. It will echoes back the received request, so that a client can see what
-#!               (if any) changes or additions have been made by intermediate servers.
+#! @description: Executes a DELETE REST call.
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
@@ -26,42 +25,36 @@
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
 #! @input query_params: optional - list containing query parameters to append to the URL
-#!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'text/plain'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
-#! @output error_message: return_result if status_code different than '200'
+#! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #!!#
 ################################################
 
-namespace: io.cloudslang.base.network.rest
+namespace: io.cloudslang.base.http
 
 flow:
-  name: http_client_trace
+  name: http_client_delete
   inputs:
     - url
     - auth_type:
-        default: "basic"
         required: false
     - username:
-        default: ""
         required: false
     - password:
-        default: ""
         required: false
     - proxy_host:
-        default: ""
         required: false
     - proxy_port:
         default: "8080"
         required: false
     - proxy_username:
-        default: ""
         required: false
     - proxy_password:
-        default: ""
         required: false
     - connect_timeout:
         default: "0"
@@ -70,20 +63,17 @@ flow:
         default: "0"
         required: false
     - headers:
-        default: ""
         required: false
     - query_params:
-        default: ""
         required: false
     - content_type:
         default: "text/plain"
         required: false
     - method:
-        default: "TRACE"
+        default: "DELETE"
         private: true
-
   workflow:
-    - http_client_action_trace:
+    - http_client_action_delete:
         do:
           http_client_action:
             - url

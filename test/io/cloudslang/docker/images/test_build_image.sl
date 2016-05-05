@@ -11,7 +11,7 @@ namespace: io.cloudslang.docker.images
 
 imports:
   maintenance: io.cloudslang.docker.maintenance
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
