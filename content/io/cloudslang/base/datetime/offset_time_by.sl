@@ -12,7 +12,7 @@ operation:
   action:
     java_action:
       className: io.cloudslang.content.datetime.actions.OffsetTimeBy
-      methodName: OffsetTimeBy
+      methodName: execute
 
   outputs:
     - result: ${returnResult}
