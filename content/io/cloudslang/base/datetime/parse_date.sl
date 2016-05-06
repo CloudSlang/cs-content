@@ -1,4 +1,4 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -27,12 +27,18 @@ operation:
 
   inputs:
     - date
-    - dateFormat
-    - dateLocaleLang
-    - dateLocaleCountry
-    - outFormat
-    - outLocaleLang
-    - outLocaleCountry
+    - dateFormat:
+        default: ${get("date_format", "")}
+    - dateLocaleLang:
+        default: ${get("date_locale_lang", "")}
+    - dateLocaleCountry:
+        default: ${get("date_locale_country", "")}
+    - outFormat:
+        default: ${get("out_format", "")}
+    - outLocaleLang:
+        default: ${get("out_locale_lang", "")}
+    - outLocaleCountry:
+        default: ${get("out_locale_country", "")}
 
   action:
     java_action:
