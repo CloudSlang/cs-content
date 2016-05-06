@@ -9,10 +9,10 @@
 ####################################################
 #!!
 #! @description: Sends to email transcript of the text in an audio or video file, with was created by Speech Recognition API.
-#! @input apikey: user's API Keys
-#! @input speechApi:  Speech Recognision API
+#! @input api_key: user's API Keys
+#! @input speech_api:  Speech Recognision API
 #! @input file: path to video/audio, witch recognising
-#! @input speechResultApi: API which waits until the job has finished and then returns the result
+#! @input speech_result_api: API which waits until the job has finished and then returns the result
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
@@ -20,7 +20,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.haven_onDemand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognision
 
 imports:
   rest: io.cloudslang.base.network.rest
@@ -30,13 +30,13 @@ imports:
   base: io.cloudslang.base.print
 
 flow:
-  name: sendTranscriptToMail
+  name: send_transcript_to_mail
 
   inputs:
-    - apikey: ${get_sp('io.cloudslang.haven_onDemand.apikey')}
-    - speechApi: ${get_sp('io.cloudslang.haven_onDemand.speechApi')}
+    - api_key: ${get_sp('io.cloudslang.haven_onDemand.api_key')}
+    - speech_api: ${get_sp('io.cloudslang.haven_onDemand.speech_api')}
     - file: ${get_sp('io.cloudslang.haven_onDemand.file')}
-    - speechResultApi: ${get_sp('io.cloudslang.haven_onDemand.speechResultApi')}
+    - speech_result_api: ${get_sp('io.cloudslang.haven_onDemand.speech_result_api')}
     - hostname: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
     - port: ${get_sp('io.cloudslang.haven_onDemand.port')}
     - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
@@ -44,23 +44,23 @@ flow:
 
   workflow:
 
-    - startingConnection:
+    - start_connection:
           do:
-            speechRecognision:
-               - speechApi
+            speech_recognision:
+               - speech_api
                - file
-               - apikey
+               - api_key
 
           publish:
-             - jobID
+             - job_id
              - error_message
 
-    - getResultRecognision:
+    - get_result_of_recognision:
            do:
-             checkStatus:
-               - speechResultApi
-               - jobID
-               - apikey
+             check_status:
+               - speech_result_api
+               - job_id
+               - api_key
 
            publish:
              - error_message
@@ -87,4 +87,4 @@ flow:
                       - text: ${error_message if error_message=="" else " Connection faild" }
 
   outputs:
-     - result: ${ " jobID "  + str(jobID) +  " status " + status}
+     - result: ${ " jobID "  + str(job_id) +  " status " + status}

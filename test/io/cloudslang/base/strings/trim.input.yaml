@@ -9,7 +9,7 @@
 testTrimSuccess:
   inputs:
     - string: ' good '
-  description: Tests that trim.sl operation finishes with result = 'good'
+  description: Tests that trim.sl operation remove whitespace characters both sides of the string and finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
     - result: good
@@ -18,7 +18,16 @@ testTrimSuccess:
 testTrimBackSuccess:
   inputs:
     - string: 'good   '
-  description: Tests that trim.sl operation finishes with result = 'good'
+  description: Tests that trim.sl operation remove whitespace characters from the end of the string and finishes with result = 'good'
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - result: good
+  result: SUCCESS
+
+testTrimBeforeSuccess:
+  inputs:
+    - string: '   good'
+  description: Tests that trim.sl operation remove whitespace characters from the beginning of the string and finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
     - result: good

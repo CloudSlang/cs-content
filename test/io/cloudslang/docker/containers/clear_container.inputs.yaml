@@ -7,7 +7,7 @@
 #
 ####################################################
 test_clear_container_success:
-  testSuites: [docker-local,containers-local]
+  testSuites: [docker,containers]
   description: Tests that clear containers works
   testFlowPath: io.cloudslang.docker.containers.test_clear_container
   inputs:
