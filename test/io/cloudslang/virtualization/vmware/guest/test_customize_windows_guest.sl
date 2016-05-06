@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.virtualization.vmware.virtual_machines
+namespace: io.cloudslang.virtualization.vmware.guest
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_clone_virtual_machine
+  name: test_customize_windows_guest
   inputs:
     - host
     - port:
@@ -22,78 +22,106 @@ flow:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         default: 'true'
         required: false
-    - data_center_name
-    - hostname
     - virtual_machine_name
-    - clone_name
-    - folder_name:
+    - reboot_option
+    - computer_name
+    - computer_password
+    - owner_name
+    - owner_organization
+    - product_key:
         default: ''
         required: false
-    - clone_host:
+    - domain_username:
         default: ''
         required: false
-    - clone_resource_pool:
+    - domain_password:
         default: ''
         required: false
-    - clone_data_store:
+    - domain:
         default: ''
         required: false
-    - thick_provision:
+    - workgroup:
         default: ''
         required: false
-    - is_template:
+    - license_data_mode
+    - dns_server:
+        default: ''
+        required: false
+    - ip_address:
+        default: ''
+        required: false
+    - subnet_mask:
+        default: ''
+        required: false
+    - default_gateway:
+        default: ''
+        required: false
+    - mac_address:
+        default: ''
+        required: false
+    - auto_logon:
         default: 'false'
         required: false
-    - num_cpus:
-        default: '1'
-        required: false
-    - cores_per_socket:
-        default: '1'
-        required: false
-    - memory:
-        default: '1024'
-        required: false
-    - clone_description:
+    - delete_accounts:
         default: ''
+        required: false
+    - change_sid
+    - auto_logon_count:
+        default: '1'
+        required: false
+    - auto_users:
+        default: ''
+        required: false
+    - time_zone:
+        default: '360'
         required: false
 
   workflow:
-    - clone_virtual_machine:
+    - customize_windows_guest:
         do:
-          clone_virtual_machine:
+          customize_windows_guest:
             - host
             - port
             - protocol
             - username
             - password
             - trust_everyone
-            - data_center_name
-            - hostname
             - virtual_machine_name
-            - clone_name
-            - folder_name
-            - clone_host
-            - clone_resource_pool
-            - clone_data_store
-            - thick_provision
-            - is_template
-            - num_cpus
-            - cores_per_socket
-            - memory
-            - clone_description
+            - reboot_option
+            - computer_name
+            - computer_password
+            - owner_name
+            - owner_organization
+            - product_key
+            - domain_username
+            - domain_password
+            - domain
+            - workgroup
+            - license_data_mode
+            - dns_server
+            - ip_address
+            - subnet_mask
+            - default_gateway
+            - mac_address
+            - auto_logon
+            - delete_accounts
+            - change_sid
+            - auto_logon_count
+            - auto_users
+            - time_zone
+
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${get("exception", '')}
         navigate:
           - SUCCESS: check_result
-          - FAILURE: CLONE_VIRTUAL_MACHINE_FAILURE
+          - FAILURE: CUSTOMIZE_WINDOWS_GUEST_FAILURE
 
     - check_result:
         do:
@@ -102,13 +130,13 @@ flow:
             - list_2: ['', 0]
         navigate:
           - SUCCESS: get_text_occurrence
-          - FAILURE: CHECK_RESPONSES_FAILURE
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_text_occurrence:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
-            - string_to_find: "${'successfully cloned'}"
+            - string_to_find: "${'successfully customized'}"
             - ignore_case: True
         navigate:
           - SUCCESS: SUCCESS
@@ -121,6 +149,6 @@ flow:
 
   results:
     - SUCCESS
-    - CLONE_VIRTUAL_MACHINE_FAILURE
-    - CHECK_RESPONSES_FAILURE
+    - CUSTOMIZE_WINDOWS_GUEST_FAILURE
+    - CHECK_RESULT_FAILURE
     - GET_TEXT_OCCURRENCE_FAILURE

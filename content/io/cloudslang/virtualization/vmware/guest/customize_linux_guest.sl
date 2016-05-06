@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMware vSphere command in order to list all supported guest OSs on a host system.
+#! @description: Performs a VMware vSphere command in order to customize an existing linux OS based virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -36,24 +36,42 @@
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input data_center_name: data center name where host system is
-#!                          example: 'DataCenter2'
-#! @input hostname: name of target host to be queried to retrieve supported guest OSs
-#!                  example: 'host123.subdomain.example.com'
-#! @input delimiter: delimiter that will be used in response list
-#!                   default: ','
+#! @input virtual_machine_name: name of linux OS based virtual machine that will be customized
+#! @input computer_name: the network host name of the (Linux) virtual machine
+#! @input domain: the fully qualified domain name
+#!                optional
+#!                default: ''
+#! @input ip_address: the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs should be
+#!                    specified as well
+#!                    optional
+#!                    default: ''
+#! @input subnet_mask: the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#!                     <default_gateway> inputs should be specified as well
+#!                     optional
+#!                     default: ''
+#! @input default_gateway: the default gateway for network adapter with a static IP address. If specified then the
+#!                         <ip_address> and <subnet_mask> inputs should be specified as well
+#!                         optional
+#!                         default: ''
+#! @input hw_clock_utc: specifies whether the hardware clock is in UTC or local time. True when the hardware clock is in UTC
+#!                      optional
+#!                      default: 'true'
+#! @input time_zone: the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
+#!                   optional
+#!                   valid: 'Europe/Bucharest'
+#!                   default: ''
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: list with all supported guest OSs was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve a list with all supported guest OSs
+#! @result SUCCESS: virtual machine was successfully cloned
+#! @result FAILURE: an error occurred when trying to clone an existing virtual machine
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.virtualization.vmware.utils
+namespace: io.cloudslang.virtualization.vmware.guest
 
 operation:
-  name: get_os_descriptors
+  name: customize_linux_guest
   inputs:
     - host
     - port:
@@ -69,19 +87,47 @@ operation:
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
         private: true
-    - data_center_name
-    - dataCenterName:
-        default: ${get("data_center_name", None)}
+    - virtual_machine_name
+    - virtualMachineName:
+        default: ${virtual_machine_name}
         private: true
-    - hostname
-    - delimiter:
-        default: ','
+    - computer_name
+    - computerName:
+        default: ${computer_name}
+        private: true
+    - domain:
+        default: ''
         required: false
+    - ip_address:
+        required: false
+    - ipAddress:
+        default: ${get("ip_address", "")}
+        private: true
+    - subnet_mask:
+        required: false
+    - subnetMask:
+        default: ${get("subnet_mask", "")}
+        private: true
+    - default_gateway:
+        required: false
+    - defaultGateway:
+        default: ${get("default_gateway", "")}
+        private: true
+    - hw_clock_utc:
+        required: false
+    - hwClockUTC:
+        default: ${get("hw_clock_utc", "true")}
+        private: true
+    - time_zone:
+        required: false
+    - timeZone:
+        default: ${get("time_zone", "")}
+        private: true
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
-      methodName: getOsDescriptors
+      className: io.cloudslang.content.vmware.actions.guest.CustomizeLinuxGuest
+      methodName: customizeLinuxGuest
 
   outputs:
     - return_result: ${get("returnResult", "")}

@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.virtualization.vmware.virtual_machines
+namespace: io.cloudslang.virtualization.vmware.guest
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_virtual_machine
+  name: test_mount_tools
   inputs:
     - host
     - port:
@@ -22,62 +22,32 @@ flow:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         default: 'true'
         required: false
-    - data_center_name
-    - hostname
     - virtual_machine_name
-    - data_store
-    - guest_os_id
-    - folder_name:
-        required: false
-    - resource_pool:
-        required: false
-    - description:
-        default: ''
-        required: false
-    - num_cpus:
-        default: '1'
-        required: false
-    - vm_disk_size:
-        default: '1024'
-        required: false
-    - vm_memory_size:
-        default: '1024'
-        required: false
 
   workflow:
-    - create_virtual_machine:
+    - mount_tools:
         do:
-          create_virtual_machine:
+          mount_tools:
             - host
             - port
             - protocol
             - username
             - password
             - trust_everyone
-            - data_center_name
-            - hostname
             - virtual_machine_name
-            - data_store
-            - guest_os_id
-            - folder_name
-            - resource_pool
-            - description
-            - num_cpus
-            - vm_disk_size
-            - vm_memory_size
+
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${get("exception", '')}
         navigate:
           - SUCCESS: check_result
-          - FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE
+          - FAILURE: MOUNT_TOOLS_FAILURE
 
     - check_result:
         do:
@@ -86,13 +56,13 @@ flow:
             - list_2: ['', 0]
         navigate:
           - SUCCESS: get_text_occurrence
-          - FAILURE: CHECK_RESPONSES_FAILURE
+          - FAILURE: CHECK_RESULT_FAILURE
 
     - get_text_occurrence:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
-            - string_to_find: "${'Success: Created'}"
+            - string_to_find: "${'Initiated VMware Tools Installer Mount'}"
             - ignore_case: True
         navigate:
           - SUCCESS: SUCCESS
@@ -105,6 +75,6 @@ flow:
 
   results:
     - SUCCESS
-    - CREATE_VIRTUAL_MACHINE_FAILURE
-    - CHECK_RESPONSES_FAILURE
+    - MOUNT_TOOLS_FAILURE
+    - CHECK_RESULT_FAILURE
     - GET_TEXT_OCCURRENCE_FAILURE
