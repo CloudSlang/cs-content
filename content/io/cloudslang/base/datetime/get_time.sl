@@ -22,9 +22,11 @@ operation:
 
   inputs:
     - localeLang:
-        default: ${get("locale_lang", "")}
+        required: false
+        default: ${get("locale_lang", "en")}
     - localeCountry:
-        default: ${get("locale_country", "")}
+        required: false
+        default: ${get("locale_country", "US")}
 
   action:
     java_action:

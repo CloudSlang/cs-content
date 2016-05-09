@@ -16,12 +16,16 @@ flow:
   name: test_offset_time_by
 
   inputs:
-    - date
-    - offset
+    - date:
+        required: true
+    - offset:
+        required: true
     - localeLang:
-        default: ${get("locale_lang", "")}
+        required: false
+        default: ${get("locale_lang", "en")}
     - localeCountry:
-        default: ${get("locale_country", "")}
+        required: false
+        default: ${get("locale_country", "US")}
 
   workflow:
     - execute_offset_time_by:

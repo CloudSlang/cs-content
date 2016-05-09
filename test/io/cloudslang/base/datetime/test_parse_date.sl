@@ -16,19 +16,26 @@ flow:
   name: test_parse_date
 
   inputs:
-    - date
+    - date:
+        required: true
     - dateFormat:
+        required: false
         default: ${get("date_format", "")}
     - dateLocaleLang:
-        default: ${get("date_locale_lang", "")}
+        required: false
+        default: ${get("date_locale_lang", "en")}
     - dateLocaleCountry:
-        default: ${get("date_locale_country", "")}
+        required: false
+        default: ${get("date_locale_country", "US")}
     - outFormat:
+        required: false
         default: ${get("out_format", "")}
     - outLocaleLang:
-        default: ${get("out_locale_lang", "")}
+        required: false
+        default: ${get("out_locale_lang", "en")}
     - outLocaleCountry:
-        default: ${get("out_locale_country", "")}
+        required: false
+        default: ${get("out_locale_country", "US")}
 
   workflow:
     - execute_parse_date:
