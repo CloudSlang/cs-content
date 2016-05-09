@@ -36,18 +36,16 @@ testTrimBeforeSuccess:
 testTrimNullValueSuccess:
   inputs:
     - string: ''
-  description: Tests that trim.sl finishes with success when input is a null value
+  description: Tests that trim.sl finishes with success when input is empty string
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
     - result: ''
   result: SUCCESS
 
 testMissingInput:
-  inputs:
+  inputs: []
   description: Tests that trim.sl operation throws an exception when the required input is missing
   testFlowPath: io.cloudslang.base.strings.trim
-  outputs:
-    - result: test
   throwsException: true
 
 testTrimWhitespacesInsideStringSuccess:

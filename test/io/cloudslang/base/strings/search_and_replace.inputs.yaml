@@ -23,8 +23,6 @@ testSearchAndReplaceMissingInputs:
     - text_to_replace: ex
   description: Tests that search_and_replace.sl operation throws an exception when a required input is missing
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  outputs:
-    - replaced_string: that
   throwsException: true
 
 testSearchAndReplaceNothingToReplace:
@@ -73,8 +71,8 @@ testSearchAndReplaceEmptyReplaceWith:
 
 testSearchAndReplaceSpecialCharacters:
   inputs:
-    - origin_string: h$%*/)o
-    - text_to_replace: $%*/)
+    - origin_string: 'h$%*/)o'
+    - text_to_replace: '$%*/)'
     - replace_with: ell
   description: Tests that search_and_replace.sl operation finishes with SUCCESS when inputs contain special characters
   testFlowPath: io.cloudslang.base.strings.search_and_replace
@@ -86,7 +84,7 @@ testSearchAndReplaceUsingNumbers:
   inputs:
     - origin_string: 123text45
     - text_to_replace: 23t
-    - replace_with: 22
+    - replace_with: '22'
   description: Tests that search_and_replace.sl operation finishes with SUCCESS when inputs contain digits
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
