@@ -21,10 +21,10 @@ flow:
     - config_xml
     - job_name:
         default: "job1"
-        overridable: false
+        private: true
     - jenkins_port:
         default: "49165"
-        overridable: false
+        private: true
   workflow:
 
     - create_jenkins_job:

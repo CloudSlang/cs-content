@@ -61,10 +61,10 @@ flow:
         required: false
     - agent_forwarding:
         default: 'true'
-        overridable: false
+        private: true
     - command:
         default: "${'fleetctl --strict-host-key-checking=false  ssh ' + machine_id + ' cat /etc/environment'}"
-        overridable: false
+        private: true
 
   workflow:
     - get_machine_public_ip:

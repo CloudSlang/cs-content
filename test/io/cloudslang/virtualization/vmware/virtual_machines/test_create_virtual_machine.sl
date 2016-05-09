@@ -31,10 +31,15 @@ flow:
     - data_center_name
     - hostname
     - virtual_machine_name
+    - data_store
+    - guest_os_id
+    - folder_name:
+        required: false
+    - resource_pool:
+        required: false
     - description:
         default: ''
         required: false
-    - data_store
     - num_cpus:
         default: '1'
         required: false
@@ -44,7 +49,6 @@ flow:
     - vm_memory_size:
         default: '1024'
         required: false
-    - guest_os_id
 
   workflow:
     - create_virtual_machine:
@@ -59,12 +63,14 @@ flow:
             - data_center_name
             - hostname
             - virtual_machine_name
-            - description
             - data_store
+            - guest_os_id
+            - folder_name
+            - resource_pool
+            - description
             - num_cpus
             - vm_disk_size
             - vm_memory_size
-            - guest_os_id
         publish:
           - return_result
           - return_code

@@ -62,19 +62,18 @@ operation:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - hostname
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
     - delimiter:
         default: ','
         required: false

@@ -30,10 +30,10 @@ operation:
         required: false
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/agent/services'}
-        overridable: false
+        private: true
     - method:
         default: 'get'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

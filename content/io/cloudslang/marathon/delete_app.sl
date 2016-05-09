@@ -34,13 +34,13 @@ operation:
     - app_id
     - url:
         default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps/' +app_id}
-        overridable: false
+        private: true
     - method:
         default: "delete"
-        overridable: false
+        private: true
     - contentType:
         default: "application/json"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:

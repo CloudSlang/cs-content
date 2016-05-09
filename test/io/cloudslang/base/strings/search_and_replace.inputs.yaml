@@ -82,3 +82,46 @@ testSearchAndReplaceSpecialCharacters:
     - replaced_string: hello
   result: SUCCESS
 
+testSearchAndReplaceUsingNumbers:
+  inputs:
+    - origin_string: 123text45
+    - text_to_replace: 23t
+    - replace_with: 23t
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when inputs contain digits
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: 123text45
+  result: SUCCESS
+
+testSearchAndReplaceEmptyOriginStringAndTestToReplace:
+  inputs:
+    - origin_string: ""
+    - text_to_replace: ""
+    - replace_with: text
+  description: Tests that search_and_replace.sl operation finishes with SUCCES when origin_string and text_to_replace are empty
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: text
+  result: SUCCESS
+
+testSearchAndReplaceSubstringFoundedTwiceInOriginString:
+  inputs:
+    - origin_string: text,text
+    - text_to_replace: ex
+    - replace_with: ha
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when replace_with string is founded twice in origin_string
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: that,that
+  result: SUCCESS
+
+testSearchAndReplaceUsingDiacritics:
+  inputs:
+    - origin_string:  ăaâî ḃċşţtôúè
+    - text_to_replace: şţ
+    - replace_with: text
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string and substrings contain diacritics
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: ăaâî ḃċtexttôúè
+  result: SUCCESS

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: Executes a POST REST call.
+#! @description: Executes an HTTP POST call towards a specified endpoint.
+#!               By default the flow allows you to specify anything in the request body of the HTTP POST call
+#!               (also known as a POST RAW call). You can also specify the Content-Type header for POST RAW request
+#!               using the 'content-type' input
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
@@ -74,7 +77,7 @@ flow:
         required: false
     - method:
         default: "POST"
-        overridable: false
+        private: true
   workflow:
     - http_client_action_post:
         do:

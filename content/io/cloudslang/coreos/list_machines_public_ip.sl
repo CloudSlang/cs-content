@@ -35,7 +35,7 @@ flow:
         required: false
     - machines_public_ip_list:
         default: ''
-        overridable: false
+        private: true
 
   workflow:
     - list_ids_of_the_machines:
