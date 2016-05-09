@@ -20,11 +20,15 @@ flow:
         required: true
     - offset:
         required: true
+    - locale_lang:
+        required: false
     - localeLang:
+        private: true
+        default: ${get("locale_lang", "en")} 
+    - locale_country:
         required: false
-        default: ${get("locale_lang", "en")}
     - localeCountry:
-        required: false
+        private: true
         default: ${get("locale_country", "US")}
 
   workflow:

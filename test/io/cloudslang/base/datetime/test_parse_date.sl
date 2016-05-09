@@ -18,23 +18,35 @@ flow:
   inputs:
     - date:
         required: true
+    - date_format:
+        required: false
     - dateFormat:
-        required: false
+        private: true
         default: ${get("date_format", "")}
-    - dateLocaleLang:
+    - date_locale_lang:
         required: false
-        default: ${get("date_locale_lang", "en")}
-    - dateLocaleCountry:
+    - datelocaleLang:
+        private: true
+        default: ${get("date_locale_lang", "en")} 
+    - date_locale_country:
         required: false
+    - datelocaleCountry:
+        private: true
         default: ${get("date_locale_country", "US")}
+    - out_format:
+        required: false
     - outFormat:
-        required: false
+        private: true
         default: ${get("out_format", "")}
-    - outLocaleLang:
+    - out_locale_lang:
         required: false
-        default: ${get("out_locale_lang", "en")}
-    - outLocaleCountry:
+    - outlocaleLang:
+        private: true
+        default: ${get("out_locale_lang", "en")} 
+    - out_locale_country:
         required: false
+    - outlocaleCountry:
+        private: true
         default: ${get("out_locale_country", "US")}
 
   workflow:
