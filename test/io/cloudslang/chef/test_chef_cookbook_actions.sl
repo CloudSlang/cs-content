@@ -7,66 +7,43 @@
 #!!
 #! @description: CHEF TEST FLOW
 #!               This flow tests Chef content
-#!               - Chef bootstrap existing Linux host
-#!               - Assign Chef cookbook(s)
-#!               - Run Chef client
+#!               - Extract cookbook in repository
+#!               - Get community cookbooks
+#!               - Get cookbook recepies
+#!               - Get cookbook version
+#!               - Get cookbooks
+#!               - Search cookbooks in the community
+#!               - Upload cookbook to server
 #!!#
 ####################################################
 
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.ssh
+  ssh: io.cloudslang.base.remote_command_execution.ssh
   print: io.cloudslang.base.print
 
 flow:
-  name: test_chef_bootstrap_run
+  name: test_chef_cookbook_actions
   inputs:
     # General inputs
-    - node_host
-    - node_name
+    - cookbook_name
+    - cookbook_version
     # Chef details
-    - run_list_items
     - knife_host
     - knife_username
     - knife_password:
         required: false
     - knife_privkey:
         required: false
-    - node_username
-    - node_privkey_remote:
-        required: false
-    - node_privkey_local:
-        required: false
-    - node_password:
-        required: false
     - knife_config:
         required: false
 
   workflow:
-    - chef_bootstrap:
+    - chef_extract_cookbook_in_ropository:
         do:
-          bootstrap_node:
-            - node_host
-            - node_name
-            - knife_host
-            - knife_username
-            - knife_password
-            - knife_privkey
-            - node_username
-            - node_password
-            - node_privkey: ${node_privkey_remote}
-            - knife_config
-        publish:
-          - return_result: ${knife_result}
-          - standard_err
-          - node_name
-
-    - chef_assign_cookbooks:
-        do:
-          run_list_add:
-            - run_list_items
-            - node_name
+          extract_cookbook_in_repo:
+            - cookbook_name
             - knife_host
             - knife_username
             - knife_password
@@ -76,24 +53,9 @@ flow:
           - return_result: ${knife_result}
           - standard_err
 
-    - chef_run_client:
+    - chef_get_community_cookbooks:
         do:
-          ssh.ssh_command:
-            - host: ${node_host}
-            - username: ${node_username}
-            - password: ${node_password}
-            - private_key_file: ${node_privkey_local}
-            - command: 'sudo chef-client'
-            - timeout: '600000'
-        publish:
-          - return_result: ${returnResult}
-          - standard_err
-
-    - chef_remove_cookbooks:
-        do:
-          run_list_remove:
-            - run_list_items
-            - node_name
+          get_community_cookbooks:
             - knife_host
             - knife_username
             - knife_password
@@ -103,27 +65,11 @@ flow:
           - return_result: ${knife_result}
           - standard_err
 
-    - chef_remove_node_and_uninstall:
+    - chef_get_cookbook_recipes:
         do:
-          delete_node_uninstall:
-            - node_name
-            - knife_host
-            - knife_username
-            - knife_password
-            - knife_privkey
-            - node_host
-            - node_username
-            - node_privkey: ${node_privkey_local}
-            - node_password
-            - knife_config
-        publish:
-          - return_result: ${knife_result}
-          - standard_err
-          - node_name
-
-    - chef_get_nodes:
-        do:
-          get_nodes:
+          get_cookbook_recipes:
+            - cookbook_name
+            - cookbook_version
             - knife_host
             - knife_username
             - knife_password
@@ -133,9 +79,10 @@ flow:
           - return_result: ${knife_result}
           - standard_err
 
-    - chef_get_roles:
+    - chef_get_cookbook_version:
         do:
-          get_roles:
+          get_cookbook_version:
+            - cookbook_name
             - knife_host
             - knife_username
             - knife_password
@@ -145,9 +92,9 @@ flow:
           - return_result: ${knife_result}
           - standard_err
 
-    - chef_get_users:
+    - chef_get_cookbooks:
         do:
-          get_users:
+          get_cookbooks:
             - knife_host
             - knife_username
             - knife_password
@@ -157,9 +104,23 @@ flow:
           - return_result: ${knife_result}
           - standard_err
 
-    - chef_ssl_check:
+    - chef_search_cookbooks_in_community:
         do:
-          ssl_check:
+          search_cookbooks_in_community:
+            - cookbook_name
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_upload_cookbook_to_server:
+        do:
+          upload_cookbook_to_server:
+            - cookbook_name
             - knife_host
             - knife_username
             - knife_password
