@@ -29,7 +29,7 @@ namespace: io.cloudslang.new_relic.servers
 
 imports:
   json: io.cloudslang.base.json
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: update_server_name

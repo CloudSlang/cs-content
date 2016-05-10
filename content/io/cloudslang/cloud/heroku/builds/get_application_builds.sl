@@ -15,7 +15,7 @@
 namespace: io.cloudslang.cloud.heroku.builds
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: get_application_builds

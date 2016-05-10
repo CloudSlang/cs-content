@@ -37,7 +37,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: delete_container

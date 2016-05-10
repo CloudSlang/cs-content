@@ -48,7 +48,7 @@
 namespace: io.cloudslang.itsm.service_now.commons
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: delete_record

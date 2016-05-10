@@ -26,7 +26,7 @@
 namespace: io.cloudslang.new_relic.servers
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: list_servers

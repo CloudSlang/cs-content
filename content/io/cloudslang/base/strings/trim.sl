@@ -8,7 +8,8 @@
  #!!
  #! @description: Trims given string.
  #! @input string: original string - Example: " good "
- #! @output result: trimmed string - Example: "good"
+ #! @output result: string in which all whitespace characters have been stripped
+ #!                 off both sides of the string - Example: "good"
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings

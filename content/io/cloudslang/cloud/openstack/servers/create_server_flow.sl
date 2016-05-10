@@ -84,7 +84,7 @@ namespace: io.cloudslang.cloud.openstack.servers
 imports:
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   openstack: io.cloudslang.cloud.openstack
   utils: io.cloudslang.cloud.openstack.utils
 

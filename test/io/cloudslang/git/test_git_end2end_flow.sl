@@ -58,7 +58,7 @@ namespace: io.cloudslang.git
 
 imports:
   git: io.cloudslang.git
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
   files: io.cloudslang.base.files
   linux: io.cloudslang.base.os.linux.users

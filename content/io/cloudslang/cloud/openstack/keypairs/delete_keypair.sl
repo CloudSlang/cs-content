@@ -37,7 +37,7 @@ namespace: io.cloudslang.cloud.openstack.keypairs
 
 imports:
   openstack: io.cloudslang.cloud.openstack
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: delete_keypair
