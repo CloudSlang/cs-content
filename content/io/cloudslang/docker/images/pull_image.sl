@@ -32,7 +32,7 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: pull_image

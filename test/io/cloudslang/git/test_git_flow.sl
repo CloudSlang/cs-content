@@ -9,7 +9,7 @@
 namespace: io.cloudslang.git
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: test_git_flow

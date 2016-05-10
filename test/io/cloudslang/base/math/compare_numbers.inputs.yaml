@@ -1,0 +1,103 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testCompareIntLess:
+  inputs:
+    - value1: 3
+    - value2: 5
+  description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: LESS_THAN
+
+testCompareIntEqual:
+  inputs:
+    - value1: 5
+    - value2: 5
+  description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: EQUALS
+
+testCompareIntGreater:
+  inputs:
+    - value1: 5
+    - value2: 3
+  description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: GREATER_THAN
+
+testCompareFloatLess:
+  inputs:
+    - value1: 0.3
+    - value2: 0.5
+  description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: LESS_THAN
+
+testCompareFloatEqual:
+  inputs:
+    - value1: .5
+    - value2: .5
+  description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: EQUALS
+
+testCompareFloatGreater:
+  inputs:
+    - value1: 0.5
+    - value2: 0.3
+  description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: GREATER_THAN
+
+testCompareIntLessStr:
+  inputs:
+    - value1: '3'
+    - value2: '5'
+  description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: LESS_THAN
+
+testCompareIntEqualStr:
+  inputs:
+    - value1: '5'
+    - value2: '5'
+  description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: EQUALS
+
+testCompareIntGreaterStr:
+  inputs:
+    - value1: '5'
+    - value2: '3'
+  description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: GREATER_THAN
+
+testCompareFloatLessStr:
+  inputs:
+    - value1: '0.3'
+    - value2: '0.5'
+  description: Tests that compare_numbers.sl operation finishes with LESS_THAN when value1 < value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: LESS_THAN
+
+testCompareFloatEqualStr:
+  inputs:
+    - value1: '0.5'
+    - value2: '0.5'
+  description: Tests that compare_numbers.sl operation finishes with EQUALS when value1 = value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: EQUALS
+
+testCompareFloatGreaterStr:
+  inputs:
+    - value1: '0.5'
+    - value2: '0.3'
+  description: Tests that compare_numbers.sl operation finishes with GREATER_THAN when value1 > value2
+  testFlowPath: io.cloudslang.base.math.compare_numbers
+  result: GREATER_THAN

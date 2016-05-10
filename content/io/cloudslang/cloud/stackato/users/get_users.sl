@@ -40,7 +40,7 @@ namespace: io.cloudslang.cloud.stackato.users
 imports:
   stackato: io.cloudslang.cloud.stackato
   stackato_utils: io.cloudslang.cloud.stackato.utils
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
 flow:

@@ -16,7 +16,7 @@
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   print: io.cloudslang.base.print
 
 flow:
