@@ -27,13 +27,13 @@ flow:
         required: false
     - image_name:
         default: 'busybox'
-        overridable: false
+        private: true
     - container_name1:
         default: 'busy1'
-        overridable: false
+        private: true
     - container_name2:
         default: 'busy2'
-        overridable: false
+        private: true
     - timeout:
         default: '6000000'
 

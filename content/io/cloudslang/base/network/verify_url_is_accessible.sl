@@ -21,7 +21,7 @@ namespace: io.cloudslang.base.network
 
 imports:
   math: io.cloudslang.base.math
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   utils: io.cloudslang.base.utils
 flow:
   name: verify_url_is_accessible
@@ -47,7 +47,7 @@ flow:
 
     - check_if_timed_out:
          do:
-            math.comparisons.compare_numbers:
+            math.compare_numbers:
               - value1: ${attempts}
               - value2: 0
          navigate:

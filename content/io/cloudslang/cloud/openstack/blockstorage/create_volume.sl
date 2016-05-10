@@ -40,7 +40,7 @@ namespace: io.cloudslang.cloud.openstack.blockstorage
 
 imports:
   openstack: io.cloudslang.cloud.openstack
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
 flow:

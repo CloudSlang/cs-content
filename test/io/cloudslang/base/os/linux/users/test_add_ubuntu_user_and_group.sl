@@ -9,7 +9,7 @@ namespace: io.cloudslang.base.os.linux.users
 
 imports:
   groups: io.cloudslang.base.os.linux.groups
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:

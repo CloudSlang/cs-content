@@ -31,7 +31,7 @@
 namespace: io.cloudslang.base.os.linux.users
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:

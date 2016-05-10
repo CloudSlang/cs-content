@@ -31,7 +31,7 @@ imports:
   droplets: io.cloudslang.cloud.digital_ocean.v2.droplets
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
-  comparisons: io.cloudslang.base.math.comparisons
+  math: io.cloudslang.base.math
 
 flow:
   name: wait_for_status_to_change
@@ -55,7 +55,7 @@ flow:
         required: false
     - time_left:
         default: ${int(timeout)}
-        overridable: false
+        private: true
 
   workflow:
     - get_droplet_status:
@@ -96,7 +96,7 @@ flow:
 
     - check_timeout:
         do:
-          comparisons.compare_numbers:
+          math.compare_numbers:
             - value1: ${time_left}
             - value2: 0
             - time_left

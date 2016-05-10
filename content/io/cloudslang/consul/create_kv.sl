@@ -40,13 +40,13 @@ operation:
         required: false
     - body:
         default: ${key_value}
-        overridable: false
+        private: true
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/kv/' + key_name + '?flags=' + flags}
-        overridable: false
+        private: true
     - method:
         default: 'put'
-        overridable: false
+        private: true
   action:
     java_action:
       className: io.cloudslang.content.httpclient.HttpClientAction

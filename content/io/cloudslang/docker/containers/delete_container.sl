@@ -37,7 +37,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: delete_container
@@ -47,12 +47,12 @@ flow:
         required: false
     - docker_options_expression:
         default: ${docker_options + ' ' if bool(docker_options) else ''}
-        overridable: false
+        private: true
     - cmd_params:
         required: false
     - params:
         default: ${cmd_params + ' ' if bool(cmd_params) else ''}
-        overridable: false
+        private: true
     - host
     - port:
         required: false
@@ -65,7 +65,7 @@ flow:
         required: false
     - command:
         default: ${'docker ' + docker_options_expression + 'rm ' + params + container_id}
-        overridable: false
+        private: true
     - character_set:
         required: false
     - pty:

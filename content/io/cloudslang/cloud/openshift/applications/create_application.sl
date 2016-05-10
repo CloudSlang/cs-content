@@ -49,7 +49,7 @@
 namespace: io.cloudslang.cloud.openshift.applications
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   list: io.cloudslang.base.lists
 
 flow:

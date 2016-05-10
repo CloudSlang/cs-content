@@ -10,7 +10,7 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
 
@@ -35,19 +35,6 @@ flow:
        navigate:
          - SUCCESS: pull_image
          - FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - test_verify_no_images:
-        do:
-          test_verify_no_images:
-            - host
-            - port
-            - username
-            - password
-        navigate:
-          - SUCCESS: pull_image
-          - FAILURE: MACHINE_IS_NOT_CLEAN
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
         do:
@@ -100,8 +87,6 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES

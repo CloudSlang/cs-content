@@ -34,7 +34,7 @@
 namespace: io.cloudslang.coreos
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -63,7 +63,7 @@ flow:
         required: false
     - command:
         default: "fleetctl list-machines | awk '{print $1}'"
-        overridable: false
+        private: true
 
   workflow:
     - get_machine_public_ip:
