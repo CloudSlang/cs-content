@@ -35,7 +35,7 @@ namespace: io.cloudslang.cloud.stackato.spaces
 
 imports:
   stackato: io.cloudslang.cloud.stackato
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
 flow:

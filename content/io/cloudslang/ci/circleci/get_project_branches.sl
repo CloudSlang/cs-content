@@ -40,7 +40,7 @@
 namespace: io.cloudslang.ci.circleci
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
   lists: io.cloudslang.base.lists
 

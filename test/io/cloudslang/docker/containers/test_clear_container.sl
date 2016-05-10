@@ -86,17 +86,31 @@ flow:
             - image_name: ${second_image_name}
             - container_params: '-p 49165:22'
         navigate:
-          - SUCCESS: clear_container
+          - SUCCESS: get_all_containers
           - FAILURE: FAIL_RUN_IMAGE
 
-    - clear_container:
+    - get_all_containers:
+        do:
+          get_all_containers:
+            - host
+            - username
+            - password
+            - all_containers: true
+            - port
+        publish:
+          - all_containers: ${container_list}
+        navigate:
+          - SUCCESS: clear_all_containers
+          - FAILURE: FAILURE
+
+    - clear_all_containers:
         do:
           clear_container:
             - docker_host: ${host}
             - port
             - docker_username: ${username}
             - docker_password: ${password}
-            - container_id: ${list}
+            - container_id: ${all_containers}
         navigate:
           - SUCCESS: verify
           - FAILURE: FAILURE

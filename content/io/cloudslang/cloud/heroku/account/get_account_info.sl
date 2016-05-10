@@ -14,7 +14,7 @@
 namespace: io.cloudslang.cloud.heroku.account
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: get_account_info

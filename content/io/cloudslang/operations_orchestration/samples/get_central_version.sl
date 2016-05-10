@@ -16,7 +16,7 @@
 namespace: io.cloudslang.operations_orchestration.samples
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: get_central_version

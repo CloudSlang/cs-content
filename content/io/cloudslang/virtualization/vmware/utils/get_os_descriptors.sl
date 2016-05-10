@@ -80,7 +80,7 @@ operation:
 
   action:
     java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.GetOSDescriptors
+      className: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
       methodName: getOsDescriptors
 
   outputs:

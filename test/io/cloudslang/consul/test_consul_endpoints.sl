@@ -10,7 +10,7 @@
 namespace: io.cloudslang.consul
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   base_utils: io.cloudslang.base.utils
 
 flow:
