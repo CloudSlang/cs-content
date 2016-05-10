@@ -1,7 +1,11 @@
-﻿date: "Wed, Jul 4, '01"
-date_format: "EEE, MMM d, ''yy"
-date_locale_lang: "en"
-date_locale_country: "US"
-out_format: "EEE, MMM d, ''yy"
-out_locale_lang: "it"
-out_locale_country: "IT"
+﻿test_parse_date:
+  inputs:
+    - date: "Wed, Jul 4, '01"
+    - date_format: "EEE, MMM d, ''yy"
+    - date_locale_lang: "en"
+    - date_locale_country: "US"
+    - out_format: "EEE, MMM d, ''yy"
+    - out_locale_lang: "it"
+    - out_locale_country: "IT"
+  description: simple parse_date test
+  result: SUCCESS

@@ -1,2 +1,6 @@
-locale_lang: "en"
-locale_country: "US"
+test_get_current_time:
+  inputs:
+    - locale_lang: "en"
+    - locale_country: "US"
+  description: simple get_current_time test
+  result: SUCCESS
