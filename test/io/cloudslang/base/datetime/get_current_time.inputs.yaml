@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testexecute:
+testGetTimeSuccess:
   inputs:
     - locale_lang: "en"
     - locale_country: "US"
