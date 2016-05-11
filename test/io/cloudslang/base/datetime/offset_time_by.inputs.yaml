@@ -13,5 +13,5 @@ testOffsetTimeBy:
     - locale_lang: "en"
     - locale_country: "US"
   description: simple offset_time_by test
-  testFlowPath: io.cloudslang.base.datetime.test_offset_time_by
+  testFlowPath: io.cloudslang.base.datetime.offset_time_by
   result: SUCCESS

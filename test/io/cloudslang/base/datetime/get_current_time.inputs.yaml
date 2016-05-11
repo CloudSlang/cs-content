@@ -11,5 +11,5 @@ testGetCurrentTime:
     - locale_lang: "en"
     - locale_country: "US"
   description: simple get_current_time test
-  testFlowPath: io.cloudslang.base.datetime.test_get_current_time
+  testFlowPath: io.cloudslang.base.datetime.get_time
   result: SUCCESS

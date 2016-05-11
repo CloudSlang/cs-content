@@ -16,5 +16,5 @@ testParseDate:
     - out_locale_lang: "it"
     - out_locale_country: "IT"
   description: simple parse_date test
-  testFlowPath: io.cloudslang.base.datetime.test_parse_date
+  testFlowPath: io.cloudslang.base.datetime.parse_date
   result: SUCCESS
