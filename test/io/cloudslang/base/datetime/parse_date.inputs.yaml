@@ -6,7 +6,7 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testParseDate:
+testexecute:
   inputs:
     - date: "Wed, Jul 4, '01"
     - date_format: "EEE, MMM d, ''yy"
