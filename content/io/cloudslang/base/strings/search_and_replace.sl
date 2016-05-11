@@ -31,10 +31,9 @@ operation:
         error_message = ""
         if text_to_replace in origin_string:
           replaced_string = origin_string.replace(text_to_replace, replace_with)
-        elif text_to_replace not in origin_string:
-          error_message = "Substring not found"
         else:
-          replaced_string = origin_string
+          if text_to_replace not in origin_string:
+            error_message = "Substring not found"
       except Exception as e:
         error_message = e
   outputs:
