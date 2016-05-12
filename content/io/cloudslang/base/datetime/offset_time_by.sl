@@ -12,7 +12,7 @@
 #! @input offset: the number of seconds to offset the date/time with
 #! @input localeLang: the locale language
 #! @input localeCountry: the locale country
-#! @result SUCCESS: the date/time was offsetted properly
+#! @result SUCCESS: the date/time was shifted properly
 #! @result FAILURE: failed to offset the date/time
 #!!#
 ####################################################
@@ -30,13 +30,13 @@ operation:
     - locale_lang:
         required: false
     - localeLang:
+        default: ${get("locale_lang", "en")}
         private: true
-        default: ${get("locale_lang", "en")} 
     - locale_country:
         required: false
     - localeCountry:
-        private: true
         default: ${get("locale_country", "US")}
+        private: true
 
   action:
     java_action:

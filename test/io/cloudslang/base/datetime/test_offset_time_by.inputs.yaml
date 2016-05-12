@@ -6,10 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testGetTimeSuccess:
+testOffsetTimeBySuccess:
   inputs:
-    - locale_lang: "en"
-    - locale_country: "US"
-  description: simple get_current_time test
-  testFlowPath: io.cloudslang.base.datetime.get_time
+    - date: <date>
+    - offset: <offset>
+    - locale_lang: <locale_lang>
+    - locale_country: <locale_country>
+  description: "Test that successfully shift current time with offset value."
+  testSuites: [datetime-local]
+  testFlowPath: io.cloudslang.base.datetime.offset_time_by
   result: SUCCESS

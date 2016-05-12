@@ -10,26 +10,19 @@ namespace: io.cloudslang.base.datetime
 
 imports:
   strings: io.cloudslang.base.strings
-  base_print: io.cloudslang.base.print
 
 flow:
   name: test_offset_time_by
 
   inputs:
-    - date:
-        required: true
-    - offset:
-        required: true
+    - date: 'April 26, 2016 1:32:20 PM EEST'
+    - offset: '5'
     - locale_lang:
         required: false
-    - localeLang:
-        private: true
-        default: ${get("locale_lang", "en")} 
+        default: 'en'
     - locale_country:
         required: false
-    - localeCountry:
-        private: true
-        default: ${get("locale_country", "US")}
+        default: 'US'
 
   workflow:
     - execute_offset_time_by:
@@ -37,29 +30,24 @@ flow:
           offset_time_by:
             - date
             - offset
-            - localeLang
-            - localeCountry
+            - locale_lang
+            - locale_country
         publish:
-            - returnStr: ${result}
+            - response: ${result}
         navigate:
             - SUCCESS: verify_against_expected_result
-            - FAILURE: FAILURE
+            - FAILURE: OFFSET_TIME_BY_FAILURE
 
     - verify_against_expected_result:
         do:
           strings.string_equals:
             - first_string: 'April 26, 2016 1:32:25 PM EEST'
-            - second_string: ${returnStr}
+            - second_string: ${response}
         navigate:
-            - SUCCESS: print_result
-            - FAILURE: OUTPUT_IS_INCORRECT
-
-    - print_result:
-        do:
-          base_print.print_text:
-            - text: "${'result:<' + returnStr + '>'}"
+            - SUCCESS: SUCCESS
+            - FAILURE: INCORRECT_OUTPUT
 
   results:
     - SUCCESS
-    - FAILURE
-    - OUTPUT_IS_INCORRECT
+    - OFFSET_TIME_BY_FAILURE
+    - INCORRECT_OUTPUT

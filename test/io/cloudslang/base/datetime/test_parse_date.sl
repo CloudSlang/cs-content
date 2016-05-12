@@ -10,44 +10,24 @@ namespace: io.cloudslang.base.datetime
 
 imports:
   strings: io.cloudslang.base.strings
-  base_print: io.cloudslang.base.print
 
 flow:
   name: test_parse_date
 
   inputs:
-    - date:
-        required: true
+    - date
     - date_format:
         required: false
-    - dateFormat:
-        private: true
-        default: ${get("date_format", "")}
     - date_locale_lang:
         required: false
-    - datelocaleLang:
-        private: true
-        default: ${get("date_locale_lang", "en")} 
     - date_locale_country:
         required: false
-    - datelocaleCountry:
-        private: true
-        default: ${get("date_locale_country", "US")}
     - out_format:
         required: false
-    - outFormat:
-        private: true
-        default: ${get("out_format", "")}
     - out_locale_lang:
         required: false
-    - outlocaleLang:
-        private: true
-        default: ${get("out_locale_lang", "en")} 
     - out_locale_country:
         required: false
-    - outlocaleCountry:
-        private: true
-        default: ${get("out_locale_country", "US")}
 
   workflow:
     - execute_parse_date:
@@ -64,7 +44,7 @@ flow:
             - returnStr: ${result}
         navigate:
             - SUCCESS: verify_against_expected_result
-            - FAILURE: FAILURE
+            - FAILURE: PARSE_DATE_FAILURE
 
     - verify_against_expected_result:
         do:
@@ -72,15 +52,10 @@ flow:
             - first_string: 'mer, lug 4, ''01'
             - second_string: ${returnStr}
         navigate:
-            - SUCCESS: print_result
-            - FAILURE: OUTPUT_IS_INCORRECT
-
-    - print_result:
-        do:
-          base_print.print_text:
-            - text: "${'result:<' + returnStr + '>'}"
+            - SUCCESS: SUCCESS
+            - FAILURE: INCORRECT_OUTPUT
 
   results:
     - SUCCESS
-    - FAILURE
-    - OUTPUT_IS_INCORRECT
+    - PARSE_DATE_FAILURE
+    - INCORRECT_OUTPUT

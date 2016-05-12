@@ -31,33 +31,33 @@ operation:
     - date_format:
         required: false
     - dateFormat:
-        private: true
         default: ${get("date_format", "")}
+        private: true
     - date_locale_lang:
         required: false
     - datelocaleLang:
+        default: ${get("date_locale_lang", "en")}
         private: true
-        default: ${get("date_locale_lang", "en")} 
     - date_locale_country:
         required: false
     - datelocaleCountry:
-        private: true
         default: ${get("date_locale_country", "US")}
+        private: true
     - out_format:
         required: false
     - outFormat:
-        private: true
         default: ${get("out_format", "")}
+        private: true
     - out_locale_lang:
         required: false
     - outlocaleLang:
+        default: ${get("out_locale_lang", "en")}
         private: true
-        default: ${get("out_locale_lang", "en")} 
     - out_locale_country:
         required: false
     - outlocaleCountry:
-        private: true
         default: ${get("out_locale_country", "US")}
+        private: true
 
   action:
     java_action:
