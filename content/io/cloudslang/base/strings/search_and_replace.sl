@@ -12,7 +12,7 @@
 #! @input text_to_replace: text to replace
 #! @input replace_with: text to replace with
 #! @output replaced_string: string with the text replaced
-#! @output error_message: substirng not found
+#! @output error_message: substring not found
 #! @result SUCCESS: parsing successful
 #! @result FAILURE: something went wrong
 #!!#
@@ -32,8 +32,7 @@ operation:
         if text_to_replace in origin_string:
           replaced_string = origin_string.replace(text_to_replace, replace_with)
         else:
-          if text_to_replace not in origin_string:
-            error_message = "Substring not found"
+          error_message = "Substring not found"
       except Exception as e:
         error_message = e
   outputs:
