@@ -23,8 +23,8 @@ operation:
     - regex
     - text
     - replacement
-  action:
-    python_script: |
+  python_action:
+    script: |
       import re
       result_text = ""
       result_text = re.sub(regex, replacement, text)

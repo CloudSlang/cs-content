@@ -18,8 +18,8 @@ operation:
   name: sleep
   inputs:
     - seconds
-  action:
-    python_script: |
+  python_action:
+    script: |
       import time
       time.sleep(float(seconds))
   results:

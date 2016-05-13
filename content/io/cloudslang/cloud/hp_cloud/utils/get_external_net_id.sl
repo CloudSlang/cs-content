@@ -22,8 +22,8 @@ operation:
   inputs:
     - json_network_list
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import json
       ext_network_id = ''
       decoded = json.loads(json_network_list)

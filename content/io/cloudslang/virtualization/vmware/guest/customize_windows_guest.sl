@@ -246,10 +246,9 @@ operation:
         default: ${get("time_zone", "0")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.guest.CustomizeWindowsGuest
-      methodName: customizeWindowsGuest
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.guest.CustomizeWindowsGuest
+    method_name: customizeWindowsGuest
 
   outputs:
     - return_result: ${get("returnResult", "")}

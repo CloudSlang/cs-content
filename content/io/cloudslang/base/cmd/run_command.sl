@@ -20,8 +20,8 @@ operation:
   name: run_command
   inputs:
     - command
-  action:
-    python_script: |
+  python_action:
+    script: |
       import subprocess
       print "Running command: '" + command + "'"
       exit_code = subprocess.call(command, shell=True)

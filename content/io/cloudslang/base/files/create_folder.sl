@@ -21,8 +21,8 @@ operation:
   inputs:
     - folder_name
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         import sys, os
         try:
           if os.path.isdir(folder_name):

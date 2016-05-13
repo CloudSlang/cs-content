@@ -26,8 +26,8 @@ operation:
     - url
     - job_name
     - config_xml
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
 

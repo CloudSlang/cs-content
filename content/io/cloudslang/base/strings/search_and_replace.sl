@@ -25,8 +25,8 @@ operation:
     - origin_string
     - text_to_replace
     - replace_with
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         error_message = ""
         if text_to_replace in origin_string:

@@ -22,8 +22,8 @@ operation:
   inputs:
     - first
     - second
-  action:
-    python_script: |
+  python_action:
+    script: |
       eq = first == second
   results:
     - EQUALS: ${ eq }
