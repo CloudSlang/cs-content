@@ -35,8 +35,8 @@ operation:
     - attempt_timeout:
         default: 10
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       import requests
       import time
       message = 'Application is not up after ' + str(attempts) + ' attempts to ping.'

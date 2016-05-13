@@ -26,8 +26,8 @@ operation:
     - min
     - max
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import random
 
       rand = None

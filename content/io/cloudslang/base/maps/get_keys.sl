@@ -19,8 +19,8 @@ operation:
   name: get_keys
   inputs:
      - map
-  action:
-    python_script: |
+  python_action:
+    script: |
        keys=[]
        for key, item in map.items():
           keys.append(str(key))

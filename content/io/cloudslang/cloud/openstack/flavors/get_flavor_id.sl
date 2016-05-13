@@ -26,8 +26,8 @@ operation:
   inputs:
     - flavor_body
     - flavor_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         flavors = json.loads(flavor_body)['flavors']

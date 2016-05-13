@@ -21,8 +21,8 @@ operation:
   inputs:
     - first_string
     - second_string
-  action:
-    python_script: |
+  python_action:
+    script: |
       res = False
       if first_string == second_string:
         res = True

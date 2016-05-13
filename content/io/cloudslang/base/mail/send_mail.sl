@@ -78,10 +78,9 @@ operation:
     - enableTLS:
         default: ${get("enable_TLS", "")}
         private: true
-  action:
-    java_action:
-      className: io.cloudslang.content.mail.actions.SendMailAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.mail.actions.SendMailAction
+    method_name: execute
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE

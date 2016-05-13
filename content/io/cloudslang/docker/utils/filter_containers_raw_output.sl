@@ -27,8 +27,8 @@ operation:
   inputs:
     - raw_output
     - excluded_images
-  action:
-    python_script: |
+  python_action:
+    script: |
       def extract_container_name_from_line(line):
         return line.split()[-1]
 
