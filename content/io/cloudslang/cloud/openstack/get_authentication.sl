@@ -71,10 +71,9 @@ operation:
     - contentType:
         default: 'application/json'
         private: true
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - status_code: ${'' if 'statusCode' not in locals() else statusCode}

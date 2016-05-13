@@ -19,8 +19,8 @@ operation:
   name: length
   inputs:
     - list
-  action:
-    python_script: |
+  python_action:
+    script: |
       length = len(list)
   outputs:
     - result: ${length}

@@ -69,10 +69,9 @@ operation:
         default: ','
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.ListVMsAndTemplates
-      methodName: listVMsAndTemplates
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.ListVMsAndTemplates
+    method_name: listVMsAndTemplates
 
   outputs:
     - return_result: ${get("returnResult", "")}

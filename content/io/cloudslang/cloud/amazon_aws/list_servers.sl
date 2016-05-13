@@ -54,10 +54,9 @@ operation:
         default: ''
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.ListServersAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.ListServersAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

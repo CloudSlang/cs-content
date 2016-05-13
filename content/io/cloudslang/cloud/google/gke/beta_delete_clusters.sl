@@ -47,8 +47,8 @@ operation:
     - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
     - cluster_id
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import os
         from apiclient import discovery

@@ -23,8 +23,8 @@ operation:
   inputs:
     - min
     - max
-  action:
-    python_script: |
+  python_action:
+    script: |
       import random
 
       random_number = None

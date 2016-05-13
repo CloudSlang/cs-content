@@ -73,10 +73,9 @@ operation:
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
           private: true
-    action:
-      java_action:
-        className: io.cloudslang.content.ssh.actions.SSHShellCommandAction
-        methodName: runSshShellCommand
+    java_action:
+      class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
+      method_name: runSshShellCommand
     outputs:
       - return_result: ${ get('returnResult', '') }
       - return_code: ${ returnCode }

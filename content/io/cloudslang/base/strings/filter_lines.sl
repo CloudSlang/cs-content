@@ -22,8 +22,8 @@ operation:
     - text
     - filter
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import re
       res = re.findall('.*' + filter + '.*', text)
       filter_result = '\n'.join(res)

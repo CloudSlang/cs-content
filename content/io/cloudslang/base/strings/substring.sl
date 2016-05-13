@@ -25,8 +25,8 @@
      - endIndex:
          required: false
          default: 0
-   action:
-     python_script: |
+   python_action:
+     script: |
         error_message = ""
         maxIndex=len(string)+1
         if endIndex==0:

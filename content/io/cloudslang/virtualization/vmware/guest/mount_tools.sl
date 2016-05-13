@@ -69,10 +69,9 @@ operation:
         default: ${get("virtual_machine_name", None)}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.guest.MountTools
-      methodName: mountTools
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.guest.MountTools
+    method_name: mountTools
 
   outputs:
     - return_result: ${get("returnResult", "")}

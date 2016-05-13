@@ -31,8 +31,8 @@ operation:
   name: parse_machine
   inputs:
     - json_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_response)

@@ -19,8 +19,8 @@ operation:
   name: get_values
   inputs:
     - map
-  action:
-    python_script: |
+  python_action:
+    script: |
       values=[]
       for key, value in map.items():
          if isinstance(value, basestring):

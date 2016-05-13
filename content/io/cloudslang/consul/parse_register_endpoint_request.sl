@@ -40,8 +40,8 @@ operation:
     - check:
         default: ''
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         data = {}

@@ -26,8 +26,8 @@ operation:
   inputs:
     - server_body
     - server_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         servers = json.loads(server_body)['servers']

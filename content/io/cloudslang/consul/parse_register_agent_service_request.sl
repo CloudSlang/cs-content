@@ -34,8 +34,8 @@ operation:
         required: false
     - check:
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         data = {}

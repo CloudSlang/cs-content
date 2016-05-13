@@ -29,8 +29,8 @@ operation:
     - json_input
     - json_path
     - value
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         if len(json_path) > 0:
