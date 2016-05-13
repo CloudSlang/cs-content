@@ -71,10 +71,9 @@ operation:
         default: ${get("user_groups", "")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.images.AddLaunchPermissionsToImageInRegionAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.images.AddLaunchPermissionsToImageInRegionAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

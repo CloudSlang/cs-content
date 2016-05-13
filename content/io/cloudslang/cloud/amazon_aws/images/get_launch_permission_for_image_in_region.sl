@@ -55,10 +55,9 @@ operation:
     - image_id
     - imageId: ${image_id}
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.images.GetLaunchPermissionForImageInRegionAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.images.GetLaunchPermissionForImageInRegionAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

@@ -54,10 +54,9 @@ operation:
         default: ${get("proxy_port", "8080")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.RemoveServerAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.RemoveServerAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

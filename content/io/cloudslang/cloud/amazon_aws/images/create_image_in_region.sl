@@ -74,10 +74,9 @@ operation:
         default: ${get("image_no_reboot", "")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.images.CreateImageInRegionAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.images.CreateImageInRegionAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

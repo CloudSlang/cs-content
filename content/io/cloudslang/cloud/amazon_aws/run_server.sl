@@ -75,10 +75,9 @@ operation:
         default: ${get("max_count", "1")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.RunServerAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.RunServerAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

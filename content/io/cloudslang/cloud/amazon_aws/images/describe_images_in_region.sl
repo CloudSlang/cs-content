@@ -78,10 +78,9 @@ operation:
         default: ${get("owners_string", "self")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}
