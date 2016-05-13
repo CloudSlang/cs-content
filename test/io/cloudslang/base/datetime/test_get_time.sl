@@ -12,7 +12,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_get_current_time
+  name: test_get_time
 
   inputs:
     - locale_lang:

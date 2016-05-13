@@ -34,12 +34,12 @@ flow:
         do:
           parse_date:
             - date
-            - dateFormat
-            - dateLocaleLang
-            - dateLocaleCountry
-            - outFormat
-            - outLocaleLang
-            - outLocaleCountry
+            - date_format
+            - date_locale_lang
+            - date_locale_country
+            - out_format
+            - out_locale_lang
+            - out_locale_country
         publish:
             - returnStr: ${result}
         navigate:
