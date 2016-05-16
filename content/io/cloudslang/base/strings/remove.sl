@@ -7,7 +7,7 @@
 ####################################################
 #!!
 #! @description: Removes text in string.
-#! @input string: string   - Example: "SPAMgood morning"
+#! @input origin_string: string   - Example: "SPAMgood morning"
 #! @input text: text which need to be removed - Example: "SPAM"
 #! @output new_string: string after removing - Example: "good morning"
 #!!#
@@ -22,8 +22,8 @@ operation:
     - text
   python_action:
     script: |
-      if text in string:
-         new_string = string.replace(text, "")
+      if text in origin_string:
+         new_string = origin_string.replace(text, "")
       else:
          new_string = origin_string
   outputs:
