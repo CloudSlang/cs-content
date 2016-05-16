@@ -29,14 +29,12 @@ operation:
     - json_object
     - index:
         required: false
-        default: None
   python_action:
     script: |
       try:
         import json
         decoded_json_array = json.loads(json_array)
         decoded_json_object = json.loads (json_object)
-        index = None
         if index is None:
          decoded_json_array.remove(decoded_json_object)
         else:
