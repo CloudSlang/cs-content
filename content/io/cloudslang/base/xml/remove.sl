@@ -52,10 +52,9 @@ operation:
         default: ${get("secure_processing", "false")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.xml.actions.Remove
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.xml.actions.Remove
+    method_name: execute
 
   outputs:
     - result_xml: ${resultXML}

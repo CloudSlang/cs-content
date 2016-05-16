@@ -50,10 +50,9 @@ operation:
         default: ${get("secure_processing", "false")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.xml.actions.AddAttribute
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.xml.actions.AddAttribute
+    method_name: execute
 
   outputs:
     - result_xml: ${resultXML}

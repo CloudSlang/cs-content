@@ -40,10 +40,9 @@ operation:
         default: ${get("secure_processing", "false")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.xml.actions.Validate
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.xml.actions.Validate
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

@@ -58,10 +58,9 @@ operation:
         default: ${get("secure_processing", "false")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.xml.actions.Select
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.xml.actions.Select
+    method_name: execute
 
   outputs:
     - selected_value: ${selectedValue}
