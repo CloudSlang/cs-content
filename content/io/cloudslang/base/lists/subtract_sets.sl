@@ -28,8 +28,8 @@ operation:
     - set_2
     - set_2_delimiter
     - result_set_delimiter
-  action:
-    python_script: |
+  python_action:
+    script: |
       arr_list_1 = set_1.split(set_1_delimiter)
       arr_list_2 = set_2.split(set_2_delimiter)
 

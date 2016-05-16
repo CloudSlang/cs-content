@@ -20,8 +20,8 @@ operation:
   inputs:
     - source_dir
     - target_dir
-  action:
-    python_script: |
+  python_action:
+    script: |
           import shutil
           import os
           for subdir, dirs, files in os.walk(source_dir):

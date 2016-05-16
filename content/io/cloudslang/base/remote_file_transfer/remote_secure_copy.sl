@@ -98,10 +98,9 @@ operation:
     - timeout:
         default: '90000'
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
-      methodName: copyTo
+  java_action:
+    class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
+    method_name: copyTo
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}

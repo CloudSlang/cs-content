@@ -124,10 +124,9 @@ operation:
         default: ${get("time_zone", "")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.guest.CustomizeLinuxGuest
-      methodName: customizeLinuxGuest
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.guest.CustomizeLinuxGuest
+    method_name: customizeLinuxGuest
 
   outputs:
     - return_result: ${get("returnResult", "")}

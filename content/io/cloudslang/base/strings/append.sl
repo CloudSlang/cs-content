@@ -21,8 +21,8 @@ operation:
   inputs:
     - string
     - text
-  action:
-    python_script: |
+  python_action:
+    script: |
       string+=text
   outputs:
     - result: ${string}

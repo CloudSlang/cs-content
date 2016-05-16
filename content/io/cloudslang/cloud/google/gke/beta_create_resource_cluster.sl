@@ -90,8 +90,8 @@ operation:
     - services_ipv4_cidr:
         required: false
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
 

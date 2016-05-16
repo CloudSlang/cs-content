@@ -41,8 +41,8 @@ operation:
     - machine_memory_limit:
         default: -1
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_response)

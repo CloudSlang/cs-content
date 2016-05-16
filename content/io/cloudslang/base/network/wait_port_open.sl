@@ -31,8 +31,8 @@ operation:
         default: "30"
         required: false
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import socket, time, sys
       is_open = False
 

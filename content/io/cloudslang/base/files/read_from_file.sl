@@ -23,8 +23,8 @@ operation:
   inputs:
     - file_path
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import sys
       read_text = ""
       message = ""

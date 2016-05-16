@@ -105,10 +105,9 @@ operation:
         default: ${get("vm_disk_mode", "")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.UpdateVM
-      methodName: updateVM
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.UpdateVM
+    method_name: updateVM
 
   outputs:
     - return_result: ${get("returnResult", "")}

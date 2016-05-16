@@ -20,10 +20,17 @@ operation:
   inputs:
     - origin_string
     - text
+<<<<<<< HEAD
   action:
     python_script: |
       if text in origin_string:
          new_string = origin_string.replace(text, "")
+=======
+  python_action:
+    script: |
+      if text in string:
+         newString = string.replace(text, "")
+>>>>>>> upstream/master
       else:
          new_string = origin_string
   outputs:

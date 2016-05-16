@@ -78,10 +78,9 @@ operation:
         default: ','
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.GetVMDetails
-      methodName: getVMDetails
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.GetVMDetails
+    method_name: getVMDetails
 
   outputs:
     - return_result: ${get("returnResult", "")}

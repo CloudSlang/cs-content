@@ -28,8 +28,8 @@ operation:
     - url
     - job_name
     - expected_status
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')

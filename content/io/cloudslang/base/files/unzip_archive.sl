@@ -23,8 +23,8 @@ operation:
     - archive_path
     - output_folder
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         import zipfile
         try:
           fh = open(archive_path, 'rb')
