@@ -1,0 +1,46 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testEncodeDecodeSuccess:
+  inputs:
+    - text: 'hello'
+  description: Tests that base64_encoder.sl encodes and then base64_decoder successfully decodes a string
+  testFlowPath: io.cloudslang.base.utils.test_encoder_decoder
+  result: SUCCESS
+
+testEncodeDecodeUTF8Success:
+  inputs:
+    - text: 'hello'
+    - character_set: 'UTF-8'
+  description: Tests that base64_encoder.sl encodes and then base64_decoder successfully decodes a string using UTF-8
+  testFlowPath: io.cloudslang.base.utils.test_encoder_decoder
+  result: SUCCESS
+
+testEncodeDecodeISO8859Success:
+  inputs:
+    - text: 'hello'
+    - character_set: 'ISO-8859-1'
+  description: Tests that base64_encoder.sl encodes and then base64_decoder successfully decodes a string using ISO-8859-1
+  testFlowPath: io.cloudslang.base.utils.test_encoder_decoder
+  result: SUCCESS
+
+testEncodeDecodeUSASCIISuccess:
+  inputs:
+    - text: 'hello'
+    - character_set: 'US-ASCII'
+  description: Tests that base64_encoder.sl encodes and then base64_decoder successfully decodes a string using US-ASCII
+  testFlowPath: io.cloudslang.base.utils.test_encoder_decoder
+  result: SUCCESS
+
+testEncodeDecodeShiftJISSuccess:
+  inputs:
+    - text: 'hello'
+    - character_set: 'Shift_JIS'
+  description: Tests that base64_encoder.sl encodes and then base64_decoder successfully decodes a string using Shift_JIS
+  testFlowPath: io.cloudslang.base.utils.test_encoder_decoder
+  result: SUCCESS
