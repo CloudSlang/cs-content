@@ -29,8 +29,8 @@ operation:
     - list_label
     - value
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
 

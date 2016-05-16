@@ -23,8 +23,8 @@ operation:
   inputs:
     - value1
     - value2
-  action:
-    python_script: |
+  python_action:
+    script: |
       value1 = float(value1)
       value2 = float(value2)
   results:

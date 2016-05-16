@@ -25,8 +25,8 @@ operation:
     - source
     - destination
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import os, shutil;
       try:
         if os.path.isfile(source):

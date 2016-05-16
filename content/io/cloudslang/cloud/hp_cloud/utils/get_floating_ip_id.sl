@@ -24,8 +24,8 @@ operation:
     - json_ip_list
     - ip_address
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import json
       ip_id = ''
       decoded = json.loads(json_ip_list)

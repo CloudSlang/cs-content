@@ -24,8 +24,8 @@ operation:
   inputs:
     - first_percentage
     - second_percentage
-  action:
-    python_script: |
+  python_action:
+    script: |
       error_message = ""
       result = ""
       first_percentage_nr = first_percentage.replace("%", "")

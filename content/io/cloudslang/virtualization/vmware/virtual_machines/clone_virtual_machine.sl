@@ -167,10 +167,9 @@ operation:
         default: ${get("clone_description", "")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.CloneVM
-      methodName: cloneVM
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.CloneVM
+    method_name: cloneVM
 
   outputs:
     - return_result: ${get("returnResult", "")}

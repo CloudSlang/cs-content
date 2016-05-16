@@ -51,10 +51,9 @@ operation:
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}

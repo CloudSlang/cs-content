@@ -28,8 +28,8 @@ operation:
   inputs:
     - json_input
     - key_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_input)

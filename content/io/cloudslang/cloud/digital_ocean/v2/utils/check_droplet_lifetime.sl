@@ -26,8 +26,8 @@ operation:
   inputs:
     - creation_time_as_string
     - threshold
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from datetime import datetime
 

@@ -29,8 +29,8 @@ operation:
     - ignore_case:
         default: 'true'
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         if ignore_case == 'true':
           string_in_which_to_search = string_in_which_to_search.lower()

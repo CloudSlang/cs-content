@@ -29,8 +29,8 @@ operation:
     - json_object
     - index:
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded_json_array = json.loads(json_array)

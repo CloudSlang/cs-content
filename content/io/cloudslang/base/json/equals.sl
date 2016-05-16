@@ -26,8 +26,8 @@ operation:
   inputs:
     - json_input1
     - json_input2
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded1 = json.loads(json_input1)

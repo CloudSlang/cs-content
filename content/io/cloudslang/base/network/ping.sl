@@ -36,8 +36,8 @@ operation:
         default: "1000"
         required: false
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         try:
           import os, smtplib
           is_up = False

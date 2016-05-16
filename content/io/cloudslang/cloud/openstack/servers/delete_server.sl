@@ -52,10 +52,9 @@ operation:
     - method:
         default: 'delete'
         private: true
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${'' if 'returnResult' not in locals() else returnResult}
     - status_code: ${statusCode}
