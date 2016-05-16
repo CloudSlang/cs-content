@@ -23,7 +23,7 @@ operation:
   python_action:
     script: |
       if text in string:
-         newString = string.replace(text, "")
+         new_string = string.replace(text, "")
       else:
          new_string = origin_string
   outputs:
