@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,42 +6,52 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testStringRemoveSuccess:
+testOriginStringRemoveSuccess:
   inputs:
-    - string: "SPAMGood morning!"
+    - origin_string: "SPAMGood morning!"
     - text: "SPAM"
   description: Tests that remove.sl operation finishes with result = "Good morning!"
   testFlowPath: io.cloudslang.base.strings.remove
   outputs:
-    - result: "Good morning!"
+    - new_string: "Good morning!"
   result: SUCCESS
 
-testStringRemoveSpecialCharacters:
+testOriginStringRemoveSpecialCharacters:
   inputs:
-    - string: errort%&e$\"
+    - origin_string: errort%&e$\"
     - text: t%&e$\"
   description: Tests that remove.sl operation finishes with result = error
   testFlowPath: io.cloudslang.base.strings.remove
   outputs:
-    - result: error
+    - new_string: error
   result: SUCCESS
 
-testStringRemoveEntireString:
+testOriginStringRemoveEntireString:
   inputs:
-    - string: "SPAM"
+    - origin_string: "SPAM"
     - text: "SPAM"
   description: Tests that remove.sl operation returns the empty string when removing all characters
   testFlowPath: io.cloudslang.base.strings.remove
   outputs:
-    - result: ""
+    - new_string: ""
   result: SUCCESS
 
-testStringRemoveAllInstances:
+testOriginStringRemoveAllInstances:
   inputs:
-    - string: "instance, 2nd instance"
+    - origin_string: "instance, 2nd instance"
     - text: "instance"
-  description: Tests that remove.sl operation removes all instances of text in string
+  description: Tests that remove.sl operation removes all instances of text in origin_string
   testFlowPath: io.cloudslang.base.strings.remove
   outputs:
-    - result: ", 2nd "
+    - new_string: ", 2nd "
+  result: SUCCESS
+
+testTextNotFoundinOriginString:
+  inputs:
+    - origin_string: "instance, 2nd instance"
+    - text: "notaninstance"
+  description: Tests that remove.sl operation returns the value of origin_string when text not found
+  testFlowPath: io.cloudslang.base.strings.remove
+  outputs:
+    - new_string: "instance, 2nd instance"
   result: SUCCESS
