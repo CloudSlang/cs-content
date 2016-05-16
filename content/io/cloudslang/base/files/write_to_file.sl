@@ -22,8 +22,8 @@ operation:
   inputs:
     - file_path
     - text
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         f = open(file_path, 'w')
         f.write(text)

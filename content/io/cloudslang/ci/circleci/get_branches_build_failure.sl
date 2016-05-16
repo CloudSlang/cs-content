@@ -56,7 +56,7 @@
 namespace: io.cloudslang.ci.circleci
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
   mail: io.cloudslang.base.mail
 
@@ -69,7 +69,7 @@ flow:
         default: "https"
     - host:
         default: "circleci.com"
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -77,10 +77,10 @@ flow:
         required: false
     - content_type:
         default: "application/json"
-        overridable: false
+        private: true
     - headers:
         default: "Accept:application/json"
-        overridable: false
+        private: true
     - username
     - project
     - committer_email

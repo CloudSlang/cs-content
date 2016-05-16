@@ -49,12 +49,12 @@ operation:
         required: false
     - htmlEmail:
         default: ${get("html_email", "true")}
-        overridable: false
+        private: true
     - read_receipt:
         required: false
     - readReceipt:
         default: ${get("read_receipt", "false")}
-        overridable: false
+        private: true
     - attachments:
         required: false
     - username:
@@ -65,23 +65,22 @@ operation:
         required: false
     - characterSet:
         default: ${get("character_set", "UTF-8")}
-        overridable: false
+        private: true
     - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
         default: ${get("content_transfer_encoding", "base64")}
-        overridable: false
+        private: true
     - delimiter:
         required: false
     - enable_TLS:
         required: false
     - enableTLS:
         default: ${get("enable_TLS", "")}
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.mail.actions.SendMailAction
-      methodName: execute
+        private: true
+  java_action:
+    class_name: io.cloudslang.content.mail.actions.SendMailAction
+    method_name: execute
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE

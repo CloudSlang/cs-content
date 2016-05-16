@@ -28,6 +28,8 @@ flow:
     - trust_everyone:
         default: 'true'
         required: false
+    - data_center_name
+    - hostname
     - virtual_machine_name
     - clone_name
     - folder_name:
@@ -71,6 +73,8 @@ flow:
             - username
             - password
             - trust_everyone
+            - data_center_name
+            - hostname
             - virtual_machine_name
             - clone_name
             - folder_name

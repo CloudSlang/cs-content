@@ -30,7 +30,7 @@
 namespace: io.cloudslang.docker.utils
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -58,7 +58,7 @@ flow:
         required: false
     - command:
         default: ${'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'}
-        overridable: false
+        private: true
 
   workflow:
     - get_docker_info:

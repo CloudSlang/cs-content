@@ -32,7 +32,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_container_names
@@ -42,7 +42,7 @@ flow:
     - all_containers: false
     - ps_parameters:
         default: ${'-a' if bool(all_containers) else ''}
-        overridable: false
+        private: true
     - host
     - port:
         required: false

@@ -58,23 +58,21 @@ operation:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.PowerOnVM
-      methodName: powerOnVM
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.PowerOnVM
+    method_name: powerOnVM
 
   outputs:
     - return_result: ${get("returnResult", "")}

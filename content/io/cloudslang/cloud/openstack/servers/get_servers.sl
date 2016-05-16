@@ -37,23 +37,22 @@ operation:
         required: false
     - proxyHost:
         default: ${proxy_host if proxy_host else ''}
-        overridable: false
+        private: true
     - proxyPort:
         default: ${proxy_port if proxy_port else ''}
-        overridable: false
+        private: true
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}
-        overridable: false
+        private: true
     - url:
         default: ${'http://'+ host + ':' + compute_port + '/v2/' + tenant_id + '/servers'}
-        overridable: false
+        private: true
     - method:
         default: 'get'
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        private: true
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - status_code: ${statusCode}

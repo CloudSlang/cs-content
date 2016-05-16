@@ -39,7 +39,7 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_mysql_status
@@ -56,10 +56,10 @@ flow:
     - mysql_password
     - exec_cmd:
         default: ${ 'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp status' }
-        overridable: false
+        private: true
     - command:
         default: ${ 'docker exec ' + container + ' ' + exec_cmd }
-        overridable: false
+        private: true
     - character_set:
         required: false
     - pty:

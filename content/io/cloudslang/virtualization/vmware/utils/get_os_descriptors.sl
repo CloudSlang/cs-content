@@ -68,20 +68,19 @@ operation:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - data_center_name
     - dataCenterName:
         default: ${get("data_center_name", None)}
-        overridable: false
+        private: true
     - hostname
     - delimiter:
         default: ','
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.conf.GetOSDescriptors
-      methodName: getOsDescriptors
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
+    method_name: getOsDescriptors
 
   outputs:
     - return_result: ${get("returnResult", "")}

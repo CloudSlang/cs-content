@@ -30,7 +30,7 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_image_name_from_id
@@ -39,7 +39,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
-        overridable: false
+        private: true
     - host
     - port:
         required: false
@@ -52,7 +52,7 @@ flow:
     - command:
         default: >
             ${ "docker " + docker_options_expression + "images | grep " + image_id + " | awk '{print $1 \":\" $2}'" }
-        overridable: false
+        private: true
     - arguments:
         required: false
     - character_set:

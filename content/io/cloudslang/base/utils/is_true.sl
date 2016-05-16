@@ -20,8 +20,8 @@ operation:
   name: is_true
   inputs:
     - bool_value
-  action:
-    python_script: |
+  python_action:
+    script: |
       pass
   results:
     - SUCCESS: ${ bool_value == True }

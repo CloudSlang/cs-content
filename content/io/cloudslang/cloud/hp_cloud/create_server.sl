@@ -29,7 +29,7 @@
 namespace: io.cloudslang.cloud.hp_cloud
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: create_server
@@ -46,7 +46,7 @@ flow:
     - network:
         default: >
           ${', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''}
-        overridable: false
+        private: true
     - proxy_host:
         required: false
     - proxy_port:

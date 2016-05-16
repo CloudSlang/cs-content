@@ -23,8 +23,8 @@ operation:
   inputs:
     - list_1
     - list_2
-  action:
-    python_script: |
+  python_action:
+    script: |
       result = list_1 == list_2
   results:
     - SUCCESS: ${result}

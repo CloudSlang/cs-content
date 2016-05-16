@@ -46,17 +46,16 @@ operation:
         required: false
     - url:
         default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'}
-        overridable: false
+        private: true
     - method:
         default: "put"
-        overridable: false
+        private: true
     - contentType:
         default: "application/json"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        private: true
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - status_code: ${statusCode}

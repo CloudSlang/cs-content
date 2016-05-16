@@ -41,39 +41,38 @@ operation:
         required: false
     - proxyHost:
         default: ${proxy_host if proxy_host else ''}
-        overridable: false
+        private: true
     - proxyPort:
         default: ${proxy_port if proxy_port else ''}
-        overridable: false
+        private: true
     - img_ref
     - network_id:
         required: false
     - network:
         default: >
           ${', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''}
-        overridable: false
+        private: true
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}
-        overridable: false
+        private: true
     - url:
         default: ${'http://' + host + ':' + compute_port + '/v2/' + tenant_id + '/servers'}
-        overridable: false
+        private: true
     - body:
         default: >
           ${'{"server": { "name": "' + server_name + '" , "imageRef": "' + img_ref +
           '", "flavorRef":"2", "max_count":1, "min_count":1, "security_groups": [ {"name": "default"} ]' +
           network + '}}'}
-        overridable: false
+        private: true
     - contentType:
         default: 'application/json'
-        overridable: false
+        private: true
     - method:
         default: 'post'
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        private: true
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - status_code: ${'' if 'statusCode' not in locals() else statusCode}

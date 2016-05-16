@@ -31,7 +31,7 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: inspect_image
@@ -40,7 +40,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
-        overridable: false
+        private: true
     - image_name
     - host
     - port:
@@ -52,7 +52,7 @@ flow:
         required: false
     - command:
         default: ${ 'docker ' + docker_options_expression + 'inspect ' + image_name }
-        overridable: false
+        private: true
     - character_set:
         required: false
     - pty:

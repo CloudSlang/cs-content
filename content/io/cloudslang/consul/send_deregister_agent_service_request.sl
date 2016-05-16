@@ -32,14 +32,13 @@ operation:
     - service_id
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/agent/service/deregister/' + service_id}
-        overridable: false
+        private: true
     - method:
         default: 'delete'
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        private: true
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${returnResult}
     - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}

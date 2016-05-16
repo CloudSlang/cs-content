@@ -62,27 +62,25 @@ operation:
     - protocol:
         default: 'https'
         required: false
-    - username:
-        required: false
+    - username
     - password
     - trust_everyone:
         required: false
     - trustEveryone:
         default: ${get("trust_everyone", "true")}
-        overridable: false
+        private: true
     - hostname
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        overridable: false
+        private: true
     - delimiter:
         default: ','
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.GetVMDetails
-      methodName: getVMDetails
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.GetVMDetails
+    method_name: getVMDetails
 
   outputs:
     - return_result: ${get("returnResult", "")}

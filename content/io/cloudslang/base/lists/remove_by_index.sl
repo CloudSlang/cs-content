@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,8 +8,8 @@
 ####################################################
 #!!
 #! @description: Remove element from list be index.
-#! @input list: list from wich we want to remove element  - Example: [123, 'xyz']
-#! @output index: ingex of this element
+#! @input list: list from which we want to remove the element  - Example: [123, 'xyz']
+#! @output index: index of this element
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
@@ -20,8 +20,8 @@ operation:
    inputs:
      - list
      - index
-   action:
-     python_script: |
+   python_action:
+     script: |
        error_message = ""
        element= None
 

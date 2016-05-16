@@ -35,7 +35,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   images: io.cloudslang.docker.images
 
 flow:
@@ -74,24 +74,24 @@ flow:
         required: false
     - docker_options_expression:
         default: ${(docker_options + ' ') if bool(docker_options) else ''}
-        overridable: false
+        private: true
     - detach_expression:
         default: ${'-d ' if detach else ''}
-        overridable: false
+        private: true
     - container_name_param:
         default: ${'--name ' + container_name + ' ' if bool(container_name) else ''}
-        overridable: false
+        private: true
     - container_params_cmd:
         default: ${container_params + ' ' if bool(container_params) else ''}
-        overridable: false
+        private: true
     - container_command_cmd:
         default: ${' ' + container_command if bool(container_command) else ''}
-        overridable: false
+        private: true
     - command:
         default: >
             ${'docker ' + docker_options_expression + 'run ' + detach_expression + container_name_param +
             container_params_cmd + image_name + container_command_cmd}
-        overridable: false
+        private: true
 
   workflow:
     - run_container:

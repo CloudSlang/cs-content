@@ -26,8 +26,8 @@ operation:
   inputs:
     - response_body
     - object_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         json_list = json.loads(response_body)[object_name]

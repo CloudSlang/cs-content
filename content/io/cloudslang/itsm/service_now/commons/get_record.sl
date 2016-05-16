@@ -48,7 +48,7 @@
 namespace: io.cloudslang.itsm.service_now.commons
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: get_record
@@ -101,7 +101,7 @@ flow:
     - content_type:
         default: "application/json"
         required: false
-        overridable: false
+        private: true
 
   workflow:
     - get_record:

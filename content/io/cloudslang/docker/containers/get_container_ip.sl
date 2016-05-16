@@ -30,7 +30,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_container_ip
@@ -38,7 +38,7 @@ flow:
     - container_name
     - command:
         default: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
-        overridable: false
+        private: true
     - host
     - port:
         required: false

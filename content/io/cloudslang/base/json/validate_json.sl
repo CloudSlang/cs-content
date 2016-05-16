@@ -23,8 +23,8 @@ operation:
   name: validate_json
   inputs:
     - json_input
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_input)

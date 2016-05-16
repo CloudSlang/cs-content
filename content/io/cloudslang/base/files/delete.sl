@@ -22,8 +22,8 @@ operation:
   inputs:
     - source
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         import shutil, sys, os
         try:
           if os.path.isfile(source):

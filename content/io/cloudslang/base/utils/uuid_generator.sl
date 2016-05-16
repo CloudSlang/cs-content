@@ -16,8 +16,8 @@ namespace: io.cloudslang.base.utils
 
 operation:
   name: uuid_generator
-  action:
-    python_script: |
+  python_action:
+    script: |
       import uuid
       new_uuid = str(uuid.uuid1())
   outputs:

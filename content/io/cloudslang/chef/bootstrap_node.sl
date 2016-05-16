@@ -54,10 +54,10 @@ flow:
         required: false
     - node_password_expr:
         default: ${(" -P '" + node_password + "'") if node_password else ''}
-        overridable: false
+        private: true
     - node_privkey_expr:
         default: ${(' -i ' + node_privkey) if node_privkey else ''}
-        overridable: false
+        private: true
   workflow:
     - run_bootstrap:
         do:

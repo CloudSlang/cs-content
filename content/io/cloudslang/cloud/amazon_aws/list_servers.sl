@@ -44,19 +44,18 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        overridable: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        overridable: false
+        private: true
     - delimiter:
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.jclouds.actions.ListServersAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.jclouds.actions.ListServersAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}
