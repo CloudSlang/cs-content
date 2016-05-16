@@ -24,8 +24,8 @@ operation:
   name: parse_get_app_list
   inputs:
     - operation_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import sys
         import json

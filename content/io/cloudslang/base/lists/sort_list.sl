@@ -21,8 +21,8 @@ operation:
   inputs:
     - input_list
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       if all(isinstance(item, int) for item in input_list):
         result = sorted(input_list)
       elif all(isinstance(item, basestring) for item in input_list):

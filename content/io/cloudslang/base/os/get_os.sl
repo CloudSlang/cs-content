@@ -17,8 +17,8 @@ namespace: io.cloudslang.base.os
 
 operation:
   name: get_os
-  action:
-    python_script: |
+  python_action:
+    script: |
         try:
           import os
           linux = False

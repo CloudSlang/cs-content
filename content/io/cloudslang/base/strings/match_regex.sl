@@ -22,8 +22,8 @@ operation:
   inputs:
     - regex
     - text
-  action:
-    python_script: |
+  python_action:
+    script: |
       import re
 
       match_text = ""

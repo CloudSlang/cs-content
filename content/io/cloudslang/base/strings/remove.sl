@@ -20,8 +20,8 @@ operation:
   inputs:
     - string
     - text
-  action:
-    python_script: |
+  python_action:
+    script: |
       if text in string:
          newString = string.replace(text, "")
       else:

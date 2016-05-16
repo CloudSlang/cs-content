@@ -24,8 +24,8 @@ operation:
     - source
     - destination
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         import shutil, sys
         try:
           shutil.move(source,destination)

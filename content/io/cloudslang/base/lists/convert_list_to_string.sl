@@ -31,8 +31,8 @@ operation:
     - result_to_lowercase:
         default: False
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       result = ''
       list_length = len(list)
       for item in list:

@@ -42,8 +42,8 @@ operation:
     - throughput_tx
     - error_rx
     - error_tx
-  action:
-    python_script: |
+  python_action:
+    script: |
       error_message = ""
       result = None
       try:

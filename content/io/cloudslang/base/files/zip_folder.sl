@@ -23,8 +23,8 @@ operation:
     - archive_name
     - folder_path
 
-  action:
-    python_script: |
+  python_action:
+    script: |
         import sys, os, shutil
         try:
           shutil.make_archive(archive_name, "zip", folder_path)

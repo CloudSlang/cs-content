@@ -312,10 +312,9 @@ operation:
     - valid_http_status_codes:
         default: ${range(200, 300)}
 
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
     - return_result: ${get('returnResult', '')}
     - error_message: ${returnResult if returnCode != '0' else ''}

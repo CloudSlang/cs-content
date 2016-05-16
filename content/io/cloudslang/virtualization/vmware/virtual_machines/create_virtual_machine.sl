@@ -139,10 +139,9 @@ operation:
         default: ${get("vm_memory_size", "1024")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.CreateVM
-      methodName: createVM
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.CreateVM
+    method_name: createVM
 
   outputs:
     - return_result: ${get("returnResult", "")}

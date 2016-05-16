@@ -29,8 +29,8 @@ operation:
      - index_stop
      - counter
 
-   action:
-     python_script: |
+   python_action:
+     script: |
        error_message = ""
        sublist= None
        counter=int(counter)

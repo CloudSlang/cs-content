@@ -26,8 +26,8 @@ operation:
     - character_set:
         required: false
         default: 'UTF-8'
-  action:
-    python_script: |
+  python_action:
+    script: |
       import base64
       decoded = base64.b64decode(data).decode(character_set)
 

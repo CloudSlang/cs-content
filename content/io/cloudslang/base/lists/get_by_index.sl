@@ -23,8 +23,8 @@ operation:
    inputs:
      - list
      - index
-   action:
-     python_script: |
+   python_action:
+     script: |
        error_message = ""
        element= None
 

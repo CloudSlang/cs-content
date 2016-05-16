@@ -18,8 +18,8 @@
    name: trim
    inputs:
      - string
-   action:
-     python_script: |
+   python_action:
+     script: |
        result=string.strip()
    outputs:
      - result: ${result}

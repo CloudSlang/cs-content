@@ -29,8 +29,8 @@ operation:
         default: ''
         required: false
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       error_message = ""
 
       if unique_element in list and unique_element != '':

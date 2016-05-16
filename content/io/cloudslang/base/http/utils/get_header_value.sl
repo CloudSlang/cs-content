@@ -16,8 +16,8 @@ operation:
     - response_headers
     - header_name
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       result = ''
       error_message = ''
       try:
