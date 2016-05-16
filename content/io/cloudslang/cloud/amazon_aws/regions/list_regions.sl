@@ -48,7 +48,7 @@ operation:
         required: false
 
   java_action:
-    class_name: io.cloudslang.content.jclouds.actions.ListRegionsAction
+    class_name: io.cloudslang.content.jclouds.actions.regions.ListRegionsAction
     method_name: execute
 
   outputs:
