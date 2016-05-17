@@ -8,7 +8,8 @@
 ####################################################
 testContainsSuccess:
   inputs:
-    - list: [element1,element2,element3,element4]
+    - list: element1,element2,element3,element4
+    - delimiter: ','
     - element: element1
   description: Tests that contains.sl operation finishes with result = true
   testFlowPath: io.cloudslang.base.lists.contains
@@ -16,10 +17,11 @@ testContainsSuccess:
     - result: true
   result: SUCCESS
 
-testContainsStrSuccess:
+testContainsStringTrueSuccess:
   inputs:
-    - list: ['Daria','Max','Ron']
-    - element: 'Max'
+    - list: Luke:Vader:Kenobi
+    - delimiter: ':'
+    - element: Kenobi
   description: Tests that contains.sl operation finishes with result = true
   testFlowPath: io.cloudslang.base.lists.contains
   outputs:
@@ -27,9 +29,10 @@ testContainsStrSuccess:
   result: SUCCESS
 
 
-testContainsIntSuccess:
+testContainsStringFalseSuccess:
   inputs:
-    - list: [1,5,8]
+    - list: 1,5,8,9
+    - delimiter: ':'
     - element: 9
   description: Tests that contains.sl operation finishes with result = false
   testFlowPath: io.cloudslang.base.lists.contains

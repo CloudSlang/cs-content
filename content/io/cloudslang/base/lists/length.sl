@@ -9,6 +9,7 @@
 #!!
 #! @description: Return length of list.
 #! @input list: list which we want to get the length of  - Example: [123, 'xyz']
+#! @input delimiter: list delimiter
 #! @output result: length of list
 #!!#
 ####################################################
@@ -19,8 +20,9 @@ operation:
   name: length
   inputs:
     - list
+    - delimiter
   python_action:
     script: |
-      length = len(list)
+      length = len(list.split(delimiter))
   outputs:
     - result: ${length}

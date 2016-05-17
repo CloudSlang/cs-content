@@ -9,8 +9,12 @@
 #!!
 #! @description: Get element from list.
 #! @input list: list from which we want to get the element  - Example: [123, 'xyz']
+#! @input delimiter: list delimiter
+#!                   Default: ','
 #! @output index: index of this element
 #! @output result: element
+#! @output error_message: something went wrong - exception
+#! @result SUCCESS: error_message empty and
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
@@ -20,33 +24,20 @@ operation:
 
    inputs:
      - list
+     - delimiter:
+        default: ','
      - index
    python_action:
      script: |
-       error_message = ""
-       element= None
-
-       if isinstance(index,int):
-           if(abs(index) < abs(len(list))):
-             element=list[index]
-           else:
-             error_message = 'list has just '+ str(len(list)) + ' elements'
-       elif isinstance(index,basestring):
-           lengthIndex = len(index)
-           valueIndex = index[1:lengthIndex]
-           if index.isdigit() or (index[:1]=='-' and valueIndex.isdigit()):
-              index=int(index)
-              if(abs(index) < abs(len(list))):
-                element=list[index]
-              else:
-                error_message = 'list has just '+ str(len(list)) + ' elements'
-           else:
-             error_message = 'index must be integer'
-       else:
-         error_message = 'index must be integer'
+       try:
+         error_message = ""
+         index = int(index)
+         result = list.split(delimiter).pop(index)
+       except Exception as e:
+         error_message = e
    outputs:
-     - result: ${element}
+     - result
      - error_message
    results:
-     - SUCCESS: ${element != None}
+     - SUCCESS: ${error_message == ""}
      - FAILURE
