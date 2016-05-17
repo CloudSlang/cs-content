@@ -33,14 +33,14 @@ flow:
   name: send_transcript_to_mail
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_onDemand.api_key')}
-    - speech_api: ${get_sp('io.cloudslang.haven_onDemand.speech_api')}
-    - file: ${get_sp('io.cloudslang.haven_onDemand.file')}
-    - speech_result_api: ${get_sp('io.cloudslang.haven_onDemand.speech_result_api')}
-    - hostname: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
-    - port: ${get_sp('io.cloudslang.haven_onDemand.port')}
-    - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
-    - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.api_key')}
+    - speech_api: ${get_sp('io.cloudslang.haven_on_demand.speech_api')}
+    - file: ${get_sp('io.cloudslang.haven_on_demand.file')}
+    - speech_result_api: ${get_sp('io.cloudslang.haven_on_demand.speech_result_api')}
+    - hostname: ${get_sp('io.cloudslang.haven_on_demand.hostname')}
+    - port: ${get_sp('io.cloudslang.haven_on_demand.port')}
+    - from: ${get_sp('io.cloudslang.haven_on_demand.from')}
+    - to: ${get_sp('io.cloudslang.haven_on_demand.to')}
 
   workflow:
 
