@@ -14,7 +14,7 @@
 namespace: io.cloudslang.cloud.heroku.keys
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: list_keys

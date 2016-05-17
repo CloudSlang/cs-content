@@ -16,7 +16,7 @@
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   print: io.cloudslang.base.print
 
 flow:
@@ -29,7 +29,7 @@ flow:
     - run_list_items
     - knife_host
     - knife_username
-    - knife_password: 
+    - knife_password:
         required: false
     - knife_privkey:
         required: false
@@ -38,7 +38,7 @@ flow:
         required: false
     - node_privkey_local:
         required: false
-    - node_password: 
+    - node_password:
         required: false
     - knife_config:
         required: false
@@ -52,9 +52,9 @@ flow:
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey           
+            - knife_privkey
             - node_username
-            - node_password            
+            - node_password
             - node_privkey: ${node_privkey_remote}
             - knife_config
         publish:
@@ -81,7 +81,7 @@ flow:
           ssh.ssh_command:
             - host: ${node_host}
             - username: ${node_username}
-            - password: ${node_password}                
+            - password: ${node_password}
             - private_key_file: ${node_privkey_local}
             - command: 'sudo chef-client'
             - timeout: '600000'
@@ -120,6 +120,54 @@ flow:
           - return_result: ${knife_result}
           - standard_err
           - node_name
+
+    - chef_get_nodes:
+        do:
+          get_nodes:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_get_roles:
+        do:
+          get_roles:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_get_users:
+        do:
+          get_users:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_ssl_check:
+        do:
+          ssl_check:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
 
     - on_failure:
       - ERROR:

@@ -24,8 +24,8 @@ operation:
   name: parse_inspect_for_parent
   inputs:
     - json_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_response)

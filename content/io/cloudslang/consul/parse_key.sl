@@ -30,8 +30,8 @@ operation:
   name: parse_key
   inputs:
     - json_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         import base64

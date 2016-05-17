@@ -78,10 +78,9 @@ operation:
         default: ','
         required: false
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
-      methodName: getOsDescriptors
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
+    method_name: getOsDescriptors
 
   outputs:
     - return_result: ${get("returnResult", "")}

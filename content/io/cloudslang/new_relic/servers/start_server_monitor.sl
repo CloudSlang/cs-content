@@ -40,7 +40,7 @@
 namespace: io.cloudslang.new_relic.servers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: start_server_monitor

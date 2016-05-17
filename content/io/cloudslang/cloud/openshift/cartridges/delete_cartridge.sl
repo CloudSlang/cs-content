@@ -36,7 +36,7 @@
 namespace: io.cloudslang.cloud.openshift.cartridges
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  rest: io.cloudslang.base.http
 
 flow:
   name: delete_cartridge

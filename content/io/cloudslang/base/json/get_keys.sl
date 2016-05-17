@@ -27,8 +27,8 @@ operation:
   inputs:
     - json_input
     - json_path
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_input)

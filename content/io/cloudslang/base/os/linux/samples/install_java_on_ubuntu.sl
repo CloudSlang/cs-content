@@ -27,7 +27,7 @@
 namespace: io.cloudslang.base.os.linux.samples
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: install_java_on_ubuntu

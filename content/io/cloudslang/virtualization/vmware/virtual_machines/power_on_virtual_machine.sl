@@ -70,10 +70,9 @@ operation:
         default: ${get("virtual_machine_name", None)}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.vmware.actions.vm.PowerOnVM
-      methodName: powerOnVM
+  java_action:
+    class_name: io.cloudslang.content.vmware.actions.vm.PowerOnVM
+    method_name: powerOnVM
 
   outputs:
     - return_result: ${get("returnResult", "")}

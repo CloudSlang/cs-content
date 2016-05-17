@@ -22,8 +22,8 @@ operation:
   inputs:
     - list
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       error_message = ""
       message = ""
       if all(isinstance(item, basestring) for item in list):
