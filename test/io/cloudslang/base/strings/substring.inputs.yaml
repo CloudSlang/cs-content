@@ -32,10 +32,10 @@ testSubstringFailure:
     - string: 'mmmSPAMmmm'
     - beginIndex: 3
     - endIndex: 12
-  description: Tests that substring.sl operation finishes with error_message = beginIndex must be less than 9. endIndex must be less than 11 and big than 0
+  description: Tests that substring.sl operation finishes with error_message = beginIndex must be less than 9. endIndex must be less than 10
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: beginIndex must be less than 9. endIndex must be less than 11 and big than 0
+    - error_message: beginIndex must be less than 9. endIndex must be less than 10
   result: FAILURE
 
 testSubstringDefault:

@@ -6,11 +6,14 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Substring sring from beginIndex to endIndex.
- #! @input string: string   - Example: "good morning"
- #! @input beginIndex - position in string from witch we want to cut - Example: 0 (the first index = 0)
- #! @output endIndex: position in string to witch we want to cut - Example: 4 (new string will not include endIndex)
+ #! @description: substring string from beginIndex to endIndex.
+ #! @input string: string - Example: "good morning"
+ #! @input beginIndex: position in string from which we want to cut - Example: 0 (the first index = 0)
+ #! @output endIndex: position in string to which we want to cut - Example: 4 (new string will not include endIndex)
  #! @output result: new string - Example: "good"
+ #! @output error_message: otherwise
+ #! @results SUCCESS: the operation returns a substring
+ #! @results FAILURE: something went wrong
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings
@@ -27,14 +30,21 @@
          default: 0
    python_action:
      script: |
-        error_message = ""
-        maxIndex=len(string)+1
-        if endIndex==0:
-            result=string[beginIndex:]
-        elif beginIndex <= maxIndex and endIndex <= maxIndex:
-           result=string[beginIndex:endIndex]
-        else:
-          error_message="beginIndex must be less than "+ str(maxIndex-2) +". endIndex must be less than "+str(maxIndex)+ " and big than 0"
+        try:
+          error_message = ""
+          maxIndex=len(string)
+          if endIndex ==0:
+              result=string[beginIndex:]
+          elif beginIndex < 0 and endIndex < 0:
+             error_message = "beginIndex and endIndex must be bigger than 0"
+          elif beginIndex > endIndex:
+            error_message = "beginIndex must be lower than endIndex"
+          elif beginIndex <= maxIndex and endIndex < maxIndex:
+             result=string[beginIndex:endIndex]
+          else:
+            error_message="beginIndex must be less than "+ str(maxIndex-1) +". endIndex must be less than "+str(maxIndex)
+        except TypeError:
+          error_message = "substring indices must be integers"
    outputs:
       - result: ${result}
       - error_message
