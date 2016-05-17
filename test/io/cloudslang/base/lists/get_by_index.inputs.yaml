@@ -61,18 +61,18 @@ testGetStrFailure:
   inputs:
     - list: element1,element2,element3,element4
     - index: '2ff'
-  description: Tests that get_by_index.sl operation finishes with result = ValueError
+  description: Tests that get_by_index.sl operation finishes with error_message = Index must be integer
   testFlowPath: io.cloudslang.base.lists.get_by_index
   outputs:
-    - error_message: "ValueError(\"invalid literal for int() with base 10: '2ff'\",)"
+    - error_message: "Index must be integer"
   result: FAILURE
 
 testGetFloatFailure:
   inputs:
     - list: element1,element2,element3,element4
     - index: '1.3'
-  description: Tests that get_by_index.sl operation finishes with result = ValueError
+  description: Tests that get_by_index.sl operation finishes with result = Index must be integer
   testFlowPath: io.cloudslang.base.lists.get_by_index
   outputs:
-    - error_message: "ValueError(\"invalid literal for int() with base 10: '1.3'\",)"
+    - error_message: "Index must be integer"
   result: FAILURE

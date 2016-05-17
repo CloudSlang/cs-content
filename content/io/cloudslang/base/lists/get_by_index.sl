@@ -33,6 +33,8 @@ operation:
          error_message = ""
          index = int(index)
          result = list.split(delimiter).pop(index)
+       except ValueError:
+         error_message = "Index must be integer"
        except Exception as e:
          error_message = e
    outputs:
