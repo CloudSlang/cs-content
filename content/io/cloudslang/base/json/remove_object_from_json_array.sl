@@ -36,8 +36,7 @@ operation:
       try:
         import json
         decoded_json_array = json.loads(json_array)
-        decoded_json_object = json.loads (json_object)
-        print decoded_json_object
+        decoded_json_object = json.loads(json_object)
         if index is None:
          decoded_json_array.remove(decoded_json_object)
         else:
