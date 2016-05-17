@@ -1,8 +1,8 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery
 
 properties:
-  - api_key: "c0e7aae8-f657-4f00-aad4-f839f956800e"
-  - file:  "file=C:/tests/Work.pst"
+  - api_key: <api_key>
+  - file:  <file>
   - add_to_text_index_api: "https://api.havenondemand.com/1/api/sync/addtotextindex/v1"
   - create_text_index_api: "https://api.havenondemand.com/1/api/sync/createtextindex/v1"
   - find_related_concepts_api: "https://api.havenondemand.com/1/api/sync/findrelatedconcepts/v1"
@@ -12,5 +12,5 @@ properties:
   - extract_entities_api: "https://api.havenondemand.com/1/api/sync/extractentities/v2"
   - expand_container_api: "https://api.havenondemand.com/1/api/sync/expandcontainer/v1"
   - text_extraction_api: "https://api.havenondemand.com/1/api/sync/extracttext/v1"
-  - proxy_host: proxy.houston.hp.com
-  - proxy_port: '8080'
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>

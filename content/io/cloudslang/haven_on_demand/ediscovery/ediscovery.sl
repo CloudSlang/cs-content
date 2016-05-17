@@ -22,7 +22,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
   ediscovery: io.cloudslang.haven_on_demand.ediscovery

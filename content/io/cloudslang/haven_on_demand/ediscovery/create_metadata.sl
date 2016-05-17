@@ -19,8 +19,8 @@ operation:
   name: create_metadata
   inputs:
     - value
-  action:
-    python_script: |
+  python_action:
+    script: |
         import json
         data = {}
         error_message=""

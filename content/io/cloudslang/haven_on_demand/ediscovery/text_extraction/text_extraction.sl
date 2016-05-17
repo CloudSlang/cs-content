@@ -29,7 +29,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.text_extraction
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 
@@ -73,7 +73,7 @@ flow:
 
       - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(text_extraction_api) + '?reference=' + str(reference) + '&additional_metadata=' + str(additional_metadata) + '&extract_metadata=' + str(extract_metadata) + '&extract_text=' + str(extract_text) + '&extract_xmlattributes=' + str(extract_xmlattributes) + '&password=' + str(password) + '&reference_prefix=' + str(reference_prefix) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

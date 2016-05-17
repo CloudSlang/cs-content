@@ -28,7 +28,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.analyze_data
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
@@ -70,7 +70,7 @@ flow:
   workflow:
        - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(find_related_concepts_api) + '?text=' + str(text) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_results=' + str(max_results) + '&min_date=' + str(min_date) + '&sample_size=' + str(sample_size) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

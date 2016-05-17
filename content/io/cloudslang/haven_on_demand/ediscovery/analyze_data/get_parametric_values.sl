@@ -29,7 +29,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.analyze_data
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
@@ -74,7 +74,7 @@ flow:
   workflow:
        - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ str(document_count) + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + str(max_values) +'&min_score=' + str(min_score) + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

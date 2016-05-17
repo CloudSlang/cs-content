@@ -33,7 +33,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.add_to_text_index
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 
@@ -77,7 +77,7 @@ flow:
   workflow:
       - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(create_text_index_api) + '?index=' + str(index) + '&flavor=' + str(flavor) + '&description=' + str(description) + '&index_fields=' + str(index_fields) + '&parametric_fields=' + str(parametric_fields) + '&expire_time=' + str(expire_time) + '&expire_date_fields=' + str(expire_date_fields) + '&numeric_fields=' + str(numeric_fields) + '&display_name=' + str(display_name) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

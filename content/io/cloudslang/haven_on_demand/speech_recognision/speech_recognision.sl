@@ -32,7 +32,7 @@ flow:
 
     - connect_to_server:
         do:
-          rest.http_client_action:
+          http.http_client_action:
             - url: ${speech_api}
             - method: POST
             - multipart_bodies: ${"apikey=" + str(api_key)}

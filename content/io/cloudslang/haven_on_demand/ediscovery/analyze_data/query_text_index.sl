@@ -43,7 +43,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.analyze_data
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
   ediscovery: io.cloudslang.haven_on_demand.ediscovery
@@ -123,7 +123,7 @@ flow:
   workflow:
        - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' + str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' + str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' + str(ignore_operators) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_page_results='+ str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ str(min_score) + '&print='+ str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + str(promotion) + '&query_profile=' + str(query_profile) +  '&sort=' + str(sort) + '&start=' + str(start) + '&start_tag=' + str(start_tag) + '&summary=' + str(summary) + '&total_results=' + str(total_results) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

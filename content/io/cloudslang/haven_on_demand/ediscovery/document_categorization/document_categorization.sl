@@ -26,7 +26,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.document_categorization
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 
@@ -59,7 +59,7 @@ flow:
   workflow:
       - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(document_categorization_api)}
               - method: POST
               - proxy_host

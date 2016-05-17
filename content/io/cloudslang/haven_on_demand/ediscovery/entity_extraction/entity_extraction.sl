@@ -24,7 +24,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.entity_extraction
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 
@@ -54,7 +54,7 @@ flow:
 
       - connect_to_server:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) + '&show_alternatives=' + str(show_alternatives) + '&apikey=' + str(api_key)}
               - method: POST
               - proxy_host

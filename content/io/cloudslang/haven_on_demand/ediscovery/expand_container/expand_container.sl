@@ -20,7 +20,7 @@
 namespace: io.cloudslang.haven_on_demand.ediscovery.expand_container
 
 imports:
-  rest: io.cloudslang.base.network.rest
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
@@ -46,7 +46,7 @@ flow:
 
       - expand_container:
           do:
-            rest.http_client_action:
+            http.http_client_action:
               - url: ${str(expand_container_api)}
               - method: POST
               - proxy_host

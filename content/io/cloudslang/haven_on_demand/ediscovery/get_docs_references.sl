@@ -23,8 +23,8 @@ operation:
   inputs:
      - json_input
      - key
-  action:
-    python_script: |
+  python_action:
+    script: |
         import json
         is_error = False
         try:
