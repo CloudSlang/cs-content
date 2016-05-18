@@ -105,10 +105,9 @@ operation:
         private: true
         default: ${get("request_body", "")}
 
-  action:
-    java_action:
-      className: io.cloudslang.content.openstack.actions.ListNetworks
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.openstack.actions.ListNetworks
+    method_name: execute
 
   outputs:
     - result: ${returnResult}
