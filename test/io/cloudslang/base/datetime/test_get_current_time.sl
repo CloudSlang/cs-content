@@ -33,19 +33,19 @@ flow:
             - SUCCESS: verify_output_is_not_empty
             - FAILURE: FAILURE
 
-#    - verify_output_is_not_empty:
-#        do:
-#          strings.string_equals:
-#            - first_string: ''
-#            - second_string: ${returnStr}
-#        navigate:
-#            - SUCCESS: OUTPUT_IS_EMPTY
-#            - FAILURE: print_result
+    - verify_output_is_not_empty:
+        do:
+          strings.string_equals:
+            - first_string: ''
+            - second_string: ${returnStr}
+        navigate:
+            - SUCCESS: OUTPUT_IS_EMPTY
+            - FAILURE: print_result
 
-#    - print_result:
-#        do:
-#          base_print.print_text:
-#            - text: "${'result:<' + returnStr + '>'}"
+    - print_result:
+        do:
+          base_print.print_text:
+            - text: "${'result:<' + returnStr + '>'}"
 
   results:
     - SUCCESS

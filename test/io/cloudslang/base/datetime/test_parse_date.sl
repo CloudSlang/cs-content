@@ -20,46 +20,28 @@ flow:
         required: true
     - date_format:
         required: false
-    - dateFormat:
-        private: true
-        default: ${get("date_format", "")}
     - date_locale_lang:
         required: false
-    - datelocaleLang:
-        private: true
-        default: ${get("date_locale_lang", "en")} 
     - date_locale_country:
         required: false
-    - datelocaleCountry:
-        private: true
-        default: ${get("date_locale_country", "US")}
     - out_format:
         required: false
-    - outFormat:
-        private: true
-        default: ${get("out_format", "")}
     - out_locale_lang:
         required: false
-    - outlocaleLang:
-        private: true
-        default: ${get("out_locale_lang", "en")} 
     - out_locale_country:
         required: false
-    - outlocaleCountry:
-        private: true
-        default: ${get("out_locale_country", "US")}
 
   workflow:
     - execute_parse_date:
         do:
           parse_date:
             - date
-            - dateFormat
-            - dateLocaleLang
-            - dateLocaleCountry
-            - outFormat
-            - outLocaleLang
-            - outLocaleCountry
+            - date_format
+            - date_locale_lang
+            - date_locale_country
+            - out_format
+            - out_locale_lang
+            - out_locale_country
         publish:
             - returnStr: ${result}
         navigate:

@@ -59,10 +59,9 @@ operation:
         private: true
         default: ${get("out_locale_country", "US")}
 
-  action:
-    java_action:
-      className: io.cloudslang.content.datetime.actions.ParseDate
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.datetime.actions.ParseDate
+    method_name: execute
 
   outputs:
     - result: ${returnResult}
