@@ -1,25 +1,24 @@
 #   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
-#!!
-#! @description: Substring sring from beginIndex to endIndex.
-#! @input origin_string: string   - Example: "good morning"
-#! @input beginIndex:  position in string from witch we want to cut - Example: 0 (the first index = 0)
-#! @output endIndex: position in string to witch we want to cut - Example: 4 (new string will not include endIndex)
-#! @output new_string: new string - Example: "good"
-#!!#
-####################################################
-namespace: io.cloudslang.base.strings
+ #   All rights reserved. This program and the accompanying materials
+ #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+ #
+ #   The Apache License is available at
+ #   http://www.apache.org/licenses/LICENSE-2.0
+ ####################################################
+ #!!
+ #! @description: Substring sring from beginIndex to endIndex.
+ #! @input string: string   - Example: "good morning"
+ #! @input beginIndex - position in string from witch we want to cut - Example: 0 (the first index = 0)
+ #! @output endIndex: position in string to witch we want to cut - Example: 4 (new string will not include endIndex)
+ #! @output result: new string - Example: "good"
+ #!!#
+ ####################################################
+ namespace: io.cloudslang.base.strings
 
-operation:
+ operation:
    name: substring
-
    inputs:
-     - origin_string
+     - string
      - beginIndex:
         required: false
         default: 0
@@ -27,17 +26,17 @@ operation:
          required: false
          default: 0
    python_action:
-      script: |
+     script: |
         error_message = ""
-        maxIndex=len(origin_string)+1
+        maxIndex=len(string)+1
         if endIndex==0:
-            new_string=origin_string[beginIndex:]
+            result=string[beginIndex:]
         elif beginIndex <= maxIndex and endIndex <= maxIndex:
-           new_string=origin_string[beginIndex:endIndex]
+           result=string[beginIndex:endIndex]
         else:
           error_message="beginIndex must be less than "+ str(maxIndex-2) +". endIndex must be less than "+str(maxIndex)+ " and big than 0"
    outputs:
-      - new_string
+      - result: ${result}
       - error_message
    results:
       - SUCCESS: ${error_message==""}
