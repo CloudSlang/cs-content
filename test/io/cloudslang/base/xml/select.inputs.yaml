@@ -1,0 +1,60 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testSelectElementSuccess:
+  inputs:
+    - xml_document: <root/>
+    - xpath_query: /root
+  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <root/>
+  result: SUCCESS
+
+testSelectAttributeSuccess:
+  inputs:
+    - xml_document: <root attr="ibute"></root>
+    - xpath_query: /root/@attr
+    - attribute_name: attr
+  description: Tests that select.sl operation finishes with SUCCESS and sets the attribute value
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: attr="ibute"
+  result: SUCCESS
+
+testSelectElementValueSuccess:
+  inputs:
+    - xml_document: <root>the value</root>
+    - xpath_query: /root
+    - query_type: 'value'
+  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: the value
+  result: SUCCESS
+
+testSelectElementListSuccess:
+  inputs:
+    - xml_document: <root><first>one</first><second>two</second></root>
+    - xpath_query: /root/*
+    - query_type: 'nodelist'
+  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <first>one</first>,<second>two</second>
+  result: SUCCESS
+
+testSelectBadXpath:
+  inputs:
+    - xml_document: <root/>
+    - xpath_query: /toot
+  description: Tests that select.sl operation finishes with FAILURE with bad XPATH query
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+  result: SUCCESS
