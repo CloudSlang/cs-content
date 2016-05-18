@@ -22,19 +22,19 @@ flow:
     - protocol
     - username
     - password
-    - proxyHost
-    - proxyPort
-    - proxyUsername
-    - proxyPassword
-    - trustAllRoots
-    - x509HostnameVerifier
-    - trustKeystore
-    - trustPassword
+    - proxy_host
+    - proxy_port
+    - proxy_username
+    - proxy_password
+    - trust_all_roots
+    - x509_hostname_verifier
+    - trust_keystore
+    - trust_password
     - keystore
-    - keystorePassword
-    - connectTimeout
-    - socketTimeout
-    - requestBody
+    - keystore_password
+    - connect_timeout
+    - socket_timeout
+    - request_body
 
   workflow:
     - execute_list_networks:
@@ -46,19 +46,19 @@ flow:
             - protocol
             - username
             - password
-            - proxyHost
-            - proxyPort
-            - proxyUsername
-            - proxyPassword
-            - trustAllRoots
-            - x509HostnameVerifier
-            - trustKeystore
-            - trustPassword
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x509_hostname_verifier
+            - trust_keystore
+            - trust_password
             - keystore
-            - keystorePassword
-            - connectTimeout
-            - socketTimeout
-            - requestBody        
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+            - request_body        
         publish:
             - returnStr: ${result}
         navigate:

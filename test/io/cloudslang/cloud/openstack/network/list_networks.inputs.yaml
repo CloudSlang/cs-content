@@ -7,28 +7,27 @@
 #
 ####################################################
 testListNetworksSuccess:
+  inputs:
+    - token: "9fa950049d6c4bc680b79b2e863aa90b"
+    - host: "https://stack-9161.hpswlabs.adapps.hp.com"
+    - port: "9696"
+    - protocol: ""
+    - username: ""
+    - password: ""
+    - proxy_host: ""
+    - proxy_port: ""
+    - proxy_username: ""
+    - proxy_password: ""
+    - trust_all_roots: "true"
+    - x509_hostname_verifier: ""
+    - trust_keystore: ""
+    - trust_password: ""
+    - keystore: ""
+    - keystore_password: ""
+    - connect_timeout: ""
+    - socket_timeout: ""
+    - request_body: ""
 
-inputs:
-token: "9fa950049d6c4bc680b79b2e863aa90b"
-host: "https://stack-9161.hpswlabs.adapps.hp.com"
-port: "9696"
-protocol: ""
-username: ""
-password: ""
-proxyHost: ""
-proxyPort: ""
-proxyUsername: ""
-proxyPassword: ""
-trustAllRoots: "true"
-x509HostnameVerifier: ""
-trustKeystore: ""
-trustPassword: ""
-keystore: ""
-keystorePassword: ""
-connectTimeout: ""
-socketTimeout: ""
-requestBody: ""
-
-description: Tests that the list of networks can be retrieved
-testFlowPath: io.cloudslang.cloud.openstack.network.list_networks
-result: SUCCESS
+  description: Tests that the list of networks can be retrieved
+  testFlowPath: io.cloudslang.cloud.openstack.network.list_networks
+  result: SUCCESS
