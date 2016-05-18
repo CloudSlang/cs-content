@@ -37,8 +37,7 @@ flow:
   name: find_related_concepts
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - find_related_concepts_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.find_related_concepts_api')}
     - text
     - field_text:
@@ -70,9 +69,8 @@ flow:
   workflow:
        - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(find_related_concepts_api) + '?text=' + str(text) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_results=' + str(max_results) + '&min_date=' + str(min_date) + '&sample_size=' + str(sample_size) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 

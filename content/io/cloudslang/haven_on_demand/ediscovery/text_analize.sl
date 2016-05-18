@@ -26,11 +26,10 @@ flow:
   name: text_analize
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
-    - reference: 0323bc06-a6f0-4701-ae09-37a06ccf1e5c-14e78989
-    - categorization_index: work
-    - standart_index: work
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - reference
+    - categorization_index
+    - standart_index
 
   workflow:
 

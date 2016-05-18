@@ -34,13 +34,13 @@ flow:
   name: document_categorization
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - document_categorization_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.document_categorization_api')}
     - reference
     - field_text:
+        default: ""
         required: false
-    - index: work
+    - index
     - max_results:
         default: 6
     - print_value:

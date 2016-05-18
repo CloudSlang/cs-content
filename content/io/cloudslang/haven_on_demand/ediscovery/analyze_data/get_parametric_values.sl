@@ -38,17 +38,16 @@ flow:
   name: get_parametric_values
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - get_parametric_values_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.get_parametric_values_api')}
-    - field_name: topic
+    - field_name
     - document_count:
         required: false
         default: true
     - field_text:
         required: false
         default: ""
-    - indexes: "work"
+    - indexes
     - max_values:
         required: false
         default: 100
@@ -65,18 +64,17 @@ flow:
         required: false
         default: ""
     - proxy_host:
-            default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.proxy_host')}
-            required: false
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.proxy_host')}
+        required: false
     - proxy_port:
-            default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.proxy_port')}
-            required: false
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.proxy_port')}
+        required: false
 
   workflow:
        - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ str(document_count) + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + str(max_values) +'&min_score=' + str(min_score) + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 

@@ -35,11 +35,10 @@ flow:
   name: add_to_text_index
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - add_to_text_index_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.add_to_text_index_api')}
-    - reference: 66d79b58-8fbb-43e8-a6f5-b140c3d97566-14e78989
-    - index: "work"
+    - reference
+    - index
     - additional_metadata:
         default: ""
         required: false
@@ -77,4 +76,4 @@ flow:
                         - text: ${str(error_message)}
   outputs:
       - error_message
-      - result
+      - result: ${return_result}

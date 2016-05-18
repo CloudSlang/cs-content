@@ -32,8 +32,7 @@ flow:
   name: entity_extraction
 
   inputs:
-    - api_key:
-       default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - extract_entities_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.extract_entities_api')}
     - text:
         required: false
@@ -54,9 +53,8 @@ flow:
 
       - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) + '&show_alternatives=' + str(show_alternatives) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 
@@ -64,6 +62,9 @@ flow:
               - error_message
               - return_result
               - return_code
+          navigate:
+             - SUCCESS: get_result_from_json
+             - FAILURE: FAILURE
 
       - get_result_from_json:
           do:

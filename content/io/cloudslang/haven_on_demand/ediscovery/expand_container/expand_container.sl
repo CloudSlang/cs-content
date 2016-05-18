@@ -30,11 +30,9 @@ flow:
   name: expand_container
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - expand_container_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.expand_container_api')}
-    - file:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
+    - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
     - proxy_host:
         default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.proxy_host')}
         required: false

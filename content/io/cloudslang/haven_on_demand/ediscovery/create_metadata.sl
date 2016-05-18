@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Creates JSON with additional information for metadata
-#! @input value: user's API Keys
+#! @input value: list with additional value  - Example ["20/02/2017", "additional information of document"] 
 #! @output json_data: JSON with metadata
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!!#

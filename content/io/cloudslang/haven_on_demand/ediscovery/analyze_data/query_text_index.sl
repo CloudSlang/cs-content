@@ -52,8 +52,7 @@ flow:
   name: query_text_index
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - query_text_index_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.query_text_index_api')}
     - text
     - absolute_max_results:
@@ -74,7 +73,7 @@ flow:
     - ignore_operators:
         required: false
         default: false
-    - indexes: "work"
+    - indexes
     - max_date:
         required: false
         default: ""
@@ -123,9 +122,8 @@ flow:
   workflow:
        - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' + str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' + str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' + str(ignore_operators) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_page_results='+ str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ str(min_score) + '&print='+ str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + str(promotion) + '&query_profile=' + str(query_profile) +  '&sort=' + str(sort) + '&start=' + str(start) + '&start_tag=' + str(start_tag) + '&summary=' + str(summary) + '&total_results=' + str(total_results) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 

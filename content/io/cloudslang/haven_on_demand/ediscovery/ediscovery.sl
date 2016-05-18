@@ -31,12 +31,10 @@ flow:
   name: ediscovery
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - categorization_index
     - standart_index
-    - file:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
+    - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
     - search
 
   workflow:
@@ -50,6 +48,9 @@ flow:
               - error_message: ${'step FORMAT CONVENSION was faild '+ str(error_message) if error_message!=None else ""}
               - return_code
               - references
+          navigate:
+            - SUCCESS: TEXT ANALIZE
+            - FAILURE: FAILURE
 
       - TEXT ANALIZE:
            loop:
@@ -62,6 +63,10 @@ flow:
                   - standart_index
              publish:
                - error_message: ${'step TEXT ANALIZE was faild '+ str(error_message) if error_message!=None else ""}
+             navigate:
+               - SUCCESS: SEARCH
+               - FAILURE: FAILURE
+
       - SEARCH:
           do:
             ediscovery.analyze_data.query_text_index:
@@ -71,6 +76,9 @@ flow:
           publish:
              - references: ${references[1:]}
              - error_message: ${'step SEARCH was faild '+ str(error_message) if error_message!=None else ""}
+          navigate:
+            - SUCCESS: PRINT RESULTS
+            - FAILURE: FAILURE
 
       - PRINT RESULTS:
           loop:

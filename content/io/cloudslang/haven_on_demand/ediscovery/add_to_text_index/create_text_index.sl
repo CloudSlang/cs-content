@@ -41,8 +41,7 @@ flow:
   name: create_text_index
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - create_text_index_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.create_text_index_api')}
     - index
     - flavor
@@ -56,7 +55,7 @@ flow:
         default: ""
         required: false
     - expire_time:
-        default: ""
+        default: "1"
         required: false
     - expire_date_fields:
         default: ""
@@ -77,9 +76,8 @@ flow:
   workflow:
       - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(create_text_index_api) + '?index=' + str(index) + '&flavor=' + str(flavor) + '&description=' + str(description) + '&index_fields=' + str(index_fields) + '&parametric_fields=' + str(parametric_fields) + '&expire_time=' + str(expire_time) + '&expire_date_fields=' + str(expire_date_fields) + '&numeric_fields=' + str(numeric_fields) + '&display_name=' + str(display_name) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 

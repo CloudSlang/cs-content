@@ -37,8 +37,7 @@ flow:
   name: text_extraction
 
   inputs:
-    - api_key:
-        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
     - text_extraction_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.text_extraction_api')}
     - file:
        required: false
@@ -73,9 +72,8 @@ flow:
 
       - connect_to_server:
           do:
-            http.http_client_action:
+            http.http_client_post:
               - url: ${str(text_extraction_api) + '?reference=' + str(reference) + '&additional_metadata=' + str(additional_metadata) + '&extract_metadata=' + str(extract_metadata) + '&extract_text=' + str(extract_text) + '&extract_xmlattributes=' + str(extract_xmlattributes) + '&password=' + str(password) + '&reference_prefix=' + str(reference_prefix) + '&apikey=' + str(api_key)}
-              - method: POST
               - proxy_host
               - proxy_port
 
