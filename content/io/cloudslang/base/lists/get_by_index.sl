@@ -10,11 +10,11 @@
 #! @description: Get element from list.
 #! @input list: list from which we want to get the element  - Example: [123, 'xyz']
 #! @input delimiter: list delimiter
-#!                   Default: ','
+#!                   default: ''
 #! @output index: index of this element
 #! @output result: element
 #! @output error_message: something went wrong - exception
-#! @result SUCCESS: error_message empty and
+#! @result SUCCESS: error_message empty
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
@@ -25,15 +25,18 @@ operation:
    inputs:
      - list
      - delimiter:
-        default: ','
+        default: ''
      - index
    python_action:
      script: |
        try:
          error_message = ""
-         index = int(index)
-         result = list.split(delimiter).pop(index)
-       except ValueError:
+         if delimiter=='':
+           result = list[index]
+         else:
+           index = int(index)
+           result = list.split(delimiter).pop(index)
+       except TypeError:
          error_message = "Index must be integer"
        except Exception as e:
          error_message = e

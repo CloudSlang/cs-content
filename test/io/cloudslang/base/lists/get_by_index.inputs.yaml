@@ -9,6 +9,7 @@
 testGetSuccess:
   inputs:
     - list: element1,element2,element3,element4
+    - delimiter: ','
     - index: 1
   description: Tests that get_by_index.sl operation finishes with result = element2
   testFlowPath: io.cloudslang.base.lists.get_by_index
@@ -19,6 +20,7 @@ testGetSuccess:
 testGetReverseSuccess:
   inputs:
     - list: element1,element2,element3,element4
+    - delimiter: ','
     - index: -2
   description: Tests that get_by_index.sl operation finishes with result = element3
   testFlowPath: io.cloudslang.base.lists.get_by_index
@@ -40,6 +42,7 @@ testGetCustomDelimiterSuccess:
 testGetFailure:
   inputs:
     - list: element1,element2,element3,element4
+    - delimiter: ','
     - index: 7
   description: Tests that get_by_index.sl operation finishes with error_message = 'IndexError('pop index out of range',)'
   testFlowPath: io.cloudslang.base.lists.get_by_index
@@ -50,6 +53,7 @@ testGetFailure:
 testGetReverseFailure:
   inputs:
     - list: element1,element2,element3,element4
+    - delimiter: ','
     - index: -8
   description: Tests that get_by_index.sl operation finishes with result = 'IndexError('pop index out of range',)'
   testFlowPath: io.cloudslang.base.lists.get_by_index

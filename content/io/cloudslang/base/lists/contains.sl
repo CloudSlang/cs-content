@@ -10,6 +10,7 @@
 #! @description: Check element in the list.
 #! @input list: list in which we need to check the element  - Example: [123, 'xyz']
 #! @input delimiter: list delimiter
+#!                   default: ''
 #! @output element: element which we want to check
 #! @output result: true - if list contains, false - if not
 #!!#
@@ -21,10 +22,15 @@ operation:
   name: contains
   inputs:
     - list
-    - delimiter
+    - delimiter:
+        required: false
+        default: ''
     - element
   python_action:
     script: |
-      result = element in list.split(delimiter)
+      if delimiter=='':
+        result = list.contains(element)
+      else:
+        result = element in list.split(delimiter)
   outputs:
     - result
