@@ -7,24 +7,24 @@
 #
 ####################################################
 #!!
-#! @description: Adds launch permission to the specified AMI.
-#!               Note: The 'user_ids' and 'user_groups' inputs cannot be left both empty in order to add permission
+#! @description: Removes launch permission of the specified AMI.
+#!               Note: The 'user_ids' and 'user_groups' inputs cannot be left both empty in order to remove permission
 #!                     launch on specified image.
 #!                     AWS Marketplace product codes cannot be modified. Images with an AWS Marketplace product code
 #!                     cannot be made public.
-#! @input provider: Cloud provider on which the instance is - Default: 'amazon'
+#! @input provider: Cloud provider on which you have the image - Default: 'amazon'
 #! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input region: optional - Region where the targeted image reside. ListRegionAction can be used in order to get all regions.
-#!                           For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+#! @input region: optional - Region where the targeted image reside. ListRegionAction can be used in order to get
+#!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
-#! @input image_id: ID of the specified image to add launch permission for
-#! @input userIds: optional - A string that contains: none, one or more user IDs separated by delimiter.
+#! @input image_id: ID of the specified image to remove launch permission for
+#! @input userIds: optional - A string that contains: none, one or more user IDs separated by delimiter
 #!                          - Default: ''
-#! @input userGroups: optional - A string that contains: none, one or more user groups separated by delimiter.
+#! @input userGroups: optional - A string that contains: none, one or more user groups separated by delimiter
 #!                             - Default: ''
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -36,7 +36,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 operation:
-  name: add_launch_permissions_to_image_in_region
+  name: remove_launch_permissions_from_image_in_region
 
   inputs:
     - provider: 'amazon'
@@ -62,19 +62,19 @@ operation:
         required: false
     - image_id
     - imageId: ${image_id}
-    - user_ids:
+    - user_ids
         required: false
     - userIds:
         default: ${get("user_ids", "")}
         private: true
-    - user_groups:
+    - user_groups
         required: false
     - userGroups:
         default: ${get("user_groups", "")}
         private: true
 
   java_action:
-    class_name: io.cloudslang.content.jclouds.actions.images.AddLaunchPermissionsToImageInRegionAction
+    class_name: io.cloudslang.content.jclouds.actions.images.RemoveLaunchPermissionsFromImageAction
     method_name: execute
 
   outputs:
