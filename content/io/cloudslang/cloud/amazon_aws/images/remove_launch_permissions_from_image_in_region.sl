@@ -62,12 +62,12 @@ operation:
         required: false
     - image_id
     - imageId: ${image_id}
-    - user_ids
+    - user_ids:
         required: false
     - userIds:
         default: ${get("user_ids", "")}
         private: true
-    - user_groups
+    - user_groups:
         required: false
     - userGroups:
         default: ${get("user_groups", "")}
