@@ -7,7 +7,7 @@
 #
 ####################################################
 test_demo_dev_ops:
-  testSuites: [docker,docker-circleci]
+  testSuites: [docker-ignore,docker-circleci-ignore]
   description: Tests SUCCESS case - clears docker container and calls the flow
   testFlowPath: io.cloudslang.docker.containers.examples.test_demo_dev_ops
   inputs:
