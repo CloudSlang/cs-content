@@ -1,0 +1,20 @@
+﻿#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testParseDateSuccess:
+  inputs:
+    - date: "Wed, Jul 4, '01"
+    - date_format: "EEE, MMM d, ''yy"
+    - date_locale_lang: "en"
+    - date_locale_country: "US"
+    - out_format: "EEE, MMM d, ''yy"
+    - out_locale_lang: "it"
+    - out_locale_country: "IT"
+  description: simple parse_date test
+  testFlowPath: io.cloudslang.base.datetime.parse_date
+  result: SUCCESS
