@@ -22,7 +22,7 @@
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
 #! @output standard_err: any STDERR
-#! @output node_name: new node name in Chef
+#! @output new_node_name: new node name in Chef
 #! @result SUCCESS: bootstrap process completed without errors
 #! @result FAILURE: otherwise
 #!!#
@@ -98,4 +98,4 @@ flow:
     - raw_result: ${raw_result}
     - knife_result: ${standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)}
     - standard_err: ${standard_err}
-    - node_name
+    - new_node_name: ${node_name}
