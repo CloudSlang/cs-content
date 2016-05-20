@@ -16,7 +16,7 @@ flow:
     - json_object
     - index:
         required: false
-        default: None
+        default: null
     - json_after
 
   workflow:
@@ -29,6 +29,7 @@ flow:
 
         publish:
           - json_output
+          - return_result
 
         navigate:
           - SUCCESS: test_equality
@@ -44,6 +45,9 @@ flow:
           - EQUALS: SUCCESS
           - NOT_EQUALS: EQUALITY_FAILURE
           - FAILURE: FAILURE
+
+  outputs:
+    - return_result
 
   results:
     - SUCCESS

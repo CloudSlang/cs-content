@@ -10,7 +10,7 @@
 general:
   artifacts:
     - "./cslang-builder/logs/builder.log"
-    
+
 machine:
   environment:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
