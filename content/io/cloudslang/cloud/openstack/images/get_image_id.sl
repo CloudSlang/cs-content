@@ -27,8 +27,8 @@ operation:
     - image_body
     - image_name
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         images = json.loads(image_body)['images']

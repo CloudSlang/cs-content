@@ -21,8 +21,8 @@ operation:
   inputs:
     - list
     - element
-  action:
-    python_script: |
+  python_action:
+    script: |
       result = list.contains(element)
   outputs:
     - result: ${result}

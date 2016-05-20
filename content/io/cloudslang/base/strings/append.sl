@@ -8,7 +8,7 @@
 #!!
 #! @description: Appends text to string.
 #! @input string: string   - Example: "good"
-#! @input text: text witch need to be appended - Example: " morning"
+#! @input text: text which need to be appended - Example: " morning"
 #! @output result: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#
@@ -21,8 +21,8 @@ operation:
   inputs:
     - string
     - text
-  action:
-    python_script: |
+  python_action:
+    script: |
       string+=text
   outputs:
     - result: ${string}

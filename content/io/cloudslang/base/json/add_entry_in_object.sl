@@ -29,8 +29,8 @@ operation:
     - key
     - value
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
 

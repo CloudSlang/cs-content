@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Get sublist from list.
-#! @input list: list from wich we want to get the sublist  - Example: [123, 'xyz']
+#! @input list: list from which we want to get the sublist  - Example: [123, 'xyz']
 #! @input index_start: starting index of the sublist - Example: 2
 #! @input index_stop: ending index of the sublist - Example: 5
 #! @input counter: get sublist element incremeted by #: - Example: 1
@@ -29,8 +29,8 @@ operation:
      - index_stop
      - counter
 
-   action:
-     python_script: |
+   python_action:
+     script: |
        error_message = ""
        sublist= None
        counter=int(counter)
