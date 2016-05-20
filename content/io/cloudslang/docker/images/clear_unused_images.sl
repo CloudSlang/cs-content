@@ -45,7 +45,7 @@ flow:
         required: false
     - timeout:
         required: false
-    - all_parent_images:
+    - all_parent_images_input:
         required: false
 
   workflow:
@@ -114,10 +114,10 @@ flow:
                 - private_key_file
                 - timeout
                 - port
-                - all_parent_images
+                - all_parent_images_input
             publish:
                 - all_parent_images: >
-                    ${ all_parent_images if all_parent_images is not None else "" + parent_image_name + " " }
+                    ${ all_parent_images_input if all_parent_images_input is not None else "" + parent_image_name + " " }
     - substract_parent_images:
         do:
           base_lists.subtract_sets:

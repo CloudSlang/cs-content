@@ -18,6 +18,8 @@
 #! @input percentage: if disk space is greater than this value then unused images will be deleted
 #!                    Default: 0%
 #!                    Example: 50%
+#! @input number_of_deleted_images_per_host_input: optional - initial number of deleted images per host
+#!                                                 Default: ''
 #! @output number_of_deleted_images_per_host: how many images were deleted for every host
 #!                                            Format: "ip1: number1, ip2: number2"
 #!!#
@@ -41,7 +43,7 @@ flow:
     - timeout:
         required: false
     - percentage: '0%'
-    - number_of_deleted_images_per_host:
+    - number_of_deleted_images_per_host_input:
         default: ''
         private: true
 
@@ -68,11 +70,11 @@ flow:
               - private_key_file
               - percentage
               - timeout
-              - number_of_deleted_images_per_host
+              - number_of_deleted_images_per_host_input
               - machine_public_ip
           publish:
             - number_of_deleted_images_per_host: >
-                ${number_of_deleted_images_per_host + machine_public_ip + ': ' + str(total_amount_of_images_deleted) + ','}
+                ${number_of_deleted_images_per_host_input + machine_public_ip + ': ' + str(total_amount_of_images_deleted) + ','}
 
   outputs:
     - number_of_deleted_images_per_host: ${number_of_deleted_images_per_host[:-1]}

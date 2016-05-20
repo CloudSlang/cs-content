@@ -29,7 +29,7 @@ flow:
             - text: ${'Starting creating directories with base name ' + base_dir_name}
 
     - create_directories:
-        async_loop:
+        parallel_loop:
           for: suffix in range(1, num_of_directories + 1)
           do:
             create_directory:
