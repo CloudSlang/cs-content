@@ -33,7 +33,7 @@ flow:
         required: false
     - timeout:
         required: false
-    - machines_public_ip_list:
+    - machines_public_ip_list_input:
         default: ''
         private: true
 
@@ -60,9 +60,9 @@ flow:
               - password: ${coreos_password}
               - private_key_file
               - timeout
-              - machines_public_ip_list
+              - machines_public_ip_list_input
           publish:
-            - machines_public_ip_list: ${machines_public_ip_list + public_ip + ' '}
+            - machines_public_ip_list: ${machines_public_ip_list_input + public_ip + ' '}
 
   outputs:
     - machines_public_ip_list: ${machines_public_ip_list.strip()}

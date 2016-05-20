@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Bootstrap a server so it can be managed by Chef as a new node.
-#! @input node_name: new node name in Chef
+#! @input new_node_name: new node name in Chef
 #! @input node_host: hostname or IP of server to boostrap
 #! @input node_username: SSH username to boostrap the new node
 #! @input node_password: optional - password to access node
@@ -34,7 +34,7 @@ imports:
 flow:
   name: bootstrap_node
   inputs:
-    - node_name
+    - new_node_name
     - node_host
     - node_username
     - node_password:
@@ -64,7 +64,7 @@ flow:
           knife_command:
             - knife_cmd: >
                 ${'bootstrap ' + node_host + node_privkey_expr + ' -x ' + node_username +
-                node_password_expr + ' --sudo --node-name \'' + node_name + '\''}
+                node_password_expr + ' --sudo --node-name \'' + new_node_name + '\''}
             - knife_host
             - knife_username
             - knife_password
@@ -98,4 +98,4 @@ flow:
     - raw_result: ${raw_result}
     - knife_result: ${standard_err  + ' ' + (filter_result if 'filter_result' in locals() else raw_result)}
     - standard_err: ${standard_err}
-    - node_name
+    - node_name: ${new_node_name}
