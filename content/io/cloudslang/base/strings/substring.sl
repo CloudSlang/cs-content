@@ -8,8 +8,8 @@
  #!!
  #! @description: Substring sring from beginIndex to endIndex.
  #! @input string: string   - Example: "good morning"
- #! @input beginIndex - position in string from witch we want to cut - Example: 0 (the first index = 0)
- #! @output endIndex: position in string to witch we want to cut - Example: 4 (new string will not include endIndex)
+ #! @input beginIndex - position in string from which we want to cut - Example: 0 (the first index = 0)
+ #! @output endIndex: position in string to which we want to cut - Example: 4 (new string will not include endIndex)
  #! @output result: new string - Example: "good"
  #!!#
  ####################################################
