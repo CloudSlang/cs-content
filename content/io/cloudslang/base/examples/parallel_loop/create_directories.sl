@@ -34,9 +34,7 @@ flow:
           do:
             create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
-          publish:
-            - error_msg
-        aggregate:
+        publish:
           - errors:  ${filter(lambda x:'folder created' not in x, map(lambda x:str(x['error_msg']), branches_context))}
 
     - on_failure:
