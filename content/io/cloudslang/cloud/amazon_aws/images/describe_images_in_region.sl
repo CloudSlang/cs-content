@@ -65,8 +65,9 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - identity_id: 'self'
-    - identityId: ${identity_id}
+    - identity_id:
+        required: false
+    - identityId: ${get("identity_id", "self")}
     - image_ids_string:
         required: false
     - imageIdsString:
