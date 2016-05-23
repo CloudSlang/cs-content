@@ -24,3 +24,73 @@ testSleepNoRequiredInputException:
   description: Tests that sleep.sl operation throws an exception when required inputs is not given
   testFlowPath: io.cloudslang.base.utils.sleep
   throwsException: true
+
+testSleepTwoSecondsSuccess:
+  inputs:
+    - seconds: '2'
+  description: Tests that sleep.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.sleep
+  result: SUCCESS
+
+testSleep100SecondsSuccess:
+  inputs:
+    - seconds: '10'
+  description: Tests that sleep.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.sleep
+  result: SUCCESS
+
+testSleepNegativeNumbers:
+  inputs:
+    - seconds: '-3'
+  description: Tests that sleep.sl operation throws an exception when input contains negative values
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepInvalidInput:
+  inputs:
+    - seconds: '1abc4'
+  description: Tests that sleep.sl operation throws an exception when an invalid input is given
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepEmptyStringInput:
+  inputs:
+    - seconds: ''
+  description: Tests that sleep.sl operation throws an exception when input contains empty value
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepWhiteSpaceInput:
+  inputs:
+    - seconds: ' '
+  description: Tests that sleep.sl operation throws an exception when input contains white spaces
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepWhiteSpaceBetweenNumbers:
+  inputs:
+    - seconds: '1 1'
+  description: Tests that sleep.sl operation throws an exception when digits are separated by white space
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepSpecialCharacters:
+  inputs:
+    - seconds: '!@#$$%^'
+  description: Tests that sleep.sl operation throws an exception when input contains special characters
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepUsingTwoDots:
+  inputs:
+    - seconds: '1..55'
+  description: Tests that sleep.sl operation throws an exception when input contains two dots
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
+
+testSleepUsingOneDot:
+  inputs:
+    - seconds: '.'
+  description: Tests that sleep.sl operation throws an exception when '.' is given as input
+  testFlowPath: io.cloudslang.base.utils.sleep
+  throwsException: true
