@@ -36,7 +36,7 @@ flow:
     - availability_zone:
         default: ''
         required: false
-    - image_ref
+    - image_id
     - min_count:
         default: '1'
         required: false
@@ -56,7 +56,7 @@ flow:
             - proxy_port
             - region
             - availability_zone
-            - image_ref
+            - image_id
             - min_count
             - max_count
         publish:
