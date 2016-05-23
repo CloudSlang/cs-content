@@ -102,7 +102,7 @@ flow:
             - port
             - username
             - password
-            - container_id: ${container_name}
+            - start_container_id: ${container_name}
         navigate:
           - SUCCESS: get_running_container_names
           - FAILURE: FAILURE
