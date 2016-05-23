@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testRebootAmazonServerLocal:
+testStartAmazonServerLocal:
   testSuites: [amazon-local]
-  description: "Test the fact that an Amazon AWS EC2 instance was rebooted."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.test_reboot_server
+  description: "Test the fact that an Amazon AWS EC2 instance was started."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_start_server
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
@@ -19,4 +19,6 @@ testRebootAmazonServerLocal:
     - server_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - delimiter: <delimiter>
+    - seconds: <seconds>
   result: SUCCESS

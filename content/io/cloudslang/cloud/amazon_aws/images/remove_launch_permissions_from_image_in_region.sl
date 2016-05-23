@@ -22,10 +22,10 @@
 #!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
 #! @input image_id: ID of the specified image to remove launch permission for
-#! @input userIds: optional - A string that contains: none, one or more user IDs separated by delimiter
-#!                          - Default: ''
-#! @input userGroups: optional - A string that contains: none, one or more user groups separated by delimiter
-#!                             - Default: ''
+#! @input user_ids_string: optional - A string that contains: none, one or more user IDs separated by delimiter
+#!                                  - Default: ''
+#! @input user_groups_string: optional - A string that contains: none, one or more user groups separated by delimiter
+#!                                     - Default: ''
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -62,15 +62,15 @@ operation:
         required: false
     - image_id
     - imageId: ${image_id}
-    - user_ids:
+    - user_ids_string:
         required: false
-    - userIds:
-        default: ${get("user_ids", "")}
+    - userIdsString:
+        default: ${get("user_ids_string", "")}
         private: true
-    - user_groups:
+    - user_groups_string:
         required: false
-    - userGroups:
-        default: ${get("user_groups", "")}
+    - userGroupsString:
+        default: ${get("user_groups_string", "")}
         private: true
 
   java_action:

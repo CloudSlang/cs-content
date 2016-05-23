@@ -7,28 +7,28 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
-#!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
+#!               and changes its status to ACTIVE. PAUSED and SUSPENDED servers (instances) cannot be started.
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be stopped can be found
-#!                list_regions operation can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to stop
-#! @input proxyHost: optional - the proxy server used to access the provider services
-#! @input proxyPort: optional - the proxy server port used to access the provider services
+#! @input region: optional - the region where the server (instance) to be started can be found. list_regions operation
+#!                can be used in order to get all regions - Default: 'us-east-1'
+#! @input server_id: the ID of the server (instance) you want to start
+#! @input proxy_host: optional - the proxy server used to access the provider services
+#! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the server (instance) was successfully stopped
-#! @result FAILURE: an error occurred when trying to stop a server (instance)
+#! @result SUCCESS: the server (instance) was successfully started
+#! @result FAILURE: an error occurred when trying to start a server (instance)
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: stop_server
+  name: start_server
 
   inputs:
     - provider: 'amazon'
@@ -54,7 +54,7 @@ operation:
         private: true
 
   java_action:
-    class_name: io.cloudslang.content.jclouds.actions.StopServerAction
+    class_name: io.cloudslang.content.jclouds.actions.instances.StartServerAction
     method_name: execute
 
   outputs:

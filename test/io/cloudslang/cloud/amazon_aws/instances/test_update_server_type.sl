@@ -6,50 +6,66 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_reboot_server
+  name: test_update_server_type
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
+        default: ''
+        required: false
+    - proxy_host:
+        default: ''
+        required: false
+    - proxy_port:
+        default: '8080'
         required: false
     - region:
         default: 'us-east-1'
         required: false
     - server_id
-    - proxy_host:
+    - server_type:
+        default: ''
         required: false
-    - proxy_port:
+    - operation_timeout:
+        default: ''
+        required: false
+    - pooling_interval:
+        default: ''
         required: false
 
   workflow:
-    - reboot_server:
+    - update_server_type:
         do:
-          reboot_server:
+          update_server_type:
             - provider
             - endpoint
             - identity
             - credential
-            - region
-            - server_id
             - proxy_host
             - proxy_port
+            - region
+            - server_id
+            - server_type
+            - operation_timeout
+            - pooling_interval
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           - SUCCESS: check_result
-          - FAILURE: REBOOT_SERVER_FAILURE
+          - FAILURE: UPDATE_SERVER_TYPE_FAILURE
 
     - check_result:
         do:
@@ -62,5 +78,5 @@ flow:
 
   results:
     - SUCCESS
-    - REBOOT_SERVER_FAILURE
+    - UPDATE_SERVER_TYPE_FAILURE
     - CHECK_RESULT_FAILURE

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,41 +6,39 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
-  lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
 
 flow:
-  name: test_list_servers
-
+  name: test_start_server
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
-        default: ''
         required: false
     - credential:
-        default: ''
         required: false
     - region:
         default: 'us-east-1'
         required: false
+    - server_id
     - proxy_host:
-        default: ''
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - delimiter:
-        default: ''
+        required: false
+    - seconds:
+        default: '45'
         required: false
 
   workflow:
-    - list_servers:
+    - start_server:
         do:
-          list_servers:
+          start_server:
             - provider
             - endpoint
             - identity
@@ -49,24 +47,47 @@ flow:
             - server_id
             - proxy_host
             - proxy_port
+        navigate:
+          - SUCCESS: sleep
+          - FAILURE: START_FAILURE
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds
+        navigate:
+          - SUCCESS: list_amazon_instances
+
+    - list_amazon_instances:
+        do:
+          list_servers:
+            - provider
+            - endpoint
+            - identity
+            - credential
+            - region
+            - proxy_host
+            - proxy_port
+            - delimiter
+        navigate:
+          - SUCCESS: check_result
+          - FAILURE: LIST_FAILURE
         publish:
           - return_result
           - return_code
           - exception
-        navigate:
-          - SUCCESS: check_result
-          - FAILURE: LIST_SERVERS_FAILURE
 
     - check_result:
         do:
-          lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: ${server_id + ', state=running'}
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULT_FAILURE
+          - FAILURE: RUNNING_FAILURE
 
   results:
     - SUCCESS
-    - LIST_SERVERS_FAILURE
-    - CHECK_RESULT_FAILURE
+    - START_FAILURE
+    - LIST_FAILURE
+    - RUNNING_FAILURE

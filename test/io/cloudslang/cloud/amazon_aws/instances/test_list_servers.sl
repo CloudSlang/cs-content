@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_run_server
+  name: test_list_servers
 
   inputs:
     - provider: 'amazon'
@@ -24,48 +24,38 @@ flow:
     - credential:
         default: ''
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
     - proxy_host:
         default: ''
         required: false
     - proxy_port:
         default: '8080'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - availability_zone:
+    - delimiter:
         default: ''
-        required: false
-    - image_ref
-    - min_count:
-        default: '1'
-        required: false
-    - max_count:
-        default: '1'
         required: false
 
   workflow:
-    - run_server:
+    - list_servers:
         do:
-          run_server:
+          list_servers:
             - provider
             - endpoint
             - identity
             - credential
+            - region
+            - server_id
             - proxy_host
             - proxy_port
-            - region
-            - availability_zone
-            - image_ref
-            - min_count
-            - max_count
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           - SUCCESS: check_result
-          - FAILURE: RUN_SERVERS_FAILURE
+          - FAILURE: LIST_SERVERS_FAILURE
 
     - check_result:
         do:
@@ -78,5 +68,5 @@ flow:
 
   results:
     - SUCCESS
-    - RUN_SERVERS_FAILURE
+    - LIST_SERVERS_FAILURE
     - CHECK_RESULT_FAILURE

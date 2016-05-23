@@ -25,7 +25,7 @@
 #! @result FAILURE: an error occurred when trying to retrieve servers (instances) list
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
   name: list_servers
@@ -55,7 +55,7 @@ operation:
         required: false
 
   java_action:
-    class_name: io.cloudslang.content.jclouds.actions.ListServersAction
+    class_name: io.cloudslang.content.jclouds.actions.instances.ListServersAction
     method_name: execute
 
   outputs:

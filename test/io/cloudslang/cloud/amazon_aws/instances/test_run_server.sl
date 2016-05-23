@@ -6,80 +6,77 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_terminate_server
+  name: test_run_server
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
+        default: ''
         required: false
     - credential:
+        default: ''
+        required: false
+    - proxy_host:
+        default: ''
+        required: false
+    - proxy_port:
+        default: '8080'
         required: false
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - proxy_host:
+    - availability_zone:
+        default: ''
         required: false
-    - proxy_port:
+    - image_ref
+    - min_count:
+        default: '1'
+        required: false
+    - max_count:
+        default: '1'
         required: false
 
   workflow:
-    - terminate_server:
+    - run_server:
         do:
-          terminate_server:
+          run_server:
             - provider
             - endpoint
             - identity
             - credential
-            - region
-            - server_id
             - proxy_host
             - proxy_port
+            - region
+            - availability_zone
+            - image_ref
+            - min_count
+            - max_count
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_call_result
-          - FAILURE: TERMINATE_SERVER_CALL_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: RUN_SERVERS_FAILURE
 
-    - check_call_result:
+    - check_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          - SUCCESS: check_first_possible_current_state_result
-          - FAILURE: CHECK_CALL_RESULT_FAILURE
-
-    - check_first_possible_current_state_result:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_result}
-            - string_to_find: 'currentState=terminated'
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: check_second_possible_current_state_result
-
-    - check_second_possible_current_state_result:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_result}
-            - string_to_find: 'currentState=shutting-down'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: SHUTTING_DOWN_FAILURE
+          - FAILURE: CHECK_RESULT_FAILURE
 
   results:
     - SUCCESS
-    - TERMINATE_SERVER_CALL_FAILURE
-    - CHECK_CALL_RESULT_FAILURE
-    - SHUTTING_DOWN_FAILURE
+    - RUN_SERVERS_FAILURE
+    - CHECK_RESULT_FAILURE
