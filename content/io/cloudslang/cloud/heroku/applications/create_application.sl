@@ -4,7 +4,7 @@
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
-#! @input application_name: name of application; if not provided, application_name will be generate by Heroku
+#! @input name: name of application; if not provided, name will be generate by Heroku
 #!              optional
 #!              default: None
 #! @input region: unique identifier or name of region
@@ -21,7 +21,7 @@
 #! @output status_code: code returned by the operation
 #! @output id: ID of the newly created application
 #!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#! @output name: name of the new created application; useful when <application_name> input is not provided
+#! @output new_name: name of the new created application; useful when <name> input is not provided
 #!               example: 'arcane-fortress-9257'
 #! @output created_at: exact time when application was created
 #!                     example: '2016-01-04T14:49:53Z'
@@ -49,7 +49,7 @@ flow:
   inputs:
     - username
     - password
-    - application_name:
+    - name:
         default: None
         required: false
     - region:
@@ -78,7 +78,7 @@ flow:
     - validate_name_input:
         do:
           strings.string_equals:
-            - first_string: ${application_name}
+            - first_string: ${name}
             - second_string: None
         navigate:
           - SUCCESS: validate_region_input
@@ -89,7 +89,7 @@ flow:
           json.add_value:
             - json_input: ${body_json}
             - json_path: ['name']
-            - value: ${application_name}
+            - value: ${name}
         publish:
           - body_json: ${json_output}
           - return_result
@@ -204,7 +204,7 @@ flow:
     - return_code
     - status_code
     - id
-    - name
+    - new_name: ${name}
     - created_at
 
   results:

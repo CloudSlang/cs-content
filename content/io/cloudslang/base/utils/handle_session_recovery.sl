@@ -55,7 +55,7 @@ flow:
             - value2: 0
             - retries
         publish:
-          - updated_retries: ${ int(retries) - 1 }
+          - retries: ${ int(retries) - 1 }
         navigate:
           - GREATER_THAN: check_unstable_session
           - EQUALS: TIMEOUT
@@ -73,7 +73,7 @@ flow:
           - CUSTOM_FAILURE: CUSTOM_FAILURE
           - NO_ISSUE_FOUND: NO_ISSUE_FOUND
   outputs:
-    - updated_retries
+    - updated_retries: ${retries}
   results:
     - RECOVERY_DISABLED
     - TIMEOUT

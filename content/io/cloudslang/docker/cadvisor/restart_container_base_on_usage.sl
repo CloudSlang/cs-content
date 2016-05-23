@@ -72,7 +72,6 @@ flow:
             - throughput_tx
             - error_rx
             - error_tx
-            - error_message
         navigate:
             - MORE: stop_container
             - LESS: SUCCESS

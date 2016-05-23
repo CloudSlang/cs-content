@@ -108,7 +108,7 @@ flow:
           - images_list_safe_to_delete
           - amount_of_images_deleted
           - used_images_list
-          - all_parent_images
+          - all_parent_images: ${updated_all_parent_images}
         navigate:
           - SUCCESS: verify_amount_of_images_deleted_output
           - FAILURE: FAILURE

@@ -22,7 +22,7 @@
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#! @output container_id: ID of the container that was started
+#! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
 #!!#
 ####################################################
@@ -87,5 +87,5 @@ flow:
           - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - container_id: return_result
+    - container_id_output: ${return_result}
     - error_message: ${'' if 'STDERR' not in locals() else STDERR if return_code == '0' else return_result}
