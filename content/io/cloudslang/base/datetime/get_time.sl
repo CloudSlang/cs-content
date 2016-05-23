@@ -33,10 +33,9 @@ operation:
         default: ${get("locale_country", "US")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.datetime.actions.GetCurrentDateTime
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.datetime.actions.GetCurrentDateTime
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}

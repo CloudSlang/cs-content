@@ -23,10 +23,8 @@ operation:
   name: offset_time_by
 
   inputs:
-    - date:
-        required: true
-    - offset:
-        required: true
+    - date
+    - offset
     - locale_lang:
         required: false
     - localeLang:
@@ -38,10 +36,9 @@ operation:
         default: ${get("locale_country", "US")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.datetime.actions.OffsetTimeBy
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.datetime.actions.OffsetTimeBy
+    method_name: execute
 
   outputs:
     - result: ${returnResult}

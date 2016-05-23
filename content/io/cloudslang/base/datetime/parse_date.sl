@@ -26,8 +26,7 @@ operation:
   name: parse_date
 
   inputs:
-    - date:
-        required: true
+    - date
     - date_format:
         required: false
     - dateFormat:
@@ -59,10 +58,9 @@ operation:
         default: ${get("out_locale_country", "US")}
         private: true
 
-  action:
-    java_action:
-      className: io.cloudslang.content.datetime.actions.ParseDate
-      methodName: execute
+  java_action:
+    class_name: io.cloudslang.content.datetime.actions.ParseDate
+    method_name: execute
 
   outputs:
     - result: ${returnResult}
