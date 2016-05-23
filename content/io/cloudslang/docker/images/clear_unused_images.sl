@@ -18,7 +18,7 @@
 #! @output images_list_safe_to_delete: unused Docker images
 #! @output amount_of_images_deleted: how many images where deleted
 #! @output used_images_list: list of used Docker images
-#! @output all_parent_images: list of parent images - will not be deleted
+#! @output updated_all_parent_images: list of parent images - will not be deleted
 #! @result SUCCESS - flow ends with SUCCESS: 
 #! @result FAILURE - some step ended with FAILURE: 
 #!!#
@@ -147,7 +147,7 @@ flow:
     - images_list_safe_to_delete
     - amount_of_images_deleted: ${ 0 if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
-    - all_parent_images: ${ get('all_parent_images', 0) }
+    - updated_all_parent_images: ${ get('all_parent_images', 0) }
   results:
     - SUCCESS
     - FAILURE

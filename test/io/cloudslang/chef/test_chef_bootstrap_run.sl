@@ -60,7 +60,7 @@ flow:
         publish:
           - return_result: ${knife_result}
           - standard_err
-          - node_name
+          - node_name: ${new_node_name}
 
     - chef_assign_cookbooks:
         do:

@@ -144,7 +144,7 @@ flow:
               - return_code
               - exit_status
           publish:
-            - retries
+            - retries: ${updated_retries}
           navigate:
             - RECOVERY_DISABLED: FAILURE
             - TIMEOUT: FAILURE
