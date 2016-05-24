@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#!!
+#!! modified
 #! @description: Copies a file or folder.
 #!               If a folder is copied, the destination directory must not already exist.
 #! @input source: path of source file or folder to be copied
