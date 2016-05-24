@@ -88,7 +88,7 @@ flow:
          - FAILURE: PRE_CLEAR_MANAGER_MACHINE_PROBLEM
 
     - pre_clear_agent_machines:
-        async_loop:
+        parallel_loop:
           for: ip in agent_ip_addresses
           do:
             containers.clear_containers:
@@ -113,7 +113,7 @@ flow:
           - FAILURE: START_MANAGER_CONTAINER_PROBLEM
 
     - add_nodes_to_the_cluster:
-        async_loop:
+        parallel_loop:
           for: ip in agent_ip_addresses
           do:
             register_agent:

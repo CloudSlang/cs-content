@@ -9,7 +9,7 @@
 testCreateDirectories:
   description: Tests that create_directories finishes with SUCCESS
   testSuites: [local]
-  testFlowPath: io.cloudslang.base.examples.async_loop.create_directories
+  testFlowPath: io.cloudslang.base.examples.parallel_loop.create_directories
   inputs:
     - base_dir_name: 'a/b/c/Dir'
   result: SUCCESS

@@ -8,7 +8,7 @@
 #!!
 #! @description: Appends text to a string.
 #! @input string: original string - Example: "good"
-#! @input text: text to be append - Example: " morning"
+#! @input text: text to be appended - Example: " morning"
 #! @output result: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#

@@ -6,10 +6,10 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Substring from beginIndex to endIndex.
+ #! @description: Substring from begin_index to end_index.
  #! @input string: original string - Example: "good morning"
- #! @input beginIndex - begin index for the substring - Example: 0 (the first index = 0)
- #! @output endIndex: end index for the substring - Example: 4 (new string will not include endIndex)
+ #! @input begin_index - begin index for the substring - Example: 0 (the first index = 0)
+ #! @output end_index: end index for the substring - Example: 4 (new string will not include end_index)
  #! @output result: new string - Example: "good"
  #!!#
  ####################################################
@@ -19,22 +19,22 @@
    name: substring
    inputs:
      - string
-     - beginIndex:
+     - begin_index:
         required: false
         default: 0
-     - endIndex:
+     - end_index:
          required: false
          default: 0
    python_action:
      script: |
         error_message = ""
         maxIndex=len(string)+1
-        if endIndex==0:
-            result=string[beginIndex:]
-        elif beginIndex <= maxIndex and endIndex <= maxIndex:
-           result=string[beginIndex:endIndex]
+        if end_index==0:
+            result=string[begin_index:]
+        elif begin_index <= maxIndex and end_index <= maxIndex:
+           result=string[begin_index:end_index]
         else:
-          error_message="beginIndex must be less than "+ str(maxIndex-2) +". endIndex must be less than "+str(maxIndex)+ " and big than 0"
+          error_message="begin_index must be less than "+ str(maxIndex-2) +". end_index must be less than "+str(maxIndex)+ " and big than 0"
    outputs:
       - result: ${result}
       - error_message
