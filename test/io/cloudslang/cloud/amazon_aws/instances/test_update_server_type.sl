@@ -10,7 +10,6 @@ namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_update_server_type
@@ -64,19 +63,19 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_result
+          - SUCCESS: check_results
           - FAILURE: UPDATE_SERVER_TYPE_FAILURE
 
-    - check_result:
+    - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${[str(return_result), str(exception), int(return_code)]}
+            - list_2: ['Server updated successfully.', '', 0]
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULT_FAILURE
+          - FAILURE: CHECK_RESULTS_FAILURE
 
   results:
     - SUCCESS
     - UPDATE_SERVER_TYPE_FAILURE
-    - CHECK_RESULT_FAILURE
+    - CHECK_RESULTS_FAILURE

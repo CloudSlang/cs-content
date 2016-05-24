@@ -6,13 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.instances
+namespace: io.cloudslang.cloud.amazon_aws.images
 
 imports:
   lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
 
 flow:
-  name: test_run_server
+  name: test_create_image_in_region
 
   inputs:
     - provider: 'amazon'
@@ -32,21 +33,19 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - availability_zone:
+    - server_id
+    - image_name
+    - image_description:
         default: ''
         required: false
-    - image_id
-    - min_count:
-        default: '1'
-        required: false
-    - max_count:
-        default: '1'
+    - image_no_reboot:
+        default: ''
         required: false
 
   workflow:
-    - run_server:
+    - create_image:
         do:
-          run_server:
+          create_image_in_region:
             - provider
             - endpoint
             - identity
@@ -54,28 +53,39 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - availability_zone
-            - image_id
-            - min_count
-            - max_count
+            - server_id
+            - image_name
+            - image_description
+            - image_no_reboot
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_result
-          - FAILURE: RUN_SERVERS_FAILURE
+          - SUCCESS: check_results
+          - FAILURE: CREATE_IMAGE_FAILURE
 
-    - check_result:
+    - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${[int(return_code), str(exception)]}
+            - list_2: [0, '']
+        navigate:
+          - SUCCESS: check_message
+          - FAILURE: CHECK_RESULTS_FAILURE
+
+    - check_message:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'ami-'
+            - ignore_case
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULT_FAILURE
+          - FAILURE: CONFIRMATION_MESSAGE_MISSING
 
   results:
     - SUCCESS
-    - RUN_SERVERS_FAILURE
-    - CHECK_RESULT_FAILURE
+    - CREATE_IMAGE_FAILURE
+    - CHECK_RESULTS_FAILURE
+    - CONFIRMATION_MESSAGE_MISSING

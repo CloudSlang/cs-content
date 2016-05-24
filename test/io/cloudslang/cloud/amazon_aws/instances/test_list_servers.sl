@@ -10,7 +10,6 @@ namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_list_servers
