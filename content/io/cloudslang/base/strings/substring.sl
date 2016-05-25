@@ -30,7 +30,7 @@
         error_message = ""
         maxIndex=len(origin_string)+1
         if endIndex==0:
-            result=origin_string[beginIndex:]
+            new_string=origin_string[beginIndex:]
         elif beginIndex <= maxIndex and endIndex <= maxIndex:
            new_string=origin_string[beginIndex:endIndex]
         else:
