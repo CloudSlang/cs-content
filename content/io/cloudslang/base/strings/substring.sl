@@ -22,7 +22,7 @@
      - beginIndex
         required: false
         default: 0
-     - endIndex: 11
+     - endIndex
          required: false
          default: 0
    python_action:
