@@ -19,10 +19,10 @@
    name: substring
    inputs:
      - origin_string
-     - beginIndex:
+     - beginIndex
         required: false
         default: 0
-     - endIndex:
+     - endIndex: 11
          required: false
          default: 0
    python_action:
@@ -35,9 +35,10 @@
            new_string=origin_string[beginIndex:endIndex]
         else:
           error_message="beginIndex must be less than "+ str(maxIndex-2) +". endIndex must be less than "+str(maxIndex)+ " and big than 0"
+
    outputs:
       - new_string
       - error_message
    results:
-      - SUCCESS: ${error_message==""}
+      - SUCCESS: ${error_message=="" and new_string != ''}
       - FAILURE
