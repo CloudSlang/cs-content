@@ -7,7 +7,7 @@
  ####################################################
  #!!
  #! @description: Substring sring from beginIndex to endIndex.
- #! @input origin_string: origin_string  - Example: "good morning"
+ #! @input origin_string: origin_string - Example: "good morning"
  #! @input beginIndex - position in string from which we want to cut - Example: 0 (the first index = 0)
  #! @output endIndex: position in string to which we want to cut - Example: 4 (new string will not include endIndex)
  #! @output new_string: new string - Example: "good"
