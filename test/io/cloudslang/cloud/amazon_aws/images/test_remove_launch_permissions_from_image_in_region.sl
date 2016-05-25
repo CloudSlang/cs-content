@@ -34,8 +34,12 @@ flow:
         default: 'us-east-1'
         required: false
     - image_id
-    - user_ids_string
-    - user_groups_string
+    - user_ids_string:
+        default: ''
+        required: false
+    - user_groups_string:
+        default: ''
+        required: false
 
   workflow:
     - remove_launch_permissions:
