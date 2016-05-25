@@ -20,10 +20,8 @@
    inputs:
      - origin_string
      - beginIndex
-        required: false
         default: 0
      - endIndex
-         required: false
          default: 0
    python_action:
      script: |
