@@ -29,14 +29,14 @@ operation:
     - json_object
     - index:
         required: false
-        default: None
+        default: null
+
   python_action:
     script: |
       try:
         import json
         decoded_json_array = json.loads(json_array)
-        decoded_json_object = json.loads (json_object)
-        index = None
+        decoded_json_object = json.loads(json_object)
         if index is None:
          decoded_json_array.remove(decoded_json_object)
         else:
@@ -45,9 +45,13 @@ operation:
         encoded_json_array = json.dumps(decoded_json_array)
         return_code = '0'
         return_result = 'Remove successful.'
+      except ValueError:
+        return_result = "Object not found"
+        return_code = '-1'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
+
   outputs:
     - json_output: ${ encoded_json_array if return_code == '0' else '' }
     - return_result

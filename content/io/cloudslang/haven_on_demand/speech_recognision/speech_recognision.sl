@@ -10,7 +10,7 @@
 #!!
 #! @description: Makes Speech Recognision by HPE Haven OnDemand API.
 #! @input speech_api: Speech Recognision API
-#! @output job_id: name of request, witch is returned by havenondemand.com
+#! @output job_id: name of request, which is returned by havenondemand.com
 #!!#
 ####################################################
 namespace: io.cloudslang.haven_on_demand.speech_recognision
