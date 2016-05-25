@@ -21,7 +21,7 @@ operation:
     - origin_string
   python_action:
     script: |
-      length = len(string)
+      length = len(origin_string)
   outputs:
     - length
   results:
