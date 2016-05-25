@@ -7,8 +7,8 @@
 #
 ####################################################
 #!!
-#! @description: Return length of list.
-#! @input list: list which we want to get the length of  - Example: [123, 'xyz']
+#! @description: Gets the length of a list.
+#! @input list: list get length of - Example: [123, 'xyz']
 #! @output result: length of list
 #!!#
 ####################################################

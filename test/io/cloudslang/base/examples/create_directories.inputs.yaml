@@ -7,7 +7,7 @@
 #
 ####################################################
 testCreateDirectories:
-  description: Tests that create_directories with SUCCESS
+  description: Tests that create_directories finishes with SUCCESS
   testSuites: [local]
   testFlowPath: io.cloudslang.base.examples.parallel_loop.create_directories
   inputs:
