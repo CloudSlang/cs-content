@@ -7,7 +7,7 @@
 ####################################################
 #!!
 #! @description: Appends text to string.
-#! @input string: string   - Example: "good"
+#! @input origin_string: string   - Example: "good"
 #! @output result: length of string
 #! @result SUCCESS: always
 #!!#
@@ -18,11 +18,11 @@ namespace: io.cloudslang.base.strings
 operation:
   name: length
   inputs:
-    - string
+    - origin_string
   python_action:
     script: |
-      result = len(string)
+      length = len(string)
   outputs:
-    - result: ${result}
+    - length
   results:
     - SUCCESS
