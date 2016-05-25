@@ -7,12 +7,12 @@
 #
 ####################################################
 #!!
-#! @description: Checks if a json input is valid.
-#! @input json_input: JSON from which to retrieve keys - Example: '{"k1": {"k2": {"k3":"v3"}}}'
-#! @output return_result: parsing was successful or not
+#! @description: Checks if a JSON is valid.
+#! @input json_input: JSON to validate
+#! @output return_result: message of validity or exception
 #! @output return_code: "0" if is a valid json, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: is a valid json (return_code == '0')
+#! @result SUCCESS: JSON is valid (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
 ####################################################

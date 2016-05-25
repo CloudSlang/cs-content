@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Compare the first list with the second list to see if they are identical or not.
+#! @description: Compare the first list with the second list to see if they are identical.
 #! @input list_1: first list - Example: [123, 'xyz']
 #! @input list_2: second list - Example: [456, 'abc']
 #! @output result: true if list_1 is identical to list_2
