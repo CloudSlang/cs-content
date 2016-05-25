@@ -47,7 +47,7 @@ testSubstringDefault:
     - new_string: mmmSPAMmmm
   result: SUCCESS
 
-  testStringEqualsIgnoreCaseSuccess:
+testStringEqualsIgnoreCaseSuccess:
   inputs:
     - first_string: "Test"
     - second_string: "test"
