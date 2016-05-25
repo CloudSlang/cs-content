@@ -19,9 +19,9 @@
    name: substring
    inputs:
      - origin_string
-     - beginIndex
+     - beginIndex:
         default: 0
-     - endIndex
+     - endIndex:
          default: 0
    python_action:
      script: |
