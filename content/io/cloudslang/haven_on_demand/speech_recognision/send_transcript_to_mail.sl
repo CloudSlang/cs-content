@@ -11,7 +11,7 @@
 #! @description: Sends to email transcript of the text in an audio or video file, with was created by Speech Recognition API.
 #! @input api_key: user's API Keys
 #! @input speech_api:  Speech Recognision API
-#! @input file: path to video/audio, witch recognising
+#! @input file: path to video/audio, which recognising
 #! @input speech_result_api: API which waits until the job has finished and then returns the result
 #! @input hostname: email host
 #! @input port: email port

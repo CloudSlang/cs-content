@@ -7,9 +7,9 @@
 ####################################################
 #!!
 #! @description: Appends text to string.
-#! @input origin_string: string   - Example: "good"
-#! @input text: text witch need to be appended - Example: " morning"
-#! @output new_string: string after appending - Example: "good morning"
+#! @input string: string   - Example: "good"
+#! @input text: text which need to be appended - Example: " morning"
+#! @output result: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#
 ####################################################
@@ -19,12 +19,12 @@ namespace: io.cloudslang.base.strings
 operation:
   name: append
   inputs:
-    - origin_string
+    - string
     - text
   python_action:
     script: |
-      origin_string+=text
+      string+=text
   outputs:
-    - new_string: ${origin_string}
+    - result: ${string}
   results:
     - SUCCESS

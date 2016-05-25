@@ -21,7 +21,7 @@
 #! @output status_code: code returned by the operation
 #! @output id: ID of the newly created application
 #!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
-#! @output name: name of the new created application; useful when <name> input is not provided
+#! @output new_name: name of the new created application; useful when <name> input is not provided
 #!               example: 'arcane-fortress-9257'
 #! @output created_at: exact time when application was created
 #!                     example: '2016-01-04T14:49:53Z'
@@ -204,7 +204,7 @@ flow:
     - return_code
     - status_code
     - id
-    - name
+    - new_name: ${name}
     - created_at
 
   results:

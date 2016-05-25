@@ -25,6 +25,17 @@ testRemoveObjectFromJsonArraySize3:
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
   result: SUCCESS
+
+testRemoveObjectFromJsonArraySize3ObjectNotFound:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
+    - json_object: '{firstName":"Darth", "lastName":"Vader"}'
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with CREATE_FAILURE if object not found
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  outputs:
+    - return_result: "Object not found"
+  result: CREATE_FAILURE
   
 testRemoveObjectFromJsonArrayAtIndex0:
   inputs:

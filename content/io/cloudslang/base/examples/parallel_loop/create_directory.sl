@@ -7,7 +7,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.base.examples.async_loop
+namespace: io.cloudslang.base.examples.parallel_loop
 
 imports:
   files: io.cloudslang.base.files
