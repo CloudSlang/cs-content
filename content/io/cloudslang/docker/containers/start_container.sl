@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Starts a specified Docker container.
-#! @input container_id: ID of the container to be started
+#! @input start_container_id: ID of the container to be started
 #! @input container_params: optional - command parameters - Default: none
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -35,7 +35,7 @@ imports:
 flow:
   name: start_container
   inputs:
-    - container_id
+    - start_container_id
     - container_params:
         required: false
     - host:
@@ -57,7 +57,7 @@ flow:
         default: ${container_params + ' ' if bool(container_params) else ''}
         private: true
     - command:
-        default: ${'docker start ' + container_params_cmd + ' ' + container_id}
+        default: ${'docker start ' + container_params_cmd + ' ' + start_container_id}
         private: true
     - character_set:
         required: false

@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,14 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.regions
 
 imports:
+  lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
 
 flow:
-  name: test_stop_server
+  name: test_list_regions
+
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
@@ -21,73 +22,52 @@ flow:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
     - delimiter:
         required: false
-    - seconds:
-        default: '45'
-        required: false
 
   workflow:
-    - stop_server:
+    - list_regions:
         do:
-          stop_server:
+          list_regions:
             - provider
             - endpoint
             - identity
             - credential
-            - region
-            - server_id
-            - proxy_host
-            - proxy_port
-        navigate:
-          - SUCCESS: sleep
-          - FAILURE: STOP_FAILURE
-
-    - sleep:
-        do:
-          utils.sleep:
-            - seconds
-        navigate:
-          - SUCCESS: list_amazon_instances
-
-    - list_amazon_instances:
-        do:
-          list_servers:
-            - provider
-            - endpoint
-            - identity
-            - credential
-            - region
             - proxy_host
             - proxy_port
             - delimiter
-        navigate:
-          - SUCCESS: check_result
-          - FAILURE: LIST_FAILURE
         publish:
           - return_result
           - return_code
           - exception
+        navigate:
+          - SUCCESS: check_result
+          - FAILURE: LIST_REGION_FAILURE
 
     - check_result:
         do:
+          lists.compare_lists:
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
+        navigate:
+          - SUCCESS: check_default_region_exist
+          - FAILURE: CHECK_RESULT_FAILURE
+
+    - check_default_region_exist:
+        do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: ${server_id + ', state=stopped'}
+            - string_to_find: 'us-east-1'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: STOPPED_FAILURE
+          - FAILURE: CHECK_DEFAULT_REGION_FAILURE
 
   results:
     - SUCCESS
-    - STOP_FAILURE
-    - LIST_FAILURE
-    - STOPPED_FAILURE
+    - LIST_REGION_FAILURE
+    - CHECK_RESULT_FAILURE
+    - CHECK_DEFAULT_REGION_FAILURE

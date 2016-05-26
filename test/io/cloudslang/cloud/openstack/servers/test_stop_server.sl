@@ -82,6 +82,7 @@ flow:
             - seconds: '10'
         navigate:
           - SUCCESS: get_server_details
+          - FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
 
     - get_server_details:
         do:

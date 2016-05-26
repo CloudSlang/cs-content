@@ -118,6 +118,7 @@ flow:
             - seconds: 1
         navigate:
           - SUCCESS: get_droplet_status
+          - FAILURE: FAILURE
   results:
     - SUCCESS
     - DROPLET_NOT_FOUND
