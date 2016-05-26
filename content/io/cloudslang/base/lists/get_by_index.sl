@@ -11,7 +11,7 @@
 #! @input list: list from which we want to get the element  - Example: [123, 'xyz']
 #! @input delimiter: list delimiter
 #!                   default: ''
-#! @output index: index of this element
+#! @output index: index of this element (a negative value returns an element in reverse)
 #! @output result: element
 #! @output error_message: something went wrong - exception
 #! @result SUCCESS: error_message empty
