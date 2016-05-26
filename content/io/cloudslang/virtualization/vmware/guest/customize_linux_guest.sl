@@ -125,6 +125,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content.vmware.actions.guest:0.0.4'
     class_name: io.cloudslang.content.vmware.actions.guest.CustomizeLinuxGuest
     method_name: customizeLinuxGuest
 

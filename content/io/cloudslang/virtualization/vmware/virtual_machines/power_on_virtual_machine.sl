@@ -71,6 +71,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content.vmware.actions.vm:0.0.4'
     class_name: io.cloudslang.content.vmware.actions.vm.PowerOnVM
     method_name: powerOnVM
 

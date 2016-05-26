@@ -79,6 +79,7 @@ operation:
         required: false
 
   java_action:
+    gav: 'io.cloudslang.content.vmware.actions.vm.utils:0.0.4'
     class_name: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
     method_name: getOsDescriptors
 

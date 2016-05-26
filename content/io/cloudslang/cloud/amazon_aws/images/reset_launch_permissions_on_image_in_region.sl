@@ -58,6 +58,7 @@ operation:
     - imageId: ${image_id}
 
   java_action:
+    gav: 'io.cloudslang.content.jclouds.actions.images:0.0.4'
     class_name: io.cloudslang.content.jclouds.actions.images.ResetLaunchPermissionsOnImageAction
     method_name: execute
 

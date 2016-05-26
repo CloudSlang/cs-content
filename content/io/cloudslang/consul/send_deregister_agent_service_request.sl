@@ -37,6 +37,7 @@ operation:
         default: 'delete'
         private: true
   java_action:
+    gav: 'io.cloudslang.content.httpclient:0.1.65'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
   outputs:

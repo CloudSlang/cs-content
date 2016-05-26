@@ -79,6 +79,7 @@ operation:
         default: ${get("enable_TLS", "")}
         private: true
   java_action:
+    gav: 'io.cloudslang.content.mail.actions:0.0.31'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
   results:

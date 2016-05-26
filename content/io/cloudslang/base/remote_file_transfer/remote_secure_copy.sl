@@ -99,6 +99,7 @@ operation:
         default: '90000'
         required: false
   java_action:
+    gav: 'io.cloudslang.content.rft.actions:0.0.2'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
   outputs:

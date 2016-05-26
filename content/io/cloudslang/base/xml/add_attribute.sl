@@ -51,6 +51,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content.xml.actions:0.0.2'
     class_name: io.cloudslang.content.xml.actions.AddAttribute
     method_name: execute
 

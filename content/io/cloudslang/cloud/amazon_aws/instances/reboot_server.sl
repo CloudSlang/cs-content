@@ -55,6 +55,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content.jclouds.actions.instances:0.0.4'
     class_name: io.cloudslang.content.jclouds.actions.instances.SoftRebootAction
     method_name: execute
 
