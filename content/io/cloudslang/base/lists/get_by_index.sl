@@ -12,7 +12,7 @@
 #! @input delimiter: list delimiter
 #!                   default: ''
 #! @output index: index of this element (a negative value returns an element in reverse)
-#! @output result: element
+#! @output result: element at specified index
 #! @output error_message: something went wrong - exception
 #! @result SUCCESS: error_message empty
 #!!#
