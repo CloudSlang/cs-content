@@ -122,3 +122,8 @@ flow:
           - attempts: ${attempts - 1}
         navigate:
           - SUCCESS: list_marathon_apps
+          - FAILURE: FAILURE
+
+  outputs:
+    - SUCCESS
+    - FAILURE
