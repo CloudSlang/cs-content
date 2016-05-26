@@ -36,8 +36,10 @@ operation:
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         required: false
+        sensitive: true
     - credential:
         required: false
+        sensitive: true
     - region:
         default: 'us-east-1'
         required: false
@@ -45,14 +47,18 @@ operation:
     - serverId: ${server_id}
     - proxy_host:
         required: false
+        sensitive: true
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+        sensitive: true
 
   java_action:
     class_name: io.cloudslang.content.jclouds.actions.instances.RemoveServerAction
