@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Starts a specified Docker container.
-#! @input container_id: ID of the container to be started
+#! @input start_container_id: ID of the container to be started
 #! @input container_params: optional - command parameters - Default: none
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,7 +22,7 @@
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#! @output container_id: ID of the container that was started
+#! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
 #!!#
 ####################################################
@@ -35,7 +35,7 @@ imports:
 flow:
   name: start_container
   inputs:
-    - container_id
+    - start_container_id
     - container_params:
         required: false
     - host
@@ -52,7 +52,7 @@ flow:
         default: ${container_params + ' ' if bool(container_params) else ''}
         private: true
     - command:
-        default: ${'docker start ' + container_params_cmd + ' ' + container_id}
+        default: ${'docker start ' + container_params_cmd + ' ' + start_container_id}
         private: true
     - character_set:
         required: false
@@ -87,5 +87,5 @@ flow:
           - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
-    - container_id: return_result
+    - container_id_output: ${return_result}
     - error_message: ${'' if 'STDERR' not in locals() else STDERR if return_code == '0' else return_result}

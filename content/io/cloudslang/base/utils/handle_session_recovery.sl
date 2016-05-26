@@ -15,7 +15,7 @@
 #!                       exception
 #! @input exception: from SSH: contains the stack trace in case of an exception
 #! @input exit_status: from SSH: return code of the remote command
-#! @output retries: updated input value (decreased by 1)
+#! @output updated_retries: updated input value (decreased by 1)
 #! @result RECOVERY_DISABLED: session recovery is disabled
 #! @result TIMEOUT: no more retries are available
 #! @result SESSION_IS_DOWN: session failure pattern detected
@@ -73,7 +73,7 @@ flow:
           - CUSTOM_FAILURE: CUSTOM_FAILURE
           - NO_ISSUE_FOUND: NO_ISSUE_FOUND
   outputs:
-    - retries
+    - updated_retries: ${retries}
   results:
     - RECOVERY_DISABLED
     - TIMEOUT

@@ -1,0 +1,45 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testWellFormedSuccess:
+  inputs:
+    - xml_document: <root>test</root>
+  description: Tests that validate.sl operation finishes with SUCCESS with well formed XML
+  testFlowPath: io.cloudslang.base.xml.validate
+  result: SUCCESS
+
+testWellFormedFailure:
+  inputs:
+    - xml_document: <root>test</toot>
+  description: Tests that validate.sl operation finishes with FAILURE with non well formed XML
+  testFlowPath: io.cloudslang.base.xml.validate
+  result: FAILURE
+
+testValidSuccess:
+  inputs:
+    - xml_document: <root/>
+    - xsd_document: |
+        <?xml version="1.0"?>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+          <xs:element name="root"/>
+        </xs:schema>
+  description: Tests that validate.sl operation finishes with SUCCESS with valid XML
+  testFlowPath: io.cloudslang.base.xml.validate
+  result: SUCCESS
+
+testWellFormedFailure:
+  inputs:
+    - xml_document: <toot/>
+    - xsd_document: |
+        <?xml version="1.0"?>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+          <xs:element name="root"/>
+        </xs:schema>
+  description: Tests that validate.sl operation finishes with FAILURE with non valid XML
+  testFlowPath: io.cloudslang.base.xml.validate
+  result: FAILURE

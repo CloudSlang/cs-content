@@ -7,10 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: This flow is used to perform a REST Delete request to any ServiceNow table.
-#! @input host: required - The URL of the ServiceNow instance
+#! @description: Performs a REST Delete request to any ServiceNow table.
+#! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
-#! @input protocol: optional - The protocol that is used to send the request
+#! @input protocol: optional - protocol that is used to send the request
 #!                  Valid: https. Obs: ServiceNow uses only this protocol
 #!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
@@ -19,9 +19,9 @@
 #! @input api_version: optional - the servicenow api version to be used for the call
 #!                   Valid: 'v1'
 #!                   Default: ''
-#! @input system_id: required - the system id of the ServiceNow record to be deleted
+#! @input system_id: required - system id of the ServiceNow record to be deleted
 #!                   Example: 71c7ac460f811200ff7eb17ce1050e7a
-#! @input table_name: required - the name of the servicenow table which should be used for the request.
+#! @input table_name: required - name of the servicenow table which should be used for the request
 #!                    Example: incident, problem , change
 #! @input username: optional - username used for URL authentication
 #! @input password: optional - password used for URL authentication
@@ -37,8 +37,8 @@
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'application/sjon'
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#!                      data in the message body - Default: 'application/json'
+#! @output return_result: response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call

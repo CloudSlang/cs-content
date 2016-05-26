@@ -8,10 +8,10 @@
 ####################################################
 #!!
 #! @description: Renames a server
-#! @input endpoint: the New Relic servers API endpoint
-#! @input api_key: the New Relic REST API key
-#! @input server_id: the server id
-#! @input server_name: the new server name
+#! @input endpoint: New Relic servers API endpoint
+#! @input api_key: New Relic REST API key
+#! @input server_id: server id
+#! @input server_name: new server name
 #! @input proxy_host: optional - proxy server used to access web site
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - username used when connecting to proxy
@@ -19,7 +19,7 @@
 #! @output return_result: response of operation
 #! @output status_code: normal status code is '200'
 #! @output return_code: if return_code == -1 then there was an error
-#! @output error_message: return_result if return_code ==: 1 or status_code != '200'
+#! @output error_message: return_result if return_code == 1 or status_code != '200'
 #! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
 #! @result FAILURE: otherwise
 #!!#

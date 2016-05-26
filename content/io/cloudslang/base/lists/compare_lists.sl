@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Compare the first list with the second list to see if they are identical or not.
+#! @description: Compare the first list with the second list to see if they are identical.
 #! @input list_1: first list - Example: [123, 'xyz']
 #! @input list_2: second list - Example: [456, 'abc']
 #! @output result: true if list_1 is identical to list_2

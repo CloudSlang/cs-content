@@ -7,10 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: Sort the elements in a list.
-#! @input list: Type of list (INT or STR) - Example: [123 'zyx']
-#! @output result: sorted list of STR or INT elements.
-#! @result SUCCESS: Sorting successfull.
+#! @description: Sorts the elements in a list.
+#! @input input_list: type of list (INT or STR) - Example: [123 'zyx']
+#! @output result: sorted list of int or string elements
+#! @result SUCCESS: sorting successfull
 #!!#
 ####################################################
 

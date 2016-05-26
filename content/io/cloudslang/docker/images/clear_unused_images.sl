@@ -18,7 +18,7 @@
 #! @output images_list_safe_to_delete: unused Docker images
 #! @output amount_of_images_deleted: how many images where deleted
 #! @output used_images_list: list of used Docker images
-#! @output all_parent_images: list of parent images - will not be deleted
+#! @output updated_all_parent_images: list of parent images - will not be deleted
 #! @result SUCCESS - flow ends with SUCCESS: 
 #! @result FAILURE - some step ended with FAILURE: 
 #!!#
@@ -45,7 +45,7 @@ flow:
         required: false
     - timeout:
         required: false
-    - all_parent_images:
+    - all_parent_images_input:
         required: false
 
   workflow:
@@ -114,10 +114,10 @@ flow:
                 - private_key_file
                 - timeout
                 - port
-                - all_parent_images
+                - all_parent_images_input
             publish:
                 - all_parent_images: >
-                    ${ all_parent_images if all_parent_images is not None else "" + parent_image_name + " " }
+                    ${ all_parent_images_input if all_parent_images_input is not None else "" + parent_image_name + " " }
     - substract_parent_images:
         do:
           base_lists.subtract_sets:
@@ -147,7 +147,7 @@ flow:
     - images_list_safe_to_delete
     - amount_of_images_deleted: ${ 0 if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
-    - all_parent_images: ${ get('all_parent_images', 0) }
+    - updated_all_parent_images: ${ get('all_parent_images', 0) }
   results:
     - SUCCESS
     - FAILURE

@@ -1,0 +1,22 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testsendTranscriptToMail:
+  inputs:
+    - apikey: <apikey>
+    - speechApi: "https://api.havenondemand.com/1/api/async/recognizespeech/v1"
+    - file: <file>
+    - speechResultApi: "https://api.havenondemand.com/1/job/result/"
+    - hostname: <hostname>
+    - port: <port>
+    - from: <email>
+    - to: <email>
+  description: Test that sendVoiceRecToMail.sl finished with result = SUCCESS
+  testFlowPath: io.cloudslang.haven_on_demand.voice_recognition.send_transcript_to_mail
+  result: SUCCESS
+  testSuites: [haven-local]
