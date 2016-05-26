@@ -29,10 +29,12 @@ namespace: io.cloudslang.consul
 flow:
   name: report_kv
   inputs:
-    - host
+    - host:
+        sensitive: true
     - consul_port:
         default: "8500"
         required: false
+        sensitive: true
     - key_name
   workflow:
     - retrieve_key:

@@ -41,18 +41,25 @@ imports:
 flow:
   name: get_services
   inputs:
-    - host
-    - username
-    - password
+    - host:
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - authentication:

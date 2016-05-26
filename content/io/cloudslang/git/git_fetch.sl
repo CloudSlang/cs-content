@@ -39,12 +39,16 @@ flow:
   name: git_fetch
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir:
         default: "/tmp/repo.git"
         required: true
@@ -56,6 +60,7 @@ flow:
         required: false
     - private_key_file:
         required: false
+        sensitive: true
 
   workflow:
     - git_fetch:

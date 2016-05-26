@@ -38,12 +38,16 @@ flow:
   name: git_reset
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir: "/tmp/repo.git"
     - git_reset_target:
         default: "HEAD"
@@ -53,6 +57,7 @@ flow:
         required: false
     - private_key_file:
         required: false
+        sensitive: true
 
   workflow:
     - git_reset:

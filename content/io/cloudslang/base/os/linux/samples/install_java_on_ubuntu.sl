@@ -33,8 +33,10 @@ flow:
   name: install_java_on_ubuntu
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - java_version
 
   workflow:

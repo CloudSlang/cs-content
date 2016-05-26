@@ -39,8 +39,10 @@ flow:
   name: change_permissions
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - folder_path
     - permissions_code
     - recursively:

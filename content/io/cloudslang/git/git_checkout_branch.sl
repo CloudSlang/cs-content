@@ -39,12 +39,16 @@ flow:
   name: git_checkout_branch
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - git_branch:
         required: true
     - git_repository_localdir: "/tmp/repo.git"
@@ -56,6 +60,7 @@ flow:
         required: false
     - private_key_file:
         required: false
+        sensitive: true
 
   workflow:
     - git_clone:

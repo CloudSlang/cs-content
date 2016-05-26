@@ -35,9 +35,12 @@ flow:
   name: verify_user_exist
 
   inputs:
-    - host
-    - root_password
-    - user_name
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
+    - user_name:
+        sensitive: true
 
   workflow:
     - verify_if_user_exist:

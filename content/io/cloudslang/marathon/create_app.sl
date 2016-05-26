@@ -29,15 +29,19 @@ imports:
 flow:
   name: create_app
   inputs:
-    - marathon_host
+    - marathon_host:
+        sensitive: true
     - marathon_port:
         default: "8080"
         required: false
+        sensitive: true
     - json_file
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - read_from_file:

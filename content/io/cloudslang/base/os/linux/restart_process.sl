@@ -41,18 +41,23 @@ flow:
   name: restart_process
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - process_name
     - sudo_user:
         default: False
         required: False
     - private_key_file:
         required: false
+        sensitive: true
 
   workflow:
     - process_restart:

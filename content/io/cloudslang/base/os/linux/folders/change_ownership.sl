@@ -41,13 +41,17 @@ flow:
   name: change_ownership
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - folder_path
-    - user_name
+    - user_name:
+        sensitive: true
     - group_name:
         default: ''
         required: false
+        sensitive: true
     - recursively:
         default: True
         required: false

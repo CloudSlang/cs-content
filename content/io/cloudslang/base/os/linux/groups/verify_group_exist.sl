@@ -36,8 +36,10 @@ flow:
   name: verify_group_exist
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - group_name
 
   workflow:

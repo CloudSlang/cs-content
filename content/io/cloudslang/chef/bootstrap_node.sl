@@ -35,29 +35,40 @@ flow:
   name: bootstrap_node
   inputs:
     - node_name
-    - node_host
-    - node_username
+    - node_host:
+        sensitive: true
+    - node_username:
+        sensitive: true
     - node_password:
         required: false
+        sensitive: true
     - node_privkey:
         required: false
-    - knife_host
-    - knife_username
+        sensitive: true
+    - knife_host:
+        sensitive: true
+    - knife_username:
+        sensitive: true
     - knife_privkey:
         required: false
+        sensitive: true
     - knife_password:
         required: false
+        sensitive: true
     - knife_timeout:
         default: '600000'
         required: false
     - knife_config:
         required: false
+        sensitive: true
     - node_password_expr:
         default: ${(" -P '" + node_password + "'") if node_password else ''}
         private: true
+        sensitive: true
     - node_privkey_expr:
         default: ${(' -i ' + node_privkey) if node_privkey else ''}
         private: true
+        sensitive: true
   workflow:
     - run_bootstrap:
         do:

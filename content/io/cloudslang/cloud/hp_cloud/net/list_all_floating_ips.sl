@@ -28,12 +28,15 @@ imports:
 flow:
   name: list_all_floating_ips
   inputs:
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_list_all_floating_ips:

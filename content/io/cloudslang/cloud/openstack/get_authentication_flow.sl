@@ -37,19 +37,28 @@ imports:
 flow:
   name: get_authentication_flow
   inputs:
-    - host
-    - identity_port: '5000'
-    - username
-    - password
+    - host:
+        sensitive: true
+    - identity_port:
+        default: '5000'
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
   workflow:
     - authentication_call:
         do:
@@ -98,8 +107,12 @@ flow:
   outputs:
     - return_result
     - error_message
-    - token
-    - tenant_id
+    - token:
+        value: ${token}
+        sensitive: true
+    - tenant_id:
+        value: ${tenant_id}
+        sensitive: true
 
   results:
     - SUCCESS

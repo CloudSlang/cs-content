@@ -39,24 +39,34 @@ imports:
 flow:
   name: demo_dev_ops
   inputs:
-    - docker_host
-    - docker_ssh_port: '22'
-    - docker_username
+    - docker_host:
+        sensitive: true
+    - docker_ssh_port:
+        default: '22'
+        sensitive: true
+    - docker_username:
+        sensitive: true
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - db_container_name: 'mysqldb'
     - app_container_name: 'spring-boot-tomcat-mysql-app'
     - app_port: '8080'
-    - email_host
-    - email_port
+    - email_host:
+        sensitive: true
+    - email_port:
+        sensitive: true
     - email_sender
     - email_recipient
     - email_username:
         required: false
+        sensitive: true
     - email_password:
         required: false
+        sensitive: true
     - email_enable_TLS:
         required: false
     - timeout: '30000000'

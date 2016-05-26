@@ -25,10 +25,12 @@ namespace: io.cloudslang.consul
 operation:
   name: get_catalog_services
   inputs:
-    - host
+    - host:
+        sensitive: true
     - consul_port:
         default: '8500'
         required: false
+        sensitive: true
     - datacenter:
         default: ''
         required: false

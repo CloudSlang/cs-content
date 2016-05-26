@@ -25,12 +25,16 @@ flow:
   name: list_machines_public_ip
 
   inputs:
-    - coreos_host
-    - coreos_username
+    - coreos_host:
+        sensitive: true
+    - coreos_username:
+        sensitive: true
     - coreos_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - timeout:
         required: false
     - machines_public_ip_list_var:

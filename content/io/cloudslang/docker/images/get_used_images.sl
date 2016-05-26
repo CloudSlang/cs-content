@@ -41,14 +41,19 @@ flow:
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - command:
         default: >
          ${ "docker " + docker_options_expression + "ps -a | tail -n +2 | awk '{print $2}'" }

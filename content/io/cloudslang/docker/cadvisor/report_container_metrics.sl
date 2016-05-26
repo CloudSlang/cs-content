@@ -32,10 +32,12 @@ flow:
   name: report_container_metrics
   inputs:
     - container
-    - host
+    - host:
+        sensitive: true
     - cadvisor_port:
         default: '8080'
         required: false
+        sensitive: true
   workflow:
     - retrieve_container_metrics:
         do:

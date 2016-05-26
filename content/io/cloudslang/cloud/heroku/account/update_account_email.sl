@@ -28,10 +28,12 @@ imports:
 flow:
   name: update_account_email
   inputs:
-    - username
+    - username:
+        sensitive: true
     - password:
         default: None
         required: false
+        sensitive: true
     - email
 
   workflow:

@@ -51,20 +51,27 @@ imports:
 flow:
     name: ssh_flow
     inputs:
-      - host
-      - port: '22'
+      - host:
+          sensitive: true
+      - port:
+          default: '22'
+          sensitive: true
       - command
       - pty: 'false'
-      - username
+      - username:
+          sensitive: true
       - password:
           required: false
+          sensitive: true
       - arguments:
           required: false
       - private_key_file:
           required: false
+          sensitive: true
       - privateKeyFile:
           default: ${get("private_key_file", "")}
           private: true
+          sensitive: true
       - timeout: '90000'
       - character_set:
           required: false

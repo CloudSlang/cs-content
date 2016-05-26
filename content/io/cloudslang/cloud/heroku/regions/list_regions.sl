@@ -19,8 +19,10 @@ imports:
 flow:
   name: list_regions
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
 
   workflow:
     - list_regions:

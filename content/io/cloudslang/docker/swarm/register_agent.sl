@@ -38,17 +38,24 @@ imports:
 flow:
   name: register_agent
   inputs:
-    - node_ip
-    - cluster_id
+    - node_ip:
+        sensitive: true
+    - cluster_id:
+        sensitive: true
     - swarm_image: 'swarm'
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - character_set:
         required: false
     - pty:

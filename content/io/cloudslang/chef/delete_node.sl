@@ -31,14 +31,19 @@ flow:
   name: delete_node
   inputs:
     - node_name
-    - knife_host
-    - knife_username
+    - knife_host:
+        sensitive: true
+    - knife_username:
+        sensitive: true
     - knife_password:
         required: false
+        sensitive: true
     - knife_privkey:
         required: false
+        sensitive: true
     - knife_config:
         required: false
+        sensitive: true
 
   workflow:
     - remove_client:

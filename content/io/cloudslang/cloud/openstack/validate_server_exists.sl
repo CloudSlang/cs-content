@@ -38,16 +38,25 @@ imports:
 flow:
   name: validate_server_exists
   inputs:
-    - host
-    - identity_port: '5000'
-    - compute_port: '8774'
-    - username
-    - password
+    - host:
+        sensitive: true
+    - identity_port:
+        default: '5000'
+        sensitive: true
+    - compute_port:
+        default: '8774'
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - server_name
 
   workflow:

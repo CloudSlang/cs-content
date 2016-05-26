@@ -25,10 +25,12 @@ namespace: io.cloudslang.consul
 flow:
   name: register_agent_service
   inputs:
-    - host
+    - host:
+        sensitive: true
     - consul_port:
         default: '8500'
         required: false
+        sensitive: true
     - address:
         required: false
     - service_name

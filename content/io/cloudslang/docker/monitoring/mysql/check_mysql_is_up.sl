@@ -42,18 +42,25 @@ flow:
   name: check_mysql_is_up
   inputs:
     - container
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - arguments:
         required: false
-    - mysql_username
-    - mysql_password
+    - mysql_username:
+        sensitive: true
+    - mysql_password:
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - exec_cmd:
         default: ${ 'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp ping' }
         private: true

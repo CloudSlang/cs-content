@@ -64,7 +64,8 @@ imports:
 flow:
   name: get_branches_build_failure
   inputs:
-    - token
+    - token:
+        sensitive: true
     - protocol:
         default: "https"
     - host:
@@ -72,16 +73,19 @@ flow:
         private: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
+        sensitive: true
     - content_type:
         default: "application/json"
         private: true
     - headers:
         default: "Accept:application/json"
         private: true
-    - username
+    - username:
+        sensitive: true
     - project
     - committer_email
     - branch:
@@ -89,8 +93,10 @@ flow:
     - branches:
         default: ''
     - supervisor
-    - hostname
-    - port
+    - hostname:
+        sensitive: true
+    - port:
+        sensitive: true
     - from
     - to
     - cc:

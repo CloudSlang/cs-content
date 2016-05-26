@@ -35,15 +35,19 @@ flow:
   name: get_server_state_flow
   inputs:
     - server_id
-    - tenant
-    - token
+    - tenant:
+        sensitive: true
+    - token:
+        sensitive: true
     - region
     - delay:
         default: 0
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - wait:

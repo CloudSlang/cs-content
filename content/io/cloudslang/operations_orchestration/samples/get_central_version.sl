@@ -22,19 +22,23 @@ imports:
 flow:
   name: get_central_version
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: '8080'
         required: false
+        sensitive: true
     - protocol:
         default: 'http'
         required: false
     - username:
         default: ''
         required: false
+        sensitive: true
     - password:
         default: ''
         required: false
+        sensitive: true
 
   workflow:
     - get_central_version:

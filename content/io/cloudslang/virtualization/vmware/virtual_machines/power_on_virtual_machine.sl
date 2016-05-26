@@ -51,15 +51,19 @@ namespace: io.cloudslang.virtualization.vmware.virtual_machines
 operation:
   name: power_on_virtual_machine
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: '443'
         required: false
+        sensitive: true
     - protocol:
         default: 'https'
         required: false
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - trust_everyone:
         required: false
     - trustEveryone:

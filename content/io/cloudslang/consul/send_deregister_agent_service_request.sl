@@ -25,10 +25,12 @@ namespace: io.cloudslang.consul
 operation:
   name: send_deregister_agent_service_request
   inputs:
-    - host
+    - host:
+        sensitive: true
     - consul_port:
         default: '8500'
         required: false
+        sensitive: true
     - service_id
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/agent/service/deregister/' + service_id}

@@ -32,7 +32,7 @@
 #! @output queries_per_second_AVG: average value of number of queries per second
 #! @output error_message: STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
 #! @result SUCCESS: action was executed successfully and STDERR of the machine contains no errors
-#! @result FAILURE: 
+#! @result FAILURE:
 #!!#
 ########################################################################################################################
 
@@ -45,15 +45,22 @@ flow:
   name: get_mysql_status
   inputs:
     - container
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
-    - password
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - private_key_file:
         required: false
-    - mysql_username
-    - mysql_password
+        sensitive: true
+    - mysql_username:
+        sensitive: true
+    - mysql_password:
+        sensitive: true
     - exec_cmd:
         default: ${ 'mysqladmin -u' + mysql_username + ' -p' + mysql_password + ' --protocol=tcp status' }
         private: true

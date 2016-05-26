@@ -37,20 +37,26 @@ flow:
     - server_name
     - img_ref
     - flavor_ref
-    - keypair
-    - tenant
-    - token
+    - keypair:
+        sensitive: true
+    - tenant:
+        sensitive: true
+    - token:
+        sensitive: true
     - region
     - network_id:
         required: false
+        sensitive: true
     - network:
         default: >
           ${', "networks" : [{"uuid": "' + network_id + '"}]' if network_id else ''}
         private: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_create_server:

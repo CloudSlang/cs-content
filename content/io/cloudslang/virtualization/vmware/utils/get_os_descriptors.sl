@@ -55,15 +55,19 @@ namespace: io.cloudslang.virtualization.vmware.utils
 operation:
   name: get_os_descriptors
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: '443'
         required: false
+        sensitive: true
     - protocol:
         default: 'https'
         required: false
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - trust_everyone:
         required: false
     - trustEveryone:

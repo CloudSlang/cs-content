@@ -41,14 +41,19 @@ flow:
   name: get_machine_public_ip
   inputs:
     - machine_id
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - arguments:
         required: false
     - character_set:

@@ -34,16 +34,21 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - docker_host
-    - docker_username
+    - docker_host:
+        sensitive: true
+    - docker_username:
+        sensitive: true
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - timeout:
         required: false
     - port:
         required: false
+        sensitive: true
 
   workflow:
      - clear_images:

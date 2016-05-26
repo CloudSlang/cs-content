@@ -24,8 +24,8 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output standard_out: STDOUT of the machine in case of successful request
 #! @output standard_err: STDERR of the machine in case of unsuccessful request
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images
@@ -42,14 +42,19 @@ flow:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
     - image_name
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - command:
         default: ${ 'docker ' + docker_options_expression + 'inspect ' + image_name }
         private: true

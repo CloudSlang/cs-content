@@ -24,8 +24,8 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output return_result: response of the operation
 #! @output error_message: error message
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -38,14 +38,19 @@ flow:
   name: pull_image
   inputs:
     - image_name
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - command:
         default: ${ 'docker pull ' + image_name }
         private: true

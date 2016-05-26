@@ -91,22 +91,33 @@ imports:
 flow:
   name: create_server_flow
   inputs:
-    - host
-    - identity_port: '5000'
-    - compute_port: '8774'
+    - host:
+        sensitive: true
+    - identity_port:
+        default: '5000'
+        sensitive: true
+    - compute_port:
+        default: '8774'
+        sensitive: true
     - username:
         required: false
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
     - tenant_name
     - version: '2'
     - server_name
@@ -125,8 +136,10 @@ flow:
     - admin_pass:
         default: ''
         required: false
+        sensitive: true
     - key_name:
         required: false
+        sensitive: true
     - user_data:
         default: ''
         required: false

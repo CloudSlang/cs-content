@@ -39,16 +39,23 @@ imports:
 flow:
   name: get_cluster_info
   inputs:
-    - swarm_manager_ip
-    - swarm_manager_port
-    - host
+    - swarm_manager_ip:
+        sensitive: true
+    - swarm_manager_port:
+        sensitive: true
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - character_set:
         required: false
     - pty:

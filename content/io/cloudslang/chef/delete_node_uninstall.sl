@@ -35,20 +35,29 @@ flow:
   name: delete_node_uninstall
   inputs:
     - node_name
-    - knife_host
-    - knife_username
+    - knife_host:
+        sensitive: true
+    - knife_username:
+        sensitive: true
     - knife_password:
         required: false
+        sensitive: true
     - knife_privkey:
         required: false
-    - node_host
-    - node_username
+        sensitive: true
+    - node_host:
+        sensitive: true
+    - node_username:
+        sensitive: true
     - node_password:
         required: false
+        sensitive: true
     - node_privkey:
         required: false
+        sensitive: true
     - knife_config:
         required: false
+        sensitive: true
 
   workflow:
     - remove_node_from_chef:

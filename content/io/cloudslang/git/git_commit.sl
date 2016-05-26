@@ -39,17 +39,22 @@ flow:
   name: git_commit
 
   inputs:
-      - host
+      - host:
+          sensitive: true
       - port:
           required: false
-      - username
+          sensitive: true
+      - username:
+          sensitive: true
       - password:
           required: false
+          sensitive: true
       - sudo_user:
           default: false
           required: false
       - private_key_file:
           required: false
+          sensitive: true
       - git_repository_localdir: "/tmp/repo.git"
       - git_commit_files:
           default: "-a"

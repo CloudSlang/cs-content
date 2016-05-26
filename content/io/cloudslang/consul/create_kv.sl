@@ -27,10 +27,12 @@ namespace: io.cloudslang.consul
 operation:
   name: create_kv
   inputs:
-    - host
+    - host:
+        sensitive: true
     - consul_port:
         default: '8500'
         required: false
+        sensitive: true
     - key_name
     - key_value:
         default: ''

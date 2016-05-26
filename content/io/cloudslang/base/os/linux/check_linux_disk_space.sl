@@ -36,18 +36,23 @@ imports:
 flow:
   name: check_linux_disk_space
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: "22"
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - mount:
         default: "/"
         required: false
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - arguments:
         required: false
     - character_set:

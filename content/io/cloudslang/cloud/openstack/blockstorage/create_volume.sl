@@ -46,25 +46,36 @@ imports:
 flow:
   name: create_volume
   inputs:
-    - host
-    - identity_port: '5000'
-    - blockstorage_port: '8776'
+    - host:
+        sensitive: true
+    - identity_port:
+        default: '5000'
+        sensitive: true
+    - blockstorage_port:
+        default: '8776'
+        sensitive: true
     - tenant_name
     - volume_name
     - size
     - username:
         required: false
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - authentication:

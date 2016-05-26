@@ -31,7 +31,8 @@ flow:
   inputs:
     - speech_result_api
     - job_id
-    - api_key
+    - api_key:
+        sensitive: true
 
   workflow:
      - check_status:

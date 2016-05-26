@@ -40,16 +40,23 @@ flow:
 
   inputs:
     - container
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
-    - mysql_username
-    - mysql_password
+        sensitive: true
+    - mysql_username:
+        sensitive: true
+    - mysql_password:
+        sensitive: true
 
   workflow:
     - check_mysql_is_up:

@@ -35,8 +35,10 @@ flow:
   name: make_new_folder
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - folder_name
     - folder_path:
         default: '/home'

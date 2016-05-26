@@ -42,22 +42,28 @@ imports:
 flow:
   name: create_server_flow
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - server_name
     - img_ref
     - flavor_ref
-    - keypair
+    - keypair:
+        sensitive: true
     - region
     - assign_floating:
         default: True
     - network_id:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - polling_attempts:
         default: 60
         required: false

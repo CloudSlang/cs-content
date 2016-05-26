@@ -20,8 +20,10 @@ imports:
 flow:
   name: delete_application
   inputs:
-    - username
+    - username:
+        sensitive: true
     - password
+        sensitive: true
     - app_id_or_name
 
   workflow:

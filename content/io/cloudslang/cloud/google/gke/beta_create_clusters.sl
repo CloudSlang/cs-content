@@ -43,9 +43,12 @@ namespace: io.cloudslang.cloud.google.gke
 operation:
   name: beta_create_clusters
   inputs:
-    - project_id
+    - project_id:
+        sensitive: true
     - zone
-    - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+    - json_google_auth_path:
+        default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+        sensitive: true
     - cluster
 
   python_action:

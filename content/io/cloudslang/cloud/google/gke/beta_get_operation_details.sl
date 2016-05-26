@@ -38,9 +38,12 @@ namespace: io.cloudslang.cloud.google.gke
 operation:
   name: beta_get_operation_details
   inputs:
-    - project_id
+    - project_id:
+        sensitive: true
     - zone
-    - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+    - json_google_auth_path:
+        default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+        sensitive: true
     - operation_id
 
   python_action:

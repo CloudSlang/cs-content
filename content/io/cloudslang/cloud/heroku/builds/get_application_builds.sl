@@ -20,8 +20,10 @@ imports:
 flow:
   name: get_application_builds
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - app_id_or_name
 
   workflow:

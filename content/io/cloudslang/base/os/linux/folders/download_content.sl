@@ -35,8 +35,10 @@ flow:
   name: download_content
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - download_url
     - download_path:
         default: '/root'

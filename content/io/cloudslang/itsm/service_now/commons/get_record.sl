@@ -54,7 +54,8 @@ flow:
   name: get_record
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - protocol:
         required: false
         default: "https"
@@ -71,21 +72,27 @@ flow:
     - username:
         required: false
         default: ''
+        sensitive: true
     - password:
         required: false
         default: ''
+        sensitive: true
     - proxy_host:
         required: false
         default: ''
+        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
+        sensitive: true
     - proxy_username:
         required: false
         default: ''
+        sensitive: true
     - proxy_password:
         required: false
         default: ''
+        sensitive: true
     - connect_timeout:
         default: "0"
         required: false

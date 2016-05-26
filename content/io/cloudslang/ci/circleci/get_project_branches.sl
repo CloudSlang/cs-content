@@ -47,6 +47,8 @@ imports:
 flow:
   name: get_project_branches
   inputs:
+    - token:
+        sensitive: true
     - host:
         default: "circleci.com"
         private: true
@@ -54,10 +56,11 @@ flow:
         default: "https"
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-    - token
+        sensitive: true
     - content_type:
         default: "application/json"
         private: true
@@ -107,4 +110,3 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-

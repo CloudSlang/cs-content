@@ -34,8 +34,10 @@ imports:
 flow:
   name: delete_server_flow
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - server_id
     - region
@@ -45,8 +47,10 @@ flow:
         default: True
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - authentication:

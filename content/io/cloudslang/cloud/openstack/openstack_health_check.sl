@@ -26,16 +26,16 @@
 #! @input to: email recipient
 #! @input from: email sender
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @result SUCCESS: 
-#! @result CREATE_SERVER_FAILURE: 
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: 
-#! @result GET_TENANT_ID_FAILURE: 
-#! @result GET_AUTHENTICATION_FAILURE: 
-#! @result GET_SERVERS_FAILURE: 
-#! @result EXTRACT_SERVERS_FAILURE: 
-#! @result CHECK_SERVER_FAILURE: 
-#! @result SEND_EMAIL_FAILURE: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result CREATE_SERVER_FAILURE:
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE:
+#! @result GET_TENANT_ID_FAILURE:
+#! @result GET_AUTHENTICATION_FAILURE:
+#! @result GET_SERVERS_FAILURE:
+#! @result EXTRACT_SERVERS_FAILURE:
+#! @result CHECK_SERVER_FAILURE:
+#! @result SEND_EMAIL_FAILURE:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -48,24 +48,34 @@ imports:
 flow:
   name: openstack_health_check
   inputs:
-    - host
+    - host:
+        sensitive: true
     - identity_port:
         required: false
+        sensitive: true
     - compute_port:
         required: false
+        sensitive: true
     - network_id:
         required: false
+        sensitive: true
     - server_name: 'test-server'
     - img_ref
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
-    - email_host
-    - email_port
+        sensitive: true
+    - email_host:
+        sensitive: true
+    - email_port:
+        sensitive: true
     - to
     - from
     - uuid

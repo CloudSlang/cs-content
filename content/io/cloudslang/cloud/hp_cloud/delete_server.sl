@@ -32,12 +32,15 @@ flow:
   inputs:
     - server_id
     - tenant
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_delete_server:

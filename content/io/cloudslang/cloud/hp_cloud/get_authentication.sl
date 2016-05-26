@@ -30,14 +30,18 @@ imports:
 flow:
   name: get_authentication
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - tenant_name
     - region
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_get_authentication:
@@ -59,6 +63,8 @@ flow:
           - status_code
 
   outputs:
-    - return_result
+    - return_result:
+        value: ${return_result}
+        sensitive: true
     - error_message
     - status_code

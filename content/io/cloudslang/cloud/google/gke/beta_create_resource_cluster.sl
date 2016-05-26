@@ -16,25 +16,25 @@
 #! @input initial_node_count: The number of nodes to create in this cluster. You must ensure that your Compute Engine
 #!                            resource quota is sufficient for this number of instances. You must also have available
 #!                            firewall and routes quota
-#! @input machine_type: 
-#! @input disk_size_gb: 
-#! @input oauth_scopes: 
-#! @input masterauth_username: 
-#! @input masterauth_password: 
-#! @input logging_service: 
-#! @input monitoring_service: 
-#! @input network: 
-#! @input cluster_ipv4_cidr: 
-#! @input self_link: 
-#! @input endpoint: 
-#! @input initial_cluster_version: 
-#! @input current_master_version: 
-#! @input current_node_version: 
-#! @input create_time: 
-#! @input status: 
-#! @input status_message: 
-#! @input node_ipv4_cidr_size: 
-#! @input services_ipv4_cidr: 
+#! @input machine_type:
+#! @input disk_size_gb:
+#! @input oauth_scopes:
+#! @input masterauth_username:
+#! @input masterauth_password:
+#! @input logging_service:
+#! @input monitoring_service:
+#! @input network:
+#! @input cluster_ipv4_cidr:
+#! @input self_link:
+#! @input endpoint:
+#! @input initial_cluster_version:
+#! @input current_master_version:
+#! @input current_node_version:
+#! @input create_time:
+#! @input status:
+#! @input status_message:
+#! @input node_ipv4_cidr_size:
+#! @input services_ipv4_cidr:
 #! @output return_result: the response of the operation in case of success, the error message otherwise
 #! @output error_message: return_result if return_code is '-1'
 #! @output response: JSON response body containing an instance of Operation
@@ -59,8 +59,10 @@ operation:
         required: false
     - oauth_scopes:
         required: false
-    - masterauth_username
-    - masterauth_password
+    - masterauth_username:
+        sensitive: true
+    - masterauth_password:
+        sensitive: true
     - logging_service:
         required: false
     - monitoring_service:

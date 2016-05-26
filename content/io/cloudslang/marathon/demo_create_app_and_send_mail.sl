@@ -37,24 +37,32 @@ imports:
 flow:
   name: demo_create_app_and_send_mail
   inputs:
-    - email_host
+    - email_host:
+        sensitive: true
     - email_port
+        sensitive: true
     - email_sender
     - email_recipient
     - enable_tls:
         required: false
     - email_username:
         required: false
+        sensitive: true
     - email_password:
         required: false
-    - marathon_host
+        sensitive: true
+    - marathon_host:
+        sensitive: true
     - marathon_port:
         default: "8080"
         required: false
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - json_file
 
   workflow:

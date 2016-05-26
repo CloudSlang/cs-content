@@ -43,14 +43,19 @@ flow:
     - ps_parameters:
         default: ${'-a' if bool(all_containers) else ''}
         private: true
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - character_set:
         required: false
     - pty:

@@ -38,14 +38,19 @@ flow:
   name: add_user_to_sudoers_list
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: "22"
         required: false
-    - password
+        sensitive: true
+    - password:
+        sensitive: true
     - private_key_file:
         required: false
-    - user
+        sensitive: true
+    - user:
+        sensitive: true
 
   workflow:
     - add_user:

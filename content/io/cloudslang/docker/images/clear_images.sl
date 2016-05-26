@@ -24,8 +24,8 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @output response: IDs of the deleted images
 #! @output error_message: error message if exists
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images
@@ -41,15 +41,20 @@ flow:
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - images
     - private_key_file:
         required: false
+        sensitive: true
     - command:
         default: ${ 'docker ' + docker_options_expression + 'rmi ' + images }
         private: true

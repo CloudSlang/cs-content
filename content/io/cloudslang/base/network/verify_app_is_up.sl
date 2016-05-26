@@ -26,8 +26,10 @@ operation:
   name: verify_app_is_up
   inputs:
     - ssl: 0
-    - host
+    - host:
+        sensitive: true
     - port
+        sensitive: true
     - attempts: 1
     - time_to_sleep:
         default: 1

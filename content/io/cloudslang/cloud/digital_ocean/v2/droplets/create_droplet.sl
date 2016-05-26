@@ -49,20 +49,26 @@ flow:
     - image
     - ssh_keys:
         required: false
+        sensitive: true
     - backups: false
     - ipv6: false
     - private_networking: false
     - user_data:
         required: false
-    - token
+    - token:
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

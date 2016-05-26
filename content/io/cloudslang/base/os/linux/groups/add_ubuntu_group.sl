@@ -34,8 +34,10 @@ flow:
   name: add_ubuntu_group
 
   inputs:
-    - host
-    - root_password
+    - host:
+        sensitive: true
+    - root_password:
+        sensitive: true
     - group_name
 
   workflow:

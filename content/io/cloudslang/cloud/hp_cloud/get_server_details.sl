@@ -31,13 +31,17 @@ flow:
   name: get_server_details
   inputs:
     - server_id
-    - tenant
-    - token
+    - tenant:
+        sensitive: true
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_get_server_details:

@@ -39,52 +39,74 @@ operation:
   inputs:
     - source_host:
         required: false
+        sensitive: true
     - sourceHost:
         default: ${get("source_host", "")}
         private: true
+        sensitive: true
     - source_path
     - sourcePath: ${source_path}
     - source_port:
         required: false
+        sensitive: true
     - sourcePort:
         default: ${get("source_port", "22")}
         private: true
+        sensitive: true
     - source_username:
         required: false
+        sensitive: true
     - sourceUsername:
         default: ${get("source_username", "")}
         private: true
+        sensitive: true
     - source_password:
         required: false
+        sensitive: true
     - sourcePassword:
         default: ${get("source_password", "")}
         private: true
+        sensitive: true
     - source_private_key_file:
         required: false
+        sensitive: true
     - sourcePrivateKeyFile:
         default: ${get("source_private_key_file", "")}
         private: true
-    - destination_host
-    - destinationHost: ${destination_host}
+        sensitive: true
+    - destination_host:
+        sensitive: true
+    - destinationHost:
+        default: ${destination_host}
+        sensitive: true
     - destination_path
     - destinationPath: ${destination_path}
     - destination_port:
         required: false
+        sensitive: true
     - destinationPort:
         default: ${get("destination_port", "22")}
         private: true
-    - destination_username
-    - destinationUsername: ${destination_username}
+        sensitive: true
+    - destination_username:
+        sensitive: true
+    - destinationUsername:
+        default: ${destination_username}
+        sensitive: true
     - destination_password:
         required: false
+        sensitive: true
     - destinationPassword:
         default: ${get("destination_password", "")}
         private: true
+        sensitive: true
     - destination_private_key_file:
         required: false
+        sensitive: true
     - destinationPrivateKeyFile:
         default: ${get("destination_private_key_file", "")}
         private: true
+        sensitive: true
     - known_hosts_policy:
         required: false
     - knownHostsPolicy:

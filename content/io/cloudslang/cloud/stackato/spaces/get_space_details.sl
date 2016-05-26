@@ -46,19 +46,26 @@ imports:
 flow:
   name: get_space_details
   inputs:
-    - host
-    - username
-    - password
+    - host:
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - space_name
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - get_spaces_step:

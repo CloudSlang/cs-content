@@ -20,8 +20,10 @@ imports:
 flow:
   name: delete_domain
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - app_id_or_name
     - domain_id_or_hostname
 

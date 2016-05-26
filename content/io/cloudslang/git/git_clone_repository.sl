@@ -38,12 +38,16 @@ flow:
   name: git_clone_repository
 
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - git_repository
     - git_repository_localdir: "/tmp/repo.git"
     - sudo_user:
@@ -51,6 +55,7 @@ flow:
         required: false
     - private_key_file:
         required: false
+        sensitive: true
 
   workflow:
     - git_clone:

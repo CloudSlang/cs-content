@@ -73,15 +73,19 @@ namespace: io.cloudslang.virtualization.vmware.guest
 operation:
   name: customize_linux_guest
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: '443'
         required: false
+        sensitive: true
     - protocol:
         default: 'https'
         required: false
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - trust_everyone:
         required: false
     - trustEveryone:

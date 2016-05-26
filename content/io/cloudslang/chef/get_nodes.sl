@@ -26,14 +26,19 @@ namespace: io.cloudslang.chef
 flow:
   name: get_nodes
   inputs:
-    - knife_host
-    - knife_username
+    - knife_host:
+        sensitive: true
+    - knife_username:
+        sensitive: true
     - knife_privkey:
         required: false
+        sensitive: true
     - knife_password:
         required: false
+        sensitive: true
     - knife_config:
         required: false
+        sensitive: true
 
   workflow:
     - get_nodes_list:

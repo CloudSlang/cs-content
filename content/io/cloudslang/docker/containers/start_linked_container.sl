@@ -45,14 +45,19 @@ flow:
     - cmd_params
     - container_cmd:
         required: false
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+        sensitive: true
     - arguments:
         required: false
     - character_set:

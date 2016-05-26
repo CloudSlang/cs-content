@@ -37,10 +37,12 @@ imports:
 flow:
   name: update_account
   inputs:
-    - username
+    - username:
+        sensitive: true
     - password:
         default: None
         required: false
+        sensitive: true
     - allow_tracking:
         default: True
         required: false

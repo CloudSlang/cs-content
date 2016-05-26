@@ -64,17 +64,21 @@ imports:
 flow:
   name: get_failed_build
   inputs:
-    - token
+    - token:
+        sensitive: true
     - protocol
     - host:
         default: "circleci.com"
         private: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - project
     - branch
     - content_type:
@@ -85,8 +89,10 @@ flow:
         private: true
     - committer_email
     - supervisor
-    - hostname
-    - port
+    - hostname:
+        sensitive: true
+    - port:
+        sensitive: true
     - from
     - to
     - cc:

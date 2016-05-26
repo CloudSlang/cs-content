@@ -109,15 +109,19 @@ imports:
 flow:
   name: virtual_machine_lifecycle
   inputs:
-    - host
+    - host:
+        sensitive: true
     - port:
         default: '443'
         required: false
+        sensitive: true
     - protocol:
         default: 'https'
         required: false
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - trust_everyone:
         default: 'true'
         required: false
@@ -153,10 +157,14 @@ flow:
     - delimiter:
         default: ','
         required: false
-    - email_host
-    - email_port
-    - email_username
-    - email_password
+    - email_host:
+        sensitive: true
+    - email_port:
+        sensitive: true
+    - email_username:
+        sensitive: true
+    - email_password:
+        sensitive: true
     - email_sender
     - email_recipient
 

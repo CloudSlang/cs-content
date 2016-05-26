@@ -48,19 +48,26 @@ imports:
 flow:
   name: get_application_details
   inputs:
-    - host
-    - username
-    - password
+    - host:
+        sensitive: true
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - application_name
     - proxy_host:
-        required: false
+        required: false:
+        sensitive: true
     - proxy_port:
         default: '8080'
-        required: false
+        required: false:
+        sensitive: true
     - proxy_username:
-        required: false
+        required: false:
+        sensitive: true
     - proxy_password:
-        required: false
+        required: false:
+        sensitive: true
 
   workflow:
     - get_applications_step:

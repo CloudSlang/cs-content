@@ -46,17 +46,23 @@ flow:
         required: false
     - username:
         required: false
+        sensitive: true
     - password:
         required: false
     - proxy_host:
+    sensitive: true
         required: false
+        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: "0"
         required: false

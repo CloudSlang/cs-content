@@ -31,15 +31,21 @@ imports:
 flow:
   name: add_ip_to_server
   inputs:
-    - ip_address
-    - server_id
-    - tenant
-    - token
+    - ip_address:
+        sensitive: true
+    - server_id:
+        sensitive: true
+    - tenant:
+        sensitive: true
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
 
   workflow:
     - rest_add_ip_to_server:

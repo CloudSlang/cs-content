@@ -33,15 +33,20 @@ flow:
   inputs:
     - time_to_live: 150
     - name_pattern: 'ci-([0-9]+)-coreos-([0-9]+)'
-    - token
+    - token:
+        sensitive: true
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - proxy_username:
         required: false
+        sensitive: true
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

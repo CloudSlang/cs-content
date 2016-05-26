@@ -23,8 +23,8 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output dangling_image_list: list of names of dangling Docker images
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -41,14 +41,19 @@ flow:
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
-    - host
+    - host:
+        sensitive: true
     - port:
         required: false
-    - username
+        sensitive: true
+    - username:
+        sensitive: true
     - password:
         required: false
+        sensitive: true
     - private_key_file:
          required: false
+         sensitive: true
     - command:
         default: >
           ${ "docker " + docker_options_expression + "images -f \"dangling=true\"" }

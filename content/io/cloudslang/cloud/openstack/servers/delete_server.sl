@@ -28,21 +28,30 @@ namespace: io.cloudslang.cloud.openstack.servers
 operation:
   name: delete_server
   inputs:
-    - host
-    - compute_port: '8774'
-    - token
-    - tenant_id
+    - host:
+        sensitive: true
+    - compute_port:
+        default: '8774'
+        sensitive: true
+    - token:
+        sensitive: true
+    - tenant_id:
+        sensitive: true
     - server_id
     - proxy_host:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
+        sensitive: true
     - proxyHost:
-        default: ${proxy_host if proxy_host else ''}
+        default: ${get("proxy_host", "")}
         private: true
+        sensitive: true
     - proxyPort:
-        default: ${proxy_port if proxy_port else ''}
+        default: ${get("proxy_port", "")}
         private: true
+        sensitive: true
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}
         private: true
