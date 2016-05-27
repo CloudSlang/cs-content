@@ -1,0 +1,50 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testVerifyUrlIsAccessible_Success:
+  inputs:
+    - url: 'http://www.google.com'
+    - time_to_sleep: '1'
+  description: Tests that verify_url_is_accessible.sl operation does not contain an error message
+  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+testVerifyUrlIsAccessible_Failure_unreachable_url:
+  inputs:
+    - url: 'http://www.goog345le.com'
+    - time_to_sleep: '1'
+  description: Tests that verify_url_is_accessible.sl operation fails with unreachable input data
+  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  outputs:
+    - return_code: '-1'
+    - output_message: 'Url is not accessible'
+  result: FAILURE
+
+testVerifyUrlIsAccessible_Failure_Negative_TimeToSleep:
+  inputs:
+    - url: 'http://www.google.com'
+    - time_to_sleep: '-2'
+  description: Tests that verify_url_is_accessible.sl operation fails with -2 time_to_sleep
+  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  result: FAILURE
+
+testVerifyUrlIsAccessible_Exception_wrong_data:
+  inputs:
+    - url: 'http://wwww.google.com'
+    - time_to_sleep: 'aa'
+  description: Tests that verify_url_is_accessible.sl operation goes to FAILURE with inappropriate input data
+  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  result: FAILURE
+
+testVerifyUrlIsAccessible_Exception_missing_data:
+  inputs:
+  description: Tests that verify_url_is_accessible.sl operation throws exception with missing input data
+  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  throwsException: true

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,6 +11,8 @@ testSleepSuccess:
     - seconds: '0.1'
   description: Tests that sleep.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.sleep
+  outputs:
+    - message: 'sleep completed successfully'
   result: SUCCESS
 
 testSleepConversionException:
@@ -18,7 +20,9 @@ testSleepConversionException:
     - seconds: 'sd'
   description: Tests that sleep.sl operation throws an exception when seconds cannot be converted to float
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepNoRequiredInputException:
   description: Tests that sleep.sl operation throws an exception when required inputs is not given
@@ -30,6 +34,8 @@ testSleepTwoSecondsSuccess:
     - seconds: '2'
   description: Tests that sleep.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.sleep
+  outputs:
+    - message: 'sleep completed successfully'
   result: SUCCESS
 
 testSleep100SecondsSuccess:
@@ -37,6 +43,8 @@ testSleep100SecondsSuccess:
     - seconds: '10'
   description: Tests that sleep.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.sleep
+  outputs:
+    - message: 'sleep completed successfully'
   result: SUCCESS
 
 testSleepNegativeNumbers:
@@ -44,53 +52,67 @@ testSleepNegativeNumbers:
     - seconds: '-3'
   description: Tests that sleep.sl operation throws an exception when input contains negative values
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'timeout value is negative'
+  result: FAILURE
 
 testSleepInvalidInput:
   inputs:
     - seconds: '1abc4'
   description: Tests that sleep.sl operation throws an exception when an invalid input is given
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepEmptyStringInput:
   inputs:
     - seconds: ''
   description: Tests that sleep.sl operation throws an exception when input contains empty value
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepWhiteSpaceInput:
   inputs:
     - seconds: ' '
   description: Tests that sleep.sl operation throws an exception when input contains white spaces
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepWhiteSpaceBetweenNumbers:
   inputs:
     - seconds: '1 1'
   description: Tests that sleep.sl operation throws an exception when digits are separated by white space
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  result: FAILURE
 
 testSleepSpecialCharacters:
   inputs:
     - seconds: '!@#$$%^'
   description: Tests that sleep.sl operation throws an exception when input contains special characters
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepUsingTwoDots:
   inputs:
     - seconds: '1..55'
   description: Tests that sleep.sl operation throws an exception when input contains two dots
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE
 
 testSleepUsingOneDot:
   inputs:
     - seconds: '.'
   description: Tests that sleep.sl operation throws an exception when '.' is given as input
   testFlowPath: io.cloudslang.base.utils.sleep
-  throwsException: true
+  outputs:
+    - error_message: 'invalid input value'
+  result: FAILURE

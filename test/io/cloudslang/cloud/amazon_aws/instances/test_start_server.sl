@@ -57,6 +57,7 @@ flow:
             - seconds
         navigate:
           - SUCCESS: list_amazon_instances
+          - FAILURE: START_FAILURE
 
     - list_amazon_instances:
         do:

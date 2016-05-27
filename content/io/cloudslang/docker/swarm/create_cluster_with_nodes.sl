@@ -169,6 +169,7 @@ flow:
             - seconds: ${time_to_sleep}
         navigate:
           - SUCCESS: get_number_of_nodes_in_cluster
+          - FAILURE: NODES_NOT_ADDED
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
