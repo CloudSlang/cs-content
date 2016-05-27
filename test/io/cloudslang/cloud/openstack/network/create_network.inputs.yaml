@@ -1,0 +1,33 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testCreateNetworkSuccess:
+  inputs:
+    - token: "bfac42e673b34be897a5f3965743d62d"
+    - host: "https://stack-9161.hpswlabs.adapps.hp.com"
+    - port: "9696"
+    - protocol: ""
+    - username: ""
+    - password: ""
+    - proxy_host: ""
+    - proxy_port: ""
+    - proxy_username: ""
+    - proxy_password: ""
+    - trust_all_roots: "true"
+    - x509_hostname_verifier: ""
+    - trust_keystore: ""
+    - trust_password: ""
+    - keystore: ""
+    - keystore_password: ""
+    - connect_timeout: ""
+    - socket_timeout: ""
+    - request_body: "{\n    \"network\": {\n        \"admin_state_up\": true\n    }\n}"
+
+  description: Test that creates a new network
+  testFlowPath: io.cloudslang.cloud.openstack.network.create_network
+  result: SUCCESS
