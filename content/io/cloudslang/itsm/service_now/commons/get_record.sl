@@ -7,24 +7,24 @@
 #
 ####################################################
 #!!
-#! @description: This flow is used to perform a REST Get request to any ServiceNow table.
-#! @input host: required - The URL of the ServiceNow instance
+#! @description: Performs a REST Get request to any ServiceNow table.
+#! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
-#! @input protocol: optional - The protocol that is used to send the request
+#! @input protocol: optional - protocol that is used to send the request
 #!                  Valid: https Obs: ServiceNow uses only this protocol
 #!                  Default: https
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'anonymous' (When OAuth token is provided). Obs: ServiceNow uses only these
 #!                   Default: 'basic'
-#! @input api_version: optional - the servicenow api version to be used for the call
+#! @input api_version: optional - servicenow api version to be used for the call
 #!                     Example: 'v1'
 #!                     Default: ''
-#! @input system_id: optional - The System ID of the item for which details should be returned. When this input is left empty, the flow returns the details of multiple items.
+#! @input system_id: optional - System ID of the item for which details should be returned. When this input is left empty, the flow returns the details of multiple items.
 #!                   Example: 71c7ac460f811200ff7eb17ce1050e7a
-#! @input table_name: required - the name of the servicenow table which should be used for the request.
+#! @input table_name: required - name of the servicenow table which should be used for the request.
 #!                    Example: 'incident', 'change', 'request'
-#! @input username: optional - The ServiceNow username used to perform the request.
-#! @input password: optional - The ServiceNow password used to perform the request.
+#! @input username: optional - ServiceNow username used to perform the request.
+#! @input password: optional - ServiceNow password used to perform the request.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
@@ -33,7 +33,7 @@
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
-#!                 headers (RFC 2616) - Default: 'application/sjon'
+#!                 headers (RFC 2616) - Default: 'application/json'
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the

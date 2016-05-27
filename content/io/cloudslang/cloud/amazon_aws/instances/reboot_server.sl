@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,28 +7,29 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
-#!               and changes its status to ACTIVE. PAUSED and SUSPENDED servers (instances) cannot be started.
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to soft reboot a server (instance).
+#!               In a soft reboot the operating system is signaled to restart, which allows for a graceful shutdown of
+#!               all processes
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: the endpoint to which request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be started can be found. list_regions operation
+#! @input region: optional - the region where the server (instance) to be rebooted can be found. list_regions operation
 #!                can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to start
+#! @input server_id: the ID of the server (instance) you want to reboot
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the server (instance) was successfully started
-#! @result FAILURE: an error occurred when trying to start a server (instance)
+#! @result SUCCESS: the server (instance) was successfully suspended
+#! @result FAILURE: an error occurred when trying to suspend a server (instance)
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: start_server
+  name: reboot_server
 
   inputs:
     - provider: 'amazon'
@@ -54,13 +55,13 @@ operation:
         private: true
 
   java_action:
-    class_name: io.cloudslang.content.jclouds.actions.StartServerAction
+    class_name: io.cloudslang.content.jclouds.actions.instances.SoftRebootAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if 'exception' not in locals() else exception}
+    - exception: ${exception if exception in locals() else ''}
 
   results:
     - SUCCESS: ${returnCode == '0'}

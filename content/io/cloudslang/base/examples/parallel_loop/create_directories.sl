@@ -1,8 +1,8 @@
 
 ####################################################
 #!!
-#! @description: How Do I Parallel Loop Flow Example
-#! The flow creates directories in parallel loop
+#! @description: Example of using a parallel loop.
+#! The flow creates directories in a parallel loop.
 #! @input base_dir_name: path of base name of created directories
 #! @input num_of_directories: number of directories to create - Default: 10
 #!!#

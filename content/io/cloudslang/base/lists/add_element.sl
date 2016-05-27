@@ -7,12 +7,12 @@
 #
 ####################################################
 #!!
-#! @description: Add element to list or set.
-#! @input list: List in which we need to add the element  - Example: [123, 'xyz']
-#! @input element: The element we want to add to the list.
-#! @input unique_element: The element we want to add to the set. 
-#! @output result: list or Set with new element.
-#! @output error_message: Error message if unique_element is already in list.
+#! @description: Adds an element to a list or set.
+#! @input list: list in which to add the element - Example: [123, 'xyz']
+#! @input element: element to add to the list
+#! @input unique_element: element to add to the set
+#! @output result: list or set with new element
+#! @output error_message: error message if unique_element is already in list
 #!!#
 ####################################################
 
@@ -43,7 +43,7 @@ operation:
   outputs:
     - result: ${list}
     - error_message
-  
+
   results:
     - SUCCESS: ${error_message == ""}
     - FAILURE

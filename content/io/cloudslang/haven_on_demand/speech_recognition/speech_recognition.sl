@@ -8,12 +8,12 @@
 #
 ####################################################
 #!!
-#! @description: Makes Speech Recognision by HPE Haven OnDemand API.
-#! @input speech_api: Speech Recognision API
+#! @description: Makes a call to the Speech Recognition by HPE Haven OnDemand API.
+#! @input speech_api: speech Recognition API
 #! @output job_id: name of request, which is returned by havenondemand.com
 #!!#
 ####################################################
-namespace: io.cloudslang.haven_on_demand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   rest: io.cloudslang.base.http
@@ -21,7 +21,7 @@ imports:
   base: io.cloudslang.base.print
 
 flow:
-  name: speech_recognision
+  name: speech_recognition
 
   inputs:
     - speech_api

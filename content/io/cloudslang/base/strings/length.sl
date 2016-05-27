@@ -6,8 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Appends text to string.
-#! @input string: string   - Example: "good"
+#! @description: Gets the length of a string.
+#! @input string: string - Example: "good"
 #! @output result: length of string
 #! @result SUCCESS: always
 #!!#

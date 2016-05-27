@@ -91,6 +91,7 @@
 #! @output error_message: return_result when the return_code is non-zero (e.g. network or other failure)
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#! @output response_headers: response headers string from the HTTP Client REST call
 #! @result SUCCESS: operation succeeded (statusCode is contained in valid_http_status_codes list)
 #! @result FAILURE: otherwise
 #!!#

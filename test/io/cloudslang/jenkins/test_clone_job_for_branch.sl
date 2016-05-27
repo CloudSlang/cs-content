@@ -50,6 +50,8 @@ flow:
             - seconds: 10
         navigate:
           - SUCCESS: get_last_buildnumber
+          - FAILURE: FAIL_TO_GET_BUILDNUMBER
+
     - get_last_buildnumber:
         do:
           get_last_buildnumber:
