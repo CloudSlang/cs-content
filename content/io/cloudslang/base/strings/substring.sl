@@ -32,7 +32,7 @@
         elif begin_index < max_index-1 and end_index < max_index and end_index > begin_index:
            new_string=origin_string[begin_index:end_index]
         else:
-          error_message="Indexes must be: end_index > begin_index, begin_index < " + str(max_index-1) + ", end_index < " + str(max_index)
+          error_message="Indexes must be end_index > begin_index, begin_index < " + str(max_index-1) + ", end_index < " + str(max_index)
 
    outputs:
       - new_string
