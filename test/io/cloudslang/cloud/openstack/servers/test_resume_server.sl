@@ -80,6 +80,7 @@ flow:
             - seconds: '10'
         navigate:
           - SUCCESS: get_server_details
+          - FAILURE: RESUME_SERVER_FAILURE
 
     - get_server_details:
         do:
