@@ -35,7 +35,7 @@ testSubstringFailure:
   description: Tests that substring.sl operation finishes with error_message = beginIndex must be less than 9. endIndex must be less than 11 and big than 0
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: beginIndex must be less than 9. endIndex must be less than 11 and big than 0
+    - error_message: Indexes must be end_index > begin_index, begin_index < 9, end_index < 10
   result: FAILURE
 
 testSubstringDefault:
