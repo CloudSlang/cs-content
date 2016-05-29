@@ -25,6 +25,7 @@ operation:
     - second_string
     - ignore_case:
          default: false
+         required: false
 
   python_action:
     script: |
