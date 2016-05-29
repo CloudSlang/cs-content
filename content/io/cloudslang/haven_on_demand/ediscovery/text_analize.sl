@@ -40,7 +40,7 @@ flow:
                 - reference
 
           publish:
-              - error_message: ${'step text_extraction faild '+ error_message if error_message != None else ""}
+              - error_message: ${'step text_extraction failed '+ error_message if error_message != None else ""}
               - document
               - return_code
 
@@ -51,7 +51,7 @@ flow:
                  - api_key
                  - reference
            publish:
-              - error_message: ${"step entity_extraction faild "+ error_message if error_message!= None else ""}
+              - error_message: ${"step entity_extraction failed "+ error_message if error_message!= None else ""}
               - date: ${result if error_message == "" else " "}
 
       - document_categorization:
@@ -62,7 +62,7 @@ flow:
                   - index: ${categorization_index}
 
             publish:
-              - error_message: ${'step document_categorization was faild '+ error_message if error_message!= None else ""}
+              - error_message: ${'step document_categorization was failed '+ error_message if error_message!= None else ""}
               - additional_info
               - booleanrestriction
 
@@ -71,7 +71,7 @@ flow:
                ediscovery.create_metadata:
                   - value: ${[date,additional_info]}
             publish:
-              - error_message: ${'step create_metadata_for_doc faild ' + error_message if error_message!= None else ""}
+              - error_message: ${'step create_metadata_for_doc failed ' + error_message if error_message!= None else ""}
               - json_data: ${json_data}
 
       - unstructured text indexing:
@@ -81,7 +81,7 @@ flow:
                  - index: ${standart_index}
                  - additional_metadata: ${json_data}
            publish:
-              - error_message: ${'step add_to_text_index was faild '+ str(error_message) if error_message!= None else ""}
+              - error_message: ${'step add_to_text_index was failed '+ str(error_message) if error_message!= None else ""}
               - result
 
 

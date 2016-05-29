@@ -45,7 +45,7 @@ flow:
                - api_key
                - file
           publish:
-              - error_message: ${'step FORMAT CONVENSION was faild '+ str(error_message) if error_message!=None else ""}
+              - error_message: ${'step FORMAT CONVENSION was failed '+ str(error_message) if error_message!=None else ""}
               - return_code
               - references
           navigate:
@@ -62,7 +62,7 @@ flow:
                   - categorization_index
                   - standart_index
              publish:
-               - error_message: ${'step TEXT ANALIZE was faild '+ str(error_message) if error_message!=None else ""}
+               - error_message: ${'step TEXT ANALIZE was failed '+ str(error_message) if error_message!=None else ""}
              navigate:
                - SUCCESS: SEARCH
                - FAILURE: FAILURE
@@ -75,7 +75,7 @@ flow:
                 - indexes: ${standart_index}
           publish:
              - references: ${references[1:]}
-             - error_message: ${'step SEARCH was faild '+ str(error_message) if error_message!=None else ""}
+             - error_message: ${'step SEARCH was failed '+ str(error_message) if error_message!=None else ""}
           navigate:
             - SUCCESS: PRINT RESULTS
             - FAILURE: FAILURE
@@ -88,7 +88,7 @@ flow:
                  - api_key
                  - reference
             publish:
-              - error_message: ${'step PRINT RESULTS was faild '+ str(error_message) if error_message!=None else ""}
+              - error_message: ${'step PRINT RESULTS was failed '+ str(error_message) if error_message!=None else ""}
 
       - on_failure:
             - print_fail:
