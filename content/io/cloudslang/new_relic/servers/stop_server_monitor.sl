@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Starts the Server Monitor daemon on a remote Linux host
+#! @description: Stops the Server Monitor daemon on a remote Linux host
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input username: username to connect as

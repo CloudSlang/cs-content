@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
 flow:
-  name: test_start_server
+  name: test_stop_server
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
@@ -36,9 +36,9 @@ flow:
         required: false
 
   workflow:
-    - start_server:
+    - stop_server:
         do:
-          start_server:
+          stop_server:
             - provider
             - endpoint
             - identity
@@ -49,7 +49,7 @@ flow:
             - proxy_port
         navigate:
           - SUCCESS: sleep
-          - FAILURE: START_FAILURE
+          - FAILURE: STOP_FAILURE
 
     - sleep:
         do:
@@ -57,6 +57,7 @@ flow:
             - seconds
         navigate:
           - SUCCESS: list_amazon_instances
+          - FAILURE: STOPPED_FAILURE
 
     - list_amazon_instances:
         do:
@@ -81,13 +82,13 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: ${server_id + ', state=running'}
+            - string_to_find: ${server_id + ', state=stopped'}
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: RUNNING_FAILURE
+          - FAILURE: STOPPED_FAILURE
 
   results:
     - SUCCESS
-    - START_FAILURE
+    - STOP_FAILURE
     - LIST_FAILURE
-    - RUNNING_FAILURE
+    - STOPPED_FAILURE

@@ -6,9 +6,10 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Trims sring.
- #! @input string: string   - Example: " good "
- #! @output result: string in which all whitespace characters have been stripped of both sides of the string
+ #! @description: Trims given string.
+ #! @input string: original string - Example: " good "
+ #! @output result: string in which all whitespace characters have been stripped
+ #!                 off both sides of the string - Example: "good"
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings

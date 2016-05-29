@@ -9,7 +9,7 @@
 testSubstringEndSuccess:
   inputs:
     - string: 'good morning'
-    - endIndex: 4
+    - end_index: 4
   description: Tests that substring.sl operation finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
@@ -19,8 +19,8 @@ testSubstringEndSuccess:
 testSubstringSuccess:
   inputs:
     - string: 'mmmSPAMmmm'
-    - beginIndex: 3
-    - endIndex: 7
+    - begin_index: 3
+    - end_index: 7
   description: Tests that substring.sl operation finishes with result = 'SPAM'
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
@@ -30,12 +30,12 @@ testSubstringSuccess:
 testSubstringFailure:
   inputs:
     - string: 'mmmSPAMmmm'
-    - beginIndex: 3
-    - endIndex: 12
-  description: Tests that substring.sl operation finishes with error_message = beginIndex must be less than 9. endIndex must be less than 11 and big than 0
+    - begin_index: 3
+    - end_index: 12
+  description: Tests that substring.sl operation finishes with error_message = begin_index must be less than 9. end_index must be less than 11 and big than 0
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: beginIndex must be less than 9. endIndex must be less than 11 and big than 0
+    - error_message: begin_index must be less than 9. end_index must be less than 11 and big than 0
   result: FAILURE
 
 testSubstringDefault:

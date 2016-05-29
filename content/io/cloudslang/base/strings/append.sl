@@ -6,9 +6,9 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Appends text to string.
-#! @input string: string   - Example: "good"
-#! @input text: text which need to be appended - Example: " morning"
+#! @description: Appends text to a string.
+#! @input string: original string - Example: "good"
+#! @input text: text to be appended - Example: " morning"
 #! @output result: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#

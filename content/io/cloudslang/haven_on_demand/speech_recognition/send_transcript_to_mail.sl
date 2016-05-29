@@ -8,10 +8,10 @@
 #
 ####################################################
 #!!
-#! @description: Sends to email transcript of the text in an audio or video file, with was created by Speech Recognition API.
+#! @description: Sends to email transcript of the text in an audio or video file, which was created by the Speech Recognition API.
 #! @input api_key: user's API Keys
-#! @input speech_api:  Speech Recognision API
-#! @input file: path to video/audio, which recognising
+#! @input speech_api:  Speech Recognition API
+#! @input file: path to video/audio
 #! @input speech_result_api: API which waits until the job has finished and then returns the result
 #! @input hostname: email host
 #! @input port: email port
@@ -20,7 +20,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.haven_on_demand.speech_recognision
+namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   http: io.cloudslang.base.http
@@ -46,7 +46,7 @@ flow:
 
     - start_connection:
           do:
-            speech_recognision:
+            speech_recognition:
                - speech_api
                - file
                - api_key
@@ -55,7 +55,7 @@ flow:
              - job_id
              - error_message
 
-    - get_result_of_recognision:
+    - get_result_of_recognition:
            do:
              check_status:
                - speech_result_api
@@ -74,7 +74,7 @@ flow:
             - port
             - from
             - to
-            - subject: "${'Result of recognision ' + str(file)}"
+            - subject: "${'Result of recognition ' + str(file)}"
             - body: >
                 ${'Description: ' + str(transcript) + '\n'}
         publish:
