@@ -6,10 +6,10 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Substring sring from beginIndex to endIndex.
+ #! @description: Substring string from begin_index to end_index.
  #! @input origin_string: origin_string - Example: "good morning"
- #! @input begin_index - position in string from which we want to cut - Example: 0 (the first index = 0)
- #! @output end_index: position in string to which we want to cut - Example: 4 (new string will not include endIndex)
+ #! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
+ #! @output end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
  #! @output new_string: new string - Example: "good"
  #!!#
  ####################################################
