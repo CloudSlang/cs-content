@@ -44,8 +44,8 @@ flow:
         sensitive: true
     - username:
         required: false
+        sensitive: true
     - password:
-    sensitive: true
         required: false
         sensitive: true
     - proxy_host:

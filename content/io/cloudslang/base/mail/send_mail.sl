@@ -37,7 +37,7 @@ operation:
   inputs:
     - hostname:
         sensitive: true
-    - port
+    - port:
         sensitive: true
     - from
     - to

@@ -39,7 +39,7 @@ flow:
   inputs:
     - email_host:
         sensitive: true
-    - email_port
+    - email_port:
         sensitive: true
     - email_sender
     - email_recipient

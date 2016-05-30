@@ -57,8 +57,8 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+        sensitive: true
     - region:
-    sensitive: true
         default: 'us-east-1'
         required: false
     - availability_zone:

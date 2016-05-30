@@ -46,7 +46,7 @@ operation:
         default: '-'
         required: false
     - json_google_auth_path:
-        defualt: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+        default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
         sensitive: true
     - cluster_id
 

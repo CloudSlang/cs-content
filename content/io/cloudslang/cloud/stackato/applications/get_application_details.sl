@@ -56,17 +56,17 @@ flow:
         sensitive: true
     - application_name
     - proxy_host:
-        required: false:
+        required: false
         sensitive: true
     - proxy_port:
         default: '8080'
-        required: false:
+        required: false
         sensitive: true
     - proxy_username:
-        required: false:
+        required: false
         sensitive: true
     - proxy_password:
-        required: false:
+        required: false
         sensitive: true
 
   workflow:

@@ -28,7 +28,7 @@ operation:
     - ssl: 0
     - host:
         sensitive: true
-    - port
+    - port:
         sensitive: true
     - attempts: 1
     - time_to_sleep:
