@@ -70,7 +70,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content.vmware.actions.guest:0.0.4'
+    gav: 'io.cloudslang.content:score-vmware:0.0.4'
     class_name: io.cloudslang.content.vmware.actions.guest.MountTools
     method_name: mountTools
 

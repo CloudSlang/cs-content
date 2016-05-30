@@ -11,7 +11,7 @@
 #!               Note: The productCodes attribute can't be reset.
 #! @input provider: Cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
+#! @input identity: optional - Amazo Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
@@ -58,7 +58,7 @@ operation:
     - imageId: ${image_id}
 
   java_action:
-    gav: 'io.cloudslang.content.jclouds.actions.images:0.0.4'
+    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
     class_name: io.cloudslang.content.jclouds.actions.images.ResetLaunchPermissionsOnImageAction
     method_name: execute
 

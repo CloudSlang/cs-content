@@ -73,7 +73,7 @@ operation:
         default: ${get("agent_forwarding", "")}
         private: true
   java_action:
-    gav: 'io.cloudslang.content.ssh.actions:0.0.32'
+    gav: 'io.cloudslang.content:score-ssh:0.0.32'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
   outputs:
