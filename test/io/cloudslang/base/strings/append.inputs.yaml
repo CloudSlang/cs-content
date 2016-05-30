@@ -8,42 +8,42 @@
 ####################################################
 testAppendSuccess:
   inputs:
-    - string: "Good "
+    - origin_string: "Good "
     - text: "morning!"
   description: Tests that append.sl operation finishes with result = "Good morning!"
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
-    - result: "Good morning!"
+    - new_string: "Good morning!"
   result: SUCCESS
 
 testAppendSpecialCharacters:
   inputs:
-    - string: error
+    - origin_string: error
     - text: 't%&e$\"'
   description: Tests that append.sl operation finishes with result = errort%&e$\"
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
-    - result: 'errort%&e$\"'
+    - new_string: 'errort%&e$\"'
   result: SUCCESS
 
 testAppendStringWhichContainsWhitespaces:
   inputs:
-    - string:  'aaa aaa'
+    - origin_string:  'aaa aaa'
     - text: 'bbb'
   description: Tests that append.sl operation finishes with success when string input contains whitespaces.
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
-    - result: 'aaa aaabbb'
+    - new_string: 'aaa aaabbb'
   result: SUCCESS
 
 testAppendEmptyValueString:
   inputs:
-    - string: ''
+    - origin_string: ''
     - text: 'text'
   description: Tests that append.sl operation finishes with SUCCESS when string input contains empty value.
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
-    - result: 'text'
+    - new_string: 'text'
   result: SUCCESS
 
 testAppendMissingInputs:
@@ -62,10 +62,10 @@ testAppendMissingInput:
 
 testAppendStringWhichContainsDigits:
   inputs:
-    - string:  '123text45'
+    - origin_string: '123text45'
     - text: '23T'
   description: Tests that append.sl operation finishes with success when inputs contain digits.
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
-    - result: '123text4523T'
+    - new_string: '123text4523T'
   result: SUCCESS
