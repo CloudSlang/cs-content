@@ -16,7 +16,7 @@
 namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
-  rest: io.cloudslang.base.http
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
 
@@ -32,7 +32,7 @@ flow:
 
     - connect_to_server:
         do:
-          rest.http_client_action:
+          http.http_client_action:
             - url: ${speech_api}
             - method: POST
             - multipart_bodies: ${"apikey=" + str(api_key)}

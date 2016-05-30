@@ -21,7 +21,7 @@
 namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
-  rest: io.cloudslang.base.http
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   base: io.cloudslang.base.print
@@ -36,7 +36,7 @@ flow:
   workflow:
      - check_status:
           do:
-            rest.http_client_get:
+            http.http_client_get:
                - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
 
           publish:
@@ -52,7 +52,7 @@ flow:
           loop:
              for: counter in range (0,5)
              do:
-              rest.http_client_get:
+              http.http_client_get:
                  - url: ${str(speech_result_api) + str(job_id) + "?apikey=" + str(api_key)}
 
              publish:
