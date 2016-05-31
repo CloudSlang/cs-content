@@ -61,4 +61,20 @@ testStringEqualsSpecialCharacters:
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
+testStringEqualsIgnoreCaseSuccess:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: true
+    description: Tests that string_equals.sl operation finishes with SUCCESS when both strings are empty
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
 
+testStringEqualsIgnoreCaseFailure:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: false
+    description: Tests that string_equals.sl operation finishes with SUCCESS when both strings are empty
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: FAILURE

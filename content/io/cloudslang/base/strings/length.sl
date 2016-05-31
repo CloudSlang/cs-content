@@ -6,8 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Gets the length of a string.
-#! @input string: string - Example: "good"
+#! @description: Appends text to string.
+#! @input origin_string: string   - Example: "good"
 #! @output result: length of string
 #! @result SUCCESS: always
 #!!#
@@ -18,11 +18,11 @@ namespace: io.cloudslang.base.strings
 operation:
   name: length
   inputs:
-    - string
+    - origin_string
   python_action:
     script: |
-      result = len(string)
+      length = len(origin_string)
   outputs:
-    - result: ${result}
+    - length
   results:
     - SUCCESS

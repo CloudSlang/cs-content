@@ -8,38 +8,38 @@
 ####################################################
 testTrimSuccess:
   inputs:
-    - string: ' good '
+    - origin_string: ' good '
   description: Tests that trim.sl operation remove whitespace characters both sides of the string and finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
-    - result: good
+    - new_string: good
   result: SUCCESS
 
 testTrimBackSuccess:
   inputs:
-    - string: 'good   '
+    - origin_string: 'good   '
   description: Tests that trim.sl operation remove whitespace characters from the end of the string and finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
-    - result: good
+    - new_string: good
   result: SUCCESS
 
 testTrimBeforeSuccess:
   inputs:
-    - string: '   good'
+    - origin_string: '   good'
   description: Tests that trim.sl operation remove whitespace characters from the beginning of the string and finishes with result = 'good'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
-    - result: good
+    - new_string: good
   result: SUCCESS
 
 testTrimNullValueSuccess:
   inputs:
-    - string: ''
+    - origin_string: ''
   description: Tests that trim.sl finishes with success when input is empty string
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
-    - result: ''
+    - new_string: ''
   result: SUCCESS
 
 testMissingInput:
@@ -50,9 +50,9 @@ testMissingInput:
 
 testTrimWhitespacesInsideStringSuccess:
   inputs:
-    - string: '  go  od  '
+    - origin_string: '  go  od  '
   description: Tests that trim.sl operation remove whitespace characters both sides of the string but not from the inside of string and finishes with result = 'go  od'
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
-    - result: 'go  od'
+    - new_string: 'go  od'
   result: SUCCESS

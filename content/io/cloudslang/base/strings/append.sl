@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 #!!
-#! @description: Appends text to a string.
-#! @input string: original string - Example: "good"
-#! @input text: text to be appended - Example: " morning"
-#! @output result: string after appending - Example: "good morning"
+#! @description: Appends text to string.
+#! @input origin_string: string   - Example: "good"
+#! @input text: text which need to be appended - Example: " morning"
+#! @output new_string: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#
 ####################################################
@@ -19,12 +19,12 @@ namespace: io.cloudslang.base.strings
 operation:
   name: append
   inputs:
-    - string
+    - origin_string
     - text
   python_action:
     script: |
-      string+=text
+      origin_string+=text
   outputs:
-    - result: ${string}
+    - new_string: ${origin_string}
   results:
     - SUCCESS

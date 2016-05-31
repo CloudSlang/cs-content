@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+ #   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
  #   All rights reserved. This program and the accompanying materials
  #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
  #
@@ -6,11 +6,11 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Substring from begin_index to end_index.
- #! @input string: original string - Example: "good morning"
- #! @input begin_index - begin index for the substring - Example: 0 (the first index = 0)
- #! @output end_index: end index for the substring - Example: 4 (new string will not include end_index)
- #! @output result: new string - Example: "good"
+ #! @description: Substring string from begin_index to end_index.
+ #! @input origin_string: origin_string - Example: "good morning"
+ #! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
+ #! @output end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
+ #! @output new_string: new string - Example: "good"
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings
@@ -18,26 +18,25 @@
  operation:
    name: substring
    inputs:
-     - string
+     - origin_string
      - begin_index:
-        required: false
         default: 0
      - end_index:
-         required: false
          default: 0
    python_action:
      script: |
         error_message = ""
-        maxIndex=len(string)+1
+        max_index=len(origin_string)
         if end_index==0:
-            result=string[begin_index:]
-        elif begin_index <= maxIndex and end_index <= maxIndex:
-           result=string[begin_index:end_index]
+            new_string=origin_string[begin_index:]
+        elif begin_index < max_index-1 and end_index < max_index and end_index > begin_index:
+           new_string=origin_string[begin_index:end_index]
         else:
-          error_message="begin_index must be less than "+ str(maxIndex-2) +". end_index must be less than "+str(maxIndex)+ " and big than 0"
+          error_message="Indexes must be end_index > begin_index, begin_index < " + str(max_index-1) + ", end_index < " + str(max_index)
+
    outputs:
-      - result: ${result}
+      - new_string
       - error_message
    results:
-      - SUCCESS: ${error_message==""}
+      - SUCCESS: ${error_message=='' and new_string != ''}
       - FAILURE
