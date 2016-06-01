@@ -40,8 +40,6 @@
         else:
            new_string=origin_string[begin_index:end_index]
 
-          # elif begin_index < max_index-1 and end_index <= max_index and end_index > begin_index:
-          #    new_string=origin_string[begin_index:end_index]
    outputs:
       - new_string
       - error_message
