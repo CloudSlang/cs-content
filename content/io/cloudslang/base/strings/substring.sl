@@ -21,14 +21,15 @@
      - origin_string
      - begin_index:
         default: 0
-     - end_index:
+     - end_index: 
          default: 0
    python_action:
      script: |
         error_message = ""
         max_index=len(origin_string)
-        if max_index <= 1:
-            error_message="Invalid values"
+
+        if isinstance(begin_index,int)==False or isinstance(end_index,int)==False:
+           error_message="Invalid values"
         elif end_index==0:
             new_string=origin_string[begin_index:]
         elif end_index < 0 or begin_index < 0:
@@ -39,6 +40,8 @@
             error_message="Indexes must be - end_index > begin_index"
         else:
            new_string=origin_string[begin_index:end_index]
+
+
 
    outputs:
       - new_string

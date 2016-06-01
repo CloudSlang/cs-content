@@ -58,10 +58,10 @@ testSubstringInvalidNegativeInputs:
     - error_message: "Indexes must be integers"
   result: FAILURE
 
-testSubstringUsingWhithespaces:
+testSubstringUsingInvalidIndex:
   inputs:
     - origin_string: ''
-    - begin_index: 0
+    - begin_index: "d"
     - end_index: 1
   description: ""
   testFlowPath: io.cloudslang.base.strings.substring
