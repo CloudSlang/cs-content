@@ -55,7 +55,7 @@ testSubstringInvalidNegativeInputs:
   description: Tests that substring.sl operation will fail and will finish with a meaningful message when a negative value is given.
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Indexes must be integers"
+    - error_message: "Indexes must be positive integers"
   result: FAILURE
 
 testSubstringUsingInvalidIndex:
@@ -66,5 +66,5 @@ testSubstringUsingInvalidIndex:
   description: ""
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Invalid values"
+    - error_message: "Indexes must be positive integers"
   result: FAILURE
