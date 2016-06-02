@@ -23,7 +23,7 @@
 namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
-  rest: io.cloudslang.base.http
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   file: io.cloudslang.base.files
   mail: io.cloudslang.base.mail
@@ -34,15 +34,15 @@ flow:
 
   inputs:
     - api_key:
-        default: ${get_sp('io.cloudslang.haven_onDemand.api_key')}
+        default: ${get_sp('io.cloudslang.haven_on_demand.api_key')}
         sensitive: true
-    - speech_api: ${get_sp('io.cloudslang.haven_onDemand.speech_api')}
-    - file: ${get_sp('io.cloudslang.haven_onDemand.file')}
-    - speech_result_api: ${get_sp('io.cloudslang.haven_onDemand.speech_result_api')}
-    - hostname: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
-    - port: ${get_sp('io.cloudslang.haven_onDemand.port')}
-    - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
-    - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
+    - speech_api: ${get_sp('io.cloudslang.haven_on_demand.speech_api')}
+    - file: ${get_sp('io.cloudslang.haven_on_demand.file')}
+    - speech_result_api: ${get_sp('io.cloudslang.haven_on_demand.speech_result_api')}
+    - hostname: ${get_sp('io.cloudslang.haven_on_demand.hostname')}
+    - port: ${get_sp('io.cloudslang.haven_on_demand.port')}
+    - from: ${get_sp('io.cloudslang.haven_on_demand.from')}
+    - to: ${get_sp('io.cloudslang.haven_on_demand.to')}
 
   workflow:
 

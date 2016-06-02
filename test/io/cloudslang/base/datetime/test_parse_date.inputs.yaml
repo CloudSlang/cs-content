@@ -1,0 +1,21 @@
+﻿#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testParseDateSuccess:
+  inputs:
+    - date: <date>
+    - date_format: <date_format>
+    - date_locale_lang: <date_locale_lang>
+    - date_locale_country: <date_locale_country>
+    - out_format: <out_format>
+    - out_locale_lang: <out_locale_lang>
+    - out_locale_country: <out_locale_country>
+  description: "Test that successfully parses time with locale values."
+  testSuites: [datetime-local]
+  testFlowPath: io.cloudslang.base.datetime.parse_date
+  result: SUCCESS

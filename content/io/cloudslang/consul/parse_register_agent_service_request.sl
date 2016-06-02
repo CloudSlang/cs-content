@@ -41,7 +41,7 @@ operation:
         data = {}
         if address:
           data['Address'] = address
-        if service_id != '':
+        if service_id:
           data['ID'] = service_id
         data['Name'] = service_name
         if check:
