@@ -32,18 +32,15 @@ flow:
   name: get_authentication_flow
 
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - tenant_name
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
 
   workflow:
     - get_token:

@@ -48,34 +48,25 @@ imports:
 flow:
   name: openstack_health_check
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         required: false
-        sensitive: true
     - compute_port:
         required: false
-        sensitive: true
     - network_id:
         required: false
-        sensitive: true
     - server_name: 'test-server'
     - img_ref
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - tenant_name
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
-    - email_host:
-        sensitive: true
-    - email_port:
-        sensitive: true
+    - email_host
+    - email_port
     - to
     - from
     - uuid

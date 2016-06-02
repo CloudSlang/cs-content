@@ -28,28 +28,22 @@ namespace: io.cloudslang.marathon
 operation:
   name: send_update_app_req
   inputs:
-    - marathon_host:
-        sensitive: true
+    - marathon_host
     - marathon_port:
         default: "8080"
         required: false
-        sensitive: true
     - app_id
     - body
     - proxy_host:
         required: false
-        sensitive: true
     - proxyHost:
         default: ${get('proxy_host', None)}
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
-        sensitive: true
     - url:
         default: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id+'?force=true'}
         private: true

@@ -34,8 +34,7 @@ flow:
   name: add_gentoo_group
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - group_name

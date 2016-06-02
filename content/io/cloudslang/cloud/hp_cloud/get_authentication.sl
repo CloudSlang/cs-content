@@ -30,18 +30,15 @@ imports:
 flow:
   name: get_authentication
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - tenant_name
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
 
   workflow:
     - rest_get_authentication:

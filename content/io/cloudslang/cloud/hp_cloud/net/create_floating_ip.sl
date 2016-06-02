@@ -29,17 +29,14 @@ imports:
 flow:
   name: create_floating_ip
   inputs:
-    - ext_network_id:
-        sensitive: true
+    - ext_network_id
     - token:
         sensitive: true
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
 
   workflow:
     - rest_create_floating_ip:

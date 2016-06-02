@@ -38,13 +38,10 @@ flow:
   name: git_reset
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
@@ -57,7 +54,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-        sensitive: true
 
   workflow:
     - git_reset:

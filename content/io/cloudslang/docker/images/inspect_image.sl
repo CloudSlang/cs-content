@@ -42,19 +42,15 @@ flow:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
     - image_name
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - command:
         default: ${ 'docker ' + docker_options_expression + 'inspect ' + image_name }
         private: true

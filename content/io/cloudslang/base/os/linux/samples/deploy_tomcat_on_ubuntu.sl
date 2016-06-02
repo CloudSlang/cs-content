@@ -50,8 +50,7 @@ flow:
   name: deploy_tomcat_on_ubuntu
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - user_password:

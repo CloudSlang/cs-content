@@ -33,8 +33,7 @@ flow:
   name: install_java_on_gentoo
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - java_version

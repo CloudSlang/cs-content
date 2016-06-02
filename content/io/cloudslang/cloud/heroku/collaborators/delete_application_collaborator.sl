@@ -21,8 +21,7 @@ imports:
 flow:
   name: delete_application_collaborator
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - collaborator_email_or_id

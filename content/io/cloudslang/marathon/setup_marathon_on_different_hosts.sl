@@ -29,15 +29,11 @@ imports:
 flow:
   name: setup_marathon_on_different_hosts
   inputs:
-    - marathon_host:
-        sensitive: true
-    - username:
-        sensitive: true
+    - marathon_host
+    - username
     - private_key_file:
-        sensitive: true
     - marathon_port:
         default: "8080"
-        sensitive: true
     - is_core_os: false
 
   workflow:

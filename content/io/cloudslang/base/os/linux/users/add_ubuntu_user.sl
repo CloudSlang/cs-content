@@ -39,12 +39,10 @@ flow:
   name: add_ubuntu_user
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
-    - user_name:
-        sensitive: true
+    - user_name
     - user_password:
         default: ''
         required: false
@@ -52,7 +50,6 @@ flow:
     - group_name:
         default: ''
         required: false
-        sensitive: true
     - create_home:
         default: True
         required: false

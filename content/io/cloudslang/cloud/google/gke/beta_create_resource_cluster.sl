@@ -59,8 +59,7 @@ operation:
         required: false
     - oauth_scopes:
         required: false
-    - masterauth_username:
-        sensitive: true
+    - masterauth_username
     - masterauth_password:
         sensitive: true
     - logging_service:

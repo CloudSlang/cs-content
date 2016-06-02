@@ -28,19 +28,15 @@ flow:
   name: search_cookbooks_in_community
   inputs:
     - cookbook_name
-    - knife_host:
-        sensitive: true
-    - knife_username:
-        sensitive: true
+    - knife_host
+    - knife_username
     - knife_privkey:
         required: false
-        sensitive: true
     - knife_password:
         required: false
         sensitive: true
     - knife_config:
         required: false
-        sensitive: true
 
   workflow:
     - search_cookbooks_in_community:

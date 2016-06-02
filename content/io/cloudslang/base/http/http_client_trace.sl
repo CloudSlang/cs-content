@@ -49,7 +49,6 @@ flow:
     - username:
         default: ""
         required: false
-        sensitive: true
     - password:
         default: ""
         required: false
@@ -57,15 +56,12 @@ flow:
     - proxy_host:
         default: ""
         required: false
-        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-        sensitive: true
     - proxy_username:
         default: ""
         required: false
-        sensitive: true
     - proxy_password:
         default: ""
         required: false

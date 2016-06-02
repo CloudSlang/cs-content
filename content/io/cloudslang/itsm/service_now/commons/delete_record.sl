@@ -54,8 +54,7 @@ flow:
   name: delete_record
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - protocol:
         required: false
         default: "https"
@@ -71,7 +70,6 @@ flow:
     - username:
         required: false
         default: ''
-        sensitive: true
     - password:
         required: false
         default: ''
@@ -79,15 +77,12 @@ flow:
     - proxy_host:
         required: false
         default: ''
-        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-        sensitive: true
     - proxy_username:
         required: false
         default: ''
-        sensitive: true
     - proxy_password:
         required: false
         default: ''

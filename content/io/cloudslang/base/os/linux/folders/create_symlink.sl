@@ -35,8 +35,7 @@ flow:
   name: create_symlink
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - source_folder

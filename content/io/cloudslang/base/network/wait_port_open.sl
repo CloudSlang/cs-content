@@ -22,10 +22,8 @@ namespace: io.cloudslang.base.network
 operation:
   name: wait_port_open
   inputs:
-    - host:
-        sensitive: true
-    - port:
-        sensitive: true
+    - host
+    - port
     - timeout:
         default: "10"
         required: false

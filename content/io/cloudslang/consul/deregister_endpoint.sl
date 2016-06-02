@@ -25,12 +25,10 @@ namespace: io.cloudslang.consul
 flow:
   name: deregister_endpoint
   inputs:
-    - host:
-        sensitive: true
+    - host
     - consul_port:
         default: '8500'
         required: false
-        sensitive: true
     - node
     - datacenter:
         default: ''

@@ -38,14 +38,11 @@ imports:
 flow:
   name: restart_service
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         default: '22'
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
@@ -55,7 +52,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-        sensitive: true
 
   workflow:
     - service_restart:

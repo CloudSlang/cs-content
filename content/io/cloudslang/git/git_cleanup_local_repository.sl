@@ -38,13 +38,10 @@ flow:
   name: git_cleanup_local_repository
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
@@ -53,7 +50,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-        sensitive: true
     - git_repository_localdir: "/tmp/repo.git"
     - change_path:
         default: false

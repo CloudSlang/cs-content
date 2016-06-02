@@ -56,11 +56,9 @@ flow:
         default: "https"
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-        sensitive: true
     - content_type:
         default: "application/json"
         private: true

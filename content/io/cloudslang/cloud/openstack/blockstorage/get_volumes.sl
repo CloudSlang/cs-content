@@ -43,31 +43,24 @@ imports:
 flow:
   name: get_volumes
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         default: '5000'
-        sensitive: true
     - blockstorage_port:
         default: '8776'
-        sensitive: true
     - tenant_name
     - username:
         required: false
-        sensitive: true
     - password:
         required: false
         sensitive: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true

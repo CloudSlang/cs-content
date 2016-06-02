@@ -29,17 +29,14 @@ imports:
 flow:
   name: delete_floating_ip
   inputs:
-    - ip_id:
-        sensitive: true
+    - ip_id
     - token:
         sensitive: true
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
 
   workflow:
     - rest_delete_floating_ip:

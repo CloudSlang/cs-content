@@ -38,24 +38,19 @@ namespace: io.cloudslang.base.os.linux
 operation:
   name: validate_linux_machine_ssh_access
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         default: '22'
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - privateKeyFile:
         default: ${get("private_key_file", "")}
         private: true
-        sensitive: true
     - command:
         default: ':'
         private: true

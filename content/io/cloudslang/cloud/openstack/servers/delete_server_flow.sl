@@ -38,26 +38,20 @@ imports:
 flow:
   name: delete_server_flow
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         default: '5000'
-        sensitive: true
     - compute_port:
         default: '8774'
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - tenant_name
     - server_name
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
 
   workflow:
     - authentication:

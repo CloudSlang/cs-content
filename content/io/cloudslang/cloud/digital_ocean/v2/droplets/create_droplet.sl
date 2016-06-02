@@ -59,13 +59,10 @@ flow:
         sensitive: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true

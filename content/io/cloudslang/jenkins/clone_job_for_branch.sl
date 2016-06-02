@@ -34,10 +34,8 @@ flow:
     - jnks_new_job_name
     - new_scm_url
     - delete_job_if_existing
-    - email_host:
-        sensitive: true
-    - email_port:
-        sensitive: true
+    - email_host
+    - email_port
     - email_sender
     - email_recipient
   workflow:

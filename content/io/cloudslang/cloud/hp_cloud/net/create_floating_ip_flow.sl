@@ -35,10 +35,9 @@ flow:
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
+
   workflow:
     - list_networks:
         do:

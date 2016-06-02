@@ -39,20 +39,16 @@ flow:
   name: add_gentoo_user
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
-    - user_name:
-        sensitive: true
+    - user_name
     - user_password:
         default: ''
         required: false
-        sensitive: true
     - group_name:
         default: ''
         required: false
-        sensitive: true
     - create_home:
         default: True
         required: false

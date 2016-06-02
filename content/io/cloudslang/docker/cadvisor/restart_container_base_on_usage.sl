@@ -31,24 +31,19 @@ flow:
   name: restart_container_base_on_usage
   inputs:
     - container
-    - host:
-        sensitive: true
+    - host
     - cadvisor_port:
         default: '8080'
         required: false
-        sensitive: true
     - machine_connect_port:
         default: '22'
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - rule:
         default: ''
         required: false

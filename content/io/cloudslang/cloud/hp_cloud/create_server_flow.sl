@@ -42,8 +42,7 @@ imports:
 flow:
   name: create_server_flow
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - tenant_name
@@ -57,13 +56,10 @@ flow:
         default: True
     - network_id:
         required: false
-        sensitive: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - polling_attempts:
         default: 60
         required: false

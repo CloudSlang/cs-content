@@ -35,8 +35,7 @@ flow:
   name: make_new_folder
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - folder_name

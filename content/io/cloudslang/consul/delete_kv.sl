@@ -25,12 +25,10 @@ namespace: io.cloudslang.consul
 operation:
   name: delete_kv
   inputs:
-    - host:
-        sensitive: true
+    - host
     - consul_port:
         default: "8500"
         required: false
-        sensitive: true
     - key_name
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/kv/' + key_name}

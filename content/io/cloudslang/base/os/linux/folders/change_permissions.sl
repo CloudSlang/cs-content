@@ -39,8 +39,7 @@ flow:
   name: change_permissions
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - folder_path

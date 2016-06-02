@@ -38,24 +38,18 @@ imports:
 flow:
   name: start_manager
   inputs:
-    - swarm_port:
-        sensitive: true
-    - cluster_id:
-        sensitive: true
+    - swarm_port
+    - cluster_id
     - swarm_image: 'swarm'
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - character_set:
         required: false
     - pty:

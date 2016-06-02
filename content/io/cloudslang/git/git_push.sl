@@ -39,13 +39,10 @@ flow:
   name: git_push
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         required: false
         sensitive: true
@@ -57,7 +54,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-        sensitive: true
 
   workflow:
     - git_push:

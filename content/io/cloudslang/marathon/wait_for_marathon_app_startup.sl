@@ -26,12 +26,10 @@ imports:
 flow:
   name: wait_for_marathon_app_startup
   inputs:
-    - marathon_host:
-        sensitive: true
+    - marathon_host
     - marathon_port:
         default: "8080"
         required: false
-        sensitive: true
     - created_app_id
     - attempts: 1
     - time_to_sleep:

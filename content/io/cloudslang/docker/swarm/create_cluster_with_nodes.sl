@@ -48,27 +48,21 @@ imports:
 flow:
   name: create_cluster_with_nodes
   inputs:
-    - manager_machine_ip:
-        sensitive: true
-    - manager_machine_username:
-        sensitive: true
+    - manager_machine_ip
+    - manager_machine_username
     - manager_machine_password:
         required: false
+        sensitive: true
     - manager_machine_private_key_file:
         required: false
-        sensitive: true
-    - manager_machine_port:
-        sensitive: true
-    - agent_ip_addresses:
-        sensitive: true
+    - manager_machine_port
+    - agent_ip_addresses
     - agent_usernames:
-        sensitive: true
     - agent_passwords:
         required: false
         sensitive: true
     - agent_private_key_files:
         required: false
-        sensitive: true
     - attempts: 60
     - time_to_sleep: 5
   workflow:

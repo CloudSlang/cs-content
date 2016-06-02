@@ -39,30 +39,22 @@ flow:
 
   inputs:
     - container
-    - docker_host:
-        sensitive: true
+    - docker_host
     - docker_port:
         required: false
-        sensitive: true
-    - docker_username:
-        sensitive: true
+    - docker_username
     - docker_password:
         required: false
         sensitive: true
     - docker_private_key_file:
         required: false
-        sensitive: true
     - mysql_username:
-        sensitive: true
     - mysql_password:
         sensitive: true
-    - email_host:
-        sensitive: true
-    - email_port:
-        sensitive: true
+    - email_host
+    - email_port
     - email_username:
         required: false
-        sensitive: true
     - email_password:
         required: false
         sensitive: true

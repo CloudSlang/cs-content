@@ -35,8 +35,7 @@ flow:
   name: download_content
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - root_password:
         sensitive: true
     - download_url

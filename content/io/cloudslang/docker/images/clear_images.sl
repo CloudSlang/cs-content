@@ -41,20 +41,16 @@ flow:
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - images
     - private_key_file:
         required: false
-        sensitive: true
     - command:
         default: ${ 'docker ' + docker_options_expression + 'rmi ' + images }
         private: true

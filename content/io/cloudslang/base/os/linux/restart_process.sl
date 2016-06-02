@@ -41,13 +41,10 @@ flow:
   name: restart_process
 
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         required: false
         sensitive: true
@@ -57,7 +54,6 @@ flow:
         required: False
     - private_key_file:
         required: false
-        sensitive: true
 
   workflow:
     - process_restart:

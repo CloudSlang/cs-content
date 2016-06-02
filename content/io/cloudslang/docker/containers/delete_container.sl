@@ -53,19 +53,15 @@ flow:
     - params:
         default: ${cmd_params + ' ' if bool(cmd_params) else ''}
         private: true
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - arguments:
         required: false
     - command:

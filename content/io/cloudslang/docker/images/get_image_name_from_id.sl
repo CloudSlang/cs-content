@@ -40,20 +40,16 @@ flow:
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
         private: true
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - image_id
     - private_key_file:
         required: false
-        sensitive: true
     - command:
         default: >
             ${ "docker " + docker_options_expression + "images | grep " + image_id + " | awk '{print $1 \":\" $2}'" }

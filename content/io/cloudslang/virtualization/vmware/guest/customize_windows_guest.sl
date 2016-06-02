@@ -128,17 +128,14 @@ namespace: io.cloudslang.virtualization.vmware.guest
 operation:
   name: customize_windows_guest
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         default: '443'
         required: false
-        sensitive: true
     - protocol:
         default: 'https'
         required: false
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - trust_everyone:

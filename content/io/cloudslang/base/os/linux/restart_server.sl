@@ -38,14 +38,11 @@ imports:
 flow:
   name: restart_server
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         default: '22'
         required: false
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         required: false
         sensitive: true
@@ -55,7 +52,6 @@ flow:
         required: false
     - private_key_file:
         required: false
-        sensitive: true
 
   workflow:
     - server_restart:

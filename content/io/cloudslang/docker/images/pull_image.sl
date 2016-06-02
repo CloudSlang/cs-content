@@ -38,19 +38,15 @@ flow:
   name: pull_image
   inputs:
     - image_name
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - command:
         default: ${ 'docker pull ' + image_name }
         private: true

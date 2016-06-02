@@ -20,8 +20,7 @@ imports:
 flow:
   name: list_addons_for_application
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - app_name_or_id

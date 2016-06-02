@@ -19,8 +19,7 @@ imports:
 flow:
   name: list_applications
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
 

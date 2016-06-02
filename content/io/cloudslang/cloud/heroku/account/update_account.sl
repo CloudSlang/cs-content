@@ -37,8 +37,7 @@ imports:
 flow:
   name: update_account
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         default: None
         required: false

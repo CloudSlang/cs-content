@@ -36,14 +36,12 @@ namespace: io.cloudslang.cloud.google.gke
 operation:
   name: beta_list_clusters
   inputs:
-    - project_id:
-        sensitive: true
+    - project_id
     - zone:
         default: '-'
         required: false
     - json_google_auth_path:
         default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
-        sensitive: true
 
   python_action:
     script: |

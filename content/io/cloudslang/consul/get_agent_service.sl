@@ -24,12 +24,10 @@ namespace: io.cloudslang.consul
 operation:
   name: get_agent_service
   inputs:
-    - host:
-        sensitive: true
+    - host
     - consul_port:
         default: '8500'
         required: false
-        sensitive: true
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/agent/services'}
         private: true

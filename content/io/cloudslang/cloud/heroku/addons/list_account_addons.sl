@@ -19,8 +19,7 @@ imports:
 flow:
   name: list_account_addons
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
   workflow:

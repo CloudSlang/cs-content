@@ -26,19 +26,15 @@ namespace: io.cloudslang.chef
 flow:
   name: get_roles
   inputs:
-    - knife_host:
-        sensitive: true
-    - knife_username:
-        sensitive: true
+    - knife_host
+    - knife_username
     - knife_privkey:
         required: false
-        sensitive: true
     - knife_password:
         required: false
         sensitive: true
     - knife_config:
         required: false
-        sensitive: true
 
   workflow:
     - get_roles_list:

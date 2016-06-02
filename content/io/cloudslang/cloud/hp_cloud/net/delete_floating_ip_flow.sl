@@ -27,17 +27,15 @@ imports:
 flow:
   name: delete_floating_ip_flow
   inputs:
-    - ip_address:
-        sensitive: true
+    - ip_address
     - token:
         sensitive: true
     - region
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
+
   workflow:
     - list_ipadresses:
         do:

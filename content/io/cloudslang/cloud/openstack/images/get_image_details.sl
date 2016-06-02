@@ -43,32 +43,25 @@ imports:
 flow:
   name: get_image_details
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         default: '5000'
-        sensitive: true
     - compute_port:
         default: '8774'
-        sensitive: true
     - tenant_name
     - image_id
     - username:
         required: false
-        sensitive: true
     - password:
         required: false
         sensitive: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true

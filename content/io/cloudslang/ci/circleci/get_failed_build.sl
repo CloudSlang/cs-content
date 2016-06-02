@@ -72,13 +72,10 @@ flow:
         private: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         default: "8080"
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - project
     - branch
     - content_type:
@@ -89,10 +86,8 @@ flow:
         private: true
     - committer_email
     - supervisor
-    - hostname:
-        sensitive: true
-    - port:
-        sensitive: true
+    - hostname
+    - port
     - from
     - to
     - cc:

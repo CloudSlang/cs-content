@@ -41,10 +41,8 @@ imports:
 flow:
   name: run_container_in_cluster
   inputs:
-    - swarm_manager_ip:
-        sensitive: true
-    - swarm_manager_port:
-        sensitive: true
+    - swarm_manager_ip
+    - swarm_manager_port
     - container_name:
         required: false
     - container_params:
@@ -52,19 +50,15 @@ flow:
     - container_command:
         required: false
     - image_name
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - character_set:
         required: false
     - pty:

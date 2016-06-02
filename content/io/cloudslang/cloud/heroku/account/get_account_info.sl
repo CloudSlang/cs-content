@@ -19,8 +19,7 @@ imports:
 flow:
   name: get_account_info
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
   workflow:

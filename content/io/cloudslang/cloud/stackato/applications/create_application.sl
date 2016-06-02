@@ -43,24 +43,19 @@ imports:
 flow:
   name: create_application
   inputs:
-    - host:
-        sensitive: true
-    - username:
-        sensitive: true
+    - host
+    - username
     - password:
         sensitive: true
     - application_name
     - space_guid
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         default: '8080'
         required: false
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true

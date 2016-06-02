@@ -27,12 +27,10 @@ namespace: io.cloudslang.marathon
 operation:
   name: delete_app
   inputs:
-    - marathon_host:
-        sensitive: true
+    - marathon_host
     - marathon_port:
         default: "8080"
         required: false
-        sensitive: true
     - app_id
     - url:
         default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps/' +app_id}
@@ -45,18 +43,15 @@ operation:
         private: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxyHost:
         default: ${get('proxy_host', None)}
         required: false
-        sensitive: true
     - proxy_port:
             required: false
-            sensitive: true
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
-        sensitive: true
+
   java_action:
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute

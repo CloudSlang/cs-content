@@ -37,25 +37,19 @@ imports:
 flow:
   name: list_servers
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         default: '5000'
-        sensitive: true
     - compute_port:
         default: '8774'
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         sensitive: true
     - tenant_name
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
   workflow:
     - authentication:
         do:

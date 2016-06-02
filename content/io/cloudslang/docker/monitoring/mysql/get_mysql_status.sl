@@ -45,20 +45,15 @@ flow:
   name: get_mysql_status
   inputs:
     - container
-    - host:
-        sensitive: true
+    - host
     - port:
         required: false
-        sensitive: true
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
     - mysql_username:
-        sensitive: true
     - mysql_password:
         sensitive: true
     - exec_cmd:

@@ -30,12 +30,10 @@ namespace: io.cloudslang.marathon
 operation:
   name: get_apps_list
   inputs:
-    - marathon_host:
-        sensitive: true
+    - marathon_host
     - marathon_port:
         default: "8080"
         required: false
-        sensitive: true
     - cmd:
         required: false
     - embed:
@@ -46,18 +44,14 @@ operation:
         private: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxyHost:
         default: ${get('proxy_host', None)}
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
-        sensitive: true
     - method:
         default: "get"
         private: true

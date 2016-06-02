@@ -41,10 +41,8 @@ flow:
     - speech_result_api: ${get_sp('io.cloudslang.haven_onDemand.speech_result_api')}
     - hostname:
         default: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
-        sensitive: true
     - port:
         default: ${get_sp('io.cloudslang.haven_onDemand.port')}
-        sensitive: true
     - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
     - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
 

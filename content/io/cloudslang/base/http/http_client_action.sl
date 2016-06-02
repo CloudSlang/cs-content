@@ -115,7 +115,6 @@ operation:
         private: true
     - username:
         required: false
-        sensitive: true
     - password:
         required: false
         sensitive: true
@@ -126,11 +125,9 @@ operation:
         private: true
     - kerberos_login_conf_file:
         required: false
-        sensitive: true
     - kerberosLoginConfFile:
         default: ${get("kerberos_login_conf_file", "")}
         private: true
-        sensitive: true
     - kerberos_skip_port_for_lookup:
         required: false
     - kerberosSkipPortForLookup:
@@ -138,25 +135,19 @@ operation:
         private: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxyUsername:
         default: ${get("proxy_username", "")}
         private: true
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true
@@ -176,11 +167,9 @@ operation:
         private: true
     - trust_keystore:
         required: false
-        sensitive: true
     - trustKeystore:
         default: ${get("trust_keystore", "")}
         private: true
-        sensitive: true
     - trust_password:
         required: false
         sensitive: true
@@ -190,7 +179,6 @@ operation:
         sensitive: true
     - keystore:
         required: false
-        sensitive: true
     - keystore_password:
         required: false
         sensitive: true

@@ -31,40 +31,31 @@ namespace: io.cloudslang.cloud.openstack
 operation:
   name: get_authentication
   inputs:
-    - host:
-        sensitive: true
+    - host
     - identity_port:
         default: '5000'
-        sensitive: true
     - username:
-        sensitive: true
     - password:
         sensitive: true
     - tenant_name
     - proxy_host:
         required: false
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxy_username:
         required: false
-        sensitive: true
     - proxy_password:
         required: false
         sensitive: true
     - proxyHost:
         default: ${get("proxy_host", ""}
         private: true
-        sensitive: true
     - proxyPort:
         default: ${get("proxy_port", ""}
         private: true
-        sensitive: true
     - proxyUsername:
         default: ${get("proxy_username", ""}
         private: true
-        sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", ""}
         private: true
@@ -78,6 +69,7 @@ operation:
           '","passwordCredentials": {"username": "' + username +
           '", "password": "' + password + '"}}}'}
         private: true
+        sensitive: true
     - method:
         default: 'post'
         private: true

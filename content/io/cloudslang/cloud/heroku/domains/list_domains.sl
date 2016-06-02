@@ -20,8 +20,7 @@ imports:
 flow:
   name: list_domains
   inputs:
-    - username:
-        sensitive: true
+    - username
     - password:
         sensitive: true
     - app_id_or_name

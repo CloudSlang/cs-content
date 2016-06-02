@@ -35,10 +35,8 @@ namespace: io.cloudslang.base.mail
 operation:
   name: send_mail
   inputs:
-    - hostname:
-        sensitive: true
-    - port:
-        sensitive: true
+    - hostname
+    - port
     - from
     - to
     - cc:

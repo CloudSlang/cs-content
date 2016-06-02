@@ -51,18 +51,14 @@ operation:
         sensitive: true
     - proxy_host:
         required: false
-        sensitive: true
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
-        sensitive: true
     - proxy_port:
         required: false
-        sensitive: true
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
-        sensitive: true
     - region:
         default: 'us-east-1'
         required: false
