@@ -240,7 +240,7 @@ flow:
           - body_json: ${json_output}
           - return_result
           - return_code
-          - error_message:
+          - error_message
         navigate:
           - SUCCESS: add_availability_zone
           - FAILURE: ADD_BLOCK_DEVICE_MAPPING_FAILURE
