@@ -47,7 +47,7 @@ flow:
             - out_locale_lang
             - out_locale_country
         publish:
-            - returnStr: ${result}
+            - return_str: ${result}
         navigate:
             - SUCCESS: verify_against_expected_result
             - FAILURE: PARSE_DATE_FAILURE
@@ -56,7 +56,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: 'mer, lug 4, ''01'
-            - second_string: ${returnStr}
+            - second_string: ${return_str}
         navigate:
             - SUCCESS: SUCCESS
             - FAILURE: INCORRECT_OUTPUT

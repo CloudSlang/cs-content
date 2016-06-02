@@ -34,12 +34,12 @@ operation:
         private: true
     - date_locale_lang:
         required: false
-    - datelocaleLang:
+    - dateLocaleLang:
         default: ${get("date_locale_lang", "en")}
         private: true
     - date_locale_country:
         required: false
-    - datelocaleCountry:
+    - dateLocaleCountry:
         default: ${get("date_locale_country", "US")}
         private: true
     - out_format:
@@ -49,12 +49,12 @@ operation:
         private: true
     - out_locale_lang:
         required: false
-    - outlocaleLang:
+    - outLocaleLang:
         default: ${get("out_locale_lang", "en")}
         private: true
     - out_locale_country:
         required: false
-    - outlocaleCountry:
+    - outLocaleCountry:
         default: ${get("out_locale_country", "US")}
         private: true
 
