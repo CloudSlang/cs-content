@@ -34,7 +34,7 @@ operation:
     - host
     - identity_port:
         default: '5000'
-    - username:
+    - username
     - password:
         sensitive: true
     - tenant_name

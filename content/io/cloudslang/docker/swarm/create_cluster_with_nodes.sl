@@ -57,7 +57,7 @@ flow:
         required: false
     - manager_machine_port
     - agent_ip_addresses
-    - agent_usernames:
+    - agent_usernames
     - agent_passwords:
         required: false
         sensitive: true

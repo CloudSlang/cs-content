@@ -48,7 +48,7 @@ flow:
         sensitive: true
     - docker_private_key_file:
         required: false
-    - mysql_username:
+    - mysql_username
     - mysql_password:
         sensitive: true
     - email_host

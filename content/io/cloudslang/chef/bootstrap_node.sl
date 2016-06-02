@@ -42,8 +42,8 @@ flow:
         sensitive: true
     - node_privkey:
         required: false
-    - knife_host:
-    - knife_username:
+    - knife_host
+    - knife_username
     - knife_privkey:
         required: false
     - knife_password:

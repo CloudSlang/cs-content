@@ -42,7 +42,7 @@ flow:
         default: '5000'
     - compute_port:
         default: '8774'
-    - username:
+    - username
     - password:
         sensitive: true
     - tenant_name

@@ -42,7 +42,7 @@ flow:
     - host
     - port:
         required: false
-    - username:
+    - username
     - password:
         required: false
         sensitive: true

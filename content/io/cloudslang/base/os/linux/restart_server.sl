@@ -42,7 +42,7 @@ flow:
     - port:
         default: '22'
         required: false
-    - username:
+    - username
     - password:
         required: false
         sensitive: true

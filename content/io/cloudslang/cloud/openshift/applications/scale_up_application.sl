@@ -40,7 +40,7 @@ imports:
 flow:
   name: scale_up_application
   inputs:
-    - host:
+    - host
     - username:
         required: false
     - password:

@@ -31,7 +31,7 @@ flow:
   inputs:
     - marathon_host
     - username
-    - private_key_file:
+    - private_key_file
     - marathon_port:
         default: "8080"
     - is_core_os: false

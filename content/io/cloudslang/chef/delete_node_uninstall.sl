@@ -42,7 +42,7 @@ flow:
         sensitive: true
     - knife_privkey:
         required: false
-    - node_host:
+    - node_host
     - node_username
     - node_password:
         required: false

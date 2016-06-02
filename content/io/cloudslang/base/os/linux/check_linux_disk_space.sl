@@ -40,7 +40,7 @@ flow:
     - port:
         default: "22"
         required: false
-    - username:
+    - username
     - mount:
         default: "/"
         required: false

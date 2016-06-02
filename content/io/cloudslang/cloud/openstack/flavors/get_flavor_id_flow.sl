@@ -46,7 +46,7 @@ imports:
 flow:
   name: get_flavor_id_flow
   inputs:
-    - host:
+    - host
     - identity_port:
         default: '5000'
     - compute_port:

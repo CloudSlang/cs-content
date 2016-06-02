@@ -66,7 +66,7 @@ operation:
     - sourcePrivateKeyFile:
         default: ${get("source_private_key_file", "")}
         private: true
-    - destination_host:
+    - destination_host
     - destinationHost:
         default: ${destination_host}
     - destination_path
@@ -76,7 +76,7 @@ operation:
     - destinationPort:
         default: ${get("destination_port", "22")}
         private: true
-    - destination_username:
+    - destination_username
     - destinationUsername:
         default: ${destination_username}
     - destination_password:
