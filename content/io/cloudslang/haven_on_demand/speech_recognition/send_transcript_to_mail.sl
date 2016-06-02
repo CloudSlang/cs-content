@@ -39,10 +39,8 @@ flow:
     - speech_api: ${get_sp('io.cloudslang.haven_onDemand.speech_api')}
     - file: ${get_sp('io.cloudslang.haven_onDemand.file')}
     - speech_result_api: ${get_sp('io.cloudslang.haven_onDemand.speech_result_api')}
-    - hostname:
-        default: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
-    - port:
-        default: ${get_sp('io.cloudslang.haven_onDemand.port')}
+    - hostname: ${get_sp('io.cloudslang.haven_onDemand.hostname')}
+    - port: ${get_sp('io.cloudslang.haven_onDemand.port')}
     - from: ${get_sp('io.cloudslang.haven_onDemand.from')}
     - to: ${get_sp('io.cloudslang.haven_onDemand.to')}
 

@@ -44,10 +44,8 @@ flow:
   name: delete_volume
   inputs:
     - host
-    - identity_port:
-        default: '5000'
-    - blockstorage_port:
-        default: '8776'
+    - identity_port: '5000'
+    - blockstorage_port: '8776'
     - tenant_name
     - volume_id
     - username:

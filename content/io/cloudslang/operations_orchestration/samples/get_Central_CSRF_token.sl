@@ -24,20 +24,16 @@ imports:
 flow:
   name: get_Central_CSRF_token
   inputs:
-    - host:
-        sensitive: true
+    - host
     - port:
         default: '8080'
         required: false
-        sensitive: true
     - protocol:
         default: 'http'
         required: false
-        sensitive: true
     - username:
         default: ''
         required: false
-        sensitive: true
     - password:
         default: ''
         required: false

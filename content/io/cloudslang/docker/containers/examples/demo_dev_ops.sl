@@ -40,8 +40,7 @@ flow:
   name: demo_dev_ops
   inputs:
     - docker_host
-    - docker_ssh_port:
-        default: '22'
+    - docker_ssh_port: '22'
     - docker_username
     - docker_password:
         required: false

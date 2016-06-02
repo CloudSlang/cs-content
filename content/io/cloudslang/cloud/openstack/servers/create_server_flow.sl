@@ -92,10 +92,8 @@ flow:
   name: create_server_flow
   inputs:
     - host
-    - identity_port:
-        default: '5000'
-    - compute_port:
-        default: '8774'
+    - identity_port: '5000'
+    - compute_port: '8774'
     - username:
         required: false
     - password:

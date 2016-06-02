@@ -30,15 +30,11 @@ imports:
 flow:
   name: setup_marathon_core_os
   inputs:
-    - host:
-        sensitive: true
-    - username:
-        sensitive: true
-    - private_key_file:
-        sensitive: true
+    - host
+    - username
+    - private_key_file
     - marathon_port:
         default: "8080"
-        sensitive: true
     - timeout: "3000000"
   workflow:
     - clear_containers_on_host:

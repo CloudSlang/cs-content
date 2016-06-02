@@ -81,6 +81,4 @@ flow:
     - token:
         value: ${token}
         sensitive: true
-    - tenant_id:
-        value: ${tenant_id}
-        sensitive: true
+    - tenant_id

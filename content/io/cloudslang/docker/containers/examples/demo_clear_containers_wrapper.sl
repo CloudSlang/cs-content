@@ -29,19 +29,16 @@ flow:
   inputs:
     - db_container_id
     - linked_container_id
-    - docker_host:
-        sensitive: true
+    - docker_host
     - port:
         required: false
-        sensitive: true
-    - docker_username:
-        sensitive: true
+    - docker_username
     - docker_password:
         required: false
         sensitive: true
     - private_key_file:
         required: false
-        sensitive: true
+        
   workflow:
     - clear_db_container:
         do:

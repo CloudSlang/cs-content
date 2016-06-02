@@ -42,9 +42,7 @@ operation:
     - zone:
         default: '-'
         required: false
-    - json_google_auth_path:
-        default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
-        sensitive: true
+    - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
 
   python_action:
     script: |

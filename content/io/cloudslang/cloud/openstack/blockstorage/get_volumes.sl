@@ -44,10 +44,8 @@ flow:
   name: get_volumes
   inputs:
     - host
-    - identity_port:
-        default: '5000'
-    - blockstorage_port:
-        default: '8776'
+    - identity_port: '5000'
+    - blockstorage_port: '8776'
     - tenant_name
     - username:
         required: false

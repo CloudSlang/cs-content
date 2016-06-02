@@ -45,8 +45,7 @@ operation:
   inputs:
     - project_id
     - zone
-    - json_google_auth_path:
-        default: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
+    - json_google_auth_path: ${get_sp('io.cloudslang.cloud_provider.json_google_auth_path')}
     - cluster
 
   python_action:

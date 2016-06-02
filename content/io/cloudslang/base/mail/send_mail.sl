@@ -59,7 +59,6 @@ operation:
         required: false
     - username:
         required: false
-        sensitive: true
     - password:
         required: false
         sensitive: true

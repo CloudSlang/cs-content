@@ -24,12 +24,10 @@ namespace: io.cloudslang.docker.cadvisor
 operation:
   name: get_machine_metrics
   inputs:
-    - host:
-        sensitive: true
+    - host
     - cadvisor_port:
         default: '8080'
         required: false
-        sensitive: true
     - url:
         default: "${'http://' + host + ':' + cadvisor_port + '/api/v1.2/machine'}"
         private: true

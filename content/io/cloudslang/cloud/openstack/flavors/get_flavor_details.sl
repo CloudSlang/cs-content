@@ -43,10 +43,8 @@ flow:
   name: get_flavor_details
   inputs:
     - host
-    - identity_port:
-        default: '5000'
-    - compute_port:
-        default: '8774'
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - flavor_id
     - username:

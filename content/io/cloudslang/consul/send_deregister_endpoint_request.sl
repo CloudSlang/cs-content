@@ -25,12 +25,10 @@ namespace: io.cloudslang.consul
 operation:
   name: send_deregister_endpoint_request
   inputs:
-    - host:
-        sensitive: true
+    - host
     - consul_port:
         default: '8500'
         required: false
-        sensitive: true
     - json_request
     - body:
         default: ${json_request}

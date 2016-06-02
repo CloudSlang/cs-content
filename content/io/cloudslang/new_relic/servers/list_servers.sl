@@ -37,15 +37,12 @@ flow:
     - proxy_host:
         required: false
         default: ''
-        sensitive: true
     - proxy_port:
         required: false
         default: ''
-        sensitive: true
     - proxy_username:
         required: false
         default: ''
-        sensitive: true
     - proxy_password:
         required: false
         default: ''

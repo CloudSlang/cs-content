@@ -32,8 +32,7 @@ flow:
     - host
     - username
     - private_key_file
-    - marathon_port:
-        default: "8080"
+    - marathon_port: "8080"
     - timeout: "3000000"
   workflow:
     - clear_containers_on_host:

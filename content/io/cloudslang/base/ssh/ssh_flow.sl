@@ -52,8 +52,7 @@ flow:
     name: ssh_flow
     inputs:
       - host
-      - port:
-          default: '22'
+      - port: '22'
       - command
       - pty: 'false'
       - username

@@ -29,12 +29,11 @@ namespace: io.cloudslang.docker.cadvisor
 flow:
   name: report_machine_metrics
   inputs:
-    - host:
-        sensitive: true
+    - host
     - cadvisor_port:
         default: '8080'
         required: false
-        sensitive: true
+
   workflow:
     - retrieve_machine_metrics:
         do:

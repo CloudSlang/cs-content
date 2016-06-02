@@ -28,8 +28,7 @@ operation:
   name: get_servers
   inputs:
     - host
-    - compute_port:
-        default: '8774'
+    - compute_port: '8774'
     - token:
         sensitive: true
     - tenant_id

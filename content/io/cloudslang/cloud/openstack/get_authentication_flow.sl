@@ -38,8 +38,7 @@ flow:
   name: get_authentication_flow
   inputs:
     - host
-    - identity_port:
-        default: '5000'
+    - identity_port: '5000'
     - username
     - password:
         sensitive: true
@@ -104,8 +103,7 @@ flow:
     - token:
         value: ${token}
         sensitive: true
-    - tenant_id:
-        value: ${tenant_id}
+    - tenant_id
 
   results:
     - SUCCESS

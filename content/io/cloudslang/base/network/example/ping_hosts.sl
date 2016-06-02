@@ -37,10 +37,8 @@ flow:
     - ip_list
     - message_body: []
     - all_nodes_are_up: True
-    - hostname:
-        default: ${get_sp('io.cloudslang.base.hostname')}
-    - port:
-        default: ${get_sp('io.cloudslang.base.port')}
+    - hostname: ${get_sp('io.cloudslang.base.hostname')}
+    - port: ${get_sp('io.cloudslang.base.port')}
     - from: ${get_sp('io.cloudslang.base.from')}
     - to: ${get_sp('io.cloudslang.base.to')}
     - subject: "Ping Result"

@@ -44,8 +44,7 @@ operation:
     name: ssh_command
     inputs:
       - host
-      - port:
-          default: '22'
+      - port: '22'
       - command
       - pty: 'false'
       - username

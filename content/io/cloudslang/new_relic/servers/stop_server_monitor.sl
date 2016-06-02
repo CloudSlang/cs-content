@@ -45,12 +45,9 @@ imports:
 flow:
   name: stop_server_monitor
   inputs:
-    - host:
-        sensitive: true
-    - port:
-        sensitive: true
-    - username:
-        sensitive: true
+    - host
+    - port
+    - username
     - password:
         sensitive: true
     - command
@@ -60,7 +57,6 @@ flow:
     - private_key_file:
         required: false
         default: ''
-        sensitive: true
     - timeout:
         required: false
         default: ''

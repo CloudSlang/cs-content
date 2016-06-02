@@ -32,8 +32,7 @@ operation:
   name: get_authentication
   inputs:
     - host
-    - identity_port:
-        default: '5000'
+    - identity_port: '5000'
     - username
     - password:
         sensitive: true

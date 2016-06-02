@@ -46,10 +46,8 @@ flow:
   name: suspend_server
   inputs:
     - host
-    - identity_port:
-        default: '5000'
-    - compute_port:
-        default: '8774'
+    - identity_port: '5000'
+    - compute_port: '8774'
     - tenant_name
     - server_id
     - username:
