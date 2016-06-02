@@ -15,18 +15,24 @@ flow:
   name: test_parse_date
 
   inputs:
-    - date
+    - date: 'Wed, Jul 4, '01'
     - date_format:
+        default: 'EEE, MMM d, ''yy'
         required: false
     - date_locale_lang:
+        default: 'en'
         required: false
     - date_locale_country:
+        default: 'US'
         required: false
     - out_format:
+        default: 'EEE, MMM d, ''yy'
         required: false
     - out_locale_lang:
+        default: 'it'
         required: false
     - out_locale_country:
+        default: 'IT'
         required: false
 
   workflow:

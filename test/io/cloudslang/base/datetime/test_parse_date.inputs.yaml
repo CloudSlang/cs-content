@@ -8,13 +8,14 @@
 ####################################################
 testParseDateSuccess:
   inputs:
-    - date: "Wed, Jul 4, '01"
-    - date_format: "EEE, MMM d, ''yy"
-    - date_locale_lang: "en"
-    - date_locale_country: "US"
-    - out_format: "EEE, MMM d, ''yy"
-    - out_locale_lang: "it"
-    - out_locale_country: "IT"
-  description: simple parse_date test
+    - date: <date>
+    - date_format: <date_format>
+    - date_locale_lang: <date_locale_lang>
+    - date_locale_country: <date_locale_country>
+    - out_format: <out_format>
+    - out_locale_lang: <out_locale_lang>
+    - out_locale_country: <out_locale_country>
+  description: "Test that successfully parses time with locale values."
+  testSuites: [datetime-local]
   testFlowPath: io.cloudslang.base.datetime.parse_date
   result: SUCCESS
