@@ -15,7 +15,8 @@ flow:
   name: test_parse_date
 
   inputs:
-    - date: 'Wed, Jul 4, '01'
+    - date: |
+        'Wed, Jul 4, '01'
     - date_format:
         default: 'EEE, MMM d, ''yy'
         required: false
