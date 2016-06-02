@@ -66,5 +66,5 @@ testSubstringUsingInvalidIndex:
   description: ""
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Indexes must be positive integers"
+    - error_message: "Invalid values"
   result: FAILURE
