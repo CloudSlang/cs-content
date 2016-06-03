@@ -20,7 +20,8 @@ flow:
   name: list_keys
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
 
   workflow:
     - list_keys:

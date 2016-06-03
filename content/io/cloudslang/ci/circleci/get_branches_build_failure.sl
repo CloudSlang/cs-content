@@ -64,7 +64,8 @@ imports:
 flow:
   name: get_branches_build_failure
   inputs:
-    - token
+    - token:
+        sensitive: true
     - protocol:
         default: "https"
     - host:

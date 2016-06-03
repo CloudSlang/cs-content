@@ -33,6 +33,7 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - image_name
     - private_key_file:
         required: false

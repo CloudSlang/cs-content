@@ -51,8 +51,11 @@ flow:
 
   inputs:
     - host
-    - root_password
-    - user_password: ''
+    - root_password:
+        sensitive: true
+    - user_password:
+        default: ''
+        sensitive: true
     - java_version
     - download_url
     - download_path:

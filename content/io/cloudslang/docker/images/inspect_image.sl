@@ -24,8 +24,8 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output standard_out: STDOUT of the machine in case of successful request
 #! @output standard_err: STDERR of the machine in case of unsuccessful request
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images
@@ -48,6 +48,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - command:

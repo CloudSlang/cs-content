@@ -21,7 +21,8 @@ flow:
   name: list_addons_for_application
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - app_name_or_id
 
   workflow:

@@ -42,7 +42,8 @@ flow:
 
   inputs:
     - host
-    - root_password
+    - root_password:
+        sensitive: true
     - folder_path
     - user_name
     - group_name:

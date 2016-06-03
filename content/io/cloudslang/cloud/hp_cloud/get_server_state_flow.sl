@@ -36,7 +36,8 @@ flow:
   inputs:
     - server_id
     - tenant
-    - token
+    - token:
+        sensitive: true
     - region
     - delay:
         default: 0

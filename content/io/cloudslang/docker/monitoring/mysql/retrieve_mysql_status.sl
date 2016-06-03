@@ -46,10 +46,12 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - mysql_username
-    - mysql_password
+    - mysql_password:
+        sensitive: true
 
   workflow:
     - check_mysql_is_up:

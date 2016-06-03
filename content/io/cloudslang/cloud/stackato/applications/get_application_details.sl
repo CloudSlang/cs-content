@@ -50,7 +50,8 @@ flow:
   inputs:
     - host
     - username
-    - password
+    - password:
+        sensitive: true
     - application_name
     - proxy_host:
         required: false
@@ -61,6 +62,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - get_applications_step:

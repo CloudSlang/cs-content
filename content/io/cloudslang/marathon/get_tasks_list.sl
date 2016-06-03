@@ -50,10 +50,11 @@ operation:
         default: ${get('proxy_host', None)}
         required: false
     - proxy_port:
-            required: false
+        required: false
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
+
   java_action:
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute

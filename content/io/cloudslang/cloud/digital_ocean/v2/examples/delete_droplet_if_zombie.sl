@@ -40,7 +40,8 @@ flow:
     - creation_time_as_string
     - time_to_live
     - name_pattern
-    - token
+    - token:
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -49,6 +50,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

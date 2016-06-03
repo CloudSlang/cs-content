@@ -29,8 +29,8 @@
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output result: ID of the container that was deleted
 #! @output standard_err: error message
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -59,6 +59,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:

@@ -45,6 +45,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - git_branch:
         required: true
     - git_repository_localdir: "/tmp/repo.git"

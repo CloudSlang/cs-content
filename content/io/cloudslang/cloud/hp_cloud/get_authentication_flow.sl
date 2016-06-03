@@ -33,7 +33,8 @@ flow:
 
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - region
     - proxy_host:
@@ -77,5 +78,7 @@ flow:
   outputs:
     - return_result
     - error_message
-    - token
+    - token:
+        value: ${token}
+        sensitive: true
     - tenant_id

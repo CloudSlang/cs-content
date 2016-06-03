@@ -33,7 +33,8 @@ flow:
   name: get_collaborator_details
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - app_id_or_name
     - collaborator_email_or_id
 

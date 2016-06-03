@@ -52,7 +52,9 @@ flow:
   name: query_text_index
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - query_text_index_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.query_text_index_api')}
     - text
     - absolute_max_results:

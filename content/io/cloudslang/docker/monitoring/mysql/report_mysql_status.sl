@@ -45,16 +45,19 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - docker_private_key_file:
         required: false
     - mysql_username
-    - mysql_password
+    - mysql_password:
+        sensitive: true
     - email_host
     - email_port
     - email_username:
         required: false
     - email_password:
         required: false
+        sensitive: true
     - email_sender
     - email_recipient
 

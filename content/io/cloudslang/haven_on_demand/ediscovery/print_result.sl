@@ -23,7 +23,8 @@ flow:
   name: print_result
 
   inputs:
-     - api_key
+     - api_key:
+        sensitive: true
      - reference
   workflow:
      - text_extraction:

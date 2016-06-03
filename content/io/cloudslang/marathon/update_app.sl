@@ -42,6 +42,7 @@ flow:
         required: false
     - proxy_port:
         required: false
+        
   workflow:
     - read_from_file:
         do:

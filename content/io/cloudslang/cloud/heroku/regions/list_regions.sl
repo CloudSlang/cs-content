@@ -20,7 +20,8 @@ flow:
   name: list_regions
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
 
   workflow:
     - list_regions:

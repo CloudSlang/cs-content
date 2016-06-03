@@ -52,6 +52,7 @@ flow:
     - password:
         default: ""
         required: false
+        sensitive: true
     - proxy_host:
         default: ""
         required: false
@@ -64,6 +65,7 @@ flow:
     - proxy_password:
         default: ""
         required: false
+        sensitive: true
     - connect_timeout:
         default: "0"
         required: false

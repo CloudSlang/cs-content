@@ -33,6 +33,7 @@ flow:
     - cadvisor_port:
         default: '8080'
         required: false
+
   workflow:
     - retrieve_machine_metrics:
         do:

@@ -21,7 +21,8 @@ flow:
   name: delete_application
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - app_id_or_name
 
   workflow:

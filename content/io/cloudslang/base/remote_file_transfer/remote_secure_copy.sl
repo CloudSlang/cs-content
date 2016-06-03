@@ -56,9 +56,11 @@ operation:
         private: true
     - source_password:
         required: false
+        sensitive: true
     - sourcePassword:
         default: ${get("source_password", "")}
         private: true
+        sensitive: true
     - source_private_key_file:
         required: false
     - sourcePrivateKeyFile:
@@ -77,9 +79,11 @@ operation:
     - destinationUsername: ${destination_username}
     - destination_password:
         required: false
+        sensitive: true
     - destinationPassword:
         default: ${get("destination_password", "")}
         private: true
+        sensitive: true
     - destination_private_key_file:
         required: false
     - destinationPrivateKeyFile:

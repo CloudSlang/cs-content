@@ -42,7 +42,8 @@ flow:
     - identity_port: '5000'
     - compute_port: '8774'
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - server_name
     - proxy_host:

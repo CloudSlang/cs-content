@@ -48,10 +48,12 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - arguments:
         required: false
     - mysql_username
-    - mysql_password
+    - mysql_password:
+        sensitive: true
     - private_key_file:
         required: false
     - exec_cmd:

@@ -40,7 +40,8 @@ flow:
     - host
     - identity_port: '5000'
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - proxy_host:
         required: false
@@ -50,6 +51,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
   workflow:
     - authentication_call:
         do:
@@ -98,7 +100,9 @@ flow:
   outputs:
     - return_result
     - error_message
-    - token
+    - token:
+        value: ${token}
+        sensitive: true
     - tenant_id
 
   results:

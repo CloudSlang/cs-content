@@ -33,7 +33,8 @@ flow:
   name: get_server_details
   inputs:
     - servers_endpoint: "https://api.newrelic.com/v2/servers"
-    - api_key
+    - api_key:
+        sensitive: true
     - server_id
     - proxy_host:
         required: false
@@ -47,6 +48,7 @@ flow:
     - proxy_password:
         required: false
         default: ''
+        sensitive: true
 
   workflow:
     - list_servers:

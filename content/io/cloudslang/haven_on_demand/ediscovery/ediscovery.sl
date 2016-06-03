@@ -31,7 +31,9 @@ flow:
   name: ediscovery
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - categorization_index
     - standart_index
     - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
@@ -56,7 +58,7 @@ flow:
            loop:
              for: reference in references
              do:
-               text_analize:
+               text_analyze:
                   - api_key
                   - reference
                   - categorization_index

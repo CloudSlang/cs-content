@@ -36,6 +36,7 @@ flow:
     - coreos_username
     - coreos_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - timeout:

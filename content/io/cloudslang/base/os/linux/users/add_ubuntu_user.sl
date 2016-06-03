@@ -40,11 +40,13 @@ flow:
 
   inputs:
     - host
-    - root_password
+    - root_password:
+        sensitive: true
     - user_name
     - user_password:
         default: ''
         required: false
+        sensitive: true
     - group_name:
         default: ''
         required: false

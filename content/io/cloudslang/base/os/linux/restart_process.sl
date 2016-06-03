@@ -47,6 +47,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - process_name
     - sudo_user:
         default: False

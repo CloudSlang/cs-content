@@ -26,7 +26,8 @@ flow:
   inputs:
     - speech_api
     - file
-    - api_key
+    - api_key:
+        sensitive: true
 
   workflow:
 

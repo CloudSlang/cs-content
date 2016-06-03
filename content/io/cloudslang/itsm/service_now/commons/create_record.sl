@@ -74,6 +74,7 @@ flow:
     - password:
         required: false
         default: ''
+        sensitive: true
     - proxy_host:
         required: false
         default: ''
@@ -86,6 +87,7 @@ flow:
     - proxy_password:
         required: false
         default: ''
+        sensitive: true
     - connect_timeout:
         default: "0"
         required: false

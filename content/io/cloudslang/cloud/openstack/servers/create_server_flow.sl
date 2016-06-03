@@ -98,6 +98,7 @@ flow:
         required: false
     - password:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -107,6 +108,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - tenant_name
     - version: '2'
     - server_name
@@ -125,6 +127,7 @@ flow:
     - admin_pass:
         default: ''
         required: false
+        sensitive: true
     - key_name:
         required: false
     - user_data:

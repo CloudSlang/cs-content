@@ -37,7 +37,9 @@ flow:
   name: find_related_concepts
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - find_related_concepts_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.find_related_concepts_api')}
     - text
     - field_text:

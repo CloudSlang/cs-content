@@ -48,7 +48,8 @@ flow:
     - host
     - port
     - username
-    - password
+    - password:
+        sensitive: true
     - closeSession:
         required: false
         default: ''

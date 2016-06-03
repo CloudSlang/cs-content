@@ -51,8 +51,11 @@ flow:
 
   inputs:
     - host
-    - root_password
-    - user_password: ''
+    - root_password:
+        sensitive: true
+    - user_password:
+        default: ''
+        sensitive: true
     - java_version
     - download_url
     - download_path:
@@ -377,5 +380,5 @@ flow:
     - CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
     - CREATE_INITIALIZATION_FOLDER_FAILURE
     - UPLOAD_INIT_CONFIG_FILE_FAILURE
-    - CHANGE_PERMISSIONS_FAILURE    
+    - CHANGE_PERMISSIONS_FAILURE
     - START_TOMCAT_APPLICATION_FAILURE

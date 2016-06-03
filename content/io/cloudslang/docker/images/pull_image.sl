@@ -24,8 +24,8 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output return_result: response of the operation
 #! @output error_message: error message
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -44,6 +44,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - command:

@@ -35,8 +35,10 @@ operation:
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         required: false
+        sensitive: true
     - credential:
         required: false
+        sensitive: true
     - region:
         default: 'us-east-1'
         required: false

@@ -50,6 +50,7 @@ operation:
       - username
       - password:
           required: false
+          sensitive: true
       - arguments:
           required: false
       - private_key_file:

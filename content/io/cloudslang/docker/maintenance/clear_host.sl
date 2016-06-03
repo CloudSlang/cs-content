@@ -33,11 +33,13 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - timeout: "6000000"
     - port:
         required: false
+
   workflow:
     - get_all_containers:
         do:

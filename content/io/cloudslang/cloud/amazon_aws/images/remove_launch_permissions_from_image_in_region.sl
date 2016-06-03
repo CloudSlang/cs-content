@@ -44,9 +44,11 @@ operation:
     - identity:
         default: ''
         required: false
+        sensitive: true
     - credential:
         default: ''
         required: false
+        sensitive: true
     - proxy_host:
         required: false
     - proxyHost:

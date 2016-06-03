@@ -35,6 +35,7 @@ flow:
     - knife_username
     - knife_password:
         required: false
+        sensitive: true
     - knife_privkey:
         required: false
     - knife_config:

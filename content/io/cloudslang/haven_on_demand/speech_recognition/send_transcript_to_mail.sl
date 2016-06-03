@@ -33,7 +33,9 @@ flow:
   name: send_transcript_to_mail
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.api_key')}
+        sensitive: true
     - speech_api: ${get_sp('io.cloudslang.haven_on_demand.speech_api')}
     - file: ${get_sp('io.cloudslang.haven_on_demand.file')}
     - speech_result_api: ${get_sp('io.cloudslang.haven_on_demand.speech_result_api')}

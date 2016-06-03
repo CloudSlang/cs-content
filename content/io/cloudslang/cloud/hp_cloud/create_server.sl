@@ -37,9 +37,11 @@ flow:
     - server_name
     - img_ref
     - flavor_ref
-    - keypair
+    - keypair:
+        sensitive: true
     - tenant
-    - token
+    - token:
+        sensitive: true
     - region
     - network_id:
         required: false

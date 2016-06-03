@@ -44,6 +44,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir: "/tmp/repo.git"
     - git_reset_target:
         default: "HEAD"

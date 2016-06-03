@@ -39,12 +39,14 @@ flow:
     - knife_username
     - knife_password:
         required: false
+        sensitive: true
     - knife_privkey:
         required: false
     - node_host
     - node_username
     - node_password:
         required: false
+        sensitive: true
     - node_privkey:
         required: false
     - knife_config:

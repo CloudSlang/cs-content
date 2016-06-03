@@ -45,7 +45,8 @@ flow:
   inputs:
     - host
     - username
-    - password
+    - password:
+        sensitive: true
     - application_name
     - space_guid
     - proxy_host:
@@ -57,6 +58,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - authentication:

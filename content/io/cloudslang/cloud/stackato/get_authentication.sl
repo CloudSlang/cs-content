@@ -39,7 +39,8 @@ flow:
   inputs:
     - host
     - username
-    - password
+    - password:
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -49,6 +50,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - http_client_action_post:
@@ -88,7 +90,9 @@ flow:
   outputs:
     - return_result
     - error_message
-    - token
+    - token:
+        value: ${token}
+        sensitive: true
 
   results:
     - SUCCESS

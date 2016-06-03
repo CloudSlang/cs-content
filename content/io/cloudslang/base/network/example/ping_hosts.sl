@@ -48,6 +48,7 @@ flow:
     - password:
         default: ${get_sp('io.cloudslang.base.password')}
         required: false
+        sensitive: true
 
   workflow:
     - check_address:

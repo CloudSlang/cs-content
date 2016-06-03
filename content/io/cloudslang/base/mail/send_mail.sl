@@ -61,6 +61,7 @@ operation:
         required: false
     - password:
         required: false
+        sensitive: true
     - character_set:
         required: false
     - characterSet:

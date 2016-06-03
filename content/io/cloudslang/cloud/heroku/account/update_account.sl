@@ -41,6 +41,7 @@ flow:
     - password:
         default: None
         required: false
+        sensitive: true
     - allow_tracking:
         default: True
         required: false

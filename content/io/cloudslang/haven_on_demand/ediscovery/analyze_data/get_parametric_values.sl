@@ -38,7 +38,9 @@ flow:
   name: get_parametric_values
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - get_parametric_values_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.get_parametric_values_api')}
     - field_name
     - document_count:
