@@ -28,6 +28,22 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
+#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
+#!                        trustAllRoots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#!                        trustPassword default will be supplied.
+#!                        Default value: changeit
+#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
+#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                  Format: Java KeyStore (JKS)
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#!                           is empty, keystorePassword default will be supplied.
+#!                           Default value: changeit
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
@@ -88,6 +104,10 @@ flow:
         required: false
         default: ''
         sensitive: true
+    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
+    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
+    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
     - connect_timeout:
         default: "0"
         required: false
@@ -121,6 +141,12 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
             - connect_timeout
             - socket_timeout
             - headers

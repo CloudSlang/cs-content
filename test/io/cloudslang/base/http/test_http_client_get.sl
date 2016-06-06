@@ -27,6 +27,10 @@ flow:
     - content_type:
         default: "application/json"
         private: true
+    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
+    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
+    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
 
   workflow:
     - get:
@@ -37,7 +41,13 @@ flow:
             - password
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
             - content_type
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message

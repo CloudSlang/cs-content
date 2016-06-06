@@ -58,6 +58,10 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
+    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
+    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
     - connect_timeout:
         default: "0"
         required: false
@@ -88,6 +92,12 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
             - connect_timeout
             - socket_timeout
             - headers

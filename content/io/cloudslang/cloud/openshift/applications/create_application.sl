@@ -23,6 +23,22 @@
 #!                        optional
 #! @input proxy_password: proxy server password associated with <proxy_username> input value
 #!                        optional
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
+#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
+#!                        trustAllRoots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#!                        trustPassword default will be supplied.
+#!                        Default value: changeit
+#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
+#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                  Format: Java KeyStore (JKS)
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#!                           is empty, keystorePassword default will be supplied.
+#!                           Default value: changeit
 #! @input domain: name of RedHat OpenShift Online domain in which application will be created
 #!                note: domain must be created first in order to create applications
 #! @input application_name: RedHat OpenShift Online application name
@@ -71,6 +87,10 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
+    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
+    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
     - domain
     - application_name
     - cartridge
@@ -115,6 +135,13 @@ flow:
             - initial_git_url_string: ${',"initial_git_url":"' + initial_git_url + '"' if initial_git_url else ''}
             - body: ${'{' + application_name_string + cartridge_string + gear_profile_string + initial_git_url_string + scale_string + '}'}
             - headers: 'Accept: application/json'
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+
         publish:
           - return_result
           - error_message
