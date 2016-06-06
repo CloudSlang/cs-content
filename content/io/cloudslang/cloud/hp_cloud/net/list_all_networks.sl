@@ -29,7 +29,8 @@ imports:
 flow:
   name: list_all_networks
   inputs:
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false

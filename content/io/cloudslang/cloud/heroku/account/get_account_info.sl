@@ -20,7 +20,8 @@ flow:
   name: get_account_info
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
   workflow:
     - details_account:
         do:

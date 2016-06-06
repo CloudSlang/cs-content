@@ -117,7 +117,8 @@ flow:
         default: 'https'
         required: false
     - username
-    - password
+    - password:
+        sensitive: true
     - trust_everyone:
         default: 'true'
         required: false
@@ -156,7 +157,8 @@ flow:
     - email_host
     - email_port
     - email_username
-    - email_password
+    - email_password:
+        sensitive: true
     - email_sender
     - email_recipient
 

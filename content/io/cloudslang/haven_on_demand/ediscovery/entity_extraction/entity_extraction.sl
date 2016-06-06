@@ -32,7 +32,9 @@ flow:
   name: entity_extraction
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - extract_entities_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.extract_entities_api')}
     - text:
         required: false

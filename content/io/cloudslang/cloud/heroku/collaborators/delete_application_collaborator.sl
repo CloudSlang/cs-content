@@ -22,7 +22,8 @@ flow:
   name: delete_application_collaborator
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - collaborator_email_or_id
     - app_id_or_name
 

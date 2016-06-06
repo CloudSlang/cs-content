@@ -34,9 +34,11 @@ flow:
     - password:
         default: None
         required: false
+        sensitive: true
     - new_password:
         default: None
         required: false
+        sensitive: true
 
   workflow:
     - validate_password_input:

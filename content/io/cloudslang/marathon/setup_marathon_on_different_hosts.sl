@@ -13,9 +13,9 @@
 #! @input private_key_file: private key file used for host
 #! @input marathon_port: optional - Marathon agent port - Default: 8080
 #! @input is_core_os: true if the host is CoreOS - Default: false
-#! @result SUCCESS: 
-#! @result SETUP_MARATHON_PROBLEM: 
-#! @result WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: 
+#! @result SUCCESS:
+#! @result SETUP_MARATHON_PROBLEM:
+#! @result WAIT_FOR_MARATHON_STARTUP_TIMED_OUT:
 #!!#
 #######################################################################################################################
 

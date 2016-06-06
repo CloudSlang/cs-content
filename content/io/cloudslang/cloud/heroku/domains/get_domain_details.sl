@@ -32,7 +32,8 @@ flow:
   name: get_domain_details
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - app_id_or_name
     - domain_id_or_hostname
 

@@ -20,7 +20,8 @@ flow:
   name: list_account_addons
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
   workflow:
     - list_account_addons:
         do:

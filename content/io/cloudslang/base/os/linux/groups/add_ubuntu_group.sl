@@ -35,7 +35,8 @@ flow:
 
   inputs:
     - host
-    - root_password
+    - root_password:
+        sensitive: true
     - group_name
 
   workflow:

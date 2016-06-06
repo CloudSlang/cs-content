@@ -28,12 +28,14 @@ flow:
   name: delete_floating_ip_flow
   inputs:
     - ip_address
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - list_ipadresses:
         do:

@@ -35,7 +35,8 @@ flow:
   name: update_server_name
   inputs:
     - servers_endpoint: "https://api.newrelic.com/v2/servers"
-    - api_key
+    - api_key:
+        sensitive: true
     - server_id
     - server_name
     - proxy_host:
@@ -50,6 +51,7 @@ flow:
     - proxy_password:
         required: false
         default: ''
+        sensitive: true
 
   workflow:
     - add_name:

@@ -23,8 +23,8 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output dangling_image_list: list of names of dangling Docker images
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 
@@ -47,6 +47,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
          required: false
     - command:

@@ -23,10 +23,12 @@ imports:
   ediscovery: io.cloudslang.haven_on_demand.ediscovery
 
 flow:
-  name: text_analize
+  name: text_analyze
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - reference
     - categorization_index
     - standart_index

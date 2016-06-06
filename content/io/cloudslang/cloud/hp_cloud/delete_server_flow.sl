@@ -35,7 +35,8 @@ flow:
   name: delete_server_flow
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - server_id
     - region

@@ -34,7 +34,8 @@ operation:
     - host
     - identity_port: '5000'
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - proxy_host:
         required: false
@@ -44,18 +45,20 @@ operation:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxyHost:
-        default: ${proxy_host if proxy_host is not None else ''}
+        default: ${get("proxy_host", ""}
         private: true
     - proxyPort:
-        default: ${proxy_port if proxy_port is not None else ''}
+        default: ${get("proxy_port", ""}
         private: true
     - proxyUsername:
-        default: ${proxy_username if proxy_username is not None else ''}
+        default: ${get("proxy_username", ""}
         private: true
     - proxyPassword:
-        default: ${proxy_password if proxy_password is not None else ''}
+        default: ${get("proxy_password", ""}
         private: true
+        sensitive: true
     - url:
         default: ${'http://'+ host + ':' + identity_port + '/v2.0/tokens'}
         private: true
@@ -65,6 +68,7 @@ operation:
           '","passwordCredentials": {"username": "' + username +
           '", "password": "' + password + '"}}}'}
         private: true
+        sensitive: true
     - method:
         default: 'post'
         private: true

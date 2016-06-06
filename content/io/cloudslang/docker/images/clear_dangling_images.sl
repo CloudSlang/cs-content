@@ -36,6 +36,7 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - used_images

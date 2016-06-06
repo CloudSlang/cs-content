@@ -37,6 +37,7 @@ flow:
     - password:
         default: ''
         required: false
+        sensitive: true
 
   workflow:
     - get_central_version:

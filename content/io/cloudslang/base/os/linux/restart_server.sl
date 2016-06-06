@@ -45,6 +45,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - timeout: 'now'
     - sudo_user:
         default: false

@@ -32,7 +32,8 @@ operation:
   inputs:
     - host
     - compute_port: '8774'
-    - token
+    - token:
+        sensitive: true
     - tenant_id
     - server_name
     - proxy_host:
@@ -40,10 +41,10 @@ operation:
     - proxy_port:
         required: false
     - proxyHost:
-        default: ${proxy_host if proxy_host else ''}
+        default: ${get("proxy_host", "")}
         private: true
     - proxyPort:
-        default: ${proxy_port if proxy_port else ''}
+        default: ${get("proxy_port", "")}
         private: true
     - img_ref
     - network_id:

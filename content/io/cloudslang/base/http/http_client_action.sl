@@ -117,6 +117,7 @@ operation:
         required: false
     - password:
         required: false
+        sensitive: true
     - kerberos_conf_file:
         required: false
     - kerberosConfFile:
@@ -149,9 +150,11 @@ operation:
         private: true
     - proxy_password:
         required: false
+        sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
         private: true
+        sensitive: true
     - trust_all_roots:
         required: false
     - trustAllRoots:
@@ -169,16 +172,20 @@ operation:
         private: true
     - trust_password:
         required: false
+        sensitive: true
     - trustPassword:
         default: ${get("trust_password", "")}
         private: true
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - keystorePassword:
         default: ${get("keystore_password", "")}
         private: true
+        sensitive: true
     - connect_timeout:
         required: false
     - connectTimeout:

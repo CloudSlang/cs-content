@@ -30,7 +30,8 @@ flow:
   name: create_floating_ip
   inputs:
     - ext_network_id
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false

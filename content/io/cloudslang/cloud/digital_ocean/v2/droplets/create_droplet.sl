@@ -49,12 +49,14 @@ flow:
     - image
     - ssh_keys:
         required: false
+        sensitive: true
     - backups: false
     - ipv6: false
     - private_networking: false
     - user_data:
         required: false
-    - token
+    - token:
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -63,6 +65,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

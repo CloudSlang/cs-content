@@ -64,7 +64,8 @@ imports:
 flow:
   name: get_failed_build
   inputs:
-    - token
+    - token:
+        sensitive: true
     - protocol
     - host:
         default: "circleci.com"

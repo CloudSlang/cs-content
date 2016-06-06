@@ -29,17 +29,18 @@ operation:
   inputs:
     - host
     - compute_port: '8774'
-    - token
+    - token:
+        sensitive: true
     - tenant_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
     - proxyHost:
-        default: ${proxy_host if proxy_host else ''}
+        default: ${get("proxy_host", "")}
         private: true
     - proxyPort:
-        default: ${proxy_port if proxy_port else ''}
+        default: ${get("proxy_port", "")}
         private: true
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}

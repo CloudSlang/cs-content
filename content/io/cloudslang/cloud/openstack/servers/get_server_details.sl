@@ -49,6 +49,7 @@ flow:
         required: false
     - password:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:

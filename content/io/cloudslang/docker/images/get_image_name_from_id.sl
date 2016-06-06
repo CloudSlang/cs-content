@@ -46,6 +46,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - image_id
     - private_key_file:
         required: false

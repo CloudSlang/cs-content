@@ -37,7 +37,8 @@ namespace: io.cloudslang.cloud.google.gke
 operation:
   name: beta_list_operations
   inputs:
-    - project_id
+    - project_id:
+        sensitive: true
     - zone:
         default: '-'
         required: false

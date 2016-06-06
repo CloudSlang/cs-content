@@ -35,7 +35,9 @@ flow:
   name: add_to_text_index
 
   inputs:
-    - api_key: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+    - api_key:
+        default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
+        sensitive: true
     - add_to_text_index_api: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.add_to_text_index_api')}
     - reference
     - index

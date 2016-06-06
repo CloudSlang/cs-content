@@ -52,6 +52,7 @@ flow:
     - manager_machine_username
     - manager_machine_password:
         required: false
+        sensitive: true
     - manager_machine_private_key_file:
         required: false
     - manager_machine_port
@@ -59,6 +60,7 @@ flow:
     - agent_usernames
     - agent_passwords:
         required: false
+        sensitive: true
     - agent_private_key_files:
         required: false
     - attempts: 60

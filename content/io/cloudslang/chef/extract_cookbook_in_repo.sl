@@ -30,10 +30,10 @@ flow:
     - cookbook_name
     - knife_host
     - knife_username
-    - knife_privkey:
-        required: false
+    - knife_privkey
     - knife_password:
         required: false
+        sensitive: true
     - knife_config:
         required: false
 

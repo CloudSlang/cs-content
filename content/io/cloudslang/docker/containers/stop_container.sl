@@ -26,8 +26,8 @@
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output result: ID of the container that was stopped
-#! @result SUCCESS: 
-#! @result FAILURE: 
+#! @result SUCCESS:
+#! @result FAILURE:
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
@@ -55,6 +55,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:

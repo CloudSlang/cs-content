@@ -36,6 +36,7 @@ flow:
     - cadvisor_port:
         default: '8080'
         required: false
+
   workflow:
     - retrieve_container_metrics:
         do:

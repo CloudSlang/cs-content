@@ -42,7 +42,8 @@ flow:
     - port:
         default: "22"
         required: false
-    - password
+    - password:
+        sensitive: true
     - private_key_file:
         required: false
     - user

@@ -29,7 +29,8 @@ flow:
   name: delete_droplet
 
   inputs:
-    - token
+    - token:
+        sensitive: true
     - droplet_id
     - proxy_host:
         required: false
@@ -39,6 +40,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

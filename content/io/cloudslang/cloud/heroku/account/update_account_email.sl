@@ -32,6 +32,7 @@ flow:
     - password:
         default: None
         required: false
+        sensitive: true
     - email
 
   workflow:

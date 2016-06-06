@@ -47,6 +47,7 @@ flow:
         required: false
     - email_password:
         required: false
+        sensitive: true
     - marathon_host
     - marathon_port:
         default: "8080"

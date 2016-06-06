@@ -39,6 +39,7 @@ flow:
     - node_username
     - node_password:
         required: false
+        sensitive: true
     - node_privkey:
         required: false
     - knife_host
@@ -47,6 +48,7 @@ flow:
         required: false
     - knife_password:
         required: false
+        sensitive: true
     - knife_timeout:
         default: '600000'
         required: false
@@ -55,6 +57,7 @@ flow:
     - node_password_expr:
         default: ${(" -P '" + node_password + "'") if node_password else ''}
         private: true
+        sensitive: true
     - node_privkey_expr:
         default: ${(' -i ' + node_privkey) if node_privkey else ''}
         private: true

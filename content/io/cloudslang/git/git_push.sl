@@ -45,6 +45,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir: "/tmp/repo.git"
     - git_push_branch: "master"
     - git_push_remote: "origin"

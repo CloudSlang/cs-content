@@ -21,7 +21,8 @@ operation:
   name: get_docs_references
 
   inputs:
-     - json_input
+     - json_input:
+        sensitive: true
      - key
   python_action:
     script: |

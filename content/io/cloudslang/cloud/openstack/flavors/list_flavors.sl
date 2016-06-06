@@ -53,6 +53,7 @@ flow:
         required: false
     - password:
         required: false
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -62,6 +63,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
     - authentication:

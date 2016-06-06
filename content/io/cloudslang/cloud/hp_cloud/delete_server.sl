@@ -32,7 +32,8 @@ flow:
   inputs:
     - server_id
     - tenant
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false

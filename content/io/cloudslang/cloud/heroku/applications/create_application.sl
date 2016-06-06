@@ -47,8 +47,10 @@ imports:
 flow:
   name: create_application
   inputs:
-    - username
-    - password
+    - username:
+        sensitive: true
+    - password:
+        sensitive: true
     - name:
         default: None
         required: false

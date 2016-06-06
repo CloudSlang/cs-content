@@ -36,7 +36,8 @@ flow:
 
   inputs:
     - host
-    - root_password
+    - root_password:
+        sensitive: true
     - source_folder
     - linked_folder
 

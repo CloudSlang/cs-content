@@ -51,6 +51,7 @@ operation:
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
+
   java_action:
     gav: 'io.cloudslang.content:score-http-client:0.1.65'
     class_name: io.cloudslang.content.httpclient.HttpClientAction

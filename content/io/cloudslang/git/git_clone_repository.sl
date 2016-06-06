@@ -44,6 +44,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - git_repository
     - git_repository_localdir: "/tmp/repo.git"
     - sudo_user:

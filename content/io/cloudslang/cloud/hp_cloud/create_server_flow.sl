@@ -43,12 +43,14 @@ flow:
   name: create_server_flow
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - server_name
     - img_ref
     - flavor_ref
-    - keypair
+    - keypair:
+        sensitive: true
     - region
     - assign_floating:
         default: True

@@ -30,7 +30,8 @@ flow:
   name: delete_floating_ip
   inputs:
     - ip_id
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false

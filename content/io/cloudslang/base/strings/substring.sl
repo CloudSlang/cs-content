@@ -27,12 +27,21 @@
      script: |
         error_message = ""
         max_index=len(origin_string)
-        if end_index==0:
+
+        if isinstance(begin_index,int)==False or isinstance(end_index,int)==False:
+           error_message="Invalid values"
+        elif end_index==0:
             new_string=origin_string[begin_index:]
-        elif begin_index < max_index-1 and end_index < max_index and end_index > begin_index:
-           new_string=origin_string[begin_index:end_index]
+        elif end_index < 0 or begin_index < 0:
+            error_message="Indexes must be positive integers"
+        elif begin_index > max_index-1 or end_index > max_index:
+            error_message="Indexes must be - begin_index < " + str(max_index-1) + ", end_index <= " + str(max_index)
+        elif end_index < begin_index:
+            error_message="Indexes must be - end_index > begin_index"
         else:
-          error_message="Indexes must be end_index > begin_index, begin_index < " + str(max_index-1) + ", end_index < " + str(max_index)
+           new_string=origin_string[begin_index:end_index]
+
+
 
    outputs:
       - new_string

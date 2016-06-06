@@ -40,7 +40,7 @@ operation:
         default: ${get('proxy_host', None)}
         required: false
     - proxy_port:
-            required: false
+        required: false
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false

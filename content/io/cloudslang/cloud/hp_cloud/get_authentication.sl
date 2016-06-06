@@ -31,7 +31,8 @@ flow:
   name: get_authentication
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - tenant_name
     - region
     - proxy_host:
@@ -59,6 +60,8 @@ flow:
           - status_code
 
   outputs:
-    - return_result
+    - return_result:
+        value: ${return_result}
+        sensitive: true
     - error_message
     - status_code

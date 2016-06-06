@@ -21,7 +21,8 @@ flow:
   name: list_domains
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - app_id_or_name
 
   workflow:

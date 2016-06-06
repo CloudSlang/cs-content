@@ -28,7 +28,8 @@ imports:
 flow:
   name: list_all_floating_ips
   inputs:
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false

@@ -44,6 +44,7 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - db_container_name: 'mysqldb'
@@ -57,6 +58,7 @@ flow:
         required: false
     - email_password:
         required: false
+        sensitive: true
     - email_enable_TLS:
         required: false
     - timeout: '30000000'

@@ -30,12 +30,14 @@ imports:
 flow:
   name: create_floating_ip_flow
   inputs:
-    - token
+    - token:
+        sensitive: true
     - region
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - list_networks:
         do:
