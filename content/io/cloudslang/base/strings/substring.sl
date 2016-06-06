@@ -35,7 +35,7 @@
         elif end_index < 0 or begin_index < 0:
             error_message="Indexes must be positive integers"
         elif begin_index > max_index-1 or end_index > max_index:
-            error_message="Indexes must be - begin_index < " + str(max_index-1) + ", end_index < " + str(max_index)
+            error_message="Indexes must be - begin_index < " + str(max_index-1) + ", end_index <= " + str(max_index)
         elif end_index < begin_index:
             error_message="Indexes must be - end_index > begin_index"
         else:
