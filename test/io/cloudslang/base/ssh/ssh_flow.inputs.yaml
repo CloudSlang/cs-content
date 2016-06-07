@@ -26,10 +26,10 @@ testSSHBasicallyWorks:
 
 testSSHManyInputs:
   inputs:
-    - host: "16.77.58.186"
-    - port: "22"
+    - host: localhost
+    - port: "49153"
     - username: root
-    - password: B33f34t3r
+    - password: screencast
     - command: echo testing
     - timeout: "90000"
     - characterSet: "SJIS"
@@ -52,10 +52,10 @@ testSSHManyInputs:
 
 testSSHexitStatusCommandNotFound:
   inputs:
-    - host: "16.77.58.186"
-    - port: "22"
+    - host: localhost
+    - port: "49153"
     - username: root
-    - password: B33f34t3r
+    - password: screencast
     - command: of
   description: Tests ssh command returns the code 127 when the command is not found
   testFlowPath: io.cloudslang.base.ssh.ssh_flow
