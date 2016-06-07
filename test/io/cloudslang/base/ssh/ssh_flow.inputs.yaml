@@ -23,3 +23,43 @@ testSSHBasicallyWorks:
 #don't remove it
   testSuites: [docker,docker-misc]
   result: SUCCESS
+
+testSSHManyInputs:
+  inputs:
+    - host: "16.77.58.186"
+    - port: "22"
+    - username: root
+    - password: B33f34t3r
+    - command: echo testing
+    - timeout: "90000"
+    - characterSet: "SJIS"
+    - closeSession: "true"
+    - smart_recovery: "false"
+    - retries: 5
+  description: Tests ssh works with most of the inputs
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+  outputs:
+    - standard_out: |
+        testing
+
+    - return_result: |
+        testing
+
+#the newline after the 'testing' string is required for this test to pass
+#don't remove it
+  testSuites: [docker,docker-misc]
+  result: SUCCESS
+
+testSSHexitStatusCommandNotFound:
+  inputs:
+    - host: "16.77.58.186"
+    - port: "22"
+    - username: root
+    - password: B33f34t3r
+    - command: of
+  description: Tests ssh command returns the code 127 when the command is not found
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+  outputs:
+    - command_return_code: 127
+  testSuites: [docker,docker-misc]
+  result: SUCCESS
