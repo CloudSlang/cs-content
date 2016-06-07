@@ -23,7 +23,7 @@ testHttpClientCentralFlow:
           }
         }
   description: "Test the Http Client against a REST API."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: SUCCESS
@@ -45,7 +45,7 @@ testHttpClientCentralFlowInvalidPassword:
            }
          }
   description: "Test the Http Client against a REST API using invalid password input."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: HTTP_CLIENT_GET_FAILURE
@@ -67,7 +67,7 @@ testHttpClientCentralFlowInvalidFlowUuid:
            }
          }
   description: "Test the Http Client against a REST API using invalid flowUuid input."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: HTTP_CLIENT_POST_FAILURE
@@ -89,7 +89,7 @@ testHttpClientCentralFlowInvalidBody:
            }
          }
   description: "Test the Http Client against a REST API using invalid body input."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: HTTP_CLIENT_POST_FAILURE
@@ -111,7 +111,7 @@ testHttpClientCentralFlowInvalidUsername:
            }
          }
   description: "Test the Http Client against a REST API using invalid username input."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: HTTP_CLIENT_GET_FAILURE
@@ -135,7 +135,7 @@ testHttpClientCentralHttpsSuccess:
           }
         }
   description: "Test the Http Client against a REST API using X-CSRF-TOKEN."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: SUCCESS
@@ -158,7 +158,7 @@ testHttpClientCentralHttpsWrongPassword:
          }
   description: "Test the Http Client against a REST API without using a wrong password ."
   testFlowPath: io.cloudslang.base.http.test_http_client_central
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [central-local]
   result: HTTP_CLIENT_GET_FAILURE
 
@@ -179,7 +179,7 @@ testHttpClientCentral7:
           }
         }
   description: "Test the Http Client against a REST API using invalid url."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_central
   testSuites: [central-local]
   result: HTTP_CLIENT_GET_FAILURE

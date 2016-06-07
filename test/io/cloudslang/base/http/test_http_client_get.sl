@@ -27,10 +27,16 @@ flow:
     - content_type:
         default: "application/json"
         private: true
-    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
-    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
-    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
-    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
+    - trust_keystore:
+        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+    - trust_password:
+        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        sensitive: true
+    - keystore:
+        default: ${get_sp('io.cloudslang.base.http.keystore')}
+    - keystore_password:
+        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        sensitive: true
 
   workflow:
     - get:

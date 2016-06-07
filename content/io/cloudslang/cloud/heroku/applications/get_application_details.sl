@@ -55,10 +55,20 @@ flow:
     - password:
         sensitive: true
     - app_id_or_name
-    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
-    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
-    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
-    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
+    - trust_keystore:
+        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        required: false
+    - trust_password:
+        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        required: false
+        sensitive: true
+    - keystore:
+        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        required: false
+    - keystore_password:
+        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        required: false
+        sensitive: true
 
   workflow:
     - get_application_details:

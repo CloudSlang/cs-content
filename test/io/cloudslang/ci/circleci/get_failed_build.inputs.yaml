@@ -26,7 +26,7 @@ testGetFailedBuildEmptySuccess:
     - supervisor: 'supervisor@email.address'
 
   description: Tests that get_failed_build.sl operation finishes with SUCCESS
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
@@ -56,7 +56,7 @@ testGetFailedBuildResponseSuccess:
     - supervisor: 'supervisor@email.address'
 
   description: Tests that get_failed_build.sl operation finishes with SUCCESS
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
@@ -90,7 +90,7 @@ testGetFailedBuildWrongAPIKeyFAILURE:
         the response will return [] with a status code of 200 and SUCCESS
         The response should end with status code 401 and the message
         "You must login first"  since the API key is not valid
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http.prop.sl
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:

@@ -33,10 +33,20 @@ flow:
          required: false
     - body:
          required: false
-    - trust_keystore: ${get_sp('io.cloudslang.base.http.trust_keystore')}
-    - trust_password: ${get_sp('io.cloudslang.base.http.trust_password')}
-    - keystore: ${get_sp('io.cloudslang.base.http.keystore')}
-    - keystore_password: ${get_sp('io.cloudslang.base.http.keystore_password')}
+    - trust_keystore:
+        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        required: false
+    - trust_password:
+        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        required: false
+        sensitive: true
+    - keystore:
+        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        required: false
+    - keystore_password:
+        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        required: false
+        sensitive: true
 
   workflow:
     - get:
@@ -151,6 +161,7 @@ flow:
             - url: ${url + '?endedBefore=3168065160000&flowUuids=5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d'}
             - username
             - password
+            - auth_type: "anonymous"
             - content_type
             - headers: ${'X-CSRF-TOKEN:' + token}
             - trust_all_roots: "false"

@@ -18,7 +18,7 @@
 namespace: io.cloudslang.base.http
 
 properties:
-  - trust_keystore: ""
-  - trust_password: ""
-  - keystore: ""
-  - keystore_password: ""
+  - trust_keystore: "c:/keystore/cacerts"
+  - trust_password: "changeit"
+  - keystore: "c:/keystore/clientkeystore"
+  - keystore_password: "changeit"
