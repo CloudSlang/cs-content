@@ -124,3 +124,49 @@ testGetSpecialCharactersValue:
   description: Tests get_value.sl when value contains special characters (documented for cloudslang)
   testFlowPath: io.cloudslang.base.json.test_get_value
   result: SUCCESS
+
+testGetBoolean1:
+  inputs:
+    - json_before: '{"number1": 1.9e1, "outer_key2": {"boolean": true, "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key2,boolean]
+    - found_value: true
+  description: Tests that get_value.sl reads boolean values correctly
+  testFlowPath: io.cloudslang.base.json.test_get_value
+  result: SUCCESS
+
+testGetBoolean2:
+  inputs:
+    - json_before: '{"number1": 1.9e1, "outer_key2": {"boolean": false, "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key2,boolean]
+    - found_value: "false"
+  description: Tests that get_value.sl reads boolean value, not string
+  testFlowPath: io.cloudslang.base.json.test_get_value
+  result: EQUALITY_FAILURE
+
+testGetNull:
+  inputs:
+    - json_input: '{"outer_key1": null, "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
+    - json_path: [outer_key1]
+  description: Tests that get_value.sl correctly gets a null value
+  testFlowPath: io.cloudslang.base.json.get_value
+  outputs:
+    - value: null
+  result: SUCCESS
+
+testGetCaseSensitiveKeys1:
+  inputs:
+    - json_input: '{"key": "otherValue", "Key": "rightValue"}'
+    - json_path: [Key]
+  description: Tests that get_value.sl reads correct case-sensitive key
+  testFlowPath: io.cloudslang.base.json.get_value
+  outputs:
+    - value: rightValue
+  result: SUCCESS
+
+testGetCaseSensitiveKeys2:
+  inputs:
+    - json_input: '{"keyExtra": "otherValue", "Key": "rightValue"}'
+    - json_path: [key]
+  description: Tests that get_value.sl searches for case-sensitive key
+  testFlowPath: io.cloudslang.base.json.get_value
+  result: FAILURE
