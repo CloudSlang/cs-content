@@ -14,17 +14,498 @@ testSelectElementSuccess:
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
     - selected_value: <root/>
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
   result: SUCCESS
 
-testSelectAttributeSuccess:
+testXpathPriceElementsAndTitleElements:
   inputs:
-    - xml_document: <root attr="ibute"></root>
-    - xpath_query: /root/@attr
-    - attribute_name: attr
-  description: Tests that select.sl operation finishes with SUCCESS and sets the attribute value
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Testing XPath Query</title>
+                                                                        <price>100</price>
+                                                                      </book>
+                                                                      <magazine>
+                                                                        <book>
+                                                                        <title>Magazine</title>
+                                                                        </book>
+                                                                        </magazine>
+                                                                      </bookstore>'
+    - xpath_query: //price/text()|//title/text()
+    - query_type: 'nodelist'
+  description: "Selects the node in the document from the current node that match the selection no matter where they are"
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
-    - selected_value: attr="ibute"
+    - selected_value: 'Harry Potter,29.99,Learning XML,39.95,Testing XPath Query,100,Magazine'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathNodeOfCurrentNode:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                   <book>
+                                                     <title lang="en">Harry Potter</title>
+                                                     <price>29.99</price>
+                                                   </book>
+                                                   <book>
+                                                     <title lang="en">Learning XML</title>
+                                                     <price>39.95</price>
+                                                   </book>
+                                                 </bookstore>'
+    - xpath_query: //book
+  description: "Tests that this operation selects the node in the document from the current node that match the selection no matter where they are"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathBooksWithPriceGratherThan:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                   <book>
+                                                     <title lang="en">Harry Potter</title>
+                                                     <price>29.99</price>
+                                                   </book>
+                                                   <book>
+                                                     <title lang="en">Learning XML</title>
+                                                     <price>39.95</price>
+                                                   </book>
+                                                 </bookstore>'
+    - xpath_query: '/bookstore/book[price>35.00]/title'
+  description: "Tests that this operation selects all the book elements of the bookstore element that have a price element with a value greater than 35.00"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <title lang="en">Learning XML</title>
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathAnyNode:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                   <book>
+                                                     <title lang="en">Harry Potter</title>
+                                                     <price>29.99</price>
+                                                   </book>
+                                                   <book>
+                                                     <title lang="en">Learning XML</title>
+                                                     <price>39.95</price>
+                                                   </book>
+                                                 </bookstore>'
+    - xpath_query: 'node()'
+    - query_type: 'nodelist'
+  description: "Tests that this operation selects any node of any kind"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> </bookstore>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testXpathLengthTitleElement:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Testing XPath Query</title>
+                                                                        <price>100</price>
+                                                                      </book>
+                                                                      <magazine>
+                                                                        <book>
+                                                                        <title>Magazine</title>
+                                                                        </book>
+                                                                        </magazine>
+                                                                      </bookstore>'
+    - xpath_query:   string-length(//title[1]/text())
+    - query_type: 'value'
+  description: "Tests that this operation returns the length of the first 'title' element's textual value."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '12'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testXpathSumLangTitle:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                                       <bookstore>
+                                                                                           <book id="1">Harry Potter</book>
+                                                                                           <book id="2">Learning XML</book>
+                                                                                           <book id="3">Testing XPath Query</book>
+                                                                                       </bookstore>'
+    - xpath_query: "sum(//book/@id)"
+    - query_type: 'value'
+  description: "Tests that this operation returns the sum of the 'lang' attributes of the 'title' elements."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '6'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathCount:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8" ?>
+
+                     <site  version="1.0" >
+                       <status OrderId="118126" result="success" >
+                         <status-elem TestcaseId="45224914" ExecutionId="34855770" OrderId="118126" Path="/Egitim/Toros/2SMS/sms_avea" Status="done" StatusInfo="Section 3: postamble" Verdict="PASS" Start="1325862165654" End="1325862277521" User="tturkeli" />
+                         <status-elem TestcaseId="45224913" ExecutionId="34855769" OrderId="118126" Path="/Egitim/Toros/2SMS/sms_turkcell" Status="done" StatusInfo="Section 3: postamble" Verdict="PASS" Start="1325862003265" End="1325862118456" User="tturkeli" />
+                       </status>
+                     </site>'
+    - xpath_query: "count(//status-elem)"
+    - query_type: 'value'
+  description: "Tests that this operation selects the number of 'status' elements."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ''
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+
+
+testSelectCurrentNodeXPath:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                     <bookstore>
+                     <book>
+                       <title lang="en">Harry Potter</title>
+                       <price>29.99</price>
+                     </book>
+                     <book>
+                       <title lang="en">Learning XML</title>
+                       <price>39.95</price>
+                     </book>
+                     </bookstore>'
+    - xpath_query: '.'
+  description: "Tests that this operation return the current node"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> </bookstore>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXPathNodesFromCurrentNode:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Testing XPath Query</title>
+                                                   <price>100</price>
+                                                 </book>
+                                                 <magazine>
+                                                   <book>
+                                                   <title>Magazine</title>
+                                                   </book>
+                                                   </magazine>
+                                                 </bookstore>'
+    - xpath_query: //book
+    - query_type: nodelist
+  description: "Selects nodes in the document from the current node that match the selection no matter where they are"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>,<book> <title lang="en">Learning XML</title> <price>39.95</price> </book>,<book> <title lang="en">Testing XPath Query</title> <price>100</price> </book>,<book> <title>Magazine</title> </book>
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathNodelistAndDootDelimiter:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                  <book>
+                                                    <title lang="en">Testing XPath Query</title>
+                                                    <price>100</price>
+                                                  </book>
+                                                 </bookstore>'
+    - xpath_query: //book
+    - query_type: nodelist
+    - delimiter: '.'
+  description: "Tests that this operation returns the results separated by '.'"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>.<book> <title lang="en">Learning XML</title> <price>39.95</price> </book>.<book> <title lang="en">Testing XPath Query</title> <price>100</price> </book>
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathDocumentNode:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                  <book>
+                                                    <title lang="en">Testing XPath Query</title>
+                                                    <price>100</price>
+                                                  </book>
+                                                 </bookstore>'
+    - xpath_query: /
+    - query_type: nodelist
+  description: "Tests that this operation returns the document node"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> <book> <title lang="en">Testing XPath Query</title> <price>100</price> </book> </bookstore>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathDocumentTitleNodes:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                  <book>
+                                                    <title lang="en">Testing XPath Query</title>
+                                                    <price>100</price>
+                                                  </book>
+                                                 </bookstore>'
+    - xpath_query: /bookstore/book/title
+    - query_type: nodelist
+  description: "Tests that this operation returns all 'title' elements that are direct children of the 'book' element."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<title lang="en">Harry Potter</title>,<title lang="en">Learning XML</title>,<title lang="en">Testing XPath Query</title>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathLangAttributesOfTitleElements:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                  <book>
+                                                    <title lang="en">Testing XPath Query</title>
+                                                    <price>100</price>
+                                                  </book>
+                                                 </bookstore>'
+    - xpath_query: /bookstore/book/title/@lang
+    - query_type: nodelist
+  description: "Tests that this operation returns the 'lang' attributes of the 'title' elements."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 'lang="en",lang="en",lang="en"'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathTextualValueOfFirstVersionElement:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                   <version>version1</version>
+                                                   <version>version2</version>
+                                                   <version>version3</version>
+                                                   <version>version4</version>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                  <book>
+                                                    <title lang="en">Testing XPath Query</title>
+                                                    <price>100</price>
+                                                  </book>
+                                                 </bookstore>'
+    - xpath_query: //version[1]/text()
+    - query_type: nodelist
+  description: "Tests that this operation returns the textual value of first 'version' element."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 'version1'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathTextualValueLastVersionElement:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                        <version>version1</version>
+                                                                        <version>version2</version>
+                                                                        <version>version3</version>
+                                                                        <version>version4</version>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                       <book>
+                                                                         <title lang="en">Testing XPath Query</title>
+                                                                         <price>100</price>
+                                                                       </book>
+                                                                      </bookstore>'
+    - xpath_query: //version[last()]/text()
+    - query_type: nodelist
+  description: "Tests that this operation returns the textual value of the last 'version' element."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 'version4'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathTextualValueLastVersionElementUsingValueQueryType:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                        <version>version1</version>
+                                                                        <version>version2</version>
+                                                                        <version>version3</version>
+                                                                        <version>version4</version>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                       <book>
+                                                                         <title lang="en">Testing XPath Query</title>
+                                                                         <price>100</price>
+                                                                       </book>
+                                                                      </bookstore>'
+    - xpath_query: //version[last()]
+    - query_type: value
+  description: "Tests that this operation returns the textual value of the last 'version' element."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 'version4'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+
+testSelectXpathFirstAndSecondElements:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                        <version>version1</version>
+                                                                        <version>version2</version>
+                                                                        <version>version3</version>
+                                                                        <version>version4</version>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                       <book>
+                                                                         <title lang="en">Testing XPath Query</title>
+                                                                         <price>100</price>
+                                                                       </book>
+                                                                      </bookstore>'
+    - xpath_query: //version[position() < 3]
+    - query_type: nodelist
+  description: "Tests that this operation returns the first and second 'version' elements using their position."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<version>version1</version>,<version>version2</version>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathAllChildrenOfBook:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                                      <bookstore>
+                                                                      <book>
+                                                                        <title lang="en">Harry Potter</title>
+                                                                        <price>29.99</price>
+                                                                        <version>version1</version>
+                                                                        <version>version2</version>
+                                                                        <version>version3</version>
+                                                                        <version>version4</version>
+                                                                      </book>
+                                                                      <book>
+                                                                        <title lang="en">Learning XML</title>
+                                                                        <price>39.95</price>
+                                                                      </book>
+                                                                       <book>
+                                                                         <title lang="en">Testing XPath Query</title>
+                                                                         <price>100</price>
+                                                                       </book>
+                                                                      </bookstore>'
+    - xpath_query: /bookstore/book/*
+    - query_type: nodelist
+  description: "Tests that this operation returns the first and second 'version' elements using their position."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<title lang="en">Harry Potter</title>,<price>29.99</price>,<version>version1</version>,<version>version2</version>,<version>version3</version>,<version>version4</version>,<title lang="en">Learning XML</title>,<price>39.95</price>,<title lang="en">Testing XPath Query</title>,<price>100</price>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
   result: SUCCESS
 
 testSelectElementValueSuccess:
@@ -32,10 +513,39 @@ testSelectElementValueSuccess:
     - xml_document: <root>the value</root>
     - xpath_query: /root
     - query_type: 'value'
-  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
+  description: 'Tests that select.sl operation finishes with SUCCESS and selects the proper element'
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
     - selected_value: the value
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectBadXpathValue:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Testing XPath Query</title>
+                                                   <price>100</price>
+                                                 </book>
+                                                 </bookstore>'
+    - xpath_query: //price
+    - query_type: value
+  description: "Tests that select.sl operation finishes with SUCCESS and selects the va;ue of price element"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 29.99
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
   result: SUCCESS
 
 testSelectElementListSuccess:
@@ -49,12 +559,646 @@ testSelectElementListSuccess:
     - selected_value: <first>one</first>,<second>two</second>
   result: SUCCESS
 
-testSelectBadXpath:
+testSelectBadXpathEmptyStringXPathQuery:
   inputs:
-    - xml_document: <root/>
-    - xpath_query: /toot
-  description: Tests that select.sl operation finishes with FAILURE with bad XPATH query
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                 </bookstore>'
+    - xpath_query: ""
+  description: "Tests that this operation fails when query=empty string."
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
     - selected_value: ""
+    - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectBadXpathEmptyStringXmlDocument:
+  inputs:
+    - xml_document: ""
+    - xpath_query: "/root"
+  description: "Tests that this operation fails when xml_document= empty string"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Premature end of file."
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectBadXpathInvalidXmlDocument:
+  inputs:
+    - xml_document: "root"
+    - xpath_query: "/root"
+  description: "Tests that this operation fails when xml_document input is invalid"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Content is not allowed in prolog."
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectBadXpathEmptyStringQueryType:
+  inputs:
+    - xml_document: "<root>test</root>"
+    - xpath_query: "/root"
+    - query_type: ""
+  description: "Tests that this operations fails when query type input is empty string"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Invalid query type"
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectBadXpathNoQuery:
+  inputs:
+    - xml_document: "<root>test</root>"
+  description: "Tests that the operation throws exception when required inputs are not given"
+  testFlowPath: io.cloudslang.base.xml.select
+  throwsException: true
+
+testSelectXpathInvalidXPathQuery:
+  inputs:
+    - xml_document: 'xml = <?xml version="1.0" encoding="ISO-8859-1"?>
+                       <!-- In XPath, there are seven kinds of nodes: element, attribute, text,
+                               namespace, processing-instruction, comment, and document nodes. -->
+                       <bookstore>
+                               <book id="1">
+                                       <title lang="eng">Childhood</title>
+                                       <price>10.00</price>
+                               </book>
+
+                               <book id="2">
+                                       <title lang="eng">Boyhood</title>
+                                       <price>15.00</price>
+                               </book>
+
+                               <book id="3">
+                                       <title lang="eng">Youth</title>
+                                       <price>20.00</price>
+                               </book>
+
+                               <book id="4">
+                                       <title lang="eng">Anna Karenina</title>
+                                       <price>25.00</price>
+                               </book>
+
+                               <book id="5">
+                                       <title lang="eng">War and Peace</title>
+                                       <price>30.00</price>
+                               </book>
+
+                               <book id="6">
+                                       <title lang="eng">Resurrection</title>
+                                       <price>32.00</price>
+                               </book>
+
+                               <book id="7">
+                                       <title lang="eng">Family Happiness</title>
+                                       <price>35.00</price>
+                               </book>
+
+                               <book id="8">
+                                       <title lang="eng">The Kreutzer Sonata</title>
+                                       <price>40.95</price>
+                               </book>
+                       </bookstore>'
+    - xpath_query: /bookstore/
+  description: "Tests that this operation fails when invalid xpath_query input is given"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Content is not allowed in prolog."
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectXpathInvalidXPath:
+  inputs:
+    - xml_document: 'xml = <?xml version="1.0" encoding="ISO-8859-1"?>
+                       <!-- In XPath, there are seven kinds of nodes: element, attribute, text,
+                               namespace, processing-instruction, comment, and document nodes. -->
+                       <bookstore>
+                               <book id="1">
+                                       <title lang="eng">Childhood</title>
+                                       <price>10.00</price>
+                               </book>
+
+                               <book id="2">
+                                       <title lang="eng">Boyhood</title>
+                                       <price>15.00</price>
+                               </book>
+
+                               <book id="3">
+                                       <title lang="eng">Youth</title>
+                                       <price>20.00</price>
+                               </book>
+
+                               <book id="4">
+                                       <title lang="eng">Anna Karenina</title>
+                                       <price>25.00</price>
+                               </book>
+
+                               <book id="5">
+                                       <title lang="eng">War and Peace</title>
+                                       <price>30.00</price>
+                               </book>
+
+                               <book id="6">
+                                       <title lang="eng">Resurrection</title>
+                                       <price>32.00</price>
+                               </book>
+
+                               <book id="7">
+                                       <title lang="eng">Family Happiness</title>
+                                       <price>35.00</price>
+                               </book>
+
+                               <book id="8">
+                                       <title lang="eng">The Kreutzer Sonata</title>
+                                       <price>40.95</price>
+                               </book>
+                       </bookstore>'
+    - xpath_query: "aaaaaaaaa::"
+  description: "Tests that this operation fails when invalid xpath_query input is given"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Content is not allowed in prolog."
+    - result_text: "failure"
+  result: FAILURE
+
+testSelectXpathCategory:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="ISO-8859-1"?>
+                     <catalog xmlns:dc="http://www.xml.com/books">
+
+                       <dc:category name="woot" build="car">
+                         Small chamber ensembles - 2-4 Players by New York Women Composers
+                       </dc:category>
+                     </catalog>'
+    - xpath_query: "/catalog/dc:category"
+  description: "Tests that select.sl operation finishes with SUCCESS and selects the proper element"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<dc:category build="car" name="woot" xmlns:dc="http://www.xml.com/books"> Small chamber ensembles - 2-4 Players by New York Women Composers </dc:category>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathStatusElem:
+  inputs:
+    - xml_document: '<site version="1.0" >
+                       <status OrderId="117302" result="success" >
+                         <status-elem TestcaseId="44589129" ExecutionId="34315157" OrderId="117302" Path="/14.OdemeliAraCell_fromPostpaid" Status="Main" StatusInfo="stat info" Verdict="FAIL" Start="1323905152611" End="1323905159694" User="asezer" />
+                       </status>
+                     </site>'
+    - xpath_query: '/site/status[@OrderId="117302"]//status-elem[@TestcaseId]'
+    - query_type: "nodelist"
+  description: "Tests that this operation goes to success when the query selects all elements with status-elem"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<status-elem End="1323905159694" ExecutionId="34315157" OrderId="117302" Path="/14.OdemeliAraCell_fromPostpaid" Start="1323905152611" Status="Main" StatusInfo="stat info" TestcaseId="44589129" User="asezer" Verdict="FAIL"/>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathGetElement:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="ISO-8859-1"?>
+                     <bookstore>
+                       <book category="COOKING">
+                         <title lang="en">Everyday Italian</title>
+                         <author>Giada De Laurentiis</author>
+                         <year>2005</year>
+                         <price>30.00</price>
+                       </book>
+                       <book category="CHILDREN">
+                         <title lang="en">Harry Potter</title>
+                         <author>J K. Rowling</author>
+                         <year>2005</year>
+                         <price>29.99</price>
+                         <test attr1="attr val 1a" attr2="attr val 2a">
+                           <test2 attr3="attr val 3a">
+                             Hello World - A
+                           </test2>
+                         </test>
+                         <publisher>Penguin</publisher>
+                       </book>
+                     <book category="WEB">
+                         <title lang="en">XQuery Kick Start</title>
+                         <author>James McGovern</author>
+                         <author>Per Bothner</author>
+                         <author>Kurt Cagle</author>
+                         <author>James Linn</author>
+                         <author>Vaidyanathan Nagarajan</author>
+                         <year>2003</year>
+                         <price>49.99</price>
+                       </book>
+                       <book category="WEB" uploaded="true">
+                         <title lang="en">Learning XML</title>
+                         <test attr2="attr val 2b">
+                           <test2 attr3="attr val 3b">
+                             Hello World - B
+                           </test2>
+                         </test>
+                         <author>Erik T. Ray</author>
+                         <year>2003</year>
+                         <price>39.95</price>
+                       </book>
+                     </bookstore>'
+    - xpath_query: '/bookstore/book[price>35.00]/@category'
+    - query_type: 'nodelist'
+  description: "Tests that this operation returns all book categories with price > 35.00"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: 'category="WEB",category="WEB"'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathTitleLang:
+  inputs:
+    - xml_document: '<bookstore>
+                                                                                 <book id="1">
+                                                                                                <title lang=" eng">Childhood</title>
+                                                                                                <price>10.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="2">
+                                                                                                <title lang=" eng">Boyhood</title>
+                                                                                                <price>15.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="3">
+                                                                                                <title lang=" eng">Youth</title>
+                                                                                                <price>20.00 </price>
+                                                                                 </book>
+
+                                                                                <book id="4">
+                                                                                                <title lang=" eng"> Anna Karenina</title>
+                                                                                                <price>25.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="5">
+                                                                                                <title lang=" eng">War and Peace</title>
+                                                                                                <price>30.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="6">
+                                                                                                <title lang=" eng">Resurrection</title>
+                                                                                                <price>32.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="7">
+                                                                                                <title lang=" eng">Family Happiness</title>
+                                                                                                <price>35.00 </price>
+                                                                                 </book>
+
+                                                                                 <book id="8">
+                                                                                                <title lang=" eng">The Kreutzer Sonata</title>
+                                                                                                <price>40.95 </price>
+                                                                                 </book>
+                     </bookstore>'
+    - xpath_query: "//title[@lang=' eng']"
+    - query_type: 'nodelist'
+  description: "Tests that this operation return all elements with title[@lang=' eng']"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<title lang=" eng">Childhood</title>,<title lang=" eng">Boyhood</title>,<title lang=" eng">Youth</title>,<title lang=" eng"> Anna Karenina</title>,<title lang=" eng">War and Peace</title>,<title lang=" eng">Resurrection</title>,<title lang=" eng">Family Happiness</title>,<title lang=" eng">The Kreutzer Sonata</title>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectXpathCalories:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                          <inventory>
+                                          	<drink>
+                                          		<lemonade supplier="mother" id="1">
+                                          			<price>$2.50</price>
+                                          			<amount>20</amount>
+                                          		</lemonade>
+                                          		<pop supplier="store" id="2">
+                                          			<price>$1.50</price>
+                                          			<amount>10</amount>
+                                          		</pop>
+                                          	</drink>
+
+                                          	<snack>
+                                          		<chips supplier="store" id="3">
+                                          			<price>$4.50</price>
+                                          			<amount>60</amount>
+                                          			<calories>180</calories>
+                                          		</chips>
+                                          	</snack>
+                                          </inventory>'
+    - xpath_query: '//chips/calories'
+  description: "Tests that this operation goes to success when the query selects all elements with status-elem"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: '<calories>180</calories>'
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
+  result: SUCCESS
+
+testSelectBadXpathLargeDocument:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+
+                     <root version="14" libraryDocVersion="17">
+                       <node type="checkoutInfo" id="a606bbbd-7df1-44dd-8a70-2fb78a0469f7">
+                         <attribute name="last_modified_by">admin</attribute>
+                         <attribute name="modifiedTimestamp">1233232478234</attribute>
+                         <attribute name="uuid">a606bbbd-7df1-44dd-8a70-2fb78a0469f7</attribute>
+                         <child name="checkouts">
+                           <map>
+                             <map-entry key="87974492-09d5-4c01-956e-141d8734c5c0">
+                               <node type="checkout" id="483deed4-5180-46bf-86de-29bb78f6fdff">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">87974492-09d5-4c01-956e-141d8734c5c0</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">483deed4-5180-46bf-86de-29bb78f6fdff</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="f6a3ccb3-8db1-49ab-a195-1fdb864da7bb">
+                               <node type="checkout" id="756a5c95-f5e0-417e-8152-c5804e4cfe10">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">f6a3ccb3-8db1-49ab-a195-1fdb864da7bb</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">756a5c95-f5e0-417e-8152-c5804e4cfe10</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="7e418ece-b813-4c3d-862c-7de1d9adc263">
+                               <node type="checkout" id="7ed3a4c0-12ee-4e30-acc4-af69da2a789c">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">7e418ece-b813-4c3d-862c-7de1d9adc263</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">7ed3a4c0-12ee-4e30-acc4-af69da2a789c</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="23ff22bd-f9d8-4a98-8517-2800c8551c90">
+                               <node type="checkout" id="76fab79e-e6a7-4b5b-a28e-f702646d8e14">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">23ff22bd-f9d8-4a98-8517-2800c8551c90</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">76fab79e-e6a7-4b5b-a28e-f702646d8e14</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="a5b8695e-5ae6-4571-ad7c-3994408bdfdc">
+                               <node type="checkout" id="9b4f3abc-b10b-45e9-a47e-84d5e2618c23">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">a5b8695e-5ae6-4571-ad7c-3994408bdfdc</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">9b4f3abc-b10b-45e9-a47e-84d5e2618c23</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="05d74204-6c3d-4827-87e1-eef996c26ecd">
+                               <node type="checkout" id="76aba343-9978-4a4f-b352-bef1cc5137ba">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">05d74204-6c3d-4827-87e1-eef996c26ecd</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">76aba343-9978-4a4f-b352-bef1cc5137ba</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="3c527803-fe0b-4510-93f4-ac4a4eb7192c">
+                               <node type="checkout" id="fc3c2f8c-f5c1-4a72-97dc-ad2b9f927d3c">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">3c527803-fe0b-4510-93f4-ac4a4eb7192c</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">fc3c2f8c-f5c1-4a72-97dc-ad2b9f927d3c</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="d51ae48b-886f-4810-9e34-809d70287f20">
+                               <node type="checkout" id="e00f6409-ce94-4963-ada6-45c3ff3ff486">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">d51ae48b-886f-4810-9e34-809d70287f20</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">e00f6409-ce94-4963-ada6-45c3ff3ff486</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="d7cade65-20d4-4734-9585-d12e7629a74e">
+                               <node type="checkout" id="12abb21c-33f3-4f59-958c-45716c8c964b">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">d7cade65-20d4-4734-9585-d12e7629a74e</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">12abb21c-33f3-4f59-958c-45716c8c964b</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="e85a29d1-0b6c-45b3-b6b8-7d55094f2480">
+                               <node type="checkout" id="3c79569e-5895-4d0f-96e9-3cc4c6508369">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">e85a29d1-0b6c-45b3-b6b8-7d55094f2480</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">3c79569e-5895-4d0f-96e9-3cc4c6508369</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="56c12247-e418-4196-8b41-8a34fd96b3ae">
+                               <node type="checkout" id="d6b7421a-b5cb-418f-badc-0895cf0396fc">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">56c12247-e418-4196-8b41-8a34fd96b3ae</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">d6b7421a-b5cb-418f-badc-0895cf0396fc</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="2f938113-782e-43e6-8278-9e8ce1032a87">
+                               <node type="checkout" id="9dc0e059-b059-41ed-9cc4-3763fc8e641a">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">2f938113-782e-43e6-8278-9e8ce1032a87</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">9dc0e059-b059-41ed-9cc4-3763fc8e641a</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="3ff9c56b-1e49-44fe-96b2-4807f37ec628">
+                               <node type="checkout" id="68cd698d-017e-453c-b306-9076a51ba099">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">3ff9c56b-1e49-44fe-96b2-4807f37ec628</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">68cd698d-017e-453c-b306-9076a51ba099</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="37e68565-6a00-4fab-9f7c-b7333dad2b9f">
+                               <node type="checkout" id="def5c5fd-7141-4c34-92e5-7fdb94a69c93">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">37e68565-6a00-4fab-9f7c-b7333dad2b9f</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">def5c5fd-7141-4c34-92e5-7fdb94a69c93</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="9ab3fa2a-d38d-4fbf-bf57-f2c3a710e6f9">
+                               <node type="checkout" id="86ddd4fb-afaf-43ae-967b-757782148daa">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">9ab3fa2a-d38d-4fbf-bf57-f2c3a710e6f9</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">86ddd4fb-afaf-43ae-967b-757782148daa</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="645a8f1a-d32e-420a-b243-90ff0b847831">
+                               <node type="checkout" id="c42bb40b-e9a7-4fcc-b50c-2785b1c03704">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">645a8f1a-d32e-420a-b243-90ff0b847831</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">c42bb40b-e9a7-4fcc-b50c-2785b1c03704</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="8177c928-8714-4cbb-8b17-5ae116a7f206">
+                               <node type="checkout" id="a56000ac-cf20-46d9-9772-63d51c54b373">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">8177c928-8714-4cbb-8b17-5ae116a7f206</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">a56000ac-cf20-46d9-9772-63d51c54b373</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="78149e9d-945e-4278-8f9f-1d4eca4ce15e">
+                               <node type="checkout" id="9ae110b6-5078-4c41-bef9-8cbc1c7654b5">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">78149e9d-945e-4278-8f9f-1d4eca4ce15e</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">9ae110b6-5078-4c41-bef9-8cbc1c7654b5</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="97eb2e82-e53d-44d7-8155-c2e13415a592">
+                               <node type="checkout" id="c1215b93-8fd1-4d24-ae9e-810cca67a0c0">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">97eb2e82-e53d-44d7-8155-c2e13415a592</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">c1215b93-8fd1-4d24-ae9e-810cca67a0c0</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="7d85d2fe-bf78-4a3b-a80a-a147a73a6a88">
+                               <node type="checkout" id="692f07bd-3c0d-4f20-9d88-5c4a06fb849d">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">7d85d2fe-bf78-4a3b-a80a-a147a73a6a88</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">692f07bd-3c0d-4f20-9d88-5c4a06fb849d</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="4813c9b9-5440-44cb-9e3e-655aa3e1de85">
+                               <node type="checkout" id="051a3c88-f370-4233-9f65-4988606cc4da">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">4813c9b9-5440-44cb-9e3e-655aa3e1de85</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">051a3c88-f370-4233-9f65-4988606cc4da</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="40fce638-fae5-49ce-be6a-651b0fbc6e46">
+                               <node type="checkout" id="a9a7d642-f9f5-43d4-916e-5cda2954f1d7">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">40fce638-fae5-49ce-be6a-651b0fbc6e46</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">a9a7d642-f9f5-43d4-916e-5cda2954f1d7</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="234c04cb-45f4-4443-a8e8-35a64c404b9f">
+                               <node type="checkout" id="9bfb4ca4-8beb-44d3-af02-49af500588a3">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">234c04cb-45f4-4443-a8e8-35a64c404b9f</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">9bfb4ca4-8beb-44d3-af02-49af500588a3</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="bc791601-63e0-49e4-b3f6-78597f73769b">
+                               <node type="checkout" id="e172ec76-8c09-4375-af39-cb736708af42">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">bc791601-63e0-49e4-b3f6-78597f73769b</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">e172ec76-8c09-4375-af39-cb736708af42</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="0cddb4c2-943d-43b4-b0bd-88625bc0e5b2">
+                               <node type="checkout" id="3b61df49-4e89-43b2-8d03-031ed7f74109">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">0cddb4c2-943d-43b4-b0bd-88625bc0e5b2</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">3b61df49-4e89-43b2-8d03-031ed7f74109</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="177e7c9c-75ad-4978-98c9-328008a658a2">
+                               <node type="checkout" id="339fc0a3-24c0-4f3b-8256-74adbddc7a7b">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">177e7c9c-75ad-4978-98c9-328008a658a2</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">339fc0a3-24c0-4f3b-8256-74adbddc7a7b</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="3f38a421-6497-4f40-bfe7-cf69108e5969">
+                               <node type="checkout" id="06d6db7e-3833-434d-bd61-46665aace6ca">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">3f38a421-6497-4f40-bfe7-cf69108e5969</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">06d6db7e-3833-434d-bd61-46665aace6ca</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="b554d9f5-569e-4f1b-9ac2-1eb030472741">
+                               <node type="checkout" id="5047ec26-0d31-4835-bc5a-ba71fcaaef3e">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">b554d9f5-569e-4f1b-9ac2-1eb030472741</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">5047ec26-0d31-4835-bc5a-ba71fcaaef3e</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="e48b502b-3b39-4de2-85db-0b4b79775692">
+                               <node type="checkout" id="0db503f7-a5ca-402c-be3d-20bd18c2f9da">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234590000</attribute>
+                                 <attribute name="objectUuid">e48b502b-3b39-4de2-85db-0b4b79775692</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">0db503f7-a5ca-402c-be3d-20bd18c2f9da</attribute>
+                               </node>
+                             </map-entry>
+                             <map-entry key="ef4aa6bd-57d2-4434-bedf-2a4e0e3cc019">
+                               <node type="checkout" id="ae9102e4-9092-488c-962a-f99f85fa7480">
+                                 <attribute name="last_modified_by">admin</attribute>
+                                 <attribute name="modifiedTimestamp">1233234589984</attribute>
+                                 <attribute name="objectUuid">ef4aa6bd-57d2-4434-bedf-2a4e0e3cc019</attribute>
+                                 <attribute name="owner">admin</attribute>
+                                 <attribute name="uuid">ae9102e4-9092-488c-962a-f99f85fa7480</attribute>
+                               </node>
+                             </map-entry>
+                           </map>
+                         </child>
+                       </node>
+                     </root>'
+    - xpath_query: //node
+    - query_type: 'nodelist'
+  description: "Tests that this operation finishes with success when a large document is given as input"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - return_result: "XPath queried successfully."
+    - result_text: "success"
   result: SUCCESS
