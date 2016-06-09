@@ -182,7 +182,7 @@ testSelectXpathCount:
   description: "Tests that this operation selects the number of 'status' elements."
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
-    - selected_value: ''
+    - selected_value: '2'
     - return_result: "XPath queried successfully."
     - result_text: "success"
   result: SUCCESS
