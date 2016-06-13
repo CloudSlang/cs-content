@@ -97,6 +97,7 @@ flow:
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
+            - content_type: "application/json"
 
         publish:
           - return_result
