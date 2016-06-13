@@ -76,17 +76,17 @@ flow:
     - proxy_password:
         required: false
     - trust_keystore:
-        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        default: ${get_sp('io.cloudslang.cloud.openstack.trust_keystore')}
         required: false
     - trust_password:
-        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        default: ${get_sp('io.cloudslang.cloud.openstack.trust_password')}
         required: false
         sensitive: true
     - keystore:
-        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        default: ${get_sp('io.cloudslang.cloud.openstack.keystore')}
         required: false
     - keystore_password:
-        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        default: ${get_sp('io.cloudslang.cloud.openstack.keystore_password')}
         required: false
         sensitive: true
 

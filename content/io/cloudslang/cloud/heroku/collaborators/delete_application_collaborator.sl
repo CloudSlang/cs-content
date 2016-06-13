@@ -43,17 +43,17 @@ flow:
     - collaborator_email_or_id
     - app_id_or_name
     - trust_keystore:
-        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        default: ${get_sp('io.cloudslang.cloud.heroku.http.trust_keystore')}
         required: false
     - trust_password:
-        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        default: ${get_sp('io.cloudslang.cloud.heroku.trust_password')}
         required: false
         sensitive: true
     - keystore:
-        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        default: ${get_sp('io.cloudslang.cloud.heroku.keystore')}
         required: false
     - keystore_password:
-        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        default: ${get_sp('io.cloudslang.cloud.heroku.keystore_password')}
         required: false
         sensitive: true
 

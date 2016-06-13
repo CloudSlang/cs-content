@@ -18,7 +18,6 @@ testCreateApplicationLocal:
     - gear_profile: <gear_profile>
     - initial_git_url: <initial_git_url>
   description: "Test create a new RedHat OpenShift online application."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.cloud.openshift.applications.test_create_application
   testSuites: [openshift-local]
   result: SUCCESS
