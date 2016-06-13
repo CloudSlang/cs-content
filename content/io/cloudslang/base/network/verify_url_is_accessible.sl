@@ -31,6 +31,20 @@ flow:
         required: false
     - content_type:
         default: "application/json"
+    - trust_keystore:
+        default: ${get_sp('io.cloudslang.base.network.trust_keystore')}
+        required: false
+    - trust_password:
+        default: ${get_sp('io.cloudslang.base.network.trust_password')}
+        required: false
+        sensitive: true
+    - keystore:
+        default: ${get_sp('io.cloudslang.base.network.keystore')}
+        required: false
+    - keystore_password:
+        default: ${get_sp('io.cloudslang.base.network.keystore_password')}
+        required: false
+        sensitive: true
   workflow:
 
     - http_get:
@@ -39,6 +53,12 @@ flow:
             - url
             - content_type
             - connect_timeout: "20"
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
 
         publish:
           - return_code

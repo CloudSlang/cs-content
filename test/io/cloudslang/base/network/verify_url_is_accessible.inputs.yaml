@@ -11,6 +11,7 @@ testVerifyUrlIsAccessible_Success:
     - url: 'http://www.google.com'
     - time_to_sleep: '1'
   description: Tests that verify_url_is_accessible.sl operation does not contain an error message
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
   outputs:
     - return_code: '0'
@@ -21,6 +22,7 @@ testVerifyUrlIsAccessible_Failure_unreachable_url:
     - url: 'http://www.goog345le.com'
     - time_to_sleep: '1'
   description: Tests that verify_url_is_accessible.sl operation fails with unreachable input data
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
   outputs:
     - return_code: '-1'
@@ -32,6 +34,7 @@ testVerifyUrlIsAccessible_Failure_Negative_TimeToSleep:
     - url: 'http://www.google.com'
     - time_to_sleep: '-2'
   description: Tests that verify_url_is_accessible.sl operation fails with -2 time_to_sleep
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
   result: FAILURE
 
@@ -40,11 +43,13 @@ testVerifyUrlIsAccessible_Exception_wrong_data:
     - url: 'http://wwww.google.com'
     - time_to_sleep: 'aa'
   description: Tests that verify_url_is_accessible.sl operation goes to FAILURE with inappropriate input data
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
   result: FAILURE
 
 testVerifyUrlIsAccessible_Exception_missing_data:
   inputs:
   description: Tests that verify_url_is_accessible.sl operation throws exception with missing input data
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
   throwsException: true
