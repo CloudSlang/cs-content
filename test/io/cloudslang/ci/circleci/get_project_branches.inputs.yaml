@@ -18,6 +18,7 @@ testGetBranchesSuccess:
     - content_type: 'application/json'
 
   description: Tests that get_project_branches.sl operation finishes with SUCCESS
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_project_branches
   outputs:
@@ -39,6 +40,7 @@ testGetBranchesWrongAPIFailure:
     - content_type: 'application/json'
 
   description: Tests that get_project_branches.sl operation finishes with FAILURE
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_project_branches
   outputs:
