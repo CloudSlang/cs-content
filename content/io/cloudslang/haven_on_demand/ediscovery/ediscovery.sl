@@ -8,6 +8,7 @@
 ####################################################
 #!!
 #! @description:  E-Discovery solution is extracting and managing electronic records, using format conversion, Natural Language Processing, Text Analytics, and unstructured data processing APIs. It allows to search any information in your container files.
+#!                In Demo example we search for flows in our ready-made content and the result, which contains name of flow and link on our repository, will be send over mail.
 #! @input api_key: user's API Keys
 #! @input categorization_index:
 #! @input file: The file that you want to extract text from.
@@ -15,6 +16,10 @@
 #! @input standart_index: The name of the Haven OnDemand text index that you want to search for results.
 #! @input file: The container file to expand.
 #! @input search: The query text.
+#! @input hostname: The query text.
+#! @input port: The query text.
+#! @input from: The query text.
+#! @input to: The query text.
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!!#
 ####################################################
@@ -26,6 +31,8 @@ imports:
   json: io.cloudslang.base.json
   base: io.cloudslang.base.print
   ediscovery: io.cloudslang.haven_on_demand.ediscovery
+  mail: io.cloudslang.base.mail
+  file: io.cloudslang.base.files
 
 flow:
   name: ediscovery
@@ -38,6 +45,10 @@ flow:
     - standart_index
     - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
     - search
+    - hostname: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.hostname')}
+    - port: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.port')}
+    - from: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.from')}
+    - to: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.to')}
 
   workflow:
 
@@ -55,7 +66,7 @@ flow:
             - FAILURE: FAILURE
 
       - TEXT ANALIZE:
-           loop:
+            parallel_loop:
              for: reference in references
              do:
                text_analyze:
@@ -63,9 +74,9 @@ flow:
                   - reference
                   - categorization_index
                   - standart_index
-             publish:
+            publish:
                - error_message: ${'step TEXT ANALIZE was failed '+ str(error_message) if error_message!=None else ""}
-             navigate:
+            navigate:
                - SUCCESS: SEARCH
                - FAILURE: FAILURE
 
@@ -73,7 +84,7 @@ flow:
           do:
             ediscovery.analyze_data.query_text_index:
                 - api_key
-                - text: ${search}
+                - text: ${search.replace(" ", "+")}
                 - indexes: ${standart_index}
           publish:
              - references: ${references[1:]}
@@ -86,11 +97,29 @@ flow:
           loop:
             for: reference in references
             do:
-              print_result:
+              get_results:
                  - api_key
                  - reference
-            publish:
-              - error_message: ${'step PRINT RESULTS was failed '+ str(error_message) if error_message!=None else ""}
+          publish:
+              - text_for_mail
+              - error_message: ${'step PRINT RESULTS was failed ' + reference + str(error_message) if error_message!=None else ""}
+
+      - read_from_file:
+          do:
+           file.read_from_file:
+               - file_path: "C:/Temp/result.txt"
+          publish:
+            - read_text
+
+      - send_mail:
+          do:
+           mail.send_mail:
+              - hostname
+              - port
+              - from
+              - to
+              - subject: "Open all content on our GitHub"
+              - body: ${read_text}
 
       - on_failure:
             - print_fail:
@@ -98,4 +127,5 @@ flow:
                     base.print_text:
                        - text: ${str(error_message)}
   outputs:
+      - read_text
       - error_message

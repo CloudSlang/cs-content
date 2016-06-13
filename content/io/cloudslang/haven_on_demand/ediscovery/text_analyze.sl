@@ -65,7 +65,7 @@ flow:
 
             publish:
               - error_message: ${'step document_categorization was failed '+ error_message if error_message!= None else ""}
-              - additional_info
+              - additional_info: ${additional_info if error_message == "" else " "}
               - booleanrestriction
 
       - create_metadata_for_doc:
@@ -83,7 +83,7 @@ flow:
                  - index: ${standart_index}
                  - additional_metadata: ${json_data}
            publish:
-              - error_message: ${'step add_to_text_index was failed '+ str(error_message) if error_message!= None else ""}
+              - error_message: ${'step unstructured text indexing was failed '+ str(error_message) if error_message!= None else ""}
               - result
 
 
