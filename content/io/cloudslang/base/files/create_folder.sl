@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#!!Description edited on 6/8/2016.
+#!!
 #! @description: Creates a folder
 #! @input folder_name: name of folder to be created
 #! @output message: error message in case of an error
