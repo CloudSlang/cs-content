@@ -9,9 +9,7 @@
 #!!
 #! @description: Runs a shell command locally.
 #! @input command: command to run
-#! @output proc: command output
-#! @output error_message: something went wrong
-#! @result SUCCESS: command executed successfully
+#! @result SUCCESS: exit code is 0
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
@@ -25,15 +23,8 @@ operation:
   python_action:
     script: |
       import subprocess
-      try:
-        error_message = ""
-        proc = subprocess.check_output(command)
-      except Exception as e:
-        error_message = e
-
-  outputs:
-    - proc
-    - error_message
+      print "Running command: '" + command + "'"
+      exit_code = subprocess.call(command, shell=True)
   results:
-    - SUCCESS: ${error_message == None}
+    - SUCCESS: ${exit_code == 0}
     - FAILURE
