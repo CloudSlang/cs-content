@@ -7,10 +7,10 @@
 #
 ####################################################
 
-
 testValidateJsonComplexSuccess:
   inputs:
-    - json_input: '{
+    - json_input:
+        value: '{
                                   "server" : {
                                                  "name" : "server_3",
                                                  "imageRef" : "b67f9da0-4a89-4588-b0f5-bf4d19401743",
@@ -41,8 +41,9 @@ testValidateJsonComplexSuccess:
                                                                 }
                                                  ]
                                   }
-                   }'
+               }'
   description: Tests that validate_json.sl ends with SUCCESS
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
@@ -51,8 +52,10 @@ testValidateJsonComplexSuccess:
 
 testValidateJsonSimpleSuccess:
   inputs:
-    - json_input: '[{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+    - json_input:
+        value: '[{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that validate_json.sl ends with SUCCESS
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
@@ -61,8 +64,10 @@ testValidateJsonSimpleSuccess:
 
 testValidateJsonArrayFailure:
   inputs:
-    - json_input: [{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]
+    - json_input:
+        value: [{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]
   description: Tests that validate_json.sl ends with FAILURE
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: TypeError("expected string or buffer, but got <type 'java.util.ArrayList'>",)
@@ -71,8 +76,10 @@ testValidateJsonArrayFailure:
 
 testValidateJsonExtraDataFailure:
   inputs:
-    - json_input: '{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}'
+    - json_input:
+        value: '{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}'
   description: Tests that validate_json.sl ends with FAILURE
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: "ValueError('Extra data: line 1 column 42 - line 1 column 88 (char 41 - 87)',)"
@@ -84,6 +91,7 @@ testValidateJsonHashMapFailure:
     - json_input:
         value: {'FirstName':Luke,'LastName':Skywalker,'MiddleName':Darth}
   description: Tests that validate_json.sl ends with FAILURE
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: TypeError("expected string or buffer, but got <type 'java.util.LinkedHashMap'>",)
@@ -92,10 +100,60 @@ testValidateJsonHashMapFailure:
 
 testValidateJsonPrimitiveDataFailure:
   inputs:
-    - json_input: '{"Luke":Skywalker}'
+    - json_input:
+        value: '{"Luke":Skywalker}'
   description: Tests that validate_json.sl ends with FAILURE
+  testSuites: [json-locals]
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: ValueError('No JSON object could be decoded',)
     - return_code: -1
   result: FAILURE
+
+testValidateJsonDataTypesSuccess:
+  inputs:
+    - json_input:
+        value: '[{"integer":5, "float1":2.5, "float2":1.54e-1}, {"boolean1":true, "boolean2":false}, {"null":null}]'
+  description: Tests that validate_json.sl ends with SUCCESS when JSON contains numbers, booleans and null
+  testSuites: [json-locals]
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: Valid JSON
+    - return_code: 0
+  result: SUCCESS
+
+testValidateEmptyJson:
+  inputs:
+    - json_input:
+        value: '""'
+  description: Tests that validate_json.sl ends with SUCCESS for the empty JSON
+  testSuites: [json-locals]
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: Valid JSON
+    - return_code: 0
+  result: SUCCESS
+
+testValidateNestedJSON:
+  inputs:
+    - json_input:
+        value: '{"level1":{"level2":{"level3":{"level4":{"level5":{"level6":{"level7":{"level8":{"level9":{"level10":{"level11":{"level12":{"level13":{"level14":{"level15":{"level16":{"level17":{"level18":{"level19":{"level20":{"level21":{}}}}}}}}}}}}}}}}}}}}}}'
+  description: Tests that validate_json.sl ends with SUCCESS when there are many levels of nesting
+  testSuites: [json-locals]
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: Valid JSON
+    - return_code: 0
+  result: SUCCESS
+
+testValidateSpecialCharactersJSON:
+  inputs:
+    - json_input:
+        value: '{"k1": "v1","k1!#%@&*`|>-": "v2!#%@&*`?|>{[-"}'
+  description: Tests that validate_json.sl ends with SUCCESS when there are many levels of nesting
+  testSuites: [json-locals]
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: Valid JSON
+    - return_code: 0
+  result: SUCCESS

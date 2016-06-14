@@ -115,6 +115,7 @@ flow:
             - initial_git_url_string: ${',"initial_git_url":"' + initial_git_url + '"' if initial_git_url else ''}
             - body: ${'{' + application_name_string + cartridge_string + gear_profile_string + initial_git_url_string + scale_string + '}'}
             - headers: 'Accept: application/json'
+
         publish:
           - return_result
           - error_message
