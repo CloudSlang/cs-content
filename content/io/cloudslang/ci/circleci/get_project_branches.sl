@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Retrieves the list of branches from a Github project.
-#! @input token - CircleCi user token.
+#! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
 #!                Go to : https://circleci.com/account/api and copy the API token.
@@ -16,7 +16,7 @@
 #! @input protocol: optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
-#! @input host - circleci address
+#! @input host: circleci address
 #!              Default: "circleci.com"
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
@@ -36,8 +36,8 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username - CircleCi username.
-#! #input project - Github project name.
+#! #input username: circleCi username.
+#! #input project: github project name.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);

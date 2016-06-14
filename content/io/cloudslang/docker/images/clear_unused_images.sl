@@ -19,8 +19,8 @@
 #! @output amount_of_images_deleted: how many images where deleted
 #! @output used_images_list: list of used Docker images
 #! @output updated_all_parent_images: list of parent images - will not be deleted
-#! @result SUCCESS - flow ends with SUCCESS:
-#! @result FAILURE - some step ended with FAILURE:
+#! @result SUCCESS: flow ends with SUCCESS:
+#! @result FAILURE: some step ended with FAILURE:
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images
