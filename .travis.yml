@@ -29,8 +29,8 @@ script:
   - docker info
   - docker version
   - df -kh
-  - wget https://www.dropbox.com/s/5ph16dvlatipt4r/cslang-builder.zip
-  - unzip -q cslang-builder.zip -d cslang-builder
+  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.59.4/cslang-builder.zip
+  - unzip -q cslang-builder.zip
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
 
