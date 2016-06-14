@@ -61,7 +61,7 @@ flow:
 
     - list_amazon_instances:
         do:
-          list_servers:
+          describe_instances_in_region:
             - provider
             - endpoint
             - identity
