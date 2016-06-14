@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description:  E-Discovery solution is extracting and managing electronic records, using format conversion, Natural Language Processing, Text Analytics, and unstructured data processing APIs. It allows to search any information in your container files.
-#!                In Demo example we search for flows in our ready-made content and the result, which contains name of flow and link on our repository, will be send over mail.
+#!                In Demo example we search for flows in our ready-made content.  The result of workflow will contain name of flows and links on our repository. All results you can find at the file_for_result and also you can send it over mail. 
 #! @input api_key: user's API Keys
 #! @input categorization_index:
 #! @input file: The file that you want to extract text from.
