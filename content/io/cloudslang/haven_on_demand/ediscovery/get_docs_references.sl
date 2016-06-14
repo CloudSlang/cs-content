@@ -34,7 +34,7 @@ operation:
           references = []
           if len(list) == 0:
                is_error = True
-               error_message="invalid vlue"
+               error_message="Invalid value"
           for value in list:
               references.append(str(value['reference']))
         except Exception as e:

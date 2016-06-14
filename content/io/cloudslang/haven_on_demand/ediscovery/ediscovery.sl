@@ -16,6 +16,7 @@
 #! @input standart_index: The name of the Haven OnDemand text index that you want to search for results.
 #! @input file: The container file to expand.
 #! @input search: The query text.
+#! @input file_for_result: path to file, where rusults will be put.
 #! @input hostname: The query text.
 #! @input port: The query text.
 #! @input from: The query text.
@@ -45,6 +46,7 @@ flow:
     - standart_index
     - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
     - search
+    - file_for_result
     - hostname: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.hostname')}
     - port: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.port')}
     - from: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.from')}
@@ -107,7 +109,7 @@ flow:
       - read_from_file:
           do:
            file.read_from_file:
-               - file_path: "C:/Temp/result.txt"
+               - file_path: ${file_for_result}
           publish:
             - read_text
 
