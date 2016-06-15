@@ -75,7 +75,7 @@ flow:
     - ignore_operators:
         required: false
         default: false
-    - indexes
+    - indexes: "store_of_content"
     - max_date:
         required: false
         default: ""
@@ -136,7 +136,7 @@ flow:
 
           navigate:
              - SUCCESS: get_docs_references
-             - FAILURE: FAILURE
+             - FAILURE: print_fail
 
        - get_docs_references:
            do:
@@ -155,3 +155,7 @@ flow:
   outputs:
       - error_message
       - references
+
+  results:
+    - SUCCESS
+    - FAILURE

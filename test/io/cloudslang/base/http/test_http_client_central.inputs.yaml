@@ -1,0 +1,185 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testHttpClientCentralFlow:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <password>
+    - body: |
+        {
+          "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+          "runName": "run1",
+          "logLevel": "STANDARD",
+          "inputs": {
+              "value1": 2,
+              "value2": 1,
+              "operator": "+"
+          }
+        }
+  description: "Test the Http Client against a REST API."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: SUCCESS
+
+testHttpClientCentralFlowInvalidPassword:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <wrongpassword>
+    - body: |
+         {
+           "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+           "runName": "run1",
+           "logLevel": "STANDARD",
+           "inputs": {
+              "value1": 2,
+              "value2": 1,
+              "operator": "+"
+           }
+         }
+  description: "Test the Http Client against a REST API using invalid password input."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: HTTP_CLIENT_GET_FAILURE
+
+testHttpClientCentralFlowInvalidFlowUuid:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <password>
+    - body: |
+         {
+           "flowUuid": "abcdefghij",
+           "runName": "run1",
+           "logLevel": "STANDARD",
+           "inputs": {
+              "value1": 2,
+              "value2": 1,
+              "operator": "+"
+           }
+         }
+  description: "Test the Http Client against a REST API using invalid flowUuid input."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: HTTP_CLIENT_POST_FAILURE
+
+testHttpClientCentralFlowInvalidBody:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <password>
+    - body: |
+         {
+           "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+           "runName": "run1",
+           "logLevel": "STANDARD",
+           "inputs": {
+              "value1": 2,
+              "value2": a,
+              "operator": "+"
+           }
+         }
+  description: "Test the Http Client against a REST API using invalid body input."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: HTTP_CLIENT_POST_FAILURE
+
+testHttpClientCentralFlowInvalidUsername:
+  inputs:
+    - url: <url>
+    - username: <invalidusername>
+    - password: <password>
+    - body: |
+         {
+           "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+           "runName": "run1",
+           "logLevel": "STANDARD",
+           "inputs": {
+              "value1": 2,
+              "value2": a,
+              "operator": "+"
+           }
+         }
+  description: "Test the Http Client against a REST API using invalid username input."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: HTTP_CLIENT_GET_FAILURE
+
+######################## Testing security inputs ################################################
+
+testHttpClientCentralHttpsSuccess:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <password>
+    - body: |
+        {
+          "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+          "runName": "run1",
+          "logLevel": "STANDARD",
+          "inputs": {
+              "value1": 2,
+              "value2": 1,
+              "operator": "+"
+          }
+        }
+  description: "Test the Http Client against a REST API using X-CSRF-TOKEN."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: SUCCESS
+
+testHttpClientCentralHttpsWrongPassword:
+  inputs:
+    - url: <url>
+    - username: <username>
+    - password: <wrongpassword>
+    - body: |
+         {
+           "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+           "runName": "run1",
+           "logLevel": "STANDARD",
+           "inputs": {
+              "value1": 2,
+              "value2": a,
+              "operator": "+"
+           }
+         }
+  description: "Test the Http Client against a REST API without using a wrong password ."
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testSuites: [central-local]
+  result: HTTP_CLIENT_GET_FAILURE
+
+testHttpClientCentral7:
+  inputs:
+    - url: <wrongurl>
+    - username: <username>
+    - password: <password>
+    - body: |
+        {
+          "flowUuid": "5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d",
+          "runName": "run1",
+          "logLevel": "STANDARD",
+          "inputs": {
+              "value1": 2,
+              "value2": 1,
+              "operator": "+"
+          }
+        }
+  description: "Test the Http Client against a REST API using invalid url."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_central
+  testSuites: [central-local]
+  result: HTTP_CLIENT_GET_FAILURE

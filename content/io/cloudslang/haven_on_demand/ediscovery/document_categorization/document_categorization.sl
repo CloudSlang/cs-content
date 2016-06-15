@@ -61,12 +61,10 @@ flow:
   workflow:
       - connect_to_server:
           do:
-            http.http_client_action:
-              - url: ${str(document_categorization_api)}
-              - method: POST
-              - proxy_host
-              - proxy_port
-              - multipart_bodies: ${"reference=" + str(reference) + "&index=" + str(index) + "&max_results=" + str(max_results) + "&print=" + str(print_value) + "&print_fields=" + str(print_fields) + "&apikey=" + str(api_key)}
+            http.http_client_post:
+                - url: ${str(document_categorization_api)+"?reference=" + str(reference) + "&index=" + str(index) + "&max_results=" + str(max_results) + "&print=" + str(print_value) + "&print_fields=" + str(print_fields) + "&apikey=" + str(api_key)}
+                - proxy_host
+                - proxy_port
           publish:
               - error_message
               - return_result

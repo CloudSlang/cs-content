@@ -72,6 +72,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content:score-vmware:0.0.4'
     class_name: io.cloudslang.content.vmware.actions.vm.PowerOffVM
     method_name: powerOffVM
 
