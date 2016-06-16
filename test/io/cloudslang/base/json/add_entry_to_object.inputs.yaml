@@ -1,0 +1,226 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testAddPropertySuccess:
+  inputs:
+    - json_object: "{}"
+    - key: "test"
+    - value: "[1,2,3]"
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"test": [1, 2, 3]}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddValidProperty:
+  inputs:
+    - json_object: '{"server": {"security_groups": [{"name": "default"}], "networks": []}}'
+    - key: 'block_device_mapping_v2'
+    - value: '{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"server": {"networks": [], "security_groups": [{"name": "default"}]}, "block_device_mapping_v2": {"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddPropertySuccess2:
+  inputs:
+    - json_object: "{}"
+    - key: "test"
+    - value: '{"a": "b"}'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"test": {"a": "b"}}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddPropertySuccess3:
+  inputs:
+    - json_object: "{}"
+    - key: "test"
+    - value: '1'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"test": 1}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+
+testAddPropertySuccess4:
+  inputs:
+    - json_object: '{"one":1, "two":2}'
+    - key: "three"
+    - value: '3'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes withy success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"one": 1, "two": 2, "three": 3}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddPropertySuccess5:
+  inputs:
+    - json_object: '{"one":{"a":"a","B":"B"}}'
+    - key: "two"
+    - value: '{"b":"b","A":"A"}'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"one": {"a": "a", "B": "B"}, "two": {"A": "A", "b": "b"}}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddPropertyFailureInvalidValue:
+  inputs:
+    - json_object: '{"one":{"a":"a","B":"B"}}'
+    - key: "two"
+    - value: '{"b":"b","A":"A"}}'
+  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid value is given."
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: ''
+    - return_result: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
+    - return_code: "-1"
+    - error_message: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
+  result: FAILURE
+
+testAddPropertyFailureInvalidJsonObject:
+  inputs:
+    - json_object: '{"one":{"a":"a","B":"B"}a'
+    - key: "two"
+    - value: '{"b":"b","A":"A"}'
+  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: ''
+    - return_result: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
+    - return_code: "-1"
+    - error_message: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
+  result: FAILURE
+
+testAddPropertyInvalidJsonObject:
+  inputs:
+      - json_object: '{"key":value}'
+      - key: "KEY"
+      - value: '{"VALUE1":"VALUE2"}'
+  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+      - json_output: ""
+      - return_result: "ValueError('No JSON object could be decoded',)"
+      - return_code: "-1"
+      - error_message: "ValueError('No JSON object could be decoded',)"
+  result: FAILURE
+
+testAddPropertyLargeJsonDocument:
+  inputs:
+    - json_object: '{
+                                                     "server" : {
+                                                                    "name" : "server_3",
+                                                                    "imageRef" : "b67f9da0-4a89-4588-b0f5-bf4d19401743",
+                                                                    "flavorRef" : "42",
+                                                                    "block_device_mapping_v2" : [{
+                                                                                                  "source_type" : "image",
+                                                                                                  "uuid" : "b67f9da0-4a89-4588-b0f5-bf4d19401743",
+                                                                                                  "boot_index" : "0",
+                                                                                                  "delete_on_termination" : true
+                                                                                   }
+                                                                    ],
+                                                                    "networks" : [],
+                                                                    "availability_zone" : "nova",
+                                                                    "key_name" : "default_key",
+                                                                    "adminPass" : "{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==",
+                                                                    "user_data" : "IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=",
+                                                     "metadata" : {
+                                                                    "My Server Name" : "Apache1",
+                                                                    "min_ram" : "2"
+                                                     },
+                                                                    "security_groups" : [{
+                                                                                                  "name" : "default"
+                                                                                   }
+                                                                    ],
+                                                                    "personality" : [{
+                                                                                                  "path" : "/etc/banner.txt",
+                                                                                                  "contents" : "ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=="
+                                                                                   }
+                                                                    ]
+                                                     }
+                                  }'
+    - key: "KEY"
+    - value: '{
+                                                                                  "name" : "server_4",
+                                                                                  "imageRef" : "b67f136587089564364",
+                                                                                  "flavorRef" : "58",
+                                                                                  "block_device_mapping_v2" : [{
+                                                                                                                "source_type" : "image",
+                                                                                                                "uuid" : "sgfdfhjngj4346565",
+                                                                                                                "boot_index" : "0",
+                                                                                                                "delete_on_termination" : true
+                                                                                                 }
+                                                                                  ],
+                                                                                  "networks" : [],
+                                                                                  "availability_zone" : "nova",
+                                                                                  "key_name" : "default_key",
+                                                                                  "adminPass" : "{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==",
+                                                                                  "user_data" : "IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=",
+                                                                   "metadata" : {
+                                                                                  "My Server Name" : "Apache1",
+                                                                                  "min_ram" : "2"
+                                                                   },
+                                                                                  "security_groups" : [{
+                                                                                                                "name" : "default"
+                                                                                                 }
+                                                                                  ],
+                                                                                  "personality" : [{
+                                                                                                                "path" : "/etc/banner.txt",
+                                                                                                                "contents" : "ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=="
+                                                                                                 }
+                                                                                  ]
+                                                                   }'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testSuites: [jsonaddproperty]
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
+  result: SUCCESS
+
+testAddProperty:
+  inputs:
+    - json_object: '{"employees":[
+                                   {"firstName":"John", "lastName":"Doe"},
+                                   {"firstName":"Anna", "lastName":"Smith"},
+                                   {"firstName":"Peter", "lastName":"Jones"}
+                               ]}'
+    - key: "employees2"
+    - value: '{"firstName":"Jane","lastName":"Doe"}'
+  description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
+  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  outputs:
+    - json_output: '{"employees2": {"lastName": "Doe", "firstName": "Jane"}, "employees": [{"lastName": "Doe", "firstName": "John"}, {"lastName": "Smith", "firstName": "Anna"}, {"lastName": "Jones", "firstName": "Peter"}]}'
+    - return_result: "Added successfully."
+    - return_code: "0"
+    - error_message: ""
