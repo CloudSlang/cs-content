@@ -1,5 +1,4 @@
-
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,6 +9,7 @@
 #!!
 #! @description: Makes a call to the Speech Recognition by HPE Haven OnDemand API.
 #! @input speech_api: speech Recognition API
+#! @input file: file name
 #! @output job_id: name of request, which is returned by havenondemand.com
 #!!#
 ####################################################
