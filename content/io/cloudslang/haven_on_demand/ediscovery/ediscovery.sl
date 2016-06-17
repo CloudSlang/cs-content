@@ -9,18 +9,17 @@
 #!!
 #! @description:  E-Discovery solution is extracting and managing electronic records, using format conversion, Natural Language Processing, Text Analytics, and unstructured data processing APIs. It allows to search any information in your container files.
 #!                In Demo example we search for flows in our ready-made content.  The result of workflow will contain name of flows and links on our repository. All results you can find at the file_for_result and also you can send it over mail. 
-#! @input api_key: user's API Keys
-#! @input categorization_index:
+#! @input api_key: user's API Key.
 #! @input file: The file that you want to extract text from.
-#! @input categorization_index: The name of the Haven OnDemand text index. This text index must be of the Categorization flavor.
-#! @input standart_index: The name of the Haven OnDemand text index that you want to search for results.
+#! @input categorization_index: the name of the Haven OnDemand text index. This text index must be of the Categorization flavor.
+#! @input standard_index: The name of the Haven OnDemand text index that you want to search for results.
 #! @input file: The container file to expand.
 #! @input search: The query text.
 #! @input file_for_result: path to file, where rusults will be put.
-#! @input hostname: The query text.
-#! @input port: The query text.
-#! @input from: The query text.
-#! @input to: The query text.
+#! @input hostname: SMTP hostname.
+#! @input port: SMTP port.
+#! @input from: sender email address.
+#! @input to: recipient email address.
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!!#
 ####################################################
@@ -43,7 +42,7 @@ flow:
         default: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.api_key')}
         sensitive: true
     - categorization_index
-    - standart_index
+    - standard_index
     - file: ${get_sp('io.cloudslang.haven_on_demand.ediscovery.file')}
     - search
     - file_for_result
@@ -75,7 +74,7 @@ flow:
                   - api_key
                   - reference
                   - categorization_index
-                  - standart_index
+                  - standard_index
             publish:
                - error_message: ${'step TEXT ANALIZE was failed '+ str(error_message) if error_message!=None else ""}
             navigate:
@@ -87,7 +86,7 @@ flow:
             ediscovery.analyze_data.query_text_index:
                 - api_key
                 - text: ${search.replace(" ", "+")}
-                - indexes: ${standart_index}
+                - indexes: ${standard_index}
           publish:
              - references: ${references[1:]}
              - error_message: ${'step SEARCH was failed '+ str(error_message) if error_message!=None else ""}
