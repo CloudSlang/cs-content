@@ -22,6 +22,7 @@ testHttpClientTraceLocal:
     - query_params: <query_params>
     - content_type: <content_type>
   description: "Test the Http Client Trace against a REST API."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_trace
   testSuites: [rest-local]
   result: SUCCESS

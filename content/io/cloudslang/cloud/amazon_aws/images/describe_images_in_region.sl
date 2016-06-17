@@ -82,6 +82,7 @@ operation:
         private: true
 
   java_action:
+    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
     class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
     method_name: execute
 

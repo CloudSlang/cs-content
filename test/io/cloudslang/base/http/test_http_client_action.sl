@@ -25,6 +25,20 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - trust_keystore:
+        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        required: false
+    - trust_password:
+        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        required: false
+        sensitive: true
+    - keystore:
+        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        required: false
+    - keystore_password:
+        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        required: false
+        sensitive: true
     - resource_id
     - resource_name
 
@@ -38,6 +52,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message
@@ -64,6 +84,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message
@@ -131,6 +157,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message
@@ -157,6 +189,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message
@@ -214,6 +252,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
         publish:
           - return_result
           - error_message
@@ -231,6 +275,12 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "false"
+            - x_509_hostname_verifier: "strict"
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
             - valid_http_status_codes: [404]
         publish:
           - return_result

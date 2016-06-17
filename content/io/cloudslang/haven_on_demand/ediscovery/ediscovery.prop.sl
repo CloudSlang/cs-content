@@ -2,7 +2,7 @@ namespace: io.cloudslang.haven_on_demand.ediscovery
 
 properties:
   - api_key: <api_key>
-  - file:  <file>
+  - file: <file>
   - add_to_text_index_api: "https://api.havenondemand.com/1/api/sync/addtotextindex/v1"
   - create_text_index_api: "https://api.havenondemand.com/1/api/sync/createtextindex/v1"
   - find_related_concepts_api: "https://api.havenondemand.com/1/api/sync/findrelatedconcepts/v1"
@@ -14,3 +14,7 @@ properties:
   - text_extraction_api: "https://api.havenondemand.com/1/api/sync/extracttext/v1"
   - proxy_host: <proxy_host>
   - proxy_port: <proxy_port>
+  - hostname: <hostname>
+  - port: <port>
+  - from: <from>
+  - to: <to>

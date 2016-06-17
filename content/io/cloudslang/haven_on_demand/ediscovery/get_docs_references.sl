@@ -32,6 +32,9 @@ operation:
           decoded = json.loads(json_input)
           list = decoded[key]
           references = []
+          if len(list) == 0:
+               is_error = True
+               error_message="Invalid value"
           for value in list:
               references.append(str(value['reference']))
         except Exception as e:
