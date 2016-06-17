@@ -107,9 +107,6 @@ flow:
             do:
               docker_print.print_text:
                 - text: ${'cAdvisor ended with the following error message ' + error_message}
-            navigate:
-              - SUCCESS: FAILURE
-              - FAILURE: FAILURE
   results:
     - SUCCESS
     - FAILURE

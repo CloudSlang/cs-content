@@ -172,12 +172,10 @@ flow:
                 - to
                 - subject: ${'Flow failure'}
                 - body: ${'Failure from step ' + subflow_error}
-            navigate:
-              - SUCCESS: SUCCESS
-              - FAILURE: SEND_EMAIL_FAILURE
 
   results:
     - SUCCESS
+    - FAILURE
     - CREATE_SERVER_FAILURE
     - GET_AUTHENTICATION_TOKEN_FAILURE
     - GET_TENANT_ID_FAILURE
@@ -185,8 +183,6 @@ flow:
     - GET_SERVERS_FAILURE
     - EXTRACT_SERVERS_FAILURE
     - CHECK_SERVER_FAILURE
-    - SEND_EMAIL_FAILURE
-    - FAILURE
     - ADD_NAME_FAILURE
     - ADD_IMG_REF_FAILURE
     - ADD_FLAVOR_REF_FAILURE

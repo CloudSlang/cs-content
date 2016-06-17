@@ -109,6 +109,3 @@ flow:
                 - to: ${ email_recipient }
                 - subject: "Flow failure"
                 - body: "${ 'Operation failed: ' + result_message }"
-            navigate:
-              - SUCCESS: FAILURE
-              - FAILURE: FAILURE
