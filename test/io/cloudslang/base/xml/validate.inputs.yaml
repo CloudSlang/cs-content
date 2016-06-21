@@ -117,7 +117,7 @@ testAttributesNotQuoted:
   description:  "Tests that validate.sl operation finishes with FAILURE when attributes are not quoted"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: Open quote is expected for attribute "lang" associated with an  element type  "title".'
+    - return_result: 'Parsing error: Open quote is expected for attribute "{1}" associated with an  element type  "lang".'
     - result_text: "failure"
   result: FAILURE
 
