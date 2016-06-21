@@ -9,87 +9,87 @@
 
 testAddPropertySuccess:
   inputs:
+    - string_to_find_in_output: '"test": [1, 2, 3]'
+    - new_key: "test"
     - json_object: "{}"
     - key: "test"
     - value: "[1,2,3]"
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"test": [1, 2, 3]}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
 testAddValidProperty:
   inputs:
+    - string_to_find: '"name": "default"'
+    - string_to_find_in_output: '"uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743"'
+    - old_key: "server"
+    - new_key: "block_device_mapping_v2"
     - json_object: '{"server": {"security_groups": [{"name": "default"}], "networks": []}}'
     - key: 'block_device_mapping_v2'
     - value: '{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"server": {"networks": [], "security_groups": [{"name": "default"}]}, "block_device_mapping_v2": {"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
-testAddPropertySuccess2:
+testAddPropertySuccess1:
   inputs:
+    - string_to_find_in_output: '"test": {"a": "b"}'
+    - new_key: "test"
     - json_object: "{}"
     - key: "test"
     - value: '{"a": "b"}'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"test": {"a": "b"}}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
-testAddPropertySuccess3:
+testAddPropertySuccess2:
   inputs:
+    - string_to_find_in_output: '{"test": 1}'
+    - new_key: "test"
     - json_object: "{}"
     - key: "test"
     - value: '1'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"test": 1}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
 
-testAddPropertySuccess4:
+testAddPropertySuccess3:
   inputs:
+    - string_to_find: '"one": 1'
+    - string_to_find_in_output: '"three": 3'
+    - old_key: "two"
+    - new_key: "three"
     - json_object: '{"one":1, "two":2}'
     - key: "three"
     - value: '3'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes withy success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"one": 1, "two": 2, "three": 3}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
-testAddPropertySuccess5:
+testAddPropertySuccess4:
   inputs:
+    - string_to_find: '"a": "a"'
+    - string_to_find_in_output: '"b": "b"'
+    - old_key: "one"
+    - new_key: "two"
     - json_object: '{"one":{"a":"a","B":"B"}}'
     - key: "two"
     - value: '{"b":"b","A":"A"}'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: '{"one": {"a": "a", "B": "B"}, "two": {"A": "A", "b": "b"}}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
 testAddPropertyFailureInvalidValue:
@@ -97,10 +97,9 @@ testAddPropertyFailureInvalidValue:
     - json_object: '{"one":{"a":"a","B":"B"}}'
     - key: "two"
     - value: '{"b":"b","A":"A"}}'
-  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid value is given."
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  description: "Tests that add_entry_in_object.inputs.yaml operation goes to failure when an invalid value is given."
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: ''
     - return_result: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
     - return_code: "-1"
     - error_message: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
@@ -111,10 +110,9 @@ testAddPropertyFailureInvalidJsonObject:
     - json_object: '{"one":{"a":"a","B":"B"}a'
     - key: "two"
     - value: '{"b":"b","A":"A"}'
-  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  description: "Tests that add_entry_in_object.inputs.yaml operation goes to failure when an invalid json_object is given."
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-    - json_output: ''
     - return_result: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
     - return_code: "-1"
     - error_message: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
@@ -122,16 +120,15 @@ testAddPropertyFailureInvalidJsonObject:
 
 testAddPropertyInvalidJsonObject:
   inputs:
-      - json_object: '{"key":value}'
-      - key: "KEY"
-      - value: '{"VALUE1":"VALUE2"}'
-  description: "Tests that add_entry_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+    - json_object: '{"key":value}'
+    - key: "KEY"
+    - value: '{"VALUE1":"VALUE2"}'
+  description: "Tests that add_entry_in_object.inputs.yaml operation goes to failure when an invalid json_object is given."
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
   outputs:
-      - json_output: ""
-      - return_result: "ValueError('No JSON object could be decoded',)"
-      - return_code: "-1"
-      - error_message: "ValueError('No JSON object could be decoded',)"
+    - return_result: "ValueError('No JSON object could be decoded',)"
+    - return_code: "-1"
+    - error_message: "ValueError('No JSON object could be decoded',)"
   result: FAILURE
 
 testAddPropertyLargeJsonDocument:
@@ -200,16 +197,17 @@ testAddPropertyLargeJsonDocument:
                                                                                   ]
                                                                    }'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testSuites: [jsonaddproperty]
   testFlowPath: io.cloudslang.base.json.add_entry_in_object
   outputs:
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
   result: SUCCESS
 
 testAddProperty:
   inputs:
+    - string_to_find: '"lastName": "Smith"'
+    - string_to_find_in_output: '"firstName": "Jane"'
+    - old_key: "employees"
+    - new_key: "employees2"
     - json_object: '{"employees":[
                                    {"firstName":"John", "lastName":"Doe"},
                                    {"firstName":"Anna", "lastName":"Smith"},
@@ -218,9 +216,7 @@ testAddProperty:
     - key: "employees2"
     - value: '{"firstName":"Jane","lastName":"Doe"}'
   description: "Tests that add_entry_to_object.sl correctly adds properties to json object and finishes with success"
-  testFlowPath: io.cloudslang.base.json.add_entry_in_object
+  testFlowPath: io.cloudslang.base.json.test_add_entry_in_object
+  result: SUCCESS
   outputs:
-    - json_output: '{"employees2": {"lastName": "Doe", "firstName": "Jane"}, "employees": [{"lastName": "Doe", "firstName": "John"}, {"lastName": "Smith", "firstName": "Anna"}, {"lastName": "Jones", "firstName": "Peter"}]}'
     - return_result: "Added successfully."
-    - return_code: "0"
-    - error_message: ""
