@@ -11,7 +11,7 @@
 #! @input api_key: user's API Keys
 #! @input reference: A Haven OnDemand reference obtained from either the Expand Container or Store Object API. The corresponding document is passed to the API.
 #! @input categorization_index: The name of the Haven OnDemand text index. This text index must be of the Categorization flavor.
-#! @input standart_index: The name of the Haven OnDemand text index that you want to search for results.
+#! @input standard_index: The name of the Haven OnDemand text index that you want to search for results.
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!!#
 ####################################################
@@ -31,7 +31,7 @@ flow:
         sensitive: true
     - reference
     - categorization_index
-    - standart_index
+    - standard_index
 
   workflow:
 
@@ -80,7 +80,7 @@ flow:
            do:
              ediscovery.add_to_text_index.add_to_text_index:
                  - reference
-                 - index: ${standart_index}
+                 - index: ${standard_index}
                  - additional_metadata: ${json_data}
            publish:
               - error_message: ${'step unstructured text indexing was failed '+ str(error_message) if error_message!= None else ""}

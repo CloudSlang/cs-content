@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Prints document from Haven OnDemand
-#! @input api_key: user's API Keys
+#! @input api_key: user's API Key
 #! @input reference: A Haven OnDemand reference obtained from either the Expand Container or Store Object API. The corresponding document is passed to the API.
 #!!#
 ####################################################
@@ -38,9 +38,9 @@ flow:
            - document
            - return_code
 
-     - retrive_results:
+     - retrieve_results:
            do:
-             retrive_results:
+             retrieve_results:
                 - document
            publish:
              - link

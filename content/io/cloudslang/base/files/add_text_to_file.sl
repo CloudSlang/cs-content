@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Added text to a file.
+#! @description: Add text to a file.
 #! @input file_path: path of the file to write to
 #! @input text: text to write to the file
 #! @output message: error message if error occurred

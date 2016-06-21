@@ -7,16 +7,17 @@
 #
 ####################################################
 #!!
-#! @description: Retrieves links from document
-#! @input document:
-#! @output link: links of content, witch was found
-#! @output content: information about content, witch was found. (it contains name and link)
+#! @description: Retrieves links from document.
+#!
+#! @input document: document form which to retrieve the links from
+#! @output link: links of content, which was found
+#! @output content: information about content, which was found. (it contains name and link)
 #!!#
 ####################################################
 namespace: io.cloudslang.haven_on_demand.ediscovery
 
 operation:
-  name: retrive_results
+  name: retrieve_results
   inputs:
     - document
   python_action:
