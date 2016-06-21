@@ -130,6 +130,3 @@ flow:
                 - username: ${email_username}
                 - password: ${email_password}
                 - enable_TLS: ${email_enable_TLS}
-            navigate:
-              - SUCCESS: FAILURE
-              - FAILURE: FAILURE
