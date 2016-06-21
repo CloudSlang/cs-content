@@ -7,11 +7,11 @@
 #
 ####################################################
 #!!
-#! @description: Creates a folder.
+#! @description: Creates a folder
 #! @input folder_name: name of folder to be created
-#! @output message: error message in case of error
+#! @output message: error message in case of an error
 #! @result SUCCESS: folder was successfully created
-#! @result FAILURE: folder was not created due to error
+#! @result FAILURE: folder was not created due to an error
 #!!#
 ####################################################
 namespace: io.cloudslang.base.files
