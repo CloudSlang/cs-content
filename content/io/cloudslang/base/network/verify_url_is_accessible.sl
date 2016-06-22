@@ -10,6 +10,8 @@
 #! @description: Checks if a url is accessible.
 #! @input url: the url
 #! @input time_to_sleep: time in seconds to wait
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
 #! @output output_message: timeout exceeded and url was not accessible
 #! @result SUCCESS: url is accessible
 #! @result FAILURE: url is not accessible
@@ -45,6 +47,10 @@ flow:
         default: ${get_sp('io.cloudslang.base.network.keystore_password')}
         required: false
         sensitive: true
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
 
     - http_get:
@@ -59,6 +65,8 @@ flow:
             - trust_password
             - keystore
             - keystore_password
+            - proxy_host
+            - proxy_port
 
         publish:
           - return_code

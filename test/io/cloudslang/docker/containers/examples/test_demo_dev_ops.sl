@@ -22,6 +22,10 @@ flow:
     - email_port
     - email_sender
     - email_recipient
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
     - clear_docker_containers:
          do:
@@ -44,6 +48,8 @@ flow:
             - email_port
             - email_sender
             - email_recipient
+            - proxy_host
+            - proxy_port
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: EXECUTE_DEMO_DEV_OPS_PROBLEM
