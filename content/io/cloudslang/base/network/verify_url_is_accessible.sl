@@ -9,7 +9,8 @@
 #!!
 #! @description: Checks if a url is accessible.
 #! @input url: the url
-#! @input time_to_sleep: time in seconds to wait
+#! @input attempts: attempts to reach host
+#! @input time_to_sleep: time in seconds to wait between attempts
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
 #! @output output_message: timeout exceeded and url was not accessible
@@ -28,8 +29,9 @@ flow:
   name: verify_url_is_accessible
   inputs:
     - url
+    - attempts: 1
     - time_to_sleep:
-        default: '1'
+        default: 1
         required: false
     - content_type:
         default: "application/json"
@@ -52,7 +54,6 @@ flow:
     - proxy_port:
         required: false
   workflow:
-
     - http_get:
         do:
           rest.http_client_get:
@@ -67,19 +68,17 @@ flow:
             - keystore_password
             - proxy_host
             - proxy_port
-
         publish:
           - return_code
-
         navigate:
-          - SUCCESS: wait
+          - SUCCESS: SUCCESS
           - FAILURE: check_if_timed_out
 
     - check_if_timed_out:
          do:
             math.compare_numbers:
-              - value1: ${return_code}
-              - value2: '-1'
+              - value1: ${attempts}
+              - value2: 0
          navigate:
            - GREATER_THAN: wait
            - EQUALS: FAILURE
@@ -89,16 +88,15 @@ flow:
         do:
           utils.sleep:
               - seconds: ${time_to_sleep}
-
+              - attempts
+        publish:
+          - attempts: ${attempts - 1}
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: http_get
           - FAILURE: FAILURE
-
   outputs:
     - return_code
     - output_message: ${"Url is accessible" if return_code == '0' else "Url is not accessible"}
-
-
   results:
     - SUCCESS
     - FAILURE
