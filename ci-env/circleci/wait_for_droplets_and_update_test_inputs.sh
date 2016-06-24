@@ -118,6 +118,33 @@ do
   fi
 done
 
+# define swap space
+for DROPLET_IP in ${DROPLET_IP_ADDRESS_ACC}
+do
+  CMD_OUTPUT=$(ssh -i ${SSH_KEY_PATH} \
+  -o UserKnownHostsFile=/dev/null \
+  -o StrictHostKeyChecking=no \
+  core@${DROPLET_IP} \
+  'sudo fallocate -l 1G /swapfile && sudo chmod 600 /swapfile \
+  && sudo mkswap /swapfile && sudo swapon /swapfile \
+  && sudo sysctl vm.swappiness=10 && sudo sysctl vm.vfs_cache_pressure=50')
+
+  FREE_CMD_OUTPUT=$(ssh -i ${SSH_KEY_PATH} \
+  -o UserKnownHostsFile=/dev/null \
+  -o StrictHostKeyChecking=no \
+  core@${DROPLET_IP} \
+  'free -m')
+  SWAP_SIZE=$(echo "$FREE_CMD_OUTPUT" | grep "Swap" | awk '{print $2}')
+
+  if [ "${SWAP_SIZE}" == "1023" ]
+  then
+    echo "Swap space defined: ${CMD_OUTPUT}"
+  else
+    echo "Problem while defining swap space. Size: ${SWAP_SIZE} - OUTPUT: ${CMD_OUTPUT}"
+    exit 1
+  fi
+done
+
 # update inputs files to use actual IP addresses
 DROPLET_IP_ARRAY=(${DROPLET_IP_ADDRESS_ACC})
 COREOS_PLACEHOLDERS_ARRAY=(${COREOS_PLACEHOLDERS})

@@ -26,6 +26,8 @@
 #! @input email_password: optional - email password
 #! @input email_enable_TLS: optional - enable startTLS
 #! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
@@ -62,6 +64,10 @@ flow:
     - email_enable_TLS:
         required: false
     - timeout: '30000000'
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
   workflow:
 
     - create_db_container:
@@ -114,6 +120,8 @@ flow:
             - url: ${'http://' + docker_host + ':' + app_port}
             - attempts: 20
             - time_to_sleep: 10
+            - proxy_host
+            - proxy_port
         publish:
           - error_message: ${output_message}
 
