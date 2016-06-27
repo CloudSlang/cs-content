@@ -62,7 +62,6 @@ testSSHexitStatusCommandNotFound:
   outputs:
     - command_return_code: 127
   testSuites: [docker,docker-misc]
-  result: SUCCESS
 
 testSSHWorksWhenPTYtrue:
   inputs:

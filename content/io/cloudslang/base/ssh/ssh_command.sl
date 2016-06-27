@@ -12,7 +12,7 @@
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input command: command to execute
 #! @input pty: optional - whether to use PTY - Valid: true, false - Default: false
-               When pty is true, the desired command must be appended with an exit command in order to close the channel, e.g. "echo something\n exit\n", otherwise the operation will time out
+#!             When pty is true, the desired command must be appended with an exit command in order to close the channel, e.g. "echo something\n exit\n", otherwise the operation will time out
 #! @input username: username to connect as
 #! @input password: optional - password of user
 #! @input arguments: optional - arguments to pass to the command
