@@ -53,7 +53,6 @@ operation:
         private: true
     - command:
         default: ':'
-        private: true
     - arguments:
         required: false
     - character_set:
