@@ -6,17 +6,98 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testListAmazonServersLocal:
+testDescribeInstancesInRegionWithFiltersAmazonLocal:
   testSuites: [amazon-local]
-  description: "Test successfully retrieved a list with all Amazon AWS EC2 instances within a specified zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_list_servers
+  description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances_in_region
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
-    - region: <region>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
+    - region: <region>
+    - volume_id: <volume_id>
+    - group_id: <group_id>
+    - host_id: <host_id>
+    - image_id: <image_id>
+    - instance_id: <instance_id>
+    - kernel_id: <kernel_id>
+    - owner_id: <owner_id>
+    - ramdisk_id: <ramdisk_id>
+    - reservation_id: <reservation_id>
+    - subnet_id: <subnet_id>
+    - vpc_id: <vpc_id>
+    - allocation_id: <allocation_id>
+    - association_id: <association_id>
+    - affinity: <affinity>
+    - architecture: <architecture>
+    - availability_zone: <availability_zone>
+    - attach_time: <attach_time>
+    - delete_on_termination: <delete_on_termination>
+    - device_name: <device_name>
+    - status: <status>
+    - client_token: <client_token>
+    - dns_name: <dns_name>
+    - group_name: <group_name>
+    - hypervisor: <hypervisor>
+    - iam_arn: <iam_arn>
+    - instance_lifecycle: <instance_lifecycle>
+    - instance_state_code: <instance_state_code>
+    - instance_state_name: <instance_state_name>
+    - instance_type: <instance_type>
+    - instance_group_id: <instance_group_id>
+    - instance_group_name: <instance_group_name>
+    - ip_address: <ip_address>
+    - key_name: <key_name>
+    - launch_index: <launch_index>
+    - launch_time: <launch_time>
+    - monitoring_state: <monitoring_state>
+    - placement_group_name: <placement_group_name>
+    - platform: <platform>
+    - private_dns_name: <private_dns_name>
+    - private_ip_address: <private_ip_address>
+    - product_code: <product_code>
+    - product_code_type: <product_code_type>
+    - reason: <reason>
+    - requester_id: <requester_id>
+    - root_device_name: <root_device_name>
+    - root_device_type: <root_device_type>
+    - source_destination_check: <source_destination_check>
+    - spot_instance_request_id: <spot_instance_request_id>
+    - state_reason_code: <state_reason_code>
+    - state_reason_message: <state_reason_message>
+    - tenancy: <tenancy>
+    - virtualization_type: <virtualization_type>
+    - public_ip: <public_ip>
+    - ip_owner_id: <ip_owner_id>
+    - key_tags_string: <key_tags_string>
+    - value_tags_string: <value_tags_string>
+    - network_interface_description: <network_interface_description>
+    - network_interface_subnet_id: <network_interface_subnet_id>
+    - network_interface_vpc_id: <network_interface_vpc_id>
+    - network_interface_id: <network_interface_id>
+    - network_interface_owner_id: <network_interface_owner_id>
+    - network_interface_availability_zone: <network_interface_availability_zone>
+    - network_interface_requester_id: <network_interface_requester_id>
+    - network_interface_requester_managed: <network_interface_requester_managed>
+    - network_interface_status: <network_interface_status>
+    - network_interface_mac_address: <network_interface_mac_address>
+    - network_interface_private_dns_name: <network_interface_private_dns_name>
+    - network_interface_source_destination_check: <network_interface_source_destination_check>
+    - network_interface_group_id: <network_interface_group_id>
+    - network_interface_groupName: <network_interface_groupName>
+    - network_interface_attachment_id: <network_interface_attachment_id>
+    - network_interface_instance_id: <network_interface_instance_id>
+    - network_interface_instance_owner_id: <network_interface_instance_owner_id>
+    - network_interface_private_ip_address: <network_interface_private_ip_address>
+    - network_interface_device_index: <network_interface_device_index>
+    - network_interface_attachment_status: <network_interface_attachment_status>
+    - network_interface_attach_time: <network_interface_attach_time>
+    - network_interface_delete_on_termination: <network_interface_delete_on_termination>
+    - network_interface_addresses_primary: <network_interface_addresses_primary>
+    - network_interface_public_ip: <network_interface_public_ip>
+    - network_interface_ip_owner_id: <network_interface_ip_owner_id>
   result: SUCCESS

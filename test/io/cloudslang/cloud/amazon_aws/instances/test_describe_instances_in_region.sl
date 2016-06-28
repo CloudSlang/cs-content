@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_list_servers
+  name: test_describe_instances_in_region
 
   inputs:
     - provider: 'amazon'
@@ -37,9 +37,9 @@ flow:
         required: false
 
   workflow:
-    - list_servers:
+    - describe_instances_in_region:
         do:
-          list_servers:
+          describe_instances_in_region:
             - provider
             - endpoint
             - identity
