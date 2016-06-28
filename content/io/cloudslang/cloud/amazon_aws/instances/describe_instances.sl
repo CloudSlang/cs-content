@@ -158,7 +158,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: describe_instances_in_region
+  name: describe_instances
 
   inputs:
     - provider: 'amazon'

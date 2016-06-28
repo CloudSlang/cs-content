@@ -79,7 +79,7 @@ operation:
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${exception if exception in locals() else ''}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

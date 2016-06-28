@@ -9,7 +9,7 @@
 testStopAmazonServerLocal:
   testSuites: [amazon-local]
   description: "Test the fact that an Amazon AWS EC2 instance was stopped."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_stop_server
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_stop_instances
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>

@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_update_server_type
+  name: test_describe_instances
 
   inputs:
     - provider: 'amazon'
@@ -23,59 +23,49 @@ flow:
     - credential:
         default: ''
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
     - proxy_host:
         default: ''
         required: false
     - proxy_port:
         default: '8080'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
-    - server_type:
-        default: ''
-        required: false
-    - operation_timeout:
-        default: ''
-        required: false
-    - pooling_interval:
+    - delimiter:
         default: ''
         required: false
 
   workflow:
-    - update_server_type:
+    - describe_instances:
         do:
-          update_server_type:
+          describe_instances:
             - provider
             - endpoint
             - identity
             - credential
-            - proxy_host
-            - proxy_port
             - region
             - server_id
-            - server_type
-            - operation_timeout
-            - pooling_interval
+            - proxy_host
+            - proxy_port
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_results
-          - FAILURE: UPDATE_SERVER_TYPE_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: LIST_SERVERS_FAILURE
 
-    - check_results:
+    - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(return_result), str(exception), int(return_code)]}
-            - list_2: ['Server updated successfully.', '', 0]
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULTS_FAILURE
+          - FAILURE: CHECK_RESULT_FAILURE
 
   results:
     - SUCCESS
-    - UPDATE_SERVER_TYPE_FAILURE
-    - CHECK_RESULTS_FAILURE
+    - LIST_SERVERS_FAILURE
+    - CHECK_RESULT_FAILURE

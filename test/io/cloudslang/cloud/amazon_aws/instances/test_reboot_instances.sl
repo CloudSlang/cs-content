@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_reboot_server
+  name: test_reboot_instances
 
   inputs:
     - provider: 'amazon'
@@ -31,9 +31,9 @@ flow:
         required: false
 
   workflow:
-    - reboot_server:
+    - reboot_instances:
         do:
-          reboot_server:
+          reboot_instances:
             - provider
             - endpoint
             - identity

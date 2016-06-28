@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_run_server
+  name: test_update_instance_type
 
   inputs:
     - provider: 'amazon'
@@ -32,21 +32,21 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - availability_zone:
+    - server_id
+    - server_type:
         default: ''
         required: false
-    - image_id
-    - min_count:
-        default: '1'
+    - operation_timeout:
+        default: ''
         required: false
-    - max_count:
-        default: '1'
+    - pooling_interval:
+        default: ''
         required: false
 
   workflow:
-    - run_server:
+    - update_instance_type:
         do:
-          run_server:
+          update_instance_type:
             - provider
             - endpoint
             - identity
@@ -54,28 +54,28 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - availability_zone
-            - image_id
-            - min_count
-            - max_count
+            - server_id
+            - server_type
+            - operation_timeout
+            - pooling_interval
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_result
-          - FAILURE: RUN_SERVERS_FAILURE
+          - SUCCESS: check_results
+          - FAILURE: UPDATE_SERVER_TYPE_FAILURE
 
-    - check_result:
+    - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${[str(return_result), str(exception), int(return_code)]}
+            - list_2: ['Server updated successfully.', '', 0]
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULT_FAILURE
+          - FAILURE: CHECK_RESULTS_FAILURE
 
   results:
     - SUCCESS
-    - RUN_SERVERS_FAILURE
-    - CHECK_RESULT_FAILURE
+    - UPDATE_SERVER_TYPE_FAILURE
+    - CHECK_RESULTS_FAILURE

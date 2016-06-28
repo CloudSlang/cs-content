@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,11 +9,12 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
+  lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
 
 flow:
-  name: test_stop_server
+  name: test_terminate_instances
+
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
@@ -29,16 +30,11 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - delimiter:
-        required: false
-    - seconds:
-        default: '45'
-        required: false
 
   workflow:
-    - stop_server:
+    - terminate_instances:
         do:
-          stop_server:
+          terminate_instances:
             - provider
             - endpoint
             - identity
@@ -47,48 +43,43 @@ flow:
             - server_id
             - proxy_host
             - proxy_port
-        navigate:
-          - SUCCESS: sleep
-          - FAILURE: STOP_FAILURE
-
-    - sleep:
-        do:
-          utils.sleep:
-            - seconds
-        navigate:
-          - SUCCESS: list_amazon_instances
-          - FAILURE: STOPPED_FAILURE
-
-    - list_amazon_instances:
-        do:
-          describe_instances_in_region:
-            - provider
-            - endpoint
-            - identity
-            - credential
-            - region
-            - proxy_host
-            - proxy_port
-            - delimiter
-        navigate:
-          - SUCCESS: check_result
-          - FAILURE: LIST_FAILURE
         publish:
           - return_result
           - return_code
           - exception
+        navigate:
+          - SUCCESS: check_call_result
+          - FAILURE: TERMINATE_SERVER_CALL_FAILURE
 
-    - check_result:
+    - check_call_result:
+        do:
+          lists.compare_lists:
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
+        navigate:
+          - SUCCESS: check_first_possible_current_state_result
+          - FAILURE: CHECK_CALL_RESULT_FAILURE
+
+    - check_first_possible_current_state_result:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: ${server_id + ', state=stopped'}
+            - string_to_find: 'currentState=terminated'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: STOPPED_FAILURE
+          - FAILURE: check_second_possible_current_state_result
+
+    - check_second_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=shutting-down'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: SHUTTING_DOWN_FAILURE
 
   results:
     - SUCCESS
-    - STOP_FAILURE
-    - LIST_FAILURE
-    - STOPPED_FAILURE
+    - TERMINATE_SERVER_CALL_FAILURE
+    - CHECK_CALL_RESULT_FAILURE
+    - SHUTTING_DOWN_FAILURE

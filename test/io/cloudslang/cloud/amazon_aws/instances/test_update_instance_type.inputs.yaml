@@ -6,17 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testRebootAmazonServerLocal:
+testUpdateAmazonInstanceTypeLocal:
   testSuites: [amazon-local]
-  description: "Test the fact that an Amazon AWS EC2 instance was rebooted."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_reboot_server
+  description: "Test successfully updates Amazon AWS EC2 instance type."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_update_instance_type
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
-    - region: <region>
-    - server_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - region: <region>
+    - server_id: <server_id>
+    - server_type: <server_type>
+    - operation_timeout: <operation_timeout>
+    - pooling_interval: <pooling_interval>
   result: SUCCESS
