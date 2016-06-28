@@ -13,11 +13,11 @@
 #! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be started can be found. list_regions operation
-#!                can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to start
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input region: optional - the region where the server (instance) to be started can be found. list_regions operation
+#!                can be used in order to get all regions - Default: 'us-east-1'
+#! @input instance_id: the ID of the server (instance) you want to start
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -39,11 +39,6 @@ operation:
     - credential:
         required: false
         sensitive: true
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
-    - serverId: ${server_id}
     - proxy_host:
         required: false
     - proxyHost:
@@ -54,6 +49,11 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
+    - instanceId: ${instance_id}
 
   java_action:
     gav: 'io.cloudslang.content:score-jClouds:0.0.4'
