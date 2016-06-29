@@ -23,15 +23,16 @@ flow:
     - credential:
         default: ''
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
     - proxy_host:
         default: ''
         required: false
     - proxy_port:
         default: '8080'
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
     - delimiter:
         default: ''
         required: false
@@ -44,10 +45,10 @@ flow:
             - endpoint
             - identity
             - credential
-            - region
-            - server_id
             - proxy_host
             - proxy_port
+            - region
+            - instance_id
         publish:
           - return_result
           - return_code

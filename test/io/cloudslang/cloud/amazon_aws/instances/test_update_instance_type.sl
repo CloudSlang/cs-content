@@ -32,7 +32,7 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
+    - instance_id
     - server_type:
         default: ''
         required: false
@@ -54,7 +54,7 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - server_id
+            - instance_id
             - server_type
             - operation_timeout
             - pooling_interval

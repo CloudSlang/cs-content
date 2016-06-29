@@ -15,10 +15,10 @@ testStopAmazonServerLocal:
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
-    - region: <region>
-    - server_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - region: <region>
+    - instance_id: <server_id>
     - delimiter: <delimiter>
     - seconds: <seconds>
   result: SUCCESS

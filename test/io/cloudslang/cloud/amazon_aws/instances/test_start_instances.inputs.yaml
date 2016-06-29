@@ -16,7 +16,7 @@ testStartAmazonServerLocal:
     - identity: <identity>
     - credential: <credential>
     - region: <region>
-    - server_id: <server_id>
+    - instance_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>

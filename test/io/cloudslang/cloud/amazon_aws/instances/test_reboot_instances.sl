@@ -21,14 +21,14 @@ flow:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
 
   workflow:
     - reboot_instances:
@@ -39,7 +39,7 @@ flow:
             - identity
             - credential
             - region
-            - server_id
+            - instance_id
             - proxy_host
             - proxy_port
         publish:

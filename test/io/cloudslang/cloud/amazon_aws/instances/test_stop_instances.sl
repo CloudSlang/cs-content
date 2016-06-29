@@ -21,14 +21,14 @@ flow:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
     - delimiter:
         required: false
     - seconds:
@@ -44,9 +44,9 @@ flow:
             - identity
             - credential
             - region
-            - server_id
             - proxy_host
             - proxy_port
+            - instance_id
         navigate:
           - SUCCESS: sleep
           - FAILURE: STOP_FAILURE
@@ -66,9 +66,9 @@ flow:
             - endpoint
             - identity
             - credential
-            - region
             - proxy_host
             - proxy_port
+            - region
             - delimiter
         navigate:
           - SUCCESS: check_result

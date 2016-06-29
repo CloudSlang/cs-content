@@ -18,7 +18,7 @@ testUpdateAmazonInstanceTypeLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - region: <region>
-    - server_id: <server_id>
+    - instance_id: <server_id>
     - server_type: <server_type>
     - operation_timeout: <operation_timeout>
     - pooling_interval: <pooling_interval>

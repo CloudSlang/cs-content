@@ -16,7 +16,7 @@ testRebootAmazonServerLocal:
     - identity: <identity>
     - credential: <credential>
     - region: <region>
-    - server_id: <server_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - instance_id: <server_id>
   result: SUCCESS
