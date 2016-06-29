@@ -72,7 +72,7 @@ operation:
     - deviceName: ${device_name}
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:score-jClouds:0.0.5'
     class_name: io.cloudslang.content.jclouds.actions.volumes.AttachVolumeInRegionAction
     method_name: execute
 

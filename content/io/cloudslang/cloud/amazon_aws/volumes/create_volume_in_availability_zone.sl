@@ -39,13 +39,13 @@
 #!                         and don't specify a volume size, the default is the snapshot size - Default: '1'
 #! @input iops: optional - only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second (IOPS) to
 #!                         provision for the volume, with a maximum ratio of 30 IOPS/GiB. Constraint: Range is 100 to 20000
-#!                         for Provisioned IOPS SSD volumes - Default: '100'
+#!                         for Provisioned IOPS SSD volumes
 #! @input encrypted: Specifies whether the volume should be encrypted. Encrypted Amazon EBS volumes may only be attached
 #!                   to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots
 #!                   are automatically encrypted. There is no way to create an encrypted volume from an unencrypted snapshot
 #!                   or vice versa. If your AMI uses encrypted volumes, you can only launch it on supported instance types.
 #!                   For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-#!                   Valid values: "false", "true". Any other but valid values provided will be ignored - Default: 'false'
+#!                   Valid values: 'false', 'true'. Any other but valid values provided will be ignored
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -96,14 +96,14 @@ operation:
         default: '1'
         required: false
     - iops:
-        default: '100'
+        default: ''
         required: false
     - encrypted:
-        default: 'false'
+        default: ''
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:score-jClouds:0.0.5'
     class_name: io.cloudslang.content.jclouds.actions.volumes.CreateVolumeInAvailabilityZoneAction
     method_name: execute
 
