@@ -67,10 +67,16 @@ operation:
         required: false
     - volume_id
     - volumeId: ${volume_id}
-    - instance_id
-    - instanceId: ${instance_id}
-    - device_name
-    - deviceName: ${device_name}
+    - instance_id:
+        required: false
+    - instanceId:
+        default: ${get("instance_id", "")}
+        private: true
+    - device_name:
+        required: false
+    - deviceName:
+        default: ${get("device_name", "")}
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:score-jClouds:0.0.5'
