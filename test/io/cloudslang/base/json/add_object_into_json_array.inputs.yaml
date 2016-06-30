@@ -55,18 +55,6 @@ testAddObjectIntoJsonArrayToIndex2:
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
   result: SUCCESS
 
-testAddObjectIntoJsonArrayIndexEceededRight:
-  inputs:
-    - json_array: '["string_object1", "string_object2"]'
-    - json_object: '"string_object"'
-    - index: 3
-  description: Tests that add_object_into_json_array.sl operation fails when index input exceeds range - greater than array length
-  testFlowPath: io.cloudslang.base.json.add_object_into_json_array
-  testSuites: [json-add]
-  outputs:
-    - return_code: -1
-  result: FAILURE
-
 testAddObjectIntoJsonArrayNegativeIndex-1:
   inputs:
     - json_array: '["string_object1", "string_object2"]'
@@ -74,7 +62,6 @@ testAddObjectIntoJsonArrayNegativeIndex-1:
     - index: -1
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
-  testSuites: [json-add]
   outputs:
     - json_output: '["string_object1", "string_object", "string_object2"]'
   result: SUCCESS
@@ -86,22 +73,9 @@ testAddObjectIntoJsonArrayNegativeIndex-length:
     - index: -2
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1 * array length
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
-  testSuites: [json-add]
   outputs:
     - json_output: '["string_object", "string_object1", "string_object2"]'
   result: SUCCESS
-
-testAddObjectIntoJsonArrayIndexExceedLeft:
-  inputs:
-    - json_array: '["string_object1", "string_object2"]'
-    - json_object: '"string_object"'
-    - index: -3
-  description: Tests that add_object_into_json_array.sl operation fails when index input exceeds range - lower than -1 * array length
-  testFlowPath: io.cloudslang.base.json.add_object_into_json_array
-  testSuites: [json-add]
-  outputs:
-    - return_code: -1
-  result: FAILURE
 
 testAddObjectIntoJsonEmptyArray:
   inputs:
@@ -110,7 +84,6 @@ testAddObjectIntoJsonEmptyArray:
     - json_after: '[{"firstName":"John", "lastName":"Doe"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when adding object to empty array
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
-  testSuites: [json-add]
   result: SUCCESS
 
 testAddSameObjectIntoJsonArray:
@@ -120,7 +93,6 @@ testAddSameObjectIntoJsonArray:
     - json_after: '[{"firstName":"John", "lastName":"Doe"}, {"firstName": "John", "lastName": "Doe"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when adding the same object as an existing one in the array
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
-  testSuites: [json-add]
   result: SUCCESS
 
 testAddObjectMultipleDataTypeObjectsIntoJsonArray:
@@ -130,17 +102,15 @@ testAddObjectMultipleDataTypeObjectsIntoJsonArray:
     - json_after: '[{"firstName":"John", "lastName":"Doe"}, [{"integer":5, "float1":2.5, "float2":1.54e-1}, {"boolean1":true, "boolean2":false}, {"null":null}, 15, "string"]]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when adding list of objects containing the different data types
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
-  testSuites: [json-add]
   result: SUCCESS
 
 testAddObjectSpecialCharsIntoJsonArray:
   inputs:
     - json_array: '[{"firstName": "John", "lastName": "Doe"}]'
-    - json_object: '{"k1": "v1","k1!#%@&*`|>-": "v2!#%@&*`?|>{[-"}'
-    - json_after: '[{"firstName":"John", "lastName":"Doe"}, {"k1": "v1","k1!#%@&*`|>-": "v2!#%@&*`?|>{[-"}]'
+    - json_object: '{"k1": "v1","k1!#%@&*`|>-??": "v2!#%@&*`?|>{[-??"}'
+    - json_after: '[{"firstName":"John", "lastName":"Doe"}, {"k1": "v1","k1!#%@&*`|>-??": "v2!#%@&*`?|>{[-??"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when object contains special characters
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
-  testSuites: [json-add]
   result: SUCCESS
 
 testAddInvalidObjectIntoJsonArray:
@@ -149,7 +119,6 @@ testAddInvalidObjectIntoJsonArray:
     - json_object: '{"firstName" "John", "lastName": "Doe"}'
   description: Tests that add_object_into_json_array.sl operation fails when trying to add an invalid JSON object to an array
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
-  testSuites: [json-add]
   outputs:
     - return_code: -1
   result: FAILURE
