@@ -40,7 +40,7 @@ testRemoveBadXpath:
 
 testRemoveElementfromXmlFileSuccess:
   inputs:
-    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document: ''
     - xml_document_source: xmlPath
     - xpath_element_query: /note
   description: Tests that remove.sl operation finishes with SUCCESS and removes the element from an xml file

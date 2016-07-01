@@ -226,7 +226,7 @@ testSecureProcessingTrue:
 
 testWellFormedFileSuccess:
   inputs:
-    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document: 'testSuites: [xml-local]'
     - xml_document_source: xmlPath
   description: Tests that validate.sl operation finishes with SUCCESS with well formed XML file
   testSuites: [xml-local]
@@ -235,7 +235,7 @@ testWellFormedFileSuccess:
 
 testValidXmlFileSuccess:
   inputs:
-    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document: ''
     - xml_document_source: xmlPath
     - xsd_document: '<?xml version="1.0"?>
                        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">

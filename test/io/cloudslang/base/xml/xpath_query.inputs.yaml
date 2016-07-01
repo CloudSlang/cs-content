@@ -1206,7 +1206,7 @@ testSelectBadXpathLargeDocument:
 
 testSelectFromFileElementSuccess:
   inputs:
-    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document: ''
     - xml_document_source: xmlPath
     - xpath_query: /note/from
   description: Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element from an XML file

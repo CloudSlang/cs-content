@@ -8,7 +8,7 @@
 ####################################################
 testEditXmlAppendChildSuccess:
   inputs:
-    - file_path: 'c:/puscasandreea.xml'
+    - file_path: ''
     - action: "append"
     - xpath_1: /note
     - value: <append/>
