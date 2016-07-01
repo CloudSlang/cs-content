@@ -55,7 +55,7 @@ operation:
     - query_type:
         required: false
     - queryType:
-        default: ${get("query_type", "node")}
+        default: ${get("query_type", "nodelist")}
         private: true
     - delimiter:
         required: false
