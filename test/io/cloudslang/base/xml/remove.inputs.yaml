@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,6 +9,7 @@
 testRemoveElementSuccess:
   inputs:
     - xml_document: <root><remove_this/></root>
+    - xml_document_source: xmlString
     - xpath_element_query: /root/remove_this
   description: Tests that remove.sl operation finishes with SUCCESS and removes the element
   testFlowPath: io.cloudslang.base.xml.remove
@@ -19,6 +20,7 @@ testRemoveElementSuccess:
 testRemoveAttributeSuccess:
   inputs:
     - xml_document: <root attr="ibute"></root>
+    - xml_document_source: xmlString
     - xpath_element_query: /root
     - attribute_name: attr
   description: Tests that remove.sl operation finishes with SUCCESS and removes the attribute
@@ -30,7 +32,20 @@ testRemoveAttributeSuccess:
 testRemoveBadXpath:
   inputs:
     - xml_document: <root><remove_this/></root>
+    - xml_document_source: xmlString
     - xpath_element_query: /toot/remove_this
   description: Tests that remove.sl operation finishes with FAILURE with bad XPATH query
   testFlowPath: io.cloudslang.base.xml.remove
   result: FAILURE
+
+testRemoveElementfromXmlFileSuccess:
+  inputs:
+    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document_source: xmlPath
+    - xpath_element_query: /note
+  description: Tests that remove.sl operation finishes with SUCCESS and removes the element from an xml file
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.remove
+  outputs:
+    - result_xml: ''
+  result: SUCCESS

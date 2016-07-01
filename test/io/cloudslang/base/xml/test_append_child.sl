@@ -13,6 +13,7 @@ flow:
 
   inputs:
     - xml_document
+    - xml_document_source
     - xpath_element_query
     - xml_element
     - xpath_test_query
@@ -22,6 +23,7 @@ flow:
         do:
           append_child:
             - xml_document
+            - xml_document_source
             - xpath_element_query
             - xml_element
         publish:
@@ -31,8 +33,9 @@ flow:
           - FAILURE: APPEND_FAILURE
     - find_appended:
         do:
-          select:
+          xpath_query:
             - xml_document: ${result_xml}
+            - xml_document_source: "xmlString"
             - xpath_query: ${xpath_test_query}
         publish:
           - selected_value

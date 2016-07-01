@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,6 +9,7 @@
 testAppendChildSuccess:
   inputs:
     - xml_document: <root/>
+    - xml_document_source: xmlString
     - xpath_element_query: /root
     - xml_element: <append/>
     - xpath_test_query: /root/append
@@ -21,6 +22,7 @@ testAppendChildSuccess:
 testAppendChildBadXpath:
   inputs:
     - xml_document: <root/>
+    - xml_document_source: xmlString
     - xpath_element_query: /toot
     - xml_element: <append/>
   description: Tests that append_child.sl operation finishes with FAILURE with bad XPATH query
@@ -30,8 +32,23 @@ testAppendChildBadXpath:
 testAppendChildBadElement:
   inputs:
     - xml_document: <root/>
+    - xml_document_source: xmlString
     - xpath_element_query: /root
     - xml_element: <append>
   description: Tests that append_child.sl operation finishes with FAILURE with bad element to append
   testFlowPath: io.cloudslang.base.xml.append_child
   result: FAILURE
+
+testAppendChildSuccessFromXmlFile:
+  inputs:
+    - xml_document: 'c:/puscasandreea.xml'
+    - xml_document_source: "xmlPath"
+    - xpath_element_query: "/note"
+    - xml_element: "<append>John</append>"
+    - xpath_test_query: "/note/append"
+  description: Tests that append_child.sl operation finishes with SUCCESS and appends the element
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.test_append_child
+  outputs:
+    - selected_value: <append>John</append>
+  result: SUCCESS

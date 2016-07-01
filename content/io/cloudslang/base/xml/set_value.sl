@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,7 +9,10 @@
 #!!
 #! @description: Sets the value of an existing XML element or attribute.
 #!
-#! @input xml_document: XML string in which to set an element or attribute value
+#! @input xml_document: XML string or file in which to set an element or attribute value
+#! @input xml_document_source: xml document type
+#!                             Default: xmlStirng
+#!                             Accepted values: xmlString, xmlPath
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list to set the value of or an element or element
 #!                             list containing the attribute to set the value of
@@ -38,6 +41,11 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        private: true
+    - xml_document_source:
+        default: xmlString
+    - xmlDocumentSource:
+        default: ${get("xml_document_source", "xmlString")}
         private: true
     - xpath_element_query
     - xPathElementQuery:

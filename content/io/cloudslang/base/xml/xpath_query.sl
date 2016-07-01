@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,8 +9,11 @@
 #!!
 #! @description: Selects from an XML document using an XPATH query.
 #!
-#! @input xml_document: XML string in which query
-#! @input xpath_query: XPATH query
+#! @input xml_document: XML string or file in which to query an xpath
+#! @input xml_document_source: xml document type
+#!                             Default: xmlStirng
+#!                             Accepted values: xmlString, xmlPath
+#! @input xpath_query: xpath query
 #! @input query_type: type of selection result from query
 #!                    attribute value; leave empty if setting the value of
 #!                    valid: 'node', 'nodelist' or 'value'
@@ -33,12 +36,17 @@
 namespace: io.cloudslang.base.xml
 
 operation:
-  name: select
+  name: xpath_query
 
   inputs:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        private: true
+    - xml_document_source:
+        default: xmlString
+    - xmlDocumentSource:
+        default: ${get("xml_document_source", "xmlString")}
         private: true
     - xpath_query
     - xPathQuery:
@@ -60,7 +68,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:score-xml:0.0.2'
-    class_name: io.cloudslang.content.xml.actions.Select
+    class_name: io.cloudslang.content.xml.actions.XpathQuery
     method_name: execute
 
   outputs:

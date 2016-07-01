@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,7 +9,10 @@
 #!!
 #! @description: Appends a child to an XML element.
 #!
-#! @input xml_document: XML string to insert element in
+#! @input xml_document: XML string or file to insert element in
+#! @input xml_document_source: xml document type
+#!                             Default: xmlStirng
+#!                             Accepted values: xmlString, xmlPath
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list, where element will be inserted before
 #! @input xml_element: element to insert
@@ -33,6 +36,11 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        private: true
+    - xml_document_source:
+        default: xmlString
+    - xmlDocumentSource:
+        default: ${get("xml_document_source", "xmlString")}
         private: true
     - xpath_element_query
     - xPathElementQuery:
