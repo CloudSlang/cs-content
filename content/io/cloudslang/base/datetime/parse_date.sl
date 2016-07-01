@@ -9,12 +9,20 @@
 #!!
 #! @description: parse the given date/time and convert it to an output format
 #! @input date: the date/time to parse
-#! @input dateFormat: the format of the date/time
-#! @input dateLocaleLang: the locale language
-#! @input dateLocaleCountry: the locale country
-#! @input outFormat: the output format
-#! @input outLocaleLang: the output locale language
-#! @input outLocaleCountry: the output locale country
+#!              Example:  "2001-07-04T12:08:56.235+0700"
+#! @input date_format: the format of the date/time
+#!                     Example: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+#! @input date_locale_lang: the locale language
+#!                        Example: 'en'
+#! @input date_locale_country: the locale country
+#!                           Example: 'US'
+#! @input out_format: the output format
+#!                    Example: "yyyy-MM-dd"
+#! @input out_locale_lang: the output locale language
+#!                         Example: 'fr'
+#! @input out_locale_country: the output locale country
+#!                            Example: 'FR'
+#! @output result: the new date/time after if parsing was successful, exception otherwise
 #! @result SUCCESS: the date/time was parsed properly
 #! @result FAILURE: failed to parse the date/time
 #!!#
