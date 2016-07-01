@@ -8,8 +8,8 @@
 ####################################################
 #!!
 #! @description: retrieves the current date and time according to the given locale
-#! @input locale_lang: the locale language
-#! @input locale_country: the locale country
+#! @input locale_lang: optional - the locale language
+#! @input locale_country: optional - the locale country
 #! @output return_result: contains the current date and time according to the given locale, exception otherwise
 #!                        Example: 'July 1, 2016 2:32:09 PM EEST'
 #! @result SUCCESS: the current date/time was obtained successfully
