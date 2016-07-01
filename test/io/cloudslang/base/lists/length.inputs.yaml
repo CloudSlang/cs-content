@@ -25,3 +25,72 @@ testLengthOtherDelimiterSuccess:
   outputs:
     - result: 1
   result: SUCCESS
+
+testLengthWithoutDelimiterSet:
+  inputs:
+    - list: element1,element2,element3,element4
+  description: Tests that length.sl operation finishes with result = 35 when the delimiter is not specified
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 35
+  result: SUCCESS
+
+testLengthEmptyValueElement:
+  inputs:
+    - list: element1,,element2,element3,element4
+    - delimiter: ","
+  description: Tests that length.sl operation finishes with result = 5 when an element is empty value
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 5
+  result: SUCCESS
+
+testLengthUsingNumbers:
+  inputs:
+    - list: 5.2.9.7.3.7.5.8.5.5.5
+    - delimiter: "."
+  description: Tests that length.sl operation finishes with result = 11 when the list contains number elements
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 11
+  result: SUCCESS
+
+testLengthJapaneseCharacters:
+  inputs:
+    - list: 赤、青、緑、黄色、灰色
+    - delimiter: "、"
+  description: Tests that length.sl operation finishes with result = 5 when japanese characters are used
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 5
+  result: SUCCESS
+
+testLengthArabicCharacters:
+  inputs:
+    - list: الأحمر والأزرق والأخضر والأصفر والرمادي
+    - delimiter: "و"
+  description: Tests that length.sl operation finishes with result = 5 when Arabic characters are used
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 5
+  result: SUCCESS
+
+testListLengthSpecialCharacters:
+  inputs:
+    - list: t/%&/e$\"
+    - delimiter: "/"
+  description: Tests that length.sl operation finishes with result = 3 when special characters are used
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 3
+  result: SUCCESS
+
+testLengthEmptyValues:
+  inputs:
+    - list: w,,,a,b,b
+    - delimiter: ","
+  description: Tests that length.sl operation finishes with result = 6 when multiple element contain empty value
+  testFlowPath: io.cloudslang.base.lists.length
+  outputs:
+    - result: 6
+  result: SUCCESS
