@@ -13,9 +13,9 @@
 #! @input offset: the number of seconds to offset the date/time with
 #!                Valid values: 'number_of_seconds'
 #!                Example: '20'
-#! @input localeLang: optional - the locale language
+#! @input locale_lang: optional - the locale language
 #!                    Example: 'en'
-#! @input localeCountry: optional - the locale country
+#! @input locale_country: optional - the locale country
 #!                       Example: 'US'
 #! @output result: offset date/time by the given number of seconds, exception otherwise
 #!                 Example: 'July 1, 2016 2:32:29 PM EEST'
