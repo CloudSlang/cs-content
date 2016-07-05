@@ -37,7 +37,6 @@ testGetSublistStartBiggerThanStopFailure:
     - index_start: 5
     - index_stop: 2
     - counter: 1
-
   description: Tests that get_sublist.sl operation finishes with result = Start index cannot be bigger than stop index
   testFlowPath: io.cloudslang.base.lists.get_sublist
   outputs:
@@ -50,7 +49,6 @@ testGetSublistLengthExceededFailure:
     - index_start: 2
     - index_stop: 10
     - counter: 1
-
   description: Tests that get_sublist.sl operation finishes with result = list has just 8 elements
   testFlowPath: io.cloudslang.base.lists.get_sublist
   outputs:
@@ -63,9 +61,56 @@ testGetSublistIndexesNotIntFailure:
     - index_start: a
     - index_stop: y
     - counter: 1
-
   description: Tests that get_sublist.sl operation finishes with result = list has just 8 elements
   testFlowPath: io.cloudslang.base.lists.get_sublist
   outputs:
     - error_message: index_start and index_stop must be both integers
   result: FAILURE
+
+testGetSublistIndexesNotIntegers:
+  inputs:
+    - list: [element1,element2,element3,element4,element5,element6,element7,element8]
+    - index_start: 1
+    - index_stop: 6.2
+    - counter: 1
+  description: Tests that get_sublist.sl operation finishes with result = index_start and index_stop must be both integers
+  testFlowPath: io.cloudslang.base.lists.get_sublist
+  outputs:
+    - error_message: index_start and index_stop must be both integers
+  result: FAILURE
+
+testGetSublistInvalidIndexes:
+  inputs:
+    - list: [element1,element2,element3,element4,element5,element6,element7,element8]
+    - index_start: 7
+    - index_stop: 2
+    - counter: 1
+  description: Tests that get_sublist.sl operation finishes with result = start index cannot be bigger than stop index
+  testFlowPath: io.cloudslang.base.lists.get_sublist
+  outputs:
+    - error_message: start index cannot be bigger than stop index
+  result: FAILURE
+
+testGetSublistIndexStopInvalid:
+  inputs:
+    - list: [element1,element2,element3,element4,element5,element6,element7,element8]
+    - index_start: 1
+    - index_stop: 8
+    - counter: 1
+  description: Tests that get_sublist.sl operation finishes with result = list has just 8 elements
+  testFlowPath: io.cloudslang.base.lists.get_sublist
+  outputs:
+    - error_message: list has just 8 elements
+  result: FAILURE
+
+testGetSublistOnlyOneElement:
+  inputs:
+    - list: [element1,element2,element3,element4,element5,element6,element7,element8]
+    - index_start: 1
+    - index_stop: 2
+    - counter: 1
+  description: Tests that get_sublist.sl operation finishes successfully and returns only one element
+  testFlowPath: io.cloudslang.base.lists.get_sublist
+  outputs:
+    - result: [element2]
+  result: SUCCESS
