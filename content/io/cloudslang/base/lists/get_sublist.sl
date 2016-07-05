@@ -11,7 +11,7 @@
 #! @input list: list from which to get the sublist - Example: [123, 'xyz']
 #! @input index_start: starting index of the sublist - Example: 2
 #! @input index_stop: ending index of the sublist - Example: 5
-#! @input counter: get sublist element incremeted by #: - Example: 1
+#! @input counter: get sublist element incremented by #: - Example: 1
 #! @output result: sublist
 #! @output error_message: if index start is bigger than index stop or if indicies are not both integers
 #! @result SUCCESS: sublist != None
