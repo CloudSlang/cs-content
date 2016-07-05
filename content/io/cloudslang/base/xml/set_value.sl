@@ -27,6 +27,7 @@
 #! @output result_xml: given XML with value set
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
+#! @output return_code: 0 if success, -1 if failure
 #! @result SUCCESS: value was set
 #! @result FAILURE: otherwise
 #!!#
@@ -72,6 +73,7 @@ operation:
     - result_xml: ${resultXML}
     - return_result: ${returnResult}
     - result_text: ${result}
+    - return_code: ${returnCode}
 
   results:
     - SUCCESS: ${result == 'success'}

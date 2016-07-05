@@ -46,6 +46,7 @@
 #!                           default: false
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
+#! @output return_code: 0 if success, -1 if failure
 #! @result SUCCESS: XML is well-formed and is valid based on XSD if given
 #! @result FAILURE: XML is not well-formed or is not valid based on given XSD
 #!!#
@@ -152,6 +153,7 @@ operation:
   outputs:
     - return_result: ${returnResult}
     - result_text: ${result}
+    - return_code: ${returnCode}
 
   results:
     - SUCCESS: ${result == 'success'}

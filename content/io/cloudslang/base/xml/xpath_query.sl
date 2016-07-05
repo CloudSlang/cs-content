@@ -28,6 +28,7 @@
 #! @output selected_value: value selected or empty if no value found
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
+#! @output return_code: 0 if success, -1 if failure
 #! @output error_message: an exception in case of failure
 #! @result SUCCESS: value was selected
 #! @result FAILURE: otherwise
@@ -77,6 +78,7 @@ operation:
     - return_result: ${returnResult}
     - result_text: ${result}
     - error_message: ${errorMessage}
+    - return_code: ${returnCode}
 
   results:
     - SUCCESS: ${result == 'success'}
