@@ -13,6 +13,7 @@ testGetKeysOuter:
     - json_path: []
   description: Tests that get_keys.sl correctly gets outer keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
   outputs:
     - keys: [u'outer_key2', u'outer_key1']
 
@@ -22,6 +23,7 @@ testGetKeysInner:
     - json_path: [outer_key2]
   description: Tests that get_keys.sl correctly gets inner keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
   outputs:
     - keys: [u'inner_key1', u'inner_key2']
 
@@ -31,6 +33,7 @@ testGetKeysSingle:
     - json_path: [outer_key2]
   description: Tests that get_keys.sl correctly gets a single key from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
   outputs:
     - keys: [u'inner_key1']
 
@@ -40,6 +43,7 @@ testGetKeysNone:
     - json_path: [outer_key2, inner_key1]
   description: Tests that get_keys.sl has a return_code of '-1' when there are no child keys
   testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
   outputs:
     - keys: ''
     - return_code: '-1'
@@ -50,6 +54,36 @@ testGetKeysBadPath:
     - json_path: [outer_key3]
   description: Tests that get_keys.sl has a return_code of '-1' for a path that doesn't exist
   testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
   outputs:
     - keys: ''
     - return_code: '-1'
+
+testGetNoKeys:
+  inputs:
+    - json_input: '{}'
+    - json_path: []
+  description: Tests get_keys.sl when there are no keys
+  testFlowPath: io.cloudslang.base.json.get_keys
+  testSuites: [keys-local]
+  result: SUCCESS
+
+testGetKeysSpecialCharacters:
+  inputs:
+    - json_input: '{"??":"japanese", "a1!#%@&*`|>-":"special characters"}'
+    - json_path: []
+    - expected_keys: ['??', 'a1!#%@&*`|>-']
+  description: Tests get_keys.sl when there are no keys
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  testSuites: [keys-local]
+  result: SUCCESS
+
+testGetKeysOrder:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": "outer_value2", "outer_key3": "outer_value3"}'
+    - json_path: []
+    - expected_keys: ['outer_key1', 'outer_key2', 'outer_key3']
+  description: Tests that get_keys.sl correctly gets all outer keys from a JSON
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  testSuites: [keys-local]
+  result: SUCCESS
