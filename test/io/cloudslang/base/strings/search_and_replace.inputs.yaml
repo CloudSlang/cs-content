@@ -123,3 +123,14 @@ testSearchAndReplaceUsingDiacritics:
   outputs:
     - replaced_string: ăaâî ḃċtexttôúè
   result: SUCCESS
+
+testSearchAndReplaceUsingJapaneseCharacters:
+  inputs:
+    - origin_string:  "目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変"
+    - text_to_replace: "、方法の変"
+    - replace_with: "目は脂"
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string and substrings contain japanese characters
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: "目は脂肪供えを取得失います。冬の缶実際の文字は目は脂"
+  result: SUCCESS
