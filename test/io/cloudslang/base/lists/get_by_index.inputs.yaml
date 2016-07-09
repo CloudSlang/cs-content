@@ -48,7 +48,7 @@ testGetFailure:
   testFlowPath: io.cloudslang.base.lists.get_by_index
   outputs:
     - return_result: "7"
-  return_result: FAILURE
+  result: FAILURE
 
 testGetReverseFailure:
   inputs:
