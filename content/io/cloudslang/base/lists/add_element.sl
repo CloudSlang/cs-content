@@ -7,12 +7,15 @@
 #
 ####################################################
 #!!
-#! @description: Adds an element to a list or set.
-#! @input list: list in which to add the element - Example: [123, 'xyz']
-#! @input element: element to add to the list
-#! @input unique_element: element to add to the set
-#! @output result: list or set with new element
-#! @output error_message: error message if unique_element is already in list
+#! @description: Adds an element to a list of strings
+#! @input list: list in which to add the element - Example: '1,2,3,4,5,6'
+#! @input element: element to add to the list - Example: '7'
+#! @input delimiter: the list delimiter
+#! @output response: 'success' or 'failure'
+#! @output return_result: the new list or an error message otherwise
+#! @output return_code: 0 if success, -1 if failure
+#! @result SUCCESS: the new list was retrieved with success
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 
@@ -20,30 +23,22 @@ namespace: io.cloudslang.base.lists
 
 operation:
   name: add_element
+
   inputs:
     - list
-    - element:
-        default: ''
-        required: false
-    - unique_element:
-        default: ''
-        required: false
+    - delimiter
+    - element
 
-  python_action:
-    script: |
-      error_message = ""
-
-      if unique_element in list and unique_element != '':
-        error_message = ("Already in list")
-      elif unique_element not in list and unique_element != '':
-        list.append(unique_element)
-      elif unique_element == '' and element != '':
-        list.append(element)
+  java_action:
+    gav: 'io.cloudslang.content:cs-lists:0.0.1'
+    class_name: io.cloudslang.content.actions.ListAppenderAction
+    method_name: appendElement
 
   outputs:
-    - result: ${list}
-    - error_message
+    - response
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
 
   results:
-    - SUCCESS: ${error_message == ""}
+    - SUCCESS: ${response == 'success'}
     - FAILURE

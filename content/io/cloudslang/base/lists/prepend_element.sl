@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,14 +7,14 @@
 #
 ####################################################
 #!!
-#! @description: returns the length of the list
-#! @input list: list which we want to get the length of - Example: 1,2,3,4,5
-#! @input delimiter: list delimiter - Example: ','
-#!                   default: ','
+#! @description: pre-pends an element to a list of strings
+#! @input list: list in which to pre-pend the element - Example: '1,2,3,4,5,6'
+#! @input element: element to pre-pend to the list - Example: '7'
+#! @input delimiter: the list delimiter. delimiter can be empty string
 #! @output response: 'success' or 'failure'
-#! @output return_result: length of the list or an error message otherwise
+#! @output return_result: the new list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
-#! @result SUCCESS: string list length was returned
+#! @result SUCCESS: the new list was retrieved with success
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
@@ -22,24 +22,23 @@
 namespace: io.cloudslang.base.lists
 
 operation:
-  name: length
+  name: prepend_element
 
   inputs:
     - list
-    - delimiter:
-        default: ','
+    - element
+    - delimiter
 
   java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.1'
-    class_name: io.cloudslang.content.actions.ListSizeAction
-    method_name: getListSize
+    class_name: io.cloudslang.content.actions.ListPrependerAction
+    method_name: prependElement
 
   outputs:
     - response
-    - return_code: ${returnCode}
     - return_result: ${returnResult}
+    - return_code: ${returnCode}
 
   results:
     - SUCCESS: ${response == 'success'}
     - FAILURE
-

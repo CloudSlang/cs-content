@@ -7,14 +7,19 @@
 #
 ####################################################
 #!!
-#! @description: Get element from list.
-#! @input list: list from which we want to get the element  - Example: [123, 'xyz']
-#! @input delimiter: list delimiter
-#!                   default: ''
-#! @output index: index of this element (A negative index accesses elements from the end of the list counting backwards.)
-#! @output result: element at specified index
-#! @output error_message: something went wrong - exception
-#! @result SUCCESS: error_message empty
+#! @description: This operation is used to retrieve a value from a list.
+#!               When the index of an element from a list is known,
+#!               this operation can be used to extract the element.
+#! @input list: list from which we want to get the element  - Example: '1,2,3,4,5,6'
+#! @input delimiter: the list delimiter
+#! @output index: index of the value (starting with 0) to retrieve from the list
+#! @output response: 'success' or 'failure'
+#! @output return_code: 0 if success, -1 if failure
+#! @output return_result: returns the value found at the specified index in the list, if the value specified for
+#!                        the index input is positive and less than the size of the list. Otherwise, it returns
+#!                        the value specified for index.
+#! @result SUCCESS: value retrieved with success
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
@@ -24,25 +29,19 @@ operation:
 
    inputs:
      - list
-     - delimiter:
-        default: ''
+     - delimiter
      - index
-   python_action:
-     script: |
-       try:
-         error_message = ""
-         if delimiter=='':
-           result = list[index]
-         else:
-           index = int(index)
-           result = list.split(delimiter).pop(index)
-       except TypeError:
-         error_message = "Index must be integer"
-       except Exception as e:
-         error_message = e
+
+   java_action:
+     gav: 'io.cloudslang.content:cs-lists:0.0.1'
+     class_name: io.cloudslang.content.actions.ListItemGrabberAction
+     method_name: grabItemFromList
+
    outputs:
-     - result
-     - error_message
+     - response
+     - return_code: ${returnCode}
+     - return_result: ${returnResult}
+
    results:
-     - SUCCESS: ${error_message == ""}
+     - SUCCESS: ${response == 'success'}
      - FAILURE
