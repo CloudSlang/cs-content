@@ -9,15 +9,15 @@
 #!!
 #! @description: This operation is used to retrieve a value from a list.
 #!               When the index of an element from a list is known,
-#!               this operation can be used to extract the element.
+#!               this operation can be used to get the element.
 #! @input list: list from which we want to get the element  - Example: '1,2,3,4,5,6'
 #! @input delimiter: the list delimiter
 #! @input index: index of the value (starting with 0) to retrieve from the list
 #! @output response: 'success' or 'failure'
 #! @output return_code: 0 if success, -1 if failure
 #! @output return_result: returns the value found at the specified index in the list, if the value specified for
-#!                        the index input is positive and less than the size of the list. Otherwise, it returns
-#!                        the value specified for index.
+#!                        the index input is (starting with 0) positive and less than the size of the list.
+#!                        Otherwise, it returns the value specified for index.
 #! @result SUCCESS: value retrieved with success
 #! @result FAILURE: otherwise
 #!!#
@@ -38,10 +38,9 @@ operation:
      method_name: grabItemFromList
 
    outputs:
-     - response
      - return_code: ${returnCode}
      - return_result: ${returnResult}
 
    results:
-     - SUCCESS: ${response == 'success'}
+     - SUCCESS: ${returnCode == '0'}
      - FAILURE

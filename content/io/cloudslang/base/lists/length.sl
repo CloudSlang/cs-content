@@ -35,11 +35,10 @@ operation:
     method_name: getListSize
 
   outputs:
-    - response
     - return_code: ${returnCode}
     - return_result: ${returnResult}
 
   results:
-    - SUCCESS: ${response == 'success'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE
 

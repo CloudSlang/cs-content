@@ -35,10 +35,9 @@ operation:
     method_name: prependElement
 
   outputs:
-    - response
     - return_result: ${returnResult}
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS: ${response == 'success'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

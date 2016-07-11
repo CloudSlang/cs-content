@@ -7,15 +7,15 @@
 #
 ####################################################
 
-testAddElementSuccess:
+testPrependElementSuccess:
   inputs:
     - list: 'element1,element2,element3,element4'
     - element: 'element5'
     - delimiter: ','
 
-  description: Tests that add_element.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.lists.add_element
+  description: Tests that prepend_element.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.lists.prepend_element
   outputs:
-    - return_result: 'element1,element2,element3,element4,element5'
+    - return_result: 'element5,element1,element2,element3,element4'
     - return_code: '0'
   result: SUCCESS
