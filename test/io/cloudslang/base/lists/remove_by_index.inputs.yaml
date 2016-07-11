@@ -11,20 +11,21 @@ testRemoveSuccess:
     - list: element1,element2,element3,element4
     - delimiter: ','
     - element: '1'
-  description: Tests that remove_by_index.sl operation finishes with result = [element1,element3,element4]
+  description: Tests that remove_by_index.sl operation finishes with result = element1,element3,element4
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.remove_by_index
   outputs:
     - return_result: element1,element3,element4
   result: SUCCESS
 
-testRemoveStrSuccess:
+testRemoveStrFailure:
   inputs:
     - list: element1,element2,element3,element4
     - delimiter: ','
-    - index: '-1'
-  description: Tests that remove_by_index.sl operation finishes with result = Index: -1, Length: 4
+    - element: '-1'
+  description: Tests that remove_by_index.sl operation finishes with FAILURE
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.remove_by_index
   outputs:
-    - return_result: |
-          Index: -1, Length: 4
+    - return_code: '-1'
   result: FAILURE

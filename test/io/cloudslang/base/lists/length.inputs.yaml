@@ -11,9 +11,10 @@ testLengthSuccess:
     - list: element1,element2,element3,element4
     - delimiter: ','
   description: Tests that length.sl operation finishes with result = 4
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 4
+    - return_result: 4
   result: SUCCESS
 
 testLengthOtherDelimiterSuccess:
@@ -21,18 +22,10 @@ testLengthOtherDelimiterSuccess:
     - list: element1:element2:element3:element4
     - delimiter: ','
   description: Tests that length.sl operation finishes with result = 1
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 1
-  result: SUCCESS
-
-testLengthWithoutDelimiterSet:
-  inputs:
-    - list: element1,element2,element3,element4
-  description: Tests that length.sl operation finishes with result = 35 when the delimiter is not specified
-  testFlowPath: io.cloudslang.base.lists.length
-  outputs:
-    - result: 35
+    - return_result: 1
   result: SUCCESS
 
 testLengthEmptyValueElement:
@@ -40,9 +33,10 @@ testLengthEmptyValueElement:
     - list: element1,,element2,element3,element4
     - delimiter: ","
   description: Tests that length.sl operation finishes with result = 5 when an element is empty value
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testLengthUsingNumbers:
@@ -50,9 +44,10 @@ testLengthUsingNumbers:
     - list: 5.2.9.7.3.7.5.8.5.5.5
     - delimiter: "."
   description: Tests that length.sl operation finishes with result = 11 when the list contains number elements
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 11
+    - return_result: 11
   result: SUCCESS
 
 testLengthJapaneseCharacters:
@@ -60,9 +55,10 @@ testLengthJapaneseCharacters:
     - list: 赤、青、緑、黄色、灰色
     - delimiter: "、"
   description: Tests that length.sl operation finishes with result = 5 when japanese characters are used
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testLengthArabicCharacters:
@@ -70,9 +66,10 @@ testLengthArabicCharacters:
     - list: الأحمر والأزرق والأخضر والأصفر والرمادي
     - delimiter: "و"
   description: Tests that length.sl operation finishes with result = 5 when Arabic characters are used
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testListLengthSpecialCharacters:
@@ -80,9 +77,10 @@ testListLengthSpecialCharacters:
     - list: t/%&/e$\"
     - delimiter: "/"
   description: Tests that length.sl operation finishes with result = 3 when special characters are used
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 3
+    - return_result: 3
   result: SUCCESS
 
 testLengthEmptyValues:
@@ -90,7 +88,8 @@ testLengthEmptyValues:
     - list: w,,,a,b,b
     - delimiter: ","
   description: Tests that length.sl operation finishes with result = 6 when multiple element contain empty value
+  testSuites: [lists]
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 6
+    - return_result: 6
   result: SUCCESS
