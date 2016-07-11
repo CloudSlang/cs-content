@@ -25,5 +25,6 @@ testRemoveStrSuccess:
   description: Tests that remove_by_index.sl operation finishes with result = Index: -1, Length: 4
   testFlowPath: io.cloudslang.base.lists.remove_by_index
   outputs:
-    - return_result: "Index: -1, Length: 4"
+    - return_result: |
+          Index: -1, Length: 4
   result: FAILURE
