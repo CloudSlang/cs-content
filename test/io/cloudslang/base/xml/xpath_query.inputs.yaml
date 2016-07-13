@@ -381,7 +381,6 @@ testSelectXpathTextualValueOfFirstVersionElement:
   outputs:
     - selected_value: 'version1'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTextualValueLastVersionElement:
@@ -412,7 +411,6 @@ testSelectXpathTextualValueLastVersionElement:
   outputs:
     - selected_value: 'version4'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTextualValueLastVersionElementUsingValueQueryType:
@@ -443,7 +441,6 @@ testSelectXpathTextualValueLastVersionElementUsingValueQueryType:
   outputs:
     - selected_value: 'version4'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 
@@ -475,7 +472,6 @@ testSelectXpathFirstAndSecondElements:
   outputs:
     - selected_value: '<version>version1</version>,<version>version2</version>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathAllChildrenOfBook:
@@ -506,7 +502,6 @@ testSelectXpathAllChildrenOfBook:
   outputs:
     - selected_value: '<title lang="en">Harry Potter</title>,<price>29.99</price>,<version>version1</version>,<version>version2</version>,<version>version3</version>,<version>version4</version>,<title lang="en">Learning XML</title>,<price>39.95</price>,<title lang="en">Testing XPath Query</title>,<price>100</price>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectElementValueSuccess:
@@ -519,7 +514,6 @@ testSelectElementValueSuccess:
   outputs:
     - selected_value: the value
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectBadXpathValue:
@@ -579,7 +573,6 @@ testSelectBadXpathEmptyStringXPathQuery:
   outputs:
     - selected_value: ""
     - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
-    - result_text: "failure"
   result: FAILURE
 
 testSelectBadXpathEmptyStringXmlDocument:
@@ -591,7 +584,6 @@ testSelectBadXpathEmptyStringXmlDocument:
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Premature end of file."
-    - result_text: "failure"
   result: FAILURE
 
 testSelectBadXpathInvalidXmlDocument:
@@ -603,7 +595,6 @@ testSelectBadXpathInvalidXmlDocument:
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
   result: FAILURE
 
 testSelectBadXpathEmptyStringQueryType:
@@ -616,7 +607,6 @@ testSelectBadXpathEmptyStringQueryType:
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Invalid query type"
-    - result_text: "failure"
   result: FAILURE
 
 testSelectBadXpathNoQuery:
@@ -678,7 +668,6 @@ testSelectXpathInvalidXPathQuery:
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
   result: FAILURE
 
 testSelectXpathInvalidXPath:
@@ -733,7 +722,6 @@ testSelectXpathInvalidXPath:
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
   result: FAILURE
 
 testSelectXpathCategory:
@@ -751,7 +739,6 @@ testSelectXpathCategory:
   outputs:
     - selected_value: '<dc:category build="car" name="woot" xmlns:dc="http://www.xml.com/books"> Small chamber ensembles - 2-4 Players by New York Women Composers </dc:category>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathStatusElem:
@@ -768,7 +755,6 @@ testSelectXpathStatusElem:
   outputs:
     - selected_value: '<status-elem End="1323905159694" ExecutionId="34315157" OrderId="117302" Path="/14.OdemeliAraCell_fromPostpaid" Start="1323905152611" Status="Main" StatusInfo="stat info" TestcaseId="44589129" User="asezer" Verdict="FAIL"/>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathGetElement:
@@ -822,7 +808,6 @@ testSelectXpathGetElement:
   outputs:
     - selected_value: 'category="WEB",category="WEB"'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTitleLang:
@@ -875,7 +860,6 @@ testSelectXpathTitleLang:
   outputs:
     - selected_value: '<title lang=" eng">Childhood</title>,<title lang=" eng">Boyhood</title>,<title lang=" eng">Youth</title>,<title lang=" eng"> Anna Karenina</title>,<title lang=" eng">War and Peace</title>,<title lang=" eng">Resurrection</title>,<title lang=" eng">Family Happiness</title>,<title lang=" eng">The Kreutzer Sonata</title>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathCalories:
@@ -907,7 +891,6 @@ testSelectXpathCalories:
   outputs:
     - selected_value: '<calories>180</calories>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectBadXpathLargeDocument:
@@ -1201,7 +1184,6 @@ testSelectBadXpathLargeDocument:
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectFromFileElementSuccess:
@@ -1215,5 +1197,4 @@ testSelectFromFileElementSuccess:
   outputs:
     - selected_value: <from>Jani</from>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS

@@ -69,17 +69,16 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-xml:0.0.2'
+    gav: 'io.cloudslang.content:score-xml:0.0.3'
     class_name: io.cloudslang.content.xml.actions.XpathQuery
     method_name: execute
 
   outputs:
     - selected_value: ${selectedValue}
     - return_result: ${returnResult}
-    - result_text: ${result}
     - error_message: ${errorMessage}
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS: ${result == 'success'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

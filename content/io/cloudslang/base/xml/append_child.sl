@@ -58,16 +58,15 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-xml:0.0.2'
+    gav: 'io.cloudslang.content:score-xml:0.0.3'
     class_name: io.cloudslang.content.xml.actions.AppendChild
     method_name: execute
 
   outputs:
     - result_xml: ${resultXML}
     - return_result: ${returnResult}
-    - result_text: ${result}
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS: ${result == 'success'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE
