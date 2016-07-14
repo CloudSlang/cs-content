@@ -65,6 +65,7 @@ flow:
           required: false
       - privateKeyFile:
           default: ${get("private_key_file", "")}
+          required: false
           private: true
       - timeout: '90000'
       - character_set:
@@ -81,6 +82,7 @@ flow:
           required: false
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
+          required: false
           private: true
       - smart_recovery: True
       - retries: 5

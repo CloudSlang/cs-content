@@ -75,6 +75,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${(docker_options + ' ') if bool(docker_options) else ''}
+        required: false
         private: true
     - detach_expression:
         default: ${'-d ' if detach else ''}
