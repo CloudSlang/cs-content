@@ -43,17 +43,17 @@ testStringEqualsEmptySecond:
   inputs:
     - first_string: text
     - second_string: ""
-  description: Tests that string_equals.sl operation throws exception when second_string is empty
+  description: Tests that string_equals.sl operation finishes with FAILURE when second_string is empty
   testFlowPath: io.cloudslang.base.strings.string_equals
-  throwsException: true
+  result: FAILURE
 
 testStringEqualsBothEmpty:
   inputs:
     - first_string: ""
     - second_string: ""
-  description: Tests that string_equals.sl operation throws exception when both strings are empty
+  description: Tests that string_equals.sl operation finishes with SUCCESS when both strings are empty
   testFlowPath: io.cloudslang.base.strings.string_equals
-  throwsException: true
+  result: SUCCESS
 
 testStringEqualsSpecialCharacters:
   inputs:
