@@ -32,11 +32,14 @@ flow:
         required: false
     - trust_password:
         default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        required: false
         sensitive: true
     - keystore:
         default: ${get_sp('io.cloudslang.base.http.keystore')}
+        required: false
     - keystore_password:
         default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        required: false
         sensitive: true
 
   workflow:

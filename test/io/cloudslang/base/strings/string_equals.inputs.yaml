@@ -26,9 +26,9 @@ testStringEqualsFailure:
 testStringEqualsMissingInputs:
   inputs:
     - second_string: different
-  description: Tests that string_equals.sl operation throws an exception when a required input is missing
+  description: Tests that string_equals.sl operation finishes with FAILURE when a required input is missing
   testFlowPath: io.cloudslang.base.strings.string_equals
-  throwsException: true
+  result: FAILURE
 
 testStringEqualsEmptyFirst:
   inputs:

@@ -23,7 +23,8 @@ operation:
   inputs:
     - first_string:
          required: false
-    - second_string
+    - second_string:
+         required: false
     - ignore_case:
          default: false
          required: false
