@@ -20,9 +20,5 @@ operation:
   inputs:
     - value1
     - value2
-  python_action:
-    script: |
-      value1 = float(value1)
-      value2 = float(value2)
   outputs:
-     - result: ${value1 * value2}
+     - result: ${float(value1) * float(value2)}

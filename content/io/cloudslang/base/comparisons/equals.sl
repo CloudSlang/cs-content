@@ -17,14 +17,11 @@
 
 namespace: io.cloudslang.base.comparisons
 
-operation:
+decision:
   name: equals
   inputs:
     - first
     - second
-  python_action:
-    script: |
-      eq = first == second
   results:
-    - EQUALS: ${ eq }
+    - EQUALS: ${ first == second }
     - NOT_EQUALS

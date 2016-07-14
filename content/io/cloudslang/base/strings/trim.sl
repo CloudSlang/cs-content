@@ -13,12 +13,9 @@
 ####################################################
  namespace: io.cloudslang.base.strings
 
- operation:
+ decision:
    name: trim
    inputs:
      - origin_string
-   python_action:
-     script: |
-       new_string=origin_string.strip()
    outputs:
-     - new_string
+     - new_string: ${origin_string.strip()}
