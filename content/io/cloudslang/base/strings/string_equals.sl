@@ -21,7 +21,7 @@ namespace: io.cloudslang.base.strings
 operation:
   name: string_equals
   inputs:
-    - first_string
+    - first_string:
          required: false
     - second_string
     - ignore_case:
