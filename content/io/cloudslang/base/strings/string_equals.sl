@@ -22,6 +22,7 @@ operation:
   name: string_equals
   inputs:
     - first_string
+         required: false
     - second_string
     - ignore_case:
          default: false

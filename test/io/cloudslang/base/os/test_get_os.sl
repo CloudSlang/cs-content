@@ -15,6 +15,7 @@ flow:
   name: test_get_os
   inputs:
     - expected_output
+        required: false
   workflow:
     - test_get_os_operation:
         do:

@@ -127,6 +127,7 @@ operation:
         required: false
     - kerberosLoginConfFile:
         default: ${get("kerberos_login_conf_file", "")}
+        required: false
         private: true
     - kerberos_skip_port_for_lookup:
         required: false

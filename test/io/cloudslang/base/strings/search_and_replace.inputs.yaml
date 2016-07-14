@@ -41,33 +41,33 @@ testSearchAndReplaceEmptyOriginString:
     - origin_string: ""
     - text_to_replace: ab
     - replace_with: hello
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string is empty also having an empty output
+  description: Tests that search_and_replace.sl operation throws exception when origin_string is empty also having an empty output
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
     - error_message: Substring not found
-  result: FAILURE
+  throwsException: true
 
 testSearchAndReplaceEmptyTextToReplace:
   inputs:
     - origin_string: lll
     - text_to_replace: ""
     - replace_with: a
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when text_to_replace is empty
+  description: Tests that search_and_replace.sl operation throws exception when text_to_replace is empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
     - replaced_string: alalala
-  result: SUCCESS
+  throwsException: true
 
 testSearchAndReplaceEmptyReplaceWith:
   inputs:
     - origin_string: text
     - text_to_replace: ex
     - replace_with: ""
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when replace_with is empty
+  description: Tests that search_and_replace.sl operation throws exception when replace_with is empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
     - replaced_string: tt
-  result: SUCCESS
+  throwsException: true
 
 testSearchAndReplaceSpecialCharacters:
   inputs:
@@ -96,11 +96,11 @@ testSearchAndReplaceEmptyOriginStringAndTextToReplace:
     - origin_string: ""
     - text_to_replace: ""
     - replace_with: text
-  description: Tests that search_and_replace.sl operation finishes with SUCCES when origin_string and text_to_replace are empty
+  description: Tests that search_and_replace.sl operation throws exception when origin_string and text_to_replace are empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
     - replaced_string: text
-  result: SUCCESS
+  throwsException: true
 
 testSearchAndReplaceSubstringFoundedTwiceInOriginString:
   inputs:

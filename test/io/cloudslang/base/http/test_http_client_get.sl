@@ -29,6 +29,7 @@ flow:
         private: true
     - trust_keystore:
         default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        required: false
     - trust_password:
         default: ${get_sp('io.cloudslang.base.http.trust_password')}
         sensitive: true

@@ -15,6 +15,7 @@ flow:
     - json_before
     - json_path
     - value
+        required: false
     - json_after
 
   workflow:
