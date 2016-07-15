@@ -534,8 +534,6 @@ operation:
         default: ${get("network_interface_private_ip_address", "")}
         private: true
     - network_interface_device_index:
-        required: false
-    - network_interface_device_index:
         default: ${get("network_interface_device_index", "")}
         private: true
     - network_interface_attachment_status:
