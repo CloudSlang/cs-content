@@ -42,8 +42,7 @@ imports:
 flow:
   name: delete_container
   inputs:
-    - container_id:
-        required: false
+    - container_id
     - docker_options:
         required: false
     - docker_options_expression:
