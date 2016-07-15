@@ -79,6 +79,7 @@ flow:
         private: true
     - detach_expression:
         default: ${'-d ' if detach else ''}
+        required: false
         private: true
     - container_name_param:
         default: ${'--name ' + container_name + ' ' if bool(container_name) else ''}
