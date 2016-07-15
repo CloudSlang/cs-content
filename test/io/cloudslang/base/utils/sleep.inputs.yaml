@@ -72,7 +72,7 @@ testSleepEmptyStringInput:
   testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
-  result: FAILURE
+  throwsException: true
 
 testSleepWhiteSpaceInput:
   inputs:

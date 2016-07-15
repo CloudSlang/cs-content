@@ -38,16 +38,19 @@ imports:
 flow:
   name: stop_container
   inputs:
-    - container_id
+    - container_id:
+        required: false
     - docker_options:
         required: false
     - docker_options_expression:
         default: ${docker_options + ' ' if bool(docker_options) else ''}
+        required: false
         private: true
     - cmd_params:
         required: false
     - params:
         default: ${cmd_params + ' ' if bool(cmd_params) else ''}
+        required: false
         private: true
     - host
     - port:

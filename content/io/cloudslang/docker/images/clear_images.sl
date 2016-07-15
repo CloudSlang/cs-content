@@ -40,6 +40,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
+        required: false
         private: true
     - host
     - port:
