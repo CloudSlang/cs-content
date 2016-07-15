@@ -82,12 +82,15 @@ flow:
         private: true
     - container_name_param:
         default: ${'--name ' + container_name + ' ' if bool(container_name) else ''}
+        required: false
         private: true
     - container_params_cmd:
         default: ${container_params + ' ' if bool(container_params) else ''}
+        required: false
         private: true
     - container_command_cmd:
         default: ${' ' + container_command if bool(container_command) else ''}
+        required: false
         private: true
     - command:
         default: >
