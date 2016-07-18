@@ -127,6 +127,7 @@ operation:
         required: false
     - kerberosLoginConfFile:
         default: ${get("kerberos_login_conf_file", "")}
+        required: false
         private: true
     - kerberos_skip_port_for_lookup:
         required: false
@@ -137,6 +138,7 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
+        required: false
         private: true
     - proxy_port:
         required: false
@@ -147,12 +149,14 @@ operation:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
+        required: false
         private: true
     - proxy_password:
         required: false
         sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
+        required: false
         private: true
         sensitive: true
     - trust_all_roots:
@@ -169,12 +173,14 @@ operation:
         required: false
     - trustKeystore:
         default: ${get("trust_keystore", "")}
+        required: false
         private: true
     - trust_password:
         required: false
         sensitive: true
     - trustPassword:
         default: ${get("trust_password", "")}
+        required: false
         private: true
         sensitive: true
     - keystore:
@@ -184,6 +190,7 @@ operation:
         sensitive: true
     - keystorePassword:
         default: ${get("keystore_password", "")}
+        required: false
         private: true
         sensitive: true
     - connect_timeout:
@@ -227,6 +234,7 @@ operation:
         required: false
     - destinationFile:
         default: ${get("destination_file", "")}
+        required: false
         private: true
     - follow_redirects:
         required: false
@@ -237,6 +245,7 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
+        required: false
         private: true
     - query_params_are_URL_encoded:
         required: false
@@ -252,6 +261,7 @@ operation:
         required: false
     - formParams:
         default: ${get("form_params", "")}
+        required: false
         private: true
     - form_params_are_URL_encoded:
         required: false
@@ -262,6 +272,7 @@ operation:
         required: false
     - sourceFile:
         default: ${get("source_file", "")}
+        required: false
         private: true
     - body:
         required: false
@@ -279,6 +290,7 @@ operation:
         required: false
     - multipartBodies:
         default: ${get("multipart_bodies", "")}
+        required: false
         private: true
     - multipart_bodies_content_type:
         required: false
@@ -289,6 +301,7 @@ operation:
         required: false
     - multipartFiles:
         default: ${get("multipart_files", "")}
+        required: false
         private: true
     - multipart_files_content_type:
         required: false
@@ -304,17 +317,20 @@ operation:
         required: false
     - chunkedRequestEntity:
         default: ${get("chunked_request_entity", "")}
+        required: false
         private: true
     - method
     - http_client_cookie_session:
         required: false
     - httpClientCookieSession:
         default: ${get("http_client_cookie_session", "")}
+        required: false
         private: true
     - http_client_pooling_connection_manager:
         required: false
     - httpClientPoolingConnectionManager:
         default: ${get("http_client_pooling_connection_manager", "")}
+        required: false
         private: true
     - valid_http_status_codes:
         default: ${range(200, 300)}

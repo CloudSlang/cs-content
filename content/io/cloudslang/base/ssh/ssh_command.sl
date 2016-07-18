@@ -57,6 +57,7 @@ operation:
           required: false
       - privateKeyFile:
           default: ${get("private_key_file", "")}
+          required: false
           private: true
       - timeout: '90000'
       - character_set:
@@ -73,6 +74,7 @@ operation:
           required: false
       - agentForwarding:
           default: ${get("agent_forwarding", "")}
+          required: false
           private: true
     java_action:
       gav: 'io.cloudslang.content:score-ssh:0.0.32'

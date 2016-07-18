@@ -50,9 +50,6 @@ flow:
     - extract_metadata:
         required: false
         default: true
-    - extract_metadata:
-        required: false
-        default: true
     - extract_text:
         required: false
         default: true
