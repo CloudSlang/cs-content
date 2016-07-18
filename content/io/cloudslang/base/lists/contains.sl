@@ -18,7 +18,7 @@
 
 namespace: io.cloudslang.base.lists
 
-decision:
+operation:
   name: contains
   inputs:
     - list
@@ -26,5 +26,11 @@ decision:
         required: false
         default: ''
     - element
+  python_action:
+    script: |
+      if delimiter=='':
+        result = list.contains(element)
+      else:
+        result = element in list.split(delimiter)
   outputs:
-    - result: list.contains(element) if delimiter == '' else element in list.split(delimiter)
+    - result

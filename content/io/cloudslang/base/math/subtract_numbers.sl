@@ -15,10 +15,12 @@
 ########################################################################################################
 namespace: io.cloudslang.base.math
 
-operation:
+decision:
   name: subtract_numbers
   inputs:
     - value1
     - value2
   outputs:
-     - result: ${float(value1) - float(value2)}
+    - result: ${float(value1) - float(value2)}
+  results:
+    - SUCCESS

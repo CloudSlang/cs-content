@@ -22,4 +22,6 @@ decision:
     - value1
     - value2
   outputs:
-     - result: ${float(value1) + float(value2)}
+    - result: ${float(value1) + float(value2)}
+  results:
+    - SUCCESS
