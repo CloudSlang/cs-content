@@ -32,7 +32,8 @@ flow:
   inputs:
     - return_result
     - return_code
-    - exit_status
+    - exit_status:
+        required: false
   workflow:
     - check_return_code:
         do:

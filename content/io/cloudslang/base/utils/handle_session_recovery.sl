@@ -38,7 +38,8 @@ flow:
     - retries
     - return_result
     - return_code
-    - exit_status
+    - exit_status:
+        required: false
   workflow:
     - check_enabled:
         do:
