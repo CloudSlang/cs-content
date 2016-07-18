@@ -19,7 +19,7 @@
 namespace: io.cloudslang.base.lists
 
 operation:
-  name: compare_lists
+  name: test_compare_lists
   inputs:
     - list_1
     - list_2
