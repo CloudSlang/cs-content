@@ -34,6 +34,7 @@ operation:
         required: false
     - dc:
         default: ${'?dc=' + datacenter if bool(datacenter) else ''}
+        required: false
         private: true
     - url:
         default: ${'http://' + host + ':' + consul_port + '/v1/catalog/services' + dc}

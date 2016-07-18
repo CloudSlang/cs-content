@@ -573,25 +573,25 @@ testSelectBadXpathEmptyStringXPathQuery:
                                                  </book>
                                                  </bookstore>'
     - xpath_query: ""
-  description: "Tests that this operation fails when query=empty string."
+  description: "Tests that this operation throws exception when query=empty string."
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
     - selected_value: ""
     - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
     - result_text: "failure"
-  result: FAILURE
+  throwsException: true
 
 testSelectBadXpathEmptyStringXmlDocument:
   inputs:
     - xml_document: ""
     - xpath_query: "/root"
-  description: "Tests that this operation fails when xml_document= empty string"
+  description: "Tests that this operation throws exception when xml_document= empty string"
   testFlowPath: io.cloudslang.base.xml.select
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Premature end of file."
     - result_text: "failure"
-  result: FAILURE
+  throwsException: true
 
 testSelectBadXpathInvalidXmlDocument:
   inputs:

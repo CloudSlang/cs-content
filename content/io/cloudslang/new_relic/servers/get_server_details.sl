@@ -60,7 +60,6 @@ flow:
             - proxy_host
             - proxy_port
             - proxy_username
-            - proxy_port
 
         publish:
           - return_result
