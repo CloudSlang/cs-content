@@ -103,7 +103,7 @@ operation:
         default: '90000'
         required: false
   java_action:
-    gav: 'io.cloudslang.content:score-rft:0.0.2'
+    gav: 'io.cloudslang.content:cs-rft:0.0.3'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
   outputs:

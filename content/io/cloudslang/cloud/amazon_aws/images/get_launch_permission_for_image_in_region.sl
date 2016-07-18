@@ -58,7 +58,7 @@ operation:
     - imageId: ${image_id}
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
     class_name: io.cloudslang.content.jclouds.actions.images.GetLaunchPermissionForImageInRegionAction
     method_name: execute
 
