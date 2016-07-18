@@ -25,6 +25,7 @@ operation:
   name: string_occurrence_counter
   inputs:
     - string_in_which_to_search
+        required: false
     - string_to_find
     - ignore_case:
         default: 'true'
