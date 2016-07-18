@@ -16,7 +16,7 @@
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input region: optional - the region where the server (instance) to be updated can be found. "regions/list_regions" operation
 #!                           can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to update
+#! @input instance_id: the ID of the server (instance) you want to update
 #! @input server_type: optional - the new server type to be used when updating the instance. The complete list of instance
 #!                                types can be found at: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html
 #!                              - Example: 't2.medium', 'm3.large' - Default: 't2.micro'
@@ -33,7 +33,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: update_server_type
+  name: update_instance_type
 
   inputs:
     - provider: 'amazon'
@@ -59,8 +59,8 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - serverId: ${server_id}
+    - instance_id
+    - instanceId: ${instance_id}
     - server_type:
         required: false
     - serverType:
@@ -78,14 +78,14 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
-    class_name: io.cloudslang.content.jclouds.actions.instances.UpdateServerTypeAction
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    class_name: io.cloudslang.content.jclouds.actions.instances.UpdateInstanceTypeAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

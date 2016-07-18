@@ -10,9 +10,10 @@ namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
 
 flow:
-  name: test_reboot_server
+  name: test_terminate_instances
 
   inputs:
     - provider: 'amazon'
@@ -21,45 +22,64 @@ flow:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
 
   workflow:
-    - reboot_server:
+    - terminate_instances:
         do:
-          reboot_server:
+          terminate_instances:
             - provider
             - endpoint
             - identity
             - credential
             - region
-            - server_id
             - proxy_host
             - proxy_port
+            - instance_id
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_result
-          - FAILURE: REBOOT_SERVER_FAILURE
+          - SUCCESS: check_call_result
+          - FAILURE: TERMINATE_SERVER_CALL_FAILURE
 
-    - check_result:
+    - check_call_result:
         do:
           lists.compare_lists:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
+          - SUCCESS: check_first_possible_current_state_result
+          - FAILURE: CHECK_CALL_RESULT_FAILURE
+
+    - check_first_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=terminated'
+        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CHECK_RESULT_FAILURE
+          - FAILURE: check_second_possible_current_state_result
+
+    - check_second_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=shutting-down'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: SHUTTING_DOWN_FAILURE
 
   results:
     - SUCCESS
-    - REBOOT_SERVER_FAILURE
-    - CHECK_RESULT_FAILURE
+    - TERMINATE_SERVER_CALL_FAILURE
+    - CHECK_CALL_RESULT_FAILURE
+    - SHUTTING_DOWN_FAILURE

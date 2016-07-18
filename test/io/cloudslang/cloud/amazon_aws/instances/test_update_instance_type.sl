@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_update_server_type
+  name: test_update_instance_type
 
   inputs:
     - provider: 'amazon'
@@ -32,7 +32,7 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
+    - instance_id
     - server_type:
         default: ''
         required: false
@@ -44,9 +44,9 @@ flow:
         required: false
 
   workflow:
-    - update_server_type:
+    - update_instance_type:
         do:
-          update_server_type:
+          update_instance_type:
             - provider
             - endpoint
             - identity
@@ -54,7 +54,7 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - server_id
+            - instance_id
             - server_type
             - operation_timeout
             - pooling_interval
