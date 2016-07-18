@@ -12,7 +12,7 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_run_server
+  name: test_describe_instances
 
   inputs:
     - provider: 'amazon'
@@ -32,21 +32,15 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - availability_zone:
+    - instance_id
+    - delimiter:
         default: ''
-        required: false
-    - image_id
-    - min_count:
-        default: '1'
-        required: false
-    - max_count:
-        default: '1'
         required: false
 
   workflow:
-    - run_server:
+    - describe_instances:
         do:
-          run_server:
+          describe_instances:
             - provider
             - endpoint
             - identity
@@ -54,17 +48,14 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - availability_zone
-            - image_id
-            - min_count
-            - max_count
+            - instance_id
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           - SUCCESS: check_result
-          - FAILURE: RUN_SERVERS_FAILURE
+          - FAILURE: LIST_SERVERS_FAILURE
 
     - check_result:
         do:
@@ -77,5 +68,5 @@ flow:
 
   results:
     - SUCCESS
-    - RUN_SERVERS_FAILURE
+    - LIST_SERVERS_FAILURE
     - CHECK_RESULT_FAILURE

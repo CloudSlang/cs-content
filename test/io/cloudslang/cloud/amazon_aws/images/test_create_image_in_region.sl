@@ -33,8 +33,8 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - image_name
+    - instance_id
+    - name
     - image_description:
         default: ''
         required: false
@@ -53,8 +53,8 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - server_id
-            - image_name
+            - instance_id
+            - name
             - image_description
             - image_no_reboot
         publish:

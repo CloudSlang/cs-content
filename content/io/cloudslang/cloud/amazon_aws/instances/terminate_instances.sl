@@ -16,7 +16,7 @@
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input region: optional - the region where the server (instance) to be started can be found. "regions/list_regions" operation
 #!                           can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to terminate
+#! @input instance_id: the ID of the server (instance) you want to terminate
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @output return_result: contains the exception in case of failure, success message otherwise
@@ -29,7 +29,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: terminate_server
+  name: terminate_instances
 
   inputs:
     - provider: 'amazon'
@@ -40,11 +40,6 @@ operation:
     - credential:
         required: false
         sensitive: true
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
-    - serverId: ${server_id}
     - proxy_host:
         required: false
     - proxyHost:
@@ -55,16 +50,21 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
+    - instanceId: ${instance_id}
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
-    class_name: io.cloudslang.content.jclouds.actions.instances.RemoveServerAction
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    class_name: io.cloudslang.content.jclouds.actions.instances.TerminateInstancesAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

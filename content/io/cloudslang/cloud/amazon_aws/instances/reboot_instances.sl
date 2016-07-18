@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,28 +7,29 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to start a STOPPED server (instance)
-#!               and changes its status to ACTIVE. PAUSED and SUSPENDED servers (instances) cannot be started.
+#! @description: requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to
+#!               reboot the specified instances. The operation succeeds if the instances are valid and belong to you.
+#!               Requests to reboot terminated instances are ignored.
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: the endpoint to which request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be started can be found. list_regions operation
-#!                can be used in order to get all regions - Default: 'us-east-1'
-#! @input server_id: the ID of the server (instance) you want to start
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input region: optional - the region where the server (instance) to be rebooted can be found. list_regions operation
+#!                can be used in order to get all regions - Default: 'us-east-1'
+#! @input instance_id: the ID of the server (instance) you want to reboot
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the server (instance) was successfully started
-#! @result FAILURE: an error occurred when trying to start a server (instance)
+#! @result SUCCESS: the server (instance) was successfully suspended
+#! @result FAILURE: an error occurred when trying to suspend a server (instance)
 #!!#
 ####################################################
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: start_server
+  name: reboot_instances
 
   inputs:
     - provider: 'amazon'
@@ -39,11 +40,6 @@ operation:
     - credential:
         required: false
         sensitive: true
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
-    - serverId: ${server_id}
     - proxy_host:
         required: false
     - proxyHost:
@@ -54,16 +50,21 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
+    - instanceId: ${instance_id}
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
-    class_name: io.cloudslang.content.jclouds.actions.instances.StartServerAction
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    class_name: io.cloudslang.content.jclouds.actions.instances.RebootInstancesAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${exception if exception in locals() else ''}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

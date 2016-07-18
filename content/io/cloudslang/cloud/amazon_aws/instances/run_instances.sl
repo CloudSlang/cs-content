@@ -18,7 +18,7 @@
 #!                           "regions/list_regions" operation can be used in order to get all regions - Default: 'us-east-1'
 #! @input availability_zone: optional - specifies the placement constraints for launching instance. Amazon automatically
 #!                                     selects an availability zone by default - Default: ''
-#! @input image_ref: the ID of the AMI. For more information go to: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
+#! @input image_id: the ID of the AMI. For more information go to: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
 #!                   - Examples: 'ami-fce3c696', 'ami-4b91bb21'
 #! @input min_count: optional - The minimum number of launched instances - Default: '1'
 #! @input max_count: optional - The maximum number of launched instances - Default: '1'
@@ -32,7 +32,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: run_server
+  name: run_instances
 
   inputs:
     - provider: 'amazon'
@@ -63,9 +63,7 @@ operation:
         default: ${get("availability_zone", "")}
         private: true
     - image_id
-    - imageId:
-        default: ${image_id}
-        private: true
+    - imageId: ${image_id}
     - min_count:
         required: false
     - minCount:
@@ -78,14 +76,14 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
-    class_name: io.cloudslang.content.jclouds.actions.instances.RunServerAction
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    class_name: io.cloudslang.content.jclouds.actions.instances.RunInstancesAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

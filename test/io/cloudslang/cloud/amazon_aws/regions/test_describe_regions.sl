@@ -13,7 +13,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_list_regions
+  name: test_describe_regions
 
   inputs:
     - provider: 'amazon'
@@ -30,9 +30,9 @@ flow:
         required: false
 
   workflow:
-    - list_regions:
+    - describe_regions:
         do:
-          list_regions:
+          describe_regions:
             - provider
             - endpoint
             - identity

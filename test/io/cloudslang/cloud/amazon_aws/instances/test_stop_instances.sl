@@ -13,7 +13,7 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: test_stop_server
+  name: test_stop_instances
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
@@ -21,14 +21,14 @@ flow:
         required: false
     - credential:
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - server_id
     - proxy_host:
         required: false
     - proxy_port:
         required: false
+    - region:
+        default: 'us-east-1'
+        required: false
+    - instance_id
     - delimiter:
         required: false
     - seconds:
@@ -36,17 +36,17 @@ flow:
         required: false
 
   workflow:
-    - stop_server:
+    - stop_instances:
         do:
-          stop_server:
+          stop_instances:
             - provider
             - endpoint
             - identity
             - credential
             - region
-            - server_id
             - proxy_host
             - proxy_port
+            - instance_id
         navigate:
           - SUCCESS: sleep
           - FAILURE: STOP_FAILURE
@@ -56,19 +56,19 @@ flow:
           utils.sleep:
             - seconds
         navigate:
-          - SUCCESS: list_amazon_instances
+          - SUCCESS: describe_instances
           - FAILURE: STOPPED_FAILURE
 
-    - list_amazon_instances:
+    - describe_instances:
         do:
-          describe_instances_in_region:
+          describe_instances:
             - provider
             - endpoint
             - identity
             - credential
-            - region
             - proxy_host
             - proxy_port
+            - region
             - delimiter
         navigate:
           - SUCCESS: check_result
