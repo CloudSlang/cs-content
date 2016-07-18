@@ -13,7 +13,7 @@ flow:
     - expected_keys
 
   workflow:
-    - getKeys:
+    - get_keys:
         do:
           get_keys:
             - json_input
