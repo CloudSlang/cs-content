@@ -56,7 +56,7 @@ operation:
     - instanceId: ${instance_id}
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.5'
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
     class_name: io.cloudslang.content.jclouds.actions.instances.StopInstancesAction
     method_name: execute
 
