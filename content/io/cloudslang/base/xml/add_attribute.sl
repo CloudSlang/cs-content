@@ -60,7 +60,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-xml:0.0.3'
+    gav: 'io.cloudslang.content:cs-xml:0.0.5'
     class_name: io.cloudslang.content.xml.actions.AddAttribute
     method_name: execute
 
