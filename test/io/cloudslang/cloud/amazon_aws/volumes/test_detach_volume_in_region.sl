@@ -72,7 +72,7 @@ flow:
             - list_1: ${[str(exception), int(return_code)]}
             - list_2: ['', 0]
         navigate:
-          - SUCCESS: check_deletion_message_exist
+          - SUCCESS: check_detach_message_exist
           - FAILURE: CHECK_RESULT_FAILURE
 
     - check_detach_message_exist:
