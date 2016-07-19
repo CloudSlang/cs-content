@@ -54,6 +54,7 @@ flow:
         required: false
     - params:
         default: ${cmd_params + ' ' if bool(cmd_params) else ''}
+        required: false
         private: true
     - host
     - port:
@@ -68,6 +69,7 @@ flow:
         required: false
     - command:
         default: ${'docker ' + docker_options_expression + 'rm ' + params + container_id}
+        required: false
         private: true
     - character_set:
         required: false
