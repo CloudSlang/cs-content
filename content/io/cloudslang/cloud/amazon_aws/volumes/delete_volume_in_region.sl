@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,29 +7,29 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to shut down an instance. If you
-#!               terminate an instance more than once, each call succeeds. Terminated instances remain visible after
-#!               termination for approximately one hour
-#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @description: Deletes the specified EBS volume. The volume must be in the 'available' state (not attached to an instance).
+#!               Note: The volume may remain in the deleting state for several minutes. For more information, see Deleting
+#!               an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+#! @input provider: Cloud provider on which you the instance that have volume attached is - Default: 'amazon'
+#! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input region: optional - the region where the server (instance) to be started can be found. "regions/list_regions" operation
-#!                           can be used in order to get all regions - Default: 'us-east-1'
-#! @input instance_id: the ID of the server (instance) you want to terminate
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input region: optional - region where volume to be deleted belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can
+#!                           be used in order to get all regions - Default: 'us-east-1'
+#! @input volume_id: ID of the EBS volume
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the server (instance) was successfully terminated
-#! @result FAILURE: an error occurred when trying to terminate a server (instance)
+#! @result SUCCESS: the list with existing regions was successfully retrieved
+#! @result FAILURE: an error occurred when trying to retrieve the regions list
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws.instances
+namespace: io.cloudslang.cloud.amazon_aws.volumes
 
 operation:
-  name: terminate_instances
+  name: delete_volume_in_region
 
   inputs:
     - provider: 'amazon'
@@ -53,14 +53,14 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - instance_id
-    - instanceId:
-        default: ${instance_id}
+    - volume_id
+    - volumeId:
+        default: ${volume_id}
         private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
-    class_name: io.cloudslang.content.jclouds.actions.instances.TerminateInstancesAction
+    class_name: io.cloudslang.content.jclouds.actions.volumes.DeleteVolumeInRegionAction
     method_name: execute
 
   outputs:

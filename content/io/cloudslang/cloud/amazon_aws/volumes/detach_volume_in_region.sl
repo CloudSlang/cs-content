@@ -66,7 +66,9 @@ operation:
         default: 'us-east-1'
         required: false
     - volume_id
-    - volumeId: ${volume_id}
+    - volumeId:
+        default: ${volume_id}
+        private: true
     - instance_id:
         required: false
     - instanceId:

@@ -81,7 +81,9 @@ operation:
         default: 'us-east-1'
         required: false
     - availability_zone
-    - availabilityZone: ${availability_zone}
+    - availabilityZone:
+        default: ${availability_zone}
+        private: true
     - snapshot_id:
         required: false
     - snapshotId:

@@ -60,7 +60,9 @@ operation:
         default: 'us-east-1'
         required: false
     - instance_id
-    - instanceId: ${instance_id}
+    - instanceId:
+        default: ${instance_id}
+        private: true
     - server_type:
         required: false
     - serverType:
