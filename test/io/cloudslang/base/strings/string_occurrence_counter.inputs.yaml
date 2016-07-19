@@ -43,9 +43,9 @@ testStringOccurrenceCounterEmptyStringInWhichToSearch:
   inputs:
     - string_in_which_to_search: ""
     - string_to_find: stringthatisnotfound
-  description: Tests that string_occurrence_counter.sl operation throws exception when string_in_which_to_search is empty and string_to_find is not
+  description: Tests that string_occurrence_counter.sl operation finishes with FAILURE when string_in_which_to_search is empty and string_to_find is not
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
-  throwsException: true
+  result: FAILURE
   outputs:
     - return_code: 0
     - return_result: 0
@@ -55,9 +55,9 @@ testStringOccurrenceCounterEmptyStringToFind:
   inputs:
     - string_in_which_to_search: long string in which to search
     - string_to_find: ""
-  description: Tests that string_occurrence_counter.sl operation throws exception when string_to_find is empty and string_in_which_to_search is not having as output the length of string_in_which_to_search
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when string_to_find is empty and string_in_which_to_search is not having as output the length of string_in_which_to_search
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
-  throwsException: true
+  result: SUCCESS
   outputs:
     - return_code: 0
     - return_result: 31
@@ -68,9 +68,9 @@ testStringOccurrenceCounterBothStringsEmpty:
     - string_in_which_to_search: ""
     - string_to_find: ""
     - expected_output: 1
-  description: Tests that string_occurrence_counter.sl operation throws exception when both strings are empty
+  description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS having output 1 when both strings are empty
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
-  throwsException: true
+  result: SUCCESS
   outputs:
     - return_code: 0
     - return_result: 1
