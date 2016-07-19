@@ -79,6 +79,9 @@ operation:
     - deviceName:
         default: ${get("device_name", "")}
         private: true
+    - force:
+        default: 'false'
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
