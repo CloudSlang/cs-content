@@ -66,7 +66,9 @@ operation:
         default: 'us-east-1'
         required: false
     - volume_id
-    - volumeId: ${volume_id}
+    - volumeId:
+        default: ${volume_id}
+        private: true
     - instance_id:
         required: false
     - instanceId:
@@ -77,6 +79,9 @@ operation:
     - deviceName:
         default: ${get("device_name", "")}
         private: true
+    - force:
+        default: 'false'
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'

@@ -56,7 +56,9 @@ operation:
         default: 'us-east-1'
         required: false
     - image_id
-    - imageId: ${image_id}
+    - imageId:
+        default: ${image_id}
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'

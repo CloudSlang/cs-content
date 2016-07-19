@@ -63,7 +63,9 @@ operation:
         default: ${get("availability_zone", "")}
         private: true
     - image_id
-    - imageId: ${image_id}
+    - imageId:
+        default: ${image_id}
+        private: true
     - min_count:
         required: false
     - minCount:
