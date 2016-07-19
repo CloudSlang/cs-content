@@ -49,7 +49,8 @@ flow:
     - password:
         required: false
         sensitive: true
-    - images
+    - images:
+        required: false
     - private_key_file:
         required: false
     - command:
