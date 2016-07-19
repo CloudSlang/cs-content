@@ -616,7 +616,7 @@ testSelectBadXpathEmptyStringQueryType:
     - selected_value: ""
     - return_result: "Parsing error: Invalid query type"
     - result_text: "failure"
-  result: FAILURE
+  throwsException: true
 
 testSelectBadXpathNoQuery:
   inputs:
