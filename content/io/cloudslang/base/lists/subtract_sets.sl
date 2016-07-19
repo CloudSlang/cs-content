@@ -26,7 +26,8 @@ operation:
     - set_1:
         required: false
     - set_1_delimiter
-    - set_2
+    - set_2:
+        required: false
     - set_2_delimiter
     - result_set_delimiter
   python_action:
