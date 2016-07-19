@@ -47,7 +47,8 @@ flow:
     - password:
         required: false
         sensitive: true
-    - image_id
+    - image_id:
+        required: false
     - private_key_file:
         required: false
     - command:

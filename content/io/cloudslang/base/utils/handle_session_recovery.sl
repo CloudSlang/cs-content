@@ -36,7 +36,8 @@ flow:
   inputs:
     - enabled: True
     - retries
-    - return_result
+    - return_result:
+        required: false
     - return_code
     - exit_status:
         required: false
