@@ -61,7 +61,7 @@ testDocumentWithoutNode:
   description: "Tests that validate.sl operation finishes with FAILURE when the document doesn't contain the root element"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The markup in the document following the root element must be well-formed.'
+    - error_message: 'Parsing error: The markup in the document following the root element must be well-formed.'
   result: FAILURE
 
 testDocumentWithoutClosingTag:
@@ -90,7 +90,7 @@ testValidateCaseSensitive:
   description: "Tests that validate.sl operation validate cases and finishes with FAILURE"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The element type "note" must be terminated by the matching end-tag "</note>".'
+    - error_message: 'Parsing error: The element type "note" must be terminated by the matching end-tag "</note>".'
   result: FAILURE
 
 testElementsNotProperlyNested:
@@ -105,7 +105,7 @@ testElementsNotProperlyNested:
   description: "Tests that validate.sl operation finishes with FAILURE when elements are not properly nested"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The element type "body" must be terminated by the matching end-tag "</body>".'
+    - error_message: 'Parsing error: The element type "body" must be terminated by the matching end-tag "</body>".'
   result: FAILURE
 
 testAttributesNotQuoted:
@@ -125,7 +125,7 @@ testAttributesNotQuoted:
   description:  "Tests that validate.sl operation finishes with FAILURE when attributes are not quoted"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: Open quote is expected for attribute "lang" associated with an  element type  "title".'
+    - error_message: 'Parsing error: Open quote is expected for attribute "lang" associated with an  element type  "title".'
   result: FAILURE
 
 testValidXml:
@@ -181,7 +181,7 @@ testInvalidalidXsd:
   description: "Tests that validate.sl operation finishes with FAILURE when the XSD is not valid"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The prefix "xs" for element "xs:element" is not bound.'
+    - error_message: 'Parsing error: The prefix "xs" for element "xs:element" is not bound.'
   result: FAILURE
 
 testSecureProcessingTrue:
@@ -214,7 +214,7 @@ testSecureProcessingTrue:
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
     - return_result: 'XML is valid.'
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testWellFormedFileSuccess:
