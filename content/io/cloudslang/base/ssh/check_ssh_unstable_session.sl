@@ -30,7 +30,8 @@ imports:
 flow:
   name: check_ssh_unstable_session
   inputs:
-    - return_result
+    - return_result:
+        required: false
     - return_code
     - exit_status:
         required: false
