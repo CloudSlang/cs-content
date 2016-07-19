@@ -24,8 +24,7 @@ namespace: io.cloudslang.base.strings
 operation:
   name: string_occurrence_counter
   inputs:
-    - string_in_which_to_search:
-        required: false
+    - string_in_which_to_search
     - string_to_find
     - ignore_case:
         default: 'true'
