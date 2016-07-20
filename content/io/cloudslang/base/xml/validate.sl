@@ -44,9 +44,9 @@
 #! @input secure_processing: whether to use secure processing
 #!                           optional
 #!                           default: false
-#! @output return_result: exception in case of failure, success message otherwise
-#! @output result_text: 'success' or 'failure'
+#! @output return_result: parsing was successfull or valid xml
 #! @output return_code: 0 if success, -1 if failure
+#! @output error_message: exception in case of failure
 #! @result SUCCESS: XML is well-formed and is valid based on XSD if given
 #! @result FAILURE: XML is not well-formed or is not valid based on given XSD
 #!!#
