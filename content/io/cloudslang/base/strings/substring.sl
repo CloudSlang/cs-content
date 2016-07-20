@@ -42,7 +42,7 @@
               new_string = origin_string[begin_index : end_index]
         except ValueError:
            error_message = "Invalid values"
-           
+
    outputs:
       - new_string
       - error_message
