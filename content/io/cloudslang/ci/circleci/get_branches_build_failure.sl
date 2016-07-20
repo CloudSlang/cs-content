@@ -117,8 +117,10 @@ flow:
     - committer_email
     - branch:
         default: ''
+        required: false
     - branches:
         default: ''
+        required: false
     - supervisor
     - hostname
     - port

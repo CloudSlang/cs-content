@@ -55,6 +55,7 @@ flow:
         sensitive: true
     - user_password:
         default: ''
+        required: false
         sensitive: true
     - java_version
     - download_url

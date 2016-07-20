@@ -28,11 +28,13 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xsd_document:
         required: false
     - xsdDocument:
         default: ${get("xsd_document", "")}
+        required: false
         private: true
     - secure_processing:
         required: false

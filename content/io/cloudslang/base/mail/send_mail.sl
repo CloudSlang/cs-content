@@ -78,6 +78,7 @@ operation:
         required: false
     - enableTLS:
         default: ${get("enable_TLS", "")}
+        required: false
         private: true
   java_action:
     gav: 'io.cloudslang.content:score-mail:0.0.31'

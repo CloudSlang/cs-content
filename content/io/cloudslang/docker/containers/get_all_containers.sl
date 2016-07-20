@@ -39,9 +39,11 @@ flow:
   name: get_all_containers
   inputs:
     - all_containers: false
-    - ps_params: ${'-a' if bool(all_containers) else ''}
+    - ps_params:
+        default: ${'-a' if bool(all_containers) else ''}
+        required: false
     - command:
-        default: ${'docker ps -q ' + ps_params}
+        default: ${'docker ps -q ' + get('ps_params', '')}
         private: true
     - host
     - port:

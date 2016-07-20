@@ -23,9 +23,11 @@ namespace: io.cloudslang.base.lists
 operation:
   name: subtract_sets
   inputs:
-    - set_1
+    - set_1:
+        required: false
     - set_1_delimiter
-    - set_2
+    - set_2:
+        required: false
     - set_2_delimiter
     - result_set_delimiter
   python_action:

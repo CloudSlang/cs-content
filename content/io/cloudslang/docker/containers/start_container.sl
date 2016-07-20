@@ -51,6 +51,7 @@ flow:
         required: false
     - container_params_cmd:
         default: ${container_params + ' ' if bool(container_params) else ''}
+        required: false
         private: true
     - command:
         default: ${'docker start ' + container_params_cmd + ' ' + start_container_id}
