@@ -27,6 +27,7 @@
      script: |
         error_message = ""
         max_index=len(origin_string)
+
         if isinstance(begin_index,int)==False or isinstance(end_index,int)==False:
            error_message="Invalid values"
         elif end_index==0:
