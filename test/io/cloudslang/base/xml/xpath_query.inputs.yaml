@@ -554,6 +554,65 @@ testSelectElementListSuccess:
     - selected_value: <first>one</first>,<second>two</second>
   result: SUCCESS
 
+testSelectBadXpathEmptyStringXPathQuery:
+  inputs:
+    - xml_document: '<?xml version="1.0" encoding="UTF-8"?>
+                                                 <bookstore>
+                                                 <book>
+                                                   <title lang="en">Harry Potter</title>
+                                                   <price>29.99</price>
+                                                 </book>
+                                                 <book>
+                                                   <title lang="en">Learning XML</title>
+                                                   <price>39.95</price>
+                                                 </book>
+                                                 </bookstore>'
+    - xpath_query: ""
+  description: "Tests that this operation throws exception when query=empty string."
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
+    - return_code: "0"
+  throwsException: true
+
+testSelectBadXpathEmptyStringXmlDocument:
+  inputs:
+    - xml_document: ""
+    - xpath_query: "/root"
+  description: "Tests that this operation throws exception when xml_document= empty string"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Premature end of file."
+    - return_code: "0"
+  throwsException: true
+
+testSelectBadXpathInvalidXmlDocument:
+  inputs:
+    - xml_document: "root"
+    - xpath_query: "/root"
+  description: "Tests that this operation fails when xml_document input is invalid"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Content is not allowed in prolog."
+    - return_code: "0"
+  result: FAILURE
+
+testSelectBadXpathEmptyStringQueryType:
+  inputs:
+    - xml_document: "<root>test</root>"
+    - xpath_query: "/root"
+    - query_type: ""
+  description: "Tests that this operations fails when query type input is empty string"
+  testFlowPath: io.cloudslang.base.xml.select
+  outputs:
+    - selected_value: ""
+    - return_result: "Parsing error: Invalid query type"
+    - return_code: "0"
+  throwsException: true
+
 testSelectBadXpathNoQuery:
   inputs:
     - xml_document: "<root>test</root>"

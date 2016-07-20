@@ -33,8 +33,9 @@ operation:
   inputs:
     - rule:
         default: >
-          ${memory_usage + '< 0.8 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8
-          and '+error_rx+'<0.5 and '+error_tx+'<0.5'}
+          ${str(memory_usage) + '< 0.8 and ' + str(cpu_usage) + ' < 0.8 and ' + str(throughput_rx) + ' < 0.8 and ' +
+          str(throughput_tx) + ' < 0.8
+          and ' + str(error_rx) + '<0.5 and ' + str(error_tx) + '<0.5'}
         required: false
     - memory_usage
     - cpu_usage

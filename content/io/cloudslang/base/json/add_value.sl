@@ -28,7 +28,8 @@ operation:
   inputs:
     - json_input
     - json_path
-    - value
+    - value:
+        required: false
   python_action:
     script: |
       try:

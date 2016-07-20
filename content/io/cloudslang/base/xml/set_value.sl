@@ -56,6 +56,7 @@ operation:
         required: false
     - attributeName:
         default: ${get("attribute_name", "")}
+        required: false
         private: true
     - value
     - secure_processing:

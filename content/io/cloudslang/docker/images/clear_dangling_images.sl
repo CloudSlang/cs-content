@@ -39,7 +39,8 @@ flow:
         sensitive: true
     - private_key_file:
         required: false
-    - used_images
+    - used_images:
+        required: false
     - port:
         required: false
     - timeout:

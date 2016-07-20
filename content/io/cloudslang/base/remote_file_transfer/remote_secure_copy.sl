@@ -41,6 +41,7 @@ operation:
         required: false
     - sourceHost:
         default: ${get("source_host", "")}
+        required: false
         private: true
     - source_path
     - sourcePath: ${source_path}
@@ -53,18 +54,21 @@ operation:
         required: false
     - sourceUsername:
         default: ${get("source_username", "")}
+        required: false
         private: true
     - source_password:
         required: false
         sensitive: true
     - sourcePassword:
         default: ${get("source_password", "")}
+        required: false
         private: true
         sensitive: true
     - source_private_key_file:
         required: false
     - sourcePrivateKeyFile:
         default: ${get("source_private_key_file", "")}
+        required: false
         private: true
     - destination_host
     - destinationHost: ${destination_host}
@@ -82,12 +86,14 @@ operation:
         sensitive: true
     - destinationPassword:
         default: ${get("destination_password", "")}
+        required: false
         private: true
         sensitive: true
     - destination_private_key_file:
         required: false
     - destinationPrivateKeyFile:
         default: ${get("destination_private_key_file", "")}
+        required: false
         private: true
     - known_hosts_policy:
         required: false
@@ -98,6 +104,7 @@ operation:
         required: false
     - knownHostsPath:
         default: ${get("known_hosts_path", "")}
+        required: false
         private: true
     - timeout:
         default: '90000'

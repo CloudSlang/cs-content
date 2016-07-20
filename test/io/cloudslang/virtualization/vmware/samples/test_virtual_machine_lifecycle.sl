@@ -154,7 +154,6 @@ flow:
         default: ''
         required: false
     - vm_disk_mode: 'persistent'
-    - guest_os_id: 'ubuntu64Guest'
     - delimiter:
         default: ','
         required: false

@@ -40,6 +40,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
+        required: false
         private: true
     - host
     - port:
@@ -53,6 +54,7 @@ flow:
     - command:
         default: >
          ${ "docker " + docker_options_expression + "ps -a | tail -n +2 | awk '{print $2}'" }
+        required: false
         private: true
     - arguments:
         required: false

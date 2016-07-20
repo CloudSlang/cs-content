@@ -66,11 +66,13 @@ flow:
         required: false
     - container_cmd_expression:
         default: ${' ' + container_cmd if container_cmd else ''}
+        required: false
         private: true
     - command:
         default: >
           ${'docker run --name ' + container_name + ' --link ' + link_params + ' ' + cmd_params +
           ' -d ' + image_name + container_cmd_expression}
+        required: false
         private: true
 
   workflow:

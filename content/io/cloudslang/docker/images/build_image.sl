@@ -62,6 +62,7 @@ flow:
     - dockerfile_name_expression:
         default: >
             ${ '' if dockerfile_name == 'Dockerfile' else '-f ' + workdir + '/' + dockerfile_name + ' ' }
+        required: false
         private: true
     - command:
         default: >
