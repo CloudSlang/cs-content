@@ -554,18 +554,6 @@ testSelectElementListSuccess:
     - selected_value: <first>one</first>,<second>two</second>
   result: SUCCESS
 
-testSelectBadXpathEmptyStringQueryType:
-  inputs:
-    - xml_document: "<root>test</root>"
-    - xpath_query: "/root"
-    - query_type: ""
-  description: "Tests that this operations fails when query type input is empty string"
-  testFlowPath: io.cloudslang.base.xml.xpath_query
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Invalid query type"
-  result: FAILURE
-
 testSelectBadXpathNoQuery:
   inputs:
     - xml_document: "<root>test</root>"
