@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,38 +7,36 @@
 #
 ####################################################
 #!!
-#! @description: Gets the launch permission of the specified AMI.
-#! @input provider: Cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input region: optional - Region where the targeted image reside. ListRegionAction can be used in order to get all regions.
-#!                           For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#!                         - Default: 'us-east-1'
-#! @input image_id: ID of the specified image to retrieve launch permission for
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
+#!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
+#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
+#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: optional - the Amazon Access Key ID
+#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input proxyHost: optional - the proxy server used to access the provider services
+#! @input proxyPort: optional - the proxy server port used to access the provider services
+#! @input region: optional - the region where the server (instance) to be stopped can be found
+#!                list_regions operation can be used in order to get all regions - Default: 'us-east-1'
+#! @input instance_id: the ID of the server (instance) you want to stop
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the image was successfully created
-#! @result FAILURE: an error occurred when trying to create image
+#! @result SUCCESS: the server (instance) was successfully stopped
+#! @result FAILURE: an error occurred when trying to stop a server (instance)
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 operation:
-  name: get_launch_permission_for_image_in_region
+  name: stop_instances
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
-        default: ''
         required: false
         sensitive: true
     - credential:
-        default: ''
         required: false
         sensitive: true
     - proxy_host:
@@ -54,14 +52,14 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - image_id
-    - imageId:
-        default: ${image_id}
+    - instance_id
+    - instanceId:
+        default: ${instance_id}
         private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
-    class_name: io.cloudslang.content.jclouds.actions.images.GetLaunchPermissionForImageInRegionAction
+    class_name: io.cloudslang.content.jclouds.actions.instances.StopInstancesAction
     method_name: execute
 
   outputs:

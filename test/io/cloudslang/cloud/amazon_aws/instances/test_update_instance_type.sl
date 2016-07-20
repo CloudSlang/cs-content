@@ -6,14 +6,13 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_image_in_region
+  name: test_update_instance_type
 
   inputs:
     - provider: 'amazon'
@@ -34,18 +33,20 @@ flow:
         default: 'us-east-1'
         required: false
     - instance_id
-    - name
-    - image_description:
+    - server_type:
         default: ''
         required: false
-    - image_no_reboot:
+    - operation_timeout:
+        default: ''
+        required: false
+    - pooling_interval:
         default: ''
         required: false
 
   workflow:
-    - create_image:
+    - update_instance_type:
         do:
-          create_image_in_region:
+          update_instance_type:
             - provider
             - endpoint
             - identity
@@ -54,38 +55,27 @@ flow:
             - proxy_port
             - region
             - instance_id
-            - name
-            - image_description
-            - image_no_reboot
+            - server_type
+            - operation_timeout
+            - pooling_interval
         publish:
           - return_result
           - return_code
           - exception
         navigate:
           - SUCCESS: check_results
-          - FAILURE: CREATE_IMAGE_FAILURE
+          - FAILURE: UPDATE_SERVER_TYPE_FAILURE
 
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
-        navigate:
-          - SUCCESS: check_message
-          - FAILURE: CHECK_RESULTS_FAILURE
-
-    - check_message:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_result}
-            - string_to_find: 'ami-'
-            - ignore_case
+            - list_1: ${[str(return_result), str(exception), int(return_code)]}
+            - list_2: ['Server updated successfully.', '', 0]
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CONFIRMATION_MESSAGE_MISSING
+          - FAILURE: CHECK_RESULTS_FAILURE
 
   results:
     - SUCCESS
-    - CREATE_IMAGE_FAILURE
+    - UPDATE_SERVER_TYPE_FAILURE
     - CHECK_RESULTS_FAILURE
-    - CONFIRMATION_MESSAGE_MISSING

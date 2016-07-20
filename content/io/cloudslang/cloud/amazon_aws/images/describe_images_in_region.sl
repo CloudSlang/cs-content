@@ -245,14 +245,14 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
     class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

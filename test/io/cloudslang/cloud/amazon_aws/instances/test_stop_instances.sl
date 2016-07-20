@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,46 +6,62 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
-  lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
 
 flow:
-  name: test_create_image_in_region
-
+  name: test_stop_instances
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
-        default: ''
         required: false
     - credential:
-        default: ''
         required: false
     - proxy_host:
-        default: ''
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - region:
         default: 'us-east-1'
         required: false
     - instance_id
-    - name
-    - image_description:
-        default: ''
+    - delimiter:
         required: false
-    - image_no_reboot:
-        default: ''
+    - seconds:
+        default: '45'
         required: false
 
   workflow:
-    - create_image:
+    - stop_instances:
         do:
-          create_image_in_region:
+          stop_instances:
+            - provider
+            - endpoint
+            - identity
+            - credential
+            - region
+            - proxy_host
+            - proxy_port
+            - instance_id
+        navigate:
+          - SUCCESS: sleep
+          - FAILURE: STOP_FAILURE
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds
+        navigate:
+          - SUCCESS: describe_instances
+          - FAILURE: STOPPED_FAILURE
+
+    - describe_instances:
+        do:
+          describe_instances:
             - provider
             - endpoint
             - identity
@@ -53,39 +69,26 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - instance_id
-            - name
-            - image_description
-            - image_no_reboot
+            - delimiter
+        navigate:
+          - SUCCESS: check_result
+          - FAILURE: LIST_FAILURE
         publish:
           - return_result
           - return_code
           - exception
-        navigate:
-          - SUCCESS: check_results
-          - FAILURE: CREATE_IMAGE_FAILURE
 
-    - check_results:
-        do:
-          lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
-        navigate:
-          - SUCCESS: check_message
-          - FAILURE: CHECK_RESULTS_FAILURE
-
-    - check_message:
+    - check_result:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: 'ami-'
-            - ignore_case
+            - string_to_find: ${server_id + ', state=stopped'}
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CONFIRMATION_MESSAGE_MISSING
+          - FAILURE: STOPPED_FAILURE
 
   results:
     - SUCCESS
-    - CREATE_IMAGE_FAILURE
-    - CHECK_RESULTS_FAILURE
-    - CONFIRMATION_MESSAGE_MISSING
+    - STOP_FAILURE
+    - LIST_FAILURE
+    - STOPPED_FAILURE

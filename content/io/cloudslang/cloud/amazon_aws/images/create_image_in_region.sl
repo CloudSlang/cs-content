@@ -17,8 +17,8 @@
 #! @input region: optional - Region where image will be created. ListRegionAction can be used in order to get all regions.
 #!                           For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
-#! @input server_id: ID of the server (instance) to be used to create image for
-#! @input image_name: A name for the new image
+#! @input instance_id: ID of the server (instance) to be used to create image for
+#! @input name: A name for the new image
 #! @input image_description: optional - A description for the new image - Default: ''
 #! @input image_no_reboot: optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
 #!                                    the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance
@@ -61,10 +61,11 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - serverId: ${server_id}
-    - image_name
-    - imageName: ${image_name}
+    - instance_id
+    - instanceId:
+        default: ${instance_id}
+        private: true
+    - name
     - image_description:
         required: false
     - imageDescription:
@@ -77,14 +78,14 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
     class_name: io.cloudslang.content.jclouds.actions.images.CreateImageInRegionAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}
