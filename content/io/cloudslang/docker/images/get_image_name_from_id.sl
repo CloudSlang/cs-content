@@ -39,6 +39,7 @@ flow:
         required: false
     - docker_options_expression:
         default: ${ docker_options + ' ' if bool(docker_options) else '' }
+        required: false
         private: true
     - host
     - port:
@@ -47,7 +48,8 @@ flow:
     - password:
         required: false
         sensitive: true
-    - image_id
+    - image_id:
+        required: false
     - private_key_file:
         required: false
     - command:

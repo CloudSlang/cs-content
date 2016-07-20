@@ -42,6 +42,7 @@ flow:
     - all_containers: false
     - ps_parameters:
         default: ${'-a' if bool(all_containers) else ''}
+        required: false
         private: true
     - host
     - port:

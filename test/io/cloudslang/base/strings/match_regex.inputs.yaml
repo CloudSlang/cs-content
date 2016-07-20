@@ -39,21 +39,21 @@ testMatchRegexEmpty:
   inputs:
     - regex: ""
     - text: HELLO WORLD
-  description: Tests that match_regex.sl operation finishes with NO_MATCH when regex is empty
+  description: Tests that match_regex.sl operation throws an exception when regex is empty
   testFlowPath: io.cloudslang.base.strings.match_regex
   outputs:
     - match_text: ''
-  result: NO_MATCH
+  throwsException: true
 
 testMatchRegexEmptyText:
   inputs:
     - regex: "[A-Z ]*"
     - text: ""
-  description: Tests that match_regex.sl operation finishes with NO_MATCH when text is empty
+  description: Tests that match_regex.sl operation throws an exception when text is empty
   testFlowPath: io.cloudslang.base.strings.match_regex
   outputs:
     - match_text: ''
-  result: NO_MATCH
+  throwsException: true
 
 
 

@@ -44,6 +44,7 @@ flow:
     - percentage: '0%'
     - number_of_deleted_images_per_host_var:
         default: ''
+        required: false
         private: true
 
   workflow:
