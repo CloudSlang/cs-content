@@ -30,7 +30,7 @@
            word_length = len(origin_string)
            begin_index = int(begin_index)
            end_index = int(end_index)
-           elif end_index == 0:
+           if end_index == 0:
               new_string = origin_string[begin_index:]
            elif end_index < 0 or begin_index < 0:
               error_message = "Indexes must be positive integers"
