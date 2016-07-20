@@ -26,8 +26,8 @@
    python_action:
      script: |
         error_message = ""
-        word_length = len(origin_string)
         try:
+           word_length = len(origin_string)
            begin_index = int(begin_index)
            end_index = int(end_index)
            if end_index == 0:
@@ -40,7 +40,7 @@
               error_message = "Indexes must be - end_index > begin_index"
            else:
               new_string = origin_string[begin_index : end_index]
-        except ValueError:
+        except (ValueError, TypeError, NameError):
            error_message = "Invalid values"
 
    outputs:
