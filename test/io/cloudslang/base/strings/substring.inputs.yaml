@@ -173,7 +173,7 @@ testBeginIndexAndEndIndexGreaterThanMaxIndex:
   description: "Tests that substring.sl operation fail when values out of range are given"
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Indexes must be - begin_index < 9, end_index <= 10"
+    - error_message: "Indexes must be - begin_index < 10, end_index <= 10"
   result: FAILURE
 
 testBeginIndexNegativeValues:
@@ -239,7 +239,7 @@ testBeginIndex2:
   description: "Tests that substring.sl operation finishes with error_message =   Indexes must be - begin_index < 9, end_index <= 10"
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Indexes must be - begin_index < 9, end_index <= 10"
+    - error_message: "Indexes must be - begin_index < 10, end_index <= 10"
   result: FAILURE
 
 testBeginIndex:
@@ -250,7 +250,7 @@ testBeginIndex:
   description: "Tests that substring.sl operation finishes with error_message = Indexes must be - begin_index < 9, end_index <= 10"
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
-    - error_message: "Indexes must be - begin_index < 9, end_index <= 10"
+    - error_message: "Indexes must be - begin_index < 10, end_index <= 10"
   result: FAILURE
 
 testInvalidInputString:
