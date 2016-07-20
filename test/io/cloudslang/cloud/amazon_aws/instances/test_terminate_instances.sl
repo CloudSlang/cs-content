@@ -6,86 +6,80 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_image_in_region
+  name: test_terminate_instances
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
-        default: ''
         required: false
     - credential:
-        default: ''
         required: false
     - proxy_host:
-        default: ''
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - region:
         default: 'us-east-1'
         required: false
     - instance_id
-    - name
-    - image_description:
-        default: ''
-        required: false
-    - image_no_reboot:
-        default: ''
-        required: false
 
   workflow:
-    - create_image:
+    - terminate_instances:
         do:
-          create_image_in_region:
+          terminate_instances:
             - provider
             - endpoint
             - identity
             - credential
+            - region
             - proxy_host
             - proxy_port
-            - region
             - instance_id
-            - name
-            - image_description
-            - image_no_reboot
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_results
-          - FAILURE: CREATE_IMAGE_FAILURE
+          - SUCCESS: check_call_result
+          - FAILURE: TERMINATE_SERVER_CALL_FAILURE
 
-    - check_results:
+    - check_call_result:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
         navigate:
-          - SUCCESS: check_message
-          - FAILURE: CHECK_RESULTS_FAILURE
+          - SUCCESS: check_first_possible_current_state_result
+          - FAILURE: CHECK_CALL_RESULT_FAILURE
 
-    - check_message:
+    - check_first_possible_current_state_result:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: 'ami-'
-            - ignore_case
+            - string_to_find: 'currentState=terminated'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CONFIRMATION_MESSAGE_MISSING
+          - FAILURE: check_second_possible_current_state_result
+
+    - check_second_possible_current_state_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: 'currentState=shutting-down'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: SHUTTING_DOWN_FAILURE
 
   results:
     - SUCCESS
-    - CREATE_IMAGE_FAILURE
-    - CHECK_RESULTS_FAILURE
-    - CONFIRMATION_MESSAGE_MISSING
+    - TERMINATE_SERVER_CALL_FAILURE
+    - CHECK_CALL_RESULT_FAILURE
+    - SHUTTING_DOWN_FAILURE

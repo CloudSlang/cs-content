@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,14 +6,14 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.snapshots
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_image_in_region
+  name: test_create_snapshot_in_region
 
   inputs:
     - provider: 'amazon'
@@ -33,19 +33,12 @@ flow:
     - region:
         default: 'us-east-1'
         required: false
-    - instance_id
-    - name
-    - image_description:
-        default: ''
-        required: false
-    - image_no_reboot:
-        default: ''
-        required: false
+    - volume_id
 
   workflow:
-    - create_image:
+    - create_snapshot_in_region:
         do:
-          create_image_in_region:
+          create_snapshot_in_region:
             - provider
             - endpoint
             - identity
@@ -53,39 +46,35 @@ flow:
             - proxy_host
             - proxy_port
             - region
-            - instance_id
-            - name
-            - image_description
-            - image_no_reboot
+            - volume_id
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_results
-          - FAILURE: CREATE_IMAGE_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: CREATE_SNAPSHOT_FAILURE
 
-    - check_results:
+    - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
         navigate:
-          - SUCCESS: check_message
-          - FAILURE: CHECK_RESULTS_FAILURE
+          - SUCCESS: check_creation_message_exist
+          - FAILURE: CHECK_RESULT_FAILURE
 
-    - check_message:
+    - check_creation_message_exist:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: 'ami-'
-            - ignore_case
+            - string_to_find: 'id=snap-'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CONFIRMATION_MESSAGE_MISSING
+          - FAILURE: CHECK_CREATION_MESSAGE_FAILURE
 
   results:
     - SUCCESS
-    - CREATE_IMAGE_FAILURE
-    - CHECK_RESULTS_FAILURE
-    - CONFIRMATION_MESSAGE_MISSING
+    - CREATE_SNAPSHOT_FAILURE
+    - CHECK_RESULT_FAILURE
+    - CHECK_CREATION_MESSAGE_FAILURE

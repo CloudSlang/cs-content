@@ -1,0 +1,22 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testAmazonDeleteSnapshotLocal:
+  testSuites: [amazon-local]
+  description: "Test that successfully deletes an Amazon AWS snapshot."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.snapshots.test_delete_snapshot_in_region
+  inputs:
+    - provider: <provider>
+    - endpoint: <endpoint>
+    - identity: <identity>
+    - credential: <credential>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region: <region>
+    - snapshot_id: <snapshot_id>
+  result: SUCCESS
