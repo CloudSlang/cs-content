@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,7 +13,7 @@ testLengthSuccess:
   description: Tests that length.sl operation finishes with result = 4
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 4
+    - return_result: 4
   result: SUCCESS
 
 testLengthOtherDelimiterSuccess:
@@ -23,16 +23,7 @@ testLengthOtherDelimiterSuccess:
   description: Tests that length.sl operation finishes with result = 1
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 1
-  result: SUCCESS
-
-testLengthWithoutDelimiterSet:
-  inputs:
-    - list: element1,element2,element3,element4
-  description: Tests that length.sl operation finishes with result = 35 when the delimiter is not specified
-  testFlowPath: io.cloudslang.base.lists.length
-  outputs:
-    - result: 35
+    - return_result: 1
   result: SUCCESS
 
 testLengthEmptyValueElement:
@@ -42,7 +33,7 @@ testLengthEmptyValueElement:
   description: Tests that length.sl operation finishes with result = 5 when an element is empty value
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testLengthUsingNumbers:
@@ -52,7 +43,7 @@ testLengthUsingNumbers:
   description: Tests that length.sl operation finishes with result = 11 when the list contains number elements
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 11
+    - return_result: 11
   result: SUCCESS
 
 testLengthJapaneseCharacters:
@@ -62,7 +53,7 @@ testLengthJapaneseCharacters:
   description: Tests that length.sl operation finishes with result = 5 when japanese characters are used
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testLengthArabicCharacters:
@@ -72,7 +63,7 @@ testLengthArabicCharacters:
   description: Tests that length.sl operation finishes with result = 5 when Arabic characters are used
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 5
+    - return_result: 5
   result: SUCCESS
 
 testListLengthSpecialCharacters:
@@ -82,7 +73,7 @@ testListLengthSpecialCharacters:
   description: Tests that length.sl operation finishes with result = 3 when special characters are used
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 3
+    - return_result: 3
   result: SUCCESS
 
 testLengthEmptyValues:
@@ -92,5 +83,5 @@ testLengthEmptyValues:
   description: Tests that length.sl operation finishes with result = 6 when multiple element contain empty value
   testFlowPath: io.cloudslang.base.lists.length
   outputs:
-    - result: 6
+    - return_result: 6
   result: SUCCESS
