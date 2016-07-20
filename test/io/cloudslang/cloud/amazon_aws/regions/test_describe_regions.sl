@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,86 +6,68 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.regions
 
 imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_create_image_in_region
+  name: test_describe_regions
 
   inputs:
     - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
-        default: ''
         required: false
     - credential:
-        default: ''
         required: false
     - proxy_host:
-        default: ''
         required: false
     - proxy_port:
-        default: '8080'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
-    - instance_id
-    - name
-    - image_description:
-        default: ''
-        required: false
-    - image_no_reboot:
-        default: ''
+    - delimiter:
         required: false
 
   workflow:
-    - create_image:
+    - describe_regions:
         do:
-          create_image_in_region:
+          describe_regions:
             - provider
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
-            - region
-            - instance_id
-            - name
-            - image_description
-            - image_no_reboot
+            - delimiter
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - SUCCESS: check_results
-          - FAILURE: CREATE_IMAGE_FAILURE
+          - SUCCESS: check_result
+          - FAILURE: LIST_REGION_FAILURE
 
-    - check_results:
+    - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
+            - list_1: ${[str(exception), int(return_code)]}
+            - list_2: ['', 0]
         navigate:
-          - SUCCESS: check_message
-          - FAILURE: CHECK_RESULTS_FAILURE
+          - SUCCESS: check_default_region_exist
+          - FAILURE: CHECK_RESULT_FAILURE
 
-    - check_message:
+    - check_default_region_exist:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: 'ami-'
-            - ignore_case
+            - string_to_find: 'us-east-1'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CONFIRMATION_MESSAGE_MISSING
+          - FAILURE: CHECK_DEFAULT_REGION_FAILURE
 
   results:
     - SUCCESS
-    - CREATE_IMAGE_FAILURE
-    - CHECK_RESULTS_FAILURE
-    - CONFIRMATION_MESSAGE_MISSING
+    - LIST_REGION_FAILURE
+    - CHECK_RESULT_FAILURE
+    - CHECK_DEFAULT_REGION_FAILURE

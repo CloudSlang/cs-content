@@ -7,18 +7,24 @@
 #
 ####################################################
 #!!
-#! @description: De-register the specified AMI. After you de-register an AMI, it can't be used to launch new instances.
-#!               This command does not delete the AMI.
+#! @description: Deletes the specified snapshot.
+#!               Note: When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks
+#!               on the device that have changed since your last snapshot are saved in the new snapshot. When you delete
+#!               a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior
+#!               snapshots have been deleted, all active snapshots will have access to all the information needed to restore
+#!               the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI.
+#!               You must first de-register the AMI before you can delete the snapshot. For more information, see Deleting
+#!               an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
 #! @input provider: Cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input region: optional - Region where image to be de-registered reside. ListRegionAction can be used in order to get
-#!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
+#! @input region: optional - Region in which the volume whose snapshot is being deleted resides. ListRegionAction can be
+#!                           used in order to get all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
-#! @input image_id: ID of the image to be de-registered
+#! @input snapshot_id: ID of the EBS snapshot
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -26,10 +32,10 @@
 #! @result FAILURE: an error occurred when trying to create image
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws.images
+namespace: io.cloudslang.cloud.amazon_aws.snapshots
 
 operation:
-  name: deregister_image_in_region
+  name: delete_snapshot_in_region
 
   inputs:
     - provider: 'amazon'
@@ -55,14 +61,14 @@ operation:
     - region:
         default: 'us-east-1'
         required: false
-    - image_id
-    - imageId:
-        default: ${image_id}
+    - snapshot_id
+    - snapshotId:
+        default: ${snapshot_id}
         private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
-    class_name: io.cloudslang.content.jclouds.actions.images.DeregisterImageInRegionAction
+    class_name: io.cloudslang.content.jclouds.actions.snapshots.DeleteSnapshotInRegionAction
     method_name: execute
 
   outputs:
