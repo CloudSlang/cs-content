@@ -48,7 +48,7 @@ testXpathPriceElementsAndTitleElements:
   outputs:
     - selected_value: 'Harry Potter,29.99,Learning XML,39.95,Testing XPath Query,100,Magazine'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathNodeOfCurrentNode:

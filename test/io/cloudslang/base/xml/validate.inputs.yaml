@@ -75,7 +75,7 @@ testDocumentWithoutClosingTag:
   description: "Tests that validate.sl operation finishes with FAILURE when the document doesn't have the closing tag"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: XML document structures must start and end within the same entity.'
+    - error_message: 'Parsing error: XML document structures must start and end within the same entity.'
   result: FAILURE
 
 testValidateCaseSensitive:
