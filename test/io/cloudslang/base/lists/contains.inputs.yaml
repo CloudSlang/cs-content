@@ -34,8 +34,8 @@ testContainsStringTrueSuccess:
 testContainsStringFalseFailure:
   inputs:
     - container: 1,5,8,9
-    - delimiter: ':'
-    - sublist: 9
+    - delimiter: ','
+    - sublist: 6
   description: Tests that contains.sl operation finishes with result = false
   testFlowPath: io.cloudslang.base.lists.contains
   outputs:
