@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: This operation checks to see if a list contains every element in another list
+#! @description: This operation checks to see if a list contains every element from another list
 #! @input container: the containing list  - Example: Luke,Vader,Kenobi
 #! @input sublist: the contained list - Example: Kenobi
 #! @input delimiter: a delimiter separating elements in the two lists
