@@ -1,13 +1,18 @@
-# (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+# (c) Copyright 2016 Hewlett Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
-####################################################
-# This is system property file for Google Container Engine authentication JSON file
-#
-# io.cloudslang.cloud_provider.json_google_auth_path: 'C:\\Temp\\cloudslang-026ac0ebb6e0.json'
 #
 ####################################################
-io.cloudslang.cloud.json_google_auth_path: <path>
+# Google Container Engine (GKE) property file for authentication JSON file
+#
+# io.cloudslang.cloud.google.gke.json_google_auth_path: the path to the authentication JSON file
+#
+####################################################
+
+namespace: io.cloudslang.cloud.google.gke
+
+properties:
+  - json_google_auth_path: <path>
