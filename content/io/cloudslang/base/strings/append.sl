@@ -16,12 +16,15 @@
 
 namespace: io.cloudslang.base.strings
 
-decision:
+operation:
   name: append
   inputs:
     - origin_string
     - text
+  python_action:
+    script: |
+      origin_string+=text
   outputs:
-    - new_string: ${origin_string + text}
+    - new_string: ${origin_string}
   results:
     - SUCCESS

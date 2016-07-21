@@ -17,13 +17,21 @@
 ########################################################################################################
 namespace: io.cloudslang.base.math
 
-decision:
+operation:
   name: divide_numbers
   inputs:
     - value1
     - value2
+  python_action:
+    script: |
+      value1 = float(value1)
+      value2 = float(value2)
+      if value2 == 0:
+         res='Cannot divide by zero'
+      else:
+        res = value1/value2
   outputs:
-    - result: ${(float(value1)/float(value2)) if value2 != 0 else 'Cannot divide by zero'}
+    - result: ${res}
   results:
-     - ILLEGAL: ${value2 == 0}
-     - SUCSESS
+     - ILLEGAL: ${res=='Cannot divide by zero'}
+     - SUCCESS

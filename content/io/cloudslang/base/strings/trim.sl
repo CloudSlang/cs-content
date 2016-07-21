@@ -11,13 +11,14 @@
 #! @output result: string in which all whitespace characters have been stripped of both sides of the string
 #!!#
 ####################################################
-namespace: io.cloudslang.base.strings
+ namespace: io.cloudslang.base.strings
 
-decision:
-  name: trim
-  inputs:
-    - origin_string
-  outputs:
-    - new_string: ${origin_string.strip()}
-  results:
-    - SUCCESS
+ operation:
+   name: trim
+   inputs:
+     - origin_string
+   python_action:
+     script: |
+       new_string=origin_string.strip()
+   outputs:
+     - new_string

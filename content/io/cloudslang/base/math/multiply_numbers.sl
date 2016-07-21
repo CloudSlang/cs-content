@@ -15,12 +15,14 @@
 ########################################################################################################
 namespace: io.cloudslang.base.math
 
-decision:
+operation:
   name: multiply_numbers
   inputs:
     - value1
     - value2
+  python_action:
+    script: |
+      value1 = float(value1)
+      value2 = float(value2)
   outputs:
-    - result: ${float(value1) * float(value2)}
-  results:
-    - SUCCESS
+     - result: ${value1 * value2}

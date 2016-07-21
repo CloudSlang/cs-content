@@ -15,11 +15,14 @@
 
 namespace: io.cloudslang.base.strings
 
-decision:
+operation:
   name: length
   inputs:
     - origin_string
+  python_action:
+    script: |
+      length = len(origin_string)
   outputs:
-    - length: ${len(origin_string)}
+    - length
   results:
     - SUCCESS

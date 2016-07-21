@@ -10,7 +10,7 @@
 #! @description: Check element in the list.
 #! @input list: list in which we need to check the element  - Example: [123, 'xyz']
 #! @input delimiter: list delimiter
-#!                   default: ''
+#!                   default: ','
 #! @output element: element which we want to check
 #! @output result: true - if list contains, false - if not
 #!!#
@@ -18,19 +18,16 @@
 
 namespace: io.cloudslang.base.lists
 
-operation:
+decision:
   name: contains
   inputs:
     - list
     - delimiter:
         required: false
-        default: ''
+        default: ','
     - element
-  python_action:
-    script: |
-      if delimiter=='':
-        result = list.contains(element)
-      else:
-        result = element in list.split(delimiter)
   outputs:
-    - result
+    - result: ${element in list.split(delimiter)}
+  results:
+    - SUCCESS: ${element in list.split(delimiter)}
+    - FAILURE
