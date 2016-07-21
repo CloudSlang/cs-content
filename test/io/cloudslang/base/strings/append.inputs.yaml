@@ -40,11 +40,11 @@ testAppendEmptyValueString:
   inputs:
     - origin_string: ''
     - text: 'text'
-  description: Tests that append.sl operation finishes with SUCCESS when string input contains empty value.
+  description: Tests that append.sl operation throws an exception when string input contains empty value.
   testFlowPath: io.cloudslang.base.strings.append
   outputs:
     - new_string: 'text'
-  result: SUCCESS
+  throwsException: true
 
 testAppendMissingInputs:
   inputs: []
@@ -69,3 +69,14 @@ testAppendStringWhichContainsDigits:
   outputs:
     - new_string: '123text4523T'
   result: SUCCESS
+
+testAppendStringWhichContainsJapaneseCharacters:
+  inputs:
+    - origin_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変'
+    - text: '更は今傾向が見られた反対します。だから私の魅了絵さらさ適応需要を向上させるです。'
+  description: Tests that append.sl operation finishes with success when inputs contain japanese characters.
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変更は今傾向が見られた反対します。だから私の魅了絵さらさ適応需要を向上させるです。'
+  result: SUCCESS
+

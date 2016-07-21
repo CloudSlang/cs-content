@@ -36,6 +36,7 @@ flow:
         required: false
     - machines_public_ip_list_var:
         default: ''
+        required: false
         private: true
 
   workflow:

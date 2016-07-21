@@ -25,7 +25,8 @@ namespace: io.cloudslang.docker.containers
 flow:
   name: clear_container
   inputs:
-    - container_id
+    - container_id:
+        required: false
     - docker_options:
         required: false
     - docker_host

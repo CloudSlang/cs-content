@@ -7,11 +7,15 @@
 #
 ####################################################
 #!!
-#! @description: Returns the length of the list.
-#! @input list: list which we want to get the length of  - Example: [123, 'xyz']
-#! @input delimiter: list delimiter
-#!                   default: ''
-#! @output result: length of list
+#! @description: returns the length of the list
+#! @input list: list which we want to get the length of - Example: 1,2,3,4,5
+#! @input delimiter: list delimiter - Example: ','
+#!                   default: ','
+#! @output response: 'success' or 'failure'
+#! @output return_result: length of the list or an error message otherwise
+#! @output return_code: 0 if success, -1 if failure
+#! @result SUCCESS: string list length was returned
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 
@@ -19,17 +23,22 @@ namespace: io.cloudslang.base.lists
 
 operation:
   name: length
+
   inputs:
     - list
     - delimiter:
-        required: false
-        default: ''
+        default: ','
 
-  python_action:
-    script: |
-      if delimiter=='':
-        length = len(list)
-      else:
-        length = len(list.split(delimiter))
+  java_action:
+    gav: 'io.cloudslang.content:cs-lists:0.0.2'
+    class_name: io.cloudslang.content.actions.ListSizeAction
+    method_name: getListSize
+
   outputs:
-    - result: ${length}
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+
+  results:
+    - SUCCESS: ${returnCode == '0'}
+    - FAILURE
+

@@ -21,8 +21,10 @@ namespace: io.cloudslang.base.strings
 operation:
   name: string_equals
   inputs:
-    - first_string
-    - second_string
+    - first_string:
+         required: false
+    - second_string:
+         required: false
     - ignore_case:
          default: false
          required: false
@@ -30,7 +32,9 @@ operation:
   python_action:
     script: |
       res = False
-      if ignore_case :
+      if first_string is None or second_string is None:
+         res = False
+      elif ignore_case :
           first_string = first_string.lower()
           second_string = second_string.lower()
       if first_string == second_string:

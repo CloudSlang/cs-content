@@ -36,11 +36,11 @@ testTrimBeforeSuccess:
 testTrimNullValueSuccess:
   inputs:
     - origin_string: ''
-  description: Tests that trim.sl finishes with success when input is empty string
+  description: Tests that trim.sl throws exception when input is empty string
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
     - new_string: ''
-  result: SUCCESS
+  throwsException: true
 
 testMissingInput:
   inputs: []
@@ -55,4 +55,13 @@ testTrimWhitespacesInsideStringSuccess:
   testFlowPath: io.cloudslang.base.strings.trim
   outputs:
     - new_string: 'go  od'
+  result: SUCCESS
+
+testTrimWhitespacesUsingJapaneseCharacters:
+  inputs:
+    - origin_string: '  目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変  '
+  description: Tests that trim.sl operation remove whitespace characters both sides of the string but not from the inside of string
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変'
   result: SUCCESS
