@@ -22,6 +22,6 @@ decision:
     - origin_string
     - text
   outputs:
-    - new_string: ${origin_string += text}
+    - new_string: ${origin_string + text}
   results:
     - SUCCESS
