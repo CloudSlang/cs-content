@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard EnterpriseDevelopment Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,13 +11,13 @@
 #!
 #! @input xml_document: XML string, file or url to test
 #! @input xml_document_source: xml document type
-#!                             Default: xmlStirng
-#!                             Accepted values: xmlString, xmlPath, xmlUrl
+#!                             Default: 'xmlString'
+#!                             Accepted values: 'xmlString', 'xmlPath', 'xmlUrl'
 #! @input xsd_document: XSD to test given XML against
 #!                      optional
-#! @input xsd_document_source: xml document type
-#!                             Default: xsdStirng
-#!                             Accepted values: xsdString, xsdPath, xsdUrl
+#! @input xsd_document_source: xsd document type
+#!                             Default: 'xsdString'
+#!                             Accepted values: 'xsdString', 'xsdPath', 'xsdUrl'
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
 #! @input password: optional - password used for URL authentication
@@ -64,9 +64,11 @@ operation:
         required: false
         private: true
     - xml_document_source:
-        default: xmlString
+        required: false
+        default: 'xmlString'
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
+        required: false
         private: true
     - xsd_document:
         required: false
@@ -76,9 +78,10 @@ operation:
         private: true
     - xsd_document_source:
         required: false
-        default: xsdString
+        default: 'xsdString'
     - xsdDocumentSource:
         default: ${get("xsd_document_source", "xsdString")}
+        required: false
         private: true
     - username:
         required: false
@@ -91,6 +94,7 @@ operation:
         default: 'false'
     - trustAllRoots:
         default: ${get("trust_all_roots", "")}
+        required: false
         private: true
     - keystore:
         required: false
@@ -100,51 +104,60 @@ operation:
         default: ''
     - keystorePassword:
         default: ${get("keystore_password", "")}
+        required: false
         private: true
     - trust_keystore:
         required: false
         default: 'changeit'
     - trustKeystore:
         default: ${get("trust_keystore", "")}
+        required: false
         private: true
     - trust_password:
         required: false
         default: 'changeit'
     - trustPassword:
         default: ${get("trust_password", "")}
+        required: false
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
     - x509HostnameVerifier:
         default: ${get("x_509_hostname_verifier", "")}
+        required: false
         private: true
     - proxy_host:
         required: false
         default: ''
     - proxyHost:
         default: ${get("proxy_host", "")}
+        required: false
         private: true
     - proxy_port:
         required: false
         default: '8080'
     - proxyPort:
         default: ${get("proxy_port", "")}
+        required: false
         private: true
     - proxy_username:
         required: false
         default: ''
     - proxyUsername:
         default: ${get("proxy_username", "")}
+        required: false
     - proxy_password:
         required: false
         default: ''
     - proxyPassowrd:
         default: ${get("proxy_password", "")}
+        required: false
         private: true
     - secure_processing:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
+        required: false
         private: true
 
   java_action:

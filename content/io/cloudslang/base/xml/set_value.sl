@@ -11,8 +11,8 @@
 #!
 #! @input xml_document: XML string or file in which to set an element or attribute value
 #! @input xml_document_source: xml document type
-#!                             Default: xmlStirng
-#!                             Accepted values: xmlString, xmlPath
+#!                             Default: 'xmlString'
+#!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list to set the value of or an element or element
 #!                             list containing the attribute to set the value of
@@ -42,15 +42,19 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xml_document_source:
-        default: xmlString
+        required: false
+        default: 'xmlString'
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
+        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
+        required: false
         private: true
     - attribute_name:
         required: false
@@ -63,6 +67,7 @@ operation:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
+        required: false
         private: true
 
   java_action:

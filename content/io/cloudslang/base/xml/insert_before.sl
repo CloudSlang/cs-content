@@ -11,8 +11,8 @@
 #!
 #! @input xml_document: XML string or file to insert element in
 #! @input xml_document_source: xml document type
-#!                             Default: xmlStirng
-#!                             Accepted values: xmlString, xmlPath
+#!                             Default: 'xmlString'
+#!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list, where element will be inserted before
 #! @input xml_element: element to insert
@@ -37,24 +37,30 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xml_document_source:
-        default: xmlString
+        required: false
+        default: 'xmlString'
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
+        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
+        required: false
         private: true
     - xml_element
     - xmlElement:
         default: ${get("xml_element", "")}
+        required: false
         private: true
     - secure_processing:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
+        required: false
         private: true
 
   java_action:

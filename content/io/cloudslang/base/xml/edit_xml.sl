@@ -13,8 +13,8 @@
 # @input file_path: absolute or remote path of the XML file.
 # @input action: the edit action to take place.
 #                Valid values: delete, insert, append, subnode, move, rename, update.
-# @input xpath_1: the XPath Query that is wanted to be run. The changes take place at the resulting elements.
-# @input xpath_2: the XPath Query that is wanted to be run. For the move action the results of xpath1 are moved to the results of xpath2.
+# @input xpath_1: the XPath Query to be run. The changes take place at the resulting elements.
+# @input xpath_2: the XPath Query to be run. For the move action the results of xpath1 are moved to the results of xpath2.
 # @input value: the new value.
 #               Examples: <newNode>newNodeValue</newNode> , <newNode newAttribute="newAttributeValue">newNodeValue</newNode>, new value.
 # @input type: Defines on what should the changes take effect : the element, the value of the element or the attributes of the element.
@@ -39,6 +39,22 @@
 #                          http://apache.org/xml/features/disallow-doctype-decl true
 #                          http://xml.org/sax/features/external-general-entities false
 #                          http://xml.org/sax/features/external-parameter-entities false
+# @output return_result: this is the primary output. The edited XML.
+# @output return_code: 0 for success; -1 for failure.
+# @output exception: the exception message in case one occured.
+# @result SUCCESS: The operation completed as stated in the description.
+# @result FAILURE: The operation completed unsuccessfully.
+#
+# Examples:
+# 1. The following is a valid xpath example for working with a XML that uses default namespace.
+#    This example searches all "td" elements from the default namespace:
+#    xml: <table xmlns="http://www.w3.org/TR/html4/">
+#                <tr>
+#                    <td>Apples</td>
+#                    <td>Bananas</td>
+#                 </tr>
+#            </table>
+#    xpath1: //*[namespace-uri()="http://www.w3.org/TR/html4/" and name()="td"]
 #
 # Notes:
 # 1. For the delete action the following inputs are required: xml or filePath, xpath1, type and in case type is 'attr'
@@ -60,23 +76,6 @@
 # 9. The World Wide Web Consortium (W3C) organization provides the XPath specification (http://www.w3.org).
 # 10. XML using default namespace is also supported by this operation.
 # 11. An element from the default namespace can be retrieved using a location path.
-#
-# Examples:
-# 1. The following is a valid xpath example for working with a XML that uses default namespace.
-#    This example searches all "td" elements from the default namespace:
-#    xml: <table xmlns="http://www.w3.org/TR/html4/">
-#                <tr>
-#                    <td>Apples</td>
-#                    <td>Bananas</td>
-#                 </tr>
-#            </table>
-#    xpath1: //*[namespace-uri()="http://www.w3.org/TR/html4/" and name()="td"]
-#
-# @output return_result: this is the primary output. The edited XML.
-# @output return_code: 0 for success; -1 for failure.
-# @output exception: the exception message in case one occured.
-# @result SUCCESS: The operation completed as stated in the description.
-# @result FAILURE: The operation completed unsuccessfully.
 #!!#
 ########################################################################################################################
 
@@ -92,16 +91,19 @@ operation:
         required: false
     - filePath:
         default: ${get("file_path", "")}
+        required: false
         private: true
     - action
     - xpath_1
     - xpath1:
         default: ${get("xpath_1", "")}
+        required: false
         private: true
     - xpath_2:
         required: false
     - xpath2:
         default: ${get("xpath_2", "")}
+        required: false
         private: true
     - value:
         required: false
@@ -113,6 +115,7 @@ operation:
         required: false
     - parsingFeatures:
         default: ${get("parsing_features", "")}
+        required: false
         private: true
 
   java_action:
@@ -123,7 +126,7 @@ operation:
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${exception}
+    - exception
 
   results:
     - SUCCESS: ${returnCode == '0'}

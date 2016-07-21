@@ -11,8 +11,8 @@
 #!
 #! @input xml_document: XML string or file in which to query an xpath
 #! @input xml_document_source: xml document type
-#!                             Default: xmlStirng
-#!                             Accepted values: xmlString, xmlPath
+#!                             Default: 'xmlString'
+#!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_query: xpath query
 #! @input query_type: type of selection result from query
 #!                    attribute value; leave empty if setting the value of
@@ -44,20 +44,24 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xml_document_source:
-        default: xmlString
+        default: 'xmlString'
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
+        required: false
         private: true
     - xpath_query
     - xPathQuery:
         default: ${get("xpath_query", "")}
+        required: false
         private: true
     - query_type:
         required: false
     - queryType:
         default: ${get("query_type", "nodelist")}
+        required: false
         private: true
     - delimiter:
         required: false
@@ -66,6 +70,7 @@ operation:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
+        required: false
         private: true
 
   java_action:

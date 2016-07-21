@@ -11,10 +11,9 @@
 #!
 #! @input xml_document: XML string or file in which to add attribute
 #! @input xml_document_source: xml document type
-#!                             Default: xmlStirng
-#!                             Accepted values: xmlString, xmlPath
-#! @input xpath_element_query: XPATH query that results in an element or element
-#!                             list, not an attribute
+#!                             Default: 'xmlString'
+#!                             Accepted values: 'xmlString', 'xmlPath'
+#! @input xpath_element_query: XPATH query that results in an element or element list, not an attribute
 #! @input attribute_name: name of attribute to add or replace
 #! @input value: value of attribute to add or replace with
 #! @input secure_processing: whether to use secure processing
@@ -40,23 +39,28 @@ operation:
         default: ${get("xml_document", "")}
         private: true
     - xml_document_source:
-        default: xmlString
+        required: false
+        default: 'xmlString'
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
+        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
+        required: false
         private: true
     - attribute_name
     - attributeName:
         default: ${get("attribute_name", "")}
+        required: false
         private: true
     - value
     - secure_processing:
         required: false
     - secureProcessing:
         default: ${get("secure_processing", "false")}
+        required: false
         private: true
 
   java_action:
