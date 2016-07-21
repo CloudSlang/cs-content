@@ -594,11 +594,7 @@ testSelectBadXpathInvalidXmlDocument:
     - xpath_query: "/root"
   description: "Tests that this operation fails when xml_document input is invalid"
   testFlowPath: io.cloudslang.base.xml.xpath_query
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Content is not allowed in prolog."
-    - return_code: "0"
-  result: FAILURE
+  throwsException: true
 
 testSelectBadXpathEmptyStringQueryType:
   inputs:
@@ -607,10 +603,6 @@ testSelectBadXpathEmptyStringQueryType:
     - query_type: ""
   description: "Tests that this operations fails when query type input is empty string"
   testFlowPath: io.cloudslang.base.xml.xpath_query
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Invalid query type"
-    - return_code: "0"
   throwsException: true
 
 testSelectBadXpathNoQuery:
