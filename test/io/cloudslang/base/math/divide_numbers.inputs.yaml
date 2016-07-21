@@ -14,7 +14,7 @@ testDivideInt:
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
     - result: 3.0
-  result: SUCSESS
+  result: SUCCESS
 
 testDivideFloat:
   inputs:
@@ -24,7 +24,7 @@ testDivideFloat:
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
     - result: 0.06
-  result: SUCSESS
+  result: SUCCESS
 
 testDivideStr:
   inputs:
@@ -34,7 +34,7 @@ testDivideStr:
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
     - result: 2.0
-  result: SUCSESS
+  result: SUCCESS
 
 testDivideIllegal:
   inputs:
