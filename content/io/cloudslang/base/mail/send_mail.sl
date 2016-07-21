@@ -81,7 +81,7 @@ operation:
         required: false
         private: true
   java_action:
-    gav: 'io.cloudslang.content:score-mail:0.0.31'
+    gav: 'io.cloudslang.content:cs-mail:0.0.32'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
   results:
