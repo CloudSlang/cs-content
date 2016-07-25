@@ -53,6 +53,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -71,11 +72,13 @@ operation:
     - imageDescription:
         default: ${get("image_description", "")}
         private: true
+        required: false
     - image_no_reboot:
         required: false
     - imageNoReboot:
         default: ${get("image_no_reboot", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'

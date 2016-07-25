@@ -7,40 +7,36 @@
 #
 ####################################################
 #!!
-#! @description: Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified
-#!               device name.
-#!               Note: Encrypted EBS volumes may only be attached to instances that support Amazon EBS encryption. For
-#!               more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. For a list
-#!               of supported device names, see Attaching an EBS Volume to an Instance. Any device names that aren't
-#!               reserved for instance store volumes can be used for EBS volumes. For more information, see Amazon EC2
-#!               Instance Store in the Amazon Elastic Compute Cloud User Guide. If a volume has an AWS Marketplace product
-#!               code: - the volume can be attached only to a stopped instance; - AWS Marketplace product codes are copied
-#!               from the volume to the instance; - you must be subscribed to the product; - the instance type and operating
-#!               system of the instance must support the product. For example, you can't detach a volume from a Windows
-#!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
-#!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
-#! @input provider: Cloud provider on which you the instance, to attach volume to, is - Default: 'amazon'
+#! @description: Adds or overwrites one or more tags for the specified Amazon EC2 resource/resources.
+#!               Note: Each resource can have a maximum of 10 tags. Each tag consists of a key and optional value. Tag
+#!               keys must be unique per resource. For more information about tags, see Tagging Your Resources in the
+#!               Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control
+#!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
+#!               Actions in the Amazon Elastic Compute Cloud User Guide.
+#! @input provider: Cloud provider on which you have the resources - Default: 'amazon'
 #! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input delimiter: optional - Delimiter that will be used - Default: ','
 #! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
 #!                           order to get all regions - Default: 'us-east-1'
-#! @input volume_id: ID of the EBS volume. The volume and instance must be within the same Availability Zone
-#! @input instance_id: ID of the instance
-#! @input device_name: Device name
+#! @input key_tags_string: String that contains one or more key tags separated by delimiter.
+#! @input value_tags_string: String that contains one or more tag values separated by delimiter.
+#! @input resource_ids_string: String that contains Id's of one or more resources to tag.
+#!                             Ex: "ami-1a2b3c4d"
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
-#! @result SUCCESS: the list with existing regions was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve the regions list
+#! @result SUCCESS: success message
+#! @result FAILURE: an error occurred when trying to apply tags to resources
 #!!#
 ####################################################
-namespace: io.cloudslang.cloud.amazon_aws.volumes
+namespace: io.cloudslang.cloud.amazon_aws.tags
 
 operation:
-  name: attach_volume_in_region
+  name: apply_to_resources
 
   inputs:
     - provider: 'amazon'
@@ -62,25 +58,28 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
+    - delimiter:
+        default: ','
+        required: false
     - region:
         default: 'us-east-1'
         required: false
-    - volume_id
-    - volumeId:
-        default: ${volume_id}
+    - key_tags_string
+    - keyTagsString:
+        default: ${key_tags_string}
         private: true
-    - instance_id
-    - instanceId:
-        default: ${instance_id}
+    - value_tags_string
+    - valueTagsString:
+        default: ${value_tags_string}
         private: true
-    - device_name
-    - deviceName: 
-        default: ${device_name}
+    - resource_ids_string
+    - resourceIdsString:
+        default: ${resource_ids_string}
         private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
-    class_name: io.cloudslang.content.jclouds.actions.volumes.AttachVolumeInRegionAction
+    class_name: io.cloudslang.content.jclouds.actions.tags.ApplyToResourcesAction
     method_name: execute
 
   outputs:

@@ -49,6 +49,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -62,6 +63,7 @@ operation:
     - availabilityZone:
         default: ${get("availability_zone", "")}
         private: true
+        required: false
     - image_id
     - imageId:
         default: ${image_id}

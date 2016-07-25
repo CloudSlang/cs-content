@@ -51,6 +51,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -68,16 +69,19 @@ operation:
     - serverType:
         default: ${get("server_type", "")}
         private: true
+        required: false
     - operation_timeout:
         required: false
     - operationTimeout:
         default: ${get("operation_timeout", "")}
         private: true
+        required: false
     - pooling_interval:
         required: false
     - poolingInterval:
         default: ${get("pooling_interval", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'

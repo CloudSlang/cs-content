@@ -54,6 +54,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -71,11 +72,13 @@ operation:
     - userIdsString:
         default: ${get("user_ids_string", "")}
         private: true
+        required: false
     - user_groups_string:
         required: false
     - userGroupsString:
         default: ${get("user_groups_string", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
