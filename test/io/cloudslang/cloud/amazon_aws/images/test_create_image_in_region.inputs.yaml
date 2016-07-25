@@ -17,6 +17,7 @@ testCreatesAMILocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - server_id: <server_id>
     - image_name: <image_name>

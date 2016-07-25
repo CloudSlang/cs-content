@@ -18,6 +18,7 @@ testAmazonApplyTagsToResourcesLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
+    - debug_mode: <debug_mode>
     - region: <region>
     - key_tags_string: <key_tags_string>
     - value_tags_string: <value_tags_string>

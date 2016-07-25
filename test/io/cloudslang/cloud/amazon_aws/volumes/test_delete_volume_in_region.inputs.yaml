@@ -17,6 +17,7 @@ testAmazonDeleteVolumeLocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - volume_id: <volume_id>
   result: SUCCESS

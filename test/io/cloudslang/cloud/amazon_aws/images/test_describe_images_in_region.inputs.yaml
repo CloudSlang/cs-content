@@ -17,6 +17,7 @@ testDescribeAMILocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - identity_id: <identity_id>
     - image_ids_string: <image_ids_string>

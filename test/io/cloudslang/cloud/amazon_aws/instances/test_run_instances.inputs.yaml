@@ -15,9 +15,9 @@ testRunAmazonInstancesLocal:
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
-    - region: <region>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - availability_zone: <availability_zone>
     - image_id: <image_id>

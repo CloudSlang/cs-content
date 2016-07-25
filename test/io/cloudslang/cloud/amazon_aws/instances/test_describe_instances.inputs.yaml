@@ -18,6 +18,7 @@ testDescribeInstancesInRegionWithFiltersAmazonLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
+    - debug_mode: <debug_mode>
     - region: <region>
     - volume_id: <volume_id>
     - group_id: <group_id>

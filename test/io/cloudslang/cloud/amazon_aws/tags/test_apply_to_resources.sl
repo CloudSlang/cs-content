@@ -33,6 +33,9 @@ flow:
     - delimiter:
         default: ','
         required: false
+    - debug_mode:
+        default: 'false'
+        required: false
     - region:
         default: 'us-east-1'
         required: false
@@ -51,6 +54,7 @@ flow:
             - proxy_host
             - proxy_port
             - delimiter
+            - debug_mode
             - region
             - key_tags_string
             - value_tags_string

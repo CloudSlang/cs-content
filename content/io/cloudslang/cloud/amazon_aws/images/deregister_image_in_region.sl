@@ -15,6 +15,7 @@
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - Region where image to be de-registered reside. ListRegionAction can be used in order to get
 #!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
@@ -52,6 +53,11 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        private: true
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
         private: true
     - region:
         default: 'us-east-1'

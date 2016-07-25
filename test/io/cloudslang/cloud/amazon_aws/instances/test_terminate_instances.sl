@@ -26,6 +26,9 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - debug_mode:
+        default: 'false'
+        required: false
     - region:
         default: 'us-east-1'
         required: false
@@ -39,9 +42,10 @@ flow:
             - endpoint
             - identity
             - credential
-            - region
             - proxy_host
             - proxy_port
+            - debug_mode
+            - region
             - instance_id
         publish:
           - return_result

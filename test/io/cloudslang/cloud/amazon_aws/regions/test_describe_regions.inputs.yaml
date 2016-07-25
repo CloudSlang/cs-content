@@ -18,5 +18,6 @@ testAmazonListRegionsLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
+    - debug_mode: <debug_mode>
   result: SUCCESS
 

@@ -16,6 +16,7 @@
 #! @input proxy_host: optional - proxy server used to access the provider services
 #! @input proxy_port: optional - proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - delimiter that will be used - Default: ','
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - region where the servers (instances) are. list_regions operation can be used in order to get
 #!                           all regions - Default: 'us-east-1'
 #! @input volume_id: optional - volume ID of the EBS volume - Default: ''
@@ -183,6 +184,11 @@ operation:
     - delimiter:
         default: ','
         required: false
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
+        private: true
     - region:
         default: 'us-east-1'
         required: false

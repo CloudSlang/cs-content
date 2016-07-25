@@ -20,6 +20,7 @@
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
 #!                           order to get all regions - Default: 'us-east-1'
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter.
@@ -61,6 +62,11 @@ operation:
     - delimiter:
         default: ','
         required: false
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
+        private: true
     - region:
         default: 'us-east-1'
         required: false

@@ -28,6 +28,9 @@ flow:
         required: false
     - delimiter:
         required: false
+    - debug_mode:
+        default: 'false'
+        required: false
 
   workflow:
     - describe_regions:
@@ -40,6 +43,7 @@ flow:
             - proxy_host
             - proxy_port
             - delimiter
+            - debug_mode
         publish:
           - return_result
           - return_code
