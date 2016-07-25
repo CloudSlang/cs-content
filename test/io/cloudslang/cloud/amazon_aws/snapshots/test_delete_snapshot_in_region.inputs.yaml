@@ -17,6 +17,7 @@ testAmazonDeleteSnapshotLocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - snapshot_id: <snapshot_id>
   result: SUCCESS

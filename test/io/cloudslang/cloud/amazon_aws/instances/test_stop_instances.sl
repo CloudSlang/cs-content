@@ -25,12 +25,15 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - delimiter:
+        required: false
+    - debug_mode:
+        default: 'false'
+        required: false
     - region:
         default: 'us-east-1'
         required: false
     - instance_id
-    - delimiter:
-        required: false
     - seconds:
         default: '45'
         required: false
@@ -43,9 +46,10 @@ flow:
             - endpoint
             - identity
             - credential
-            - region
             - proxy_host
             - proxy_port
+            - debug_mode
+            - region
             - instance_id
         navigate:
           - SUCCESS: sleep

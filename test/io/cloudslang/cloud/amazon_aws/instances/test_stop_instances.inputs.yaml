@@ -17,6 +17,7 @@ testStopAmazonServerLocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - instance_id: <server_id>
     - delimiter: <delimiter>
