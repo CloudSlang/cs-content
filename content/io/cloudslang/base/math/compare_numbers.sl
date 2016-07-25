@@ -18,16 +18,12 @@
 
 namespace: io.cloudslang.base.math
 
-operation:
+decision:
   name: compare_numbers
   inputs:
     - value1
     - value2
-  python_action:
-    script: |
-      value1 = float(value1)
-      value2 = float(value2)
   results:
-    - GREATER_THAN: ${ value1 > value2 }
-    - EQUALS: ${ value1 == value2 }
+    - GREATER_THAN: ${ float(value1) > float(value2) }
+    - EQUALS: ${ float(value1) == float(value2) }
     - LESS_THAN

@@ -17,6 +17,7 @@ testDeregisterAMILocal:
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - debug_mode: <debug_mode>
     - region: <region>
     - image_id: <image_id>
   result: SUCCESS

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,34 +8,34 @@
 ####################################################
 testContainsSuccess:
   inputs:
-    - list: element1,element2,element3,element4
+    - container: element1,element2,element3,element4
     - delimiter: ','
-    - element: element1
+    - sublist: element1
   description: Tests that contains.sl operation finishes with result = true
   testFlowPath: io.cloudslang.base.lists.contains
   outputs:
-    - result: true
+    - response: true
+    - return_code: '0'
   result: SUCCESS
 
 testContainsStringTrueSuccess:
   inputs:
-    - list: Luke:Vader:Kenobi
+    - container: Luke:Vader:Kenobi
     - delimiter: ':'
-    - element: Kenobi
+    - sublist: Kenobi
   description: Tests that contains.sl operation finishes with result = true
   testFlowPath: io.cloudslang.base.lists.contains
   outputs:
-    - result: true
+    - response: true
+    - return_code: '0'
   result: SUCCESS
 
 
-testContainsStringFalseSuccess:
+testContainsStringFalseFailure:
   inputs:
-    - list: 1,5,8,9
-    - delimiter: ':'
-    - element: 9
+    - container: 1,5,8,9
+    - delimiter: ','
+    - sublist: 6
   description: Tests that contains.sl operation finishes with result = false
   testFlowPath: io.cloudslang.base.lists.contains
-  outputs:
-    - result: false
-  result: SUCCESS
+  throwsException: true

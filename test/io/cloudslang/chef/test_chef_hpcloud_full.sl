@@ -144,9 +144,8 @@ flow:
 
     - check_app:
         do:
-          net.verify_app_is_up:
-            - host: ${ip_address}
-            - port: ${app_port}
+          net.verify_url_is_accessible:
+            - url: ${'http://' + ip_address + ":" + app_port}
             - attempts: 300
         publish:
           - return_result: ${output_message}

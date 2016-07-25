@@ -9,9 +9,16 @@
 #!!
 #! @description: offsets the given date/time by a number of seconds
 #! @input date: the date to offset
+#!              Valid value: 'July 1, 2016 2:32:09 PM EEST'
 #! @input offset: the number of seconds to offset the date/time with
-#! @input localeLang: the locale language
-#! @input localeCountry: the locale country
+#!                Valid values: 'number_of_seconds'
+#!                Example: '20'
+#! @input locale_lang: optional - the locale language
+#!                    Example: 'en'
+#! @input locale_country: optional - the locale country
+#!                       Example: 'US'
+#! @output result: offset date/time by the given number of seconds, exception otherwise
+#!                 Example: 'July 1, 2016 2:32:29 PM EEST'
 #! @result SUCCESS: the date/time was shifted properly
 #! @result FAILURE: failed to offset the date/time
 #!!#
@@ -37,7 +44,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.2'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.3'
     class_name: io.cloudslang.content.datetime.actions.OffsetTimeBy
     method_name: execute
 

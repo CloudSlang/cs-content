@@ -18,6 +18,7 @@
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - Region where image to be de-registered reside. ListRegionAction can be used in order to get
 #!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
 #!                         - Default: 'us-east-1'
@@ -96,6 +97,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -104,6 +106,11 @@ operation:
     - delimiter:
         default: ','
         required: false
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
+        private: true
     - region:
         default: 'us-east-1'
         required: false
@@ -115,26 +122,31 @@ operation:
     - deleteOnTermination:
         default: ${get("delete_on_termination", "")}
         private: true
+        required: false
     - block_mapping_device_name:
         required: false
     - blockMappingDeviceName:
         default: ${get("block_mapping_device_name", "")}
         private: true
+        required: false
     - block_device_mapping_snapshot_id:
         required: false
     - blockDeviceMappingSnapshotId:
         default: ${get("block_device_mapping_snapshot_id", "")}
         private: true
+        required: false
     - volume_size:
         required: false
     - volumeSize:
         default: ${get("volume_size", "")}
         private: true
+        required: false
     - volume_type:
         required: false
     - volumeType:
         default: ${get("volume_type", "")}
         private: true
+        required: false
     - hypervisor:
         default: ''
         required: true
@@ -143,21 +155,25 @@ operation:
     - imageId:
         default: ${get("image_id", "")}
         private: true
+        required: false
     - kernel_id:
         required: false
     - kernelId:
         default: ${get("kernel_id", "")}
         private: true
+        required: false
     - owner_alias:
         required: false
     - ownerAlias:
         default: ${get("owner_alias", "")}
         private: true
+        required: false
     - owner_id:
         required: false
     - ownerId:
         default: ${get("owner_id", "")}
         private: true
+        required: false
     - platform:
         default: ''
         required: false
@@ -166,61 +182,73 @@ operation:
     - productCode:
         default: ${get("product_code", "")}
         private: true
+        required: false
     - product_code_type:
         required: false
     - productCodeType:
         default: ${get("product_code_type", "")}
         private: true
+        required: false
     - ramdisk_id:
         required: false
     - ramdiskId:
         default: ${get("ramdisk_id", "")}
         private: true
+        required: false
     - root_device_name:
         required: false
     - rootDeviceName:
         default: ${get("root_device_name", "")}
         private: true
+        required: false
     - root_device_type:
         required: false
     - rootDeviceType:
         default: ${get("root_device_type", "")}
         private: true
+        required: false
     - state_reason_code:
         required: false
     - stateReasonCode:
         default: ${get("state_reason_code", "")}
         private: true
+        required: false
     - state_reason_message:
         required: false
     - stateReasonMessage:
         default: ${get("state_reason_message", "")}
         private: true
+        required: false
     - key_tags_string:
         required: false
     - keyTagsString:
         default: ${get("key_tags_string", "")}
         private: true
+        required: false
     - value_tags_string:
         required: false
     - valueTagsString:
         default: ${get("value_tags_string", "")}
         private: true
+        required: false
     - virtualization_type:
         required: false
     - virtualizationType:
         default: ${get("virtualization_type", "")}
         private: true
+        required: false
     - ids_string:
         required: false
     - idsString:
         default: ${get("ids_string", "")}
         private: true
+        required: false
     - owners_string:
         required: false
     - ownersString:
         default: ${get("owners_string", "")}
         private: true
+        required: false
     - description:
         default: ''
         required: false
@@ -232,11 +260,13 @@ operation:
     - isPublic:
         default: ${get("is_public", "")}
         private: true
+        required: false
     - manifest_location:
         required: false
     - manifestLocation:
         default: ${get("manifest_location", "")}
         private: true
+        required: false
     - name:
         default: ''
         required: false
@@ -245,14 +275,14 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-jClouds:0.0.4'
+    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
     class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${'' if exception not in locals() else exception}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

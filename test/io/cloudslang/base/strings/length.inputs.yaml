@@ -26,18 +26,20 @@ testLengthSpecialCharacters:
 testLengthNullStringDoubleQuote:
   inputs:
     - origin_string: ""
-  description: Tests that length.sl operation finishes with result = 0, when the empty string is input
+  description: Tests that length.sl operation throws exception when the empty string is input
   testFlowPath: io.cloudslang.base.strings.length
   outputs:
     - length: 0
+  throwsException: true
 
 testLengthNullStringSingleQuote:
   inputs:
     - origin_string: ''
-  description: Tests that length.sl operation finishes with result = 0, when the empty string is input
+  description: Tests that length.sl operation throws exception when the empty string is input
   testFlowPath: io.cloudslang.base.strings.length
   outputs:
     - length: 0
+  throwsException: true
 
 testLengthCharString:
   inputs:

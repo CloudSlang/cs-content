@@ -18,23 +18,16 @@
 ##################################################
 namespace: io.cloudslang.base.strings
 
-operation:
+decision:
   name: string_equals
   inputs:
-    - first_string
-    - second_string
+    - first_string:
+         required: false
+    - second_string:
+         required: false
     - ignore_case:
          default: false
          required: false
-
-  python_action:
-    script: |
-      res = False
-      if ignore_case :
-          first_string = first_string.lower()
-          second_string = second_string.lower()
-      if first_string == second_string:
-        res = True
   results:
-    - SUCCESS: ${ res == True }
+    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case and first_string.lower() == second_string.lower()) or (first_string == second_string))}
     - FAILURE

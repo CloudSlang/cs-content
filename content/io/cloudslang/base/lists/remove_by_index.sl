@@ -7,9 +7,15 @@
 #
 ####################################################
 #!!
-#! @description: Removes element from list by index.
-#! @input list: list from which to remove element - Example: [123, 'xyz']
-#! @output index: index of the element to remove
+#! @description: Remove an element from a list of strings
+#! @input list: the list to remove from - Example: '1,2,3,4,5'
+#! @input element: the index of the element to remove from the list - Example: '1'
+#! @input delimiter: the list delimiter - Example: ','
+#! @output response: index of the element to remove
+#! @output return_result: the new list or an error message otherwise
+#! @output return_code: 0 if success, -1 if failure
+#! @result SUCCESS: element removed with success
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 namespace: io.cloudslang.base.lists
@@ -19,35 +25,18 @@ operation:
 
    inputs:
      - list
-     - index
-   python_action:
-     script: |
-       error_message = ""
-       element= None
+     - element
+     - delimiter
 
-       if isinstance(index,int):
-           if(abs(index) < abs(len(list))):
-               element=list[index]
-               list.remove(element)
-           else:
-             error_message = 'list has just '+ str(len(list)) + ' elements'
-       elif isinstance(index,basestring):
-           lengthIndex = len(index)
-           valueIndex = index[1:lengthIndex]
-           if index.isdigit() or (index[:1]=='-' and valueIndex.isdigit()):
-              index=int(index)
-              if(abs(index) < abs(len(list))):
-                  element=list[index]
-                  list.remove(element)
-              else:
-                error_message = 'list has just '+ str(len(list)) + ' elements'
-           else:
-             error_message = 'index must be integer'
-       else:
-         error_message = 'index must be integer'
+   java_action:
+     gav: 'io.cloudslang.content:cs-lists:0.0.4'
+     class_name: io.cloudslang.content.actions.ListRemoverAction
+     method_name: removeElement
+
    outputs:
-     - result: ${list}
-     - error_message
+     - return_result: ${returnResult}
+     - return_code: ${returnCode}
+
    results:
-     - SUCCESS: ${error_message == ""}
+     - SUCCESS: ${returnCode == '0'}
      - FAILURE

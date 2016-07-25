@@ -30,11 +30,14 @@ flow:
     - proxy_port:
         default: '8080'
         required: false
+    - debug_mode:
+        default: 'false'
+        required: false
     - region:
         default: 'us-east-1'
         required: false
-    - server_id
-    - image_name
+    - instance_id
+    - name
     - image_description:
         default: ''
         required: false
@@ -52,9 +55,10 @@ flow:
             - credential
             - proxy_host
             - proxy_port
+            - debug_mode
             - region
-            - server_id
-            - image_name
+            - instance_id
+            - name
             - image_description
             - image_no_reboot
         publish:

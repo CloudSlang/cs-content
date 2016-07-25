@@ -34,4 +34,4 @@ operation:
     - result: ${res}
   results:
      - ILLEGAL: ${res=='Cannot divide by zero'}
-     - SUCSESS
+     - SUCCESS
