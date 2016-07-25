@@ -57,6 +57,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -74,11 +75,13 @@ operation:
     - instanceId:
         default: ${get("instance_id", "")}
         private: true
+        required: false
     - device_name:
         required: false
     - deviceName:
         default: ${get("device_name", "")}
         private: true
+        required: false
     - force:
         default: 'false'
         required: false

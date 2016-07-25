@@ -72,6 +72,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -89,11 +90,13 @@ operation:
     - snapshotId:
         default: ${get("snapshot_id", "")}
         private: true
+        required: false
     - volume_type:
         required: false
     - volumeType:
         default: ${get("volume_type", "")}
         private: true
+        required: false
     - size:
         default: '1'
         required: false
