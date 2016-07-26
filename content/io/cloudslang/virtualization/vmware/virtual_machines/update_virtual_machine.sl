@@ -88,6 +88,7 @@ operation:
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
         private: true
+        required: false
     - operation
     - device
     - update_value:
@@ -95,6 +96,7 @@ operation:
     - updateValue:
         default: ${get("update_value", "")}
         private: true
+        required: false
     - vm_disk_size:
         required: false
     - vmDiskSize:
@@ -105,6 +107,7 @@ operation:
     - vmDiskMode:
         default: ${get("vm_disk_mode", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:score-vmware:0.0.4'

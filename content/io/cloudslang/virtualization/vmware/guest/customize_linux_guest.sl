@@ -104,16 +104,19 @@ operation:
     - ipAddress:
         default: ${get("ip_address", "")}
         private: true
+        required: false
     - subnet_mask:
         required: false
     - subnetMask:
         default: ${get("subnet_mask", "")}
         private: true
+        required: false
     - default_gateway:
         required: false
     - defaultGateway:
         default: ${get("default_gateway", "")}
         private: true
+        required: false
     - hw_clock_utc:
         required: false
     - hwClockUTC:
@@ -124,6 +127,7 @@ operation:
     - timeZone:
         default: ${get("time_zone", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:score-vmware:0.0.4'

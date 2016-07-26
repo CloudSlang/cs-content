@@ -115,30 +115,36 @@ operation:
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
         private: true
+        required: false
     - clone_name
     - cloneName:
         default: ${get("clone_name", None)}
         private: true
+        required: false
     - folder_name:
         required: false
     - folderName:
         default: ${get("folder_name", "")}
         private: true
+        required: false
     - clone_host:
         required: false
     - cloneHost:
         default: ${get("clone_host", "")}
         private: true
+        required: false
     - clone_resource_pool:
         required: false
     - cloneResourcePool:
         default: ${get("clone_resource_pool", "")}
         private: true
+        required: false
     - clone_data_store:
         required: false
     - cloneDataStore:
         default: ${get("clone_data_store", "")}
         private: true
+        required: false
     - thick_provision:
         required: false
     - thickProvision:
@@ -167,6 +173,7 @@ operation:
     - cloneDescription:
         default: ${get("clone_description", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:score-vmware:0.0.4'
