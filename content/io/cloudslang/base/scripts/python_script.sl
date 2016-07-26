@@ -97,7 +97,7 @@ operation:
         is_file = True
         script = file_path
       else:
-        error_message += "One of the script or the file_path must be provided\n"
+        error_message += "Either the script or the file_path must be provided\n"
 
       if not error_message:
         result_list = []
@@ -114,7 +114,7 @@ operation:
 
         if thread.is_alive():
           error_message += "Timeout\n"
-          exit_code = "1"
+          exit_code = "-1"
         else:
           script_result = str(redirected_output.getvalue())
           error_message += str(redirected_error.getvalue())
