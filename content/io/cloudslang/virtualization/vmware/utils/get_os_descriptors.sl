@@ -74,6 +74,7 @@ operation:
     - dataCenterName:
         default: ${get("data_center_name", None)}
         private: true
+        required: false
     - hostname
     - delimiter:
         default: ','

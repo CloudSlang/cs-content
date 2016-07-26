@@ -33,14 +33,17 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
+        required: false
         private: true
     - xml_element
     - xmlElement:
         default: ${get("xml_element", "")}
+        required: false
         private: true
     - secure_processing:
         required: false
