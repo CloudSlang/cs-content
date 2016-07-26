@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,12 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: Checks if one percentage is less than another.
-#! @input first_percentage: string which represents a percentage - Example: "50%"
-#! @input second_percentage: string which represents a percentage - Example: "50%"
+#! @description: rounds a float by converting it to integer and saving it as a string.
+#! @input value1: string which represents a float, with or without a percentage - Example: "58.44%"
 #! @output error_message: error message if error occurred
-#! @result LESS: first_percentage < second_percentage
-#! @result MORE: first_percentage >= second_percentage
+#! @result SUCCESS: the value was rounded successfully
 #! @result FAILURE: input was not in correct format
 #!!#
 ####################################################

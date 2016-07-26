@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,6 +8,7 @@
 
 
 ######################################################## How to Prapare your infrastructure for this example ####################################
+#! @prerequisites:
 # (The following  instructions may changed for future versions of Docker, RUNC or CRIU)
 # 1. Install Docker
 # 2. Install CRIU
@@ -87,7 +88,7 @@ imports:
   linux: io.cloudslang.base.os.linux
   math: io.cloudslang.base.math
 flow:
-  name: migrate
+  name: migrate_container
   inputs:
     - docker_host
     - destination_host
@@ -108,7 +109,7 @@ flow:
   workflow:
   - check_cpu:
       do:
-        linux.check_linux_cpu:
+        linux.check_linux_cpu_utilization:
           - host: ${docker_host}
           - port
           - username
@@ -146,7 +147,7 @@ flow:
           - FAILURE: CHECK_THRESHOLD_FAILURE
   - checkpoint_container:
       do:
-        runc.checkpoint:
+        runc.checkpoint_container:
           - docker_host
           - port
           - username
@@ -162,7 +163,7 @@ flow:
           - DUMP_FAILURE: CHECKPOINT_FAILURE
   - transfer_container:
       do:
-        transfer:
+        transfer_images:
           - docker_host
           - destination_host
           - port
@@ -197,7 +198,7 @@ flow:
           - EXTRACT_PRE_DUMP_FAILURE: EXTRACT_FAILURE
   - restore_container:
       do:
-        runc.restore:
+        runc.restore_container:
           - docker_host: ${destination_host}
           - port
           - username

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,46 +10,46 @@
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). - Example: "false"
 #! @input docker_host: the address of the Docker host to checkpoint . - Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker host.
-#! @input username: A user with sufficient privileges to restore the container.
+#! @input username: A user with sufficient privileges to checkpoint the container.
 #! @input password: The user's password.
-#! @input runc_container: the name of the containerb to checkpoint . - Example: "petclinic"
+#! @input runc_container: the name of the container to checkpoint . - Example: "redis"
 #! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
 #! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
 #! @result SUCCESS:
-#! @result RESTORE_DUMP_FAILURE:
-#! @result RESTORE_PRE_DUMP_FAILURE:
+#! @result PRE_DUMP_FAILURE:
+#! @result DUMP_FAILURE:
 #!!#
 #
 ####################################################
 namespace: io.cloudslang.docker.runc
 
 imports:
-  files: io.cloudslang.base.files
   ssh: io.cloudslang.base.ssh
+  files: io.cloudslang.base.files
   comparisons: io.cloudslang.base.comparisons
 flow:
-  name: restore
+  name: checkpoint_container
   inputs:
     - docker_host
     - port: "22"
     - username
     - password
-    - runc_container
-    - root_path: "/usr/local/migrate"
+    - runc_container: "redis"
+    - root_path: "/usr/local/migrate/"
     - pre_dump: "false"
-    - predump_image_location: ${root_path + "/" + runc_container + "/predump"}
-    - dump_image_location: ${root_path + "/" + runc_container + "/dump"}
+    - predump_image_location: ${root_path + runc_container + "/predump"}
+    - dump_image_location: ${root_path + runc_container + "/dump"}
   workflow:
-  - check arguments:
+  - check_params:
       do:
         comparisons.equals:
           - first: ${pre_dump}
           - second: "true"
       navigate:
-          - EQUALS: restore_pre_dump
-          - NOT_EQUALS: restore_dump
-  - restore_pre_dump:
+          - EQUALS: pre_dump
+          - NOT_EQUALS: dump
+  - pre_dump:
       do:
         ssh.ssh_flow:
           - host: ${docker_host}
@@ -57,7 +57,7 @@ flow:
           - username
           - password
           - private_key_file
-          - command: ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " + runc_container + " --image-path ./dump --prev-images-dir ./predump &"}
+          - command: ${"docker-runc checkpoint  --pre-dump --image-path " + predump_image_location}
           - arguments
           - character_set
           - pty
@@ -68,9 +68,9 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: RESTORE_PRE_DUMP_FAILURE
-          - FAILURE: RESTORE_PRE_DUMP_FAILURE
-  - restore_dump:
+          - FAIL_VALIDATE_SSH: PRE_DUMP_FAILURE
+          - FAILURE: PRE_DUMP_FAILURE
+  - dump:
       do:
         ssh.ssh_flow:
           - host: ${docker_host}
@@ -78,7 +78,7 @@ flow:
           - username
           - password
           - private_key_file
-          - command: ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " + runc_container + " --image-path ./dump &"}
+          - command: ${"docker-runc checkpoint --tcp-established --image-path " + dump_image_location + "  --ext-unix-sk --file-locks " +  runc_container}
           - arguments
           - character_set
           - pty
@@ -89,9 +89,9 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: RESTORE_DUMP_FAILURE
-          - FAILURE: RESTORE_DUMP_FAILURE
+          - FAIL_VALIDATE_SSH: DUMP_FAILURE
+          - FAILURE: DUMP_FAILURE
   results:
     - SUCCESS
-    - RESTORE_DUMP_FAILURE
-    - RESTORE_PRE_DUMP_FAILURE
+    - PRE_DUMP_FAILURE
+    - DUMP_FAILURE

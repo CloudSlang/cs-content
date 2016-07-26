@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -28,10 +28,9 @@ imports:
   files: io.cloudslang.base.files
   ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.comparisons
-  print: io.cloudslang.base.print
   remote_file_transfer: io.cloudslang.base.remote_file_transfer
 flow:
-  name: transfer
+  name: transfer_images
   inputs:
     - docker_host
     - destination_host
@@ -105,15 +104,9 @@ flow:
       publish:
           - return_result
       navigate:
-          - SUCCESS: print_step
+          - SUCCESS: SUCCESS
           - FAIL_VALIDATE_SSH: DELETE_DUMP_FAILURE
           - FAILURE: DELETE_DUMP_FAILURE
-  - print_step:
-      do:
-          print.print_text:
-          - text: ${"rm " + root_path + runc_container + "/dump.tar "}
-      navigate:
-          - SUCCESS: SUCCESS
   results:
     - SUCCESS
     - PACK_DUMP_FAILURE
