@@ -82,7 +82,6 @@ flow:
     - last_buildnumber
   results:
     - SUCCESS
-    - FAILURE
     - FAIL_TO_CLONE_JOB
     - FAIL_TO_CREATE_JOB
     - FAIL_TO_GET_BUILDNUMBER
