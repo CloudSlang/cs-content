@@ -7,16 +7,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Runs a python script provided through a script or the path to the python file. Only one can be present
-#!               the 'script' or the 'file_path'.
-#! @input script: The script to run.
-#! @input file_path: The path to the script file.
-#! @input argv: The arguments to be passed to the script. They will be present in the script as an array named 'argv' and
-#!              if the script was from a file, the file path will be added as the firt element otherwise the word 'script'
-#! @input timeout: The time to wait for the command to complete (in seconds).
-#!                 Default value: 0 (waits for the script to finish).
+#! @description: Runs a python script provided through a inline script or the canonical path to the python file.
+#!               Note: The 'script' and 'file_path' are mutually exclusive
+#! @input script: The inline script to run.
+#! @input file_path: The canonical path to the script file.
+#!                   Note: The file should not be a symbolink link
+#! @input argv: The arguments to be passed to the script with the delimiter " " (a space). They will be present in the
+#!              script as an array named 'argv' and if the script is from a file, the file absolute path will be added
+#!              as the first element otherwise the word 'script'
+#!              Note: if you pass in the 'script' and the 'argv' "1 2 3 'the red fox'", in the script it will be as:
+#!                    argv = ['script', '1', '2', '3', 'the red fox']
+#!
+#! @input timeout: How many seconds to wait for the command to finish (in seconds).
+#!                 Default value: 0 (waits indefinitely).
+#!                 Note: It's recommended to have a non-zero value
 #! @output return_result: STDOUT of the script that was ran
-#! @output return_code: The exit code or errno of the script if present otherwise 0 if the script succeeded or -1 if not.
+#! @output return_code: The exit code or errno of the script if present, 0 if the script succeeded or -1 otherwise.
 #! @output error_message: The error message of the script.
 #! @output return_code: The return code of the script
 #! @result SUCCESS: If the script ran successfully with no error messages
@@ -94,6 +100,10 @@ operation:
       elif file_path and not script:
         if not file_path or not os.path.isfile(file_path):
           error_message += "The " + file_path + " does not exits\n"
+        elif not os.path.isabs(file_path):
+          error_message += "The " + file_path + " is not absolute\n"
+        elif os.path.islink(file_path):
+          error_message += "The " + file_path + " is a symbolic link"
         is_file = True
         script = file_path
       else:
@@ -118,10 +128,7 @@ operation:
         else:
           script_result = str(redirected_output.getvalue())
           error_message += str(redirected_error.getvalue())
-          try:
-            exit_code = str(result_list.pop())
-          except IndexError as ie:
-            error_message += "Something went wrong!"
+          exit_code = str(result_list.pop())
         del thread
   outputs:
     - return_result: ${script_result}
