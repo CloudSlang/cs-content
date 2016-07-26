@@ -162,17 +162,6 @@ flow:
           - GET_SERVER_ID_FAILURE: FAILURE
           - DELETE_SERVER_FAILURE: FAILURE
 
-    - on_failure:
-        - send_error_mail:
-            do:
-              email.send_mail:
-                - hostname: ${email_host}
-                - port: ${email_port}
-                - from
-                - to
-                - subject: ${'Flow failure'}
-                - body: ${'Failure from step ' + subflow_error}
-
   results:
     - SUCCESS
     - CREATE_SERVER_FAILURE

@@ -42,6 +42,5 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
     - EQUALITY_FAILURE
     - CREATEFAILURE
