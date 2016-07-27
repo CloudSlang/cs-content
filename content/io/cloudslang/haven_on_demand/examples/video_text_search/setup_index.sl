@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Creates a Haven OnDemand text index and indexes the given files.
+#! @description: Creates a Haven OnDemand text index and indexes the given video files.
 #!
 #! @input api_key: API key
 #! @input files_info: list of video file information in the following format
@@ -41,12 +41,14 @@ flow:
     - index:
         default: "video_library"
         required: false
-    - description: "Video+library+transcripts"
+    - description:
+        default: "Video+library+transcripts"
+        required: false
     - proxy_host:
-        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_host')}
+        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_host', '')}
         required: false
     - proxy_port:
-        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_port')}
+        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_port', '')}
         required: false
 
   workflow:
@@ -66,7 +68,7 @@ flow:
         loop:
           for: video in files_info
           do:
-            add_to_index:
+            hod.examples.video_text_search.add_to_index:
               - api_key
               - file: ${video['path']}
               - title: ${video['title']}

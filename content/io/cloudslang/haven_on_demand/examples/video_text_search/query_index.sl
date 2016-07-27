@@ -40,10 +40,10 @@ flow:
     - from: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.from')}
     - to: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.to')}
     - proxy_host:
-        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_host')}
+        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_host', '')}
         required: false
     - proxy_port:
-        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_port')}
+        default: ${get_sp('io.cloudslang.haven_on_demand.examples.video_text_search.proxy_port', '')}
         required: false
     - email_text:
         default: ${"<h1>Video Text Search</h1><h2>Query - " + text + "</h2><hr><br>"}
