@@ -8,7 +8,7 @@
 ####################################################
 testHttpClientPut:
   inputs:
-    - url: "http://localhost:4000/swagger"
+    - url: "http://localhost"
     - resource_id: "0"
     - resource_name: "cloudslang_test_http_client"
   description: "Test the Http Client Put against a REST API."

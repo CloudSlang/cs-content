@@ -8,7 +8,7 @@
 ####################################################
 testHttpClientAction:
   inputs:
-    - url: "http://localhost:4000/swagger"
+    - url: "http://localhost"
     - resource_id: "123"
     - resource_name: "cloud_slang_test_CI"
   description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
