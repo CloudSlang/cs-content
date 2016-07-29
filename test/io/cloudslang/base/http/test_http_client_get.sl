@@ -51,8 +51,8 @@ flow:
             - password
             - proxy_host
             - proxy_port
-            - trust_all_roots: "false"
-            - x_509_hostname_verifier: "strict"
+            - trust_all_roots: "true"
+            - x_509_hostname_verifier: "allow_all"
             - content_type
             - trust_keystore
             - trust_password
