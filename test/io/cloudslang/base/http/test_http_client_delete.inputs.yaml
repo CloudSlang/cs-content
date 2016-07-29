@@ -8,7 +8,7 @@
 ####################################################
 testHttpClientDelete:
   inputs:
-    - url: "http://petstore.swagger.io/v2/pet"
+    - url: "http://localhost:4000/swagger"
   description: "Test the Http Client Delete against a REST API."
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_delete
