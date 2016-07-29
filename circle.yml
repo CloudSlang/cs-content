@@ -47,7 +47,7 @@ test:
         then docker run -d -p 49165:8080 jenkins
         && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
         && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
-        && && docker run -d -p 80:80 -e API_URL=http://localhost:4000/swagger schickling/swagger-ui;
+        && docker run -d -p 80:80 -e API_URL=http://localhost:4000/swagger schickling/swagger-ui;
         fi
       : parallel: true
     - ? > ### machine 1
