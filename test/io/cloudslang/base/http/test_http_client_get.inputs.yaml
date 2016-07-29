@@ -8,7 +8,7 @@
 ####################################################
 testHttpClientGet:
   inputs:
-    - url: "http://localhost"
+    - url: "http://localhost:4000/swagger"
   description: "Test the Http Client Get against a REST API."
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
   testFlowPath: io.cloudslang.base.http.test_http_client_get
