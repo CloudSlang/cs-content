@@ -47,7 +47,7 @@ test:
         then docker run -d -p 49165:8080 jenkins
         && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
         && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
-
+        && docker run -d -p 4000:80 --name swagger2 -e "URL=http://petstore.swagger.io/v2/swagger.json" splazit/swagger-ui
         fi
       : parallel: true
     - ? > ### machine 1
