@@ -9,7 +9,7 @@
 testDescribeInstancesInRegionWithFiltersAmazonLocal:
   testSuites: [amazon-local]
   description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
