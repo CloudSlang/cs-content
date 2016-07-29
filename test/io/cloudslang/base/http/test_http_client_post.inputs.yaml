@@ -8,7 +8,7 @@
 ####################################################
 testHttpClientPost:
   inputs:
-    - url: "http://localhost"
+    - url: "http://localhost/v2/pet"
     - resource_id: "123456789"
     - resource_name: "cloudslang_test_http_client"
   description: "Test the Http Client Post against a REST API."
