@@ -22,22 +22,22 @@ testAppendChildSuccess:
 testAppendChildBadXpath:
   inputs:
     - xml_document: <root/>
-    - xml_document_source: 'mlString'
-    - xpath_element_query: /toot
+    - xpath_element_query: '/toot'
     - xml_element: <append/>
+    - xpath_test_query: /root/append
   description: Tests that append_child.sl operation finishes with FAILURE with bad XPATH query
   testFlowPath: io.cloudslang.base.xml.append_child
-  throwsException: true
+  result: FAILURE
 
 testAppendChildBadElement:
   inputs:
     - xml_document: <root/>
-    - xml_document_source: 'xmlString'
-    - xpath_element_query: /root
+    - xpath_element_query: '/root'
     - xml_element: <append>
+    - xpath_test_query: /root/append
   description: Tests that append_child.sl operation finishes with FAILURE with bad element to append
   testFlowPath: io.cloudslang.base.xml.append_child
-  throwsException: true
+  result: FAILURE
 
 testAppendChildSuccessFromXmlFile:
   inputs:
