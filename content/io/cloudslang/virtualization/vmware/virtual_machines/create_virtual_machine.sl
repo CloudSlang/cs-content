@@ -98,11 +98,13 @@ operation:
     - dataCenterName:
         default: ${get("data_center_name", None)}
         private: true
+        required: false
     - hostname
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
         private: true
+        required: false
     - data_store
     - dataStore:
         default: ${data_store}
@@ -116,11 +118,13 @@ operation:
     - folderName:
         default: ${get("folder_name", "")}
         private: true
+        required: false
     - resource_pool:
         required: false
     - resourcePool:
         default: ${get("resource_pool", "")}
         private: true
+        required: false
     - description:
         default: ''
         required: false

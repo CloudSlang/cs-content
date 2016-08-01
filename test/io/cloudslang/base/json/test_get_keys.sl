@@ -43,4 +43,3 @@ flow:
     - SUCCESS
     - GET_FAILURE
     - KEY_MISSING_FAILURE
-    - FAILURE

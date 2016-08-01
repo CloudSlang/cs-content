@@ -14,7 +14,8 @@
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxyHost: optional - the proxy server used to access the provider services
-#! @input proxyPort: optional - the proxy server port used to access the provider services
+#! @input proxyPort: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - the region where the server (instance) to be stopped can be found
 #!                list_regions operation can be used in order to get all regions - Default: 'us-east-1'
 #! @input instance_id: the ID of the server (instance) you want to stop
@@ -44,10 +45,16 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        private: true
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
         private: true
     - region:
         default: 'us-east-1'

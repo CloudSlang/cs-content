@@ -135,7 +135,6 @@ flow:
 
   results:
     - SUCCESS
-    - ADD_ALGORITHMS_FAIL
     - RFT_FAILURE
     - SCP_IMAGE_NOT_PULLED
     - KEY_GENERATION_FAIL

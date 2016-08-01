@@ -14,7 +14,7 @@
 #! @input password: OpenStack password
 #! @input tenant_name: name of project on OpenStack
 #! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to proxy
 #! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
 #! @output return_result: response of operation
@@ -49,16 +49,19 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", ""}
         private: true
+        required: false
     - proxyPort:
-        default: ${get("proxy_port", ""}
+        default: ${get("proxy_port", "8080"}
         private: true
     - proxyUsername:
         default: ${get("proxy_username", ""}
         private: true
+        required: false
     - proxyPassword:
         default: ${get("proxy_password", ""}
         private: true
         sensitive: true
+        required: false
     - url:
         default: ${'http://'+ host + ':' + identity_port + '/v2.0/tokens'}
         private: true

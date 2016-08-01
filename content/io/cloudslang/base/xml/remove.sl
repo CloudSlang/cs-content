@@ -36,10 +36,12 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
+        required: false
         private: true
     - attribute_name:
         required: false

@@ -70,6 +70,7 @@ operation:
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:score-vmware:0.0.4'

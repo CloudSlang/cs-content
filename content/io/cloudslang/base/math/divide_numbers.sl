@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,7 +10,7 @@
 #! @description: Divides two numbers as floating point values.
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
-#! @output result: value1 divide value2
+#! @output result: value1 divided by value2
 #! @result ILLEGAL: value2 == 0
 #! @result SUCCESS: values divided
 #!!#
@@ -26,12 +26,14 @@ operation:
     script: |
       value1 = float(value1)
       value2 = float(value2)
-      if value2 == 0:
-         res='Cannot divide by zero'
+      if (value2 == 0):
+        result = 'Cannot divide by zero'
+      elif bool(value2 != 0 and value1 == 0):
+        result = abs(value1/value2)
       else:
-        res = value1/value2
+        result = value1/value2
   outputs:
-    - result: ${res}
+    - result
   results:
-     - ILLEGAL: ${res=='Cannot divide by zero'}
-     - SUCSESS
+     - ILLEGAL: ${result == 'Cannot divide by zero'}
+     - SUCCESS

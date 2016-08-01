@@ -15,6 +15,7 @@
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - the delimiter used in result list
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
@@ -41,6 +42,7 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxy_port:
         required: false
     - proxyPort:
@@ -48,6 +50,11 @@ operation:
         private: true
     - delimiter:
         required: false
+    - debug_mode:
+        required: false
+    - debugMode:
+        default: ${get("debug_mode", "false")}
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-jClouds:0.0.6'

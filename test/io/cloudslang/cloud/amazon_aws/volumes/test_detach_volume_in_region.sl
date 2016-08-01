@@ -29,6 +29,9 @@ flow:
     - proxy_port:
         default: '8080'
         required: false
+    - debug_mode:
+        default: 'false'
+        required: false
     - region:
         default: 'us-east-1'
         required: false
@@ -53,6 +56,7 @@ flow:
             - credential
             - proxy_host
             - proxy_port
+            - debug_mode
             - region
             - volume_id
             - instance_id

@@ -41,9 +41,11 @@ operation:
     - proxyHost:
         default: ${get("proxy_host", "")}
         private: true
+        required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
         private: true
+        required: false
     - headers:
         default: ${'X-AUTH-TOKEN:' + token}
         private: true
