@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -22,7 +22,9 @@ operation:
     - value2
   python_action:
     script: |
-      value1 = float(value1)
-      value2 = float(value2)
+      if value1 == 0 or value2 == 0:
+        result = ${abs(float(value1) * float(value2))}
+      else:
+        result = ${float(value1) * float(value2)}
   outputs:
-     - result: ${value1 * value2}
+     - result

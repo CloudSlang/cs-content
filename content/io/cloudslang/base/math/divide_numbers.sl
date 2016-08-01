@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -27,11 +27,13 @@ operation:
       value1 = float(value1)
       value2 = float(value2)
       if value2 == 0:
-         res='Cannot divide by zero'
+        result = 'Cannot divide by zero'
+      else if value2 != 0 and value1 == 0:
+        result = abs(value1/value2)
       else:
-        res = value1/value2
+        result = value1/value2
   outputs:
-    - result: ${res}
+    - result
   results:
-     - ILLEGAL: ${res=='Cannot divide by zero'}
+     - ILLEGAL: ${result == 'Cannot divide by zero'}
      - SUCCESS
