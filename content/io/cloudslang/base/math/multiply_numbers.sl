@@ -22,11 +22,12 @@ operation:
     - value2
   python_action:
     script: |
+      one_is_zero = ${value1 == '0' or value2 == '0'}
       value1 = float(value1)
       value2 = float(value2)
-      if ${value1 == 0 or value2 == 0}:
-        result = ${abs(float(value1) * float(value2))}
+      if one_is_zero:
+        result = ${abs(value1 * value2)}
       else:
-        result = ${float(value1) * float(value2)}
+        result = ${value1 * value2}
   outputs:
      - result
