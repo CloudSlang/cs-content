@@ -24,7 +24,7 @@ operation:
     - value2
   python_action:
     script: |
-      is_zero = ${value2 != '0' and value1 == '0'}
+      is_zero = bool(value2 != '0' and value1 == '0')
       value1 = float(value1)
       value2 = float(value2)
       if value2 == 0:
