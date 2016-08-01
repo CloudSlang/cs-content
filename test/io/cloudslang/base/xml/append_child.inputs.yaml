@@ -27,7 +27,7 @@ testAppendChildBadXpath:
     - xml_element: <append/>
   description: Tests that append_child.sl operation finishes with FAILURE with bad XPATH query
   testFlowPath: io.cloudslang.base.xml.append_child
-  result: FAILURE
+  throwsException: true
 
 testAppendChildBadElement:
   inputs:
@@ -37,7 +37,7 @@ testAppendChildBadElement:
     - xml_element: <append>
   description: Tests that append_child.sl operation finishes with FAILURE with bad element to append
   testFlowPath: io.cloudslang.base.xml.append_child
-  result: FAILURE
+  throwsException: true
 
 testAppendChildSuccessFromXmlFile:
   inputs:
