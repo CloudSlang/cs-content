@@ -75,6 +75,7 @@ operation:
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
         private: true
+        required: false
     - delimiter:
         default: ','
         required: false

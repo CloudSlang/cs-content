@@ -70,7 +70,6 @@ flow:
     - value
   results:
     - SUCCESS
-    - FAIL_STARTING_CONTAINER
     - FAIL_CREATING_KEY
     - FAIL_DELETING_KEY
     - FAIL_GETTING_KEY

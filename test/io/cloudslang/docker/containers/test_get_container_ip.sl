@@ -99,7 +99,6 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_RUN_IMAGE

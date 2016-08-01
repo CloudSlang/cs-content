@@ -9,7 +9,7 @@
 testDescribeInstancesInRegionWithFiltersAmazonLocal:
   testSuites: [amazon-local]
   description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
@@ -18,6 +18,7 @@ testDescribeInstancesInRegionWithFiltersAmazonLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
+    - debug_mode: <debug_mode>
     - region: <region>
     - volume_id: <volume_id>
     - group_id: <group_id>

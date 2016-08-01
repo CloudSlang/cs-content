@@ -18,16 +18,13 @@
 
 namespace: io.cloudslang.base.lists
 
-operation:
+decision:
   name: compare_lists
   inputs:
     - list_1
     - list_2
-  python_action:
-    script: |
-      result = list_1 == list_2
   outputs:
-    - result
+    - result: ${list_1 == list_2}
   results:
-    - SUCCESS: ${result}
+    - SUCCESS: ${list_1 == list_2}
     - FAILURE

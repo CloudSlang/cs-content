@@ -71,7 +71,6 @@ flow:
     - services_after_deregister: ${str(services_after_deregister)}
   results:
     - SUCCESS
-    - FAILURE
     - FAIL_TO_REGISTER
     - FAIL_TO_DEREGISTER
     - FAIL_TO_GET_SERVICES
