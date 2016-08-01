@@ -26,8 +26,8 @@ operation:
       value1 = float(value1)
       value2 = float(value2)
       if one_is_zero:
-        result = ${abs(value1 * value2)}
+        result = abs(value1 * value2)
       else:
-        result = ${value1 * value2}
+        result = value1 * value2
   outputs:
      - result
