@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,7 +7,8 @@
 #
 ####################################################
 #!!
-#! @description: Creates a transcript of the text in an audio or video file.
+#! @description: Makes a Haven OnDeman API call to transcribe a video and waits for the response.
+#!
 #! @input api_key: API key
 #! @input reference: Haven OnDemand reference
 #!                   optional - exactly one of <reference>, <file> is required
@@ -25,34 +26,31 @@
 #!                    optional
 #! @input proxy_port: proxy server port
 #!                    optional
-#! @output job_id: id of request returned by Haven OnDemand
+#! @output return_result: result of API
+#! @output error_message: error message if one exists, empty otherwise
 #!!#
 ####################################################
+
 namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
   print: io.cloudslang.base.print
+  utils: io.cloudslang.base.utils
+  hod: io.cloudslang.haven_on_demand
 
 flow:
-  name: speech_recognition
+  name: process_video
 
   inputs:
     - api_key:
         sensitive: true
-    - speech_api:
-        default: "https://api.havenondemand.com/1/api/async/recognizespeech/v1"
-        private: true
     - reference:
         required: false
     - file:
         required: false
     - interval:
-        default: '-1'
         required: false
     - language:
-        default: 'en-US'
         required: false
     - proxy_host:
         required: false
@@ -60,30 +58,49 @@ flow:
         required: false
 
   workflow:
-    - connect_to_server:
+    - speech_recognition_api_call:
         do:
-          http.http_client_action:
-            - url: ${str(speech_api)}
-            - method: 'POST'
-            - multipart_bodies: ${'apikey=' + str(api_key) + (('&reference=' + str(reference)) if reference else '') + '&interval=' + str(interval) + '&language=' + str(language)}
-            - multipart_files: ${('file=' + str(file)) if file else ''}
+          hod.speech_recognition.speech_recognition:
+            - api_key
+            - reference
+            - file
+            - interval
+            - language
             - proxy_host
             - proxy_port
         publish:
+          - job_id
           - error_message
           - return_result
-    - get_result_value:
+    - speech_recognition_response:
         do:
-         json.get_value:
-           - json_input: ${return_result}
-           - json_path: [jobID]
+          hod.utils.check_status:
+            - api_key
+            - job_id
+            - proxy_host
+            - proxy_port
         publish:
-          - value
+          - return_result
           - error_message
+        navigate:
+          - FINISHED: SUCCESS
+          - IN_PROGRESS: wait
+          - QUEUED: wait
+          - FAILURE: on_failure
+    - wait:
+        do:
+          utils.sleep:
+            - seconds: 10
+        publish:
+          - error_message
+        navigate:
+          - SUCCESS: speech_recognition_response
+          - FAILURE: on_failure
     - on_failure:
         - print_fail:
             do:
               print.print_text:
                 - text: ${"Error - " + error_message}
   outputs:
-    - job_id: ${value}
+    - return_result
+    - error_message
