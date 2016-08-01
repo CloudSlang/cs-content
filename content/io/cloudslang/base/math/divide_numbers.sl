@@ -10,7 +10,7 @@
 #! @description: Divides two numbers as floating point values.
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
-#! @output result: value1 divide value2
+#! @output result: value1 divided by value2
 #! @result ILLEGAL: value2 == 0
 #! @result SUCCESS: values divided
 #!!#

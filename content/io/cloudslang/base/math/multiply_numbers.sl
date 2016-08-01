@@ -10,6 +10,7 @@
 #! @description: Multiply two numbers as floating point values.
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
+#! @output result: value1 multiplied by value2
 #! @result SUCCESS: always
 #!!#
 ########################################################################################################
