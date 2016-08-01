@@ -24,12 +24,11 @@ operation:
     - value2
   python_action:
     script: |
-      is_zero = bool(value2 != '0' and value1 == '0')
       value1 = float(value1)
       value2 = float(value2)
-      if value2 == 0:
+      if (value2 == 0):
         result = 'Cannot divide by zero'
-      else if is_zero:
+      else bool(value2 != 0 and value1 == 0):
         result = abs(value1/value2)
       else:
         result = value1/value2
