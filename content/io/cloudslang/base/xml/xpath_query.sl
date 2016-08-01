@@ -24,7 +24,7 @@
 #!                   default: ','
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: false
+#!                           default: 'true'
 #! @output selected_value: value selected or empty if no value found
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
@@ -46,19 +46,16 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source:
-        default: 'xmlString'
+    - xml_document_source
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
-        required: false
         private: true
     - xpath_query
     - xPathQuery:
         default: ${get("xpath_query", "")}
         required: false
         private: true
-    - query_type:
-        required: false
+    - query_type
     - queryType:
         default: ${get("query_type", "nodelist")}
         required: false
@@ -66,11 +63,9 @@ operation:
     - delimiter:
         required: false
         default: ','
-    - secure_processing:
-        required: false
+    - secure_processing
     - secureProcessing:
-        default: ${get("secure_processing", "false")}
-        required: false
+        default: ${get("secure_processing", "true")}
         private: true
 
   java_action:

@@ -43,7 +43,7 @@
 #!                           Default value: changeit
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: false
+#!                           default: 'true'
 #! @output return_result: parsing was successfull or valid xml
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: exception in case of failure
@@ -63,12 +63,9 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source:
-        required: false
-        default: 'xmlString'
+    - xml_document_source
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
-        required: false
         private: true
     - xsd_document:
         required: false
@@ -76,12 +73,9 @@ operation:
         default: ${get("xsd_document", "")}
         required: false
         private: true
-    - xsd_document_source:
-        required: false
-        default: 'xsdString'
+    - xsd_document_source
     - xsdDocumentSource:
         default: ${get("xsd_document_source", "xsdString")}
-        required: false
         private: true
     - username:
         required: false
@@ -108,14 +102,14 @@ operation:
         private: true
     - trust_keystore:
         required: false
-        default: 'changeit'
+        default: ''
     - trustKeystore:
         default: ${get("trust_keystore", "")}
         required: false
         private: true
     - trust_password:
         required: false
-        default: 'changeit'
+        default: ''
     - trustPassword:
         default: ${get("trust_password", "")}
         required: false
@@ -156,7 +150,7 @@ operation:
     - secure_processing:
         required: false
     - secureProcessing:
-        default: ${get("secure_processing", "false")}
+        default: ${get("secure_processing", "true")}
         required: false
         private: true
 

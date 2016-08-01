@@ -112,6 +112,10 @@ operation:
     - name:
         required: false
     - parsing_features:
+        default: |
+            'http://apache.org/xml/features/disallow-doctype-decl true
+             http://xml.org/sax/features/external-general-entities false
+             http://xml.org/sax/features/external-parameter-entities false'
         required: false
     - parsingFeatures:
         default: ${get("parsing_features", "")}

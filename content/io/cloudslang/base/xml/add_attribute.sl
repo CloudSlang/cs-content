@@ -18,7 +18,7 @@
 #! @input value: value of attribute to add or replace with
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: false
+#!                           default: 'true'
 #! @output result_xml: given XML with added attribute(s)
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
@@ -37,13 +37,11 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
-        private: true
-    - xml_document_source:
         required: false
-        default: 'xmlString'
+        private: true
+    - xml_document_source
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
-        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
@@ -56,11 +54,9 @@ operation:
         required: false
         private: true
     - value
-    - secure_processing:
-        required: false
+    - secure_processing
     - secureProcessing:
-        default: ${get("secure_processing", "false")}
-        required: false
+        default: ${get("secure_processing", "true")}
         private: true
 
   java_action:

@@ -18,7 +18,7 @@
 #! @input xml_element: element to insert
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: false
+#!                           default: 'true'
 #! @output result_xml: given XML with element inserted
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output result_text: 'success' or 'failure'
@@ -39,12 +39,9 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source:
-        required: false
-        default: 'xmlString'
+    - xml_document_source
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
-        required: false
         private: true
     - xpath_element_query
     - xPathElementQuery:
@@ -56,11 +53,9 @@ operation:
         default: ${get("xml_element", "")}
         required: false
         private: true
-    - secure_processing:
-        required: false
+    - secure_processing
     - secureProcessing:
-        default: ${get("secure_processing", "false")}
-        required: false
+        default: ${get("secure_processing", "true")}
         private: true
 
   java_action:
