@@ -9,7 +9,7 @@
 testAppendChildSuccess:
   inputs:
     - xml_document: <root/>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /root
     - xml_element: <append/>
     - xpath_test_query: /root/append
@@ -22,7 +22,7 @@ testAppendChildSuccess:
 testAppendChildBadXpath:
   inputs:
     - xml_document: <root/>
-    - xml_document_source: xmlString
+    - xml_document_source: 'mlString'
     - xpath_element_query: /toot
     - xml_element: <append/>
   description: Tests that append_child.sl operation finishes with FAILURE with bad XPATH query
@@ -32,7 +32,7 @@ testAppendChildBadXpath:
 testAppendChildBadElement:
   inputs:
     - xml_document: <root/>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /root
     - xml_element: <append>
   description: Tests that append_child.sl operation finishes with FAILURE with bad element to append

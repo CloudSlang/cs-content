@@ -18,7 +18,7 @@
 #!                    attribute value; leave empty if setting the value of
 #!                    valid: 'node', 'nodelist' or 'value'
 #!                    optional
-#!                    default: 'node'
+#!                    default: 'nodelist'
 #! @input delimiter: string to use as delimiter in case query_type is nodelist
 #!                   optional
 #!                   default: ','
@@ -46,7 +46,8 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source
+    - xml_document_source:
+        required: false
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
         private: true
@@ -55,15 +56,16 @@ operation:
         default: ${get("xpath_query", "")}
         required: false
         private: true
-    - query_type
+    - query_type:
+        required: false
     - queryType:
         default: ${get("query_type", "nodelist")}
-        required: false
         private: true
     - delimiter:
         required: false
         default: ','
-    - secure_processing
+    - secure_processing:
+        required: false
     - secureProcessing:
         default: ${get("secure_processing", "true")}
         private: true

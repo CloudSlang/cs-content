@@ -9,7 +9,7 @@
 testInsertBeforeSuccess:
   inputs:
     - xml_document: <root><before_this/></root>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /root/before_this
     - xml_element: <append/>
     - xpath_test_query: /root/before_this/preceding-sibling::*[1]
@@ -22,7 +22,7 @@ testInsertBeforeSuccess:
 testInsertBeforeBadXpath:
   inputs:
     - xml_document: <root><before_this/></root>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /toot/before_this
     - xml_element: <append/>
   description: Tests that insert_before.sl operation finishes with FAILURE with bad XPATH query
@@ -32,7 +32,7 @@ testInsertBeforeBadXpath:
 testInsertBeforeBadElement:
   inputs:
     - xml_document: <root><before_this/></root>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /root/before_this
     - xml_element: <append>
   description: Tests that insert_before.sl operation finishes with FAILURE with bad element to insert

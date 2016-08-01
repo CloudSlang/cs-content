@@ -9,7 +9,7 @@
 testAddAttributeSuccess:
   inputs:
     - xml_document: <root>test</root>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /root
     - attribute_name: attr
     - value: ibute
@@ -22,7 +22,7 @@ testAddAttributeSuccess:
 testAddAttributeFailure:
   inputs:
     - xml_document: <root>test</root>
-    - xml_document_source: xmlString
+    - xml_document_source: 'xmlString'
     - xpath_element_query: /toot
     - attribute_name: attr
     - value: ibute
@@ -33,7 +33,7 @@ testAddAttributeFailure:
 testAddAttributeSuccessFromXmlFile:
   inputs:
     - xml_document: ''
-    - xml_document_source: xmlPath
+    - xml_document_source: 'xmlPath'
     - xpath_element_query: /note/from
     - attribute_name: attr
     - value: ibute

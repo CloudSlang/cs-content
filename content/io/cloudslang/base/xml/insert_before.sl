@@ -39,21 +39,25 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source
+    - xml_document_source:
+        required: false
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
         private: true
-    - xpath_element_query
+    - xpath_element_query:
+        required: false
     - xPathElementQuery:
         default: ${get("xpath_element_query", "")}
         required: false
         private: true
-    - xml_element
+    - xml_element:
+        required: false
     - xmlElement:
         default: ${get("xml_element", "")}
         required: false
         private: true
-    - secure_processing
+    - secure_processing:
+        required: false
     - secureProcessing:
         default: ${get("secure_processing", "true")}
         private: true

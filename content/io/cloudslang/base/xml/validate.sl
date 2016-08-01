@@ -63,7 +63,8 @@ operation:
         default: ${get("xml_document", "")}
         required: false
         private: true
-    - xml_document_source
+    - xml_document_source:
+        required: false
     - xmlDocumentSource:
         default: ${get("xml_document_source", "xmlString")}
         private: true
@@ -73,7 +74,8 @@ operation:
         default: ${get("xsd_document", "")}
         required: false
         private: true
-    - xsd_document_source
+    - xsd_document_source:
+        required: false
     - xsdDocumentSource:
         default: ${get("xsd_document_source", "xsdString")}
         private: true
