@@ -40,6 +40,7 @@ operation:
     - dateFormat:
         default: ${get("date_format", "")}
         private: true
+        required: false
     - date_locale_lang:
         required: false
     - dateLocaleLang:
@@ -55,6 +56,7 @@ operation:
     - outFormat:
         default: ${get("out_format", "")}
         private: true
+        required: false
     - out_locale_lang:
         required: false
     - outLocaleLang:

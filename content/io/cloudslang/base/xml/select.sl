@@ -39,10 +39,12 @@ operation:
     - xml_document
     - xmlDocument:
         default: ${get("xml_document", "")}
+        required: false
         private: true
     - xpath_query
     - xPathQuery:
         default: ${get("xpath_query", "")}
+        required: false
         private: true
     - query_type:
         required: false

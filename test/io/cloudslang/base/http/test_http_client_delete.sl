@@ -53,6 +53,8 @@ flow:
             - proxy_host
             - proxy_port
             - content_type
+            - trust_all_roots: "true"
+            - x_509_hostname_verifier: "allow_all"
         publish:
           - return_result
           - error_message
@@ -91,6 +93,8 @@ flow:
             - content_type
             - proxy_host
             - proxy_port
+            - trust_all_roots: "true"
+            - x_509_hostname_verifier: "allow_all"
         publish:
           - return_result
           - error_message

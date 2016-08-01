@@ -172,16 +172,19 @@ operation:
     - productKey:
         default: ${get("product_key", "")}
         private: true
+        required: false
     - domain_username:
         required: false
     - domainUsername:
         default: ${get("domain_username", "")}
         private: true
+        required: false
     - domain_password:
         required: false
     - domainPassword:
         default: ${get("domain_password", "")}
         private: true
+        required: false
     - domain:
         default: ''
         required: false
@@ -197,26 +200,31 @@ operation:
     - dnsServer:
         default: ${get("dns_server", "")}
         private: true
+        required: false
     - ip_address:
         required: false
     - ipAddress:
         default: ${get("ip_address", "")}
         private: true
+        required: false
     - subnet_mask:
         required: false
     - subnetMask:
         default: ${get("subnet_mask", "")}
         private: true
+        required: false
     - default_gateway:
         required: false
     - defaultGateway:
         default: ${get("default_gateway", "")}
         private: true
+        required: false
     - mac_address:
         required: false
     - macAddress:
         default: ${get("mac_address", "")}
         private: true
+        required: false
     - auto_logon:
         required: false
     - autoLogon:
@@ -227,6 +235,7 @@ operation:
     - deleteAccounts:
         default: ${get("delete_accounts", "")}
         private: true
+        required: false
     - change_sid: 'true'
     - changeSID:
         default: ${change_sid}
@@ -241,6 +250,7 @@ operation:
     - autoUsers:
         default: ${get("auto_users", "")}
         private: true
+        required: false
     - time_zone:
         required: false
     - timeZone:
