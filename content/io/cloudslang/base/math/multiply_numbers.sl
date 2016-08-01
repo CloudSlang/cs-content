@@ -24,7 +24,7 @@ operation:
     script: |
       value1 = float(value1)
       value2 = float(value2)
-      if (value1 == 0 or value2 == 0):
+      if ${value1 == 0 or value2 == 0}:
         result = ${abs(float(value1) * float(value2))}
       else:
         result = ${float(value1) * float(value2)}

@@ -28,7 +28,7 @@ operation:
       value2 = float(value2)
       if value2 == 0:
         result = 'Cannot divide by zero'
-      else if (value2 != 0 and value1 == 0):
+      else if ${value2 != 0 and value1 == 0}:
         result = abs(value1/value2)
       else:
         result = value1/value2
