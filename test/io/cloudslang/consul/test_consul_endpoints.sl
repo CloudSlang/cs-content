@@ -10,8 +10,9 @@
 namespace: io.cloudslang.consul
 
 imports:
+  consul: io.cloudslang.consul
   ssh: io.cloudslang.base.ssh
-  base_utils: io.cloudslang.base.utils
+
 
 flow:
   name: test_consul_endpoints
@@ -32,7 +33,7 @@ flow:
 
     - register_endpoint:
         do:
-          register_endpoint:
+          consul.register_endpoint:
             - host
             - node
             - address
@@ -43,7 +44,7 @@ flow:
 
     - get_catalog_services:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address
@@ -57,7 +58,7 @@ flow:
 
     - deregister_endpoint:
         do:
-          deregister_endpoint:
+          consul.deregister_endpoint:
             - host
             - node
         navigate:
@@ -66,7 +67,7 @@ flow:
 
     - get_catalog_services2:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address

@@ -32,7 +32,8 @@ namespace: io.cloudslang.cloud.openstack.servers
 
 imports:
   openstack: io.cloudslang.cloud.openstack
-  openstack_utils: io.cloudslang.cloud.openstack.utils
+  utils: io.cloudslang.cloud.openstack.utils
+  servers: io.cloudslang.cloud.openstack.servers
 
 flow:
   name: list_servers
@@ -72,7 +73,7 @@ flow:
 
     - get_servers:
         do:
-          get_servers:
+          servers.get_servers:
             - host
             - compute_port
             - token
@@ -89,7 +90,7 @@ flow:
 
     - extract_servers:
         do:
-          openstack_utils.extract_object_list_from_json_response:
+          utils.extract_object_list_from_json_response:
             - response_body: ${return_result}
             - object_name: 'servers'
         publish:

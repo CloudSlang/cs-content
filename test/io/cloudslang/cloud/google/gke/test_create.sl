@@ -10,6 +10,7 @@
 namespace: io.cloudslang.cloud.google.gke
 
 imports:
+  gke: io.cloudslang.cloud.google.gke
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
@@ -28,7 +29,7 @@ flow:
   workflow:
     - createResourceCluster:
         do:
-          beta_create_resource_cluster:
+          gke.beta_create_resource_cluster:
             - name
             - initial_node_count
             - masterauth_username
@@ -46,7 +47,7 @@ flow:
 
     - createCluster:
         do:
-          beta_create_clusters:
+          gke.beta_create_clusters:
             - project_id
             - zone
             - json_google_auth_path
@@ -70,7 +71,7 @@ flow:
 
     - deleteCluster:
         do:
-          beta_delete_clusters:
+          gke.beta_delete_clusters:
             - project_id
             - zone
             - json_google_auth_path

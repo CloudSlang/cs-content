@@ -33,7 +33,8 @@ namespace: io.cloudslang.cloud.openstack.servers
 
 imports:
  openstack: io.cloudslang.cloud.openstack
- openstack_utils: io.cloudslang.cloud.openstack.utils
+ utils: io.cloudslang.cloud.openstack.utils
+ servers: io.cloudslang.cloud.openstack.servers
 
 flow:
   name: delete_server_flow
@@ -75,7 +76,7 @@ flow:
 
     - get_servers:
         do:
-          get_servers:
+          servers.get_servers:
             - host
             - compute_port
             - token
@@ -92,7 +93,7 @@ flow:
 
     - get_server_id:
         do:
-          openstack_utils.get_server_id:
+          utils.get_server_id:
             - server_body: ${server_list}
             - server_name: ${server_name}
         publish:
@@ -105,7 +106,7 @@ flow:
 
     - delete_server:
         do:
-          delete_server:
+          servers.delete_server:
             - host
             - compute_port
             - token

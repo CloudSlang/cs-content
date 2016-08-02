@@ -26,10 +26,10 @@
 namespace: io.cloudslang.docker.runc.examples
 
 imports:
-  files: io.cloudslang.base.files
   ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.comparisons
   print: io.cloudslang.base.print
+
 flow:
   name: extract_images
   inputs:

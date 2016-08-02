@@ -26,9 +26,10 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_utils: io.cloudslang.docker.utils
- base_lists: io.cloudslang.base.lists
- base_strings: io.cloudslang.base.strings
+  images: io.cloudslang.docker.images
+  utils: io.cloudslang.docker.utils
+  lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
 
 flow:
   name: clear_unused_images
@@ -52,7 +53,7 @@ flow:
   workflow:
     - get_all_images:
         do:
-          get_all_images:
+          images.get_all_images:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }
@@ -64,7 +65,7 @@ flow:
           - all_images_list: ${ image_list }
     - get_used_images:
         do:
-          get_used_images:
+          images.get_used_images:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }
@@ -77,7 +78,7 @@ flow:
 
     - subtract_used_images:
         do:
-          base_lists.subtract_sets:
+          lists.subtract_sets:
             - set_1: ${ all_images_list }
             - set_1_delimiter: " "
             - set_2: ${ used_images_list }
@@ -88,7 +89,7 @@ flow:
           - amount_of_images: ${ len(result_set.split()) }
     - verify_all_images_list_not_empty:
         do:
-          base_strings.string_equals:
+          strings.string_equals:
             - first_string: ${ all_images_list }
             - second_string: ""
         navigate:
@@ -96,7 +97,7 @@ flow:
           - FAILURE: verify_used_images_list_not_empty
     - verify_used_images_list_not_empty:
         do:
-          base_strings.string_equals:
+          strings.string_equals:
             - first_string: ${ used_images_list }
             - second_string: ""
         navigate:
@@ -106,7 +107,7 @@ flow:
         loop:
             for: image in used_images_list.split()
             do:
-              get_image_parent:
+              images.get_image_parent:
                 - docker_options
                 - docker_host
                 - docker_username
@@ -121,7 +122,7 @@ flow:
                     ${ all_parent_images_input if all_parent_images_input is not None else "" + parent_image_name + " " }
     - substract_parent_images:
         do:
-          base_lists.subtract_sets:
+          lists.subtract_sets:
             - set_1: ${ images_list_safe_to_delete }
             - set_1_delimiter: " "
             - set_2: ${ all_parent_images }
@@ -132,7 +133,7 @@ flow:
           - amount_of_images: ${ len(result_set.split()) }
     - delete_images:
         do:
-          clear_images:
+          images.clear_images:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }

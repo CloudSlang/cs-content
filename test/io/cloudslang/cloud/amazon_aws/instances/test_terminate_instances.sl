@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
+  instances: io.cloudslang.cloud.amazon_aws.instances
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -37,7 +38,7 @@ flow:
   workflow:
     - terminate_instances:
         do:
-          terminate_instances:
+          instances.terminate_instances:
             - provider
             - endpoint
             - identity

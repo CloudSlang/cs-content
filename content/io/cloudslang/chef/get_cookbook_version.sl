@@ -24,6 +24,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: get_cookbook_version
   inputs:
@@ -41,7 +44,7 @@ flow:
   workflow:
     - get_cookbook_version:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'cookbook show ' + cookbook_name}
             - knife_host
             - knife_username

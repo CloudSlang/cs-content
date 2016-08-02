@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.guest
 
 imports:
+  guest: io.cloudslang.virtualization.vmware.guest
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_mount_tools
+
   inputs:
     - host
     - port:
@@ -32,7 +34,7 @@ flow:
   workflow:
     - mount_tools:
         do:
-          mount_tools:
+          guest.mount_tools:
             - host
             - port
             - protocol
@@ -40,7 +42,6 @@ flow:
             - password
             - trust_everyone
             - virtual_machine_name
-
         publish:
           - return_result
           - return_code

@@ -26,6 +26,9 @@
 
 namespace: io.cloudslang.consul
 
+imports:
+  consul: io.cloudslang.consul
+
 flow:
   name: report_kv
   inputs:
@@ -37,7 +40,7 @@ flow:
   workflow:
     - retrieve_key:
         do:
-          get_kv:
+          consul.get_kv:
             - key_name
             - host
             - consul_port
@@ -45,7 +48,7 @@ flow:
           - return_result
     - parse_key:
         do:
-          parse_key:
+          consul.parse_key:
             - json_response: ${return_result}
         publish:
           - decoded

@@ -10,12 +10,10 @@
 namespace: io.cloudslang.base.remote_file_transfer
 
 imports:
-  base_cmd: io.cloudslang.base.cmd
-  base_rft: io.cloudslang.base.remote_file_transfer
-  base_files: io.cloudslang.base.files
-  base_strings: io.cloudslang.base.strings
-  maintenance: io.cloudslang.docker.maintenance
-  containers: io.cloudslang.docker.containers
+  cmd: io.cloudslang.base.cmd
+  rft: io.cloudslang.base.remote_file_transfer
+  files: io.cloudslang.base.files
+  strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
 flow:
@@ -43,7 +41,7 @@ flow:
 
     - pull_scp_image:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'docker pull ' + docker_scp_image }
         navigate:
           - SUCCESS: generate_key
@@ -51,7 +49,7 @@ flow:
 
     - generate_key:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts' }
         navigate:
           - SUCCESS: add_key_to_authorized
@@ -59,7 +57,7 @@ flow:
 
     - add_key_to_authorized:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub >> ' + authorized_keys_path }
         navigate:
           - SUCCESS: create_scp_host
@@ -67,7 +65,7 @@ flow:
 
     - create_scp_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port +
                  ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image }
@@ -77,7 +75,7 @@ flow:
 
     - create_file_to_be_copied:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'echo ' + text_to_check + ' > ' + scp_file }
         navigate:
           - SUCCESS: sleep
@@ -93,7 +91,7 @@ flow:
 
     - test_remote_secure_copy:
         do:
-          base_rft.remote_secure_copy:
+          rft.remote_secure_copy:
             - source_path: ${ scp_file }
             - destination_host: ${ host }
             - destination_path: ${ container_path + scp_file }
@@ -106,7 +104,7 @@ flow:
 
     - get_file_from_scp_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                 ${ 'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' '
                 + scp_username + '@' + host + ':' + container_path + scp_file }
@@ -116,7 +114,7 @@ flow:
 
     - read_file:
         do:
-          base_files.read_from_file:
+          files.read_from_file:
             - file_path: ${ scp_file }
         publish:
           - read_text
@@ -126,7 +124,7 @@ flow:
 
     - check_text:
         do:
-          base_strings.string_equals:
+          strings.string_equals:
             - first_string: ${ text_to_check }
             - second_string: ${ read_text.strip() }
         navigate:

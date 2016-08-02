@@ -8,6 +8,7 @@
 namespace: io.cloudslang.base.os.linux.users
 
 imports:
+  users: io.cloudslang.base.os.linux.users
   groups: io.cloudslang.base.os.linux.groups
   ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
@@ -92,7 +93,7 @@ flow:
 
     - verify_user_not_exist:
         do:
-          verify_user_exist:
+          users.verify_user_exist:
             - host
             - root_password
             - user_name
@@ -118,7 +119,7 @@ flow:
 
     - add_ubuntu_user:
         do:
-          add_ubuntu_user:
+          users.add_ubuntu_user:
             - host
             - root_password
             - user_name
@@ -138,7 +139,7 @@ flow:
 
     - verify_user_exist:
         do:
-          verify_user_exist:
+          users.verify_user_exist:
             - host
             - root_password
             - user_name

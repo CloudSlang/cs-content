@@ -8,14 +8,19 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
+imports:
+  files: io.cloudslang.base.files
+
 flow:
   name: test_delete
+
   inputs:
     - delete_source
+
   workflow:
     - create_file:
         do:
-          write_to_file:
+          files.write_to_file:
             - file_path: ${delete_source}
             - text: "hello"
         navigate:
@@ -23,7 +28,7 @@ flow:
           - FAILURE: WRITEFAILURE
     - test_delete_operation:
         do:
-          delete:
+          files.delete:
             - source: ${delete_source}
         publish:
           - message

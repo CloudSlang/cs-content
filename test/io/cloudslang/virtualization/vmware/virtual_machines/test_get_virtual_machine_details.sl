@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.virtual_machines
 
 imports:
+  vms: io.cloudslang.virtualization.vmware.virtual_machines
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_virtual_machine_details
+
   inputs:
     - host
     - port:
@@ -37,7 +39,7 @@ flow:
   workflow:
     - get_virtual_machine_details:
         do:
-          get_virtual_machine_details:
+          vms.get_virtual_machine_details:
             - host
             - port
             - protocol

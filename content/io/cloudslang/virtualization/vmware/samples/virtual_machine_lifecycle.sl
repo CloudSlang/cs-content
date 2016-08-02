@@ -99,12 +99,11 @@
 namespace: io.cloudslang.virtualization.vmware.samples
 
 imports:
-  lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
   vms: io.cloudslang.virtualization.vmware.virtual_machines
   utils: io.cloudslang.virtualization.vmware.utils
-  base_mail: io.cloudslang.base.mail
+  mail: io.cloudslang.base.mail
 
 flow:
   name: virtual_machine_lifecycle
@@ -185,7 +184,7 @@ flow:
 
     - supported_oses_list_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - host: ${hostname}
             - hostname: ${ email_host }
             - port: ${ email_port }
@@ -299,7 +298,7 @@ flow:
 
     - create_vm_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }
@@ -380,7 +379,7 @@ flow:
 
     - update_vm_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }
@@ -427,7 +426,7 @@ flow:
 
     - powered_on_vm_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }
@@ -471,7 +470,7 @@ flow:
 
     - powered_off_vm_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }
@@ -533,7 +532,7 @@ flow:
 
     - delete_vm_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }

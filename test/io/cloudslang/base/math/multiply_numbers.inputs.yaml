@@ -26,6 +26,26 @@ testMyltiplyFloat:
     - result: 0.6
   result: SUCCESS
 
+testMyltiplyNegativeFloat:
+  inputs:
+    - value1: .5
+    - value2: -2
+  description: Tests that multiply_numbers.sl operation finishes with result = -0.6
+  testFlowPath: io.cloudslang.base.math.multiply_numbers
+  outputs:
+    - result: -1.0
+  result: SUCCESS
+
+testMyltiplyZeroWithNegativeFloat:
+  inputs:
+    - value1: 0.0
+    - value2: -2
+  description: Tests that multiply_numbers.sl operation finishes with result = 0.0
+  testFlowPath: io.cloudslang.base.math.multiply_numbers
+  outputs:
+    - result: 0.0
+  result: SUCCESS
+
 testMyltiplyStr:
   inputs:
     - value1: '3'

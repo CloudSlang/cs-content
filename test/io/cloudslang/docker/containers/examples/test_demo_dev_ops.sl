@@ -9,10 +9,12 @@
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
+  examples: io.cloudslang.docker.containers.examples
   containers: io.cloudslang.docker.containers
 
 flow:
   name: test_demo_dev_ops
+
   inputs:
     - docker_host
     - docker_username
@@ -39,7 +41,7 @@ flow:
 
     - execute_demo_dev_ops:
         do:
-          demo_dev_ops:
+          examples.demo_dev_ops:
             - docker_host
             - docker_username
             - private_key_file

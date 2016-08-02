@@ -35,6 +35,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
+  containers: io.cloudslang.docker.containers
   utils: io.cloudslang.docker.utils
 
 flow:
@@ -68,7 +69,7 @@ flow:
   workflow:
     - get_containers_raw_output:
         do:
-          get_container_names:
+          containers.get_container_names:
             - docker_options
             - all_containers
             - host

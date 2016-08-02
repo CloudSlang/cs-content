@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.guest
 
 imports:
+  guest: io.cloudslang.virtualization.vmware.guest
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_customize_windows_guest
+
   inputs:
     - host
     - port:
@@ -84,7 +86,7 @@ flow:
   workflow:
     - customize_windows_guest:
         do:
-          customize_windows_guest:
+          guest.customize_windows_guest:
             - host
             - port
             - protocol
@@ -114,7 +116,6 @@ flow:
             - auto_logon_count
             - auto_users
             - time_zone
-
         publish:
           - return_result
           - return_code

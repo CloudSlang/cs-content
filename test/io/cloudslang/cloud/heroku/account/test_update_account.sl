@@ -10,6 +10,7 @@
 namespace: io.cloudslang.cloud.heroku.account
 
 imports:
+  account: io.cloudslang.cloud.heroku.account
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
@@ -34,7 +35,7 @@ flow:
   workflow:
     - update_account:
         do:
-          update_account:
+          account.update_account:
             - username
             - password
             - allow_tracking

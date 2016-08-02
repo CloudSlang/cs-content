@@ -10,12 +10,14 @@
 namespace: io.cloudslang.cloud.heroku.account
 
 imports:
+  account: io.cloudslang.cloud.heroku.account
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_account_info
+
   inputs:
     - username
     - password
@@ -23,7 +25,7 @@ flow:
   workflow:
     - get_account_info:
         do:
-          get_account_info:
+          account.get_account_info:
             - username
             - password
         publish:

@@ -49,7 +49,7 @@ flow:
 
     - send_create_app_req:
         do:
-          send_create_app_req:
+          marathon.send_create_app_req:
             - marathon_host
             - marathon_port
             - body: ${read_text}

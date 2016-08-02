@@ -13,6 +13,7 @@ namespace: io.cloudslang.base.examples.parallel_loop
 
 imports:
   print: io.cloudslang.base.print
+  examples: io.cloudslang.base.examples
 
 flow:
   name: create_directories
@@ -32,7 +33,7 @@ flow:
         parallel_loop:
           for: suffix in range(1, num_of_directories + 1)
           do:
-            create_directory:
+            examples.parallel_loop.create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
         publish:
           - errors:  ${filter(lambda x:'folder created' not in x, map(lambda x:str(x['error_msg']), branches_context))}

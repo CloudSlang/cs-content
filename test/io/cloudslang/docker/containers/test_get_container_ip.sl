@@ -9,13 +9,13 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  maintenance: io.cloudslang.docker.maintenance
+  containers: io.cloudslang.docker.containers
   images: io.cloudslang.docker.images
-  print: io.cloudslang.base.print
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_container_ip
+
   inputs:
     - host
     - port:
@@ -28,11 +28,11 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
+          containers.clear_containers:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
        navigate:
          - SUCCESS: pull_image
          - FAILURE: MACHINE_IS_NOT_CLEAN
@@ -51,7 +51,7 @@ flow:
 
     - run_container:
         do:
-          run_container:
+          containers.run_container:
             - host
             - port
             - username
@@ -65,12 +65,12 @@ flow:
 
     - get_ip:
         do:
-          get_container_ip:
-           - host
-           - port
-           - username
-           - password
-           - container_name
+          containers.get_container_ip:
+            - host
+            - port
+            - username
+            - password
+            - container_name
         publish:
           - ip: ${container_ip}
         navigate:
@@ -88,7 +88,7 @@ flow:
 
     - clear_docker_host:
         do:
-          clear_containers:
+          containers.clear_containers:
             - docker_host: ${host}
             - port
             - docker_username: ${username}

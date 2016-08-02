@@ -10,10 +10,12 @@
 namespace: io.cloudslang.jenkins
 
 imports:
-  base_utils: io.cloudslang.base.utils
+  jenkins: io.cloudslang.jenkins
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_clone_job_for_branch
+
   inputs:
     - host
     - port:
@@ -25,11 +27,11 @@ flow:
     - jenkins_port:
         default: "49165"
         private: true
-  workflow:
 
+  workflow:
     - create_jenkins_job:
         do:
-          create_job:
+          jenkins.create_job:
             - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
             - config_xml
@@ -38,7 +40,7 @@ flow:
           - FAILURE: FAIL_TO_CREATE_JOB
     - build_jenkins_job:
         do:
-          invoke_job:
+          jenkins.invoke_job:
             - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
         navigate:
@@ -46,7 +48,7 @@ flow:
           - FAILURE: FAIL_TO_CREATE_JOB
     - wait:
         do:
-          base_utils.sleep:
+          utils.sleep:
             - seconds: 10
         navigate:
           - SUCCESS: get_last_buildnumber
@@ -54,7 +56,7 @@ flow:
 
     - get_last_buildnumber:
         do:
-          get_last_buildnumber:
+          jenkins.get_last_buildnumber:
             - url: "${ 'http://' + host + ':' + jenkins_port }"
             - job_name
         publish:
@@ -65,7 +67,7 @@ flow:
 
     - clone_job:
         do:
-          clone_job_for_branch:
+          jenkins.clone_job_for_branch:
             - url: "${ 'http://' + host + ':' + jenkins_port }"
             - jnks_job_name: "job1"
             - jnks_new_job_name: "job2"

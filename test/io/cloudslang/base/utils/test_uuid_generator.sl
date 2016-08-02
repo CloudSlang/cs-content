@@ -9,15 +9,16 @@
 namespace: io.cloudslang.base.utils
 
 imports:
+  utils: io.cloudslang.base.utils
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_uuid_generator
+
   workflow:
     - execute_uuid_generator:
         do:
-          uuid_generator:
-
+          utils.uuid_generator:
         publish:
           - new_uuid
         navigate:

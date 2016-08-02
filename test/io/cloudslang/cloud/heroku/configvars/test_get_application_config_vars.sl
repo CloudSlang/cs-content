@@ -10,8 +10,8 @@
 namespace: io.cloudslang.cloud.heroku.configvars
 
 imports:
+  configvars: io.cloudslang.cloud.heroku.configvars
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
   name: test_get_application_config_vars
@@ -23,7 +23,7 @@ flow:
   workflow:
     - get_application_config_vars:
         do:
-          get_application_config_vars:
+          configvars.get_application_config_vars:
             - username
             - password
             - app_id_or_name

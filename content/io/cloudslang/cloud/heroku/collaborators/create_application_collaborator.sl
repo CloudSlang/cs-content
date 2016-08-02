@@ -108,15 +108,15 @@ flow:
           - FAILURE: GET_ID_FAILURE
 
     - get_created_at:
-            do:
-              json.get_value:
-                - json_input: ${return_result}
-                - json_path: ['created_at']
-            publish:
-              - created_at: ${value}
-            navigate:
-              - SUCCESS: SUCCESS
-              - FAILURE: GET_CREATED_AT_FAILURE
+        do:
+          json.get_value:
+            - json_input: ${return_result}
+            - json_path: ['created_at']
+        publish:
+          - created_at: ${value}
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: GET_CREATED_AT_FAILURE
 
   outputs:
     - return_result

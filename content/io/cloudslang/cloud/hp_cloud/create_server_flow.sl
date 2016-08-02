@@ -34,6 +34,7 @@
 namespace: io.cloudslang.cloud.hp_cloud
 
 imports:
+  hp_cloud: io.cloudslang.cloud.hp_cloud
   net: io.cloudslang.cloud.hp_cloud.net
   print: io.cloudslang.base.print
   base_utils: io.cloudslang.base.utils
@@ -70,7 +71,7 @@ flow:
   workflow:
     - authentication:
         do:
-          get_authentication_flow:
+          hp_cloud.get_authentication_flow:
             - username
             - password
             - tenant_name
@@ -85,7 +86,7 @@ flow:
 
     - create_server:
         do:
-          create_server:
+          hp_cloud.create_server:
             - server_name
             - img_ref
             - flavor_ref
@@ -115,7 +116,7 @@ flow:
         loop:
           for: loop_counter in range(0,polling_attempts)
           do:
-            get_server_state_flow:
+            hp_cloud.get_server_state_flow:
               - server_id
               - delay: ${polling_wait_time}
               - token

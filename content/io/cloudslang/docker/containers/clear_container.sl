@@ -22,6 +22,9 @@
 
 namespace: io.cloudslang.docker.containers
 
+imports:
+  containers: io.cloudslang.docker.containers
+
 flow:
   name: clear_container
   inputs:
@@ -41,7 +44,7 @@ flow:
   workflow:
     - stop_container:
         do:
-          stop_container:
+          containers.stop_container:
             - container_id
             - docker_options
             - host: ${docker_host}
@@ -54,7 +57,7 @@ flow:
 
     - delete_container:
         do:
-          delete_container:
+          containers.delete_container:
             - container_id
             - docker_options
             - host: ${docker_host}

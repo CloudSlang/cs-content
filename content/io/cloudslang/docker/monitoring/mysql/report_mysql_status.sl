@@ -31,8 +31,8 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
- base_mail: io.cloudslang.base.mail
- print: io.cloudslang.base.print
+  mysql: io.cloudslang.docker.monitoring.mysql
+  mail: io.cloudslang.base.mail
 
 flow:
   name: report_mysql_status
@@ -64,7 +64,7 @@ flow:
   workflow:
     - retrieve_mysql_status:
         do:
-          retrieve_mysql_status:
+          mysql.retrieve_mysql_status:
             - host: ${ docker_host }
             - port: ${ docker_port }
             - username: ${ docker_username }
@@ -86,7 +86,7 @@ flow:
 
     - send_status_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - username: ${ email_username }
@@ -104,7 +104,7 @@ flow:
     - on_failure:
       - send_error_mail:
           do:
-            base_mail.send_mail:
+            mail.send_mail:
               - hostname: ${ email_host }
               - port: ${ email_port }
               - username: ${ email_username }

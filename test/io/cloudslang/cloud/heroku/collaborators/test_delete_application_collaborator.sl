@@ -11,10 +11,12 @@
 namespace: io.cloudslang.cloud.heroku.collaborators
 
 imports:
+  collaborators: io.cloudslang.cloud.heroku.collaborators
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_delete_application_collaborator
+
   inputs:
     - username
     - password
@@ -24,7 +26,7 @@ flow:
   workflow:
     - delete_application_collaborator:
         do:
-          delete_application_collaborator:
+          collaborators.delete_application_collaborator:
             - username
             - password
             - collaborator_email_or_id

@@ -29,8 +29,11 @@
 ####################################################
 
 namespace: io.cloudslang.chef
+
 imports:
   strings: io.cloudslang.base.strings
+  chef: io.cloudslang.chef
+
 flow:
   name: bootstrap_node
   inputs:
@@ -64,7 +67,7 @@ flow:
   workflow:
     - run_bootstrap:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: >
                 ${'bootstrap ' + node_host + node_privkey_expr + ' -x ' + node_username +
                 node_password_expr + ' --sudo --node-name \'' + node_name + '\''}

@@ -32,7 +32,7 @@
 namespace: io.cloudslang.cloud.openstack
 
 imports:
-  openstack_utils: io.cloudslang.cloud.openstack.utils
+  utils: io.cloudslang.cloud.openstack.utils
   servers: io.cloudslang.cloud.openstack.servers
 
 flow:
@@ -77,7 +77,7 @@ flow:
 
     - check_server:
         do:
-          openstack_utils.check_server:
+          utils.check_server:
             - server_to_find: ${server_name}
             - server_list
         publish:

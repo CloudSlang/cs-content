@@ -24,8 +24,8 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- base_os_linux: io.cloudslang.base.os.linux
- base_lists: io.cloudslang.base.lists
+  images: io.cloudslang.docker.images
+  lists: io.cloudslang.base.lists
 
 flow:
   name: clear_dangling_images
@@ -49,7 +49,7 @@ flow:
   workflow:
     - get_dangling_images:
         do:
-          get_dangling_images:
+          images.get_dangling_images:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }
@@ -61,7 +61,7 @@ flow:
           - all_dangling_images: ${ dangling_image_list }
     - substract_used_dangling_images:
         do:
-          base_lists.subtract_sets:
+          lists.subtract_sets:
             - set_1: ${ all_dangling_images }
             - set_1_delimiter: " "
             - set_2: ${ used_images }
@@ -72,7 +72,7 @@ flow:
           - amount_of_dangling_images: ${ len(result_set.split()) }
     - delete_images:
         do:
-          clear_images:
+          images.clear_images:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }

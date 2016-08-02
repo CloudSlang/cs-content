@@ -25,7 +25,6 @@
 namespace: io.cloudslang.docker.runc
 
 imports:
-  files: io.cloudslang.base.files
   ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.comparisons
 flow:

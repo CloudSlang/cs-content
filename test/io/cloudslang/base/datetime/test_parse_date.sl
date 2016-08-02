@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.datetime
 
 imports:
+  datetime: io.cloudslang.base.datetime
   strings: io.cloudslang.base.strings
 
 flow:
@@ -39,7 +40,7 @@ flow:
   workflow:
     - execute_parse_date:
         do:
-          parse_date:
+          datetime.parse_date:
             - date
             - date_format
             - date_locale_lang

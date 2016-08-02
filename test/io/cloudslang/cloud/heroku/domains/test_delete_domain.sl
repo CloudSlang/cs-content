@@ -10,10 +10,12 @@
 namespace: io.cloudslang.cloud.heroku.domains
 
 imports:
+  domains: io.cloudslang.cloud.heroku.domains
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_delete_domain
+
   inputs:
     - username
     - password
@@ -23,7 +25,7 @@ flow:
   workflow:
     - delete_domain:
         do:
-          delete_domain:
+          domains.delete_domain:
             - username
             - password
             - app_id_or_name

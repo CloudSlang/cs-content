@@ -19,7 +19,8 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  base_strings: io.cloudslang.base.strings
+  marathon: io.cloudslang.marathon
+  strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
@@ -39,7 +40,7 @@ flow:
 
     - list_marathon_apps:
         do:
-          get_apps_list:
+          marathon.get_apps_list:
             - marathon_host
             - marathon_port
         publish:
@@ -50,7 +51,7 @@ flow:
 
     - parse_response:
          do:
-           parse_get_app_list:
+           marathon.parse_get_app_list:
              - operation_response: ${return_result}
          publish:
            - app_list
@@ -60,7 +61,7 @@ flow:
 
     - check_app_was_created:
         do:
-          base_strings.string_occurrence_counter:
+          strings.string_occurrence_counter:
             - string_in_which_to_search: ${app_list}
             - string_to_find: ${created_app_id}
         publish:
@@ -71,7 +72,7 @@ flow:
 
     - list_mesos_tasks:
         do:
-          get_tasks_list:
+          marathon.get_tasks_list:
             - marathon_host
             - marathon_port
         publish:
@@ -89,7 +90,7 @@ flow:
 
     - check_task_was_created:
         do:
-          base_strings.string_occurrence_counter:
+          strings.string_occurrence_counter:
             - string_in_which_to_search: ${tasks_list}
             - string_to_find: ${created_app_id}
         navigate:

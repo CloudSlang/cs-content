@@ -9,12 +9,14 @@
 namespace: io.cloudslang.cloud.openshift.cartridges
 
 imports:
+  cartridges: io.cloudslang.cloud.openshift.cartridges
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_start_cartridge
+
   inputs:
     - host
     - username:
@@ -37,7 +39,7 @@ flow:
   workflow:
     - start_cartridge:
         do:
-          start_cartridge:
+          cartridges.start_cartridge:
             - host
             - username
             - password

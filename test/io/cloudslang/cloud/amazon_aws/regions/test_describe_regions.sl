@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.regions
 
 imports:
+  regions: io.cloudslang.cloud.amazon_aws.regions
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -35,7 +36,7 @@ flow:
   workflow:
     - describe_regions:
         do:
-          describe_regions:
+          regions.describe_regions:
             - provider
             - endpoint
             - identity

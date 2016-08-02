@@ -19,6 +19,7 @@
 namespace: io.cloudslang.base.files
 
 imports:
+  files: io.cloudslang.base.files
   print: io.cloudslang.base.print
 
 flow:
@@ -32,7 +33,7 @@ flow:
         loop:
           for: f in [path + '/' + name + '.zip', path + '/' + name, name, name + '.zip', out_folder]
           do:
-            delete:
+            files.delete:
               - source: ${f}
           break: []
         navigate:
@@ -43,7 +44,7 @@ flow:
         loop:
           for: folder in [path, out_folder]
           do:
-            create_folder:
+            files.create_folder:
               - folder_name: ${folder}
           break: []
         navigate:
@@ -52,7 +53,7 @@ flow:
 
     - test_file_creation:
         do:
-          write_to_file:
+          files.write_to_file:
             - file_path: ${path + '/test.txt'}
             - text: 'Workflow to test unzip operation'
         navigate:
@@ -61,7 +62,7 @@ flow:
 
     - zip_folder:
         do:
-          zip_folder:
+          files.zip_folder:
             - archive_name: ${name.split('.')[0]}
             - folder_path: ${path}
         navigate:
@@ -70,7 +71,7 @@ flow:
 
     - unzip_folder:
         do:
-          unzip_archive:
+          files.unzip_archive:
             - archive_path: ${path + '/' + name}
             - output_folder: ${out_folder}
         publish:
@@ -81,7 +82,7 @@ flow:
 
     - delete_output_folder:
         do:
-          delete:
+          files.delete:
             - source: ${out_folder}
         navigate:
           - SUCCESS: delete_test_folder
@@ -89,7 +90,7 @@ flow:
 
     - delete_test_folder:
         do:
-          delete:
+          files.delete:
             - source: ${path}
         navigate:
           - SUCCESS: SUCCESS
