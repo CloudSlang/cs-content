@@ -1,4 +1,4 @@
- #   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+ #   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
  #   All rights reserved. This program and the accompanying materials
  #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
  #
@@ -6,11 +6,13 @@
  #   http://www.apache.org/licenses/LICENSE-2.0
  ####################################################
  #!!
- #! @description: Substring string from begin_index to end_index.
+ #! @description: Substring of a string from begin_index to end_index.
  #! @input origin_string: origin_string - Example: "good morning"
  #! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
- #! @output end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
+ #! @input end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
  #! @output new_string: new string - Example: "good"
+ #! @result SUCCESS: if error_message is empty and new_string returns a value
+ #! @result FAILURE: otherwise
  #!!#
  ####################################################
  namespace: io.cloudslang.base.strings

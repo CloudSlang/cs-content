@@ -7,8 +7,8 @@
 ####################################################
 #!!
 #! @description: Removes text from a string.
-#! @input origin_string: original string - Example: "SPAMgood morning"
-#! @input text: text to be removed - Example: "SPAM"
+#! @input origin_string: optional - original string - Example: "SPAMgood morning"
+#! @input text: optional - text to be removed - Example: "SPAM"
 #! @output result: string after removing - Example: "good morning"
 #!!#
 ####################################################
@@ -18,8 +18,10 @@ namespace: io.cloudslang.base.strings
 operation:
   name: remove
   inputs:
-    - origin_string
-    - text
+    - origin_string:
+        required: false
+    - text:
+        required: false
   python_action:
     script: |
       if text in origin_string:
