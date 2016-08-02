@@ -38,7 +38,7 @@ flow:
   workflow:
     - stop_cartridge:
         do:
-          cartridges.top_cartridge:
+          cartridges.stop_cartridge:
             - host
             - username
             - password

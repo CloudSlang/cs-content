@@ -39,7 +39,7 @@ flow:
   workflow:
     - start_cartridge:
         do:
-          cartridges.tart_cartridge:
+          cartridges.start_cartridge:
             - host
             - username
             - password

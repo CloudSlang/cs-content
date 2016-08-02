@@ -75,7 +75,7 @@ imports:
   rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
   mail: io.cloudslang.base.mail
-  circleci: io.cloudslang.base.ci.circleci
+  circleci: io.cloudslang.ci.circleci
 
 flow:
   name: get_branches_build_failure

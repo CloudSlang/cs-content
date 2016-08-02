@@ -8,7 +8,7 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
-inputs:
+imports:
   files: io.cloudslang.base.files
 
 flow:

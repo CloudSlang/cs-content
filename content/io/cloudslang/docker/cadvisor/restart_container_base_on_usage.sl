@@ -51,7 +51,7 @@ flow:
   workflow:
     - retrieve_container_usage:
         do:
-          cadvisor.eport_container_metrics:
+          cadvisor.report_container_metrics:
             - container
             - host
             - cadvisor_port

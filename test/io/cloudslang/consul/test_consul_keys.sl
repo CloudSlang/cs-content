@@ -39,7 +39,7 @@ flow:
           - FAILURE: FAIL_CREATING_KEY
     - get_key:
         do:
-          conul.report_kv:
+          consul.report_kv:
             - host
             - key_name
         publish:
