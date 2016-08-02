@@ -63,9 +63,7 @@ testSearchAndReplaceEmptyReplaceWith:
     - replace_with: ""
   description: Tests that search_and_replace.sl operation throws exception when replace_with is empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  outputs:
-    - error_message: Substring not found
-  result: FAILURE
+  result: SUCCESS
 
 testSearchAndReplaceSpecialCharacters:
   inputs:
