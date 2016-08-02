@@ -22,7 +22,7 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  base_strings: io.cloudslang.base.strings
+  marathon: io.cloudslang.marathon
   utils: io.cloudslang.base.utils
   network: io.cloudslang.base.network
   print: io.cloudslang.base.print
@@ -46,7 +46,7 @@ flow:
 
     - setup_marathon_core_os:
         do:
-          setup_marathon_core_os:
+          marathon.setup_marathon_core_os:
             - host: ${marathon_host}
             - username
             - private_key_file
@@ -61,7 +61,7 @@ flow:
 
     - setup_marathon_docker_host:
         do:
-          setup_marathon_docker_host:
+          marathon.setup_marathon_docker_host:
             - host: ${marathon_host}
             - username
             - private_key_file

@@ -1,6 +1,7 @@
 namespace: io.cloudslang.base.json
 
 imports:
+  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
@@ -25,7 +26,7 @@ flow:
   workflow:
     - add_JSON_property_in_object:
         do:
-          add_entry_in_object:
+          json.add_entry_in_object:
             - json_object
             - key
             - value

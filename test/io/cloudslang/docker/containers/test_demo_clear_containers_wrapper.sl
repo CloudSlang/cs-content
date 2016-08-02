@@ -10,7 +10,8 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
+  containers: io.cloudslang.docker.containers
+  examples: io.cloudslang.docker.containers.examples
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
@@ -47,7 +48,7 @@ flow:
 
     - start_mysql_container:
         do:
-          docker_containers_examples.create_db_container:
+          examples.create_db_container:
             - host
             - port
             - username
@@ -83,7 +84,7 @@ flow:
 
     - start_linked_container:
         do:
-          start_linked_container:
+          containers.start_linked_container:
             - image_name: ${linked_image}
             - container_name: ${linked_container_name}
             - link_params: 'mysqldb:mysql'
@@ -101,7 +102,7 @@ flow:
 
     - demo_clear_containers_wrapper:
         do:
-          docker_containers_examples.demo_clear_containers_wrapper:
+          examples.demo_clear_containers_wrapper:
             - db_container_id: 'mysqldb'
             - linked_container_id: ${linked_container_name}
             - docker_host: ${host}
@@ -115,7 +116,7 @@ flow:
 
     - verify:
         do:
-          get_all_containers:
+          containers.get_all_containers:
             - host
             - port
             - username
@@ -136,12 +137,12 @@ flow:
 
     - clear_docker_host:
         do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-           - private_key_file
+          containers.clear_containers:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
+            - private_key_file
         navigate:
          - SUCCESS: SUCCESS
          - FAILURE: MACHINE_IS_NOT_CLEAN

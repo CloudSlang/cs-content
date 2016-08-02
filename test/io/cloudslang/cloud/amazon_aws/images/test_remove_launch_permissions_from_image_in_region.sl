@@ -9,8 +9,8 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 imports:
+  images: io.cloudslang.cloud.amazon_aws.images
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_remove_launch_permissions_from_image_in_region
@@ -47,7 +47,7 @@ flow:
   workflow:
     - remove_launch_permissions:
         do:
-          remove_launch_permissions_from_image_in_region:
+          images.remove_launch_permissions_from_image_in_region:
             - provider
             - endpoint
             - identity

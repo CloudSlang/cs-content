@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.datetime
 
 imports:
+  datetime: io.cloudslang.base.datetime
   strings: io.cloudslang.base.strings
 
 flow:
@@ -23,7 +24,7 @@ flow:
   workflow:
     - execute_get_current_time:
         do:
-          get_time:
+          datetime.get_time:
             - locale_lang
             - locale_country
         publish:

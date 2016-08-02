@@ -33,8 +33,7 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
-  docker_utils: io.cloudslang.docker.utils
-  strings: io.cloudslang.base.strings
+  utils: io.cloudslang.docker.utils
 
 flow:
   name: get_cluster_info
@@ -67,7 +66,7 @@ flow:
   workflow:
     - get_cluster_info:
         do:
-          docker_utils.get_info:
+          utils.get_info:
             - docker_options
             - host
             - port

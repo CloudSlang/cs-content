@@ -9,6 +9,7 @@
 namespace: io.cloudslang.virtualization.vmware.virtual_machines
 
 imports:
+  vms: io.cloudslang.virtualization.vmware.virtual_machines
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -46,7 +47,7 @@ flow:
   workflow:
     - update_vm:
         do:
-          update_virtual_machine:
+          vms.update_virtual_machine:
             - host
             - port
             - protocol

@@ -9,10 +9,12 @@
 namespace: io.cloudslang.git
 
 imports:
+  git: io.cloudslang.git
   ssh: io.cloudslang.base.ssh
 
 flow:
   name: test_git_flow
+
   inputs:
     - host
     - port
@@ -28,7 +30,7 @@ flow:
   workflow:
     - clone_a_git_repository:
         do:
-          git_clone_repository:
+          git.git_clone_repository:
             - host
             - port
             - username
@@ -41,7 +43,7 @@ flow:
 
     - checkout_git_branch:
         do:
-          git_checkout_branch:
+          git.git_checkout_branch:
             - host
             - port
             - username
@@ -57,7 +59,7 @@ flow:
 
     - fetch_git_branch:
         do:
-          git_fetch:
+          git.git_fetch:
             - host
             - port
             - username
@@ -72,7 +74,7 @@ flow:
 
     - merge_git_branch:
         do:
-          git_merge:
+          git.git_merge:
             - host
             - port
             - username
@@ -87,7 +89,7 @@ flow:
 
     - reset_git_branch:
         do:
-          git_reset:
+          git.git_reset:
             - host
             - port
             - username

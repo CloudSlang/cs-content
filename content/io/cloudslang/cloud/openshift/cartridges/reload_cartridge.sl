@@ -37,7 +37,6 @@ namespace: io.cloudslang.cloud.openshift.cartridges
 
 imports:
   rest: io.cloudslang.base.http
-  list: io.cloudslang.base.lists
 
 flow:
   name: reload_cartridge

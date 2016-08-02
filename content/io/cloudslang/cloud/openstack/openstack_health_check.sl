@@ -43,6 +43,7 @@ namespace: io.cloudslang.cloud.openstack
 
 imports:
   email: io.cloudslang.base.mail
+  openstack: io.cloudslang.cloud.openstack
   servers: io.cloudslang.cloud.openstack.servers
 
 flow:
@@ -116,7 +117,7 @@ flow:
 
     - validate_server_exists:
         do:
-          validate_server_exists:
+          openstack.validate_server_exists:
             - host
             - identity_port
             - compute_port

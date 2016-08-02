@@ -105,7 +105,7 @@ testPythonScriptInvalidScript:
     - return_code: "-1"
   result: FAILURE
 
-testPythonScriptWronIndent:
+testPythonScriptWrongIndent:
   inputs:
     - script: "for i in argv:\nprint i"
     - file_path: ""

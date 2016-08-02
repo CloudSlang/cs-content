@@ -8,8 +8,8 @@
 namespace: io.cloudslang.cloud.amazon_aws.volumes
 
 imports:
+  volumes: io.cloudslang.cloud.amazon_aws.volumes
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_attach_volume_in_region
@@ -42,7 +42,7 @@ flow:
   workflow:
     - attach_volume:
         do:
-          attach_volume_in_region:
+          volumes.attach_volume_in_region:
             - provider
             - endpoint
             - identity

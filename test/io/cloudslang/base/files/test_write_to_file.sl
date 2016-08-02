@@ -8,15 +8,20 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
+imports:
+  files: io.cloudslang.base.files
+
 flow:
   name: test_write_to_file
+
   inputs:
     - file_path
     - text
+
   workflow:
     - test_write_to_file_operation:
         do:
-          write_to_file:
+          files.write_to_file:
             - file_path
             - text
         navigate:
@@ -24,7 +29,7 @@ flow:
           - FAILURE: WRITEFAILURE
     - delete_created_file:
         do:
-          delete:
+          files.delete:
             - source: ${file_path}
         navigate:
           - SUCCESS: SUCCESS

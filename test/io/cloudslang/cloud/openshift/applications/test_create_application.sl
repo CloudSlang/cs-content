@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.openshift.applications
 
 imports:
+  apps: io.cloudslang.cloud.openshift.applications
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
@@ -45,7 +46,7 @@ flow:
   workflow:
     - create_app:
         do:
-          create_application:
+          apps.create_application:
             - host
             - username
             - password

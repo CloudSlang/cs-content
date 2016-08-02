@@ -8,8 +8,8 @@
 namespace: io.cloudslang.cloud.amazon_aws.volumes
 
 imports:
+  volumes: io.cloudslang.cloud.amazon_aws.volumes
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_create_volume_in_availability_zone
@@ -55,7 +55,7 @@ flow:
   workflow:
     - create_volume:
         do:
-          create_volume_in_availability_zone:
+          volumes.create_volume_in_availability_zone:
             - provider
             - endpoint
             - identity

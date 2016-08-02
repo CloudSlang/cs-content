@@ -13,23 +13,24 @@
 #! @input cp_publisher: content pack publisher - Example: "Customer"
 #! @input cp_location: location for the content pack jar file - Example: "c:/content_packs"
 #! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
-#! @result SUCCESS: 
-#! @result CREATE_LIB_FOLDER_FAILURE: 
-#! @result POPULATE_LIB_FOLDER_FAILURE: 
-#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: 
-#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: 
-#! @result COPY_CONTENT_FAILURE: 
-#! @result MOVE_CONFIG_ITEMS_FAILURE: 
-#! @result CREATE_CP_PROPERTIES_FAILURE: 
-#! @result CREATE_ARCHIVE_FAILURE: 
-#! @result CREATE_JAR_FAILURE: 
-#! @result CLEAN_FOLDER_FAILURE: 
+#! @result SUCCESS:
+#! @result CREATE_LIB_FOLDER_FAILURE:
+#! @result POPULATE_LIB_FOLDER_FAILURE:
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE:
+#! @result CREATE_LIBRARY_STRUCTURE_FAILURE:
+#! @result COPY_CONTENT_FAILURE:
+#! @result MOVE_CONFIG_ITEMS_FAILURE:
+#! @result CREATE_CP_PROPERTIES_FAILURE:
+#! @result CREATE_ARCHIVE_FAILURE:
+#! @result CREATE_JAR_FAILURE:
+#! @result CLEAN_FOLDER_FAILURE:
 #!!#
 #
 ####################################################
-namespace: io.cloudslang.operations_orchestration.createCP
+namespace: io.cloudslang.operations_orchestration.create_cp
 
 imports:
+  create_cp: io.cloudslang.operations_orchestration.create_cp
   files: io.cloudslang.base.files
 
 flow:
@@ -81,7 +82,7 @@ flow:
             - FAILURE: COPY_CONTENT_FAILURE
     - move_config_items:
         do:
-           copy_config_items:
+           create_cp.copy_config_items:
             - source_dir: ${cp_folder + "/Content/Library/Community/cslang/" + cp_name}
             - target_dir: ${cp_folder + "/Content/Configuration/System Properties/"}
         navigate:

@@ -39,6 +39,9 @@
 
 namespace: io.cloudslang.base.http
 
+imports:
+  http: io.cloudslang.base.http
+
 flow:
   name: http_client_put
   inputs:
@@ -95,7 +98,7 @@ flow:
   workflow:
     - http_client_action_put:
         do:
-          http_client_action:
+          http.http_client_action:
             - url
             - auth_type
             - username

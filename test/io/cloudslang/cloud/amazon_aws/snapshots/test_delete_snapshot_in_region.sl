@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.snapshots
 
 imports:
+  snapshots: io.cloudslang.cloud.amazon_aws.snapshots
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -41,7 +42,7 @@ flow:
   workflow:
     - delete_snapshot_in_region:
         do:
-          delete_snapshot_in_region:
+          snapshots.delete_snapshot_in_region:
             - provider
             - endpoint
             - identity

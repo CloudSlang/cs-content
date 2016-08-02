@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.instances
 
 imports:
+  instances: io.cloudslang.cloud.amazon_aws.instances
   lists: io.cloudslang.base.lists
 
 flow:
@@ -43,7 +44,7 @@ flow:
   workflow:
     - describe_instances:
         do:
-          describe_instances:
+          instances.describe_instances:
             - provider
             - endpoint
             - identity

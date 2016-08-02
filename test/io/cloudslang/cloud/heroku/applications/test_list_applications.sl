@@ -11,10 +11,12 @@
 namespace: io.cloudslang.cloud.heroku.applications
 
 imports:
+  apps: io.cloudslang.cloud.heroku.applications
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_list_applications
+
   inputs:
     - username
     - password
@@ -22,7 +24,7 @@ flow:
   workflow:
     - list_applications:
         do:
-          list_applications:
+          apps.list_applications:
             - username
             - password
         publish:

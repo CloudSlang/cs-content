@@ -33,10 +33,10 @@
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
- docker_containers: io.cloudslang.docker.containers
- docker_images: io.cloudslang.docker.images
- base_mail: io.cloudslang.base.mail
- base_network: io.cloudslang.base.network
+ containers: io.cloudslang.docker.containers
+ images: io.cloudslang.docker.images
+ mail: io.cloudslang.base.mail
+ network: io.cloudslang.base.network
 
 flow:
   name: demo_dev_ops
@@ -72,7 +72,7 @@ flow:
 
     - create_db_container:
         do:
-          create_db_container:
+          containers.examples.create_db_container:
             - host: ${docker_host}
             - port: ${docker_ssh_port}
             - username: ${docker_username}
@@ -86,7 +86,7 @@ flow:
 
     - pull_app_image:
         do:
-          docker_images.pull_image:
+          images.pull_image:
             - image_name: 'meirwa/spring-boot-tomcat-mysql-app'
             - host: ${docker_host}
             - port: ${docker_ssh_port}
@@ -99,7 +99,7 @@ flow:
 
     - start_linked_container:
         do:
-          docker_containers.start_linked_container:
+          containers.start_linked_container:
             - image_name: 'meirwa/spring-boot-tomcat-mysql-app'
             - container_name: ${app_container_name}
             - link_params: "${db_container_name + ':mysql'}"
@@ -116,7 +116,7 @@ flow:
 
     - test_application:
         do:
-          base_network.verify_url_is_accessible:
+          network.verify_url_is_accessible:
             - url: ${'http://' + docker_host + ':' + app_port}
             - attempts: 20
             - time_to_sleep: 10
@@ -128,7 +128,7 @@ flow:
     - on_failure:
         - send_error_mail:
             do:
-              base_mail.send_mail:
+              mail.send_mail:
                 - hostname: ${email_host}
                 - port: ${email_port}
                 - from: ${email_sender}

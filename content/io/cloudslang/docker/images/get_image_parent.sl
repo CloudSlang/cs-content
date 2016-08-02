@@ -21,8 +21,8 @@
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_utils: io.cloudslang.docker.utils
- base_os_linux: io.cloudslang.base.os.linux
+  images: io.cloudslang.docker.images
+  utils: io.cloudslang.docker.utils
 
 flow:
   name: get_image_parent
@@ -45,7 +45,7 @@ flow:
   workflow:
     - inspect_image:
         do:
-          inspect_image:
+          images.inspect_image:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }
@@ -59,14 +59,14 @@ flow:
 
     - get_parent:
         do:
-           docker_utils.parse_inspect_for_parent:
+           utils.parse_inspect_for_parent:
              - json_response: ${ image_inspect_json }
         publish:
           - parent_image
 
     - get_parent_name:
         do:
-           get_image_name_from_id:
+           images.get_image_name_from_id:
              - docker_options
              - host: ${ docker_host }
              - username: ${ docker_username }

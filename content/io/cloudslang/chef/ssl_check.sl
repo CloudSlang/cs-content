@@ -23,6 +23,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: ssl_check
   inputs:
@@ -39,7 +42,7 @@ flow:
   workflow:
     - ssl_check:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: 'ssl check'
             - knife_host
             - knife_username

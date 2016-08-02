@@ -13,6 +13,7 @@
 namespace: io.cloudslang.base.utils
 
 imports:
+  utils: io.cloudslang.base.utils
   strings: io.cloudslang.base.strings
 
 flow:
@@ -27,7 +28,7 @@ flow:
   workflow:
     - encode:
         do:
-          base64_encoder:
+          utils.base64_encoder:
             - data: ${text}
             - character_set
 
@@ -36,7 +37,7 @@ flow:
 
     - decode:
         do:
-          base64_decoder:
+          utils.base64_decoder:
             - data: ${encoded_text}
             - character_set
 

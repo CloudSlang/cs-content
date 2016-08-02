@@ -26,6 +26,7 @@
 namespace: io.cloudslang.cloud.hp_cloud
 
 imports:
+  hp_cloud: io.cloudslang.cloud.hp_cloud
   json: io.cloudslang.base.json
 
 flow:
@@ -45,7 +46,7 @@ flow:
   workflow:
     - get_token:
         do:
-          get_authentication:
+          hp_cloud.get_authentication:
             - username
             - password
             - tenant_name

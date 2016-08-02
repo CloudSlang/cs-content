@@ -40,8 +40,7 @@
 namespace: io.cloudslang.cloud.openstack.images
 
 imports:
-  openstack: io.cloudslang.cloud.openstack
-  rest: io.cloudslang.base.http
+  images: io.cloudslang.cloud.openstack.images
 
 flow:
   name: get_image_id_flow
@@ -70,7 +69,7 @@ flow:
   workflow:
     - list_images:
         do:
-          list_images:
+          images.list_images:
             - host
             - identity_port
             - compute_port
@@ -97,7 +96,7 @@ flow:
 
     - get_image_id:
         do:
-          get_image_id:
+          images.get_image_id:
             - image_body: ${return_result}
             - image_name: ${image_name}
         publish:

@@ -26,6 +26,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: run_list_remove
   inputs:
@@ -44,7 +47,7 @@ flow:
   workflow:
     - remove_from_run_list:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'node run_list remove ' + node_name + ' \\'' + run_list_items + '\\''}
             - knife_host
             - knife_username

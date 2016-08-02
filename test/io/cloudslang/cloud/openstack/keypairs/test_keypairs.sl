@@ -10,7 +10,7 @@
 namespace: io.cloudslang.cloud.openstack.keypairs
 
 imports:
-  openstack_content: io.cloudslang.openstack
+  keypairs: io.cloudslang.cloud.openstack.keypairs
 
 flow:
   name: test_keypairs
@@ -28,7 +28,7 @@ flow:
   workflow:
     - create_openstack_keypair:
         do:
-          create_keypair:
+          keypairs.create_keypair:
             - host
             - identity_port
             - compute_port
@@ -51,7 +51,7 @@ flow:
 
     - list_keypairs:
         do:
-          get_keypairs:
+          keypairs.get_keypairs:
             - host
             - username
             - password
@@ -70,7 +70,7 @@ flow:
 
     - delete_keypair:
         do:
-          delete_keypair:
+          keypairs.delete_keypair:
             - host
             - username
             - password

@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.stackato.users
 
 imports:
+  users: io.cloudslang.cloud.stackato.users
   lists: io.cloudslang.base.lists
 
 flow:
@@ -32,7 +33,7 @@ flow:
   workflow:
     - get_users:
         do:
-          get_users:
+          users.get_users:
             - host
             - username
             - password

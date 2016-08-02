@@ -25,9 +25,7 @@
 namespace: io.cloudslang.docker.runc.examples
 
 imports:
-  files: io.cloudslang.base.files
   ssh: io.cloudslang.base.ssh
-  comparisons: io.cloudslang.base.comparisons
   remote_file_transfer: io.cloudslang.base.remote_file_transfer
 flow:
   name: transfer_images

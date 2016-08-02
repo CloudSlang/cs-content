@@ -23,8 +23,8 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- docker_containers: io.cloudslang.docker.containers
- docker_images: io.cloudslang.docker.images
+ containers: io.cloudslang.docker.containers
+ images: io.cloudslang.docker.images
 
 flow:
   name: clear_host
@@ -43,7 +43,7 @@ flow:
   workflow:
     - get_all_containers:
         do:
-          docker_containers.get_all_containers:
+          containers.get_all_containers:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
@@ -55,7 +55,7 @@ flow:
           - all_containers: ${ container_list }
     - clear_all_containers:
         do:
-          docker_containers.clear_container:
+          containers.clear_container:
             - container_id: ${ all_containers }
             - docker_host
             - docker_username
@@ -65,7 +65,7 @@ flow:
             - port
     - clear_all_images:
         do:
-          docker_images.clear_unused_and_dangling_images:
+          images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
             - docker_password

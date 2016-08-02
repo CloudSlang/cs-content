@@ -8,15 +8,20 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
+imports:
+  files: io.cloudslang.base.files
+
 flow:
   name: test_copy
+  
   inputs:
     - copy_source
     - copy_destination
+
   workflow:
     - create_file_to_be_copied:
         do:
-          write_to_file:
+          files.write_to_file:
             - file_path: ${copy_source}
             - text: 'text-to-be-copied'
         navigate:
@@ -24,7 +29,7 @@ flow:
           - FAILURE: CREATEFAILURE
     - test_copy_operation:
         do:
-          copy:
+          files.copy:
             - source: ${copy_source}
             - destination: ${copy_destination}
         navigate:
@@ -34,21 +39,21 @@ flow:
           - message
     - delete_created_file_after_copy_failure:
         do:
-          delete:
+          files.delete:
             - source: ${copy_source}
         navigate:
           - SUCCESS: COPYFAILURE
           - FAILURE: DELETEFAILURE
     - delete_copied_file:
         do:
-          delete:
+          files.delete:
             - source: ${copy_destination}
         navigate:
           - SUCCESS: delete_created_file
           - FAILURE: DELETEFAILURE
     - delete_created_file:
         do:
-          delete:
+          files.delete:
             - source: ${copy_source}
         navigate:
           - SUCCESS: SUCCESS
@@ -62,4 +67,3 @@ flow:
     - CREATEFAILURE
     - COPYFAILURE
     - DELETEFAILURE
-

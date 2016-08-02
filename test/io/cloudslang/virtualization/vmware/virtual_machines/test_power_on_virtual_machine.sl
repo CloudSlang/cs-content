@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.virtual_machines
 
 imports:
+  vms: io.cloudslang.virtualization.vmware.virtual_machines
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_power_on_virtual_machine
+
   inputs:
     - host
     - port:
@@ -33,7 +35,7 @@ flow:
   workflow:
     - power_on_virtual_machine:
         do:
-          power_on_virtual_machine:
+          vms.power_on_virtual_machine:
             - host
             - port
             - protocol

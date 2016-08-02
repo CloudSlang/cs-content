@@ -24,6 +24,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: upload_cookbook_to_server
   inputs:
@@ -41,7 +44,7 @@ flow:
   workflow:
     - upload_cookbook_to_server:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'cookbook upload ' + cookbook_name}
             - knife_host
             - knife_username

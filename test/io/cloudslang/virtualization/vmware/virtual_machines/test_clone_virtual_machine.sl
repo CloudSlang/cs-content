@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.virtual_machines
 
 imports:
+  vms: io.cloudslang.virtualization.vmware.virtual_machines
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_clone_virtual_machine
+
   inputs:
     - host
     - port:
@@ -66,7 +68,7 @@ flow:
   workflow:
     - clone_virtual_machine:
         do:
-          clone_virtual_machine:
+          vms.clone_virtual_machine:
             - host
             - port
             - protocol

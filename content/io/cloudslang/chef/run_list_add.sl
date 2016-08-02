@@ -26,6 +26,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: run_list_add
   inputs:
@@ -44,7 +47,7 @@ flow:
   workflow:
     - add_to_run_list:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'node run_list add ' + node_name + ' \'' + run_list_items + '\''}
             - knife_host
             - knife_username

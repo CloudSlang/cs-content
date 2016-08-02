@@ -10,6 +10,7 @@
 namespace: io.cloudslang.cloud.heroku.domains
 
 imports:
+  domains: io.cloudslang.cloud.heroku.domains
   lists: io.cloudslang.base.lists
 
 flow:
@@ -22,7 +23,7 @@ flow:
   workflow:
     - list_domains:
         do:
-          list_domains:
+          domains.list_domains:
             - username
             - password
             - app_id_or_name

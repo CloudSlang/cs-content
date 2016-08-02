@@ -47,6 +47,7 @@ namespace: io.cloudslang.base.ssh
 imports:
   linux: io.cloudslang.base.os.linux
   utils: io.cloudslang.base.utils
+  ssh: io.cloudslang.base.ssh
 
 flow:
     name: ssh_flow
@@ -114,7 +115,7 @@ flow:
 
       - ssh_command:
           do:
-            ssh_command:
+            ssh.ssh_command:
               - host
               - port
               - username

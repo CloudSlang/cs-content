@@ -23,6 +23,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: get_community_cookbooks
   inputs:
@@ -38,7 +41,7 @@ flow:
   workflow:
     - get_community_cookbooks:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: 'knife cookbook site list'
             - knife_host
             - knife_username

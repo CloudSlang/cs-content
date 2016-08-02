@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.http
 
 imports:
+  http: io.cloudslang.base.http
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
 
@@ -46,7 +47,7 @@ flow:
   workflow:
     - get:
         do:
-          http_client_get:
+          http.http_client_get:
             - url: ${url + '/findByStatus?status=available'}
             - username
             - password
@@ -86,7 +87,7 @@ flow:
 
     - delete:
         do:
-          http_client_delete:
+          http.http_client_delete:
             - url: ${url + '/' + str(id)}
             - username
             - password

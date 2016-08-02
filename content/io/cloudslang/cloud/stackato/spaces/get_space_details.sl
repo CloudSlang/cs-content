@@ -41,7 +41,8 @@
 namespace: io.cloudslang.cloud.stackato.spaces
 
 imports:
-  stackato_utils: io.cloudslang.cloud.stackato.utils
+  spaces: io.cloudslang.cloud.stackato.spaces
+  utils: io.cloudslang.cloud.stackato.utils
 
 flow:
   name: get_space_details
@@ -65,7 +66,7 @@ flow:
   workflow:
     - get_spaces_step:
         do:
-          get_spaces:
+          spaces.get_spaces:
             - host
             - username
             - password
@@ -87,7 +88,7 @@ flow:
 
     - get_space_details:
         do:
-          stackato_utils.get_resource_details:
+          utils.get_resource_details:
             - json_input: ${return_result}
             - key_name: ${space_name}
         publish:

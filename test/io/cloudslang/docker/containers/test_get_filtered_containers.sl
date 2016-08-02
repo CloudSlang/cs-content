@@ -15,12 +15,14 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
+  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
 
 flow:
   name: test_get_filtered_containers
+
   inputs:
     - host
     - port:
@@ -66,8 +68,8 @@ flow:
           - FAILURE: PRE_CLEAR_MACHINE_PROBLEM
 
     - run_container_busybox:
-       do:
-         run_container:
+        do:
+          containers.run_container:
             - container_name: ${container_name_busybox}
             - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
             - image_name: ${image_name_busybox}
@@ -77,13 +79,13 @@ flow:
             - password
             - private_key_file
             - timeout
-       navigate:
-         - SUCCESS: run_container_staticpython
-         - FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
+        navigate:
+          - SUCCESS: run_container_staticpython
+          - FAILURE: RUN_CONTAINER_BUSYBOX_PROBLEM
 
     - run_container_staticpython:
-       do:
-         run_container:
+        do:
+          containers.run_container:
             - container_name: ${container_name_staticpython}
             - image_name: ${image_name_staticpython}
             - host
@@ -92,12 +94,12 @@ flow:
             - password
             - private_key_file
             - timeout
-       publish:
+        publish:
           - expected_container_ids: ${container_id}
           - error_message
-       navigate:
-         - SUCCESS: execute_get_filtered_containers
-         - FAILURE: print_error
+        navigate:
+          - SUCCESS: execute_get_filtered_containers
+          - FAILURE: print_error
 
     - print_error:
         do:
@@ -107,8 +109,8 @@ flow:
           - SUCCESS: RUN_CONTAINER_PYTHON_PROBLEM
 
     - execute_get_filtered_containers:
-       do:
-         get_filtered_containers:
+        do:
+          containers.get_filtered_containers:
             - all_containers: true
             - excluded_images
             - host
@@ -117,12 +119,12 @@ flow:
             - password
             - private_key_file
             - timeout
-       publish:
-         - actual_container_names: ${container_names}
-         - actual_container_ids: ${container_ids}
-       navigate:
-         - SUCCESS: check_container_names
-         - FAILURE: FAILURE
+        publish:
+          - actual_container_names: ${container_names}
+          - actual_container_ids: ${container_ids}
+        navigate:
+          - SUCCESS: check_container_names
+          - FAILURE: FAILURE
 
     - check_container_names:
         do:
@@ -144,7 +146,7 @@ flow:
 
     - post_clear_machine:
         do:
-          clear_containers:
+          containers.clear_containers:
             - docker_host: ${host}
             - docker_username: ${username}
             - docker_password: ${password}

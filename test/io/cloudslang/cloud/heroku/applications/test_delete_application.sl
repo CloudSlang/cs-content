@@ -10,10 +10,12 @@
 namespace: io.cloudslang.cloud.heroku.applications
 
 imports:
+  apps: io.cloudslang.cloud.heroku.applications
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_delete_application
+
   inputs:
     - username
     - password
@@ -22,7 +24,7 @@ flow:
   workflow:
     - delete_application:
         do:
-          delete_application:
+          apps.delete_application:
             - username
             - password
             - app_id_or_name

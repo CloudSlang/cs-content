@@ -1,14 +1,15 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
+  mysql: io.cloudslang.docker.monitoring.mysql
+  containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
   utils: io.cloudslang.base.utils
   cmd: io.cloudslang.base.cmd
-  network: io.cloudslang.base.network
 
 flow:
   name: test_report_mysql_status
+
   inputs:
     - docker_host
     - docker_port:
@@ -25,17 +26,16 @@ flow:
     - email_recipient
 
   workflow:
-
     - pre_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: ${ docker_port }
-             - docker_username
-             - docker_password
-         navigate:
-           - SUCCESS: run_postfix
-           - FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+         maintenance.clear_host:
+           - docker_host
+           - port: ${ docker_port }
+           - docker_username
+           - docker_password
+        navigate:
+         - SUCCESS: run_postfix
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - run_postfix:
         do:
@@ -49,7 +49,7 @@ flow:
 
     - start_mysql_container:
         do:
-          docker_containers_examples.create_db_container:
+          containers_examples.create_db_container:
             - host: ${ docker_host }
             - port: ${ docker_port }
             - username: ${ docker_username }
@@ -65,7 +65,7 @@ flow:
 
     - report_mysql_status:
         do:
-          report_mysql_status:
+          mysql.report_mysql_status:
             - container: "mysqldb"
             - docker_host
             - docker_port
@@ -84,23 +84,23 @@ flow:
           - FAILURE: FAILURE
 
     - post_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: ${ docker_port }
-             - docker_username
-             - docker_password
-         navigate:
-           - SUCCESS: postfix_cleanup
-           - FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+         maintenance.clear_host:
+           - docker_host
+           - port: ${ docker_port }
+           - docker_username
+           - docker_password
+        navigate:
+         - SUCCESS: postfix_cleanup
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - postfix_cleanup:
-           do:
-             cmd.run_command:
-               - command: "docker rm -f postfix && docker rmi catatnight/postfix"
-           navigate:
-             - SUCCESS: SUCCESS
-             - FAILURE: FAIL_TO_CLEAN_POSTFIX
+        do:
+         cmd.run_command:
+           - command: "docker rm -f postfix && docker rmi catatnight/postfix"
+        navigate:
+         - SUCCESS: SUCCESS
+         - FAILURE: FAIL_TO_CLEAN_POSTFIX
 
   results:
     - SUCCESS

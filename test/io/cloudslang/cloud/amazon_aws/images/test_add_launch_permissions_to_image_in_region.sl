@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 imports:
+  images: io.cloudslang.cloud.amazon_aws.images
   lists: io.cloudslang.base.lists
 
 flow:
@@ -46,7 +47,7 @@ flow:
   workflow:
     - add_permissions_to_image:
         do:
-          add_launch_permissions_to_image_in_region:
+          images.add_launch_permissions_to_image_in_region:
             - provider
             - endpoint
             - identity

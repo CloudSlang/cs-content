@@ -8,12 +8,14 @@
 namespace: io.cloudslang.operations_orchestration.samples
 
 imports:
+  samples: io.cloudslang.operations_orchestration.samples
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_Central_CSRF_token
+
   inputs:
     - host
     - port:
@@ -32,7 +34,7 @@ flow:
   workflow:
     - get_Central_CSRF_token:
         do:
-          get_Central_CSRF_token:
+          samples.get_Central_CSRF_token:
             - host
             - port
             - protocol

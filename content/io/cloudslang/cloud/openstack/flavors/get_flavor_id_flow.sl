@@ -40,8 +40,7 @@
 namespace: io.cloudslang.cloud.openstack.flavors
 
 imports:
-  openstack: io.cloudslang.cloud.openstack
-  rest: io.cloudslang.base.http
+  flavors: io.cloudslang.cloud.openstack.flavors
 
 flow:
   name: get_flavor_id_flow
@@ -70,7 +69,7 @@ flow:
   workflow:
     - list_flavors:
         do:
-          list_flavors:
+          flavors.list_flavors:
             - host
             - identity_port
             - compute_port
@@ -97,7 +96,7 @@ flow:
 
     - get_flavor_id:
         do:
-          get_flavor_id:
+          flavors.get_flavor_id:
             - flavor_body: ${return_result}
             - flavor_name: ${flavor_name}
         publish:

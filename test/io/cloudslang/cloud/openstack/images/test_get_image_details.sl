@@ -10,6 +10,7 @@
 namespace: io.cloudslang.cloud.openstack.images
 
 imports:
+  images: io.cloudslang.cloud.openstack.images
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
@@ -40,7 +41,7 @@ flow:
   workflow:
     - get_image_details:
         do:
-          get_image_details:
+          images.get_image_details:
             - host
             - identity_port
             - compute_port

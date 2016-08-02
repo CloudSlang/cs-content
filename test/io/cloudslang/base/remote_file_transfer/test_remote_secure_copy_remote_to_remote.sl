@@ -10,13 +10,10 @@
 namespace: io.cloudslang.base.remote_file_transfer
 
 imports:
-  base_cmd: io.cloudslang.base.cmd
-  base_rft: io.cloudslang.base.remote_file_transfer
-  base_files: io.cloudslang.base.files
-  base_strings: io.cloudslang.base.strings
-  maintenance: io.cloudslang.docker.maintenance
-  containers: io.cloudslang.docker.containers
-  base_print: io.cloudslang.base.print
+  cmd: io.cloudslang.base.cmd
+  rft: io.cloudslang.base.remote_file_transfer
+  files: io.cloudslang.base.files
+  strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
 flow:
@@ -45,7 +42,7 @@ flow:
 
     - pull_scp_image:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'docker pull ' + docker_scp_image }
         navigate:
           - SUCCESS: generate_key
@@ -53,14 +50,14 @@ flow:
 
     - generate_key:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts' }
         navigate:
           - SUCCESS: cat1
           - FAILURE: KEY_GENERATION_FAIL
     - cat1:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub' }
         navigate:
           - SUCCESS: add_key_to_authorized
@@ -68,7 +65,7 @@ flow:
 
     - add_key_to_authorized:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub >> ' + authorized_keys_path }
         navigate:
           - SUCCESS: cat2
@@ -76,7 +73,7 @@ flow:
 
     - cat2:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: ${ 'cat ' + authorized_keys_path }
         navigate:
           - SUCCESS: create_first_host
@@ -84,7 +81,7 @@ flow:
 
     - create_first_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
                  first_scp_host_port + ':22 -v /data1:' + container_path + ' ' + docker_scp_image }
@@ -94,7 +91,7 @@ flow:
 
     - create_second_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
                  second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image }
@@ -112,7 +109,7 @@ flow:
 
     - create_file_and_copy_it_to_src_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                  ${ 'echo ' + text_to_check + ' > ' + scp_file + ' && scp -P ' + first_scp_host_port +
                  ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username +
@@ -123,7 +120,7 @@ flow:
 
     - test_remote_secure_copy:
         do:
-          base_rft.remote_secure_copy:
+          rft.remote_secure_copy:
             - source_host: ${ host }
             - source_path: ${ container_path + scp_file }
             - source_port: ${ first_scp_host_port }
@@ -142,7 +139,7 @@ flow:
 
     - get_file_from_dest_host:
         do:
-          base_cmd.run_command:
+          cmd.run_command:
             - command: >
                  ${ 'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  +
                  scp_username + '@' + host + ':' + container_path + scp_file + ' ' + scp_file }
@@ -152,7 +149,7 @@ flow:
 
     - read_file:
         do:
-          base_files.read_from_file:
+          files.read_from_file:
             - file_path: ${ scp_file }
         publish:
           - read_text
@@ -162,7 +159,7 @@ flow:
 
     - check_text:
         do:
-          base_strings.string_equals:
+          strings.string_equals:
             - first_string: ${ text_to_check }
             - second_string: ${ read_text.strip() }
         navigate:
