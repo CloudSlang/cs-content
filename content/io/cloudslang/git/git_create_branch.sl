@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Raluca Temle
+# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -14,7 +14,6 @@
 #! @input password: optional - password of user
 #! @input git_branch: optional - git branch to create
 #! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo.git
-#! @input git_pull_remote: optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: optional - path to private key file
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -42,10 +41,10 @@ flow:
     - host
     - port:
         required: false
-    - username:
-        required: false
+    - username
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir:
         default: "/tmp/repo.git"
         required: false
