@@ -26,12 +26,12 @@ operation:
 
   python_action:
     script: |
-      return_code = -1
+      return_code = '0'
       return_result = ''
       error_message = ''
       try:
         import subprocess
-        res = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True);
+        res = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
         output,error = res.communicate()
         if output:
           return_result = output
