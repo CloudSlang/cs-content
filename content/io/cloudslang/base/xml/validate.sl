@@ -43,7 +43,8 @@
 #!                           Default value: changeit
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: 'true'
+#!                           Default: 'true'
+#!                           Accepted values: 'true' or 'false'
 #! @output return_result: parsing was successfull or valid xml
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: exception in case of failure
@@ -157,7 +158,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.5'
+    gav: 'io.cloudslang.content:cs-xml:0.0.6'
     class_name: io.cloudslang.content.xml.actions.Validate
     method_name: execute
 

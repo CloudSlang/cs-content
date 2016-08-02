@@ -18,7 +18,8 @@
 #! @input value: value of attribute to add or replace with
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: 'true'
+#!                           Default: 'true'
+#!                           Accepted values: 'true' or 'false'
 #! @output result_xml: given XML with added attribute(s)
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
@@ -62,7 +63,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.5'
+    gav: 'io.cloudslang.content:cs-xml:0.0.6'
     class_name: io.cloudslang.content.xml.actions.AddAttribute
     method_name: execute
 

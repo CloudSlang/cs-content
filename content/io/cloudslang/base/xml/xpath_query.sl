@@ -24,12 +24,13 @@
 #!                   default: ','
 #! @input secure_processing: whether to use secure processing
 #!                           optional
-#!                           default: 'true'
-#! @output selected_value: value selected or empty if no value found
-#! @output return_result: exception in case of failure, success message otherwise
+#!                           Default: 'true'
+#!                           Accepted values: 'true' or 'false'
+#! @output selected_value: value selected, no match found or empty if an error occurs
+#! @output return_result: xpath queried successfully or empty otherwise
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: an exception in case of failure
-#! @result SUCCESS: value was selected
+#! @result SUCCESS: if return_code = 0
 #! @result FAILURE: otherwise
 #!!#
 ####################################################
@@ -70,7 +71,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.5'
+    gav: 'io.cloudslang.content:cs-xml:0.0.6'
     class_name: io.cloudslang.content.xml.actions.XpathQuery
     method_name: execute
 
