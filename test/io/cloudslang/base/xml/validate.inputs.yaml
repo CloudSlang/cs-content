@@ -228,7 +228,7 @@ testWellFormedFileSuccess:
 
 testInvalidPathFileFailure:
   inputs:
-    - xml_document: 'c:/pus2casandreea.xml'
+    - xml_document: ''
     - xml_document_source: "xmlPath"
   description: Tests that validate.sl operation finishes with FAILURE when provided wrong XML path
   testSuites: [xml-local]
@@ -256,7 +256,7 @@ testValidXmlFileSuccess:
 
                          </xs:element>
                        </xs:schema>'
-    - xsd_document_source: xsdString
+    - xsd_document_source: "xsdString"
   description: Tests that validate.sl operation finishes with SUCCESS with valid XML file against and XSD schema
   testSuites: [xml-local]
   testFlowPath: io.cloudslang.base.xml.validate

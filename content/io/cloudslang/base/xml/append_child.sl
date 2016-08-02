@@ -20,7 +20,6 @@
 #!                           default: 'true'
 #! @output result_xml: given XML with child appended
 #! @output return_result: exception in case of failure, success message otherwise
-#! @output result_text: 'success' or 'failure'
 #! @output return_code: 0 if success, -1 if failure
 #! @result SUCCESS: child was appended
 #! @result FAILURE: otherwise
