@@ -26,6 +26,9 @@ operation:
 
   python_action:
     script: |
+      return_code = -1
+      return_result = ''
+      error_message = ''
       try:
         import subprocess
         res = subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True);
