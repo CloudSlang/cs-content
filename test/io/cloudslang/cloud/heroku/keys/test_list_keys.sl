@@ -10,8 +10,8 @@
 namespace: io.cloudslang.cloud.heroku.keys
 
 imports:
+  keys: io.cloudslang.cloud.heroku.keys
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
   name: test_list_keys
@@ -22,7 +22,7 @@ flow:
   workflow:
     - list_keys:
         do:
-          list_keys:
+          keys.list_keys:
             - username
             - password
         publish:

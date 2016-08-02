@@ -10,11 +10,12 @@
 namespace: io.cloudslang.cloud.openstack.servers
 
 imports:
+  servers: io.cloudslang.cloud.openstack.servers
   lists: io.cloudslang.base.lists
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_server_details
+
   inputs:
     - host
     - compute_port: '8774'
@@ -38,7 +39,7 @@ flow:
   workflow:
     - get_server_details:
         do:
-          get_server_details:
+          servers.get_server_details:
             - host
             - compute_port
             - tenant_name

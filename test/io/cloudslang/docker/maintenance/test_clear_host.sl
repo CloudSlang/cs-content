@@ -10,13 +10,12 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
+  maintenance: io.cloudslang.docker.maintenance
   images: io.cloudslang.docker.images
-  containers: io.cloudslang.docker.containers
-  ssh: io.cloudslang.base.ssh
-  strings: io.cloudslang.base.strings
 
 flow:
   name: test_clear_host
+
   inputs:
     - host
     - port:
@@ -28,15 +27,15 @@ flow:
 
   workflow:
     - pre_test_cleanup:
-             do:
-               clear_host:
-                 - docker_host: ${ host }
-                 - port
-                 - docker_username: ${ username }
-                 - docker_password: ${ password }
-             navigate:
-               - SUCCESS: test_verify_no_images
-               - FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+          maintenance.clear_host:
+            - docker_host: ${ host }
+            - port
+            - docker_username: ${ username }
+            - docker_password: ${ password }
+        navigate:
+          - SUCCESS: test_verify_no_images
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images:
         do:
@@ -64,15 +63,15 @@ flow:
           - FAILURE: FAIL_PULL_IMAGE
 
     - clear_docker_host:
-             do:
-               clear_host:
-                 - docker_host: ${ host }
-                 - port
-                 - docker_username: ${ username }
-                 - docker_password: ${ password }
-             navigate:
-               - SUCCESS: test_verify_no_images_post_cleanup
-               - FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+          maintenance.clear_host:
+            - docker_host: ${ host }
+            - port
+            - docker_username: ${ username }
+            - docker_password: ${ password }
+        navigate:
+          - SUCCESS: test_verify_no_images_post_cleanup
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - test_verify_no_images_post_cleanup:
         do:

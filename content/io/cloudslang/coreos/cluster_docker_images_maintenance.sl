@@ -26,7 +26,8 @@
 namespace: io.cloudslang.coreos
 
 imports:
- maintenance: io.cloudslang.docker.maintenance
+  coreos: io.cloudslang.coreos
+  maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: cluster_docker_images_maintenance
@@ -50,7 +51,7 @@ flow:
   workflow:
     - list_machines_public_ip:
         do:
-          list_machines_public_ip:
+          coreos.list_machines_public_ip:
             - coreos_host
             - coreos_username
             - coreos_password

@@ -102,15 +102,12 @@
 namespace: io.cloudslang.virtualization.vmware.samples
 
 imports:
+  samples: io.cloudslang.virtualization.vmware.samples
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
-  vms: io.cloudslang.virtualization.vmware.virtual_machines
-  utils: io.cloudslang.virtualization.vmware.utils
-  base_mail: io.cloudslang.base.mail
 
 flow:
   name: test_virtual_machine_lifecycle
+
   inputs:
     - host
     - port:
@@ -167,7 +164,7 @@ flow:
   workflow:
     - virtual_machine_lifecycle:
         do:
-          virtual_machine_lifecycle:
+          samples.virtual_machine_lifecycle:
             - host
             - port
             - protocol

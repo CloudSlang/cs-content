@@ -23,6 +23,9 @@
 
 namespace: io.cloudslang.consul
 
+imports:
+  consul: io.cloudslang.consul
+
 flow:
   name: register_endpoint
   inputs:
@@ -44,7 +47,7 @@ flow:
   workflow:
     - parse_register_endpoint_request:
         do:
-          parse_register_endpoint_request:
+          consul.parse_register_endpoint_request:
             - node
             - address
             - datacenter
@@ -54,7 +57,7 @@ flow:
           - json_request
     - send_register_endpoint_request:
         do:
-          send_register_endpoint_request:
+          consul.send_register_endpoint_request:
             - host
             - consul_port
             - json_request

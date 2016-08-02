@@ -10,13 +10,14 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
+  containers: io.cloudslang.docker.containers
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: test_start_container
+
   inputs:
     - host
     - port:
@@ -28,15 +29,15 @@ flow:
 
   workflow:
     - clear_docker_host_prereqeust:
-       do:
-         maintenance.clear_host:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-       navigate:
-         - SUCCESS: pull_image
-         - FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+          maintenance.clear_host:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
+        navigate:
+          - SUCCESS: pull_image
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
@@ -52,7 +53,7 @@ flow:
 
     - run_container:
         do:
-          run_container:
+          containers.run_container:
             - host
             - port
             - username
@@ -66,7 +67,7 @@ flow:
 
     - stop_container:
         do:
-          stop_container:
+          containers.stop_container:
             - host
             - port
             - username
@@ -78,7 +79,7 @@ flow:
 
     - get_container_names:
         do:
-          get_container_names:
+          containers.get_container_names:
             - host
             - port
             - username
@@ -97,7 +98,7 @@ flow:
 
     - start_container:
         do:
-          start_container:
+          containers.start_container:
             - host
             - port
             - username
@@ -109,7 +110,7 @@ flow:
 
     - get_running_container_names:
         do:
-          get_container_names:
+          containers.get_container_names:
             - host
             - port
             - username

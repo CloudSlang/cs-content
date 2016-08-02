@@ -205,10 +205,6 @@ flow:
           - SUCCESS: get_branch
           - FAILURE: FAILURE
 
-        navigate:
-          - SUCCESS: get_branch
-          - FAILURE: FAILURE
-
     - get_branch:
         do:
           json.get_value:

@@ -9,11 +9,13 @@
 namespace: io.cloudslang.virtualization.vmware.utils
 
 imports:
+  utils: io.cloudslang.virtualization.vmware.utils
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_os_descriptors
+
   inputs:
     - host
     - port:
@@ -37,7 +39,7 @@ flow:
   workflow:
     - get_os_descriptors:
         do:
-          get_os_descriptors:
+          utils.get_os_descriptors:
             - host
             - port
             - protocol

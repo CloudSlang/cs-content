@@ -10,17 +10,20 @@
 namespace: io.cloudslang.cloud.heroku.addons
 
 imports:
+  addons: io.cloudslang.cloud.heroku.addons
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_list_account_addons
+
   inputs:
     - username
     - password
+
   workflow:
     - list_account_addons:
         do:
-          list_account_addons:
+          addons.list_account_addons:
             - username
             - password
         publish:

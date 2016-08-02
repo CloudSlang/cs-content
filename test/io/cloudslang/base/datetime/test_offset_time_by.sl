@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.datetime
 
 imports:
+  datetime: io.cloudslang.base.datetime
   strings: io.cloudslang.base.strings
 
 flow:
@@ -27,7 +28,7 @@ flow:
   workflow:
     - execute_offset_time_by:
         do:
-          offset_time_by:
+          datetime.offset_time_by:
             - date
             - offset
             - locale_lang

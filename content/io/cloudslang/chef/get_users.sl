@@ -23,6 +23,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: get_users
   inputs:
@@ -39,7 +42,7 @@ flow:
   workflow:
     - get_users_list:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: 'user list'
             - knife_host
             - knife_username

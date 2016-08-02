@@ -10,12 +10,14 @@
 namespace: io.cloudslang.docker.images
 
 imports:
+  images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_clear_unused_images
+
   inputs:
     - host
     - port:
@@ -28,19 +30,19 @@ flow:
   workflow:
 
     - clear_docker_host_prereqeust:
-       do:
-         maintenance.clear_host:
-           - docker_host: ${ host }
-           - port
-           - docker_username: ${ username }
-           - docker_password: ${ password }
-       navigate:
-         - SUCCESS: pull_image1
-         - FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
+        do:
+          maintenance.clear_host:
+            - docker_host: ${ host }
+            - port
+            - docker_username: ${ username }
+            - docker_password: ${ password }
+        navigate:
+          - SUCCESS: pull_image1
+          - FAILURE: PREREQUST_MACHINE_IS_NOT_CLEAN
 
     - pull_image1:
         do:
-          pull_image:
+          images.pull_image:
             - host
             - port
             - username
@@ -52,7 +54,7 @@ flow:
 
     - pull_image2:
         do:
-          pull_image:
+          images.pull_image:
             - host
             - port
             - username
@@ -77,7 +79,7 @@ flow:
 
     - get_list:
         do:
-          get_used_images:
+          images.get_used_images:
             - host
             - port
             - username
@@ -99,7 +101,7 @@ flow:
 
     - clear_unused_images:
         do:
-          clear_unused_images:
+          images.clear_unused_images:
             - docker_host: ${ host }
             - docker_username: ${ username }
             - docker_password: ${ password }
@@ -124,7 +126,7 @@ flow:
 
     - get_all_images:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username

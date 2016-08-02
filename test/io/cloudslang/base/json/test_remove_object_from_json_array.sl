@@ -8,6 +8,9 @@
 ####################################################
 namespace: io.cloudslang.base.json
 
+imports:
+  json: io.cloudslang.base.json
+
 flow:
   name: test_remove_object_from_json_array
 
@@ -22,7 +25,7 @@ flow:
   workflow:
     - remove_object_from_json_array:
         do:
-          remove_object_from_json_array:
+          json.remove_object_from_json_array:
             - json_array
             - json_object
             - index
@@ -37,7 +40,7 @@ flow:
 
     - test_equality:
         do:
-          equals:
+          json.equals:
             - json_input1: ${ json_output }
             - json_input2: ${ json_after }
 

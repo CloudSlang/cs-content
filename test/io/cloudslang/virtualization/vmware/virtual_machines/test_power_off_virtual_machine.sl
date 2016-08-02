@@ -9,6 +9,7 @@
 namespace: io.cloudslang.virtualization.vmware.virtual_machines
 
 imports:
+  vms: io.cloudslang.virtualization.vmware.virtual_machines
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -33,7 +34,7 @@ flow:
   workflow:
     - power_off_virtual_machine:
         do:
-          power_off_virtual_machine:
+          vms.power_off_virtual_machine:
             - host
             - port
             - protocol

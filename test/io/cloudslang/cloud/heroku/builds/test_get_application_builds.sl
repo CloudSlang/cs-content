@@ -10,8 +10,8 @@
 namespace: io.cloudslang.cloud.heroku.builds
 
 imports:
+  builds: io.cloudslang.cloud.heroku.builds
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
   name: test_get_application_builds
@@ -23,7 +23,7 @@ flow:
   workflow:
     - get_application_builds:
         do:
-          get_application_builds:
+          builds.get_application_builds:
             - username
             - password
             - app_id_or_name

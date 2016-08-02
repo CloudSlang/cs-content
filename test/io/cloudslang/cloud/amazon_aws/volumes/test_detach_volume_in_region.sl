@@ -8,6 +8,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.volumes
 
 imports:
+  volumes: io.cloudslang.cloud.amazon_aws.volumes
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -49,7 +50,7 @@ flow:
   workflow:
     - detach_volume:
         do:
-          detach_volume_in_region:
+          volumes.detach_volume_in_region:
             - provider
             - endpoint
             - identity

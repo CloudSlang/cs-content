@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.http
 
 imports:
+  http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
@@ -45,7 +46,7 @@ flow:
   workflow:
     - post_create_pet:
         do:
-          http_client_action:
+          http.http_client_action:
             - url
             - method: "POST"
             - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
@@ -78,7 +79,7 @@ flow:
 
     - get_pet_details:
         do:
-          http_client_action:
+          http.http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
             - content_type
@@ -150,7 +151,7 @@ flow:
 
     - put_update_pet:
         do:
-          http_client_action:
+          http.http_client_action:
             - url
             - method: "PUT"
             - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
@@ -183,7 +184,7 @@ flow:
 
     - get_updated_pet_details:
         do:
-          http_client_action:
+          http.http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
             - content_type
@@ -246,7 +247,7 @@ flow:
 
     - delete_pet:
         do:
-          http_client_action:
+          http.http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "DELETE"
             - content_type
@@ -269,7 +270,7 @@ flow:
 
     - get_pet_after_delete:
         do:
-          http_client_action:
+          http.http_client_action:
             - url: ${ url + '/' + resource_id }
             - method: "GET"
             - content_type

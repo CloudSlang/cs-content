@@ -8,35 +8,40 @@
 ####################################################
 namespace: io.cloudslang.base.files
 
+imports:
+  files: io.cloudslang.base.files
+
 flow:
   name: test_create_folder_already_existent
+
   inputs:
     - folder_name
+
   workflow:
     - create_folder:
         do:
-          create_folder:
+          files.create_folder:
             - folder_name
         navigate:
           - SUCCESS: test_create_folder_already_existent
           - FAILURE: FOLDERFAILURE
     - test_create_folder_already_existent:
         do:
-          create_folder:
+          files.create_folder:
             - folder_name
         navigate:
           - SUCCESS: delete_folder_from_success
           - FAILURE: delete_folder_from_failure
     - delete_folder_from_success:
         do:
-          delete:
+          files.delete:
             - source: ${folder_name}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: DELETEFAILURE
     - delete_folder_from_failure:
         do:
-          delete:
+          files.delete:
             - source: ${folder_name}
         navigate:
           - SUCCESS: FAILURE

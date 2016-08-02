@@ -10,7 +10,7 @@
 namespace: io.cloudslang.cloud.openstack.blockstorage
 
 imports:
-  openstack_content: io.cloudslang.cloud.openstack
+  blockstorage: io.cloudslang.cloud.openstack.blockstorage
 
 flow:
   name: test_volumes
@@ -36,7 +36,7 @@ flow:
   workflow:
     - create_volume:
         do:
-          create_volume:
+          blockstorage.create_volume:
             - host
             - identity_port
             - blockstorage_port
@@ -65,7 +65,7 @@ flow:
 
     - get_volumes:
         do:
-          get_volumes:
+          blockstorage.get_volumes:
             - host
             - identity_port
             - blockstorage_port
@@ -92,7 +92,7 @@ flow:
 
     - delete_volume:
         do:
-          delete_volume:
+          blockstorage.delete_volume:
             - host
             - identity_port
             - blockstorage_port

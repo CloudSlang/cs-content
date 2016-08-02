@@ -30,6 +30,7 @@ namespace: io.cloudslang.base.utils
 imports:
   ssh: io.cloudslang.base.ssh
   math: io.cloudslang.base.math
+  utils: io.cloudslang.base.utils
 
 flow:
   name: handle_session_recovery
@@ -44,7 +45,7 @@ flow:
   workflow:
     - check_enabled:
         do:
-          is_true:
+          utils.is_true:
             - bool_value: ${ enabled }
         navigate:
           - SUCCESS: check_retries

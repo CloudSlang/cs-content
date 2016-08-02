@@ -24,6 +24,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: search_cookbooks_in_community
   inputs:
@@ -41,7 +44,7 @@ flow:
   workflow:
     - search_cookbooks_in_community:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'knife cookbook site search ' + cookbook_name + ' --FORMAT=JSON'}
             - knife_host
             - knife_username

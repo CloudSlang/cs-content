@@ -10,11 +10,13 @@
 namespace: io.cloudslang.cloud.heroku.collaborators
 
 imports:
+  collaborators: io.cloudslang.cloud.heroku.collaborators
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_create_application_collaborator
+
   inputs:
     - username
     - password
@@ -27,7 +29,7 @@ flow:
   workflow:
     - create_application_collaborator:
         do:
-          create_application_collaborator:
+          collaborators.create_application_collaborator:
             - username
             - password
             - app_id_or_name

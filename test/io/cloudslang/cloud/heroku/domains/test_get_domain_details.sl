@@ -10,12 +10,13 @@
 namespace: io.cloudslang.cloud.heroku.domains
 
 imports:
+  domains: io.cloudslang.cloud.heroku.domains
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_domain_details
+
   inputs:
     - username
     - password
@@ -25,7 +26,7 @@ flow:
   workflow:
     - get_domain_details:
         do:
-          get_domain_details:
+          domains.get_domain_details:
             - username
             - password
             - app_id_or_name

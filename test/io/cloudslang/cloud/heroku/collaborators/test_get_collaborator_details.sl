@@ -10,8 +10,8 @@
 namespace: io.cloudslang.cloud.heroku.collaborators
 
 imports:
+  collaborators: io.cloudslang.cloud.heroku.collaborators
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
@@ -25,7 +25,7 @@ flow:
   workflow:
     - get_collaborator_details:
         do:
-          get_collaborator_details:
+          collaborators.get_collaborator_details:
             - username
             - password
             - app_id_or_name

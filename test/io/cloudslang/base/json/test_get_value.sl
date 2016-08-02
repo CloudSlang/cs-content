@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.json
 
 imports:
+  json: io.cloudslang.base.json
   comp: io.cloudslang.base.comparisons
 
 flow:
@@ -22,7 +23,7 @@ flow:
   workflow:
     - get_value:
         do:
-          get_value:
+          json.get_value:
             - json_input: ${ json_before }
             - json_path
         publish:

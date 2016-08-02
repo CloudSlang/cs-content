@@ -26,6 +26,7 @@
 namespace: io.cloudslang.cloud.hp_cloud
 
 imports:
+  hp_cloud: io.cloudslang.cloud.hp_cloud
   print: io.cloudslang.base.print
   json: io.cloudslang.base.json
   base_utils: io.cloudslang.base.utils
@@ -54,7 +55,7 @@ flow:
 
     - get_details:
         do:
-          get_server_details:
+          hp_cloud.get_server_details:
             - server_id
             - tenant
             - token

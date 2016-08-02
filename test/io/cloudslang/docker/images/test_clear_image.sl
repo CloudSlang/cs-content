@@ -10,7 +10,7 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.ssh
+  images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
 
 flow:
@@ -26,7 +26,7 @@ flow:
   workflow:
     - pull_image_and_clear:
         do:
-          test_pull_image:
+          images.test_pull_image:
             - host
             - port
             - username
@@ -44,7 +44,7 @@ flow:
 
     - get_all_images_after:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username
@@ -63,7 +63,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: SUCCESS
-
 
   results:
     - SUCCESS

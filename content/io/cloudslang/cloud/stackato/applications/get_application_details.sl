@@ -43,7 +43,8 @@
 namespace: io.cloudslang.cloud.stackato.applications
 
 imports:
-  stackato_utils: io.cloudslang.cloud.stackato.utils
+  applications: io.cloudslang.cloud.stackato.applications
+  utils: io.cloudslang.cloud.stackato.utils
 
 flow:
   name: get_application_details
@@ -67,7 +68,7 @@ flow:
   workflow:
     - get_applications_step:
         do:
-          get_applications:
+          applications.get_applications:
             - host
             - username
             - password
@@ -89,7 +90,7 @@ flow:
 
     - get_application_details:
         do:
-          stackato_utils.get_resource_details:
+          utils.get_resource_details:
             - json_input: ${return_result}
             - key_name: ${application_name}
         publish:

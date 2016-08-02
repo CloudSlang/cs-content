@@ -72,7 +72,7 @@ flow:
   workflow:
     - print_cluster_info_1:
         do:
-          print_cluster_info:
+          swarm.examples.print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -112,7 +112,7 @@ flow:
 
     - print_cluster_info_2:
         do:
-          print_cluster_info:
+          swarm.examples.print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -152,7 +152,7 @@ flow:
 
     - print_cluster_info_3:
         do:
-          print_cluster_info:
+          swarm.examples.print_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host

@@ -39,7 +39,7 @@ namespace: io.cloudslang.cloud.stackato.users
 
 imports:
   stackato: io.cloudslang.cloud.stackato
-  stackato_utils: io.cloudslang.cloud.stackato.utils
+  utils: io.cloudslang.cloud.stackato.utils
   rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
@@ -115,7 +115,7 @@ flow:
 
     - get_usernames_list:
         do:
-          stackato_utils.get_usernames_list:
+          utils.get_usernames_list:
             - json_input: ${return_result}
         publish:
           - usernames_list

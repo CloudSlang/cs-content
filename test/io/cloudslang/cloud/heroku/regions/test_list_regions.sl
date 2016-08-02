@@ -10,8 +10,8 @@
 namespace: io.cloudslang.cloud.heroku.regions
 
 imports:
+  regions: io.cloudslang.cloud.heroku.regions
   lists: io.cloudslang.base.lists
-  json: io.cloudslang.base.json
 
 flow:
   name: test_list_regions
@@ -22,7 +22,7 @@ flow:
   workflow:
     - list_regions:
         do:
-          list_regions:
+          regions.list_regions:
             - username
             - password
         publish:

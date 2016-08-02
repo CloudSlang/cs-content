@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 imports:
+  images: io.cloudslang.cloud.amazon_aws.images
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -48,7 +49,7 @@ flow:
   workflow:
     - create_image:
         do:
-          create_image_in_region:
+          images.create_image_in_region:
             - provider
             - endpoint
             - identity

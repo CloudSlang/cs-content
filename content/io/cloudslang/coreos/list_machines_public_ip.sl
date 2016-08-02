@@ -21,6 +21,9 @@
 
 namespace: io.cloudslang.coreos
 
+imports:
+  coreos: io.cloudslang.coreos
+
 flow:
   name: list_machines_public_ip
 
@@ -42,7 +45,7 @@ flow:
   workflow:
     - list_ids_of_the_machines:
         do:
-          list_machines_id:
+          coreos.list_machines_id:
             - host: ${coreos_host}
             - username: ${coreos_username}
             - password: ${coreos_password}
@@ -55,7 +58,7 @@ flow:
         loop:
           for: machine_id in machines_id_list.split()
           do:
-            get_machine_public_ip:
+            coreos.get_machine_public_ip:
               - machine_id
               - host: ${coreos_host}
               - username: ${coreos_username}

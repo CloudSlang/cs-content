@@ -25,6 +25,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: get_cookbook_recipes
   inputs:
@@ -43,7 +46,7 @@ flow:
   workflow:
     - get_cookbook_recipes:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'cookbook show ' + cookbook_name + ' ' + cookbook_version + ' recipes -F JSON'}
             - knife_host
             - knife_username

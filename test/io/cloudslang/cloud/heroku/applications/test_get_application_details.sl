@@ -11,11 +11,13 @@
 namespace: io.cloudslang.cloud.heroku.applications
 
 imports:
+  apps: io.cloudslang.cloud.heroku.applications
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_application_details
+
   inputs:
     - username
     - password
@@ -24,7 +26,7 @@ flow:
   workflow:
     - get_application_details:
         do:
-          get_application_details:
+          apps.get_application_details:
             - username
             - password
             - app_id_or_name

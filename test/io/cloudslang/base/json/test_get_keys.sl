@@ -1,6 +1,7 @@
 namespace: io.cloudslang.base.json
 
 imports:
+  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
 
@@ -15,7 +16,7 @@ flow:
   workflow:
     - get_keys:
         do:
-          get_keys:
+          json.get_keys:
             - json_input
             - json_path
 

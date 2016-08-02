@@ -10,6 +10,7 @@
 namespace: io.cloudslang.cloud.openstack.flavors
 
 imports:
+  flavors: io.cloudslang.cloud.openstack.flavors
   lists: io.cloudslang.base.lists
 
 flow:
@@ -37,7 +38,7 @@ flow:
   workflow:
     - list_flavors_with_details:
         do:
-          list_flavors_with_details:
+          flavors.list_flavors_with_details:
             - host
             - identity_port
             - compute_port

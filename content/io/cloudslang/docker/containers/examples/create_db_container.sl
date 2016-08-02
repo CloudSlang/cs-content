@@ -24,8 +24,8 @@
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
- docker_images: io.cloudslang.docker.images
- docker_containers: io.cloudslang.docker.containers
+ images: io.cloudslang.docker.images
+ containers: io.cloudslang.docker.containers
 flow:
   name: create_db_container
   inputs:
@@ -44,7 +44,7 @@ flow:
   workflow:
     - pull_mysql_image:
         do:
-          docker_images.pull_image:
+          images.pull_image:
             - image_name: 'mysql'
             - host
             - port
@@ -57,7 +57,7 @@ flow:
 
     - create_mysql_container:
         do:
-          docker_containers.run_container:
+          containers.run_container:
             - image_name: 'mysql'
             - container_name
             - container_params: ${'-e MYSQL_ROOT_PASSWORD=pass -e MYSQL_DATABASE=boot -e MYSQL_USER=user -e MYSQL_PASSWORD=pass'}
@@ -70,7 +70,7 @@ flow:
 
     - get_db_ip:
         do:
-          docker_containers.get_container_ip:
+          containers.get_container_ip:
             - container_name
             - host
             - port

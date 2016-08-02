@@ -23,8 +23,8 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- base_os_linux: io.cloudslang.base.os.linux
- docker_images: io.cloudslang.docker.images
+ linux: io.cloudslang.base.os.linux
+ images: io.cloudslang.docker.images
 
 flow:
   name: images_maintenance
@@ -41,7 +41,7 @@ flow:
   workflow:
     - check_diskspace:
         do:
-          base_os_linux.diskspace_health_check:
+          linux.diskspace_health_check:
             - docker_host
             - docker_username
             - docker_password
@@ -54,7 +54,7 @@ flow:
           - NOT_ENOUGH_DISKSPACE: clear_unused_images
     - clear_unused_images:
         do:
-          docker_images.clear_unused_and_dangling_images:
+          images.clear_unused_and_dangling_images:
             - docker_host
             - docker_username
             - docker_password
