@@ -31,7 +31,7 @@
 namespace: io.cloudslang.git
 
 imports:
-  ssh: iio.cloudslang.base.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
