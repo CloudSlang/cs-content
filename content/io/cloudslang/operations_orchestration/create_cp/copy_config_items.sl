@@ -13,7 +13,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.operations_orchestration.createCP
+namespace: io.cloudslang.operations_orchestration.create_cp
 
 operation:
   name: copy_config_items

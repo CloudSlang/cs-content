@@ -27,6 +27,7 @@ imports:
 
 flow:
   name: test_chef_hpcloud_full
+
   inputs:
     # General inputs
     - server_name
@@ -43,20 +44,20 @@ flow:
     - run_list_items
     - knife_host
     - knife_username
-    - knife_password: 
+    - knife_password:
         default: ''
         required: false
     - knife_privkey:
         default: ''
-        required: false    
+        required: false
     - node_username
     - node_privkey_remote:
         default: ''
-        required: false  
+        required: false
     - node_privkey_local:
         default: ''
-        required: false 
-    - node_password: 
+        required: false
+    - node_password:
         default: ''
         required: false
     - knife_config:
@@ -101,9 +102,9 @@ flow:
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey       
+            - knife_privkey
             - node_username
-            - node_password         
+            - node_password
             - node_privkey: ${node_privkey_remote}
             - knife_config
         publish:
@@ -119,9 +120,9 @@ flow:
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey            
+            - knife_privkey
             - node_username
-            - node_password             
+            - node_password
             - node_privkey: ${node_privkey_remote}
             - knife_config
         publish:

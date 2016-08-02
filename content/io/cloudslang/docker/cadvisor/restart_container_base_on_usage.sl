@@ -24,8 +24,9 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  docker_container: io.cloudslang.docker.containers
-  docker_print: io.cloudslang.base.print
+  cadvisor: io.cloudslang.docker.cadvisor
+  containers: io.cloudslang.docker.containers
+  print: io.cloudslang.base.print
 
 flow:
   name: restart_container_base_on_usage
@@ -50,7 +51,7 @@ flow:
   workflow:
     - retrieve_container_usage:
         do:
-          report_container_metrics:
+          cadvisor.eport_container_metrics:
             - container
             - host
             - cadvisor_port
@@ -65,7 +66,7 @@ flow:
           - error_message
     - evaluate_resource_usage:
         do:
-          evaluate_resource_usage:
+          cadvisor.evaluate_resource_usage:
             - rule
             - memory_usage
             - cpu_usage
@@ -79,7 +80,7 @@ flow:
             - FAILURE: FAILURE
     - stop_container:
         do:
-          docker_container.stop_container:
+          containers.stop_container:
             - container_id: ${container}
             - host
             - username
@@ -93,7 +94,7 @@ flow:
             - FAILURE: FAILURE
     - start_container:
         do:
-          docker_container.start_container:
+          containers.start_container:
             - private_key_file
             - start_container_id: ${container}
             - host
@@ -105,7 +106,7 @@ flow:
     - on_failure:
         - print_error:
             do:
-              docker_print.print_text:
+              print.print_text:
                 - text: ${'cAdvisor ended with the following error message ' + error_message}
   results:
     - SUCCESS

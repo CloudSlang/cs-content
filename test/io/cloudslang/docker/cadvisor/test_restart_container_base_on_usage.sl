@@ -10,6 +10,7 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
+  cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
   utils: io.cloudslang.base.utils
 
@@ -70,7 +71,7 @@ flow:
 
     - call_restart_container_base_on_usage:
         do:
-          restart_container_base_on_usage:
+          cadvisor.restart_container_base_on_usage:
             - container: ${cadvisor_container_name}
             - host
             - cadvisor_port

@@ -22,7 +22,7 @@
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
- docker_containers: io.cloudslang.docker.containers
+ containers: io.cloudslang.docker.containers
 
 flow:
   name: demo_clear_containers_wrapper
@@ -38,11 +38,11 @@ flow:
         sensitive: true
     - private_key_file:
         required: false
-        
+
   workflow:
     - clear_db_container:
         do:
-          docker_containers.clear_container:
+          containers.clear_container:
             - container_id: ${db_container_id}
             - docker_host
             - port
@@ -53,7 +53,7 @@ flow:
           - error_message
     - clear_linked_container:
         do:
-          docker_containers.clear_container:
+          containers.clear_container:
             - container_id: ${linked_container_id}
             - docker_host
             - port

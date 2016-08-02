@@ -9,6 +9,7 @@
 namespace: io.cloudslang.base.files
 
 imports:
+  files: io.cloudslang.base.files
   strings: io.cloudslang.base.strings
 
 flow:
@@ -20,7 +21,7 @@ flow:
   workflow:
     - create_file:
         do:
-          write_to_file:
+          files.write_to_file:
             - file_path: ${read_file_path}
             - text: 'hello'
         navigate:
@@ -28,7 +29,7 @@ flow:
           - FAILURE: WRITE_FAILURE
     - test_read_from_file:
         do:
-          read_from_file:
+          files.read_from_file:
             - file_path: ${read_file_path}
         publish:
           - read_text
@@ -55,14 +56,14 @@ flow:
 
     - delete_created_file_outputs_checked:
         do:
-          delete:
+          files.delete:
             - source: ${read_file_path}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: DELETE_FAILURE
     - delete_created_file_outputs_different:
         do:
-          delete:
+          files.delete:
             - source: ${read_file_path}
         navigate:
           - SUCCESS: DIFFERENT_OUTPUTS

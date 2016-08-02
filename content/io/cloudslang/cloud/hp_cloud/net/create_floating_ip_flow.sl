@@ -26,6 +26,7 @@ imports:
   utils: io.cloudslang.cloud.hp_cloud.utils
   print: io.cloudslang.base.print
   json: io.cloudslang.base.json
+  net: io.cloudslang.cloud.hp_cloud.net
 
 flow:
   name: create_floating_ip_flow
@@ -41,7 +42,7 @@ flow:
   workflow:
     - list_networks:
         do:
-          list_all_networks:
+          net.list_all_networks:
             - token
             - region
             - proxy_host
@@ -59,7 +60,7 @@ flow:
 
     - allocate_floating_ip:
         do:
-          create_floating_ip:
+          net.create_floating_ip:
             - ext_network_id
             - token
             - region

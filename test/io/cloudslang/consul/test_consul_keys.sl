@@ -10,6 +10,7 @@
 namespace: io.cloudslang.consul
 
 imports:
+  consul: io.cloudslang.consul
   ssh: io.cloudslang.base.ssh
 
 flow:
@@ -27,10 +28,9 @@ flow:
     - key_value
 
   workflow:
-
     - create_key:
         do:
-          create_kv:
+          consul.create_kv:
             - host
             - key_name
             - key_value
@@ -39,7 +39,7 @@ flow:
           - FAILURE: FAIL_CREATING_KEY
     - get_key:
         do:
-          report_kv:
+          conul.report_kv:
             - host
             - key_name
         publish:
@@ -54,7 +54,7 @@ flow:
           - FAILURE: FAIL_GETTING_KEY
     - delete_key:
         do:
-          delete_kv:
+          consul.delete_kv:
             - host
             - key_name
         navigate:

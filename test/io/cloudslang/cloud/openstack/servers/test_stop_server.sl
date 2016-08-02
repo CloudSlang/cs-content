@@ -10,7 +10,7 @@
 namespace: io.cloudslang.cloud.openstack.servers
 
 imports:
-  openstack: io.cloudslang.cloud.openstack
+  servers: io.cloudslang.cloud.openstack.servers
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
@@ -42,7 +42,7 @@ flow:
   workflow:
     - stop_server:
         do:
-          stop_server:
+          servers.stop_server:
             - host
             - identity_port
             - compute_port
@@ -86,7 +86,7 @@ flow:
 
     - get_server_details:
         do:
-          get_server_details:
+          servers.get_server_details:
             - host
             - identity_port
             - compute_port

@@ -10,7 +10,7 @@
 namespace: io.cloudslang.cloud.google.gke
 
 imports:
-  utils: io.cloudslang.base.utils
+  gke: io.cloudslang.cloud.google.gke
   print: io.cloudslang.base.print
 
 flow:
@@ -25,7 +25,7 @@ flow:
   workflow:
     - ListClusters:
         do:
-          beta_list_clusters:
+          gke.beta_list_clusters:
             - project_id
             - json_google_auth_path
         publish:
@@ -41,7 +41,7 @@ flow:
 
     - ListOperations:
         do:
-          beta_list_operations:
+          gke.beta_list_operations:
             - project_id
             - json_google_auth_path
         publish:
@@ -57,7 +57,7 @@ flow:
 
     - getServerconfig:
         do:
-          beta_get_serverconfig:
+          gke.beta_get_serverconfig:
             - project_id
             - json_google_auth_path
         publish:
@@ -73,7 +73,7 @@ flow:
 
     - getOperation:
         do:
-          beta_get_operation_details:
+          gke.beta_get_operation_details:
             - project_id
             - zone
             - json_google_auth_path

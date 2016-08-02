@@ -8,6 +8,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.volumes
 
 imports:
+  volumes: io.cloudslang.cloud.amazon_aws.volumes
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -40,7 +41,7 @@ flow:
   workflow:
     - delete_volume:
         do:
-          delete_volume_in_region:
+          volumes.delete_volume_in_region:
             - provider
             - endpoint
             - identity

@@ -163,7 +163,7 @@ flow:
           - DUMP_FAILURE: CHECKPOINT_FAILURE
   - transfer_container:
       do:
-        transfer_images:
+        runc.examples.transfer_images:
           - docker_host
           - destination_host
           - port
@@ -182,7 +182,7 @@ flow:
           - DELETE_DUMP_FAILURE: TRANSFER_FAILURE
   - extract_dump:
       do:
-        extract_images:
+        runc.examples.extract_images:
           - docker_host: ${destination_host}
           - port
           - username

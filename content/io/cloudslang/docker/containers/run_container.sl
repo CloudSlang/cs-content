@@ -36,7 +36,6 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   ssh: io.cloudslang.base.ssh
-  images: io.cloudslang.docker.images
 
 flow:
   name: run_container

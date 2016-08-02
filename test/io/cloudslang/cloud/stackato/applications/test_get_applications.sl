@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.stackato.applications
 
 imports:
+  apps: io.cloudslang.cloud.stackato.applications
   lists: io.cloudslang.base.lists
 
 flow:
@@ -32,7 +33,7 @@ flow:
   workflow:
     - get_apps:
         do:
-          get_applications:
+          apps.get_applications:
             - host
             - username
             - password

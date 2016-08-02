@@ -26,6 +26,7 @@ namespace: io.cloudslang.chef
 
 imports:
   ssh: io.cloudslang.base.ssh
+  chef: io.cloudslang.chef
 
 flow:
   name: delete_node
@@ -44,7 +45,7 @@ flow:
   workflow:
     - remove_client:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'client delete ' + node_name + ' -y'}
             - knife_host
             - knife_username
@@ -58,7 +59,7 @@ flow:
 
     - remove_node:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'node delete ' + node_name + ' -y'}
             - knife_host
             - knife_username

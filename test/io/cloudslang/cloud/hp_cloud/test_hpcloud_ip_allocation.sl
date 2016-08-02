@@ -35,7 +35,7 @@ flow:
   workflow:
     - authentication:
         do:
-          get_authentication_flow:
+          hpcloud.get_authentication_flow:
             - username
             - password
             - tenant_name
@@ -46,7 +46,7 @@ flow:
           - token
           - tenant: ${tenant_id}
           - return_result
-          - error_message  
+          - error_message
 
     - allocate_new_ip:
         do:
@@ -57,7 +57,7 @@ flow:
             - proxy_port
         publish:
           - return_result
-          - ip_address 
+          - ip_address
 
     - print_ip_address:
         do:

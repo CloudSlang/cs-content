@@ -10,8 +10,8 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
+  containers: io.cloudslang.docker.containers
   images: io.cloudslang.docker.images
-  maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
 
 flow:
@@ -28,7 +28,7 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         clear_containers:
+         containers.clear_containers:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
@@ -64,7 +64,7 @@ flow:
 
     - run_first_container:
         do:
-          run_container:
+          containers.run_container:
             - host
             - port
             - username
@@ -79,7 +79,7 @@ flow:
 
     - run_second_container:
         do:
-          run_container:
+          containers.run_container:
             - host
             - port
             - username
@@ -94,7 +94,7 @@ flow:
 
     - get_all_containers:
         do:
-          get_all_containers:
+          containers.get_all_containers:
             - host
             - port
             - username
@@ -115,11 +115,11 @@ flow:
 
     - clear_docker_host:
         do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
+          containers.clear_containers:
+            - docker_host: ${host}
+            - port
+            - docker_username: ${username}
+            - docker_password: ${password}
         navigate:
          - SUCCESS: SUCCESS
          - FAILURE: MACHINE_IS_NOT_CLEAN

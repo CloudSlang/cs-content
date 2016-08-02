@@ -24,6 +24,9 @@
 
 namespace: io.cloudslang.chef
 
+imports:
+  chef: io.cloudslang.chef
+
 flow:
   name: extract_cookbook_in_repo
   inputs:
@@ -40,7 +43,7 @@ flow:
   workflow:
     - extract_cookbook_in_repo:
         do:
-          knife_command:
+          chef.knife_command:
             - knife_cmd: ${'tar -zxvf ' + cookbook_name}
             - knife_host
             - knife_username

@@ -10,6 +10,7 @@
 namespace: io.cloudslang.base.http
 
 imports:
+  http: io.cloudslang.base.http
   lists: io.cloudslang.base.lists
   utils: io.cloudslang.base.http.utils
   strings: io.cloudslang.base.strings
@@ -51,7 +52,7 @@ flow:
   workflow:
     - get:
         do:
-          http_client_get:
+          http.http_client_get:
             - url
             - username
             - password
@@ -76,7 +77,7 @@ flow:
 
     - second_get:
         do:
-          http_client_get:
+          http.http_client_get:
             - url
             - content_type
             - username
@@ -121,7 +122,7 @@ flow:
 
     - post:
         do:
-          http_client_post:
+          http.http_client_post:
             - url
             - body
             - username
@@ -157,7 +158,7 @@ flow:
 
     - delete:
         do:
-          http_client_delete:
+          http.http_client_delete:
             - url: ${url + '?endedBefore=3168065160000&flowUuids=5ca8cc4c-15c7-4e47-87dc-5b7aea8bd11d'}
             - username
             - password
@@ -192,7 +193,7 @@ flow:
 
     - get_executions:
         do:
-          http_client_get:
+          http.http_client_get:
               - url
               - content_type
               - auth_type: "anonymous"

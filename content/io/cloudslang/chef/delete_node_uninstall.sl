@@ -30,6 +30,7 @@ namespace: io.cloudslang.chef
 
 imports:
   ssh: io.cloudslang.base.ssh
+  chef: io.cloudslang.chef
 
 flow:
   name: delete_node_uninstall
@@ -55,7 +56,7 @@ flow:
   workflow:
     - remove_node_from_chef:
         do:
-          delete_node:
+          chef.delete_node:
             - node_name
             - knife_host
             - knife_username

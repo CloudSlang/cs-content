@@ -8,6 +8,9 @@
 ####################################################
 namespace: io.cloudslang.base.xml
 
+imports:
+  xml: io.cloudslang.base.xml
+
 flow:
   name: test_append_child
 
@@ -20,7 +23,7 @@ flow:
   workflow:
     - app_value:
         do:
-          append_child:
+          xml.append_child:
             - xml_document
             - xpath_element_query
             - xml_element
@@ -31,7 +34,7 @@ flow:
           - FAILURE: APPEND_FAILURE
     - find_appended:
         do:
-          select:
+          xml.select:
             - xml_document: ${result_xml}
             - xpath_query: ${xpath_test_query}
         publish:

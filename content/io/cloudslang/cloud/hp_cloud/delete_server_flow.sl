@@ -27,6 +27,7 @@
 namespace: io.cloudslang.cloud.hp_cloud
 
 imports:
+  hp_cloud: io.cloudslang.cloud.hp_cloud
   print: io.cloudslang.base.print
   base_utils: io.cloudslang.base.utils
   net: io.cloudslang.cloud.hp_cloud.net
@@ -52,7 +53,7 @@ flow:
   workflow:
     - authentication:
         do:
-          get_authentication_flow:
+          hp_cloud.get_authentication_flow:
             - username
             - password
             - tenant_name
@@ -67,7 +68,7 @@ flow:
 
     - delete_server:
         do:
-          delete_server:
+          hp_cloud.delete_server:
             - server_id
             - token
             - tenant

@@ -75,7 +75,7 @@ imports:
   rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
   mail: io.cloudslang.base.mail
-
+  circleci: io.cloudslang.base.ci.circleci
 
 flow:
   name: get_branches_build_failure
@@ -132,7 +132,7 @@ flow:
   workflow:
     - get_project_branches:
         do:
-          get_project_branches:
+          circleci.get_project_branches:
             - url: ${protocol + '://' + host + '/api/v1/projects?circle-token=' + token}
             - protocol
             - host
@@ -161,7 +161,7 @@ flow:
         loop:
           for: branch in branches
           do:
-            get_failed_build:
+            circleci.get_failed_build:
               - url: ${protocol + '://' + host + '/api/v1/project/' + username + '/' + project + '/tree/' + branch + '?circle-token=:' + token + '&limit=1&filter=failed'}
               - token
               - protocol

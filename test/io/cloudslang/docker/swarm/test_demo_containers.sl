@@ -10,11 +10,13 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
+  swarm: io.cloudslang.docker.swarm
+  examples: io.cloudslang.docker.swarm.examples
   strings: io.cloudslang.base.strings
-  swarm_examples: io.cloudslang.docker.swarm.examples
 
 flow:
   name: test_demo_containers
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -37,7 +39,7 @@ flow:
   workflow:
     - setup_cluster:
         do:
-          create_cluster_with_nodes:
+          swarm.create_cluster_with_nodes:
             - manager_machine_ip: ${swarm_manager_ip}
             - manager_machine_username: ${username}
             - manager_machine_password: ${password}
@@ -61,7 +63,7 @@ flow:
 
     - get_number_of_containers_in_cluster_before:
         do:
-          get_cluster_info:
+          swarm.get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -78,7 +80,7 @@ flow:
 
     - run_demo_containers:
         do:
-          swarm_examples.demo_containers:
+          examples.demo_containers:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -90,7 +92,7 @@ flow:
 
     - get_number_of_containers_in_cluster_after:
         do:
-          get_cluster_info:
+          swarm.get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host

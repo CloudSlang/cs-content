@@ -10,6 +10,7 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
+  cadvisor: io.cloudslang.docker.cadvisor
   strings: io.cloudslang.base.strings
   containers: io.cloudslang.docker.containers
   utils: io.cloudslang.base.utils
@@ -71,7 +72,7 @@ flow:
 
     - call_report_machine_metrics:
         do:
-          report_machine_metrics:
+          cadvisor.report_machine_metrics:
             - host
             - cadvisor_port
         publish:

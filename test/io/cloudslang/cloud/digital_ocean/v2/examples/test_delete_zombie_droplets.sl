@@ -28,6 +28,7 @@
 namespace: io.cloudslang.cloud.digital_ocean.v2.examples
 
 imports:
+  examples: io.cloudslang.cloud.digital_ocean.v2.examples
   droplets: io.cloudslang.cloud.digital_ocean.v2.droplets
   droplet_utils: io.cloudslang.cloud.digital_ocean.v2.utils
 
@@ -86,7 +87,7 @@ flow:
 
     - remove_zombie_droplets:
         do:
-          delete_zombie_droplets:
+          examples.delete_zombie_droplets:
             - time_to_live
             - name_pattern: ${droplet_name}
             - token

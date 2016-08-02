@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 imports:
+  images: io.cloudslang.cloud.amazon_aws.images
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -41,7 +42,7 @@ flow:
   workflow:
     - get_launch_permissions:
         do:
-          get_launch_permission_for_image_in_region:
+          images.get_launch_permission_for_image_in_region:
             - provider
             - endpoint
             - identity

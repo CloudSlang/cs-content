@@ -24,7 +24,8 @@
 namespace: io.cloudslang.jenkins
 
 imports:
-  base_mail: io.cloudslang.base.mail
+  jenkins: io.cloudslang.jenkins
+  mail: io.cloudslang.base.mail
 
 flow:
   name: clone_job_for_branch
@@ -41,7 +42,7 @@ flow:
   workflow:
     - check_job_exists:
         do:
-          check_job_exists:
+          jenkins.check_job_exists:
             - url
             - job_name: ${ jnks_new_job_name }
             - expected_status: ${ delete_job_if_existing }
@@ -53,13 +54,13 @@ flow:
 
     - delete_job:
         do:
-          delete_job:
+          jenkins.delete_job:
             - url
             - job_name: ${ jnks_new_job_name }
 
     - copy_job:
         do:
-          copy_job:
+          jenkins.copy_job:
             - url
             - job_name: ${ jnks_job_name }
             - new_job_name: ${ jnks_new_job_name }
@@ -68,7 +69,7 @@ flow:
 
     - modify_scm_url:
         do:
-          modify_scm_url:
+          jenkins.modify_scm_url:
             - url
             - job_name: ${ jnks_new_job_name }
             - new_scm_url
@@ -77,7 +78,7 @@ flow:
 
     - fix_job:
         do:
-          fix_job:
+          jenkins.fix_job:
             - url
             - job_name: ${ jnks_new_job_name }
         publish:
@@ -88,7 +89,7 @@ flow:
 
     - fail_with_job_existing:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${ email_host }
             - port: ${ email_port }
             - from: ${ email_sender }
@@ -102,7 +103,7 @@ flow:
     - on_failure:
         - send_error_mail:
             do:
-              base_mail.send_mail:
+              mail.send_mail:
                 - hostname: ${ email_host }
                 - port: ${ email_port }
                 - from: ${ email_sender }

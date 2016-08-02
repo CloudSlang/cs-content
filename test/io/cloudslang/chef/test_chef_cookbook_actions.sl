@@ -20,7 +20,7 @@
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  chef: io.cloudslang.chef
   print: io.cloudslang.base.print
 
 flow:
@@ -42,7 +42,7 @@ flow:
   workflow:
     - chef_extract_cookbook_in_ropository:
         do:
-          extract_cookbook_in_repo:
+          chef.extract_cookbook_in_repo:
             - cookbook_name
             - knife_host
             - knife_username
@@ -55,7 +55,7 @@ flow:
 
     - chef_get_community_cookbooks:
         do:
-          get_community_cookbooks:
+          chef.get_community_cookbooks:
             - knife_host
             - knife_username
             - knife_password
@@ -67,7 +67,7 @@ flow:
 
     - chef_get_cookbook_recipes:
         do:
-          get_cookbook_recipes:
+          chef.get_cookbook_recipes:
             - cookbook_name
             - cookbook_version
             - knife_host
@@ -81,7 +81,7 @@ flow:
 
     - chef_get_cookbook_version:
         do:
-          get_cookbook_version:
+          chef.get_cookbook_version:
             - cookbook_name
             - knife_host
             - knife_username
@@ -94,7 +94,7 @@ flow:
 
     - chef_get_cookbooks:
         do:
-          get_cookbooks:
+          chef.get_cookbooks:
             - knife_host
             - knife_username
             - knife_password
@@ -106,7 +106,7 @@ flow:
 
     - chef_search_cookbooks_in_community:
         do:
-          search_cookbooks_in_community:
+          chef.search_cookbooks_in_community:
             - cookbook_name
             - knife_host
             - knife_username
@@ -119,7 +119,7 @@ flow:
 
     - chef_upload_cookbook_to_server:
         do:
-          upload_cookbook_to_server:
+          chef.upload_cookbook_to_server:
             - cookbook_name
             - knife_host
             - knife_username

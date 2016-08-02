@@ -40,6 +40,7 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
+  swarm: io.cloudslang.docker.swarm
   containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
@@ -68,7 +69,7 @@ flow:
   workflow:
     - create_swarm_cluster:
         do:
-          create_cluster:
+          swarm.create_cluster:
             - host: ${manager_machine_ip}
             - username: ${manager_machine_username}
             - password: ${manager_machine_password}
@@ -103,7 +104,7 @@ flow:
 
     - start_manager_container:
         do:
-          start_manager:
+          swarm.start_manager:
             - swarm_port: ${manager_machine_port}
             - cluster_id
             - host: ${manager_machine_ip}
@@ -118,7 +119,7 @@ flow:
         parallel_loop:
           for: ip in agent_ip_addresses
           do:
-            register_agent:
+            swarm.register_agent:
               - node_ip: ${ip}
               - cluster_id
               - host: ${ip}
@@ -130,7 +131,7 @@ flow:
 
     - get_number_of_nodes_in_cluster:
         do:
-          get_cluster_info:
+          swarm.get_cluster_info:
             - swarm_manager_ip: ${manager_machine_ip}
             - swarm_manager_port: ${manager_machine_port}
             - host: ${manager_machine_ip}

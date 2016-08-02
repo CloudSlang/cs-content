@@ -16,11 +16,13 @@
 namespace: io.cloudslang.chef
 
 imports:
+  chef: io.cloudslang.chef
   ssh: io.cloudslang.base.ssh
   print: io.cloudslang.base.print
 
 flow:
   name: test_chef_bootstrap_run
+
   inputs:
     # General inputs
     - node_host
@@ -46,7 +48,7 @@ flow:
   workflow:
     - chef_bootstrap:
         do:
-          bootstrap_node:
+          chef.bootstrap_node:
             - node_host
             - node_name
             - knife_host
@@ -64,7 +66,7 @@ flow:
 
     - chef_assign_cookbooks:
         do:
-          run_list_add:
+          chef.run_list_add:
             - run_list_items
             - node_name
             - knife_host
@@ -91,7 +93,7 @@ flow:
 
     - chef_remove_cookbooks:
         do:
-          run_list_remove:
+          chef.run_list_remove:
             - run_list_items
             - node_name
             - knife_host
@@ -105,7 +107,7 @@ flow:
 
     - chef_remove_node_and_uninstall:
         do:
-          delete_node_uninstall:
+          chef.delete_node_uninstall:
             - node_name
             - knife_host
             - knife_username
@@ -123,7 +125,7 @@ flow:
 
     - chef_get_nodes:
         do:
-          get_nodes:
+          chef.get_nodes:
             - knife_host
             - knife_username
             - knife_password
@@ -135,7 +137,7 @@ flow:
 
     - chef_get_roles:
         do:
-          get_roles:
+          chef.get_roles:
             - knife_host
             - knife_username
             - knife_password
@@ -147,7 +149,7 @@ flow:
 
     - chef_get_users:
         do:
-          get_users:
+          chef.get_users:
             - knife_host
             - knife_username
             - knife_password
@@ -159,7 +161,7 @@ flow:
 
     - chef_ssl_check:
         do:
-          ssl_check:
+          chef.ssl_check:
             - knife_host
             - knife_username
             - knife_password

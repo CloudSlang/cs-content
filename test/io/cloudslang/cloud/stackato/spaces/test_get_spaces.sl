@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.stackato.spaces
 
 imports:
+  spaces: io.cloudslang.cloud.stackato.spaces
   lists: io.cloudslang.base.lists
 
 flow:
@@ -32,7 +33,7 @@ flow:
   workflow:
     - get_spaces:
         do:
-          get_spaces:
+          spaces.get_spaces:
             - host
             - username
             - password

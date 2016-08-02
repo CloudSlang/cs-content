@@ -10,10 +10,12 @@
 namespace: io.cloudslang.cloud.heroku.addons
 
 imports:
+  addons: io.cloudslang.cloud.heroku.addons
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_list_addons_for_application
+
   inputs:
     - username
     - password
@@ -22,7 +24,7 @@ flow:
   workflow:
     - list_addons_for_application:
         do:
-          list_addons_for_application:
+          addons.list_addons_for_application:
             - username
             - password
             - app_name_or_id

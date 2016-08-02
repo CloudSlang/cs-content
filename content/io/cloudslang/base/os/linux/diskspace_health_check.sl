@@ -24,6 +24,7 @@ namespace: io.cloudslang.base.os.linux
 
 imports:
  base_comparisons: io.cloudslang.base.comparisons
+ linux: io.cloudslang.base.os.linux
 
 flow:
   name: diskspace_health_check
@@ -42,7 +43,7 @@ flow:
   workflow:
     - validate_linux_machine_ssh_access:
         do:
-          validate_linux_machine_ssh_access:
+          linux.validate_linux_machine_ssh_access:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
@@ -50,7 +51,7 @@ flow:
             - timeout
     - check_disk_space:
         do:
-          check_linux_disk_space:
+          linux.check_linux_disk_space:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }

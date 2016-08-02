@@ -54,6 +54,9 @@
 
 namespace: io.cloudslang.base.http
 
+imports:
+  http: io.cloudslang.base.http
+
 flow:
   name: http_client_get
   inputs:
@@ -109,7 +112,7 @@ flow:
   workflow:
     - http_client_action_get:
         do:
-          http_client_action:
+          http.http_client_action:
             - url
             - auth_type
             - username

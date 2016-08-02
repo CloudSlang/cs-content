@@ -30,6 +30,7 @@ namespace: io.cloudslang.cloud.digital_ocean.v2.examples
 
 imports:
   droplets: io.cloudslang.cloud.digital_ocean.v2.droplets
+  examples: io.cloudslang.cloud.digital_ocean.v2.examples
 
 flow:
   name: delete_droplet_if_zombie
@@ -58,7 +59,7 @@ flow:
   workflow:
     - check_droplet_is_zombie:
         do:
-          check_droplet_is_zombie:
+          examples.check_droplet_is_zombie:
             - droplet_name
             - creation_time_as_string
             - time_to_live

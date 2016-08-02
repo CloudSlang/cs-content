@@ -26,6 +26,7 @@ namespace: io.cloudslang.cloud.digital_ocean.v2.examples
 
 imports:
   droplets: io.cloudslang.cloud.digital_ocean.v2.droplets
+  examples: io.cloudslang.cloud.digital_ocean.v2.examples
 
 flow:
   name: delete_zombie_droplets
@@ -67,7 +68,7 @@ flow:
         loop:
           for: droplet in droplets
           do:
-            delete_droplet_if_zombie:
+            examples.delete_droplet_if_zombie:
               - droplet_id: ${str(droplet['id'])}
               - droplet_name: ${droplet['name']}
               - creation_time_as_string: ${str(droplet['created_at'])}

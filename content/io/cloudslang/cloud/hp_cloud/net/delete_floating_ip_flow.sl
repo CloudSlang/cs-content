@@ -23,6 +23,7 @@ namespace: io.cloudslang.cloud.hp_cloud.net
 
 imports:
   utils: io.cloudslang.cloud.hp_cloud.utils
+  net: io.cloudslang.cloud.hp_cloud.net
 
 flow:
   name: delete_floating_ip_flow
@@ -39,7 +40,7 @@ flow:
   workflow:
     - list_ipadresses:
         do:
-          list_all_floating_ips:
+          net.list_all_floating_ips:
             - token
             - region
             - proxy_host
@@ -58,7 +59,7 @@ flow:
 
     - release_ip:
         do:
-          delete_floating_ip:
+          net.delete_floating_ip:
             - ip_id
             - token
             - region

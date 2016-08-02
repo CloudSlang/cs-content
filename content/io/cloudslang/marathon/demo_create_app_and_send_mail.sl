@@ -32,8 +32,9 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  files: io.cloudslang.base.files
-  base_mail: io.cloudslang.base.mail
+  mail: io.cloudslang.base.mail
+  marathon: io.cloudslang.marathon
+
 flow:
   name: demo_create_app_and_send_mail
   inputs:
@@ -61,7 +62,7 @@ flow:
   workflow:
     - create_app:
         do:
-          create_app:
+          marathon.create_app:
             - marathon_host
             - marathon_port
             - json_file
@@ -75,7 +76,7 @@ flow:
 
     - send_status_mail:
         do:
-          base_mail.send_mail:
+          mail.send_mail:
             - hostname: ${email_host}
             - port: ${email_port}
             - html_email: "false"
@@ -90,7 +91,7 @@ flow:
     - on_failure:
         - send_error_mail:
             do:
-              base_mail.send_mail:
+              mail.send_mail:
                 - hostname: ${email_host}
                 - port: ${email_port}
                 - html_email: "false"

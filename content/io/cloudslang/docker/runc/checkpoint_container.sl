@@ -26,7 +26,6 @@ namespace: io.cloudslang.docker.runc
 
 imports:
   ssh: io.cloudslang.base.ssh
-  files: io.cloudslang.base.files
   comparisons: io.cloudslang.base.comparisons
 flow:
   name: checkpoint_container

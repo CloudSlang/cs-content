@@ -9,6 +9,7 @@
 namespace: io.cloudslang.cloud.amazon_aws.tags
 
 imports:
+  tags: io.cloudslang.cloud.amazon_aws.tags
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
 
@@ -46,7 +47,7 @@ flow:
   workflow:
     - apply_tag_to_resources:
         do:
-          apply_to_resources:
+          tags.apply_to_resources:
             - provider
             - endpoint
             - identity
