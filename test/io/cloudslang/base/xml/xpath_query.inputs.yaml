@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Entperprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,14 @@
 testSelectElementSuccess:
   inputs:
     - xml_document: <root/>
+    - xml_document_source: xmlString
     - xpath_query: /root
-  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
-  testFlowPath: io.cloudslang.base.xml.select
+  description: Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: <root/>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testXpathPriceElementsAndTitleElements:
@@ -43,11 +44,11 @@ testXpathPriceElementsAndTitleElements:
     - xpath_query: //price/text()|//title/text()
     - query_type: 'nodelist'
   description: "Selects the node in the document from the current node that match the selection no matter where they are"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'Harry Potter,29.99,Learning XML,39.95,Testing XPath Query,100,Magazine'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathNodeOfCurrentNode:
@@ -65,11 +66,11 @@ testSelectXpathNodeOfCurrentNode:
                                                  </bookstore>'
     - xpath_query: //book
   description: "Tests that this operation selects the node in the document from the current node that match the selection no matter where they are"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>
+    - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>,<book> <title lang="en">Learning XML</title> <price>39.95</price> </book>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathBooksWithPriceGratherThan:
@@ -87,11 +88,11 @@ testSelectXpathBooksWithPriceGratherThan:
                                                  </bookstore>'
     - xpath_query: '/bookstore/book[price>35.00]/title'
   description: "Tests that this operation selects all the book elements of the bookstore element that have a price element with a value greater than 35.00"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: <title lang="en">Learning XML</title>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathAnyNode:
@@ -110,11 +111,11 @@ testSelectXpathAnyNode:
     - xpath_query: 'node()'
     - query_type: 'nodelist'
   description: "Tests that this operation selects any node of any kind"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> </bookstore>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testXpathLengthTitleElement:
@@ -142,11 +143,11 @@ testXpathLengthTitleElement:
     - xpath_query:   string-length(//title[1]/text())
     - query_type: 'value'
   description: "Tests that this operation returns the length of the first 'title' element's textual value."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '12'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testXpathSumLangTitle:
@@ -160,11 +161,11 @@ testXpathSumLangTitle:
     - xpath_query: "sum(//book/@id)"
     - query_type: 'value'
   description: "Tests that this operation returns the sum of the 'lang' attributes of the 'title' elements."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '6'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathCount:
@@ -180,11 +181,11 @@ testSelectXpathCount:
     - xpath_query: "count(//status-elem)"
     - query_type: 'value'
   description: "Tests that this operation selects the number of 'status' elements."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '2'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 
@@ -204,11 +205,11 @@ testSelectCurrentNodeXPath:
                      </bookstore>'
     - xpath_query: '.'
   description: "Tests that this operation return the current node"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> </bookstore>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXPathNodesFromCurrentNode:
@@ -236,11 +237,11 @@ testSelectXPathNodesFromCurrentNode:
     - xpath_query: //book
     - query_type: nodelist
   description: "Selects nodes in the document from the current node that match the selection no matter where they are"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>,<book> <title lang="en">Learning XML</title> <price>39.95</price> </book>,<book> <title lang="en">Testing XPath Query</title> <price>100</price> </book>,<book> <title>Magazine</title> </book>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathNodelistAndDootDelimiter:
@@ -264,11 +265,11 @@ testSelectXpathNodelistAndDootDelimiter:
     - query_type: nodelist
     - delimiter: '.'
   description: "Tests that this operation returns the results separated by '.'"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book>.<book> <title lang="en">Learning XML</title> <price>39.95</price> </book>.<book> <title lang="en">Testing XPath Query</title> <price>100</price> </book>
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathDocumentNode:
@@ -291,11 +292,11 @@ testSelectXpathDocumentNode:
     - xpath_query: /
     - query_type: nodelist
   description: "Tests that this operation returns the document node"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<bookstore> <book> <title lang="en">Harry Potter</title> <price>29.99</price> </book> <book> <title lang="en">Learning XML</title> <price>39.95</price> </book> <book> <title lang="en">Testing XPath Query</title> <price>100</price> </book> </bookstore>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathDocumentTitleNodes:
@@ -318,11 +319,11 @@ testSelectXpathDocumentTitleNodes:
     - xpath_query: /bookstore/book/title
     - query_type: nodelist
   description: "Tests that this operation returns all 'title' elements that are direct children of the 'book' element."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<title lang="en">Harry Potter</title>,<title lang="en">Learning XML</title>,<title lang="en">Testing XPath Query</title>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathLangAttributesOfTitleElements:
@@ -345,11 +346,11 @@ testSelectXpathLangAttributesOfTitleElements:
     - xpath_query: /bookstore/book/title/@lang
     - query_type: nodelist
   description: "Tests that this operation returns the 'lang' attributes of the 'title' elements."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'lang="en",lang="en",lang="en"'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectXpathTextualValueOfFirstVersionElement:
@@ -376,11 +377,10 @@ testSelectXpathTextualValueOfFirstVersionElement:
     - xpath_query: //version[1]/text()
     - query_type: nodelist
   description: "Tests that this operation returns the textual value of first 'version' element."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'version1'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTextualValueLastVersionElement:
@@ -407,11 +407,10 @@ testSelectXpathTextualValueLastVersionElement:
     - xpath_query: //version[last()]/text()
     - query_type: nodelist
   description: "Tests that this operation returns the textual value of the last 'version' element."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'version4'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTextualValueLastVersionElementUsingValueQueryType:
@@ -438,11 +437,10 @@ testSelectXpathTextualValueLastVersionElementUsingValueQueryType:
     - xpath_query: //version[last()]
     - query_type: value
   description: "Tests that this operation returns the textual value of the last 'version' element."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'version4'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 
@@ -470,11 +468,10 @@ testSelectXpathFirstAndSecondElements:
     - xpath_query: //version[position() < 3]
     - query_type: nodelist
   description: "Tests that this operation returns the first and second 'version' elements using their position."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<version>version1</version>,<version>version2</version>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathAllChildrenOfBook:
@@ -501,11 +498,10 @@ testSelectXpathAllChildrenOfBook:
     - xpath_query: /bookstore/book/*
     - query_type: nodelist
   description: "Tests that this operation returns the first and second 'version' elements using their position."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<title lang="en">Harry Potter</title>,<price>29.99</price>,<version>version1</version>,<version>version2</version>,<version>version3</version>,<version>version4</version>,<title lang="en">Learning XML</title>,<price>39.95</price>,<title lang="en">Testing XPath Query</title>,<price>100</price>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectElementValueSuccess:
@@ -513,12 +509,11 @@ testSelectElementValueSuccess:
     - xml_document: <root>the value</root>
     - xpath_query: /root
     - query_type: 'value'
-  description: 'Tests that select.sl operation finishes with SUCCESS and selects the proper element'
-  testFlowPath: io.cloudslang.base.xml.select
+  description: 'Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element'
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: the value
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectBadXpathValue:
@@ -540,12 +535,12 @@ testSelectBadXpathValue:
                                                  </bookstore>'
     - xpath_query: //price
     - query_type: value
-  description: "Tests that select.sl operation finishes with SUCCESS and selects the va;ue of price element"
-  testFlowPath: io.cloudslang.base.xml.select
+  description: "Tests that xpath_query.sl operation finishes with SUCCESS and selects the va;ue of price element"
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 29.99
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+    - return_code: "0"
   result: SUCCESS
 
 testSelectElementListSuccess:
@@ -553,8 +548,8 @@ testSelectElementListSuccess:
     - xml_document: <root><first>one</first><second>two</second></root>
     - xpath_query: /root/*
     - query_type: 'nodelist'
-  description: Tests that select.sl operation finishes with SUCCESS and selects the proper element
-  testFlowPath: io.cloudslang.base.xml.select
+  description: Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: <first>one</first>,<second>two</second>
   result: SUCCESS
@@ -574,11 +569,11 @@ testSelectBadXpathEmptyStringXPathQuery:
                                                  </bookstore>'
     - xpath_query: ""
   description: "Tests that this operation throws exception when query=empty string."
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: ""
     - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
-    - result_text: "failure"
+    - return_code: "0"
   throwsException: true
 
 testSelectBadXpathEmptyStringXmlDocument:
@@ -586,11 +581,11 @@ testSelectBadXpathEmptyStringXmlDocument:
     - xml_document: ""
     - xpath_query: "/root"
   description: "Tests that this operation throws exception when xml_document= empty string"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: ""
     - return_result: "Parsing error: Premature end of file."
-    - result_text: "failure"
+    - return_code: "0"
   throwsException: true
 
 testSelectBadXpathInvalidXmlDocument:
@@ -598,12 +593,8 @@ testSelectBadXpathInvalidXmlDocument:
     - xml_document: "root"
     - xpath_query: "/root"
   description: "Tests that this operation fails when xml_document input is invalid"
-  testFlowPath: io.cloudslang.base.xml.select
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
-  result: FAILURE
+  testFlowPath: io.cloudslang.base.xml.xpath_query
+  throwsException: true
 
 testSelectBadXpathEmptyStringQueryType:
   inputs:
@@ -611,129 +602,15 @@ testSelectBadXpathEmptyStringQueryType:
     - xpath_query: "/root"
     - query_type: ""
   description: "Tests that this operations fails when query type input is empty string"
-  testFlowPath: io.cloudslang.base.xml.select
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Invalid query type"
-    - result_text: "failure"
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   throwsException: true
 
 testSelectBadXpathNoQuery:
   inputs:
     - xml_document: "<root>test</root>"
   description: "Tests that the operation throws exception when required inputs are not given"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   throwsException: true
-
-testSelectXpathInvalidXPathQuery:
-  inputs:
-    - xml_document: 'xml = <?xml version="1.0" encoding="ISO-8859-1"?>
-                       <!-- In XPath, there are seven kinds of nodes: element, attribute, text,
-                               namespace, processing-instruction, comment, and document nodes. -->
-                       <bookstore>
-                               <book id="1">
-                                       <title lang="eng">Childhood</title>
-                                       <price>10.00</price>
-                               </book>
-
-                               <book id="2">
-                                       <title lang="eng">Boyhood</title>
-                                       <price>15.00</price>
-                               </book>
-
-                               <book id="3">
-                                       <title lang="eng">Youth</title>
-                                       <price>20.00</price>
-                               </book>
-
-                               <book id="4">
-                                       <title lang="eng">Anna Karenina</title>
-                                       <price>25.00</price>
-                               </book>
-
-                               <book id="5">
-                                       <title lang="eng">War and Peace</title>
-                                       <price>30.00</price>
-                               </book>
-
-                               <book id="6">
-                                       <title lang="eng">Resurrection</title>
-                                       <price>32.00</price>
-                               </book>
-
-                               <book id="7">
-                                       <title lang="eng">Family Happiness</title>
-                                       <price>35.00</price>
-                               </book>
-
-                               <book id="8">
-                                       <title lang="eng">The Kreutzer Sonata</title>
-                                       <price>40.95</price>
-                               </book>
-                       </bookstore>'
-    - xpath_query: /bookstore/
-  description: "Tests that this operation fails when invalid xpath_query input is given"
-  testFlowPath: io.cloudslang.base.xml.select
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
-  result: FAILURE
-
-testSelectXpathInvalidXPath:
-  inputs:
-    - xml_document: 'xml = <?xml version="1.0" encoding="ISO-8859-1"?>
-                       <!-- In XPath, there are seven kinds of nodes: element, attribute, text,
-                               namespace, processing-instruction, comment, and document nodes. -->
-                       <bookstore>
-                               <book id="1">
-                                       <title lang="eng">Childhood</title>
-                                       <price>10.00</price>
-                               </book>
-
-                               <book id="2">
-                                       <title lang="eng">Boyhood</title>
-                                       <price>15.00</price>
-                               </book>
-
-                               <book id="3">
-                                       <title lang="eng">Youth</title>
-                                       <price>20.00</price>
-                               </book>
-
-                               <book id="4">
-                                       <title lang="eng">Anna Karenina</title>
-                                       <price>25.00</price>
-                               </book>
-
-                               <book id="5">
-                                       <title lang="eng">War and Peace</title>
-                                       <price>30.00</price>
-                               </book>
-
-                               <book id="6">
-                                       <title lang="eng">Resurrection</title>
-                                       <price>32.00</price>
-                               </book>
-
-                               <book id="7">
-                                       <title lang="eng">Family Happiness</title>
-                                       <price>35.00</price>
-                               </book>
-
-                               <book id="8">
-                                       <title lang="eng">The Kreutzer Sonata</title>
-                                       <price>40.95</price>
-                               </book>
-                       </bookstore>'
-    - xpath_query: "aaaaaaaaa::"
-  description: "Tests that this operation fails when invalid xpath_query input is given"
-  testFlowPath: io.cloudslang.base.xml.select
-  outputs:
-    - selected_value: ""
-    - return_result: "Parsing error: Content is not allowed in prolog."
-    - result_text: "failure"
-  result: FAILURE
 
 testSelectXpathCategory:
   inputs:
@@ -745,12 +622,11 @@ testSelectXpathCategory:
                        </dc:category>
                      </catalog>'
     - xpath_query: "/catalog/dc:category"
-  description: "Tests that select.sl operation finishes with SUCCESS and selects the proper element"
-  testFlowPath: io.cloudslang.base.xml.select
+  description: "Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element"
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<dc:category build="car" name="woot" xmlns:dc="http://www.xml.com/books"> Small chamber ensembles - 2-4 Players by New York Women Composers </dc:category>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathStatusElem:
@@ -763,11 +639,10 @@ testSelectXpathStatusElem:
     - xpath_query: '/site/status[@OrderId="117302"]//status-elem[@TestcaseId]'
     - query_type: "nodelist"
   description: "Tests that this operation goes to success when the query selects all elements with status-elem"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<status-elem End="1323905159694" ExecutionId="34315157" OrderId="117302" Path="/14.OdemeliAraCell_fromPostpaid" Start="1323905152611" Status="Main" StatusInfo="stat info" TestcaseId="44589129" User="asezer" Verdict="FAIL"/>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathGetElement:
@@ -817,11 +692,10 @@ testSelectXpathGetElement:
     - xpath_query: '/bookstore/book[price>35.00]/@category'
     - query_type: 'nodelist'
   description: "Tests that this operation returns all book categories with price > 35.00"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: 'category="WEB",category="WEB"'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathTitleLang:
@@ -870,11 +744,10 @@ testSelectXpathTitleLang:
     - xpath_query: "//title[@lang=' eng']"
     - query_type: 'nodelist'
   description: "Tests that this operation return all elements with title[@lang=' eng']"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<title lang=" eng">Childhood</title>,<title lang=" eng">Boyhood</title>,<title lang=" eng">Youth</title>,<title lang=" eng"> Anna Karenina</title>,<title lang=" eng">War and Peace</title>,<title lang=" eng">Resurrection</title>,<title lang=" eng">Family Happiness</title>,<title lang=" eng">The Kreutzer Sonata</title>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectXpathCalories:
@@ -902,11 +775,10 @@ testSelectXpathCalories:
                                           </inventory>'
     - xpath_query: '//chips/calories'
   description: "Tests that this operation goes to success when the query selects all elements with status-elem"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - selected_value: '<calories>180</calories>'
     - return_result: "XPath queried successfully."
-    - result_text: "success"
   result: SUCCESS
 
 testSelectBadXpathLargeDocument:
@@ -1197,8 +1069,20 @@ testSelectBadXpathLargeDocument:
     - xpath_query: //node
     - query_type: 'nodelist'
   description: "Tests that this operation finishes with success when a large document is given as input"
-  testFlowPath: io.cloudslang.base.xml.select
+  testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
     - return_result: "XPath queried successfully."
-    - result_text: "success"
+  result: SUCCESS
+
+testSelectFromFileElementSuccess:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: xmlPath
+    - xpath_query: /note/from
+  description: Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element from an XML file
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.xpath_query
+  outputs:
+    - selected_value: <from>Jani</from>
+    - return_result: "XPath queried successfully."
   result: SUCCESS

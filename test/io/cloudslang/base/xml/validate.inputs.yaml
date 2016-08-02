@@ -9,6 +9,7 @@
 testWellFormedSuccess:
   inputs:
     - xml_document: <root>test</root>
+    - xml_document_source: xmlString
   description: Tests that validate.sl operation finishes with SUCCESS with well formed XML
   testFlowPath: io.cloudslang.base.xml.validate
   result: SUCCESS
@@ -16,6 +17,7 @@ testWellFormedSuccess:
 testWellFormedFailure:
   inputs:
     - xml_document: <root>test</toot>
+    - xml_document_source: xmlString
   description: Tests that validate.sl operation finishes with FAILURE with non well formed XML
   testFlowPath: io.cloudslang.base.xml.validate
   result: FAILURE
@@ -23,11 +25,13 @@ testWellFormedFailure:
 testValidSuccess:
   inputs:
     - xml_document: <root/>
+    - xml_document_source: xmlString
     - xsd_document: |
         <?xml version="1.0"?>
         <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
           <xs:element name="root"/>
         </xs:schema>
+    - xsd_document_source: xsdString
   description: Tests that validate.sl operation finishes with SUCCESS with valid XML
   testFlowPath: io.cloudslang.base.xml.validate
   result: SUCCESS
@@ -35,12 +39,15 @@ testValidSuccess:
 testXmlFailure:
   inputs:
     - xml_document: <toot/>
+    - xml_document_source: xmlString
     - xsd_document: |
         <?xml version="1.0"?>
         <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
           <xs:element name="root"/>
         </xs:schema>
+    - xsd_document_source: xsdString
   description: Tests that validate.sl operation finishes with FAILURE with non valid XML
+  testSuites: [xml-local]
   testFlowPath: io.cloudslang.base.xml.validate
   result: FAILURE
 
@@ -50,11 +57,11 @@ testDocumentWithoutNode:
                     <from>Jane</from>
                     <heading>Reminder</heading>
                     <body>Text!</body>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation finishes with FAILURE when the document doesn't contain the root element"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The markup in the document following the root element must be well-formed.'
-    - result_text: "failure"
+    - error_message: 'Parsing error: The markup in the document following the root element must be well-formed.'
   result: FAILURE
 
 testDocumentWithoutClosingTag:
@@ -64,11 +71,11 @@ testDocumentWithoutClosingTag:
                      <from>Jane</from>
                      <heading>Reminder</heading>
                      <body>Text!</body>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation finishes with FAILURE when the document doesn't have the closing tag"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: XML document structures must start and end within the same entity.'
-    - result_text: "failure"
+    - error_message: 'Parsing error: XML document structures must start and end within the same entity.'
   result: FAILURE
 
 testValidateCaseSensitive:
@@ -79,11 +86,11 @@ testValidateCaseSensitive:
                      <heading>Reminder</heading>
                      <body>Text!</body>
                      </Note>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation validate cases and finishes with FAILURE"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The element type "note" must be terminated by the matching end-tag "</note>".'
-    - result_text: "failure"
+    - error_message: 'Parsing error: The element type "note" must be terminated by the matching end-tag "</note>".'
   result: FAILURE
 
 testElementsNotProperlyNested:
@@ -94,11 +101,11 @@ testElementsNotProperlyNested:
                        <heading>Reminder</heading>
                        <body>Text!
                      </note></body>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation finishes with FAILURE when elements are not properly nested"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The element type "body" must be terminated by the matching end-tag "</body>".'
-    - result_text: "failure"
+    - error_message: 'Parsing error: The element type "body" must be terminated by the matching end-tag "</body>".'
   result: FAILURE
 
 testAttributesNotQuoted:
@@ -114,11 +121,11 @@ testAttributesNotQuoted:
                                                                             <price>39.95</price>
                                                                           </book>
                                                                         </bookstore>'
+    - xml_document_source: xmlString
   description:  "Tests that validate.sl operation finishes with FAILURE when attributes are not quoted"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: Open quote is expected for attribute "{1}" associated with an  element type  "lang".'
-    - result_text: "failure"
+    - error_message: 'Parsing error: Open quote is expected for attribute "lang" associated with an  element type  "title".'
   result: FAILURE
 
 testValidXml:
@@ -138,17 +145,18 @@ testValidXml:
 
                          </xs:element>
                        </xs:schema>'
+    - xsd_document_source: xsdString
     - xml_document: '<note>
                        <to>John</to>
                        <from>Jane</from>
                        <heading>Reminder</heading>
                        <body>Text!</body>
                      </note>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation finishes with SUCCESS with valid XML"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
     - return_result: 'XML is valid.'
-    - result_text: "success"
   result: SUCCESS
 
 testInvalidalidXsd:
@@ -162,17 +170,18 @@ testInvalidalidXsd:
                             <xs:element name="body" type="xs:string"/>
                           </xs:sequence>
                         </xs:complexType>'
+    - xsd_document_source: xsdString
     - xml_document: '<note>
                        <to>John</to>
                        <from>Jane</from>
                        <heading>Reminder</heading>
                        <body>Text!</body>
                      </note>'
+    - xml_document_source: xmlString
   description: "Tests that validate.sl operation finishes with FAILURE when the XSD is not valid"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
-    - return_result: 'Parsing error: The prefix "xs" for element "xs:element" is not bound.'
-    - result_text: "failure"
+    - error_message: 'Parsing error: The prefix "xs" for element "xs:element" is not bound.'
   result: FAILURE
 
 testSecureProcessingTrue:
@@ -192,16 +201,63 @@ testSecureProcessingTrue:
 
                                               </xs:element>
                                             </xs:schema>'
+    - xsd_document_source: xsdString
     - xml_document: '<note>
                        <to>John</to>
                        <from>Jane</from>
                        <heading>Reminder</heading>
                        <body>Text!</body>
                      </note>'
+    - xml_document_source: xmlString
     - secure_processing: "true"
   description: "Tests that validate.sl operation finishes with SUCCESS with secure_processing input true"
   testFlowPath: io.cloudslang.base.xml.validate
   outputs:
     - return_result: 'XML is valid.'
-    - result_text: "success"
+    - return_code: "0"
+  result: SUCCESS
+
+testWellFormedFileSuccess:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: "xmlPath"
+  description: Tests that validate.sl operation finishes with SUCCESS with well formed XML file
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.validate
+  result: SUCCESS
+
+testInvalidPathFileFailure:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: "xmlPath"
+  description: Tests that validate.sl operation finishes with FAILURE when provided wrong XML path
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.validate
+  outputs:
+    - error_mesage: ''
+  result: FAILURE
+
+testValidXmlFileSuccess:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: "xmlPath"
+    - xsd_document: '<?xml version="1.0"?>
+                       <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                         <xs:element name="note">
+
+                           <xs:complexType>
+                             <xs:sequence>
+                               <xs:element name="to" type="xs:string"/>
+                               <xs:element name="from" type="xs:string"/>
+                               <xs:element name="heading" type="xs:string"/>
+                               <xs:element name="body" type="xs:string"/>
+                             </xs:sequence>
+                           </xs:complexType>
+
+                         </xs:element>
+                       </xs:schema>'
+    - xsd_document_source: "xsdString"
+  description: Tests that validate.sl operation finishes with SUCCESS with valid XML file against and XSD schema
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.validate
   result: SUCCESS
