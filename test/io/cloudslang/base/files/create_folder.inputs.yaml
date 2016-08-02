@@ -25,7 +25,7 @@ testCreateFolderFailure:
 
 testCreateFolderFailureIllegal:
   inputs:
-    - folder_name: 'te*:/st'
+    - folder_name: \te*":/st
   description: Tests that create_folder.sl finishes with FAILURE if the specified folder contains illegal characters
   testFlowPath: io.cloudslang.base.files.test_create_folder
   result: FOLDERFAILURE
