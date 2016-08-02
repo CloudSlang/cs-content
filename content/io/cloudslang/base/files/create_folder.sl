@@ -5,15 +5,19 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+###########################################################################################################
 #!!
 #! @description: Creates a folder
 #! @input folder_name: name of folder to be created
+#!                     Example:
+#!                     'c:/path1/path2/folder_name' will create the folder in the full path provided
+#!                     '%AppData%/folder_name' will create the folder in the environment variable provided
+#!                     'folder_name' will create the folder in %CENTRAL_HOME%/bin, %CLI_HOME%/bin
 #! @output message: error message in case of an error
 #! @result SUCCESS: folder was successfully created
 #! @result FAILURE: folder was not created due to an error
 #!!#
-####################################################
+############################################################################################################
 namespace: io.cloudslang.base.files
 
 operation:
@@ -25,11 +29,11 @@ operation:
     script: |
         import sys, os
         try:
-          if os.path.isdir(folder_name):
+          if os.path.exists(os.path.expandvars(folder_name)):
             message = ("folder already exists")
             result = False
           else:
-            os.mkdir(folder_name)
+            os.makedirs(os.path.expandvars(folder_name))
             message = ("folder created")
             result = True
         except Exception as e:
