@@ -1,0 +1,21 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_find_containers_with_process:
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - username: root
+    - password: screencast
+    - process_name: ps
+    - first_image_name: busybox
+    - second_image_name: busybox
+  description: Tests that find_containers_with_process operation works
+  testFlowPath: io.cloudslang.docker.containers.test_find_containers_with_process
+  testSuites: [docker,containers]
+  result: SUCCESS
