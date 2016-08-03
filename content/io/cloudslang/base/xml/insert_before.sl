@@ -11,14 +11,19 @@
 #!
 #! @input xml_document: XML string or file to insert element in
 #! @input xml_document_source: xml document type
-#!                             Default: 'xmlString'
+#!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list, where element will be inserted before
 #! @input xml_element: element to insert
-#! @input secure_processing: whether to use secure processing
-#!                           optional
-#!                           Default: 'true'
+#! @input secure_processing: optional -  sets the secure processing feature
+#!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
+#!                           the xml document or string. (true instructs the implementation to process XML securely.
+#!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
+#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
+#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
+#!                           denial of service attacks)
+#!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
 #! @output result_xml: given XML with element inserted
 #! @output return_result: exception in case of failure, success message otherwise

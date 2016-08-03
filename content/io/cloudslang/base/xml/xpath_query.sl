@@ -11,7 +11,7 @@
 #!
 #! @input xml_document: XML string or file in which to query an xpath
 #! @input xml_document_source: xml document type
-#!                             Default: 'xmlString'
+#!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_query: xpath query
 #! @input query_type: type of selection result from query
@@ -22,9 +22,14 @@
 #! @input delimiter: string to use as delimiter in case query_type is nodelist
 #!                   optional
 #!                   default: ','
-#! @input secure_processing: whether to use secure processing
-#!                           optional
-#!                           Default: 'true'
+#! @input secure_processing: optional -  sets the secure processing feature
+#!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
+#!                           the xml document or string. (true instructs the implementation to process XML securely.
+#!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
+#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
+#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
+#!                           denial of service attacks)
+#!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
 #! @output selected_value: value selected, no match found or empty if an error occurs
 #! @output return_result: xpath queried successfully or empty otherwise
