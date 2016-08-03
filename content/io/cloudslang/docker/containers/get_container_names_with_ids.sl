@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -31,8 +31,9 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
+  containers: io.cloudslang.docker.containers
 
 flow:
   name: get_container_names_with_ids
@@ -44,6 +45,7 @@ flow:
         required: false
     - username
     - password:
+        sensitive: true
         default: ''
         required: false
     - private_key_file:
@@ -69,11 +71,12 @@ flow:
         required: false
     - containers_with_process:
         default: ''
+        required: false
 
   workflow:
     - get_container_name:
         do:
-          get_container_name:
+          containers.get_container_name:
             - container_id
             - host
             - port   
@@ -86,21 +89,31 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
+
         publish:
           - container_name
+
         navigate:
           - SUCCESS: append_to_list
           - FAILURE: FAILURE
+
     - append_to_list:
         do:
           strings.append:
             - string: ${containers_with_process}
             - text: ${container_name + ' '}
+
         publish:
           - containers_with_process: ${result}
+
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE 
+          - FAILURE: FAILURE
+
   outputs:
     - containers_with_process
     - standard_err
+
+  results:
+    - SUCCESS
+    - FAILURE

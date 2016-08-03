@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -26,13 +26,16 @@
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
 #! @output standard_err: error message
-
+#! @result FAILURE: something went wrong
+#! @result RUNNING: process found running on the container
+#! @result NOT RUNNING: process is not running on the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 
 imports:
   regex: io.cloudslang.base.strings
+  containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
 
 flow:
@@ -76,7 +79,7 @@ flow:
   workflow:
     - get_running_processes:
         do:
-          get_running_processes:
+          containers.get_running_processes:
             - container_id
             - host
             - port
@@ -89,34 +92,43 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
+
         publish:
           - return_result
           - standard_err
+
         navigate:
           - SUCCESS: check_if_is_running
           - FAILURE: FAILURE
+
     - check_if_is_running:
         do:
           regex.match_regex:
             - regex: ${process_name}
             - text: ${return_result}
+
         navigate:
           - MATCH: append_to_list
           - NO_MATCH: NOT_RUNNING
+
     - append_to_list:
         do:
           strings.append:
             - string: ${container_id_list}
             - text: ${container_id + ' '}
+
         publish:
           - container_id_list: ${result}
+
         navigate:
           - SUCCESS: RUNNING
           - FAILURE: FAILURE
+
+  outputs:
+    - container_id_list
+    - standard_err
+
   results:
     - FAILURE
     - RUNNING
     - NOT_RUNNING
-  outputs:
-    - container_id_list
-    - standard_err

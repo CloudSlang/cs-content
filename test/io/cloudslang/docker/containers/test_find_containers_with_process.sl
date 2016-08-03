@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,6 +11,7 @@ namespace: io.cloudslang.docker.containers
 
 imports:
   images: io.cloudslang.docker.images
+  containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
   print: io.cloudslang.base.print
@@ -31,11 +32,12 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
        do:
-         clear_containers:
+         containers.clear_containers:
            - docker_host: ${host}
            - port
            - docker_username: ${username}
            - docker_password: ${password}
+
        navigate:
          - SUCCESS: pull_first_image
          - FAILURE: PREREQUISITE_MACHINE_IS_NOT_CLEAN
@@ -48,6 +50,7 @@ flow:
             - username
             - password
             - image_name: ${first_image_name}
+
         navigate:
           - SUCCESS: pull_second_image
           - FAILURE: FAIL_PULL_IMAGE
@@ -60,13 +63,14 @@ flow:
             - username
             - password
             - image_name: ${second_image_name}
+
         navigate:
           - SUCCESS: run_first_container
           - FAILURE: FAIL_PULL_IMAGE
 
     - run_first_container:
         do:
-          run_container:
+          containers,run_container:
             - host
             - port
             - username
@@ -74,15 +78,17 @@ flow:
             - container_params: '-t'
             - container_name: 'first_test_container'
             - image_name: ${first_image_name}
+
         publish:
           - error_message
+
         navigate:
           - SUCCESS: run_second_container
           - FAILURE: FAIL_RUN_IMAGE
 
     - run_second_container:
         do:
-          run_container:
+          containers.run_container:
             - host
             - port
             - username
@@ -90,20 +96,23 @@ flow:
             - password
             - container_name: 'second_test_container'
             - image_name: ${second_image_name}
+
         publish:
           - error_message
+
         navigate:
           - SUCCESS: find_containers_with_process
           - FAILURE: FAIL_RUN_IMAGE
 
     - find_containers_with_process:
         do:
-          find_containers_with_process:
+          containers.find_containers_with_process:
             - host
             - port
             - username
             - password
             - process_name
+
         publish:
           - list: ${containers_with_process}
 
@@ -112,17 +121,19 @@ flow:
           strings.string_equals:
             - first_string: ${len(list.rstrip().split(" "))}
             - second_string: 2
+
         navigate:
           - SUCCESS: clear_docker_host
           - FAILURE: FAILURE
 
     - clear_docker_host:
         do:
-          clear_containers:
+          containers.clear_containers:
             - docker_host: ${host}
             - port
             - docker_username: ${username}
             - docker_password: ${password}
+
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: MACHINE_IS_NOT_CLEAN

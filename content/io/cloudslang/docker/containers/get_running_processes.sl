@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -31,9 +31,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  regex: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_running_processes
@@ -41,13 +39,14 @@ flow:
     - container_id
     - command:
         default: ${"docker exec " + container_id + " ps axco command"}
-        overridable: false
+        private: true
     - host
     - port:
         default: '22'
         required: false
     - username
     - password:
+        sensitive: true
         default: ''
         required: false
     - private_key_file:
@@ -97,3 +96,7 @@ flow:
   outputs:
     - return_result
     - standard_err
+
+  results:
+    - SUCCESS
+    - FAILURE

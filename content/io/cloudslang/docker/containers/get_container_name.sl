@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -30,7 +30,7 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_container_name
@@ -38,13 +38,14 @@ flow:
     - container_id
     - command:
         default: ${"CHARS_TO_DELETE=$(docker ps -af id=" + container_id + " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id="+ container_id +" | sed "+'"s/^.\{$CHARS_TO_DELETE\}//"'+" | awk 'NR==2'"}
-        overridable: false
+        private: true
     - host
     - port:
         default: '22'
         required: false
     - username
     - password:
+        sensitive: true
         default: ''
         required: false
     - private_key_file:
@@ -85,12 +86,19 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
+
         publish:
           - container_name: ${return_result[:-1]}
           - standard_err
+
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
   outputs:
     - container_name
     - standard_err
+
+  results:
+    - SUCCESS
+    - FAILURE
