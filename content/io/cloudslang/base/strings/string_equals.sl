@@ -7,7 +7,7 @@
 #
 ##################################################
 #!!
-#! @description: Verifies two strings are equal.
+#! @description: Verifies if two strings are equal.
 #! @input first_string: first string to compare
 #! @input second_string: second string to compare
 #! @input ignore_case: If set to 'true', then the comparison ignores case considerations. The two strings are considered

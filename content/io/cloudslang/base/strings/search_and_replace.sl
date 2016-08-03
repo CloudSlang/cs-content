@@ -8,9 +8,9 @@
 ##################################################
 #!!
 #! @description: Replaces a substring within a string.
-#! @input origin_string: original string
+#! @input origin_string: optional - original string
 #! @input text_to_replace: text to replace
-#! @input replace_with: text to replace with
+#! @input replace_with: optional - text to replace with
 #! @output replaced_string: string with the text replaced
 #! @output error_message: substring not found
 #! @result SUCCESS: parsing successful
@@ -22,9 +22,11 @@ namespace: io.cloudslang.base.strings
 operation:
   name: search_and_replace
   inputs:
-    - origin_string
+    - origin_string:
+        required: false
     - text_to_replace
-    - replace_with
+    - replace_with:
+        required: false
   python_action:
     script: |
       try:
