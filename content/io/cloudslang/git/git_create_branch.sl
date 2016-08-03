@@ -13,7 +13,7 @@
 #! @input username: username to connect as
 #! @input password: optional - password of user
 #! @input git_branch: optional - git branch to create
-#! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo.git
+#! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo_folder
 #! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: optional - path to private key file
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
@@ -46,7 +46,7 @@ flow:
         required: false
         sensitive: true
     - git_repository_localdir:
-        default: "/tmp/repo.git"
+        default: "/tmp/repo_folder"
         required: false
     - git_branch
     - sudo_user:
