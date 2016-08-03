@@ -35,6 +35,7 @@ operation:
           message = 'unzipping done successfully'
           result = True
         except Exception as e:
+          fh.close()
           message = e
           result = False
 
