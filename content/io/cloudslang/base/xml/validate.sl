@@ -90,6 +90,7 @@ operation:
         default: ''
     - password:
         required: false
+        sensitive: true
         default: ''
     - trust_all_roots:
         required: false
@@ -103,6 +104,7 @@ operation:
         default: ''
     - keystore_password:
         required: false
+        sensitive: true
         default: ''
     - keystorePassword:
         default: ${get("keystore_password", "")}
@@ -117,6 +119,7 @@ operation:
         private: true
     - trust_password:
         required: false
+        sensitive: true
         default: ''
     - trustPassword:
         default: ${get("trust_password", "")}
@@ -150,6 +153,7 @@ operation:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
         default: ''
     - proxyPassowrd:
         default: ${get("proxy_password", "")}
