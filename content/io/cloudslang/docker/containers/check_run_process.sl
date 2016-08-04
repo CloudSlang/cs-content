@@ -25,6 +25,7 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#! @output container_id_result: a list of all the containers running a process
 #! @output standard_err: error message
 #! @result FAILURE: something went wrong
 #! @result RUNNING: process found running on the container
@@ -118,14 +119,14 @@ flow:
             - text: ${container_id + ' '}
 
         publish:
-          - container_id_list: ${result}
+          - container_id_result: ${result}
 
         navigate:
           - SUCCESS: RUNNING
           - FAILURE: FAILURE
 
   outputs:
-    - container_id_list
+    - container_id_result
     - standard_err
 
   results:

@@ -22,7 +22,7 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
-#! @output runing_process: the names of the runing processes
+#! @output containers_with_process: the names of the containers with runing processes
 #! @output standard_err: error message
 #!!#
 ####################################################
@@ -119,7 +119,7 @@ flow:
             containers.check_run_process:
               - container_id
               - process_name
-              - container_id_list: ${container_ids}
+              - container_id_result: ${container_ids}
               - host
               - port
               - username
