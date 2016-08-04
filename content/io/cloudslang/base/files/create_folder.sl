@@ -46,5 +46,5 @@ operation:
     - message
 
   results:
-    - SUCCESS: ${result}
+    - SUCCESS: ${result == True}
     - FAILURE
