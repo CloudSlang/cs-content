@@ -11,8 +11,8 @@
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
 #! @input username: Docker machine username
-#! @input password: Docker machine password - Default: ''
-#! @input private_key_file: optional - absolute path to private key file - Default: ''
+#! @input password: optional - Docker machine password
+#! @input private_key_file: optional - absolute path to private key file
 #! @input arguments: optional - arguments to pass to the command - Default ''
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default 'UTF-8'
@@ -21,7 +21,7 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output containers_with_process_found: the names of the containers with runing processes
 #! @output standard_err: error message
 #!!#
@@ -46,13 +46,10 @@ flow:
     - username
     - password:
         sensitive: true
-        default: ''
         required: false
     - private_key_file:
-        default: ''
         required: false
     - arguments:
-        default: ''
         required: false
     - character_set:
         default: 'UTF-8'
@@ -67,14 +64,12 @@ flow:
         default: 'false'
         required: false
     - agent_forwarding:
-        default: ''
         required: false
     - containers_with_process:
         required: false
-        default: ''
         private: true
     - container_ids:
-        default: ''
+        required: false
         private: true
 
   workflow:
