@@ -28,6 +28,8 @@ operation:
   python_action:
     script: |
         import sys, os
+        message = None
+        result = None
         try:
           if os.path.exists(os.path.expandvars(folder_name)):
             message = ("folder already exists")
