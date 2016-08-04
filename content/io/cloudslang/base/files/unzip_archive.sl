@@ -26,6 +26,7 @@ operation:
   python_action:
     script: |
         import zipfile
+        fh = None
         try:
           fh = open(archive_path, 'rb')
           z = zipfile.ZipFile(fh)
@@ -35,7 +36,8 @@ operation:
           message = 'unzipping done successfully'
           result = True
         except Exception as e:
-          fh.close()
+          if fh != None:
+            fh.close()
           message = e
           result = False
 
