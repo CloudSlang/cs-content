@@ -67,9 +67,11 @@ flow:
         required: false
     - containers_with_process:
         required: false
+        default: ''
         private: true
     - container_ids:
         required: false
+        default: ''
         private: true
 
   workflow:
