@@ -119,7 +119,7 @@ flow:
             containers.check_run_process:
               - container_id
               - process_name
-              - container_id_result: ${container_ids}
+              - container_id_results: ${container_ids}
               - host
               - port
               - username
