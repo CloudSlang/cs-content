@@ -22,7 +22,7 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
-#! @output containers_with_process: the names of the containers with runing processes
+#! @output containers_with_process_found: the names of the containers with runing processes
 #! @output standard_err: error message
 #!!#
 ####################################################
@@ -170,13 +170,13 @@ flow:
               - agent_forwarding
 
         publish:
-          - containers_with_process
+          - containers_with_process_found
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - containers_with_process
+    - containers_with_process_found
     - standard_err
 
   results:

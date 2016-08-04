@@ -24,7 +24,7 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
-#! @output containers_with_process: container names
+#! @output containers_with_process_found: container names
 #! @output standard_err: error message
 #!!#
 ####################################################
@@ -111,7 +111,7 @@ flow:
           - FAILURE: FAILURE
 
   outputs:
-    - containers_with_process
+    - containers_with_process_found
     - standard_err
 
   results:
