@@ -70,7 +70,7 @@ flow:
 
     - run_first_container:
         do:
-          containers,run_container:
+          containers.run_container:
             - host
             - port
             - username
