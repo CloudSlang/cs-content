@@ -1,0 +1,27 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testConvertJsonNullToXmlElements:
+  inputs:
+    - json:
+    - pretty_print:
+    - show_xml_declaration:
+    - root_tag_name:
+    - default_json_array_item_name:
+    - json_arrays_names:
+    - json_arrays_item_names:
+    - namespaces_prefixes:
+    - namespaces_uris:
+    - delimiter:
+  description:
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result:
+    - return_code:
+  result: SUCCESS
