@@ -50,13 +50,10 @@ flow:
         required: false
     - username
     - password:
-        default: ''
         required: false
     - private_key_file:
-        default: ''
         required: false
     - arguments:
-        default: ''
         required: false
     - character_set:
         default: 'UTF-8'
@@ -71,10 +68,9 @@ flow:
         default: 'false'
         required: false
     - agent_forwarding:
-        default: ''
         required: false
     - container_id_list:
-        default: ''
+        default: " "
         required: false
 
   workflow:
@@ -115,11 +111,11 @@ flow:
     - append_to_list:
         do:
           strings.append:
-            - string: ${container_id_list}
+            - origin_string: ${container_id_list}
             - text: ${container_id + ' '}
 
         publish:
-          - container_id_result: ${result}
+          - container_id_result: ${new_string}
 
         navigate:
           - SUCCESS: RUNNING

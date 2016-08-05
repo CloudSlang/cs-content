@@ -94,7 +94,7 @@ flow:
             - agent_forwarding
 
         publish:
-          - container_list: ${container_list}
+          - container_list
 
         navigate:
           - SUCCESS: check_container_list_not_empty
@@ -117,7 +117,6 @@ flow:
             containers.check_run_process:
               - container_id
               - process_name
-              - container_id_results: ${container_ids}
               - host
               - port
               - username
@@ -131,7 +130,7 @@ flow:
               - agent_forwarding
 
           publish:
-            - container_ids: ${container_id_list}
+            - container_ids: ${container_id_result}
 
           navigate:
             - RUNNING: check_container_ids_not_empty

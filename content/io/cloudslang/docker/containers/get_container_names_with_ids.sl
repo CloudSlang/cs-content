@@ -100,11 +100,11 @@ flow:
     - append_to_list:
         do:
           strings.append:
-            - string: ${containers_with_process}
+            - origin_string: ${containers_with_process}
             - text: ${container_name + ' '}
 
         publish:
-          - containers_with_process: ${result}
+          - containers_with_process_found: ${new_string}
 
         navigate:
           - SUCCESS: SUCCESS
