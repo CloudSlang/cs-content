@@ -45,6 +45,7 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'docker pull ' + docker_scp_image }
+            - cwd
         navigate:
           - SUCCESS: generate_key
           - FAILURE: SCP_IMAGE_NOT_PULLED
@@ -53,6 +54,7 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts' }
+            - cwd
         navigate:
           - SUCCESS: add_key_to_authorized
           - FAILURE: KEY_GENERATION_FAIL
@@ -61,6 +63,7 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub >> ' + authorized_keys_path }
+            - cwd
         navigate:
           - SUCCESS: create_scp_host
           - FAILURE: KEY_ADDITION_FAIL
@@ -71,6 +74,7 @@ flow:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' + scp_host_port +
                  ':22 --name test1 -v /data:' + container_path + ' ' + docker_scp_image }
+            - cwd
         navigate:
           - SUCCESS: create_file_to_be_copied
           - FAILURE: SCP_HOST_NOT_STARTED
@@ -79,6 +83,7 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'echo ' + text_to_check + ' > ' + scp_file }
+            - cwd
         navigate:
           - SUCCESS: sleep
           - FAILURE: FILE_CREATION_FAIL
@@ -110,6 +115,7 @@ flow:
             - command: >
                 ${ 'scp -P ' + scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' ' + scp_file + ' '
                 + scp_username + '@' + host + ':' + container_path + scp_file }
+            - cwd
         navigate:
           - SUCCESS: read_file
           - FAILURE: FILE_REACHING_SCP_HOST_FAIL
