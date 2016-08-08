@@ -55,7 +55,7 @@
 namespace: io.cloudslang.base.xml
 
 operation:
-  name: append_child
+  name: convert_xml_to_json
 
   inputs:
     - xml:

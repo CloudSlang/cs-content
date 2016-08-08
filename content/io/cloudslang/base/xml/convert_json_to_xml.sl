@@ -40,7 +40,7 @@
 namespace: io.cloudslang.base.xml
 
 operation:
-  name: append_child
+  name: convert_json_to_xml
 
   inputs:
     - json:

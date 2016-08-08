@@ -26,6 +26,7 @@ testConvertXmlToJsonWithDefaultValues:
     - pretty_print
     - parsing_features
   description: Test XML with default values
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: "f,ui"
@@ -86,6 +87,7 @@ testConvertXmlToJsonWithDefaultValuesSpecified:
     - pretty_print: "true"
     - parsing_features
   description: Test XML with specified values
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: "f,ui"
@@ -146,6 +148,7 @@ testConvertXmlToJsonWithInvalidBooleanValues:
     - pretty_print: "abc"
     - parsing_features
   description: Test with invalid booleans
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: ""
@@ -173,6 +176,7 @@ testConvertXmlToJsonWithNoRootNoPrettyPrintNoAttributes:
     - pretty_print: "false"
     - parsing_features
   description: Test xml with no root no pretty no attributes
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: "f,ui"
@@ -200,6 +204,7 @@ testConvertXmlToJsonWithInvalidXml:
     - pretty_print: "false"
     - parsing_features
   description: Test XML with invalid xml
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: ""
@@ -229,6 +234,7 @@ testConvertXmlToJsonWithTextElements:
     - pretty_print: "true"
     - parsing_features
   description: Test XML with text elements
+  testSuites: [convert_xml_json]
   testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
   outputs:
     - namespaces_prefixes: "f,ui"

@@ -19,6 +19,7 @@ testConvertJsonNullToXmlElements:
     - json_arrays_item_names
     - delimiter: ","
   description:  Test null JSON input
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
     - return_result: ""
@@ -38,6 +39,7 @@ testConvertJsonEmptyStringToXmlElements:
     - json_arrays_item_names
     - delimiter: ","
   description: Test empty JSON input
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
     - return_result: ""
@@ -57,6 +59,7 @@ testConvertJsonArrayWithoutRootTagNameToXmlElements:
     - json_arrays_item_names
     - delimiter: ","
   description: Test JSON array without root tag
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
       - return_result: "<item><name1>value1</name1></item>\n" +
@@ -77,6 +80,7 @@ testConvertJsonObjectWithoutRootTagNameToXmlDocument:
     - json_arrays_item_names
     - delimiter: ","
   description: Test JSON object without root tag
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
     - return_result: "<?xml version="1.0" encoding="UTF-8"?>\n" +
@@ -100,6 +104,7 @@ testConvertComplexJsonObjectWithRootTagNameToXml:
     - json_arrays_item_names: "f:property"
     - delimiter: ","
   description: Test complex json object with root tag
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
     - return_result: "<root xmlns:f="http://java.sun.com/jsf/core" " +
@@ -131,6 +136,7 @@ testConvertJsonArrayWithRootTagNameToXmlElements:
     - json_arrays_item_names
     - delimiter: ","
   description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
     - return_result: "<items><item><name1>value1</name1></item><item><name2>value2</name2></item></items>"
