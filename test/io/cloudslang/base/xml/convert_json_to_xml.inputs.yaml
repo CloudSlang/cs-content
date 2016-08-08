@@ -4,39 +4,20 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+#:
 ####################################################
-
-testConvertJsonNullToXmlElements:
-  inputs:
-    - pretty_print: "false"
-    - show_xml_declaration: "false"
-    - root_tag_name
-    - default_json_array_item_name: "item"
-    - namespaces_prefixes
-    - namespaces_uris
-    - json_arrays_names
-    - json_arrays_item_names
-    - delimiter: ","
-  description:  Test null JSON input
-  testSuites: [convert_json_xml]
-  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
-  outputs:
-    - return_result: ""
-    - return_code: "0"
-  result: SUCCESS
 
 testConvertJsonEmptyStringToXmlElements:
   inputs:
-    - json: ""
+    - json: " "
     - pretty_print: "false"
     - show_xml_declaration: "false"
-    - root_tag_name
+    - root_tag_name: ""
     - default_json_array_item_name: "item"
-    - namespaces_prefixes
-    - namespaces_uris
-    - json_arrays_names
-    - json_arrays_item_names
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
     - delimiter: ","
   description: Test empty JSON input
   testSuites: [convert_json_xml]
@@ -51,19 +32,19 @@ testConvertJsonArrayWithoutRootTagNameToXmlElements:
     - json: "[{\"name1\":\"value1\"},{\"name2\":\"value2\"}]"
     - pretty_print: "false"
     - show_xml_declaration: "false"
-    - root_tag_name
+    - root_tag_name: ""
     - default_json_array_item_name: "item"
-    - namespaces_prefixes
-    - namespaces_uris
-    - json_arrays_names
-    - json_arrays_item_names
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
     - delimiter: ","
   description: Test JSON array without root tag
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-      - return_result: "<item><name1>value1</name1></item>\n" +
-                  "<item><name2>value2</name2></item>"
+      - return_result: "<item><name1>value1</name1></item>
+                  <item><name2>value2</name2></item>"
       - return_code: "0"
   result: SUCCESS
 
@@ -72,28 +53,28 @@ testConvertJsonObjectWithoutRootTagNameToXmlDocument:
     - json: "{\"property\":{\"name1\":\"value1\"}}"
     - pretty_print: "false"
     - show_xml_declaration: "true"
-    - root_tag_name
+    - root_tag_name: ""
     - default_json_array_item_name: "item"
-    - namespaces_prefixes
-    - namespaces_uris
-    - json_arrays_names
-    - json_arrays_item_names
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
     - delimiter: ","
   description: Test JSON object without root tag
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-    - return_result: "<?xml version="1.0" encoding="UTF-8"?>\n" +
-                "<property><name1>value1</name1></property>"
+    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+                <property><name1>value1</name1></property>"
     - return_code: "0"
   result: SUCCESS
 
 testConvertComplexJsonObjectWithRootTagNameToXml:
   inputs:
-    - json: "{\"@id\":\"Page1\", \"ui:position\": {\"x\":1,\"y\":2}," +
-            "\"f:properties\": [{\"key1\":\"value1\"},{\"key2\":\"value2\"}]," +
-            "\"details\":[{\"type\":\"size\", \"height\":10, \"width\":10},{\"type\":\"color\", \"name\":\"blue\"}\n" +
-            "]}"
+    - json: "{\"@id\":\"Page1\", \"ui:position\": {\"x\":1,\"y\":2},
+            \"f:properties\": [{\"key1\":\"value1\"},{\"key2\":\"value2\"}],
+            \"details\":[{\"type\":\"size\", \"height\":10, \"width\":10},{\"type\":\"color\", \"name\":\"blue\"}
+            ]}"
     - pretty_print: "false"
     - show_xml_declaration: "false"
     - root_tag_name: "root"
@@ -107,19 +88,19 @@ testConvertComplexJsonObjectWithRootTagNameToXml:
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-    - return_result: "<root xmlns:f="http://java.sun.com/jsf/core" " +
-                        "xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" " +
-                        "id=\"Page1\">" +
-                        "<ui:position><x>1</x><y>2</y></ui:position>" +
-                        "<f:properties>" +
-                        "<f:property><key1>value1</key1></f:property>" +
-                        "<f:property><key2>value2</key2></f:property>" +
-                        "</f:properties>" +
-                        "<details>" +
-                        "<item><type>size</type><height>10</height><width>10</width></item>" +
-                        "<item><type>color</type><name>blue</name></item>" +
-                        "</details>" +
-                        "</root>"
+    - return_result: "<root xmlns:f=\"http://java.sun.com/jsf/core\"
+                        xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\"
+                        id=\"Page1\">
+                        <ui:position><x>1</x><y>2</y></ui:position>
+                        <f:properties>
+                        <f:property><key1>value1</key1></f:property>
+                        <f:property><key2>value2</key2></f:property>
+                        </f:properties>
+                        <details>
+                        <item><type>size</type><height>10</height><width>10</width></item>
+                        <item><type>color</type><name>blue</name></item>
+                        </details>
+                        </root>"
     - return_code: "0"
   result: SUCCESS
 
@@ -130,10 +111,10 @@ testConvertJsonArrayWithRootTagNameToXmlElements:
     - show_xml_declaration: "false"
     - root_tag_name: "items"
     - default_json_array_item_name: "item"
-    - namespaces_prefixes
-    - namespaces_uris
-    - json_arrays_names
-    - json_arrays_item_names
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
     - delimiter: ","
   description: Test JSON array with root tag
   testSuites: [convert_json_xml]

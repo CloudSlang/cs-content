@@ -64,11 +64,13 @@ operation:
         required: false
     - textElementsName:
         default: ${get("text_elements_name", "_text")}
+        required: false
         private: true
     - include_root:
         required: false
     - includeRoot:
         default: ${get("include_root", "true")}
+        required: false
         private: true
     - include_attributes:
         required: false
@@ -80,6 +82,7 @@ operation:
         required: false
     - prettyPrint:
         default: ${get("pretty_print", "true")}
+        required: false
         private: true
     - parsing_features:
         required: false
@@ -87,6 +90,7 @@ operation:
         default: ${get("parsing_features", "http://apache.org/xml/features/disallow-doctype-decl true
                                             http://xml.org/sax/features/external-general-entities false
                                             http://xml.org/sax/features/external-parameter-entities false")}
+        required: false
         private: true
 
   java_action:
