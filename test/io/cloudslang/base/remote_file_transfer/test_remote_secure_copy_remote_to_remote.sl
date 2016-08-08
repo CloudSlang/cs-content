@@ -47,7 +47,6 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'docker pull ' + docker_scp_image }
-            - cwd
         navigate:
           - SUCCESS: generate_key
           - FAILURE: SCP_IMAGE_NOT_PULLED
@@ -56,7 +55,6 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'echo -e \"y\" | ssh-keygen -t rsa -N \"\" -f ' + key_name + ' && rm -f ~/.ssh/known_hosts' }
-            - cwd
         navigate:
           - SUCCESS: cat1
           - FAILURE: KEY_GENERATION_FAIL
@@ -64,7 +62,6 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub' }
-            - cwd
         navigate:
           - SUCCESS: add_key_to_authorized
           - FAILURE: FAILURE
@@ -73,7 +70,6 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'cat ' + key_name + '.pub >> ' + authorized_keys_path }
-            - cwd
         navigate:
           - SUCCESS: cat2
           - FAILURE: KEY_ADDITION_FAIL
@@ -82,7 +78,6 @@ flow:
         do:
           base_cmd.run_command:
             - command: ${ 'cat ' + authorized_keys_path }
-            - cwd
         navigate:
           - SUCCESS: create_first_host
           - FAILURE: FAILURE
@@ -93,7 +88,6 @@ flow:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
                  first_scp_host_port + ':22 -v /data1:' + container_path + ' ' + docker_scp_image }
-            - cwd
         navigate:
           - SUCCESS: create_second_host
           - FAILURE: FIRST_HOST_NOT_STARTED
@@ -104,7 +98,6 @@ flow:
             - command: >
                  ${ 'docker run -d -e AUTHORIZED_KEYS=$(base64 -w0 ' + authorized_keys_path + ') -p ' +
                  second_scp_host_port + ':22 -v /data2:' + container_path + ' ' + docker_scp_image }
-            - cwd
         navigate:
           - SUCCESS: sleep
           - FAILURE: SECOND_HOST_NOT_STARTED
@@ -124,7 +117,6 @@ flow:
                  ${ 'echo ' + text_to_check + ' > ' + scp_file + ' && scp -P ' + first_scp_host_port +
                  ' -o \"StrictHostKeyChecking no\" -i ' + key_name  + ' ' + scp_file + ' ' + scp_username +
                  '@' + host + ':' + container_path + scp_file }
-            - cwd
         navigate:
           - SUCCESS: test_remote_secure_copy
           - FAILURE: FILE_REACHING_SRC_HOST_FAIL
@@ -154,7 +146,6 @@ flow:
             - command: >
                  ${ 'scp -P ' + second_scp_host_port + ' -o \"StrictHostKeyChecking no\" -i ' + key_name + ' '  +
                  scp_username + '@' + host + ':' + container_path + scp_file + ' ' + scp_file }
-            - cwd
         navigate:
           - SUCCESS: read_file
           - FAILURE: FILE_REACHING_DEST_HOST_FAIL
