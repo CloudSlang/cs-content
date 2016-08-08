@@ -9,7 +9,7 @@
 #!!
 #! @description: Runs a shell command locally.
 #! @input command: command to run
-#! input cwd: current working directory
+#! @input cwd: current working directory
 #!            If cwd is not None, the child’s current directory will be changed to cwd before it is executed.
 #!            Note that this directory is not considered when searching the executable,
 #!            so you can’t specify the program’s path relative to cwd
@@ -35,7 +35,7 @@ operation:
     script: |
       import os
       import subprocess
-      return_code = '0'
+      return_code = 0
       return_result = ''
       error_message = ''
       cwd = os.getcwd() if cwd is not None else cwd
@@ -49,13 +49,14 @@ operation:
           return_code = res.returncode
           error_message = error.strip()
       except Exception as e:
-        error_message = e
         return_code = -1
+        error_message = e
 
   outputs:
     - return_result
-    - error_message
     - return_code
+    - error_message
+
   results:
     - SUCCESS: ${return_code == 0}
     - FAILURE
