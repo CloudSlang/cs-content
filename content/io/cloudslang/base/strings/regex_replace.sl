@@ -23,7 +23,8 @@ operation:
     - regex
     - text:
         required: false
-    - replacement
+    - replacement:
+        required: false
   python_action:
     script: |
       import re
