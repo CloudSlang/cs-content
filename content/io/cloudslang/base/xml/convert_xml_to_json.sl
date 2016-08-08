@@ -66,10 +66,10 @@ operation:
         default: ${get("text_elements_name", "_text")}
         required: false
         private: true
-    - include_root:
+    - include_root_element:
         required: false
-    - includeRoot:
-        default: ${get("include_root", "true")}
+    - includeRootElement:
+        default: ${get("include_root_element", "true")}
         required: false
         private: true
     - include_attributes:

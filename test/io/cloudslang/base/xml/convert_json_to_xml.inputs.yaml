@@ -43,8 +43,7 @@ testConvertJsonArrayWithoutRootTagNameToXmlElements:
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-      - return_result: "<item><name1>value1</name1></item>
-                  <item><name2>value2</name2></item>"
+      - return_result: "<item><name1>value1</name1></item>\n<item><name2>value2</name2></item>"
       - return_code: "0"
   result: SUCCESS
 
@@ -64,8 +63,7 @@ testConvertJsonObjectWithoutRootTagNameToXmlDocument:
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-                <property><name1>value1</name1></property>"
+    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<property><name1>value1</name1></property>"
     - return_code: "0"
   result: SUCCESS
 
@@ -88,19 +86,7 @@ testConvertComplexJsonObjectWithRootTagNameToXml:
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-    - return_result: "<root xmlns:f=\"http://java.sun.com/jsf/core\"
-                        xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\"
-                        id=\"Page1\">
-                        <ui:position><x>1</x><y>2</y></ui:position>
-                        <f:properties>
-                        <f:property><key1>value1</key1></f:property>
-                        <f:property><key2>value2</key2></f:property>
-                        </f:properties>
-                        <details>
-                        <item><type>size</type><height>10</height><width>10</width></item>
-                        <item><type>color</type><name>blue</name></item>
-                        </details>
-                        </root>"
+    - return_result: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\"><ui:position><x>1</x><y>2</y></ui:position><f:properties><f:property><key1>value1</key1></f:property><f:property><key2>value2</key2></f:property></f:properties><details><item><type>size</type><height>10</height><width>10</width></item><item><type>color</type><name>blue</name></item></details></root>"
     - return_code: "0"
   result: SUCCESS
 

@@ -21,7 +21,7 @@ testConvertXmlToJsonWithDefaultValues:
                     </details>
                     </root>"
     - text_elements_name: ""
-    - include_root: ""
+    - include_root_element: ""
     - include_attributes: ""
     - pretty_print: ""
     - parsing_features: ""
@@ -31,40 +31,41 @@ testConvertXmlToJsonWithDefaultValues:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: "{
-              \"root\": {
-                \"@id\": \"Page1\",
-                \"ui:position\": {
-                  \"x\": \"1\",
-                  \"y\": \"2\"
-                },
-                \"f:properties\": {
-                  \"f:property\": [
-                    {
-                      \"key1\": \"value1\"
+    - return_result: |
+               {
+                  "root": {
+                    "@id": "Page1",
+                    "ui:position": {
+                      "x": "1",
+                      "y": "2"
                     },
-                    {
-                      \"key2\": \"value2\"
-                    }
-                  ]
-                },
-                \"details\": {
-                  \"item\": [
-                    {
-                      \"@id\": \"1\",
-                      \"type\": \"size\",
-                      \"height\": \"10\",
-                      \"width\": \"10\"
+                    "f:properties": {
+                      "f:property": [
+                        {
+                          "key1": "value1"
+                        },
+                        {
+                          "key2": "value2"
+                        }
+                      ]
                     },
-                    {
-                      \"@id\": \"2\",
-                      \"type\": \"color\",
-                      \"name\": \"blue\"
+                    "details": {
+                      "item": [
+                        {
+                          "@id": "1",
+                          "type": "size",
+                          "height": "10",
+                          "width": "10"
+                        },
+                        {
+                          "@id": "2",
+                          "type": "color",
+                          "name": "blue"
+                        }
+                      ]
                     }
-                  ]
-                }
-              }
-            }"
+                  }
+               }
     - return_code: "0"
   result: SUCCESS
 
@@ -81,8 +82,8 @@ testConvertXmlToJsonWithDefaultValuesSpecified:
                     <item id=\"2\"><type>color</type><name>blue</name></item>
                     </details>
                     </root>"
-    - text_elements_name: _text
-    - include_root: "true"
+    - text_elements_name: "_text"
+    - include_root_element: "true"
     - include_attributes: "true"
     - pretty_print: "true"
     - parsing_features: ""
@@ -92,40 +93,41 @@ testConvertXmlToJsonWithDefaultValuesSpecified:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: "{
-              \"root\": {
-                \"@id\": \"Page1\",
-                \"ui:position\": {
-                  \"x\": \"1\",
-                  \"y\": \"2\"
-                },
-                \"f:properties\": {
-                  \"f:property\": [
-                    {
-                      \"key1\": \"value1\"
+    - return_result: |
+               {
+                  "root": {
+                    "@id": "Page1",
+                    "ui:position": {
+                      "x": "1",
+                      "y": "2"
                     },
-                    {
-                      \"key2\": \"value2\"
-                    }
-                  ]
-                },
-                \"details\": {
-                  \"item\": [
-                    {
-                      \"@id\": \"1\",
-                      \"type\": \"size\",
-                      \"height\": \"10\",
-                      \"width\": \"10\"
+                    "f:properties": {
+                      "f:property": [
+                        {
+                          "key1": "value1"
+                        },
+                        {
+                          "key2": "value2"
+                        }
+                      ]
                     },
-                    {
-                      \"@id\": \"2\",
-                      \"type\": \"color\",
-                      \"name\": \"blue\"
+                    "details": {
+                      "item": [
+                        {
+                          "@id": "1",
+                          "type": "size",
+                          "height": "10",
+                          "width": "10"
+                        },
+                        {
+                          "@id": "2",
+                          "type": "color",
+                          "name": "blue"
+                        }
+                      ]
                     }
-                  ]
-                }
-              }
-            }"
+                  }
+               }
     - return_code: "0"
   result: SUCCESS
 
@@ -143,7 +145,7 @@ testConvertXmlToJsonWithInvalidBooleanValues:
                     </details>
                     </root>"
     - text_elements_name: "_text"
-    - include_root: "abc"
+    - include_root_element: "abc"
     - include_attributes: "abc"
     - pretty_print: "abc"
     - parsing_features: ""
@@ -171,7 +173,7 @@ testConvertXmlToJsonWithNoRootNoPrettyPrintNoAttributes:
                     </details>
                     </root>"
     - text_elements_name: "+text"
-    - include_root: "false"
+    - include_root_element: "false"
     - include_attributes: "false"
     - pretty_print: "false"
     - parsing_features: ""
@@ -199,7 +201,7 @@ testConvertXmlToJsonWithInvalidXml:
                     </details>
                     </root> \"abc\""
     - text_elements_name: "+text"
-    - include_root: "false"
+    - include_root_element: "false"
     - include_attributes: "false"
     - pretty_print: "false"
     - parsing_features: ""
@@ -209,7 +211,7 @@ testConvertXmlToJsonWithInvalidXml:
   outputs:
     - namespaces_prefixes: ""
     - namespaces_uris: ""
-    - return_result: "Error on line 12: Content is not allowed in trailing section."
+    - return_result: "Error on line 1: Content is not allowed in trailing section."
     - return_code: "-1"
   result: FAILURE
 
@@ -229,7 +231,7 @@ testConvertXmlToJsonWithTextElements:
             <character>here are some special characters!@#$%^*(\")_+:.,?/'\\|}{~`</character>
             </root>"
     - text_elements_name: "_text"
-    - include_root: "true"
+    - include_root_element: "true"
     - include_attributes: "true"
     - pretty_print: "true"
     - parsing_features: ""
@@ -239,49 +241,50 @@ testConvertXmlToJsonWithTextElements:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: "{
-              \"root\": {
-                \"@id\": \"Page1\",
-                \"td\": {
-                  \"@id\": \"1\",
-                  \"_text\": \"Apples\"
-                },
-                \"ui:position\": {
-                  \"x\": \"1\",
-                  \"y\": \"2\",
-                  \"td\": {
-                    \"@id\": \"1\",
-                    \"_text\": \"Apples\"
-                  }
-                },
-                \"f:properties\": {
-                  \"f:property\": [
-                    {
-                      \"key1\": \"value1\"
-                    },
-                    {
-                      \"key2\": \"value2\"
-                    }
-                  ]
-                },
-                \"details\": {
-                  \"item\": [
-                    {
-                      \"@id\": \"1\",
-                      \"type\": \"size\",
-                      \"height\": \"10\",
-                      \"width\": \"10\"
-                    },
-                    {
-                      \"@id\": \"2\",
-                      \"type\": \"color\",
-                      \"name\": \"blue\"
-                    }
-                  ]
-                },
-                \"character\": \"here are some special characters!@#$%^*(\\\")_+:.,?/'\\\\|}{~`\"
-              }
-            }"
+    - return_result: |
+               {
+                 "root": {
+                   "@id": "Page1",
+                   "td": {
+                     "@id": "1",
+                     "_text": "Apples"
+                   },
+                   "ui:position": {
+                     "x": "1",
+                     "y": "2",
+                     "td": {
+                       "@id": "1",
+                       "_text": "Apples"
+                     }
+                   },
+                   "f:properties": {
+                     "f:property": [
+                       {
+                         "key1": "value1"
+                       },
+                       {
+                         "key2": "value2"
+                       }
+                     ]
+                   },
+                   "details": {
+                     "item": [
+                       {
+                         "@id": "1",
+                         "type": "size",
+                         "height": "10",
+                         "width": "10"
+                       },
+                       {
+                         "@id": "2",
+                         "type": "color",
+                         "name": "blue"
+                       }
+                     ]
+                   },
+                   "character": "here are some special characters!@#$%^*(\")_+:.,?/'\\|}{~`"
+                 }
+               }
     - return_code: "0"
   result: SUCCESS
 
