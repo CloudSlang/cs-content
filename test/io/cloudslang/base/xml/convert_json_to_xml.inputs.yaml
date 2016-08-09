@@ -110,3 +110,65 @@ testConvertJsonArrayWithRootTagNameToXmlElements:
     - return_code: "0"
   result: SUCCESS
 
+testInvalidBooleanInput:
+  inputs:
+    - json: " "
+    - pretty_print: "invalid"
+    - show_xml_declaration: "invalid"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "invalid is not a valid value for Boolean"
+    - return_code: "-1"
+  result: FAILURE
+
+testMissingRootTagName:
+  inputs:
+    - json: "[{\"name1\":\"value1\"},{\"name2\":\"value2\"}]"
+    - pretty_print: "false"
+    - show_xml_declaration: "true"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "The root tag name is missing"
+    - return_code: "-1"
+  result: FAILURE
+
+
+testMalformedJson:
+  inputs:
+    - json: "{items: {\"name1\":\"value1\"},{\"name2\":\"value2\"}}"
+    - pretty_print: "false"
+    - show_xml_declaration: "true"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "com.google.gson.stream.MalformedJsonException: Expected name at line 1 column 28 path $.items"
+    - return_code: "-1"
+  result: FAILURE
+
+
