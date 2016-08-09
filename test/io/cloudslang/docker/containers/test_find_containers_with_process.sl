@@ -114,7 +114,7 @@ flow:
             - process_name
 
         publish:
-          - list: ${containers_with_process_found}
+          - list: ${containers_found}
 
     - verify_list:
         do:

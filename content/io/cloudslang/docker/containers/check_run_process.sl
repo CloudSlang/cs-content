@@ -115,11 +115,11 @@ flow:
     - append_to_list:
         do:
           strings.append:
-            - string: ${container_id_list}
+            - origin_string: ${container_id_list}
             - text: ${container_id + ' '}
 
         publish:
-          - container_id_result: ${result}
+          - container_id_result: ${new_string}
 
         navigate:
           - SUCCESS: RUNNING

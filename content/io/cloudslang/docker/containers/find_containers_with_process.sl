@@ -22,8 +22,16 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
-#! @output containers_with_process_found: the names of the containers with runing processes
+#! @input containers_with_process: optional - an empty list of containers with processes that will be populated if found
+#!                                 Default: ''
+#! @input containers_with_processes: optional - names of all containers running the defined process
+#!                                   Default: ''
+#! @input container_ids: optional - a list containing the ID`s all the containers running
+#!                       Default: ''
+#! @output containers_found: the names of the containers with runing processes
 #! @output standard_err: error message
+#! @result SUCCESS: names of running containers retrieved successfully
+#! @result FAILURE: something went wrong
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
@@ -68,11 +76,15 @@ flow:
     - containers_with_process:
         required: false
         default: ''
-        private: true
+    - containers_with_processes:
+        required: false
+        default: ''
+    - container_id_list:
+        required: false
+        default: ''
     - container_ids:
         required: false
         default: ''
-        private: true
 
   workflow:
     - get_containers:
@@ -80,7 +92,7 @@ flow:
           containers.get_all_containers:
             - all_containers
             - ps_params
-            - command:${proc_command}
+            - command: ${proc_command}
             - host
             - port
             - username
@@ -94,7 +106,7 @@ flow:
             - agent_forwarding
 
         publish:
-          - container_list: ${container_list}
+          - container_list
 
         navigate:
           - SUCCESS: check_container_list_not_empty
@@ -117,7 +129,7 @@ flow:
             containers.check_run_process:
               - container_id
               - process_name
-              - container_id_results: ${container_ids}
+              - container_id_list: ${container_ids}
               - host
               - port
               - username
@@ -131,7 +143,8 @@ flow:
               - agent_forwarding
 
           publish:
-            - container_ids: ${container_id_list}
+            - container_ids: ${container_id_result}
+
 
           navigate:
             - RUNNING: check_container_ids_not_empty
@@ -153,7 +166,7 @@ flow:
           for: container_id in container_ids.split()
           do:
             containers.get_container_names_with_ids:
-              - containers_with_process
+              - containers_with_process: ${containers_with_processes}
               - container_id
               - host
               - port   
@@ -167,14 +180,14 @@ flow:
               - close_session
               - agent_forwarding
 
-        publish:
-          - containers_with_process_found
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          publish:
+            - containers_with_processes: ${containers_with_process_found}
+          navigate:
+            - SUCCESS: SUCCESS
+            - FAILURE: FAILURE
 
   outputs:
-    - containers_with_process_found
+    - containers_found: ${containers_with_processes}
     - standard_err
 
   results:
