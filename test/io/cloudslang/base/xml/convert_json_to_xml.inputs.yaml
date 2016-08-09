@@ -63,7 +63,7 @@ testConvertJsonObjectWithoutRootTagNameToXmlDocument:
   testSuites: [convert_json_xml]
   testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
   outputs:
-    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<property><name1>value1</name1></property>"
+    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<property><name1>value1</name1></property>\n"
     - return_code: "0"
   result: SUCCESS
 

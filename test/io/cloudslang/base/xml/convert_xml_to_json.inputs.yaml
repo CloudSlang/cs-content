@@ -31,41 +31,7 @@ testConvertXmlToJsonWithDefaultValues:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: |
-               {
-                  "root": {
-                    "@id": "Page1",
-                    "ui:position": {
-                      "x": "1",
-                      "y": "2"
-                    },
-                    "f:properties": {
-                      "f:property": [
-                        {
-                          "key1": "value1"
-                        },
-                        {
-                          "key2": "value2"
-                        }
-                      ]
-                    },
-                    "details": {
-                      "item": [
-                        {
-                          "@id": "1",
-                          "type": "size",
-                          "height": "10",
-                          "width": "10"
-                        },
-                        {
-                          "@id": "2",
-                          "type": "color",
-                          "name": "blue"
-                        }
-                      ]
-                    }
-                  }
-               }
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\"\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    }\n  }\n}"
     - return_code: "0"
   result: SUCCESS
 
@@ -93,41 +59,7 @@ testConvertXmlToJsonWithDefaultValuesSpecified:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: |
-               {
-                  "root": {
-                    "@id": "Page1",
-                    "ui:position": {
-                      "x": "1",
-                      "y": "2"
-                    },
-                    "f:properties": {
-                      "f:property": [
-                        {
-                          "key1": "value1"
-                        },
-                        {
-                          "key2": "value2"
-                        }
-                      ]
-                    },
-                    "details": {
-                      "item": [
-                        {
-                          "@id": "1",
-                          "type": "size",
-                          "height": "10",
-                          "width": "10"
-                        },
-                        {
-                          "@id": "2",
-                          "type": "color",
-                          "name": "blue"
-                        }
-                      ]
-                    }
-                  }
-               }
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\"\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    }\n  }\n}"
     - return_code: "0"
   result: SUCCESS
 
@@ -241,50 +173,6 @@ testConvertXmlToJsonWithTextElements:
   outputs:
     - namespaces_prefixes: "f,ui"
     - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
-    - return_result: |
-               {
-                 "root": {
-                   "@id": "Page1",
-                   "td": {
-                     "@id": "1",
-                     "_text": "Apples"
-                   },
-                   "ui:position": {
-                     "x": "1",
-                     "y": "2",
-                     "td": {
-                       "@id": "1",
-                       "_text": "Apples"
-                     }
-                   },
-                   "f:properties": {
-                     "f:property": [
-                       {
-                         "key1": "value1"
-                       },
-                       {
-                         "key2": "value2"
-                       }
-                     ]
-                   },
-                   "details": {
-                     "item": [
-                       {
-                         "@id": "1",
-                         "type": "size",
-                         "height": "10",
-                         "width": "10"
-                       },
-                       {
-                         "@id": "2",
-                         "type": "color",
-                         "name": "blue"
-                       }
-                     ]
-                   },
-                   "character": "here are some special characters!@#$%^*(\")_+:.,?/'\\|}{~`"
-                 }
-               }
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"td\": {\n      \"@id\": \"1\",\n      \"_text\": \"Apples\"\n    },\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\",\n      \"td\": {\n        \"@id\": \"1\",\n        \"_text\": \"Apples\"\n      }\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    },\n    \"character\": \"here are some special characters!@#$%^*(\\\")_+:.,?/'\\\\|}{~`\"\n  }\n}"
     - return_code: "0"
   result: SUCCESS
-
