@@ -50,13 +50,10 @@ flow:
         required: false
     - username
     - password:
-        default: ''
         required: false
     - private_key_file:
-        default: ''
         required: false
     - arguments:
-        default: ''
         required: false
     - character_set:
         default: 'UTF-8'
@@ -71,10 +68,9 @@ flow:
         default: 'false'
         required: false
     - agent_forwarding:
-        default: ''
         required: false
     - container_id_list:
-        default: ''
+        default: " "
         required: false
 
   workflow:

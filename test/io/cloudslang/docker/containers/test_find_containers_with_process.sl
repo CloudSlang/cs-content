@@ -14,7 +14,6 @@ imports:
   containers: io.cloudslang.docker.containers
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: test_find_containers_with_process
@@ -24,7 +23,8 @@ flow:
         default: '22'
         required: false
     - username
-    - password
+    - password:
+        sensitive: true
     - first_image_name
     - second_image_name
     - process_name
@@ -120,7 +120,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${len(list.rstrip().split(" "))}
-            - second_string: 2
+            - second_string: 1
 
         navigate:
           - SUCCESS: clear_docker_host
