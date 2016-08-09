@@ -18,7 +18,7 @@
 #! @input include_attributes - The flag for including XML attributes in the resulted JSON
 #!                             Default value: true
 #!                             Accepted values: true, false
-#! @input pretty_print - The flag for formatting the resulted XML.
+#! @input pretty_print - The flag for formatting the resulted XML. The newline character is '\n'
 #!                       Default value: true
 #!                       Accepted values: true, false
 #! @input parsing_features - The list of XML parsing features separated by new line. The feature name - value must

@@ -10,7 +10,7 @@
 #! @description: Converts a JSON array or a JSON object to a XML document.
 #!
 #! @input json - The JSON array or object (in the form of a String).
-#! @input pretty_print - The flag for formatting the resulted XML. If it is true the result will contain tabs and newline chars.
+#! @input pretty_print - The flag for formatting the resulted XML. If it is true the result will contain tabs and newline ('\n') chars.
 #!                       Default value: true
 #!                       Accepted values: true, false
 #! @input show_xml_declaration - The flag for showing the xml declaration (<?xml version="1.0" encoding="UTF-8" standalone="yes"?>).
