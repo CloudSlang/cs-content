@@ -104,7 +104,6 @@ flow:
               - timeout
               - close_session
               - agent_forwarding
-              - command
 
           publish:
             - return_result
