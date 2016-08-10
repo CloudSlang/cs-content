@@ -62,4 +62,16 @@ testSSHexitStatusCommandNotFound:
   outputs:
     - command_return_code: 127
   testSuites: [docker,docker-misc]
+
+testSSHWorksWhenPTYtrue:
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - command: "echo testing\nexit\n"
+    - pty: "true"
+    - username: root
+    - password: screencast
+  description: Tests ssh actually works when pty = true by closing the channel with an appended exit command
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+  testSuites: [docker,docker-misc]
   result: SUCCESS
