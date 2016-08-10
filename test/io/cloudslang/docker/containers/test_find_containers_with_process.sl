@@ -119,7 +119,7 @@ flow:
     - verify_list:
         do:
           strings.string_equals:
-            - first_string: ${len(list.rstrip().split(" "))}
+            - first_string: ${len(list.rstrip().split())}
             - second_string: 2
 
         navigate:
