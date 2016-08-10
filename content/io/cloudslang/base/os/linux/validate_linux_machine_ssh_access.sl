@@ -54,6 +54,7 @@ operation:
         private: true
     - command:
         default: ':'
+        private: true
     - arguments:
         required: false
     - character_set:
@@ -61,7 +62,9 @@ operation:
     - characterSet:
         default: ${get("character_set", "UTF-8")}
         private: true
-    - pty: 'false'
+    - pty:
+        default: 'false'
+        private: true
     - timeout: '30000000'
     - close_session:
         required: false
