@@ -9,6 +9,7 @@
 testRunCommandSuccess:
   inputs:
     - command: echo test
+    - cwd: None
   description: Tests that run_command.sl operation finishes with SUCCESS for a valid command
   testFlowPath: io.cloudslang.base.cmd.run_command
   result: SUCCESS
@@ -16,6 +17,7 @@ testRunCommandSuccess:
 testRunCommandFailure:
   inputs:
     - command: wrong_command
+    - cwd: None
   description: Tests that run_command.sl operation finishes with Failure for an invalid command
   testFlowPath: io.cloudslang.base.cmd.run_command
   result: FAILURE
