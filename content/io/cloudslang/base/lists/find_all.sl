@@ -3,7 +3,9 @@
 #! @description: Finds all the locations of a given element within a list.
 #!
 #! @input list: list in which to find elements
-#! @output element: element to find
+#! @input element: element to find
+#! @input ignore_case: whether to ignore case when finding matches
+#!                     default: false
 #! @output indices: list of indices where <element> was found in <list>
 #!!#
 ####################################################
