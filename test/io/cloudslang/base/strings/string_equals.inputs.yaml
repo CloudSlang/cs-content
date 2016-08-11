@@ -158,7 +158,7 @@ testStringEqualsIgnoreCaseBoolean2:
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
-  testStringEqualsIgnoreCaseStringValue1:
+testStringEqualsIgnoreCaseStringValue1:
     inputs:
       - first_string: "TEST"
       - second_string: "test"
@@ -167,7 +167,7 @@ testStringEqualsIgnoreCaseBoolean2:
     testFlowPath: io.cloudslang.base.strings.string_equals
     result: SUCCESS
 
-  testStringEqualsIgnoreCaseStringValue2:
+testStringEqualsIgnoreCaseStringValue2:
     inputs:
       - first_string: "TEST"
       - second_string: "test"
@@ -185,7 +185,7 @@ testStringEqualsIgnoreCase2Boolean1:
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
-  testStringEqualsIgnoreCase2Boolean2:
+testStringEqualsIgnoreCase2Boolean2:
     inputs:
       - first_string: "test"
       - second_string: "TEST"
@@ -203,7 +203,7 @@ testStringEqualsIgnoreCase2StringValue1:
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
-  testStringEqualsIgnoreCase2StringValue2:
+testStringEqualsIgnoreCase2StringValue2:
     inputs:
       - first_string: "test"
       - second_string: "TEST"
