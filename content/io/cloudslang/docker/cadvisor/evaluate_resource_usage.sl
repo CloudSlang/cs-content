@@ -22,7 +22,6 @@
 #! @output result: result if all resource usage did not exceed the maximum
 #! @result LESS: all resource usage did not exceed the maximum
 #! @result MORE: one or more resources' usage exceeded the maximum
-#! @result FAILURE: input was not in correct format
 #!!#
 ####################################################
 
@@ -58,5 +57,4 @@ operation:
     - result
   results:
     - LESS: ${result}
-    - MORE: ${not result}
-    - FAILURE: ${error_message <> ""}
+    - MORE

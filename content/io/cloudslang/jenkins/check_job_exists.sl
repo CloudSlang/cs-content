@@ -59,4 +59,4 @@ operation:
     - EXISTS_EXPECTED: ${ result == 'EXISTS_EXPECTED' }
     - EXISTS_UNEXPECTED: ${ result == 'EXISTS_UNEXPECTED' }
     - NOT_EXISTS: ${ result == 'NOT_EXISTS' }
-    - FAILURE: ${ result == 'FAILURE' }
+    - FAILURE
