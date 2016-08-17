@@ -11,7 +11,7 @@
 #!
 #! @input xml_document: XML string or file in which to set an element or attribute value
 #! @input xml_document_source: xml document type
-#!                             Default: 'xmlString'
+#!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_element_query: XPATH query that results in an element or element
 #!                             list to set the value of or an element or element
@@ -21,9 +21,15 @@
 #!                        an element
 #!                        optional
 #! @input value: value to set for element or attribute
-#! @input secure_processing: whether to use secure processing
-#!                           optional
-#!                           default: 'true'
+#! @input secure_processing: optional -  sets the secure processing feature
+#!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
+#!                           the xml document or string. (true instructs the implementation to process XML securely.
+#!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
+#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
+#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
+#!                           denial of service attacks)
+#!                           Default value: 'true'
+#!                           Accepted values: 'true' or 'false'
 #! @output result_xml: given XML with value set
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
@@ -68,7 +74,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.5'
+    gav: 'io.cloudslang.content:cs-xml:0.0.7'
     class_name: io.cloudslang.content.xml.actions.SetValue
     method_name: execute
 

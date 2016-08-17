@@ -11,12 +11,12 @@
 #!
 #! @input xml_document: XML string, file or url to test
 #! @input xml_document_source: xml document type
-#!                             Default: 'xmlString'
+#!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath', 'xmlUrl'
 #! @input xsd_document: XSD to test given XML against
 #!                      optional
 #! @input xsd_document_source: xsd document type
-#!                             Default: 'xsdString'
+#!                             Default value: 'xsdString'
 #!                             Accepted values: 'xsdString', 'xsdPath', 'xsdUrl'
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
@@ -33,17 +33,23 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
-#!                        Default value: changeit
+#!                        Default value: ''
 #! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
-#!                           Default value: changeit
-#! @input secure_processing: whether to use secure processing
-#!                           optional
-#!                           default: 'true'
+#!                           Default value: ''
+#! @input secure_processing: optional -  sets the secure processing feature
+#!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
+#!                           the xml document or string. (true instructs the implementation to process XML securely.
+#!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
+#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
+#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
+#!                           denial of service attacks)
+#!                           Default value: 'true'
+#!                           Accepted values: 'true' or 'false'
 #! @output return_result: parsing was successfull or valid xml
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: exception in case of failure
@@ -84,6 +90,7 @@ operation:
         default: ''
     - password:
         required: false
+        sensitive: true
         default: ''
     - trust_all_roots:
         required: false
@@ -97,6 +104,7 @@ operation:
         default: ''
     - keystore_password:
         required: false
+        sensitive: true
         default: ''
     - keystorePassword:
         default: ${get("keystore_password", "")}
@@ -111,6 +119,7 @@ operation:
         private: true
     - trust_password:
         required: false
+        sensitive: true
         default: ''
     - trustPassword:
         default: ${get("trust_password", "")}
@@ -144,6 +153,7 @@ operation:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
         default: ''
     - proxyPassowrd:
         default: ${get("proxy_password", "")}
@@ -157,7 +167,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.5'
+    gav: 'io.cloudslang.content:cs-xml:0.0.7'
     class_name: io.cloudslang.content.xml.actions.Validate
     method_name: execute
 
