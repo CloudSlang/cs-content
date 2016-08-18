@@ -50,7 +50,7 @@ flow:
         default: ''
         required: false
     - recursively:
-        default: True
+        default: 'True'
         required: false
 
   workflow:
