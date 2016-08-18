@@ -32,7 +32,7 @@ operation:
       try:
         import json
         decoded = json.loads(json_input)
-        for key in json_path:
+        for key in json_path.split(","):
           decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'

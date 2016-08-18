@@ -19,11 +19,11 @@ operation:
     - list
     - element
     - ignore_case:
-        default: false
+        default: "false"
 
   python_action:
     script: |
-      if ignore_case:
+      if bool(ignore_case):
         indices = [i for i, x in enumerate(list) if x.lower() == element.lower()]
       else:
         indices = [i for i, x in enumerate(list) if x == element]
