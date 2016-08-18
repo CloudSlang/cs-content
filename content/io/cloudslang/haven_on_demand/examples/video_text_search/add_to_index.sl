@@ -43,7 +43,7 @@ flow:
           hod.speech_recognition.process_video:
             - api_key
             - file
-            - interval: 0
+            - interval: "0"
             - proxy_host
             - proxy_port
         publish:
