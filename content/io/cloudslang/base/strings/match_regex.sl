@@ -9,7 +9,7 @@
 #!!
 #! @description: Tests whether a Python regex expression matches a string.
 #! @input regex: Python regex expresssion - Example: "f\\w*r"
-#! @input text: string to match
+#! @input text: optional - string to match
 #! @output match_text: matched text
 #! @result MATCH: a match was found
 #! @result NO_MATCH: no match found
@@ -21,7 +21,8 @@ operation:
   name: match_regex
   inputs:
     - regex
-    - text
+    - text:
+        required: false
   python_action:
     script: |
       import re

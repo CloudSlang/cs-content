@@ -7,8 +7,8 @@
 ####################################################
 #!!
 #! @description: Appends text to string.
-#! @input origin_string: string   - Example: "good"
-#! @input text: text which need to be appended - Example: " morning"
+#! @input origin_string: optional - string - Example: "good"
+#! @input text: optional - text which need to be appended - Example: " morning"
 #! @output new_string: string after appending - Example: "good morning"
 #! @result SUCCESS: always
 #!!#
@@ -19,8 +19,10 @@ namespace: io.cloudslang.base.strings
 operation:
   name: append
   inputs:
-    - origin_string
-    - text
+    - origin_string:
+        required: false
+    - text:
+        required: false
   python_action:
     script: |
       origin_string+=text

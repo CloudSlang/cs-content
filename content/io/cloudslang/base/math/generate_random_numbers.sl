@@ -8,6 +8,7 @@
 ########################################################################################################
 #!!
 #! @description: Generates a random number.
+#!               Note: The pseudo-random generators of this operation should not be used for security purposes.
 #! @input max: maximum number that can be returned
 #! @input min: minimum number that can be returned
 #! @output result: random number between max and min

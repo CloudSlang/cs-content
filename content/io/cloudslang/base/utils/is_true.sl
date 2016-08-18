@@ -21,5 +21,5 @@ decision:
   inputs:
     - bool_value
   results:
-    - SUCCESS: ${ bool_value == True }
+    - SUCCESS: ${ bool_value in [True, true, 'True', 'true'] }
     - FAILURE
