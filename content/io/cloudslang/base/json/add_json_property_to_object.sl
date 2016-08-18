@@ -33,8 +33,8 @@ operation:
     script: |
       try:
         import json
-        from collections import OrderedDict
-        decoded = json.loads(json_object,object_pairs_hook=OrderedDict)
+
+        decoded = json.loads(json_object)
         decoded_value = json.loads(value)
         decoded[key] = decoded_value
 
