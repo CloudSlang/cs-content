@@ -48,7 +48,7 @@ flow:
     - port:
         default: '22'
         required: false
-    - proc_command: 
+    - proc_command:
         default: 'docker ps -q'
         private: true
     - username
@@ -169,7 +169,7 @@ flow:
               - containers_with_process: ${containers_with_processes}
               - container_id
               - host
-              - port   
+              - port
               - username
               - password
               - private_key_file

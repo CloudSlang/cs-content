@@ -74,7 +74,7 @@ flow:
         do:
           containers.get_filtered_containers:
             - docker_options
-            - all_containers: true
+            - all_containers: 'true'
             - excluded_images
             - host
             - port
@@ -114,7 +114,7 @@ flow:
         publish:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted
-          - total_amount_of_images_deleted: ${amount_of_images_deleted + amount_of_dangling_images_deleted}
+          - total_amount_of_images_deleted: ${str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted))}
   outputs:
     - amount_of_images_deleted
     - amount_of_dangling_images_deleted

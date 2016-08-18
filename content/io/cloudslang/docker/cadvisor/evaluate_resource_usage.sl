@@ -54,7 +54,7 @@ operation:
           error_message = "inputs have to be float"
   outputs:
     - error_message
-    - result
+    - result: ${str(result)}
   results:
     - LESS: ${result}
     - MORE

@@ -64,8 +64,8 @@ flow:
         sensitive: true
     - agent_private_key_files:
         required: false
-    - attempts: 60
-    - time_to_sleep: 5
+    - attempts: '60'
+    - time_to_sleep: '5'
   workflow:
     - create_swarm_cluster:
         do:
@@ -157,10 +157,10 @@ flow:
         do:
           math.compare_numbers:
             - value1: ${attempts}
-            - value2: 0
+            - value2: '0'
             - attempts
         publish:
-          - attempts: ${int(attempts) - 1}
+          - attempts: ${str(int(attempts) - 1)}
         navigate:
           - GREATER_THAN: sleep
           - EQUALS: NODES_NOT_ADDED
