@@ -19,7 +19,6 @@
 #! @result VEFIFYFAILURE: fails ro verify downloaded images
 #! @result DELETEFAIL: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
-#! @result FAIL_VALIDATE_SSH: ssh connection fails
 #! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
 #!!#
 ####################################################
