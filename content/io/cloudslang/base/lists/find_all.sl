@@ -3,7 +3,9 @@
 #! @description: Finds all the locations of a given element within a list.
 #!
 #! @input list: list in which to find elements
-#! @output element: element to find
+#! @input element: element to find
+#! @input ignore_case: whether to ignore case when finding matches
+#!                     default: false
 #! @output indices: list of indices where <element> was found in <list>
 #!!#
 ####################################################
@@ -16,9 +18,15 @@ operation:
   inputs:
     - list
     - element
+    - ignore_case:
+        default: false
 
   python_action:
-    script: indices = [i for i, x in enumerate(list) if x == element]
+    script: |
+      if ignore_case:
+        indices = [i for i, x in enumerate(list) if x.lower() == element.lower()]
+      else:
+        indices = [i for i, x in enumerate(list) if x == element]
 
   outputs:
     - indices

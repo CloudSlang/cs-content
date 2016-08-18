@@ -9,8 +9,8 @@
 #!!
 #! @description: Replaces a string in another string by a Python regex expression.
 #! @input regex: Python regex expresssion - "f\\w*r"
-#! @input text: string to replace in
-#! @input replacement: replacement string
+#! @input text: optional - string to replace in
+#! @input replacement: optional - replacement string
 #! @output result_text: string after replacement
 #! @result SUCCESS: always
 #!!#
@@ -21,8 +21,10 @@ operation:
   name: regex_replace
   inputs:
     - regex
-    - text
-    - replacement
+    - text:
+        required: false
+    - replacement:
+        required: false
   python_action:
     script: |
       import re

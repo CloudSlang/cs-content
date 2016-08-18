@@ -62,4 +62,4 @@ operation:
   results:
     - FAILURE: ${ is_error }
     - UP: ${ is_up }
-    - DOWN: ${ not is_up }
+    - DOWN
