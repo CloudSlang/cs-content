@@ -23,7 +23,7 @@
 namespace: io.cloudslang.base.json
 
 operation:
-  name: add_entry_in_object
+  name: add_json_property_to_object
   inputs:
     - json_object
     - key
