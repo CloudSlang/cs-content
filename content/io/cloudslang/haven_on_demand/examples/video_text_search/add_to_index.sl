@@ -61,7 +61,7 @@ flow:
         do:
           utils.url_encoder:
             - data: ${json_index_item}
-            - quote_plus: true
+            - quote_plus: "true"
         publish:
           - encoded_json: ${result}
     - add_to_index:
