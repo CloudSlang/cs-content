@@ -88,7 +88,8 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "8080")}
+        default: ${get("proxy_port", "")}
+        required: false
         private: true
     - proxy_username:
         required: false
