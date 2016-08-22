@@ -61,7 +61,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['id']
+            - json_path: "id"
         publish:
           - id: ${value}
         navigate:
@@ -72,7 +72,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['created_at']
+            - json_path: "created_at"
         publish:
           - created_at: ${value}
         navigate:
@@ -83,7 +83,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['updated_at']
+            - json_path: "updated_at"
         publish:
           - updated_at: ${value}
         navigate:

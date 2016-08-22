@@ -50,7 +50,7 @@ flow:
         do:
           json.add_value:
             - json_input: "{}"
-            - json_path: ['silent']
+            - json_path: "silent"
             - value: ${bool(silent)}
         publish:
           - body_json: ${json_output}
@@ -65,7 +65,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['user']
+            - json_path: "user"
             - value: ${user}
         publish:
           - body_json: ${json_output}
@@ -100,7 +100,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['id']
+            - json_path: "id"
         publish:
           - id: ${value}
         navigate:
@@ -111,7 +111,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['created_at']
+            - json_path: "created_at"
         publish:
           - created_at: ${value}
         navigate:

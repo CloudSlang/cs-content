@@ -103,7 +103,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["server", "id"]
+            - json_path: "server,id"
         publish:
           - server_id: ${value}
 
