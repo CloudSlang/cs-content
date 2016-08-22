@@ -14,7 +14,7 @@ imports:
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_start_server
