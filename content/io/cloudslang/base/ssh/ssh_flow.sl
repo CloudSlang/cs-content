@@ -47,7 +47,7 @@
 namespace: io.cloudslang.base.ssh
 
 imports:
-  linux: io.cloudslang.base.operating_systems.linux
+  linux: io.cloudslang.base.os.linux
   utils: io.cloudslang.base.utils
   ssh: io.cloudslang.base.ssh
 

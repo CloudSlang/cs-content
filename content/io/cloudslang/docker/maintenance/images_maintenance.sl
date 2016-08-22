@@ -23,7 +23,7 @@
 namespace: io.cloudslang.docker.maintenance
 
 imports:
- linux: io.cloudslang.base.operating_systems.linux
+ linux: io.cloudslang.base.os.linux
  images: io.cloudslang.docker.images
 
 flow:

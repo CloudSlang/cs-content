@@ -61,7 +61,7 @@ imports:
   ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
   files: io.cloudslang.base.file_system
-  linux: io.cloudslang.base.operating_systems.linux.users
+  linux: io.cloudslang.base.os.linux.users
 
 flow:
   name: test_git_end2end_flow
