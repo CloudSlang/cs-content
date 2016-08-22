@@ -317,7 +317,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['numDisks']
+            - json_path: "numDisks"
         publish:
           - before_update_value: ${value}
         navigate:
@@ -370,7 +370,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['numDisks']
+            - json_path: "numDisks"
         publish:
           - after_update_value: ${value}
         navigate:

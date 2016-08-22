@@ -54,7 +54,7 @@ flow:
         sensitive: true
     - region
     - assign_floating:
-        default: True
+        default: "True"
     - network_id:
         required: false
     - proxy_host:

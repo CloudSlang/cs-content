@@ -181,7 +181,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'username']
+            - json_path: "0,'username'"
 
         publish:
           - username: ${value}
@@ -195,7 +195,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'committer_email']
+            - json_path: "0,'committer_email'"
 
         publish:
           - committer_email: ${value}
@@ -209,7 +209,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'branch']
+            - json_path: "0,'branch'"
 
         publish:
           - branch: ${value}
@@ -223,7 +223,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'subject']
+            - json_path: "0,'subject'"
 
         publish:
           - ci_subject: ${value}
@@ -237,7 +237,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'build_num']
+            - json_path: "0,'build_num'"
 
         publish:
           - build_num: ${value}
@@ -251,7 +251,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'vcs_revision']
+            - json_path: "0,'vcs_revision'"
 
         publish:
           - commit: ${value}
@@ -265,7 +265,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'outcome']
+            - json_path: "0,'outcome'"
 
         publish:
           - outcome: ${value}

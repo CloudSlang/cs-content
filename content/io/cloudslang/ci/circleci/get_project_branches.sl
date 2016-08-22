@@ -128,7 +128,7 @@ flow:
         do:
           json.get_keys:
             - json_input: ${return_result}
-            - json_path: [0, 'branches']
+            - json_path: "0, 'branches'"
 
         publish:
           - branches: ${keys}

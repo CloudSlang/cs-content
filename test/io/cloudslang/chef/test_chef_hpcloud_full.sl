@@ -79,7 +79,7 @@ flow:
             - region
             - tenant_name
             - server_name
-            - assign_floating: True
+            - assign_floating: "True"
             - proxy_host
             - proxy_port
         publish:

@@ -43,7 +43,7 @@ flow:
         required: false
         sensitive: true
     - allow_tracking:
-        default: True
+        default: "True"
         required: false
     - beta:
         default: False
