@@ -100,7 +100,7 @@ flow:
         do:
           math.compare_numbers:
             - value1: ${time_left}
-            - value2: 0
+            - value2: "0"
             - time_left
         publish:
           - time_left: ${time_left - 1}

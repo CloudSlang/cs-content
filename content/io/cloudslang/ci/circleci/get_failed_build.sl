@@ -300,7 +300,7 @@ flow:
              - to: ${committer_email}
              - cc: ${supervisor}
              - subject: ${'[Build' + '] ' + 'Failed:' + username + '/' + project + '/' + branch}
-             - htmlEmail: True
+             - htmlEmail: "True"
              - body: >
                   ${'<p align=center>' + 'Build failure on repository:' + project + '-' + 'branch:' + branch + '</p>'
                   '<table align="center" border="1" cellpadding="0" cellspacing="0" width="400">' +

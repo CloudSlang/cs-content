@@ -35,7 +35,7 @@ imports:
 flow:
   name: handle_session_recovery
   inputs:
-    - enabled: True
+    - enabled: "True"
     - retries
     - return_result:
         required: false
