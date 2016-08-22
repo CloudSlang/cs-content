@@ -14,12 +14,12 @@
 #! @input manager_machine_password: optional - password of the machine with the Swarm manager
 #! @input manager_machine_private_key_file: optional - path to private key file of the machine with the Swarm manager
 #! @input manager_machine_port: port used by the Swarm manager container
-#! @input agent_ip_addresses: list of IP addresses - the corresponding machines will be used as Swarm agents
-#!                            Example: ['111.111.111.111', '111.111.111.222']
-#! @input agent_usernames: list of usernames for agent machines - Example: [core, core]
-#! @input agent_passwords: optional - list of password for agent machines - Example: [pass, pass]
-#! @input agent_private_key_files: optional - list of paths to private key files for agent machines
-#!                                 Example: ['foo/key_rsa', 'bar/key_rsa']
+#! @input agent_ip_addresses: comma delimited list of IP addresses - the corresponding machines will be used as Swarm agents
+#!                            Example: "111.111.111.111,111.111.111.222"
+#! @input agent_usernames: comma delimited list of usernames for agent machines - Example: "core,core"
+#! @input agent_passwords: optional - comma delimited list of password for agent machines - Example: "pass,pass"
+#! @input agent_private_key_files: optional - comma delimited list of paths to private key files for agent machines
+#!                                 Example: "foo/key_rsa,bar/key_rsa"
 #! @input attempt: number of attempts to check whether nodes were added to the cluster
 #!                 total waiting time ~ attempt * time_to_sleep
 #!                 Default: '60'
@@ -92,12 +92,12 @@ flow:
 
     - pre_clear_agent_machines:
         parallel_loop:
-          for: ip in agent_ip_addresses
+          for: ip in agent_ip_addresses.split(',')
           do:
             containers.clear_containers:
               - docker_host: ${ip}
-              - docker_username: ${agent_usernames[0]}
-              - private_key_file: ${agent_private_key_files[0]}
+              - docker_username: ${agent_usernames.split(',')[0]}
+              - private_key_file: ${agent_private_key_files.split(',')[0]}
         navigate:
           - SUCCESS: start_manager_container
           - FAILURE: PRE_CLEAR_AGENT_MACHINES_PROBLEM
@@ -117,14 +117,14 @@ flow:
 
     - add_nodes_to_the_cluster:
         parallel_loop:
-          for: ip in agent_ip_addresses
+          for: ip in agent_ip_addresses.split(',')
           do:
             swarm.register_agent:
               - node_ip: ${ip}
               - cluster_id
               - host: ${ip}
-              - username: ${agent_usernames[0]}
-              - private_key_file: ${agent_private_key_files[0]}
+              - username: ${agent_usernames.split(',')[0]}
+              - private_key_file: ${agent_private_key_files.split(',')[0]}
         navigate:
           - SUCCESS: get_number_of_nodes_in_cluster
           - FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
@@ -147,7 +147,7 @@ flow:
     - verify_node_is_added:
         do:
           strings.string_equals:
-            - first_string: ${str(len(agent_ip_addresses))}
+            - first_string: ${str(len(agent_ip_addresses.split(',')))}
             - second_string: ${number_of_nodes_in_cluster}
         navigate:
           - SUCCESS: SUCCESS
