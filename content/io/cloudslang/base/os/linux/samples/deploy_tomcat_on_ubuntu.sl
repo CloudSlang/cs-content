@@ -70,7 +70,7 @@ flow:
     - file_name
     - source_path
     - permissions_code: '755'
-    - recursively: True
+    - recursively: "True"
     - script_file_name
 
 

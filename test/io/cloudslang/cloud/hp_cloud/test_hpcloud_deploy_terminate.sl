@@ -80,7 +80,7 @@ flow:
             - password
             - tenant_name
             - region
-            - release_ip_address: True
+            - release_ip_address: "True"
             - ip_address
             - proxy_host
             - proxy_port
