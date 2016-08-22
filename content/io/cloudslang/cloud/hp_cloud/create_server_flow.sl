@@ -62,10 +62,10 @@ flow:
     - proxy_port:
         required: false
     - polling_attempts:
-        default: 60
+        default: "60"
         required: false
     - polling_wait_time:
-        default: 10
+        default: "10"
         required: false
 
   workflow:
@@ -114,7 +114,7 @@ flow:
 
     - poll_server_until_active:
         loop:
-          for: loop_counter in range(0,polling_attempts)
+          for: loop_counter in range(0,int(polling_attempts))
           do:
             hp_cloud.get_server_state_flow:
               - server_id

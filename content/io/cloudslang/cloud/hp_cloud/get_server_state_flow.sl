@@ -41,7 +41,7 @@ flow:
         sensitive: true
     - region
     - delay:
-        default: 0
+        default: "0"
     - proxy_host:
         required: false
     - proxy_port:
