@@ -29,7 +29,7 @@ imports:
   hp_cloud: io.cloudslang.cloud.hp_cloud
   print: io.cloudslang.base.print
   json: io.cloudslang.base.json
-  base_utils: io.cloudslang.base.utils
+  base_utils: io.cloudslang.base.flow_control
   strings: io.cloudslang.base.strings
 
 flow:
