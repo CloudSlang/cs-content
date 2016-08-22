@@ -10,7 +10,6 @@ testSleepSuccess:
   inputs:
     - seconds: '0.1'
   description: Tests that sleep.sl operation finishes with SUCCESS
-  testSuites: [dormi]
   testFlowPath: io.cloudslang.base.flow_control.sleep
   outputs:
     - message: 'sleep completed successfully'
