@@ -54,8 +54,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: " ,0,200"
         navigate:
           - SUCCESS: get_version
           - FAILURE: CHECK_RESULTS_FAILURE
@@ -64,7 +64,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['version']
+            - json_path: "version"
         publish:
           - version: ${value}
         navigate:
