@@ -9,19 +9,19 @@
 #!!
 #! @description: Converts a JSON array or a JSON object to a XML document.
 #!
-#! @input xml - The XML document (in the form of a String).
-#! @input text_elements_name - Specify custom property name for text elements. This will be used for elements that have attributes and text content.
+#! @input xml: The XML document (in the form of a String).
+#! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that have attributes and text content.
 #!                             Default value: _text
-#! @input include_root - The flag for including the xml root in the resulted JSON.
+#! @input include_root: The flag for including the xml root in the resulted JSON.
 #!                       Default value: true
 #!                       Accepted values: true, false
-#! @input include_attributes - The flag for including XML attributes in the resulted JSON
+#! @input include_attributes: The flag for including XML attributes in the resulted JSON
 #!                             Default value: true
 #!                             Accepted values: true, false
-#! @input pretty_print - The flag for formatting the resulted XML. The newline character is '\n'
+#! @input pretty_print: The flag for formatting the resulted XML. The newline character is '\n'
 #!                       Default value: true
 #!                       Accepted values: true, false
-#! @input parsing_features - The list of XML parsing features separated by new line. The feature name - value must
+#! @input parsing_features: The list of XML parsing features separated by new line. The feature name - value must
 #!                          be separated by empty space. Setting specific features this field could be used to avoid XML
 #!                          security issues like "XML Entity Expansion injection" and "XML External Entity injection".
 #!                          To avoid aforementioned security issues we strongly recommend to set this input to the following values:
@@ -40,10 +40,10 @@
 #!                            http://xml.org/sax/features/external-general-entities false
 #!                            http://xml.org/sax/features/external-parameter-entities false
 #!
-#! @output return_result - This is the primary output. The resulted JSON Document or JSON objects in form of a String.
-#! @output return_code - 0 for success; -1 for failure.
-#! @output namespaces_prefixes - The list of tag prefixes separated by delimiter.
-#! @output namespaces_uris - The corresponding list of namespaces Uris separated by delimiter.
+#! @output return_result: This is the primary output. The resulted JSON Document or JSON objects in form of a String.
+#! @output return_code: 0 for success; -1 for failure.
+#! @output namespaces_prefixes: The list of tag prefixes separated by delimiter.
+#! @output namespaces_uris: The corresponding list of namespaces Uris separated by delimiter.
 #!                         (They can be used as input for Convert JSON to XML Operation)
 #!
 #! @result SUCCESS: The operation completed as stated in the description.
