@@ -26,7 +26,7 @@ operation:
   name: get_value
   inputs:
     - json_input
-    - json_path
+    - json_path:
         required: false
   python_action:
     script: |
