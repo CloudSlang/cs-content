@@ -73,8 +73,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
+            - list_1: ${ return_code + "," + str(exception)}
+            - list_2: "0, "
         navigate:
           - SUCCESS: check_message
           - FAILURE: CHECK_RESULTS_FAILURE
