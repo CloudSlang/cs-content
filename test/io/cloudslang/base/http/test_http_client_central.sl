@@ -21,10 +21,10 @@ flow:
   inputs:
     - url
     - username:
-        default: " "
+        default: ""
         required: false
     - password:
-        default: " "
+        default: ""
         required: false
     - content_type:
         default: 'application/json'

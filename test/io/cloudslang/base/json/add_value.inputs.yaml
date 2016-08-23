@@ -50,7 +50,7 @@ testAddValueBadIndex:
 testEmptyKeyValue:
   inputs:
     - json_before: '{}'
-    - json_path: " "
+    - json_path: ""
     - value: ''
     - json_after: '{}'
   description: Tests that add_value.sl doesn't add anything to a empty JSON
