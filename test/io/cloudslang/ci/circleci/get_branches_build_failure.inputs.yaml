@@ -30,9 +30,9 @@ testGetBranchesBuildFailureEmptySuccess:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_branches_build_failure
   outputs:
-    - return_result: []
-    - status_code: 200
-    - return_code: 0
+    - return_result: ""
+    - status_code: '200'
+    - return_code: '0'
 
   result: SUCCESS
 
@@ -65,8 +65,8 @@ testGetBranchesBuildFailureWrongAPIFailure:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_branches_build_failure
   outputs:
-    - return_result: []
-    - status_code: 200
-    - return_code: 0
+    - return_result: ""
+    - status_code: "200"
+    - return_code: "0"
 
   result: SUCCESS

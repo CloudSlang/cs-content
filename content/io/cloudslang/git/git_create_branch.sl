@@ -50,7 +50,7 @@ flow:
         required: false
     - git_branch
     - sudo_user:
-        default: "false"
+        default: 'false'
         required: false
     - private_key_file:
         required: false

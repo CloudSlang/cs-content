@@ -46,7 +46,7 @@ testValidateJsonComplexSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: '0'
   result: SUCCESS
 
 testValidateJsonSimpleSuccess:
@@ -57,18 +57,18 @@ testValidateJsonSimpleSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: '0'
   result: SUCCESS
 
 testValidateJsonArrayFailure:
   inputs:
     - json_input:
-        value: [{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]
+        value: '[{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: TypeError("expected string or buffer, but got <type 'java.util.ArrayList'>",)
-    - return_code: -1
+    - return_code: '-1'
   result: FAILURE
 
 testValidateJsonExtraDataFailure:
@@ -79,18 +79,18 @@ testValidateJsonExtraDataFailure:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: "ValueError('Extra data: line 1 column 42 - line 1 column 88 (char 41 - 87)',)"
-    - return_code: -1
+    - return_code: '-1'
   result: FAILURE
 
 testValidateJsonHashMapFailure:
   inputs:
     - json_input:
-        value: {'FirstName':Luke,'LastName':Skywalker,'MiddleName':Darth}
+        value: "{'FirstName':Luke,'LastName':Skywalker,'MiddleName':Darth}"
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: TypeError("expected string or buffer, but got <type 'java.util.LinkedHashMap'>",)
-    - return_code: -1
+    - return_code: "-1"
   result: FAILURE
 
 testValidateJsonPrimitiveDataFailure:
@@ -101,7 +101,7 @@ testValidateJsonPrimitiveDataFailure:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: ValueError('No JSON object could be decoded',)
-    - return_code: -1
+    - return_code: "-1"
   result: FAILURE
 
 testValidateJsonDataTypesSuccess:
@@ -112,7 +112,7 @@ testValidateJsonDataTypesSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateEmptyJson:
@@ -123,7 +123,7 @@ testValidateEmptyJson:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateNestedJSON:
@@ -134,7 +134,7 @@ testValidateNestedJSON:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateSpecialCharactersJSON:
@@ -145,7 +145,7 @@ testValidateSpecialCharactersJSON:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateJsonDataSuccess:
@@ -156,5 +156,5 @@ testValidateJsonDataSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS

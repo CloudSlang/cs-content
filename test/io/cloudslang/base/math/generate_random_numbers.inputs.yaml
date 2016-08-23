@@ -8,20 +8,20 @@
 ####################################################
 testRandIntNum:
   inputs:
-    - min:  3
-    - max:  5
+    - min:  '3'
+    - max:  '5'
   description: Tests that generate_random_numbers.sl operation finishes with result = SUCCESS
   testFlowPath: io.cloudslang.base.math.generate_random_numbers
   result: SUCCESS
 
 testRandFailInt:
   inputs:
-    - min: 10
-    - max: 1
+    - min: '10'
+    - max: '1'
   description: Tests that generate_random_numbers.sl operation finishes with result = FAILURE
   testFlowPath: io.cloudslang.base.math.generate_random_numbers
   outputs:
-    - error_message : 'min must be less than max'
+    - error_message: 'min must be less than max'
   result: FAILURE
 
 testRandFailStr:
@@ -31,7 +31,7 @@ testRandFailStr:
   description: Tests that generate_random_numbers.sl operation finishes with result = FAILURE
   testFlowPath: io.cloudslang.base.math.generate_random_numbers
   outputs:
-    - error_message : 'min must be less than max'
+    - error_message: 'min must be less than max'
   result: FAILURE
 
 testRandFailStrFloat:
@@ -41,15 +41,15 @@ testRandFailStrFloat:
   description: Tests that generate_random_numbers.sl operation finishes with result = FAILURE
   testFlowPath: io.cloudslang.base.math.generate_random_numbers
   outputs:
-    - error_message : 'max and min must be integer'
+    - error_message: 'max and min must be integer'
   result: FAILURE
 
 testRandFailFload:
   inputs:
-    - min: 9.5
-    - max: 10
+    - min: '9.5'
+    - max: '10'
   description: Tests that generate_random_numbers.sl operation finishes with result = FAILURE
   testFlowPath: io.cloudslang.base.math.generate_random_numbers
   outputs:
-    - error_message : 'max and min must be integer'
+    - error_message: 'max and min must be integer'
   result: FAILURE

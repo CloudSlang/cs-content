@@ -51,7 +51,7 @@ flow:
         required: false
     - git_branch
     - sudo_user:
-        default: "false"
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -61,7 +61,7 @@ flow:
 
   workflow:
     - git_delete_branch:
-    
+
         do:
           ssh.ssh_flow:
             - git_command: ${'git push origin --delete ' if branch_type == 'remote' else 'git branch -dr ' if branch_type == 'remote-tracking' else 'git branch -d '}

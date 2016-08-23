@@ -14,7 +14,7 @@ testGetKeysOuter:
   description: Tests that get_keys.sl correctly gets outer keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'outer_key2', u'outer_key1']
+    - keys: "outer_key2,outer_key1"
 
 testGetKeysInner:
   inputs:
@@ -23,7 +23,7 @@ testGetKeysInner:
   description: Tests that get_keys.sl correctly gets inner keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'inner_key1', u'inner_key2']
+    - keys: "inner_key1,inner_key2"
 
 testGetKeysSingle:
   inputs:
@@ -32,7 +32,7 @@ testGetKeysSingle:
   description: Tests that get_keys.sl correctly gets a single key from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'inner_key1']
+    - keys: "inner_key1"
 
 testGetKeysNone:
   inputs:
@@ -66,7 +66,7 @@ testGetKeysSpecialCharacters:
   inputs:
     - json_input: '{"??":"japanese", "a1!#%@&*`|>-":"special characters"}'
     - json_path: " "
-    - expected_keys: ['??', 'a1!#%@&*`|>-']
+    - expected_keys: "??,a1!#%@&*`|>-"
   description: Tests get_keys.sl when there are special Japanese characters
   testFlowPath: io.cloudslang.base.json.test_get_keys
   result: SUCCESS
@@ -75,7 +75,7 @@ testGetKeysOrder:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": "outer_value2", "outer_key3": "outer_value3"}'
     - json_path: " "
-    - expected_keys: ['outer_key1', 'outer_key2', 'outer_key3']
+    - expected_keys: "outer_key1,outer_key2,outer_key3"
   description: Tests that get_keys.sl correctly gets all outer keys from a JSON
   testFlowPath: io.cloudslang.base.json.test_get_keys
   result: SUCCESS
@@ -84,7 +84,7 @@ testGetKeysJSONArray:
   inputs:
     - json_input: '{"[arraykey1,arraykey2]":"arrayvalue"}'
     - json_path: " "
-    - expected_keys: '[arraykey1,arraykey2]'
+    - expected_keys: "arraykey1,arraykey2"
   description: Tests that get_keys.sl correctly gets key in the form of an array
   testFlowPath: io.cloudslang.base.json.test_get_keys
   result: SUCCESS

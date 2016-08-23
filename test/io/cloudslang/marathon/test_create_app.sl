@@ -72,12 +72,12 @@ flow:
 
     - delete_initial_apps:
         loop:
-            for: ${'app in app_list.split(",")'}
+            for: app in app_list.split(",")
             do:
               marathon.delete_app:
                 - marathon_host
                 - marathon_port
-                - app_id: app
+                - app_id: ${app}
         navigate:
           - SUCCESS: create_marathon_app
           - FAILURE: FAIL_TO_DELETE
@@ -98,8 +98,8 @@ flow:
               - marathon_host
               - marathon_port
               - created_app_id
-              - attempts: 30
-              - time_to_sleep: 20
+              - attempts: '30'
+              - time_to_sleep: '20'
         navigate:
           - SUCCESS: list_marathon_apps
           - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
