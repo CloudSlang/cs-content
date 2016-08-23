@@ -69,7 +69,7 @@ flow:
             - result_set_delimiter: " "
         publish:
           - images_list_safe_to_delete: ${ result_set }
-          - amount_of_dangling_images: ${ len(result_set.split()) }
+          - amount_of_dangling_images: ${ str(len(result_set.split())) }
     - delete_images:
         do:
           images.clear_images:
@@ -85,4 +85,4 @@ flow:
           - response
   outputs:
     - dangling_images_list_safe_to_delete: ${ images_list_safe_to_delete }
-    - amount_of_dangling_images_deleted: ${ 0 if images_list_safe_to_delete == '' else amount_of_dangling_images }
+    - amount_of_dangling_images_deleted: ${ '0' if images_list_safe_to_delete == '' else amount_of_dangling_images }

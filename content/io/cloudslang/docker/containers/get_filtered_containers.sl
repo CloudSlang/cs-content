@@ -44,7 +44,7 @@ flow:
     - docker_options:
         required: false
     - all_containers:
-        default: false
+        default: 'false'
     - excluded_images
     - host
     - port:

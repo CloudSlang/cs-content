@@ -205,7 +205,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: ${guest_os_id}
-            - ignore_case: True
+            - ignore_case: 'true'
         navigate:
           - SUCCESS: create_vm
           - FAILURE: GUEST_OS_ID_NOT_FOUND
@@ -243,7 +243,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: "${'Success: Created'}"
-            - ignore_case: True
+            - ignore_case: 'true'
         navigate:
           - SUCCESS: list_all_vms
           - FAILURE: GET_CREATED_TEXT_OCCURRENCE_FAILURE
@@ -271,7 +271,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: ${virtual_machine_name}
-            - ignore_case: True
+            - ignore_case: 'true'
         navigate:
           - SUCCESS: get_created_vm_details
           - FAILURE: VM_NOT_FOUND
@@ -419,7 +419,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: "${'successfully powered on'}"
-            - ignore_case: True
+            - ignore_case: "true"
         navigate:
           - SUCCESS: powered_on_vm_mail
           - FAILURE: NOT_POWERED_ON
@@ -463,7 +463,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: "${'successfully powered off'}"
-            - ignore_case: True
+            - ignore_case: "true"
         navigate:
           - SUCCESS: powered_off_vm_mail
           - FAILURE: NOT_POWERED_OFF
@@ -525,7 +525,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: ${virtual_machine_name}
-            - ignore_case: True
+            - ignore_case: "true"
         navigate:
           - SUCCESS: NOT_DELETED
           - FAILURE: delete_vm_mail

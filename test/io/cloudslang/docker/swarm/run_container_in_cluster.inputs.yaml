@@ -16,7 +16,7 @@ test_run_container_in_cluster_success:
     - host: <coreos_host_4>
     - username: core
     - private_key_file: <private_key_file>
-    - agent_ip_addresses: ['<coreos_host_5>', '<coreos_host_6>']
-    - attempts: 60
-    - time_to_sleep: 5
+    - agent_ip_addresses: "<coreos_host_5>,<coreos_host_6>"
+    - attempts: "60"
+    - time_to_sleep: "5"
   result: SUCCESS

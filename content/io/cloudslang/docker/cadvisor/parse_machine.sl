@@ -50,9 +50,9 @@ operation:
         return_result = 'Parsing error.'
   outputs:
     - decoded
-    - num_cores
-    - cpu_frequency_khz
-    - memory_capacity
+    - num_cores: ${str(num_cores)}
+    - cpu_frequency_khz: ${str(cpu_frequency_khz)}
+    - memory_capacity: ${memory_capacity}
     - file_systems
     - disk_map
     - network_devices

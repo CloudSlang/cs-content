@@ -42,7 +42,7 @@ flow:
             - host: ${docker_host}
             - username: ${docker_username}
             - password: ${docker_password}
-            - all_containers: true
+            - all_containers: 'true'
             - private_key_file
             - timeout
             - port

@@ -127,8 +127,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${str(exception) + "," + return_code}
+            - list_2: " ,0"
         navigate:
           - SUCCESS: get_text_occurrence
           - FAILURE: CHECK_RESULT_FAILURE
@@ -138,7 +138,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(return_result)}
             - string_to_find: "${'successfully customized'}"
-            - ignore_case: True
+            - ignore_case: 'true'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_TEXT_OCCURRENCE_FAILURE

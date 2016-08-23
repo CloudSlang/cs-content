@@ -42,7 +42,7 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - detach: true
+    - detach: 'true'
     - container_name:
         required: false
     - container_params:
@@ -77,7 +77,7 @@ flow:
         required: false
         private: true
     - detach_expression:
-        default: ${'-d ' if detach else ''}
+        default: ${'-d ' if bool(detach) else ''}
         required: false
         private: true
     - container_name_param:

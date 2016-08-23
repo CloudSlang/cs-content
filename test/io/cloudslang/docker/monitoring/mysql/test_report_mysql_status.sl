@@ -45,7 +45,7 @@ flow:
     - wait_for_postfix:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: '10'
 
     - start_mysql_container:
         do:
@@ -61,7 +61,7 @@ flow:
     - wait_for_mysql:
         do:
           utils.sleep:
-            - seconds: 20
+            - seconds: '20'
 
     - report_mysql_status:
         do:

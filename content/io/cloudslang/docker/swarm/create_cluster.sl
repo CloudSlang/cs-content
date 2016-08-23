@@ -61,7 +61,7 @@ flow:
     - create_cluster:
         do:
           containers.run_container:
-            - detach: false
+            - detach: 'false'
             - container_params: '--rm'
             - container_command: 'create'
             - image_name: ${swarm_image}

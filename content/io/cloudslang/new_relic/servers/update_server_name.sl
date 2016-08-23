@@ -58,7 +58,7 @@ flow:
         do:
           json.add_value:
             - json_input: '{"server":{"name":"default"}}'
-            - json_path: "'server','name'"
+            - json_path: "server,name"
             - value: ${server_name}
         publish:
           - body_json: ${json_output}
