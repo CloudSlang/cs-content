@@ -88,9 +88,9 @@ flow:
         do:
           list.convert_list_to_string:
             - list: ${cartridge}
-            - double_quotes: True
+            - double_quotes: "True"
             - result_delimiter: ','
-            - result_to_lowercase: True
+            - result_to_lowercase: "True"
         publish:
           - cartridge_str: ${result}
         navigate:
