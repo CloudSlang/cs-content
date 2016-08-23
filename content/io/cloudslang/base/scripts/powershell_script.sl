@@ -88,7 +88,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.powershell
+namespace: io.cloudslang.base.scripts
 
 operation:
    name: powershell_script
