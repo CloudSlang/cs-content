@@ -63,8 +63,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[int(return_code), str(exception)]}
-            - list_2: [0, '']
+            - list_1: ${return_code + "," + str(exception)}
+            - list_2: "0,"
         navigate:
           - SUCCESS: check_message
           - FAILURE: CHECK_RESULTS_FAILURE
@@ -73,8 +73,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${return_result}
-            - string_to_find: None
-            - ignore_case
+            - string_to_find: ""
         navigate:
           - SUCCESS: NO_RETURN_RESULT
           - FAILURE: SUCCESS

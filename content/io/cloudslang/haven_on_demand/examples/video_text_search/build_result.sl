@@ -22,13 +22,13 @@ operation:
     - query_result
     - index
     - snippet_radius:
-        default: 5
+        default: "5"
         required: false
 
   python_action:
     script: |
-      snippet_start = max(0, index - snippet_radius)
-      snippet_end = min(len(query_result['text']), index + snippet_radius)
+      snippet_start = max(0, index - int(snippet_radius))
+      snippet_end = min(len(query_result['text']), index + int(snippet_radius))
       snippet = ' '.join(query_result['text'][snippet_start : snippet_end])
 
       link = query_result['url'][0]

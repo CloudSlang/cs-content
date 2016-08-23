@@ -10,7 +10,7 @@
 testAddValueExistingPath:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: [outer_key2]
+    - json_path: "outer_key2"
     - value: outer_value2
     - json_after: '{"outer_key1": "outer_value1", "outer_key2": "outer_value2"}'
   description: Tests that add_value.sl correctly adds value to JSON
@@ -20,7 +20,7 @@ testAddValueExistingPath:
 testAddValueNewKey:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: [outer_key2, inner_key3]
+    - json_path: "outer_key2,inner_key3"
     - value: inner_value3
     - json_after: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key3": "inner_value3", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
   description: Tests that add_value.sl correctly adds value to JSON
@@ -30,7 +30,7 @@ testAddValueNewKey:
 testAddValueNewKeys:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: [outer_key3, inner_key3]
+    - json_path: "outer_key3,inner_key3"
     - value: inner_value3
     - json_after: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}, "outer_key3": "inner_key3"}'
   description: Tests that add_value.sl correctly adds value to JSON
@@ -40,7 +40,7 @@ testAddValueNewKeys:
 testAddValueBadIndex:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: [outer_key1, 0]
+    - json_path: "outer_key1,0"
     - value: outer_value1
     - json_after: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key3": "inner_value3", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
   description: Tests that add_value.sl correctly adds value to JSON
@@ -50,7 +50,7 @@ testAddValueBadIndex:
 testEmptyKeyValue:
   inputs:
     - json_before: '{}'
-    - json_path: []
+    - json_path: ""
     - value: ''
     - json_after: '{}'
   description: Tests that add_value.sl doesn't add anything to a empty JSON

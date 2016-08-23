@@ -39,7 +39,7 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - all_containers: false
+    - all_containers: 'false'
     - ps_parameters:
         default: ${'-a' if bool(all_containers) else ''}
         required: false

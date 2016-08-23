@@ -16,7 +16,8 @@ flow:
 
   inputs:
     - json_before
-    - json_path
+    - json_path:
+        required: false
     - value:
         required: false
     - json_after

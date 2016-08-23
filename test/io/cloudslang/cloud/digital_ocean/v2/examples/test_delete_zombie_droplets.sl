@@ -74,7 +74,7 @@ flow:
             - droplet_id
             - status: 'new'
             - token
-            - timeout: 600
+            - timeout: '600'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -105,7 +105,7 @@ flow:
             - droplet_id
             - status: 'active'
             - token
-            - timeout: 600
+            - timeout: '600'
             - proxy_host
             - proxy_port
             - proxy_username

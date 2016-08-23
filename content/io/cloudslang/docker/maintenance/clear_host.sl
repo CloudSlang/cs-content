@@ -47,7 +47,7 @@ flow:
             - host: ${ docker_host }
             - username: ${ docker_username }
             - password: ${ docker_password }
-            - all_containers: true
+            - all_containers: 'true'
             - private_key_file
             - timeout
             - port
@@ -75,6 +75,6 @@ flow:
         publish:
           - amount_of_dangling_images_deleted
           - amount_of_images_deleted
-          - total_amount: ${ amount_of_images_deleted + amount_of_dangling_images_deleted }
+          - total_amount: ${ str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted)) }
   outputs:
     - total_amount_of_images_deleted: ${ '' if 'total_amount' not in locals() else total_amount }

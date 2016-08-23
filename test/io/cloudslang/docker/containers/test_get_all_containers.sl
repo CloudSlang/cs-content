@@ -99,7 +99,7 @@ flow:
             - port
             - username
             - password
-            - all_containers: true
+            - all_containers: 'true'
         publish:
           - list: ${container_list}
 
@@ -107,8 +107,8 @@ flow:
         do:
           strings.string_equals:
             - first_string: >
-                ${len(list.rstrip().split(" "))}
-            - second_string: 2
+                ${str(len(list.rstrip().split("")))}
+            - second_string: '2'
         navigate:
           - SUCCESS: clear_docker_host
           - FAILURE: FAILURE

@@ -8,8 +8,8 @@
 ####################################################
 testLessThanPercentageLess:
   inputs:
-    - first_percentage: 50%
-    - second_percentage: 100%
+    - first_percentage: "50%"
+    - second_percentage: "100%"
   description: Tests that less_than_percentage.sl operation finishes with LESS when first_percentage < second_percentage
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
   outputs:
@@ -18,16 +18,16 @@ testLessThanPercentageLess:
 
 testLessThanPercentageMore:
   inputs:
-    - first_percentage: 70%
-    - second_percentage: 60%
+    - first_percentage: "70%"
+    - second_percentage: "60%"
   description: Tests that less_than_percentage.sl operation finishes with MORE when first_percentage > second_percentage
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
   result: MORE
 
 testLessThanPercentageFailure:
   inputs:
-    - first_percentage: 7_0%
-    - second_percentage: 60%
+    - first_percentage: "7_0%"
+    - second_percentage: "60%"
   description: Tests that less_than_percentage.sl operation finishes with FAILURE if one of the inputs cannot be converted to integer
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
   outputs:
@@ -36,7 +36,7 @@ testLessThanPercentageFailure:
 
 testLessThanPercentageException:
   inputs:
-    - second_percentage: 60%
+    - second_percentage: "60%"
   description: Tests that less_than_percentage.sl operation throws an exception if an input is missing
   testFlowPath: io.cloudslang.base.comparisons.less_than_percentage
   throwsException: true

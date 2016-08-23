@@ -147,7 +147,7 @@ flow:
     - boot_index: '0'
     - uuid
     - source_type: ''
-    - delete_on_termination: True
+    - delete_on_termination: "True"
     - network_id:
         default: ''
         required: false
@@ -203,7 +203,7 @@ flow:
           json.add_value:
             - json_input: >
                 {"server": {"security_groups": [], "networks": [], "block_device_mapping_v2": [], "personality": []}}
-            - json_path: ['server', 'name']
+            - json_path: "server,name"
             - value: ${server_name}
         publish:
           - body_json: ${json_output}
@@ -218,7 +218,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'imageRef']
+            - json_path: "server,imageRef"
             - value: ${img_ref}
         publish:
           - body_json: ${json_output}
@@ -233,7 +233,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'flavorRef']
+            - json_path: "server,flavorRef"
             - value: ${flavor_ref}
         publish:
           - body_json: ${json_output}
@@ -282,7 +282,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'availability_zone']
+            - json_path: "server,availability_zone"
             - value: ${availability_zone}
         publish:
           - body_json: ${json_output}
@@ -306,7 +306,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'key_name']
+            - json_path: "server,key_name"
             - value: ${key_name}
         publish:
           - body_json: ${json_output}
@@ -330,7 +330,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'adminPass']
+            - json_path: "server,adminPass"
             - value: ${admin_pass}
         publish:
           - body_json: ${json_output}
@@ -354,7 +354,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['server', 'user_data']
+            - json_path: "server,user_data"
             - value: ${user_data}
         publish:
           - body_json: ${json_output}

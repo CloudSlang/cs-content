@@ -27,13 +27,14 @@ operation:
   name: get_keys
   inputs:
     - json_input
-    - json_path
+    - json_path:
+        required: false
   python_action:
     script: |
       try:
         import json
         decoded = json.loads(json_input)
-        for key in json_path:
+        for key in json_path.split(","):
           decoded = decoded[key]
         decoded = decoded.keys()
         return_result = 'Parsing successful.'

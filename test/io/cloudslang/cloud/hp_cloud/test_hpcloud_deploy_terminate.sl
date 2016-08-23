@@ -51,7 +51,7 @@ flow:
             - region
             - tenant_name
             - server_name
-            - assign_floating: True
+            - assign_floating: 'True'
             - proxy_host
             - proxy_port
         publish:
@@ -80,7 +80,7 @@ flow:
             - password
             - tenant_name
             - region
-            - release_ip_address: True
+            - release_ip_address: "True"
             - ip_address
             - proxy_host
             - proxy_port

@@ -43,10 +43,10 @@ flow:
         required: false
         sensitive: true
     - allow_tracking:
-        default: True
+        default: "True"
         required: false
     - beta:
-        default: False
+        default: "False"
         required: false
     - account_owner_name:
         default: None
@@ -57,7 +57,7 @@ flow:
         do:
           json.add_value:
             - json_input: "{}"
-            - json_path: ['allow_tracking']
+            - json_path: "allow_tracking"
             - value: ${bool(allow_tracking)}
         publish:
           - body_json: ${json_output}
@@ -72,7 +72,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['beta']
+            - json_path: "beta"
             - value: ${bool(beta)}
         publish:
           - body_json: ${json_output}
@@ -96,7 +96,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['name']
+            - json_path: "name"
             - value: ${account_owner_name}
         publish:
           - body_json: ${json_output}

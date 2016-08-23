@@ -48,7 +48,7 @@ flow:
     - git_repository
     - git_repository_localdir: "/tmp/repo.git"
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false

@@ -18,5 +18,5 @@ test_update_app_success:
     - json_file_for_creation: test/io/cloudslang/marathon/sample-marathon-app.json
     - json_file_for_update: test/io/cloudslang/marathon/sample-marathon-app.json
     - created_app_id: sample-app
-    - is_core_os: true
+    - is_core_os: 'true'
   result: SUCCESS

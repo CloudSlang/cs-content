@@ -95,7 +95,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${old_key}
-            - second_string: None
+            - second_string: ''
         navigate:
           - SUCCESS: verify_if_new_key_is_null
           - FAILURE: verify_old_key
@@ -118,7 +118,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${new_key}
-            - second_string: None
+            - second_string: ''
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: verify_new_key

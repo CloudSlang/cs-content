@@ -38,7 +38,7 @@ imports:
 flow:
   name: get_all_containers
   inputs:
-    - all_containers: false
+    - all_containers: 'false'
     - ps_params:
         default: ${'-a' if bool(all_containers) else ''}
         required: false

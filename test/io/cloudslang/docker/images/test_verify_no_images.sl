@@ -33,7 +33,7 @@ flow:
             - port
             - username
             - password
-            - command: " "
+            - command: ""
             - timeout: "30000000"
         navigate:
           - SUCCESS: get_all_images_before
@@ -56,7 +56,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ image_list }
-            - second_string: ""
+            - second_string: None
 
   results:
     - SUCCESS

@@ -39,7 +39,7 @@ operation:
   inputs:
     - json_response
     - machine_memory_limit:
-        default: -1
+        default: '-1'
         required: false
   python_action:
     script: |
@@ -91,12 +91,12 @@ operation:
     - cpu
     - memory
     - network
-    - cpu_usage
-    - memory_usage
-    - throughput_rx
-    - throughput_tx
-    - error_rx
-    - error_tx
+    - cpu_usage: ${str(cpu_usage)}
+    - memory_usage: ${memory_usage}
+    - throughput_rx: ${throughput_rx}
+    - throughput_tx: ${throughput_tx}
+    - error_rx: ${error_rx}
+    - error_tx: ${error_tx}
     - return_code
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}

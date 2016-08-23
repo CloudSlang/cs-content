@@ -65,7 +65,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
           - SUCCESS: call_get_container_metrics
           - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM

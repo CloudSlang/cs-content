@@ -50,7 +50,7 @@ flow:
         default: ''
         required: false
     - recursively:
-        default: True
+        default: "True"
         required: false
 
   workflow:
@@ -62,7 +62,7 @@ flow:
             - username: 'root'
             - password: ${root_password}
             - group_name_string: ${'' if group_name == '' else group_name}
-            - recursively_string: ${'-R ' if recursively in [True, true, 'True', 'true'] else ''}
+            - recursively_string: ${'-R ' if bool(recursively) in [True, true, 'True', 'true'] else ''}
             - command: >
                 ${'chown ' + recursively_string + user_name + ':' + group_name + ' ' + folder_path}
         publish:

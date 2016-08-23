@@ -36,7 +36,7 @@ flow:
     - application_name
     - cartridge
     - scale:
-        default: False
+        default: 'False'
         required: false
     - gear_profile:
         required: false
@@ -74,8 +74,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 201]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,201"
         navigate:
           - SUCCESS: get_status
           - FAILURE: CHECK_RESPONSES_FAILURE
@@ -84,7 +84,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['status']
+            - json_path: "status"
         publish:
           - status: ${value}
         navigate:
@@ -104,7 +104,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['messages']
+            - json_path: "messages"
         publish:
           - messages: ${value}
         navigate:
@@ -114,9 +114,9 @@ flow:
     - get_text_occurrence:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${str(messages)}
+            - string_in_which_to_search: ${messages}
             - string_to_find: ${'Application ' + application_name + ' was created.'}
-            - ignore_case: True
+            - ignore_case: 'True'
         publish:
           - text_occurrence: ${return_result}
         navigate:

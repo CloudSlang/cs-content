@@ -32,7 +32,7 @@ flow:
           lists.find_all:
             - list: ${query_result['text']}
             - element: ${query_text}
-            - ignore_case: true
+            - ignore_case: "true"
         publish:
           - indices
     - check_emptiness:
@@ -58,6 +58,7 @@ flow:
               - item_text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
               - query_result
               - index
+          break: []
           publish:
             - item_text: ${item_added + '<br>'}
     - build_footer:

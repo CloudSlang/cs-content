@@ -61,5 +61,5 @@ operation:
 
   results:
     - FAILURE: ${ is_error }
-    - UP: ${ is_up }
+    - UP: ${ str(is_up) }
     - DOWN
