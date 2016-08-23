@@ -55,7 +55,7 @@ flow:
         do:
           math.compare_numbers:
             - value1: ${ retries }
-            - value2: 0
+            - value2: "0"
             - retries
         publish:
           - retries: ${ int(retries) - 1 }
