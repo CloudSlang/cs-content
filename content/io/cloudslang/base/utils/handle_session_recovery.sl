@@ -58,7 +58,7 @@ flow:
             - value2: "0"
             - retries
         publish:
-          - retries: ${ int(retries) - 1 }
+          - retries: ${ str(int(retries) - 1) }
         navigate:
           - GREATER_THAN: check_unstable_session
           - EQUALS: TIMEOUT

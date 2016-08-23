@@ -102,7 +102,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 30
+            - seconds: "30"
         navigate:
           - SUCCESS: create_file_and_copy_it_to_src_host
           - FAILURE: SLEEP_FAIL

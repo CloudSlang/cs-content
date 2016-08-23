@@ -41,7 +41,7 @@ testRemoveObjectFromJsonArrayAtIndex0:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
     - json_object: '{"firstName":"Obi-wan", "lastName":"Kenobi"}'
-    - index: 0
+    - index: "0"
     - json_after: '[{"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
@@ -51,7 +51,7 @@ testRemoveObjectFromJsonArrayAtIndex1:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
     - json_object: '{"firstName":"Luke", "lastName":"Skywalker"}'
-    - index: 1
+    - index: "1"
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Darth", "lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
@@ -61,7 +61,7 @@ testRemoveObjectFromJsonArrayAtIndex2:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
     - json_object: '{"firstName":"Darth", "lastName":"Vader"}'
-    - index: 2
+    - index: "2"
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array

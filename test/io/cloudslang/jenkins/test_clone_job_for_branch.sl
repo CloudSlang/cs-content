@@ -49,7 +49,7 @@ flow:
     - wait:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: "10"
         navigate:
           - SUCCESS: get_last_buildnumber
           - FAILURE: FAIL_TO_GET_BUILDNUMBER

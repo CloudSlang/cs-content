@@ -29,7 +29,7 @@ testAddObjectIntoJsonArrayToIndex0:
   inputs:
     - json_array: '[{"firstName": "Maayan", "lastName": "Avraham"}, {"firstName": "Orit", "lastName": "Stone"}]'
     - json_object: '{"firstName": "John", "lastName": "Doe"}'
-    - index: 0
+    - index: "0"
     - json_after: '[{"firstName":"John", "lastName":"Doe"}, {"firstName":"Maayan", "lastName":"Avraham"}, {"firstName": "Orit", "lastName": "Stone"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
@@ -39,7 +39,7 @@ testAddObjectIntoJsonArrayToIndex1:
   inputs:
     - json_array: '[{"firstName": "Maayan", "lastName": "Avraham"}, {"firstName": "Orit", "lastName": "Stone"}]'
     - json_object: '{"firstName": "John", "lastName": "Doe"}'
-    - index: 1
+    - index: "1"
     - json_after: '[{"firstName":"Maayan", "lastName":"Avraham"}, {"firstName":"John", "lastName":"Doe"}, {"firstName": "Orit", "lastName": "Stone"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
@@ -49,7 +49,7 @@ testAddObjectIntoJsonArrayToIndex2:
   inputs:
     - json_array: '[{"firstName": "Maayan", "lastName": "Avraham"}, {"firstName": "Orit", "lastName": "Stone"}]'
     - json_object: '{"firstName": "John", "lastName": "Doe"}'
-    - index: 2
+    - index: "2"
     - json_after: '[{"firstName":"Maayan", "lastName":"Avraham"}, {"firstName": "Orit", "lastName": "Stone"}, {"firstName":"John", "lastName":"Doe"}]'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
@@ -59,7 +59,7 @@ testAddObjectIntoJsonArrayNegativeIndex-1:
   inputs:
     - json_array: '["string_object1", "string_object2"]'
     - json_object: '"string_object"'
-    - index: -1
+    - index: "-1"
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:
@@ -70,7 +70,7 @@ testAddObjectIntoJsonArrayNegativeIndex-length:
   inputs:
     - json_array: '["string_object1", "string_object2"]'
     - json_object: '"string_object"'
-    - index: -2
+    - index: "-2"
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1 * array length
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:

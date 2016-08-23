@@ -88,7 +88,7 @@ flow:
           required: false
           private: true
       - smart_recovery: "True"
-      - retries: 5
+      - retries: "5"
     workflow:
       - validate_ssh_access:
           do:
