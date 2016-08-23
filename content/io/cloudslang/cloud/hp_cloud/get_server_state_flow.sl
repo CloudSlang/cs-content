@@ -51,7 +51,7 @@ flow:
     - wait:
         do:
           base_utils.sleep:
-            - seconds: ${int(delay)}
+            - seconds: ${str(delay)}
 
     - get_details:
         do:

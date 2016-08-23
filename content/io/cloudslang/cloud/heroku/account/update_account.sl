@@ -46,7 +46,7 @@ flow:
         default: "True"
         required: false
     - beta:
-        default: False
+        default: "False"
         required: false
     - account_owner_name:
         default: None

@@ -147,7 +147,7 @@ flow:
     - boot_index: '0'
     - uuid
     - source_type: ''
-    - delete_on_termination: True
+    - delete_on_termination: "True"
     - network_id:
         default: ''
         required: false

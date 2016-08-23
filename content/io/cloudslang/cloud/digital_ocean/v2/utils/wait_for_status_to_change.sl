@@ -112,7 +112,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 1
+            - seconds: "1"
         navigate:
           - SUCCESS: get_droplet_status
           - FAILURE: FAILURE

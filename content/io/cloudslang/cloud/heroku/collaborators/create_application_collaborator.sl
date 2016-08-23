@@ -42,7 +42,7 @@ flow:
     - app_id_or_name
     - user
     - silent:
-        default: False
+        default: "False"
         required: false
 
   workflow:
