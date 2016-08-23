@@ -9,144 +9,67 @@
 
 testExecute:
   inputs:
-    -  host: "localhost"
-    -  port: "5986"
-    -  protocol: "https"
-    -  username: "user"
-    -  password: "pass"
-    -  auth_type: "Basic"
-    -  proxy_host: "proxy1"
-    -  proxy_port: "8081"
-    -  proxy_username: "proxyUser"
-    -  proxy_password: "pass"
-    -  trust_all_roots: "True"
-    -  x509hostname_verifier: "strict"
-    -  trust_keystore: "trustKeystorePath"
-    -  trust_password: "pass"
-    -  kerberos_conf_file: "/kerberosConfFile"
-    -  kerberos_login_conf_file: "/kerberosLoginConfFile"
-    -  kerberos_skip_port_for_lookup: "true"
-    -  keystore: "keystorePath"
-    -  keystore_password: "pass"
-    -  winrm_max_envelop_size: "153600"
-    -  script: "Get-Host"
-    -  winrm_locale: "en-US"
-    -  operation_timeout: "60"
+    -  host: <host>
+    -  port: <port>
+    -  protocol: "http"
+    -  username: <username>
+    -  password: <password>
+    -  auth_type: ""
+    -  proxy_host: ""
+    -  proxy_port: ""
+    -  proxy_username: ""
+    -  proxy_password: ""
+    -  trust_all_roots: ""
+    -  x509hostname_verifier: ""
+    -  trust_keystore: ""
+    -  trust_password: ""
+    -  kerberos_conf_file: ""
+    -  kerberos_login_conf_file: ""
+    -  kerberos_skip_port_for_lookup: ""
+    -  keystore: ""
+    -  keystore_password: ""
+    -  winrm_max_envelop_size: ""
+    -  script: "(Get-Host).Name"
+    -  winrm_locale: ""
+    -  operation_timeout: ""
   description: Tests a basic execution of the opperation
-  testSuites: [powershell_script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testSuites: [powershell_script_locale]
+  testFlowPath: io.cloudslang.base.powershell.powershell_script
   outputs:
     -  return_code: "0"
-    -  return_result:
-    -  stderr:
-    -  script_exit_code:
-    -  exception:
+    -  return_result: "ConsoleHost"
+    -  script_exit_code: "0"
   result: SUCCESS
 
-testExecuteWithInputDefaultValues:
+testExecuteFailureInvalidScript:
   inputs:
-    -  host: "localhost"
-    -  port: "5986"
-    -  protocol: "https"
-    -  username: "user"
-    -  password: "pass"
-    -  auth_type: "Basic"
-    -  proxy_host: "proxy1"
-    -  proxy_port: "8081"
-    -  proxy_username: "proxyUser"
-    -  proxy_password: "pass"
-    -  trust_all_roots: "True"
-    -  x509hostname_verifier: "strict"
-    -  trust_keystore: "trustKeystorePath"
-    -  trust_password: "pass"
-    -  kerberos_conf_file: "/kerberosConfFile"
-    -  kerberos_login_conf_file: "/kerberosLoginConfFile"
-    -  kerberos_skip_port_for_lookup: "true"
-    -  keystore: "keystorePath"
-    -  keystore_password: "pass"
-    -  winrm_max_envelop_size: "153600"
-    -  script: "Get-Host"
-    -  winrm_locale: "en-US"
-    -  operation_timeout: "60"
-  description: Tests the default values of the opperation
-  testSuites: [powershell_script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
-  outputs:
-    -  return_code: "0"
-    -  return_result:
-    -  stderr:
-    -  script_exit_code:
-    -  exception:
-  result: SUCCESS
-
-testExecuteThrowsException:
-  inputs:
-    -  host: "localhost"
-    -  port: ""
-    -  protocol: ""
-    -  username: "user"
-    -  password: "pass"
-    -  auth_type: "Basic"
-    -  proxy_host: "proxy1"
-    -  proxy_port: "8081"
-    -  proxy_username: "proxyUser"
-    -  proxy_password: "pass"
+    -  host: <host>
+    -  port: <port>
+    -  protocol: "http"
+    -  username: <username>
+    -  password: <password>
+    -  auth_type: ""
+    -  proxy_host: ""
+    -  proxy_port: ""
+    -  proxy_username: ""
+    -  proxy_password: ""
     -  trust_all_roots: ""
     -  x509hostname_verifier: ""
-    -  trust_keystore: "trustKeystorePath"
-    -  trust_password: "pass"
-    -  kerberos_conf_file: "/kerberosConfFile"
-    -  kerberos_login_conf_file: "/kerberosLoginConfFile"
-    -  kerberos_skip_port_for_lookup: "true"
-    -  keystore: "keystorePath"
-    -  keystore_password: "pass"
+    -  trust_keystore: ""
+    -  trust_password: ""
+    -  kerberos_conf_file: ""
+    -  kerberos_login_conf_file: ""
+    -  kerberos_skip_port_for_lookup: ""
+    -  keystore: ""
+    -  keystore_password: ""
     -  winrm_max_envelop_size: ""
-    -  script: "Get-Host"
+    -  script: "asd"
     -  winrm_locale: ""
     -  operation_timeout: ""
-  description: Tests that it throws and exception
-  testSuites: [powershell_script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  description: Tests a basic execution of the opperation
+  testSuites: [powershell_script_locale]
+  testFlowPath: io.cloudslang.base.powershell.powershell_script
   outputs:
     -  return_code: "-1"
-    -  return_result:
-    -  stderr:
-    -  script_exit_code:
-    -  exception:
-  result: FAILURE
-
-testExecuteWithFailureScriptExitCode:
-  inputs:
-    -  host: "localhost"
-    -  port: ""
-    -  protocol: ""
-    -  username: "user"
-    -  password: "Basic"
-    -  auth_type: "pass"
-    -  proxy_host: "proxy1"
-    -  proxy_port: "8081"
-    -  proxy_username: "proxyUser"
-    -  proxy_password: "pass"
-    -  trust_all_roots: ""
-    -  x509hostname_verifier: ""
-    -  trust_keystore: "trustKeystorePath"
-    -  trust_password: "pass"
-    -  kerberos_conf_file: "/kerberosConfFile"
-    -  kerberos_login_conf_file: "/kerberosLoginConfFile"
-    -  kerberos_skip_port_for_lookup: "true"
-    -  keystore: "keystorePath"
-    -  keystore_password: "pass"
-    -  winrm_max_envelop_size: ""
-    -  script: "Get-Host"
-    -  winrm_locale: ""
-    -  operation_timeout: ""
-  description: Tests the failure code
-  testSuites: [powershell_script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
-  outputs:
-    -  return_code: "-1"
-    -  return_result:
-    -  stderr:
-    -  script_exit_code:
-    -  exception:
+    -  script_exit_code: "1"
   result: FAILURE

@@ -266,6 +266,7 @@ operation:
          sensitive: false
          required: false
    java_action:
+      gav: 'io.cloudslang.content:cs-powershell:0.0.3'
       method_name: execute
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
    outputs:
@@ -276,4 +277,4 @@ operation:
    -  exception: ${exception}
    results:
    -  SUCCESS: ${returnCode == '0'}
-   -  FAILURE: ${returnCode == '-1'}
+   -  FAILURE
