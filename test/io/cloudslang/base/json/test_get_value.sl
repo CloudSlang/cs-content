@@ -17,7 +17,7 @@ flow:
 
   inputs:
     - json_before
-    - json_path
+    - json_path:
         required: false
     - found_value
 

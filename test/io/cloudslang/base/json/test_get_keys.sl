@@ -10,7 +10,7 @@ flow:
 
   inputs:
     - json_input
-    - json_path
+    - json_path:
         required: false
     - expected_keys
 
