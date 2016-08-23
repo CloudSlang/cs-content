@@ -53,7 +53,7 @@ flow:
         default: "origin"
         required: false
     - sudo_user:
-        default: false
+        default: "false"
         required: false
     - private_key_file:
         required: false

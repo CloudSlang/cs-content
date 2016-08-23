@@ -75,7 +75,7 @@ flow:
     - application_name
     - cartridge
     - scale:
-        default: False
+        default: "False"
         required: false
     - gear_profile:
         default: 'small'

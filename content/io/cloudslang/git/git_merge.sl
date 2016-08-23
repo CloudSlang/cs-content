@@ -52,7 +52,7 @@ flow:
     - git_merge_branch:
         required: true
     - sudo_user:
-        default: false
+        default: "false"
         required: false
     - private_key_file:
         required: false
