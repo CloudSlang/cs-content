@@ -118,7 +118,7 @@ testValidateJsonDataTypesSuccess:
 testValidateEmptyJson:
   inputs:
     - json_input:
-        value: '""'
+        value: '" "'
   description: Tests that validate_json.sl ends with SUCCESS for the empty JSON
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:

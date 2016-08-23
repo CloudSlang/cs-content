@@ -17,7 +17,7 @@ testStringOccurrenceCounterSuccess:
   outputs:
     - return_code: 0
     - return_result: 3
-    - error_message: ""
+    - error_message: " "
 
 testStringOccurrenceCounterFailure:
   inputs:
@@ -41,7 +41,7 @@ testStringOccurrenceCounterMissingInputs:
 
 testStringOccurrenceCounterEmptyStringInWhichToSearch:
   inputs:
-    - string_in_which_to_search: ""
+    - string_in_which_to_search: " "
     - string_to_find: stringthatisnotfound
   description: Tests that string_occurrence_counter.sl operation finishes with FAILURE when string_in_which_to_search is empty and string_to_find is not
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
@@ -54,19 +54,19 @@ testStringOccurrenceCounterEmptyStringInWhichToSearch:
 testStringOccurrenceCounterEmptyStringToFind:
   inputs:
     - string_in_which_to_search: long string in which to search
-    - string_to_find: ""
+    - string_to_find: " "
   description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS when string_to_find is empty and string_in_which_to_search is not having as output the length of string_in_which_to_search
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
   result: SUCCESS
   outputs:
     - return_code: 0
     - return_result: 31
-    - error_message: ""
+    - error_message: " "
 
 testStringOccurrenceCounterBothStringsEmpty:
   inputs:
-    - string_in_which_to_search: ""
-    - string_to_find: ""
+    - string_in_which_to_search: " "
+    - string_to_find: " "
     - expected_output: 1
   description: Tests that string_occurrence_counter.sl operation finishes with SUCCESS having output 1 when both strings are empty
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
@@ -74,7 +74,7 @@ testStringOccurrenceCounterBothStringsEmpty:
   outputs:
     - return_code: 0
     - return_result: 1
-    - error_message: ""
+    - error_message: " "
 
 testStringOccurrenceCounterCaseFailure:
   inputs:
@@ -99,7 +99,7 @@ testStringOccurrenceDefaultIgnoreCase:
   outputs:
     - return_code: 0
     - return_result: 1
-    - error_message: ""
+    - error_message: " "
 
 testStringOccurrenceSpecialCharacters:
   inputs:
@@ -111,4 +111,4 @@ testStringOccurrenceSpecialCharacters:
   outputs:
     - return_code: 0
     - return_result: 1
-    - error_message: ""
+    - error_message: " "

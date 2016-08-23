@@ -43,7 +43,7 @@ flow:
         required: false
         sensitive: true
     - body:
-        default: ""
+        default: " "
         private: true
 
   workflow:

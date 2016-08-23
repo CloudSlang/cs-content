@@ -55,7 +55,7 @@ testSubstringWithoutProvidingSomeInputs:
   testFlowPath: io.cloudslang.base.strings.substring
   outputs:
     - new_string: mmmSPAMmmm
-    - error_message: ""
+    - error_message: " "
   result: SUCCESS
 
 testSubstringInvalidNegativeInputs:

@@ -32,4 +32,4 @@ testFindAllNoneFound:
   description: Tests that find_all.sl operation correctly returns an empty list when element is not found
   testFlowPath: io.cloudslang.base.lists.find_all
   outputs:
-    - indices: ""
+    - indices: " "

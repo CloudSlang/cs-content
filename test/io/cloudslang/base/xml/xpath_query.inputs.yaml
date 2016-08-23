@@ -219,7 +219,7 @@ testSelectXpathInvalidXPath:
   description: "Tests that this operation fails when invalid xpath_query input is given"
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: ""
+    - selected_value: " "
   result: FAILURE
 
 testSelectBadXpathEmptyStringXPathQuery:
@@ -235,7 +235,7 @@ testSelectBadXpathEmptyStringXPathQuery:
                                                    <price>39.95</price>
                                                  </book>
                                                  </bookstore>'
-    - xpath_query: ""
+    - xpath_query: " "
   description: "Tests that this operation fails when query=empty string."
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
@@ -246,11 +246,11 @@ testSelectBadXpathEmptyStringQueryType:
   inputs:
     - xml_document: "<root>test</root>"
     - xpath_query: "/root"
-    - query_type: ""
+    - query_type: " "
   description: "Tests that this operations fails when query type input is empty string"
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: ""
+    - selected_value: " "
     - return_result: "Parsing error: Invalid query type"
   result: FAILURE
 
@@ -703,23 +703,23 @@ testSelectBadXpathEmptyStringXPathQuery:
                                                    <price>39.95</price>
                                                  </book>
                                                  </bookstore>'
-    - xpath_query: ""
+    - xpath_query: " "
   description: "Tests that this operation throws exception when query=empty string."
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: ""
+    - selected_value: " "
     - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
     - return_code: "0"
   throwsException: true
 
 testSelectBadXpathEmptyStringXmlDocument:
   inputs:
-    - xml_document: ""
+    - xml_document: " "
     - xpath_query: "/root"
   description: "Tests that this operation throws exception when xml_document= empty string"
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: ""
+    - selected_value: " "
     - return_result: "Parsing error: Premature end of file."
     - return_code: "0"
   throwsException: true
@@ -731,14 +731,14 @@ testSelectBadXpathInvalidXmlDocument:
   description: "Tests that this operation fails when xml_document input is invalid"
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: ""
+    - selected_value: " "
   result: FAILURE
 
 testSelectBadXpathEmptyStringQueryType:
   inputs:
     - xml_document: "<root>test</root>"
     - xpath_query: "/root"
-    - query_type: ""
+    - query_type: " "
   description: "Tests that this operations fails when query type input is empty string"
   testFlowPath: io.cloudslang.base.xml.xpath_query
   throwsException: true

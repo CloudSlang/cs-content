@@ -18,16 +18,16 @@ flow:
   inputs:
     - url
     - username:
-        default: ""
+        default: " "
         required: false
     - password:
-        default: ""
+        default: " "
         required: false
     - proxy_host:
-        default: ""
+        default: " "
         required: false
     - proxy_port:
-        default: ""
+        default: " "
         required: false
     - trust_keystore:
         default: ${get_sp('io.cloudslang.base.http.trust_keystore')}

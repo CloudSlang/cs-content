@@ -14,7 +14,7 @@ testRandomNumberGeneratorSuccess:
   testFlowPath: io.cloudslang.base.utils.random_number_generator
   result: SUCCESS
   outputs:
-    - error_message: ""
+    - error_message: " "
 
 testRandomNumberGeneratorFailure:
   inputs:
@@ -44,7 +44,7 @@ testRandomNumberGeneratorNegativeNumbersSuccess:
   testFlowPath: io.cloudslang.base.utils.random_number_generator
   result: SUCCESS
   outputs:
-    - error_message: ""
+    - error_message: " "
 
 testRandomNumberGeneratorNegativeNumbersFailure:
   inputs:

@@ -16,10 +16,10 @@ test_openstack_health_check_success:
     - password: # openstack password
     - tenant_name: # openstack required tenant
     - img_ref: # image ref to create instance from
-    - email_host: ""
-    - email_port: ""
-    - to: ""
-    - from: ""
+    - email_host: " "
+    - email_port: " "
+    - to: " "
+    - from: " "
     - server_name: "test_server"
-    - uuid: ""
+    - uuid: " "
   result: SUCCESS
