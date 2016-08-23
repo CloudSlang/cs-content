@@ -104,7 +104,11 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${messages}
             - string_to_find: ${'Added ' + cartridge + ' to application ' + application_name}
+<<<<<<< HEAD
             - ignore_case: 'True'
+=======
+            - ignore_case: "true"
+>>>>>>> a8fa5f026fe323b9d582e7a7671054916fe651e1
         publish:
           - text_occurrence: ${return_result}
         navigate:
