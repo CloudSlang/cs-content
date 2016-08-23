@@ -28,7 +28,7 @@ decision:
     - second_string:
          required: false
     - ignore_case:
-         default: false
+         default: 'false'
          required: false
   results:
     - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case and first_string.lower() == second_string.lower()) or (first_string == second_string))}

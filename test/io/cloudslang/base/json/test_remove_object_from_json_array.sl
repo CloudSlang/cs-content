@@ -19,7 +19,7 @@ flow:
     - json_object
     - index:
         required: false
-        default: null
+        default: ""
     - json_after
 
   workflow:

@@ -21,7 +21,7 @@ flow:
             - json_path
 
         publish:
-          - json_keys: ${str(keys)}
+          - json_keys: ${keys}
           - return_code
 
         navigate:
