@@ -27,8 +27,8 @@ operation:
   name: get_keys
   inputs:
     - json_input
-    - json_path
-         required: false
+    - json_path:
+        required: false
   python_action:
     script: |
       try:
