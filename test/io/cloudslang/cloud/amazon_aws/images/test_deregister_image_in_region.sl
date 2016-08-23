@@ -62,8 +62,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${str(return_result) + "," + return_code + "," + str(exception)}
-            - list_2: "The image was successfully deregister.,0, "
+            - list_1: ${str(return_result) + "," + return_code + "," + exception}
+            - list_2: "The image was successfully deregister.,0,"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULTS_FAILURE

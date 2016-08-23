@@ -128,7 +128,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(exception) + "," + return_code}
-            - list_2: " ,0"
+            - list_2: ",0"
         navigate:
           - SUCCESS: get_text_occurrence
           - FAILURE: CHECK_RESULT_FAILURE

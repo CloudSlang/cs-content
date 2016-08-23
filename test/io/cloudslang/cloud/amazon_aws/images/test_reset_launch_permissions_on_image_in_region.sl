@@ -63,7 +63,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(return_result) + "," + return_code + "," + str(exception)}
-            - list_2: "Launch permissions were successfully reset.,0, "
+            - list_2: "Launch permissions were successfully reset.,0,"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULTS_FAILURE

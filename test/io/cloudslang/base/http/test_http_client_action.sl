@@ -72,7 +72,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_pet_details
           - FAILURE: VERIFY_POST_CREATE_PET_FAILURE
@@ -104,7 +104,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_id
           - FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
@@ -177,7 +177,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_updated_pet_details
           - FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE

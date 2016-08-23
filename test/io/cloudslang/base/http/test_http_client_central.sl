@@ -104,7 +104,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_CSRF_token_value
           - FAILURE: CHECK_RESULTS_FAILURE
@@ -151,7 +151,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,201"
+            - list_2: ",0,201"
         navigate:
           - SUCCESS: delete
           - FAILURE: CHECK_POST_RESULTS_FAILURE
@@ -186,7 +186,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
             - SUCCESS: get_executions
             - FAILURE: CHECK_DELETE_RESULTS_FAILURE
@@ -219,7 +219,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
             - SUCCESS: check_return_results_from_get_and_post
             - FAILURE: CHECK_RESULTS_GET_EXECUTIONS_FAILURE

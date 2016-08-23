@@ -60,7 +60,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(exception) + "," + return_code}
-            - list_2: " ,0"
+            - list_2: ",0"
         navigate:
           - SUCCESS: check_first_possible_current_state_result
           - FAILURE: CHECK_CALL_RESULT_FAILURE
