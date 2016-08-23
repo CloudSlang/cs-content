@@ -77,7 +77,6 @@ flow:
         navigate:
             - MORE: stop_container
             - LESS: SUCCESS
-            - FAILURE: FAILURE
     - stop_container:
         do:
           containers.stop_container:

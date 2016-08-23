@@ -5,7 +5,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_add_entry_in_object
+  name: test_add_json_property_to_object
 
   inputs:
     - json_object:
@@ -26,7 +26,7 @@ flow:
   workflow:
     - add_JSON_property_in_object:
         do:
-          json.add_entry_in_object:
+          json.add_json_property_to_object:
             - json_object
             - key
             - value
