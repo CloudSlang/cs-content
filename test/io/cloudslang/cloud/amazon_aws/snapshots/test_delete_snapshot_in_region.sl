@@ -63,8 +63,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${str(exception) + "," + return_code}
+            - list_2: ",0"
         navigate:
           - SUCCESS: check_deletion_message_exist
           - FAILURE: CHECK_RESULT_FAILURE

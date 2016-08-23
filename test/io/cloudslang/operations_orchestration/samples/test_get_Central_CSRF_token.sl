@@ -55,7 +55,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_version
           - FAILURE: CHECK_RESULTS_FAILURE

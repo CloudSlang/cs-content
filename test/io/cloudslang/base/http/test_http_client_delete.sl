@@ -69,7 +69,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_id
           - FAILURE: CHECK_GET_FAILURE
@@ -109,7 +109,7 @@ flow:
         do:
           lists.compare_lists:
             - list_1: ${str(error_message) + "," + return_code + "," + status_code}
-            - list_2: " ,0,200"
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_DELETE_FAILURE
