@@ -45,3 +45,4 @@ flow:
             do:
               print.print_text:
                 - text: ${error}
+            break: []
