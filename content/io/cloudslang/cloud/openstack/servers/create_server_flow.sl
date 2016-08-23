@@ -376,7 +376,7 @@ flow:
 
     - add_metadata:
         do:
-          json.add_entry_in_object:
+          json.add_json_property_to_object:
             - json_object: ${body_json}
             - key: 'metadata'
             - value: ${metadata}
