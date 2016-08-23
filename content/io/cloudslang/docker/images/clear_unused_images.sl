@@ -91,7 +91,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ all_images_list }
-            - second_string: ""
+            - second_string: None
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: verify_used_images_list_not_empty
@@ -99,7 +99,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ used_images_list }
-            - second_string: ""
+            - second_string: None
         navigate:
           - SUCCESS: delete_images
           - FAILURE: get_parent_images

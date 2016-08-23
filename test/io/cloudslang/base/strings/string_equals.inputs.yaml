@@ -42,7 +42,7 @@ testStringEqualsEmptyFirst:
 testStringEqualsEmptySecond:
   inputs:
     - first_string: text
-    - second_string: ""
+    - second_string: None
   description: Tests that string_equals.sl operation finishes with FAILURE when second_string is empty
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: FAILURE
@@ -50,7 +50,7 @@ testStringEqualsEmptySecond:
 testStringEqualsBothEmpty:
   inputs:
     - first_string: ""
-    - second_string: ""
+    - second_string: None
   description: Tests that string_equals.sl operation finishes with SUCCESS when both strings are empty
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS

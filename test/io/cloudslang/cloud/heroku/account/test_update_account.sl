@@ -20,16 +20,16 @@ flow:
   inputs:
     - username
     - password:
-        default: None
+        default: ""
         required: false
     - allow_tracking:
         default: "True"
         required: false
     - beta:
-        default: False
+        default: 'False'
         required: false
     - account_owner_name:
-        default: None
+        default: ""
         required: false
 
   workflow:
@@ -56,8 +56,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_name
           - FAILURE: CHECK_RESULT_FAILURE
