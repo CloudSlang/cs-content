@@ -58,6 +58,7 @@ flow:
               - item_text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
               - query_result
               - index
+          break: []
           publish:
             - item_text: ${item_added + '<br>'}
     - build_footer:
