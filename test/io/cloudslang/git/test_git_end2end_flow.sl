@@ -287,7 +287,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir
-            - change_path: false
+            - change_path: "false"
             - new_path: ""
         navigate:
           - SUCCESS: git_cleanup_second_repository
