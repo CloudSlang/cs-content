@@ -22,9 +22,9 @@
    inputs:
      - origin_string
      - begin_index:
-        default: 0
+        default: "0"
      - end_index:
-         default: 0
+         default: "0"
    python_action:
      script: |
         error_message = ""

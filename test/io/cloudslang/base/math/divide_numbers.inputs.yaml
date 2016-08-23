@@ -8,22 +8,22 @@
 ####################################################
 testDivideInt:
   inputs:
-    - value1: 6
-    - value2: 2
+    - value1: "6"
+    - value2: "2"
   description: Tests that divide_numbers.sl operation finishes with result = 3.0
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: 3.0
+    - result: "3.0"
   result: SUCCESS
 
 testDivideFloat:
   inputs:
-    - value1: .3
-    - value2: 5
+    - value1: ".3"
+    - value2: "5"
   description: Tests that divide_numbers.sl operation finishes with result = 0.06
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: 0.06
+    - result: "0.06"
   result: SUCCESS
 
 testDivideStr:
@@ -33,33 +33,33 @@ testDivideStr:
   description: Tests that divide_numbers.sl operation finishes with result = 2.0
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: 2.0
+    - result: "2.0"
   result: SUCCESS
 
 testDivideNegativeFloat:
   inputs:
-    - value1: -10.2
-    - value2: 2.0
+    - value1: "-10.2"
+    - value2: "2.0"
   description: Tests that divide_numbers.sl operation finishes with result = -5.1
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: -5.1
+    - result: "-5.1"
   result: SUCCESS
 
 testDivideZeroWithNegativeFloat:
   inputs:
-    - value1: 0.0
-    - value2: -2.0
+    - value1: "0.0"
+    - value2: "-2.0"
   description: Tests that divide_numbers.sl operation finishes with result = 0.0
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: 0.0
+    - result: "0.0"
   result: SUCCESS
 
 testDivideIllegal:
   inputs:
-    - value1: 5
-    - value2: 0
+    - value1: "5"
+    - value2: "0"
   description: Tests that add_numbers.sl operation finishes with result = Cannot divide by zero
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:

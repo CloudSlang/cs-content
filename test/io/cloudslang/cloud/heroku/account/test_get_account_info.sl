@@ -50,7 +50,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['id']
+            - json_path: "id"
         publish:
           - id: ${value}
         navigate:
@@ -70,7 +70,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['email']
+            - json_path: "email"
         publish:
           - checked_email: ${value}
         navigate:

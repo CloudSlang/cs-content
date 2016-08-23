@@ -78,7 +78,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['image', 'id']
+            - json_path: "'image','id'"
         publish:
           - retrieved_id: ${value}
         navigate:

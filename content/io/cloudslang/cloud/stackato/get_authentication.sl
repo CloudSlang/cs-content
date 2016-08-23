@@ -79,7 +79,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['access_token']
+            - json_path: "access_token"
         publish:
           - token: ${value}
           - error_message

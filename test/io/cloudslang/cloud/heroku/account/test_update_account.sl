@@ -23,7 +23,7 @@ flow:
         default: None
         required: false
     - allow_tracking:
-        default: True
+        default: "True"
         required: false
     - beta:
         default: False
@@ -66,7 +66,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['name']
+            - json_path: "name"
         publish:
           - name: ${value}
         navigate:
@@ -86,7 +86,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['allow_tracking']
+            - json_path: "allow_tracking"
         publish:
           - tracking: ${value}
         navigate:

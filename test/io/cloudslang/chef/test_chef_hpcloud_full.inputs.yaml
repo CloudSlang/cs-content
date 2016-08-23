@@ -19,7 +19,7 @@ test_chef_hpcloud_full_success:
     - flavor_ref:          "100"  # xsmall server size 
     - keypair:             # Your keypair name
     - region:              "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
-    - assign_floating:     True    
+    - assign_floating:     "True"
     - run_list_items:      "recipe[apt], recipe[apache2]" # Chef cookbooks, should deploy some app server e.g. tomcat, apache, nginx etc
     - app_port:            "80"           # Port of app server deployed by Chef, e.g. 8080 or 80
     - knife_host:          # Linux server where Chef knife has been configured

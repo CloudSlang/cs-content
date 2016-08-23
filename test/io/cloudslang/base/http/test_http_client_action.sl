@@ -113,7 +113,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["id"]
+            - json_path: "id"
         publish:
           - value
         navigate:
@@ -133,7 +133,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["name"]
+            - json_path: "name"
         publish:
           - value
         navigate:
@@ -209,7 +209,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["name"]
+            - json_path: "name"
         publish:
           - value
         navigate:
@@ -229,7 +229,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["status"]
+            - json_path: "status"
         publish:
           - value
         navigate:
@@ -296,7 +296,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["message"]
+            - json_path: "message"
         publish:
           - value
         navigate:

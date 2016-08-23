@@ -157,7 +157,7 @@ flow:
         do:
           math.compare_numbers:
             - value1: ${attempts}
-            - value2: '0'
+            - value2: "0"
             - attempts
         publish:
           - attempts: ${str(int(attempts) - 1)}

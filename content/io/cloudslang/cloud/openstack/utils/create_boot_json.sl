@@ -42,7 +42,7 @@ flow:
         do:
           json.add_value:
             - json_input: "{}"
-            - json_path: ['boot_index']
+            - json_path: "boot_index"
             - value: ${boot_index}
         publish:
           - boot_json: ${json_output}
@@ -57,7 +57,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${boot_json}
-            - json_path: ['uuid']
+            - json_path: "uuid"
             - value: ${uuid}
         publish:
           - boot_json: ${json_output}
@@ -72,7 +72,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${boot_json}
-            - json_path: ['source_type']
+            - json_path: "source_type"
             - value: ${source_type}
         publish:
           - boot_json: ${json_output}
@@ -87,7 +87,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${boot_json}
-            - json_path: ['delete_on_termination']
+            - json_path: "delete_on_termination"
             - value: ${bool(delete_on_termination)}
         publish:
           - boot_json: ${json_output}
