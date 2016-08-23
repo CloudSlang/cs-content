@@ -102,7 +102,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(messages)}
             - string_to_find: ${'Application ' + application_name + ' has scaled to'}
-            - ignore_case: True
+            - ignore_case: "true"
         publish:
           - text_occurrence: ${return_result}
         navigate:

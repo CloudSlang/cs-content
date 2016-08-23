@@ -100,7 +100,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(messages_text)}
             - string_to_find: 'Found'
-            - ignore_case: True
+            - ignore_case: "True"
         publish:
           - found_text_occurrence: ${return_result}
         navigate:

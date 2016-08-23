@@ -36,7 +36,7 @@ flow:
     - application_name
     - cartridge
     - scale:
-        default: False
+        default: "False"
         required: false
     - gear_profile:
         required: false
@@ -116,7 +116,7 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${str(messages)}
             - string_to_find: ${'Application ' + application_name + ' was created.'}
-            - ignore_case: True
+            - ignore_case: "true"
         publish:
           - text_occurrence: ${return_result}
         navigate:
