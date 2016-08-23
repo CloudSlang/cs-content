@@ -33,7 +33,7 @@ flow:
             - port
             - username
             - password
-            - command: " "
+            - command: ""
             - timeout: "30000000"
         navigate:
           - SUCCESS: get_all_images_before

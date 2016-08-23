@@ -20,7 +20,7 @@ flow:
   inputs:
     - username
     - password:
-        default: " "
+        default: ""
         required: false
     - allow_tracking:
         default: "True"
@@ -29,7 +29,7 @@ flow:
         default: 'False'
         required: false
     - account_owner_name:
-        default: " "
+        default: ""
         required: false
 
   workflow:

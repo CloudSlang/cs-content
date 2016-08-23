@@ -30,7 +30,7 @@ testGetFailedBuildEmptySuccess:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
-    - return_result: " "
+    - return_result: ""
     - status_code: "200"
     - return_code: "0"
 
@@ -94,7 +94,7 @@ testGetFailedBuildWrongAPIKeyFAILURE:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
-    - return_result: " "
+    - return_result: ""
     - status_code: "200"
     - return_code: "0"
 

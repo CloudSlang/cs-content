@@ -56,7 +56,7 @@ testGetValueObject:
 testGetEverything:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: " "
+    - json_path: ""
     - found_value:
         value: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
   description: Tests that get_value.sl correctly gets the entire JSON
@@ -103,7 +103,7 @@ testGetPathIndexExceeded:
 testGetFromEmptyJSON:
   inputs:
     - json_input: '{}'
-    - json_path: " "
+    - json_path: ""
   description: Tests get_value.sl when source JSON is empty
   testFlowPath: io.cloudslang.base.json.get_value
   outputs:

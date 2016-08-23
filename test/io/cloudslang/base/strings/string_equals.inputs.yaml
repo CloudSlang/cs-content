@@ -32,7 +32,7 @@ testStringEqualsMissingInputs:
 
 testStringEqualsEmptyFirst:
   inputs:
-    - first_string: " "
+    - first_string: ""
     - second_string: text
     - ignore_case: "true"
   description: Tests that string_equals.sl operation finishes with FAILURE when first_string is empty
@@ -110,7 +110,7 @@ testStringEqualsIgnoreCaseFailure:
 
 testStringEqualsWhitespacesFailure:
   inputs:
-    - first_string: " "
+    - first_string: ""
     - second_string: "  "
   description: Tests that string_equals.sl operation fail when strings doesn't contain the same sequence of characters
   testFlowPath: io.cloudslang.base.strings.string_equals

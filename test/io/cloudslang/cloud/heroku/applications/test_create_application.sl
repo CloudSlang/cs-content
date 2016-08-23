@@ -22,13 +22,13 @@ flow:
     - username
     - password
     - name:
-        default: " "
+        default: ""
         required: false
     - region:
-        default: " "
+        default: ""
         required: false
     - stack:
-        default: " "
+        default: ""
         required: false
 
   workflow:

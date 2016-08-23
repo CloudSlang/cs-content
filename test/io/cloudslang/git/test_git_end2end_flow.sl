@@ -288,7 +288,7 @@ flow:
             - private_key_file
             - git_repository_localdir
             - change_path: "false"
-            - new_path: " "
+            - new_path: ""
         navigate:
           - SUCCESS: git_cleanup_second_repository
           - FAILURE: FIRST_CLEANUP_FAILURE

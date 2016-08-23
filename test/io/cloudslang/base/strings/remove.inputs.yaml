@@ -33,7 +33,7 @@ testOriginStringRemoveEntireString:
   description: Tests that remove.sl operation returns the empty string when removing all characters
   testFlowPath: io.cloudslang.base.strings.remove
   outputs:
-    - new_string: " "
+    - new_string: ""
   result: SUCCESS
 
 testOriginStringRemoveAllInstances:

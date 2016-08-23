@@ -11,6 +11,7 @@ flow:
   inputs:
     - json_input
     - json_path
+        required: false
     - expected_keys
 
   workflow:

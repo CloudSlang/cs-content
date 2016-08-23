@@ -10,8 +10,8 @@
 testPythonScriptSuccess:
   inputs:
     - script: "for i in [1,2,3,4]:\n  print i"
-    - file_path: " "
-    - argv: " "
+    - file_path: ""
+    - argv: ""
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "1\n2\n3\n4\n"
   testSuites: [python-script]
@@ -24,7 +24,7 @@ testPythonScriptSuccess:
 testPythonScriptSuccess2:
   inputs:
     - script: "sum = 0\nfor i in argv[1:]:\n  sum += int(i)\nprint sum"
-    - file_path: " "
+    - file_path: ""
     - argv: "1 2 3 4"
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "10"
@@ -38,21 +38,21 @@ testPythonScriptSuccess2:
 testPythonScriptExitCode:
   inputs:
     - script: "import sys\nsys.exit(123)"
-    - file_path: " "
-    - argv: " "
+    - file_path: ""
+    - argv: ""
     - timeout: 5
   description: Tests that python-script.sl operation finishes with exit code 123
   testSuites: [python-script]
   testFlowPath: io.cloudslang.base.scripts.python_script
   outputs:
-    - return_result: " "
+    - return_result: ""
     - return_code: "123"
   result: SUCCESS
 
 testPythonScriptArgvInput:
   inputs:
     - script: "for i in argv:\n  print i"
-    - file_path: " "
+    - file_path: ""
     - argv: "1 2 3 4"
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "script\n1\n2\n3\n4\n"
@@ -66,7 +66,7 @@ testPythonScriptArgvInput:
 testPythonScriptTimeout:
   inputs:
     - script: "import time\nfor i in argv:\n time.sleep(1)\nprint i"
-    - file_path: " "
+    - file_path: ""
     - argv: "1 2 3 4"
     - timeout: "0.5"
   description: Tests that python-script.sl operation finishes with Timeout
@@ -81,7 +81,7 @@ testPythonScriptOnlyOneScript:
   inputs:
     - script: "import time\nfor i in argv:\n time.sleep(1)\nprint i"
     - file_path: "something"
-    - argv: " "
+    - argv: ""
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that Either the script or the file_path must be provided
   testSuites: [python-script]
@@ -94,8 +94,8 @@ testPythonScriptOnlyOneScript:
 testPythonScriptInvalidScript:
   inputs:
     - script: "impasdasdasdasort time\nfor i in argv:\n time.sleep(1)\nprint i"
-    - file_path: " "
-    - argv: " "
+    - file_path: ""
+    - argv: ""
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that the script is invalid
   testSuites: [python-script]
@@ -108,8 +108,8 @@ testPythonScriptInvalidScript:
 testPythonScriptWrongIndent:
   inputs:
     - script: "for i in argv:\nprint i"
-    - file_path: " "
-    - argv: " "
+    - file_path: ""
+    - argv: ""
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that missing indent
   testSuites: [python-script]

@@ -38,7 +38,7 @@ testMatchRegexMissingInputs:
 testMatchRegexEmptyText:
   inputs:
     - regex: "[A-Z ]*"
-    - text: " "
+    - text: ""
   description: Tests that match_regex.sl operation throws an exception when text is empty
   testFlowPath: io.cloudslang.base.strings.match_regex
   result: NO_MATCH
