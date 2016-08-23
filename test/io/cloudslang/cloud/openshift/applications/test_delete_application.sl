@@ -60,7 +60,7 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${str(error_message) + "," + int(return_code), int(status_code)]}
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
             - list_2: ",0,200"
         navigate:
           - SUCCESS: get_status
@@ -81,7 +81,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: 'ok'
-            - second_string: ${str(status)}
+            - second_string: ${status}
         navigate:
           - SUCCESS: get_messages
           - FAILURE: VERIFY_STATUS_FAILURE
@@ -100,9 +100,9 @@ flow:
     - get_text_occurrence:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${str(messages)}
+            - string_in_which_to_search: ${messages}
             - string_to_find: ${'Application ' + application_name +' is deleted.'}
-            - ignore_case: "true"
+            - ignore_case: 'True'
         publish:
           - text_occurrence: ${return_result}
         navigate:
