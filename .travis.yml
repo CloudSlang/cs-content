@@ -29,7 +29,7 @@ script:
   - docker info
   - docker version
   - df -kh
-  - wget https://docs.google.com/uc?export=download&confirm=5oDe&id=0B_euhNvx4QZZQm9WY2xtVFB4UFk
+  - wget https://www.dropbox.com/s/97szqf8g0t1b27t/cslang-builder.zip
   - unzip -q cslang-builder.zip
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
