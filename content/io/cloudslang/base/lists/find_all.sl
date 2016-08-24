@@ -29,4 +29,4 @@ operation:
         indices = [i for i, x in enumerate(list) if x == element]
 
   outputs:
-    - indices
+    - indices: ${ str(indices) }

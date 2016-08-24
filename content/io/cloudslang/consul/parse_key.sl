@@ -50,7 +50,7 @@ operation:
         return_code = '-1'
         return_result = 'Parsing error or key does not exist.'
   outputs:
-    - decoded
+    - decoded: ${ str(decoded) }
     - key
     - flags
     - create_index
