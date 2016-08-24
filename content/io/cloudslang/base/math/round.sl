@@ -23,12 +23,12 @@ operation:
     - value1
   python_action:
     script: |
+      from java.math import BigDecimal,MathContext
       error_message = ""
-      result = ""
       value1 = value1.replace("%", "")
       try:
-             rounded = str(int(float(value1)))
-      except ValueError:
+          rounded = BigDecimal(value1, MathContext.DECIMAL64).toBigInteger()
+      except:
           error_message = "input cannot be rounded"
   outputs:
     - error_message

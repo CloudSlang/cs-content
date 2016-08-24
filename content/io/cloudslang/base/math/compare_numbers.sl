@@ -18,12 +18,18 @@
 
 namespace: io.cloudslang.base.math
 
-decision:
+operation:
   name: compare_numbers
   inputs:
     - value1
     - value2
+  python_action:
+      script: |
+        from java.math import BigDecimal,MathContext
+        value1 = BigDecimal(value1, MathContext.DECIMAL64)
+        value2 = BigDecimal(value2, MathContext.DECIMAL64)
+        result = value1.compareTo(value2)
   results:
-    - GREATER_THAN: ${ float(value1) > float(value2) }
-    - EQUALS: ${ float(value1) == float(value2) }
+    - GREATER_THAN: ${ result > 0 }
+    - EQUALS: ${ result == 0 }
     - LESS_THAN
