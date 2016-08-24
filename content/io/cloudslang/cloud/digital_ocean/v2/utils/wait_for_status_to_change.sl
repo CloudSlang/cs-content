@@ -30,7 +30,7 @@ namespace: io.cloudslang.cloud.digital_ocean.v2.utils
 imports:
   droplets: io.cloudslang.cloud.digital_ocean.v2.droplets
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   math: io.cloudslang.base.math
 
 flow:
