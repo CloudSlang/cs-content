@@ -49,7 +49,7 @@ operation:
         return_code = '-1'
         return_result = 'Parsing error.'
   outputs:
-    - decoded
+    - decoded: ${ str(decoded) }
     - num_cores: ${str(num_cores)}
     - cpu_frequency_khz: ${str(cpu_frequency_khz)}
     - memory_capacity: ${memory_capacity}
