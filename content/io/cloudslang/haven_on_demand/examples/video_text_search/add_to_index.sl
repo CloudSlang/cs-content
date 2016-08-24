@@ -20,7 +20,7 @@ namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
 imports:
   hod: io.cloudslang.haven_on_demand
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.http
 
 flow:
   name: add_to_index

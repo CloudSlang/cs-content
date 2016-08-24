@@ -12,9 +12,9 @@ namespace: io.cloudslang.base.remote_file_transfer
 imports:
   cmd: io.cloudslang.base.cmd
   rft: io.cloudslang.base.remote_file_transfer
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.file_system
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_remote_secure_copy_remote_to_remote
