@@ -28,7 +28,7 @@ operation:
   python_action:
     script: |
       import urllib
-      if quote_plus:
+      if quote_plus in [True, 'True', 'true']:
         encoded = urllib.quote_plus(data, safe)
       else:
         encoded = urllib.quote(data, safe)
