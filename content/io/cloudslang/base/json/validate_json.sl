@@ -34,9 +34,9 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - return_result
+    - return_result: ${ str(return_result) }
     - return_code
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - error_message: ${ str(return_result) if return_code == '-1' else '' }
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

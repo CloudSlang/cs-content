@@ -30,4 +30,4 @@ operation:
       else:
         result = value1 * value2
   outputs:
-     - result
+     - result: ${ str(result) }

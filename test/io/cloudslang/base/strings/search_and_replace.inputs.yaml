@@ -43,7 +43,7 @@ testSearchAndReplaceEmptyOriginString:
     - replace_with: hello
   description: Tests that search_and_replace.sl operation throws exception when origin_string is empty also having an empty output
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  result: FAILURE
+  throwsException: true
 
 testSearchAndReplaceEmptyTextToReplace:
   inputs:

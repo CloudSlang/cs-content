@@ -24,6 +24,6 @@ operation:
     script: |
       length = len(origin_string)
   outputs:
-    - length
+    - length: ${ str(length) }
   results:
     - SUCCESS
