@@ -83,7 +83,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-          - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - container_ip: ${return_result[:-1]}

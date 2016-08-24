@@ -87,6 +87,8 @@ flow:
         publish:
           - images_list_safe_to_delete: ${ result_set }
           - amount_of_images: ${ len(result_set.split()) }
+        navigate:
+          - SUCCESS: verify_all_images_list_not_empty
     - verify_all_images_list_not_empty:
         do:
           strings.string_equals:
@@ -131,6 +133,8 @@ flow:
         publish:
           - images_list_safe_to_delete: ${ result_set }
           - amount_of_images: ${ len(result_set.split()) }
+        navigate:
+          - SUCCESS: delete_images
     - delete_images:
         do:
           images.clear_images:

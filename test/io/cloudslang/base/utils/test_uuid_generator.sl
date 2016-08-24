@@ -23,7 +23,6 @@ flow:
           - new_uuid
         navigate:
           - SUCCESS: verify_output_is_not_empty
-          - FAILURE: FAILURE
     - verify_output_is_not_empty:
         do:
           strings.string_equals:
@@ -35,5 +34,4 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
     - OUTPUT_IS_EMPTY

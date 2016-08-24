@@ -83,3 +83,5 @@ flow:
         do:
           print.print_text:
             - text: "${'Number of containers in cluster: ' + number_of_containers_in_cluster}"
+        navigate:
+          - SUCCESS: SUCCESS

@@ -78,8 +78,11 @@ flow:
               - query_text: ${text}
               - query_result: ${item}
               - result_text: ${email_text}
+          break: []
           publish:
             - email_text: ${result_text + built_results}
+          navigate:
+            - SUCCESS: send_results
     - send_results:
         do:
           mail.send_mail:

@@ -71,6 +71,8 @@ flow:
         do:
           print.print_text:
             - text: ${'### Server (' + server_id + ') is active and booted. IP is ' + ip_address}
+        navigate:
+          - SUCCESS: terminate_server
 
     - terminate_server:
         do:

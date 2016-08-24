@@ -53,6 +53,9 @@ flow:
               - text: ${item["content"] + " "}
           publish:
             - all_content: ${new_string}
+          break: []
+          navigate:
+            - SUCCESS: append_offsets
     - append_offsets:
         loop:
           for: item in doc_list
@@ -62,6 +65,9 @@ flow:
               - text: ${str(item["offset"]) + " "}
           publish:
             - all_offsets: ${new_string}
+          break: []
+          navigate:
+            - SUCCESS: add_title
     - add_title:
         do:
           json.add_value:

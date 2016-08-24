@@ -99,6 +99,8 @@ flow:
             - filter: ${node_host}
         publish:
           - filter_result
+        navigate:
+          - SUCCESS: SUCCESS
 
   outputs:
     - raw_result: ${raw_result}
