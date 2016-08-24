@@ -22,7 +22,7 @@ imports:
   marathon: io.cloudslang.marathon
   strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   print: io.cloudslang.base.print
 flow:
   name: wait_for_marathon_app_startup

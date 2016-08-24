@@ -43,7 +43,7 @@ imports:
   swarm: io.cloudslang.docker.swarm
   containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   math: io.cloudslang.base.math
 
 flow:

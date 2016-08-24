@@ -1,0 +1,120 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################################################################
+
+testPythonScriptSuccess:
+  inputs:
+    - script: "for i in [1,2,3,4]:\n  print i"
+    - file_path: ""
+    - argv: ""
+    - timeout: 5
+  description: Tests that python-script.sl operation finishes with result = "1\n2\n3\n4\n"
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - return_result: "1\n2\n3\n4\n"
+    - return_code: "0"
+  result: SUCCESS
+
+testPythonScriptSuccess2:
+  inputs:
+    - script: "sum = 0\nfor i in argv[1:]:\n  sum += int(i)\nprint sum"
+    - file_path: ""
+    - argv: "1 2 3 4"
+    - timeout: 5
+  description: Tests that python-script.sl operation finishes with result = "10"
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - return_result: "10\n"
+    - return_code: "0"
+  result: SUCCESS
+
+testPythonScriptExitCode:
+  inputs:
+    - script: "import sys\nsys.exit(123)"
+    - file_path: ""
+    - argv: ""
+    - timeout: 5
+  description: Tests that python-script.sl operation finishes with exit code 123
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - return_result: ""
+    - return_code: "123"
+  result: SUCCESS
+
+testPythonScriptArgvInput:
+  inputs:
+    - script: "for i in argv:\n  print i"
+    - file_path: ""
+    - argv: "1 2 3 4"
+    - timeout: 5
+  description: Tests that python-script.sl operation finishes with result = "script\n1\n2\n3\n4\n"
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - return_result: "script\n1\n2\n3\n4\n"
+    - return_code: "0"
+  result: SUCCESS
+
+testPythonScriptTimeout:
+  inputs:
+    - script: "import time\nfor i in argv:\n time.sleep(1)\nprint i"
+    - file_path: ""
+    - argv: "1 2 3 4"
+    - timeout: "0.5"
+  description: Tests that python-script.sl operation finishes with Timeout
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - error_message: "Timeout\n"
+    - return_code: "-1"
+  result: FAILURE
+
+testPythonScriptOnlyOneScript:
+  inputs:
+    - script: "import time\nfor i in argv:\n time.sleep(1)\nprint i"
+    - file_path: "something"
+    - argv: ""
+    - timeout: "0"
+  description: Tests that python-script.sl operation finishes with an error that Either the script or the file_path must be provided
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - error_message: "Either the script or the file_path must be provided\n"
+    - return_code: "-1"
+  result: FAILURE
+
+testPythonScriptInvalidScript:
+  inputs:
+    - script: "impasdasdasdasort time\nfor i in argv:\n time.sleep(1)\nprint i"
+    - file_path: ""
+    - argv: ""
+    - timeout: "0"
+  description: Tests that python-script.sl operation finishes with an error that the script is invalid
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - error_message: "no viable alternative at input 'time' (<string>, line 1)\n"
+    - return_code: "-1"
+  result: FAILURE
+
+testPythonScriptWrongIndent:
+  inputs:
+    - script: "for i in argv:\nprint i"
+    - file_path: ""
+    - argv: ""
+    - timeout: "0"
+  description: Tests that python-script.sl operation finishes with an error that missing indent
+  testSuites: [python-script]
+  testFlowPath: io.cloudslang.base.python.python_script
+  outputs:
+    - error_message: "mismatched input 'print' expecting INDENT (<string>, line 2)\n"
+    - return_code: "-1"
+  result: FAILURE

@@ -85,7 +85,7 @@ imports:
   mail: io.cloudslang.base.mail
   comparisons: io.cloudslang.base.comparisons
   runc: io.cloudslang.docker.runc
-  linux: io.cloudslang.base.os.linux
+  linux: io.cloudslang.base.operating_systems.linux
   math: io.cloudslang.base.math
 flow:
   name: migrate_container

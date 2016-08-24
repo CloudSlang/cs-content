@@ -12,7 +12,7 @@ namespace: io.cloudslang.base.http
 imports:
   http: io.cloudslang.base.http
   lists: io.cloudslang.base.lists
-  utils: io.cloudslang.base.http.utils
+  utils: io.cloudslang.base.http
   strings: io.cloudslang.base.strings
 
 flow:

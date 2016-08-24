@@ -11,7 +11,7 @@ namespace: io.cloudslang.jenkins
 
 imports:
   jenkins: io.cloudslang.jenkins
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_clone_job_for_branch
