@@ -84,7 +84,7 @@ operation:
         return_code = '-1'
         return_result = 'Parsing error: ' + str(ex)
   outputs:
-    - decoded
+    - decoded: ${ str(decoded) }
     - spec
     - stats
     - timestamp
