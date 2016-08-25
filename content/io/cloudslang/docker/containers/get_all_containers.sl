@@ -27,7 +27,7 @@
 #! @output container_list: list containing container IDs for all the Docker containers, separated by space
 #! @result SUCCESS: SSH command succeeded
 #! @result FAILURE: SSH command failed
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.containers

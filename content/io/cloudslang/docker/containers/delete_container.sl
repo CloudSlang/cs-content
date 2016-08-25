@@ -31,7 +31,7 @@
 #! @output standard_err: error message
 #! @result SUCCESS:
 #! @result FAILURE:
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.containers

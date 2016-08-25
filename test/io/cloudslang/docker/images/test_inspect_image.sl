@@ -19,7 +19,7 @@
 #! @result VERIFY_FAILURE: fails ro verify downloaded images
 #! @result DELETE_FAILURE: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.images
 

@@ -11,7 +11,7 @@
 #! @input bool_value: Boolean value to check
 #! @result SUCCESS: bool_value is true
 #! @result FAILURE: bool_value is false
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.base.utils

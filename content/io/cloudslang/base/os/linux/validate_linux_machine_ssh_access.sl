@@ -30,7 +30,7 @@
 #! @output exit_status: return code of the remote command
 #! @result SUCCESS: command execution finished successfully
 #! @result FAILURE: otherwise
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.base.os.linux

@@ -19,7 +19,7 @@
 #! @output amount_of_dangling_images_deleted: number of dangling images that where deleted
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.images
 

@@ -18,10 +18,10 @@ env:
  global:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
  matrix:
-   - SUITE=containers
+#   - SUITE=containers
    - SUITE=images
-   - SUITE=docker-misc
-   - SUITE=git,remote-copy
+#   - SUITE=docker-misc
+#   - SUITE=git,remote-copy
 
 script:
   - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh

@@ -22,7 +22,7 @@
 #! @result FAILURE_WITH_NO_MESSAGE: session failure pattern detected
 #! @result CUSTOM_FAILURE: general accumulator for new types of patterns (see subflow)
 #! @result NO_ISSUE_FOUND: no session failure pattern was detected
-#!!#
+#!!# PROCCESSED
 ########################################################################################################################
 
 namespace: io.cloudslang.base.utils

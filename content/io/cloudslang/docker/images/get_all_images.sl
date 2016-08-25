@@ -25,7 +25,7 @@
 #! @output image_list: list containing REPOSITORY and TAG for all the Docker images
 #! @result SUCCESS: SSH command succeeded
 #! @result FAILURE: SSH command failed
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.images
 

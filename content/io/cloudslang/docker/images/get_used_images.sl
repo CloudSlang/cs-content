@@ -25,7 +25,7 @@
 #! @output image_list: "\n" delimited list of IDs of used Docker images
 #! @result SUCCESS: command succeeded
 #! @result FAILURE: command failed
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.images

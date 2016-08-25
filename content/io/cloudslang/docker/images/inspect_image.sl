@@ -26,7 +26,7 @@
 #! @output standard_err: STDERR of the machine in case of unsuccessful request
 #! @result SUCCESS:
 #! @result FAILURE:
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.images
 

@@ -26,7 +26,7 @@
 #! @output image_id: ID of the created Docker image
 #! @result SUCCESS: Docker image successfully built
 #! @result FAILURE: otherwise
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.images

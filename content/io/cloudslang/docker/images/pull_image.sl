@@ -26,7 +26,7 @@
 #! @output error_message: error message
 #! @result SUCCESS:
 #! @result FAILURE:
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.images
