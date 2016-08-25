@@ -100,7 +100,7 @@ testValidateJsonPrimitiveDataFailure:
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
-    - return_result: ValueError('No JSON object could be decoded',)
+    - return_result: "No JSON object could be decoded"
     - return_code: "-1"
   result: FAILURE
 

@@ -52,7 +52,7 @@ operation:
   outputs:
     - decoded: ${ str(decoded) }
     - key
-    - flags
+    - flags: ${ str(flags) }
     - create_index
     - value
     - modify_index

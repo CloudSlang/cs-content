@@ -52,7 +52,7 @@ operation:
     - decoded: ${ str(decoded) }
     - num_cores: ${str(num_cores)}
     - cpu_frequency_khz: ${str(cpu_frequency_khz)}
-    - memory_capacity: ${memory_capacity}
+    - memory_capacity: ${ str(memory_capacity) }
     - file_systems
     - disk_map
     - network_devices

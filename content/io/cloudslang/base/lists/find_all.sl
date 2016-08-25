@@ -24,9 +24,9 @@ operation:
   python_action:
     script: |
       if bool(ignore_case):
-        indices = [i for i, x in enumerate(list) if x.lower() == element.lower()]
+        indices = [i for i, x in enumerate(list.split(",")) if x.lower() == element.lower()]
       else:
-        indices = [i for i, x in enumerate(list) if x == element]
+        indices = [i for i, x in enumerate(list.split(",")) if x == element]
 
   outputs:
     - indices: ${ str(indices) }
