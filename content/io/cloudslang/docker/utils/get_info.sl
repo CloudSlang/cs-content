@@ -24,7 +24,7 @@
 #! @output docker_info: information returned by Docker
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.utils

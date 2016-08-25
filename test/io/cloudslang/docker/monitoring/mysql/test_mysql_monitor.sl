@@ -4,7 +4,7 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql
