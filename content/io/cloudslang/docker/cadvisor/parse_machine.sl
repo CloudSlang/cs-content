@@ -53,7 +53,7 @@ operation:
     - num_cores: ${str(num_cores)}
     - cpu_frequency_khz: ${str(cpu_frequency_khz)}
     - memory_capacity: ${ str(memory_capacity) }
-    - file_systems: ${ ','.join(file_systems) }
+    - file_systems: ${ str(file_systems) }
     - disk_map
     - network_devices
     - topology
