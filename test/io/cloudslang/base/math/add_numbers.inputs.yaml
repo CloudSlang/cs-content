@@ -35,3 +35,13 @@ testAddString:
   outputs:
     - result: 8
   result: SUCCESS
+
+testAddInvalidNumbers:
+  inputs:
+    - value1: 'one'
+    - value2: 'two'
+  description: Tests that add_numbers.sl operation fails when numbers format is invalid
+  testFlowPath: io.cloudslang.base.math.add_numbers
+  outputs:
+    - result: java.lang.NumberFormatException
+  result: FAILURE

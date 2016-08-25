@@ -27,10 +27,14 @@ operation:
     script: |
       try:
         from java.math import BigDecimal,MathContext
+        from java.lang import Exception as JavaException
         value1 = BigDecimal(value1, MathContext.DECIMAL64)
         value2 = BigDecimal(value2, MathContext.DECIMAL64)
         result = value1.subtract(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
         return_code = '0'
+      except JavaException as je:
+        return_code = '-1'
+        result = je
       except Exception as e:
         return_code = '-1'
         result = e
