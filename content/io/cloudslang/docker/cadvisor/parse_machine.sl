@@ -54,8 +54,8 @@ operation:
     - cpu_frequency_khz: ${str(cpu_frequency_khz)}
     - memory_capacity: ${ str(memory_capacity) }
     - file_systems: ${ str(file_systems) }
-    - disk_map
-    - network_devices
+    - disk_map: ${ str(disk_map) }
+    - network_devices: ${ str(network_devices) }
     - topology
     - return_code
     - return_result
