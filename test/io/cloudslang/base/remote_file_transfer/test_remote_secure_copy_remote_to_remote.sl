@@ -12,7 +12,7 @@ namespace: io.cloudslang.base.remote_file_transfer
 imports:
   cmd: io.cloudslang.base.cmd
   rft: io.cloudslang.base.remote_file_transfer
-  files: io.cloudslang.base.file_system
+  files: io.cloudslang.base.filesystem
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.flow_control
 

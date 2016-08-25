@@ -26,7 +26,7 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  files: io.cloudslang.base.file_system
+  files: io.cloudslang.base.filesystem
   marathon: io.cloudslang.marathon
 
 flow:

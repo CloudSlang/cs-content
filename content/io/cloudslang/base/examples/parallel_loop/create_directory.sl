@@ -10,7 +10,7 @@
 namespace: io.cloudslang.base.examples.parallel_loop
 
 imports:
-  files: io.cloudslang.base.file_system
+  files: io.cloudslang.base.filesystem
   print: io.cloudslang.base.print
 
 flow:
