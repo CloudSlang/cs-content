@@ -43,5 +43,5 @@ testAddInvalidNumbers:
   description: Tests that add_numbers.sl operation fails when numbers format is invalid
   testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
-    - result: java.lang.NumberFormatException
+    - result: "Invalid number format"
   result: FAILURE

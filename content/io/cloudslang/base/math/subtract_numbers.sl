@@ -34,7 +34,7 @@ operation:
         return_code = '0'
       except JavaException as je:
         return_code = '-1'
-        result = je
+        result = "Invalid number format"
       except Exception as e:
         return_code = '-1'
         result = e

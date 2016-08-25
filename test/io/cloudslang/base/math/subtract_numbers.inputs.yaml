@@ -43,5 +43,5 @@ testSubstractInvalidNumbers:
   description: Tests that subtract_numbers.sl operation finishes with FAILURE when numbers are invalid
   testFlowPath: io.cloudslang.base.math.subtract_numbers
   outputs:
-    - result: java.langa.NumberFormatException
+    - result: "Invalid number format"
   result: FAILURE
