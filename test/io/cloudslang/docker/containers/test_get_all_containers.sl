@@ -107,7 +107,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: >
-                ${str(len(list.rstrip().split("")))}
+                ${str(len(list.rstrip().split(" ")))}
             - second_string: '2'
         navigate:
           - SUCCESS: clear_docker_host
