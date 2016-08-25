@@ -56,7 +56,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ image_list }
-            - second_string: None
+            - second_string: ""
 
   results:
     - SUCCESS
