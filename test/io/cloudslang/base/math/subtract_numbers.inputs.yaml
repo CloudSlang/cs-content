@@ -35,3 +35,13 @@ testSubtractStr:
   outputs:
     - result: -2
   result: SUCCESS
+
+testSubstractInvalidNumbers:
+  inputs:
+    - value1: 'one'
+    - value2: 'two'
+  description: Tests that subtract_numbers.sl operation finishes with FAILURE when numbers are invalid
+  testFlowPath: io.cloudslang.base.math.subtract_numbers
+  outputs:
+    - result: "Invalid number format"
+  result: FAILURE
