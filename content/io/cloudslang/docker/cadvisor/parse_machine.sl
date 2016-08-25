@@ -56,7 +56,7 @@ operation:
     - file_systems: ${ str(file_systems) }
     - disk_map: ${ str(disk_map) }
     - network_devices: ${ str(network_devices) }
-    - topology
+    - topology: ${ str(topology) }
     - return_code
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
