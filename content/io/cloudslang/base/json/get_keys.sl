@@ -35,7 +35,10 @@ operation:
         import json
         decoded = json.loads(json_input)
         for key in json_path.split(","):
-          decoded = decoded[key]
+          if key is "" and key not in decoded:
+            pass
+          else
+            decoded = decoded[key]
         decoded = decoded.keys()
         return_result = 'Parsing successful.'
         return_code = '0'
@@ -43,10 +46,10 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - keys: ${ decoded if return_code == '0' else '' }
+    - keys: ${ str(decoded).replace("u\"","\"").replace("u\'","\'") if return_code == '0' else '' }
     - return_result: ${ str(return_result) }
     - return_code: ${ str(return_code) }
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - error_message: ${ str(return_result) if return_code == '-1' else '' }
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

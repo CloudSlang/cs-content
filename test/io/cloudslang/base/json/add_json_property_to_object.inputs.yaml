@@ -100,9 +100,9 @@ testAddPropertyFailureInvalidValue:
   description: "Tests that add_json_property_to_object.inputs.yaml operation goes to failure when an invalid value is given."
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
   outputs:
-    - return_result: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
+    - return_result: "Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)"
     - return_code: "-1"
-    - error_message: "ValueError('Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)',)"
+    - error_message: "Extra data: line 1 column 18 - line 1 column 19 (char 17 - 18)"
   result: FAILURE
 
 testAddPropertyFailureInvalidJsonObject:
@@ -113,9 +113,9 @@ testAddPropertyFailureInvalidJsonObject:
   description: "Tests that add_json_property_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
   outputs:
-    - return_result: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
+    - return_result: "Expecting , delimiter: line 1 column 25 (char 24)"
     - return_code: "-1"
-    - error_message: "ValueError('Expecting , delimiter: line 1 column 25 (char 24)',)"
+    - error_message: "Expecting , delimiter: line 1 column 25 (char 24)"
   result: FAILURE
 
 testAddPropertyInvalidJsonObject:

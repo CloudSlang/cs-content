@@ -24,15 +24,23 @@ operation:
 
   python_action:
     script: |
+      def representsInt(s):
+          try:
+              int(s)
+              return True
+          except ValueError:
+              return False
+
       error_message = ""
       message = ""
-      if all(isinstance(item, basestring) for item in list):
-        message = "All elements in list are STR"
-      elif all(isinstance(item, int) for item in list):
+      if all(representsInt(item) for item in list):
         message = "All elements in list are INT"
       else:
         if any(isinstance(item, (str, int)) for item in list):
           error_message = "List contains STR and INT elements"
+
+      if message is "" and error_message is "":
+        message = "All elements in list are STR"
 
   outputs:
     - result: ${message}

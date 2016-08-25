@@ -15,15 +15,6 @@ testCheckListTypeSTRSuccess:
     - result: All elements in list are STR
   result: SUCCESS
 
-testCheckListTypeINTSuccess:
-  inputs:
-    - list: "1,2,3,4"
-  description: Tests that check_list_type.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.lists.check_list_type
-  outputs:
-    - result: All elements in list are INT
-  result: SUCCESS
-
 testCheckListTypeFailure:
   inputs:
     - list: "element1,element2,3,4"

@@ -35,7 +35,9 @@ flow:
 
   inputs:
     - ip_list
-    - message_body: ""
+    - message_body:
+        default: ""
+        required: false
     - all_nodes_are_up: "True"
     - hostname: ${get_sp('io.cloudslang.base.hostname')}
     - port: ${get_sp('io.cloudslang.base.port')}

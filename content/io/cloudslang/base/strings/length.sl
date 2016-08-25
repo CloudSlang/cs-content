@@ -18,8 +18,7 @@ namespace: io.cloudslang.base.strings
 operation:
   name: length
   inputs:
-    - origin_string:
-        required: false
+    - origin_string
   python_action:
     script: |
       length = len(origin_string)

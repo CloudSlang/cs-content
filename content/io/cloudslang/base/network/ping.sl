@@ -61,5 +61,5 @@ operation:
 
   results:
     - FAILURE: ${ is_error }
-    - UP: ${ is_up }
+    - UP: ${ bool(is_up) }
     - DOWN
