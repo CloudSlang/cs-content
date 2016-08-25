@@ -129,7 +129,7 @@ flow:
                      - timeout
                      - number_of_images_in_cluster
               publish:
-                - number_of_images_in_cluster: ${str(int(number_of_images_in_cluster) + len(image_list.split()))}
+                - number_of_images_in_cluster: ${str(number_of_images_in_cluster + len(image_list.split()))}
               navigate:
                 - SUCCESS: verify_number_of_remaining_images
                 - FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
