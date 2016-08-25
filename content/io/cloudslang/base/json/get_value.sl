@@ -36,7 +36,7 @@ operation:
         for key in json_path.split(","):
           if key is "" and key not in decoded:
             pass
-          else
+          else:
             decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
