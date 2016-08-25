@@ -29,7 +29,7 @@
 #!                        exception otherwise
 #! @result SUCCESS: action was executed successfully and MySQL server state is alive
 #! @result FAILURE: some problem occurred, more information in errorMessage output
-#!!# PROCCESSED
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

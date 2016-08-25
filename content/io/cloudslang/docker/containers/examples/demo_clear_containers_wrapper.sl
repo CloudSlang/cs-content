@@ -16,7 +16,7 @@
 #! @input docker_password: optional - Docker machine host password
 #! @input private_key_file: optional - path to private key file
 #! @output error_message: error message
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers.examples

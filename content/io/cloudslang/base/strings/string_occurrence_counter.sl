@@ -16,7 +16,7 @@
 #! @output error_message: return_result if occurrence == '0'  else ''
 #! @result SUCCESS: string is found at least once
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.strings

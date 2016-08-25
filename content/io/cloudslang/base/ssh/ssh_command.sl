@@ -37,7 +37,7 @@
 #!                              channel type has no command), '126' if the command cannot execute.
 #! @result SUCCESS: SSH access was successful and returned with code '0'
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ###############################################################################################################################################################################
 
 namespace: io.cloudslang.base.ssh

@@ -28,7 +28,7 @@
 #! @output result: ID of the container that was stopped
 #! @result SUCCESS:
 #! @result FAILURE:
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 

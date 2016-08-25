@@ -41,7 +41,7 @@
 #! @output return_code: return code of the command
 #! @result SUCCESS: SSH access was successful and returned with code '0'
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.ssh

@@ -33,7 +33,7 @@
 #! @output error_message: STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
 #! @result SUCCESS: action was executed successfully and STDERR of the machine contains no errors
 #! @result FAILURE:
-#!!# PROCCESSED
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

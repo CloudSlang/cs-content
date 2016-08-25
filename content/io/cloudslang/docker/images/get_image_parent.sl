@@ -16,7 +16,7 @@
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input port: optional - port number for running the command
 #! @output parent_image_name: name of the parent image
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

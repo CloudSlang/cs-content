@@ -30,7 +30,7 @@
 #! @result FAILURE: something went wrong
 #! @result RUNNING: process found running on the container
 #! @result NOT_RUNNING: process is not running on the container
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 

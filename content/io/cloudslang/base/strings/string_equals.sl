@@ -16,7 +16,7 @@
 #!                     to be considered equal.
 #! @result SUCCESS: strings are equal
 #! @result FAILURE: strings are not equal
-#!!# PROCCESSED
+#!!#
 ##################################################
 namespace: io.cloudslang.base.strings
 

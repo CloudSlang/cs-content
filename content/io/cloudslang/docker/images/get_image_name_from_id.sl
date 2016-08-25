@@ -25,7 +25,7 @@
 #! @output image_name: name of image
 #! @result SUCCESS: SSH command succeeded
 #! @result FAILURE: SSH command failed
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

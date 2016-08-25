@@ -25,7 +25,7 @@
 #! @output dangling_image_list: list of names of dangling Docker images
 #! @result SUCCESS:
 #! @result FAILURE:
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.images

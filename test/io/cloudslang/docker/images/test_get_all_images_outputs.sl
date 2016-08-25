@@ -21,7 +21,7 @@
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
 #! @result FAIL_VALIDATE_SSH: ssh connection fails
 #! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

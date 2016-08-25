@@ -19,7 +19,7 @@
 #! @result FAILURE_WITH_NO_MESSAGE: pattern detected
 #! @result CUSTOM_FAILURE: general accumulator for new types of patterns
 #! @result NO_ISSUE_FOUND: no pattern was detected
-#!!# PROCCESSED
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.ssh

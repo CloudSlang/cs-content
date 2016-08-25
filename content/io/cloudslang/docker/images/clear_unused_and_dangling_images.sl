@@ -21,7 +21,7 @@
 #! @output images_list_safe_to_delete: list of images that are safe to delete
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.images

@@ -27,7 +27,7 @@
 #! @output error_message: possible error message, may contain the STDERR of the machine or the cause of an exception
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.monitoring.mysql

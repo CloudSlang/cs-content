@@ -17,7 +17,7 @@
 #! @output total_amount_of_images_deleted: number of deleted images
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.maintenance

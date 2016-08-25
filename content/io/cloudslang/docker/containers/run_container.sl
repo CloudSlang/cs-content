@@ -29,7 +29,7 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output container_id: ID of the container
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers

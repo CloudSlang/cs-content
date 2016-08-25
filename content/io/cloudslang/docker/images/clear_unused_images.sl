@@ -21,7 +21,7 @@
 #! @output updated_all_parent_images: list of parent images - will not be deleted
 #! @result SUCCESS: flow ends with SUCCESS:
 #! @result FAILURE: some step ended with FAILURE:
-#!!# PROCCESSED
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 

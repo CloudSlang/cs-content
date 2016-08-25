@@ -17,7 +17,7 @@
 #! @input private_key_file: optional - path to private key file
 #! @input port: optional - SSH port
 #! @output error_message: error message of the operation that failed
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers

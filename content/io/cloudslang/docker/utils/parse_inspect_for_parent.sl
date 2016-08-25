@@ -15,7 +15,7 @@
 #! @output error_message: returnResult if there was an error
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
-#!!# PROCCESSED
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.utils
