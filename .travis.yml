@@ -23,7 +23,16 @@ env:
    - SUITE=docker-misc
    - SUITE=git,remote-copy
 
-script: echo ‘skip’
+script:
+  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
+  - docker ps -a
+  - docker info
+  - docker version
+  - df -kh
+  - wget https://www.dropbox.com/s/97szqf8g0t1b27t/cslang-builder.zip
+  - unzip -q cslang-builder.zip
+  - chmod +x cslang-builder/bin/cslang-builder
+  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
 
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
