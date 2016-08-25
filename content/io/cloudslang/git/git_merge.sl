@@ -63,7 +63,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
             - git_merge: ${ ' && git merge ' + git_merge_branch }
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS' }
             - username
