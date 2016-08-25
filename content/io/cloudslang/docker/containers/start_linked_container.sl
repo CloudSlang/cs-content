@@ -28,7 +28,7 @@
 #!                       Valid: true, false
 #! @output container_id: ID of the container that was started
 #! @output error_message: error message
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.containers

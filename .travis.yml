@@ -18,7 +18,7 @@ env:
  global:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
  matrix:
-#   - SUITE=containers
+   - SUITE=containers
    - SUITE=images
 #   - SUITE=docker-misc
 #   - SUITE=git,remote-copy

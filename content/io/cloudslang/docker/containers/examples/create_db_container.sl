@@ -19,7 +19,7 @@
 #! @input timeout: optional - time in milliseconds to wait for command to complete
 #! @output db_IP: IP of newly created container
 #! @output error_message: error message of failed operation
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
 

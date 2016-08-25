@@ -26,7 +26,7 @@
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
 #! @output container_names: list of container names separated by space
 #! @output raw_output: unparsed return result from the machine
-#!!#
+#!!# PROCCESSED
 ####################################################
 
 namespace: io.cloudslang.docker.containers
@@ -41,7 +41,7 @@ flow:
         required: false
     - all_containers: 'false'
     - ps_parameters:
-        default: ${'-a' if bool(all_containers) else ''}
+        default: ${'-a' if all_containers=="true" else ''}
         required: false
         private: true
     - host

@@ -32,7 +32,7 @@
 #! @output standard_err: error message
 #! @result SUCCESS: names of running containers retrieved successfully
 #! @result FAILURE: something went wrong
-#!!#
+#!!# PROCCESSED
 ####################################################
 namespace: io.cloudslang.docker.containers
 
