@@ -40,7 +40,7 @@ operation:
             decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
-        decoded_result = str(decoded).replace("u\"","\"").replace("u\'","\'")
+        decoded_result = json.dumps(decoded, ensure_ascii=False)
         if decoded is None:
           decoded_result = 'null'
       except Exception as ex:

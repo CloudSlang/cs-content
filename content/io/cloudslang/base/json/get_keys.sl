@@ -40,13 +40,14 @@ operation:
           else:
             decoded = decoded[key]
         decoded = decoded.keys()
+        decoded_result = json.dumps(decoded, ensure_ascii=False)
         return_result = 'Parsing successful.'
         return_code = '0'
       except Exception as ex:
         return_result = str(ex)
         return_code = '-1'
   outputs:
-    - keys: ${ str(decoded).replace("u\"","\"").replace("u\'","\'") if return_code == '0' else '' }
+    - keys: ${ decoded_result if return_code == '0' else '' }
     - return_result: ${ str(return_result) }
     - return_code: ${ str(return_code) }
     - error_message: ${ str(return_result) if return_code == '-1' else '' }
