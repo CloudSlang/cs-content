@@ -40,12 +40,12 @@ operation:
             decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
+        decoded_result = str(decoded).replace("u\"","\"").replace("u\'","\'")
+        if decoded_result is None:
+          decoded_result = 'null'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
-      decoded_result = str(decoded).replace("u\"","\"").replace("u\'","\'")
-      if decoded_result is None:
-        decoded_result = 'null'
   outputs:
     - value: ${ decoded_result if return_code == '0' else '' }
     - return_result: ${ str(return_result) }

@@ -21,8 +21,7 @@ operation:
   name: read_from_file
 
   inputs:
-    - file_path:
-        required: false
+    - file_path
 
   python_action:
     script: |

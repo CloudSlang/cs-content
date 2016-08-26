@@ -253,17 +253,6 @@ testBeginIndex:
     - error_message: "Indexes must be - begin_index < 10, end_index <= 10"
   result: FAILURE
 
-testInvalidInputString:
-  inputs:
-    - origin_string: "123456"
-    - begin_Index: "2"
-    - end_Index: "4"
-  description: "Tests that substring.sl operation throws an exception."
-  testFlowPath: io.cloudslang.base.strings.substring
-  outputs:
-    - error_message: "Invalid values"
-  result: FAILURE
-
 testSubstringUsingWhithespaces1:
   inputs:
     - origin_string: '          '

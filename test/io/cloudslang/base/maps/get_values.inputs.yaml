@@ -13,7 +13,7 @@ testGetMapValuesIntSuccess:
   description: Tests that get_values.sl operation finishes with result = [1000, 200, 500, 100]
   testFlowPath: io.cloudslang.base.maps.get_values
   outputs:
-    - result: "1000,200,500,100"
+    - result: "[1000,200,500,100]"
   result: SUCCESS
 
 testGetMapValuesStringSuccess:

@@ -9,9 +9,9 @@
 testGetMapKeysSuccess:
   inputs:
     - map:
-        value: "{laptop: 1000,  docking station: 200,  monitor: 500,  phone: 100}"
+        value: "{'laptop': 1000,  'docking station': 200,  'monitor': 500,  'phone': 100}"
   description: Tests that get_keys.sl operation finishes with result = ['laptop', 'docking station', 'monitor','phone']
   testFlowPath: io.cloudslang.base.maps.get_keys
   outputs:
-    - result: "laptop,docking station,monitor,phone"
+    - result: "['phone', 'laptop', 'docking station', 'monitor']"
   result: SUCCESS

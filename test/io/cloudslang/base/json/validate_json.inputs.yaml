@@ -60,17 +60,6 @@ testValidateJsonSimpleSuccess:
     - return_code: '0'
   result: SUCCESS
 
-testValidateJsonArrayFailure:
-  inputs:
-    - json_input:
-        value: '[{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
-  description: Tests that validate_json.sl ends with FAILURE
-  testFlowPath: io.cloudslang.base.json.validate_json
-  outputs:
-    - return_result: TypeError("expected string or buffer, but got <type 'java.util.ArrayList'>",)
-    - return_code: '-1'
-  result: FAILURE
-
 testValidateJsonExtraDataFailure:
   inputs:
     - json_input:
