@@ -54,7 +54,7 @@ test:
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
         then chmod +x ci-env/circleci/create_droplets.sh
         && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_1} DROPLETS_FILE=${DROPLETS_FILE_1}
-        echo 'success';
+        ci-env/circleci/create_droplets.sh;
         fi
       : parallel: true
     - ? > ### machine 2
@@ -88,8 +88,8 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) echo 'success' ;;
-        1) echo 'success' ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov ;;
+        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov ;;
         2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov ;;
         esac
       : parallel: true
