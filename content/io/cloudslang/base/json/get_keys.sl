@@ -40,11 +40,11 @@ operation:
           else:
             decoded = decoded[key]
         decoded = decoded.keys()
-        decoded_result = json.dumps(decoded, ensure_ascii=False)
+        encoded = json.dumps(decoded, ensure_ascii=False).encode('utf-8')
         return_result = 'Parsing successful.'
         return_code = '0'
       except Exception as ex:
-        return_result = str(ex)
+        return_result = ex
         return_code = '-1'
   outputs:
     - keys: ${ decoded_result if return_code == '0' else '' }
