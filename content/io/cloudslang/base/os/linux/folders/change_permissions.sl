@@ -56,7 +56,7 @@ flow:
             - port: '22'
             - username: 'root'
             - password: ${root_password}
-            - recursively_string: ${'-R ' if bool(recursively) in [True, true, 'True', 'true'] else ''}
+            - recursively_string: ${'-R ' if recursively.lower() in [True, true, 'True', 'true'] else ''}
             - command: >
                 ${'chmod ' + recursively_string + permissions_code + ' ' + folder_path}
         publish:

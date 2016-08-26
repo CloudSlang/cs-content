@@ -63,7 +63,7 @@ flow:
               - all_nodes_are_up
         publish:
           - messagebody: ${ message_body + message) }
-          - all_nodes_are_up: ${ str(bool(all_nodes_are_up) and bool(is_up)) }
+          - all_nodes_are_up: ${ str(all_nodes_are_up.lower() == 'true' and is_up.lower() == 'true') }
         navigate:
           - UP: check_result
           - DOWN: failure_mail_send

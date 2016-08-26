@@ -41,7 +41,7 @@ flow:
         required: false
     - all_containers: 'false'
     - ps_parameters:
-        default: ${'-a' if all_containers=="true" else ''}
+        default: ${'-a' if all_containers.lower() == 'true' else ''}
         required: false
         private: true
     - host

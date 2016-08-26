@@ -58,7 +58,7 @@ flow:
           json.add_value:
             - json_input: "{}"
             - json_path: "allow_tracking"
-            - value: ${bool(allow_tracking)}
+            - value: ${str(bool(allow_tracking))}
         publish:
           - body_json: ${json_output}
           - return_result
@@ -73,7 +73,7 @@ flow:
           json.add_value:
             - json_input: ${body_json}
             - json_path: "beta"
-            - value: ${bool(beta)}
+            - value: ${str(bool(beta))}
         publish:
           - body_json: ${json_output}
           - return_result

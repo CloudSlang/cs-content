@@ -51,7 +51,7 @@ flow:
           json.add_value:
             - json_input: "{}"
             - json_path: "silent"
-            - value: ${bool(silent)}
+            - value: ${str(bool(silent))}
         publish:
           - body_json: ${json_output}
           - return_result

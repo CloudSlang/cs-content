@@ -88,7 +88,7 @@ flow:
           json.add_value:
             - json_input: ${boot_json}
             - json_path: "delete_on_termination"
-            - value: ${bool(delete_on_termination)}
+            - value: ${str(bool(delete_on_termination))}
         publish:
           - boot_json: ${json_output}
           - return_result
