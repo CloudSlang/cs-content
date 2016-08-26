@@ -43,7 +43,7 @@ operation:
         return_result = 'Parsing successful.'
         return_code = '0'
       except Exception as ex:
-        return_result = ex
+        return_result = str(ex)
         return_code = '-1'
   outputs:
     - keys: ${ str(decoded).replace("u\"","\"").replace("u\'","\'") if return_code == '0' else '' }

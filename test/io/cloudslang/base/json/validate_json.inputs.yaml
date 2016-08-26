@@ -71,17 +71,6 @@ testValidateJsonExtraDataFailure:
     - return_code: '-1'
   result: FAILURE
 
-testValidateJsonHashMapFailure:
-  inputs:
-    - json_input:
-        value: "{'FirstName':Luke,'LastName':Skywalker,'MiddleName':Darth}"
-  description: Tests that validate_json.sl ends with FAILURE
-  testFlowPath: io.cloudslang.base.json.validate_json
-  outputs:
-    - return_result: TypeError("expected string or buffer, but got <type 'java.util.LinkedHashMap'>",)
-    - return_code: "-1"
-  result: FAILURE
-
 testValidateJsonPrimitiveDataFailure:
   inputs:
     - json_input:

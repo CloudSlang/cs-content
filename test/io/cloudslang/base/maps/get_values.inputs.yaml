@@ -23,5 +23,5 @@ testGetMapValuesStringSuccess:
   description: Tests that get_values.sl operation finishes with result = ["none", 200, 12.9, 100]
   testFlowPath: io.cloudslang.base.maps.get_values
   outputs:
-    - result: "none,200,12.9,not yet"
+    - result: "[200, 'none', 'not yet', 12.9]"
   result: SUCCESS

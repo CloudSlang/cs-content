@@ -62,7 +62,7 @@ flow:
               - message_body
               - all_nodes_are_up
         publish:
-          - messagebody: ${ message_body + message) }
+          - messagebody: ${ message_body + message }
           - all_nodes_are_up: ${ str(all_nodes_are_up.lower() == 'true' and is_up.lower() == 'true') }
         navigate:
           - UP: check_result

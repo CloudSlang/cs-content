@@ -44,7 +44,7 @@ operation:
         if decoded is None:
           decoded_result = 'null'
       except Exception as ex:
-        return_result = ex
+        return_result = str(ex)
         return_code = '-1'
   outputs:
     - value: ${ decoded_result if return_code == '0' else '' }
