@@ -84,20 +84,20 @@ operation:
         return_code = '-1'
         return_result = 'Parsing error: ' + str(ex)
   outputs:
-    - decoded: ${ str(decoded) }
-    - spec
-    - stats
-    - timestamp
-    - cpu
-    - memory
-    - network
+    - decoded: ${str(decoded)}
+    - spec: ${str(spec)}
+    - stats: ${str(stats)}
+    - timestamp: ${str(timestamp)}
+    - cpu: ${str(cpu)}
+    - memory: ${str(memory)}
+    - network: ${str(network)}
     - cpu_usage: ${str(cpu_usage)}
-    - memory_usage: ${memory_usage}
-    - throughput_rx: ${throughput_rx}
-    - throughput_tx: ${throughput_tx}
-    - error_rx: ${error_rx}
-    - error_tx: ${error_tx}
-    - return_code
+    - memory_usage: ${str(memory_usage)}
+    - throughput_rx: ${str(throughput_rx)}
+    - throughput_tx: ${str(throughput_tx)}
+    - error_rx: ${str(error_rx)}
+    - error_tx: ${str(error_tx)}
+    - return_code: ${str(return_code)}
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
   results:
