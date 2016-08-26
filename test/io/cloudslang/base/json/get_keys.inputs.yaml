@@ -23,7 +23,7 @@ testGetKeysInner:
   description: Tests that get_keys.sl correctly gets inner keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: "inner_key1,inner_key2"
+    - keys: "['inner_key1', 'inner_key2']"
 
 testGetKeysSingle:
   inputs:
@@ -32,7 +32,7 @@ testGetKeysSingle:
   description: Tests that get_keys.sl correctly gets a single key from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: "inner_key1"
+    - keys: "['inner_key1']"
 
 testGetKeysNone:
   inputs:
