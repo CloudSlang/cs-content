@@ -41,7 +41,7 @@ operation:
         return_code = '0'
         return_result = 'Parsing successful.'
         decoded_result = str(decoded).replace("u\"","\"").replace("u\'","\'")
-        if decoded_result is None:
+        if decoded is None:
           decoded_result = 'null'
       except Exception as ex:
         return_result = ex
