@@ -53,10 +53,10 @@ operation:
     - num_cores: ${str(num_cores)}
     - cpu_frequency_khz: ${str(cpu_frequency_khz)}
     - memory_capacity: ${ str(memory_capacity) }
-    - file_systems$ { ','.join(file_systems) }
-    - disk_map
-    - network_devices
-    - topology
+    - file_systems: ${ str(file_systems) }
+    - disk_map: ${ str(disk_map) }
+    - network_devices: ${ str(network_devices) }
+    - topology: ${ str(topology) }
     - return_code
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}

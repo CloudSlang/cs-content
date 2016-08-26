@@ -40,7 +40,7 @@ flow:
   inputs:
     - all_containers: 'false'
     - ps_params:
-        default: ${'-a' if all_containers=="true" else ''}
+        default: ${'-a' if all_containers.lower() == 'true' else ''}
         required: false
     - command:
         default: ${'docker ps -q ' + get('ps_params', '')}
