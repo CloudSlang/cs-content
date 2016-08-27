@@ -35,7 +35,7 @@ operation:
         import json
         decoded = json.loads(json_input)
         for key in json_path.split(","):
-          if key is "" and key not in decoded:
+          if key in ["", ''] and key not in decoded:
             pass
           else:
             decoded = decoded[key]
