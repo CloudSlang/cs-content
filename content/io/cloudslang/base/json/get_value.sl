@@ -47,7 +47,7 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: ${ encoded }
+    - value: ${ encoded if return_code == '0' else '' }
     - return_result: ${ str(return_result) }
     - return_code
     - error_message: ${ str(return_result) if return_code == '-1' else '' }
