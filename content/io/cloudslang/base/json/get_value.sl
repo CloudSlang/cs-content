@@ -40,7 +40,7 @@ operation:
             decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
-        encoded = json.dumps(decoded, ensure_ascii=False).encode('utf-8')
+        encoded = json.dumps(decoded, ensure_ascii=False)
         if decoded is None:
           encoded = 'null'
       except Exception as ex:
