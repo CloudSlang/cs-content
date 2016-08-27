@@ -37,6 +37,8 @@ operation:
           if key in ["", ''] and key not in decoded:
             pass
           else:
+            if key.isdigit():
+              key = int(key)
             decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
