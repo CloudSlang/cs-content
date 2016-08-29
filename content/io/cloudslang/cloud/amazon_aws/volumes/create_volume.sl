@@ -136,7 +136,7 @@ operation:
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jClouds:0.0.7'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.8'
     class_name: io.cloudslang.content.jclouds.actions.volumes.CreateVolumeAction
     method_name: execute
 
