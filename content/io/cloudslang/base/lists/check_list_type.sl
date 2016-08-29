@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Check if the list contains ints or strings.
-#! @input list: list to check
+#! @input list: list to check - e.g. "el1,el2"
 #! @output result: message indicating whether the list contains int or string elements
 #! @result SUCCESS: all elements in the list are ints or strings.
 #! @result FAILURE: list contains both ints and string elements.
@@ -33,13 +33,12 @@ operation:
 
       error_message = ""
       message = ""
+      list = list.split(",")
       if all(representsInt(item) for item in list):
         message = "All elements in list are INT"
+      elif any(representsInt(item) for item in list):
+        error_message = "List contains STR and INT elements"
       else:
-        if any(isinstance(item, (str, int)) for item in list):
-          error_message = "List contains STR and INT elements"
-
-      if message is "" and error_message is "":
         message = "All elements in list are STR"
 
   outputs:
