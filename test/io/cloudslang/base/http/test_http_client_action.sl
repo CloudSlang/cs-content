@@ -49,7 +49,7 @@ flow:
           http.http_client_action:
             - url
             - method: "POST"
-            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name[1:-1] + '","status":"available"}'}
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '","status":"available"}'}
             - content_type
             - proxy_host
             - proxy_port
@@ -143,7 +143,7 @@ flow:
     - verify_name:
         do:
           strings.string_equals:
-            - first_string: ${ resource_name }
+            - first_string: ${ '"' + resource_name + '"' }
             - second_string: ${ value }
         navigate:
           - SUCCESS: put_update_pet
@@ -154,7 +154,7 @@ flow:
           http.http_client_action:
             - url
             - method: "PUT"
-            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name[1:-1] + '_updated","status":"sold"}'}
+            - body: ${'{"id":' + resource_id + ',"name":"' + resource_name + '_updated","status":"sold"}'}
             - content_type
             - proxy_host
             - proxy_port
