@@ -21,7 +21,7 @@ flow:
         default: null
     - index:
         required: false
-        default: ""
+        default: null
     - json_after
 
   workflow:
