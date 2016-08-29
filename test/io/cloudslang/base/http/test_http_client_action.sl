@@ -219,7 +219,7 @@ flow:
     - verify_updated_name:
         do:
           strings.string_equals:
-            - first_string: ${ resource_name + '_updated' }
+            - first_string: ${ '"' + resource_name + '_updated' + '"' }
             - second_string: ${ value }
         navigate:
           - SUCCESS: get_updated_status
