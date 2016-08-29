@@ -40,6 +40,6 @@ testContainsStringFalseFailure:
   testFlowPath: io.cloudslang.base.lists.contains
   outputs:
     - response: 'false'
-    - return_result: '9'
+    - return_result: '6'
     - return_code: '-1'
   result: FAILURE
