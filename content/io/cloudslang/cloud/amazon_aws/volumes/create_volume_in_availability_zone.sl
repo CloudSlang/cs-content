@@ -114,7 +114,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.8'
     class_name: io.cloudslang.content.jclouds.actions.volumes.CreateVolumeInAvailabilityZoneAction
     method_name: execute
 
