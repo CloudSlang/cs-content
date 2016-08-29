@@ -30,6 +30,12 @@ operation:
         required: false
   python_action:
     script: |
+      def representsInt(s):
+          try:
+              int(s)
+              return True
+          except ValueError:
+              return False
       try:
         import json
         decoded = json.loads(json_input)
@@ -37,7 +43,7 @@ operation:
           if key in ["", ''] and key not in decoded:
             pass
           else:
-            if key.isdigit():
+            if representsInt(key):
               key = int(key)
             decoded = decoded[key]
         return_code = '0'

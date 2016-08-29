@@ -38,4 +38,8 @@ testContainsStringFalseFailure:
     - sublist: "6"
   description: Tests that contains.sl operation finishes with result = false
   testFlowPath: io.cloudslang.base.lists.contains
-  throwsException: true
+  outputs:
+    - response: 'false'
+    - return_result: '9'
+    - return_code: '-1'
+  result: FAILURE

@@ -74,4 +74,4 @@ testPing_Failure_required_inputs:
     - address: "1"
   description: Tests that ping.sl operation finishes with FAILURE
   testFlowPath: io.cloudslang.base.network.ping
-  result: FAILURE
+  result: DOWN
