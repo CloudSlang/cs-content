@@ -68,7 +68,6 @@ flow:
           - status_code
         navigate:
           - SUCCESS: check_result
-          - CONVERT_LIST_TO_STRING_FAILURE: CREATE_APPLICATION_FAILURE
           - CREATE_APPLICATION_FAILURE: CREATE_APPLICATION_FAILURE
 
     - check_result:

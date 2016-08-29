@@ -101,6 +101,8 @@ flow:
         do:
           print.print_text:
             - text: ${'### Server ('+server_id+') was removed'}
+        navigate:
+          - SUCCESS: SUCCESS
 
   outputs:
     - return_result

@@ -125,7 +125,6 @@ flow:
           - cpu
       navigate:
           - SUCCESS: convert_value
-          - FAIL_VALIDATE_SSH: CHECK_CPU_FAILURE
           - FAILURE: CHECK_CPU_FAILURE
   - convert_value:
       do:
@@ -194,7 +193,6 @@ flow:
           - dump_image_location
       navigate:
           - SUCCESS: restore_container
-          - EXTRACT_DUMP_FAILURE: EXTRACT_FAILURE
           - EXTRACT_PRE_DUMP_FAILURE: EXTRACT_FAILURE
   - restore_container:
       do:

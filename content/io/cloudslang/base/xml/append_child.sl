@@ -67,7 +67,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.6'
+    gav: 'io.cloudslang.content:cs-xml:0.0.7'
     class_name: io.cloudslang.content.xml.actions.AppendChild
     method_name: execute
 

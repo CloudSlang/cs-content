@@ -33,11 +33,15 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_ListClusters
 
     - print_ListClusters:
         do:
           print.print_text:
             - text: ${response}
+        navigate:
+          - SUCCESS: ListOperations
 
     - ListOperations:
         do:
@@ -49,11 +53,15 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_ListOperations
 
     - print_ListOperations:
         do:
           print.print_text:
             - text: ${response}
+        navigate:
+          - SUCCESS: getServerconfig
 
     - getServerconfig:
         do:
@@ -65,11 +73,15 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_getServerconfig
 
     - print_getServerconfig:
         do:
           print.print_text:
             - text: ${response}
+        navigate:
+          - SUCCESS: getOperation
 
     - getOperation:
         do:
@@ -83,14 +95,17 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_getOperations
 
     - print_getOperations:
         do:
           print.print_text:
             - text: ${response}
+        navigate:
+          - SUCCESS: SUCCESS
   outputs:
     - return_result
     - error_message
   results:
     - SUCCESS
-    - FAILURE

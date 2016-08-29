@@ -70,7 +70,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: extract_dump
-          - FAIL_VALIDATE_SSH: EXTRACT_PRE_DUMP_FAILURE
           - FAILURE: EXTRACT_PRE_DUMP_FAILURE
   - extract_dump:
       do:
@@ -91,7 +90,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: EXTRACT_DUMP_FAILURE
           - FAILURE: print_step
   - print_step:
       do:
@@ -101,5 +99,4 @@ flow:
           - SUCCESS: SUCCESS
   results:
     - SUCCESS
-    - EXTRACT_DUMP_FAILURE
     - EXTRACT_PRE_DUMP_FAILURE

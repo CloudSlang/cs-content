@@ -85,7 +85,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-          - FAIL_VALIDATE_SSH: FAILURE
 
   outputs:
     - image_name

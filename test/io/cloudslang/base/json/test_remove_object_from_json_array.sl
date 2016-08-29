@@ -16,7 +16,9 @@ flow:
 
   inputs:
     - json_array
-    - json_object
+    - json_object:
+        required: false
+        default: null
     - index:
         required: false
         default: null
