@@ -59,7 +59,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: transfer_dump
-          - FAIL_VALIDATE_SSH: PACK_DUMP_FAILURE
           - FAILURE: PACK_DUMP_FAILURE
   - transfer_dump:
       do:
@@ -82,7 +81,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: delete_dump_file
-          - FAIL_VALIDATE_SSH: TRANSFER_DUMP_FAILURE
           - FAILURE: TRANSFER_DUMP_FAILURE
   - delete_dump_file:
       do:
@@ -103,7 +101,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: DELETE_DUMP_FAILURE
           - FAILURE: DELETE_DUMP_FAILURE
   results:
     - SUCCESS

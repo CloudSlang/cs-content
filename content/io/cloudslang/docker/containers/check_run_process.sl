@@ -119,7 +119,6 @@ flow:
 
         navigate:
           - SUCCESS: RUNNING
-          - FAILURE: FAILURE
 
   outputs:
     - container_id_result

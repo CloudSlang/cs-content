@@ -70,6 +70,8 @@ flow:
         publish:
           - images_list_safe_to_delete: ${ result_set }
           - amount_of_dangling_images: ${ str(len(result_set.split())) }
+        navigate:
+          - SUCCESS: delete_images
     - delete_images:
         do:
           images.clear_images:

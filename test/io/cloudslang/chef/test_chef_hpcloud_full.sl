@@ -155,6 +155,8 @@ flow:
         do:
           print.print_text:
             - text: ${'### Done! Server is active and app installed; ' + ip_address + ':' + app_port}
+        navigate:
+          - SUCCESS: SUCCESS
 
     - on_failure:
       - ERROR:

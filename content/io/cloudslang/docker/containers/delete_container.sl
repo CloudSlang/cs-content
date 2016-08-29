@@ -106,7 +106,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-          - FAIL_VALIDATE_SSH: FAILURE
   outputs:
     - result
     - error_message: ${standard_err}

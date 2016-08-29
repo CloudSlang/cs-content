@@ -96,6 +96,8 @@ flow:
             - result_set_delimiter: ' '
         publish:
           - result_set
+        navigate:
+          - SUCCESS: check_empty_set
 
     - check_empty_set:
         do:

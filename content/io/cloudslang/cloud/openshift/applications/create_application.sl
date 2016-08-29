@@ -95,7 +95,6 @@ flow:
           - cartridge_str: ${result}
         navigate:
           - SUCCESS: create_app
-          - FAILURE: CONVERT_LIST_TO_STRING_FAILURE
 
     - create_app:
         do:
@@ -133,5 +132,4 @@ flow:
 
   results:
     - SUCCESS
-    - CONVERT_LIST_TO_STRING_FAILURE
     - CREATE_APPLICATION_FAILURE

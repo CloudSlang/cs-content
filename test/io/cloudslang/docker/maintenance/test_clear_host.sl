@@ -47,7 +47,7 @@ flow:
         navigate:
           - SUCCESS: pull_image
           - FAILURE: MACHINE_IS_NOT_CLEAN
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_VALIDATE_SSH: MACHINE_IS_NOT_CLEAN
           - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - pull_image:
@@ -83,12 +83,11 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: MACHINE_IS_NOT_CLEAN
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_VALIDATE_SSH: MACHINE_IS_NOT_CLEAN
           - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE

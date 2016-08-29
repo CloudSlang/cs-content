@@ -28,6 +28,8 @@ flow:
         do:
           print.print_text:
             - text: ${'Starting creating directories with base name ' + base_dir_name}
+        navigate:
+          - SUCCESS: create_directories
 
     - create_directories:
         parallel_loop:

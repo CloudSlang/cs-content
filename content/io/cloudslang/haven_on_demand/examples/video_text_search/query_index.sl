@@ -81,6 +81,8 @@ flow:
           break: []
           publish:
             - email_text: ${result_text + built_results}
+          navigate:
+            - SUCCESS: send_results
     - send_results:
         do:
           mail.send_mail:

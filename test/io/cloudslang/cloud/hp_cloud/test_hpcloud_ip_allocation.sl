@@ -63,6 +63,8 @@ flow:
         do:
           print.print_text:
             - text: "${'### Floating IP was allocated: ' + ip_address}"
+        navigate:
+          - SUCCESS: release_ip
 
     - release_ip:
         do:

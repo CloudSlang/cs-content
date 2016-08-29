@@ -91,6 +91,8 @@ flow:
           print.print_text:
             - text: >
                 ${'Creating container in cluster: ' + container_name_1 + ' (' + image_name_1 + ')'}
+        navigate:
+          - SUCCESS: run_container_in_cluster_1
 
     - run_container_in_cluster_1:
         do:
@@ -131,6 +133,8 @@ flow:
           print.print_text:
             - text: >
                 ${'Creating container in cluster: ' + container_name_2 + ' (' + image_name_2 + ')'}
+        navigate:
+          - SUCCESS: run_container_in_cluster_2
 
     - run_container_in_cluster_2:
         do:

@@ -24,6 +24,8 @@ flow:
        do:
           print.print_text:
             - text: ${'Creating directory ' + directory_name}
+       navigate:
+         - SUCCESS: create_directory
 
     - create_directory:
         do:
