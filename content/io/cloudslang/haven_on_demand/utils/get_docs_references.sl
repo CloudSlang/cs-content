@@ -39,12 +39,12 @@ flow:
             - json_input
             - json_path: ${[key]}
         publish:
-          - return_result
+          - value: ${return_result}
           - error_message
     - get_list_size:
         do:
           lists.length:
-            - list: ${return_result}
+            - list: ${value}
         publish:
           - list_size: ${result}
     - get_references:

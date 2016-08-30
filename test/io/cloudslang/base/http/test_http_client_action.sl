@@ -115,7 +115,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "id"
         publish:
-          - return_result
+          - value: ${return_result}
         navigate:
           - SUCCESS: verify_id
           - FAILURE: GET_ID_FAILURE
@@ -124,7 +124,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ resource_id }
-            - second_string: ${ return_result }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: get_name
           - FAILURE: VERIFY_ID_FAILURE
@@ -135,7 +135,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "name"
         publish:
-          - return_result
+          - value: ${return_result}
         navigate:
           - SUCCESS: verify_name
           - FAILURE: GET_NAME_FAILURE
@@ -144,7 +144,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ '"' + resource_name + '"' }
-            - second_string: ${ return_result }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: put_update_pet
           - FAILURE: VERIFY_NAME_FAILURE
@@ -211,7 +211,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "name"
         publish:
-          - return_result
+          - value: ${return_result}
         navigate:
           - SUCCESS: verify_updated_name
           - FAILURE: GET_UPDATED_NAME_FAILURE
@@ -220,7 +220,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ '"' + resource_name + '_updated' + '"' }
-            - second_string: ${ return_result }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: get_updated_status
           - FAILURE: VERIFY_UPDATED_NAME_FAILURE
@@ -231,7 +231,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "status"
         publish:
-          - return_result
+          - value: ${return_result}
         navigate:
           - SUCCESS: verify_updated_status
           - FAILURE: GET_UPDATED_STATUS_FAILURE
@@ -240,7 +240,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: '"sold"'
-            - second_string: ${ return_result }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: delete_pet
           - FAILURE: VERIFY_UPDATED_STATUS_FAILURE
@@ -298,7 +298,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "message"
         publish:
-          - return_result
+          - value: ${return_result}
         navigate:
           - SUCCESS: verify_not_found_message
           - FAILURE: GET_MESSAGE_FAILURE
@@ -307,7 +307,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: '"Pet not found"'
-            - second_string: ${return_result}
+            - second_string: ${value}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE
