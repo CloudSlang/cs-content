@@ -61,7 +61,7 @@ operation:
         return_code = '-1'
 
   outputs:
-    - return_result: ${ str(encoded_json) if return_code == '0' else '' }
+    - return_result: ${ encoded_json if return_code == '0' else '' }
     - return_code
     - error_message: ${ str(error_message) if return_code == '-1' else '' }
 

@@ -115,7 +115,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "id"
         publish:
-          - value: ${return_result}
+          - value: ${ return_result }
         navigate:
           - SUCCESS: verify_id
           - FAILURE: GET_ID_FAILURE
@@ -135,7 +135,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "name"
         publish:
-          - value: ${return_result}
+          - value: ${ return_result}
         navigate:
           - SUCCESS: verify_name
           - FAILURE: GET_NAME_FAILURE
@@ -143,7 +143,7 @@ flow:
     - verify_name:
         do:
           strings.string_equals:
-            - first_string: ${ '"' + resource_name + '"' }
+            - first_string: ${ resource_name }
             - second_string: ${ value }
         navigate:
           - SUCCESS: put_update_pet
@@ -211,7 +211,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "name"
         publish:
-          - value: ${return_result}
+          - value: ${ return_result }
         navigate:
           - SUCCESS: verify_updated_name
           - FAILURE: GET_UPDATED_NAME_FAILURE
@@ -231,7 +231,7 @@ flow:
             - json_input: ${ return_result }
             - json_path: "status"
         publish:
-          - value: ${return_result}
+          - value: ${ return_result }
         navigate:
           - SUCCESS: verify_updated_status
           - FAILURE: GET_UPDATED_STATUS_FAILURE
@@ -298,7 +298,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "message"
         publish:
-          - value: ${return_result}
+          - value: ${ return_result}
         navigate:
           - SUCCESS: verify_not_found_message
           - FAILURE: GET_MESSAGE_FAILURE
