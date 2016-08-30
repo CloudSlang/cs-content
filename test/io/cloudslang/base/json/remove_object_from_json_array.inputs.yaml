@@ -15,6 +15,7 @@ testRemoveObjectFromJsonArraySize2:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: SUCCESS
 
 testRemoveObjectFromJsonArraySize3:
@@ -24,6 +25,7 @@ testRemoveObjectFromJsonArraySize3:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: SUCCESS
 
 testRemoveObjectFromJsonArraySize3ObjectNotFound:
@@ -33,6 +35,7 @@ testRemoveObjectFromJsonArraySize3ObjectNotFound:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with CREATE_FAILURE if object not found
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   outputs:
     - return_result: "Object not found"
   result: CREATE_FAILURE
@@ -44,6 +47,7 @@ testRemoveObjectFromJsonArrayAtIndex0:
     - json_after: '[{"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: SUCCESS
 
 testRemoveObjectFromJsonArrayAtIndex-2:
@@ -53,6 +57,7 @@ testRemoveObjectFromJsonArrayAtIndex-2:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Darth", "lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: SUCCESS
 
 testRemoveObjectFromJsonArrayAtIndex2:
@@ -62,6 +67,7 @@ testRemoveObjectFromJsonArrayAtIndex2:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: SUCCESS
 
 testRemoveObjectFromJsonArrayInputsAreNotValid:
@@ -72,6 +78,7 @@ testRemoveObjectFromJsonArrayInputsAreNotValid:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with FAILURE for not valid inputs.
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   outputs:
     - return_result: "Inputs are not valid"
   result: CREATE_FAILURE
@@ -83,4 +90,27 @@ testRemoveObjectFromJsonArrayIndexOutOfRange:
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with FAILURE when index is out of range.
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
   result: CREATE_FAILURE
+
+testRemoveObjectFromJsonArraySize3SingleQuote:
+  inputs:
+    - json_array: "[{'firstName':'Obi-wan', 'lastName':'Kenobi'}, {'firstName':'Luke', 'lastName':'Skywalker'}, {'firstName':'Darth','lastName':'Vader'}]"
+    - json_object: "{'firstName':'Darth', 'lastName':'Vader'}"
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
+  outputs:
+    - return_result: "[{'lastName': 'Kenobi', 'firstName': 'Obi-wan'}, {'lastName': 'Skywalker', 'firstName': 'Luke'}]"
+  result: SUCCESS
+
+testRemoveObjectFromJsonArrayAtIndex-2SingleQuote:
+  inputs:
+    - json_array: "[{'firstName':'Obi-wan', 'lastName':'Kenobi'}, {'firstName':'Luke', 'lastName':'Skywalker'}, {'firstName':'Darth','lastName':'Vader'}]"
+    - index: 2
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input and JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  testSuites: [json_remove_object_from_array]
+  outputs:
+    - return_result: "[{'lastName': 'Kenobi', 'firstName': 'Obi-wan'}, {'lastName': 'Skywalker', 'firstName': 'Luke'}]"
+  result: SUCCESS

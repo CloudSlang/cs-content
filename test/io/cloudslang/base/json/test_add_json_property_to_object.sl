@@ -32,7 +32,6 @@ flow:
             - value
 
         publish:
-          - json_output
           - return_result
           - return_code
           - error_message
@@ -54,7 +53,7 @@ flow:
     - verify_JSON_output:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${json_output}
+            - string_in_which_to_search: ${return_result}
             - string_to_find
 
         publish:
@@ -79,7 +78,7 @@ flow:
     - verify_new_JSON_added:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${json_output}
+            - string_in_which_to_search: ${return_result}
             - string_to_find: ${string_to_find_in_output}
 
         publish:
@@ -103,7 +102,7 @@ flow:
     - verify_old_key:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${json_output}
+            - string_in_which_to_search: ${return_result}
             - string_to_find: ${old_key}
         publish:
           - return_result_verify_old_key: ${return_result}
@@ -126,7 +125,7 @@ flow:
     - verify_new_key:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${json_output}
+            - string_in_which_to_search: ${return_result}
             - string_to_find: ${new_key}
 
         publish:
@@ -139,7 +138,6 @@ flow:
           - FAILURE: FAILURE_verify_new_key
 
   outputs:
-    - json_output
     - return_result
     - return_code
     - error_message
