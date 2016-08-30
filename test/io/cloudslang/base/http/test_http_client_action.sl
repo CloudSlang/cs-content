@@ -239,7 +239,7 @@ flow:
     - verify_updated_status:
         do:
           strings.string_equals:
-            - first_string: '"sold"'
+            - first_string: 'sold'
             - second_string: ${ value }
         navigate:
           - SUCCESS: delete_pet
@@ -306,7 +306,7 @@ flow:
     - verify_not_found_message:
         do:
           strings.string_equals:
-            - first_string: '"Pet not found"'
+            - first_string: 'Pet not found'
             - second_string: ${value}
         navigate:
           - SUCCESS: SUCCESS
