@@ -108,7 +108,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "resources"
         publish:
-          - users_list: ${value}
+          - users_list: ${return_result}
         navigate:
           - SUCCESS: get_usernames_list
           - FAILURE: GET_USERS_LIST_FAILURE

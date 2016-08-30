@@ -81,7 +81,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "access_token"
         publish:
-          - token: ${value}
+          - token: ${return_result}
           - error_message
         navigate:
           - SUCCESS: SUCCESS

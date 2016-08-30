@@ -105,7 +105,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "server,id"
         publish:
-          - server_id: ${value}
+          - server_id: ${return_result}
 
     - print_new_server_id:
         do:

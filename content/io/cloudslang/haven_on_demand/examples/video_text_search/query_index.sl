@@ -68,7 +68,7 @@ flow:
             - json_input: ${return_result}
             - json_path: ${['documents']}
         publish:
-          - doc_list: ${value}
+          - doc_list: ${return_result}
           - error_message
     - process_results:
         loop:

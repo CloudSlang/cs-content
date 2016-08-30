@@ -184,7 +184,7 @@ flow:
             - json_path: "0,'username'"
 
         publish:
-          - username: ${value}
+          - username: ${return_result}
           - error_message
 
         navigate:
@@ -198,7 +198,7 @@ flow:
             - json_path: "0,'committer_email'"
 
         publish:
-          - committer_email: ${value}
+          - committer_email: ${return_result}
           - error_message
 
         navigate:
@@ -212,7 +212,7 @@ flow:
             - json_path: "0,'branch'"
 
         publish:
-          - branch: ${value}
+          - branch: ${return_result}
           - error_message
 
         navigate:
@@ -226,7 +226,7 @@ flow:
             - json_path: "0,'subject'"
 
         publish:
-          - ci_subject: ${value}
+          - ci_subject: ${return_result}
           - error_message
 
         navigate:
@@ -240,7 +240,7 @@ flow:
             - json_path: "0,'build_num'"
 
         publish:
-          - build_num: ${value}
+          - build_num: ${return_result}
           - error_message
 
         navigate:
@@ -254,7 +254,7 @@ flow:
             - json_path: "0,'vcs_revision'"
 
         publish:
-          - commit: ${value}
+          - commit: ${return_result}
           - error_message
 
         navigate:
@@ -268,7 +268,7 @@ flow:
             - json_path: "0,'outcome'"
 
         publish:
-          - outcome: ${value}
+          - outcome: ${return_result}
           - error_message
 
         navigate:

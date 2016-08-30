@@ -63,12 +63,12 @@ flow:
              - json_input: ${return_result}
              - json_path: ${['actions', 0, 'status']}
         publish:
-          - value
+          - return_result
           - error_message
     - evaluate_status:
         do:
           hod.utils.evaluate_status:
-            - status: ${value}
+            - status: ${return_result}
         navigate:
           - FINISHED: FINISHED
           - IN_PROGRESS: IN_PROGRESS
@@ -80,7 +80,7 @@ flow:
               print.print_text:
                   - text: ${"Error - " + error_message}
   outputs:
-    - status: ${value}
+    - status: ${return_result}
     - return_result
     - error_message
 

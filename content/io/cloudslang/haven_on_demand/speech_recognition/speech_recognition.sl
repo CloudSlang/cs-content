@@ -78,7 +78,7 @@ flow:
            - json_input: ${return_result}
            - json_path: ${str(jobID))
         publish:
-          - value
+          - return_result
           - error_message
     - on_failure:
         - print_fail:
@@ -86,4 +86,4 @@ flow:
               print.print_text:
                 - text: ${"Error - " + error_message}
   outputs:
-    - job_id: ${value}
+    - job_id: ${return_result}

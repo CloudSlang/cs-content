@@ -71,7 +71,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: check_id_is_present
           - FAILURE: GET_ID_FAILURE
@@ -91,7 +91,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "name"
         publish:
-          - checked_name: ${value}
+          - checked_name: ${return_result}
         navigate:
           - SUCCESS: check_name_is_present
           - FAILURE: GET_NAME_FAILURE
@@ -120,7 +120,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "created_at"
         publish:
-          - created_at: ${value}
+          - created_at: ${return_result}
         navigate:
           - SUCCESS: check_created_at_is_present
           - FAILURE: GET_CREATED_AT_FAILURE

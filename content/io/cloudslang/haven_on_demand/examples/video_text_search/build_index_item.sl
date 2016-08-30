@@ -42,7 +42,7 @@ flow:
             - json_input
             - json_path: ${['actions', 0, 'result', 'document']}
         publish:
-          - doc_list: ${value}
+          - doc_list: ${return_result}
           - error_message
     - append_content:
         loop:

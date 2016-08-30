@@ -102,7 +102,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: get_created_at
           - FAILURE: GET_ID_FAILURE
@@ -113,7 +113,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "created_at"
         publish:
-          - created_at: ${value}
+          - created_at: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_CREATED_AT_FAILURE
