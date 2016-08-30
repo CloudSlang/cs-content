@@ -54,7 +54,7 @@ operation:
 
   outputs:
     - return_result
-    - return_code
+    - return_code: ${ str(return_code) }
     - error_message
 
   results:

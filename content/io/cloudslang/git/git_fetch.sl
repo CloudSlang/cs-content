@@ -53,7 +53,7 @@ flow:
         default: "origin"
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -64,7 +64,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
             - git_fetch: ${ ' && git fetch ' + git_fetch_remote }
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_fetch + ' && echo GIT_SUCCESS' }
             - username

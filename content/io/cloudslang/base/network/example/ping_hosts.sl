@@ -35,8 +35,10 @@ flow:
 
   inputs:
     - ip_list
-    - message_body: []
-    - all_nodes_are_up: True
+    - message_body:
+        default: ""
+        required: false
+    - all_nodes_are_up: "True"
     - hostname: ${get_sp('io.cloudslang.base.hostname')}
     - port: ${get_sp('io.cloudslang.base.port')}
     - from: ${get_sp('io.cloudslang.base.from')}
@@ -60,8 +62,8 @@ flow:
               - message_body
               - all_nodes_are_up
         publish:
-          - messagebody: ${ message_body.append(message) }
-          - all_nodes_are_up: ${ all_nodes_are_up and is_up }
+          - messagebody: ${ message_body + message }
+          - all_nodes_are_up: ${ str(all_nodes_are_up.lower() == 'true' and is_up.lower() == 'true') }
         navigate:
           - UP: check_result
           - DOWN: failure_mail_send
@@ -70,7 +72,7 @@ flow:
     - check_result:
         do:
           strings.string_equals:
-            - first_string: ${ str(all_nodes_are_up) }
+            - first_string: ${ all_nodes_are_up }
             - second_string: "True"
         navigate:
           - SUCCESS: mail_send
@@ -84,7 +86,7 @@ flow:
             - from
             - to
             - subject
-            - body: "${ 'Result: ' + ' '.join(message_body) }"
+            - body: "${ 'Result: ' + message_body }"
             - username
             - password
 
@@ -97,6 +99,6 @@ flow:
                 - from
                 - to
                 - subject
-                - body: "${ 'Result: Failure to ping: ' + ' '.join(message_body) }"
+                - body: "${ 'Result: Failure to ping: ' + message_body }"
                 - username
                 - password

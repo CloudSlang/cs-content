@@ -122,7 +122,7 @@ flow:
             - username
             - password
             - private_key_file
-            - all_containers: true
+            - all_containers: 'true'
         publish:
           - all_containers: ${container_list}
 

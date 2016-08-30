@@ -71,8 +71,8 @@ flow:
     - verify_post_create_pet:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_pet_details
           - FAILURE: VERIFY_POST_CREATE_PET_FAILURE
@@ -103,8 +103,8 @@ flow:
     - verify_get_pet_details:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_id
           - FAILURE: VERIFY_GET_PET_DETAILS_FAILURE
@@ -113,7 +113,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["id"]
+            - json_path: "id"
         publish:
           - value
         navigate:
@@ -124,7 +124,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ resource_id }
-            - second_string: ${ str(value) }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: get_name
           - FAILURE: VERIFY_ID_FAILURE
@@ -133,7 +133,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["name"]
+            - json_path: "name"
         publish:
           - value
         navigate:
@@ -143,8 +143,8 @@ flow:
     - verify_name:
         do:
           strings.string_equals:
-            - first_string: ${ resource_name }
-            - second_string: ${ str(value) }
+            - first_string: ${ '"' + resource_name + '"' }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: put_update_pet
           - FAILURE: VERIFY_NAME_FAILURE
@@ -176,8 +176,8 @@ flow:
     - verify_put_update_pet:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_updated_pet_details
           - FAILURE: VERIFY_PUT_UPDATE_PET_FAILURE
@@ -209,7 +209,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["name"]
+            - json_path: "name"
         publish:
           - value
         navigate:
@@ -219,8 +219,8 @@ flow:
     - verify_updated_name:
         do:
           strings.string_equals:
-            - first_string: ${ resource_name + '_updated' }
-            - second_string: ${ str(value) }
+            - first_string: ${ '"' + resource_name + '_updated' + '"' }
+            - second_string: ${ value }
         navigate:
           - SUCCESS: get_updated_status
           - FAILURE: VERIFY_UPDATED_NAME_FAILURE
@@ -229,7 +229,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ return_result }
-            - json_path: ["status"]
+            - json_path: "status"
         publish:
           - value
         navigate:
@@ -239,8 +239,8 @@ flow:
     - verify_updated_status:
         do:
           strings.string_equals:
-            - first_string: "sold"
-            - second_string: ${ str(value) }
+            - first_string: '"sold"'
+            - second_string: ${ value }
         navigate:
           - SUCCESS: delete_pet
           - FAILURE: VERIFY_UPDATED_STATUS_FAILURE
@@ -282,7 +282,7 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-            - valid_http_status_codes: [404]
+            - valid_http_status_codes: "404"
         publish:
           - return_result
           - error_message
@@ -296,7 +296,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["message"]
+            - json_path: "message"
         publish:
           - value
         navigate:
@@ -306,8 +306,8 @@ flow:
     - verify_not_found_message:
         do:
           strings.string_equals:
-            - first_string: "Pet not found"
-            - second_string: ${ str(value) }
+            - first_string: '"Pet not found"'
+            - second_string: ${value}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: VERIFY_NOT_FOUND_MESSAGE_FAILURE

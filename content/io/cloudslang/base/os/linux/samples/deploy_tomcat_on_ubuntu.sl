@@ -70,7 +70,7 @@ flow:
     - file_name
     - source_path
     - permissions_code: '755'
-    - recursively: True
+    - recursively: "True"
     - script_file_name
 
 
@@ -151,7 +151,7 @@ flow:
             - user_name: 'tomcat'
             - user_password
             - group_name: 'tomcat'
-            - create_home: True
+            - create_home: "True"
             - home_path: '/usr/share/tomcat'
         publish:
           - return_result

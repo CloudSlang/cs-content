@@ -58,13 +58,13 @@ flow:
         default: ""
         required: false
     - extract_metadata:
-        default: true
+        default: "true"
         required: false
     - extract_text:
-        default: true
+        default: "true"
         required: false
     - extract_xmlattributes:
-        default: false
+        default: "false"
         required: false
     - password:
         required: false
@@ -80,7 +80,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(text_extraction_api) + '?reference=' + str(reference) + '&additional_metadata=' + str(additional_metadata) + '&extract_metadata=' + str(extract_metadata) + '&extract_text=' + str(extract_text) + '&extract_xmlattributes=' + str(extract_xmlattributes) + '&password=' + str(password) + '&reference_prefix=' + str(reference_prefix) + '&apikey=' + str(api_key)}
+            - url: ${str(text_extraction_api) + '?reference=' + str(reference) + '&additional_metadata=' + str(additional_metadata) + '&extract_metadata=' + extract_metadata + '&extract_text=' + extract_text + '&extract_xmlattributes=' + extract_xmlattributes + '&password=' + str(password) + '&reference_prefix=' + str(reference_prefix) + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

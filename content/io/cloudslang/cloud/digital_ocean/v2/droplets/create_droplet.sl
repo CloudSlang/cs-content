@@ -50,9 +50,9 @@ flow:
     - ssh_keys:
         required: false
         sensitive: true
-    - backups: false
-    - ipv6: false
-    - private_networking: false
+    - backups: "false"
+    - ipv6: "false"
+    - private_networking: "false"
     - user_data:
         required: false
     - token:
@@ -119,7 +119,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${ response }
-            - json_path: ['droplet', 'id']
+            - json_path: "droplet,id"
         publish:
           - droplet_id: ${value}
   outputs:

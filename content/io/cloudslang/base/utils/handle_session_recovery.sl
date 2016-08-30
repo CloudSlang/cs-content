@@ -35,7 +35,7 @@ imports:
 flow:
   name: handle_session_recovery
   inputs:
-    - enabled: True
+    - enabled: "True"
     - retries
     - return_result:
         required: false
@@ -55,10 +55,10 @@ flow:
         do:
           math.compare_numbers:
             - value1: ${ retries }
-            - value2: 0
+            - value2: "0"
             - retries
         publish:
-          - retries: ${ int(retries) - 1 }
+          - retries: ${ str(int(retries) - 1) }
         navigate:
           - GREATER_THAN: check_unstable_session
           - EQUALS: TIMEOUT

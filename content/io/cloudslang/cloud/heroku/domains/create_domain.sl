@@ -42,7 +42,7 @@ flow:
         do:
           json.add_value:
             - json_input: "{}"
-            - json_path: ['hostname']
+            - json_path: "hostname"
             - value: ${hostname}
         publish:
           - body_json: ${json_output}
@@ -76,7 +76,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['id']
+            - json_path: "id"
         publish:
           - id: ${value}
         navigate:
@@ -87,7 +87,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['created_at']
+            - json_path: "created_at"
         publish:
           - created_at: ${value}
         navigate:

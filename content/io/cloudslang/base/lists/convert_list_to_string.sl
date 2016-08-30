@@ -23,13 +23,13 @@ operation:
   inputs:
     - list
     - double_quotes:
-        default: False
+        default: "False"
         required: false
     - result_delimiter:
         default: ''
         required: false
     - result_to_lowercase:
-        default: False
+        default: "False"
         required: false
   python_action:
     script: |

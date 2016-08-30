@@ -82,12 +82,12 @@ flow:
 
     - delete_initial_apps:
         loop:
-            for: ${'app in app_list.split(",")'}
+            for: app in app_list.split(",")
             do:
               marathon.delete_app:
                 - marathon_host
                 - marathon_port
-                - app_id: app
+                - app_id: ${app}
         navigate:
           - SUCCESS: demo_create_app_and_send_mail
           - FAILURE: FAIL_TO_DELETE

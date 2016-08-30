@@ -68,8 +68,8 @@ flow:
     - check_get_flavor_details_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: retrieve_flavor_id
           - FAILURE: CHECK_GET_FLAVOR_DETAILS_FAILURE
@@ -78,7 +78,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['flavor', 'id']
+            - json_path: "'flavor','id'"
         publish:
           - retrieved_id: ${value}
         navigate:

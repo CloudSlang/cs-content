@@ -25,4 +25,4 @@ operation:
       value1 = float(value1)
       value2 = float(value2)
   outputs:
-     - result: ${value1 - value2}
+     - result: ${ str(value1 - value2) }

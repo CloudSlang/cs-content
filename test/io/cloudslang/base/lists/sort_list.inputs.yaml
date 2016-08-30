@@ -6,35 +6,35 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testSortListIntSuccess:
-  inputs:
-    - list: 1,5,3,4,2,9,6,8,7
-    - delimiter: ','
-    - reverse: false
-  description: Tests that sort_list.sl operation finishes with result = 1,2,3,4,5,7,8,9
-  testFlowPath: io.cloudslang.base.lists.sort_list
-  outputs:
-    - return_result: 1,2,3,4,5,6,7,8,9
-  result: SUCCESS
-
-testSortListStrSuccess:
-  inputs:
-    - list: element5,element3,element4,element2,element7,element1,element6
-    - delimiter: ','
-    - reverse: false
-  description: Tests that sort_list.sl operation finishes with result = element1,element2,element3,element4,element5,element6,element7
-  testFlowPath: io.cloudslang.base.lists.sort_list
-  outputs:
-    - return_result: element1,element2,element3,element4,element5,element6,element7
-  result: SUCCESS
-
-testSortListStrSuccessReverse:
-  inputs:
-    - list: element5,element3,element4,element2,element7,element1,element6
-    - delimiter: ','
-    - reverse: true
-  description: Tests that sort_list.sl operation finishes with result = element7,element6,element5,element4,element3,element2,element1
-  testFlowPath: io.cloudslang.base.lists.sort_list
-  outputs:
-    - return_result: element7,element6,element5,element4,element3,element2,element1
-  result: SUCCESS
+#testSortListIntSuccess:
+#  inputs:
+#    - list: "1,5,3,4,2,9,6,8,7"
+#    - delimiter: ','
+#    - reverse: 'false'
+#  description: Tests that sort_list.sl operation finishes with result = 1,2,3,4,5,7,8,9
+#  testFlowPath: io.cloudslang.base.lists.sort_list
+#  outputs:
+#    - return_result: "1,2,3,4,5,6,7,8,9"
+#  result: SUCCESS
+#
+#testSortListStrSuccess:
+#  inputs:
+#    - list: "element5,element3,element4,element2,element7,element1,element6"
+#    - delimiter: ','
+#    - reverse: 'false'
+#  description: Tests that sort_list.sl operation finishes with result = element1,element2,element3,element4,element5,element6,element7
+#  testFlowPath: io.cloudslang.base.lists.sort_list
+#  outputs:
+#    - return_result: "element1,element2,element3,element4,element5,element6,element7"
+#  result: SUCCESS
+#
+#testSortListStrSuccessReverse:
+#  inputs:
+#    - list: "element5,element3,element4,element2,element7,element1,element6"
+#    - delimiter: ','
+#    - reverse: 'true'
+#  description: Tests that sort_list.sl operation finishes with result = element7,element6,element5,element4,element3,element2,element1
+#  testFlowPath: io.cloudslang.base.lists.sort_list
+#  outputs:
+#    - return_result: "element7,element6,element5,element4,element3,element2,element1"
+#  result: SUCCESS

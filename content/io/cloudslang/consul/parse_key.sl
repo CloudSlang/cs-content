@@ -50,16 +50,16 @@ operation:
         return_code = '-1'
         return_result = 'Parsing error or key does not exist.'
   outputs:
-    - decoded
-    - key
-    - flags
-    - create_index
-    - value
-    - modify_index
-    - lock_index
-    - return_result
-    - error_message: ${return_result if return_code == '-1' else ''}
-    - return_code
+    - decoded: ${ str(decoded) }
+    - key: ${ str(key) }
+    - flags: ${ str(flags) }
+    - create_index: ${ str(create_index) }
+    - value: ${ str(value) }
+    - modify_index: ${ str(modify_index) }
+    - lock_index: ${ str(lock_index) }
+    - return_result: ${ str(return_result) }
+    - error_message: ${ str(return_result) if return_code == '-1' else ''}
+    - return_code: ${ str(return_code) }
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

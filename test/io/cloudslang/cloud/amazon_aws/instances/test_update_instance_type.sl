@@ -74,8 +74,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${[str(return_result), str(exception), int(return_code)]}
-            - list_2: ['Server updated successfully.', '', 0]
+            - list_1: ${str(return_result) + "," + str(exception) + "," + return_code}
+            - list_2: "Server updated successfully.,,0"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULTS_FAILURE

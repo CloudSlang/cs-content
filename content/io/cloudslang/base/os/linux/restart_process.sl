@@ -50,7 +50,7 @@ flow:
         sensitive: true
     - process_name
     - sudo_user:
-        default: False
+        default: "False"
         required: False
     - private_key_file:
         required: false

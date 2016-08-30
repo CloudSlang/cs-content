@@ -17,12 +17,12 @@ test_demo_create_app_and_send_mail_inputs:
     - marathon_port: "8888"
     - json_file: test/io/cloudslang/marathon/sample-marathon-app.json
     - created_app_id: sample-app
-    - is_core_os: true
+    - is_core_os: 'true'
     - email_host: email_host
     - email_port: email_port
     - email_sender: email_sender
     - email_recipient: email_recipient
-    - enable_tls: true
+    - enable_tls: 'true'
     - email_username: email_username
     - email_password: password
   result: SUCCESS

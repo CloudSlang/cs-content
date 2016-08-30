@@ -50,7 +50,7 @@ flow:
         default: "HEAD"
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -61,7 +61,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
             - git_reset: ${ ' && git reset --hard ' + git_reset_target }
             - command: ${ sudo_command + ' cd ' + git_repository_localdir + git_reset + ' && echo GIT_SUCCESS' }
             - username

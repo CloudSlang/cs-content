@@ -41,7 +41,7 @@ flow:
         sensitive: true
     - region
     - delay:
-        default: 0
+        default: "0"
     - proxy_host:
         required: false
     - proxy_port:
@@ -51,7 +51,7 @@ flow:
     - wait:
         do:
           base_utils.sleep:
-            - seconds: ${int(delay)}
+            - seconds: ${str(delay)}
 
     - get_details:
         do:
@@ -73,7 +73,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["server", "status"]
+            - json_path: "server,status"
         publish:
           - server_status: ${value}
         navigate:
