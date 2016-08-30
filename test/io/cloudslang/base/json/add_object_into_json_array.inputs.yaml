@@ -139,7 +139,7 @@ testAddObjectIntoJsonArraySize2SingleQuotes:
   inputs:
     - json_array: "[{'firstName': 'Maayan', 'lastName': 'Avraham'}, {'firstName': 'Orit', 'lastName': 'Stone'}]"
     - json_object: '{"firstName": "John", "lastName": "Doe"}'
-    - index: 0
+    - index: '0'
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when the JSON contains single quotes instead of double quotes
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:

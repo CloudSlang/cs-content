@@ -48,7 +48,6 @@ operation:
         if value_quote == '\'':
           value = str(re.sub(r"(?<!\\)(\')",'"', value))
           value = str(re.sub(r"(\\')",'\'', value))
-
         decoded = json.loads(json_object)
         decoded_value = json.loads(value)
         decoded[key] = decoded_value
@@ -57,7 +56,6 @@ operation:
         if object_quote == '\'':
           encoded_json = encoded_json.replace('\'','\\\'').replace('\"','\'')
         return_code = '0'
-        return_result = 'Added successfully.'
       except Exception as ex:
         error_message = ex
         return_code = '-1'

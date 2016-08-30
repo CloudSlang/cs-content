@@ -107,7 +107,7 @@ testRemoveObjectFromJsonArraySize3SingleQuote:
 testRemoveObjectFromJsonArrayAtIndex-2SingleQuote:
   inputs:
     - json_array: "[{'firstName':'Obi-wan', 'lastName':'Kenobi'}, {'firstName':'Luke', 'lastName':'Skywalker'}, {'firstName':'Darth','lastName':'Vader'}]"
-    - index: 2
+    - index: '2'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input and JSON with single quotes
   testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
   testSuites: [json_remove_object_from_array]
