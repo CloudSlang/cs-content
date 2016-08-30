@@ -16,7 +16,6 @@ testAddPropertySuccess:
     - value: "[1,2,3]"
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"test": [1, 2, 3]}'
   result: SUCCESS
@@ -32,7 +31,6 @@ testAddValidProperty:
     - value: '{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"server": {"networks": [], "security_groups": [{"name": "default"}]}, "block_device_mapping_v2": {"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}}'
   result: SUCCESS
@@ -46,7 +44,6 @@ testAddPropertySuccess1:
     - value: '{"a": "b"}'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"test": {"a": "b"}}'
   result: SUCCESS
@@ -60,7 +57,6 @@ testAddPropertySuccess2:
     - value: '1'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"test": 1}'
   result: SUCCESS
@@ -77,7 +73,6 @@ testAddPropertySuccess3:
     - value: '3'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes withy success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"one": 1, "two": 2, "three": 3}'
   result: SUCCESS
@@ -93,7 +88,6 @@ testAddPropertySuccess4:
     - value: '{"b":"b","A":"A"}'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"one": {"a": "a", "B": "B"}, "two": {"A": "A", "b": "b"}}'
   result: SUCCESS
@@ -105,7 +99,6 @@ testAddPropertyFailureInvalidValue:
     - value: '{"b":"b","A":"A"}}'
   description: "Tests that add_json_property_to_object.inputs.yaml operation goes to failure when an invalid value is given."
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: ''
     - return_code: "-1"
@@ -119,7 +112,6 @@ testAddPropertyFailureInvalidJsonObject:
     - value: '{"b":"b","A":"A"}'
   description: "Tests that add_json_property_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: ''
     - return_code: "-1"
@@ -133,7 +125,6 @@ testAddPropertyInvalidJsonObject:
     - value: '{"VALUE1":"VALUE2"}'
   description: "Tests that add_json_property_to_object.inputs.yaml operation goes to failure when an invalid json_object is given."
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: ''
     - return_code: "-1"
@@ -207,7 +198,6 @@ testAddPropertyLargeJsonDocument:
                                                                    }'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: '{"server": {"availability_zone": "nova", "metadata": {"My Server Name": "Apache1", "min_ram": "2"}, "block_device_mapping_v2": [{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0", "delete_on_termination": true}], "adminPass": "{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==", "user_data": "IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=", "networks": [], "key_name": "default_key", "security_groups": [{"name": "default"}], "personality": [{"path": "/etc/banner.txt", "contents": "ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=="}], "name": "server_3", "flavorRef": "42", "imageRef": "b67f9da0-4a89-4588-b0f5-bf4d19401743"}, "KEY": {"availability_zone": "nova", "metadata": {"My Server Name": "Apache1", "min_ram": "2"}, "block_device_mapping_v2": [{"source_type": "image", "uuid": "sgfdfhjngj4346565", "boot_index": "0", "delete_on_termination": true}], "adminPass": "{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==", "user_data": "IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=", "networks": [], "key_name": "default_key", "security_groups": [{"name": "default"}], "personality": [{"path": "/etc/banner.txt", "contents": "ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=="}], "name": "server_4", "flavorRef": "58", "imageRef": "b67f136587089564364"}}'
   result: SUCCESS
@@ -227,7 +217,6 @@ testAddProperty:
     - value: '{"firstName":"Jane","lastName":"Doe"}'
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   result: SUCCESS
   outputs:
     - return_result: '{"employees2": {"lastName": "Doe", "firstName": "Jane"}, "employees": [{"lastName": "Doe", "firstName": "John"}, {"lastName": "Smith", "firstName": "Anna"}, {"lastName": "Jones", "firstName": "Peter"}]}'
@@ -243,7 +232,6 @@ testAddPropertySingleQuotes:
     - value: "{'b':'b','A':'A'}"
   description: "Tests that add_json_property_to_object.sl correctly adds properties to json object and finishes with success when json is given using single quotes"
   testFlowPath: io.cloudslang.base.json.test_add_json_property_to_object
-  testSuites: [json_add_property]
   outputs:
     - return_result: "{'one': {'a': 'a', 'B': 'B'}, 'two': {'A': 'A', 'b': 'b'}}"
   result: SUCCESS

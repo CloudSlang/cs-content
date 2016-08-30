@@ -13,7 +13,6 @@ testGetValueOuter:
     - json_path: "outer_key1"
   description: Tests that get_value.sl correctly gets an outer value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'outer_value1'
 
@@ -23,7 +22,6 @@ testGetValueInner:
     - json_path: "outer_key2,inner_key1"
   description: Tests that get_value.sl correctly gets an inner value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'inner_value1'
 
@@ -33,7 +31,6 @@ testGetValueInnerArray:
     - json_path: "outer_key2,inner_key2,1"
   description: Tests that get_value.sl correctly gets an inner array value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'list_item2'
 
@@ -44,7 +41,6 @@ testGetValueArray:
     - found_value: '["list_item1", "list_item2"]'
   description: Tests that get_value.sl correctly gets an array from a JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetValueObject:
@@ -55,7 +51,6 @@ testGetValueObject:
         value: '{"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}'
   description: Tests that get_value.sl correctly gets an object from a JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetEverything:
@@ -66,7 +61,6 @@ testGetEverything:
         value: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
   description: Tests that get_value.sl correctly gets the entire JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetFromInexistentKey:
@@ -75,7 +69,6 @@ testGetFromInexistentKey:
     - json_path: "my_key"
   description: Tests that get_value.sl fails when the key does not exist
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_code: '-1'
   result: FAILURE
@@ -86,7 +79,6 @@ testGetFromInexistentPath:
     - json_path: "outer_key2,inner_key1"
   description: Tests that get_value.sl fails when the key does not exist
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_code: '-1'
   result: FAILURE
@@ -98,7 +90,6 @@ testGetScientificFloat:
     - found_value: '29.0'
   description: Tests that get_value.sl reads scientific format floats correctly
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetPathIndexExceeded:
@@ -107,8 +98,6 @@ testGetPathIndexExceeded:
     - json_path: "outer_key2,inner_key2,2"
   description: Tests get_value.sl when path to value uses out of range indices
   testFlowPath: io.cloudslang.base.json.get_value
-  testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   result: FAILURE
 
 testGetFromEmptyJSON:
@@ -117,7 +106,6 @@ testGetFromEmptyJSON:
     - json_path: ""
   description: Tests get_value.sl when source JSON is empty
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: '{}'
   result: SUCCESS
@@ -128,7 +116,6 @@ testGetFromInvalidJSON:
     - json_path: "k1"
   description: Tests get_value.sl when source JSON is invalid
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   result: FAILURE
 
 testGetSpecialCharactersValue:
@@ -138,7 +125,6 @@ testGetSpecialCharactersValue:
     - found_value: 'v2!#%@&*`?|>{[-'
   description: Tests get_value.sl when value contains special characters (documented for cloudslang)
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetBoolean1:
@@ -148,7 +134,6 @@ testGetBoolean1:
     - found_value: "True"
   description: Tests that get_value.sl reads boolean values correctly
   testFlowPath: io.cloudslang.base.json.test_get_value
-  testSuites: [json_get_value]
   result: SUCCESS
 
 testGetNull:
@@ -157,7 +142,6 @@ testGetNull:
     - json_path: "outer_key1"
   description: Tests that get_value.sl correctly gets a null value
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'null'
   result: SUCCESS
@@ -168,7 +152,6 @@ testGetCaseSensitiveKeys1:
     - json_path: "Key"
   description: Tests that get_value.sl reads correct case-sensitive key
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'rightValue'
   result: SUCCESS
@@ -179,7 +162,6 @@ testGetCaseSensitiveKeys2:
     - json_path: "key"
   description: Tests that get_value.sl searches for case-sensitive key
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   result: FAILURE
 
 testGetValueInnerArraySingleQuote:
@@ -188,6 +170,5 @@ testGetValueInnerArraySingleQuote:
     - json_path: 'outer_key2,inner_key2,1'
   description: Tests that get_value.sl correctly gets an inner array value from a JSON with single quote
   testFlowPath: io.cloudslang.base.json.get_value
-  testSuites: [json_get_value]
   outputs:
     - return_result: 'list_item2'
