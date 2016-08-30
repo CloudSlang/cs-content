@@ -381,7 +381,7 @@ flow:
             - key: 'metadata'
             - value: ${metadata}
         publish:
-          - body_json: ${json_output}
+          - body_json: ${return_result}
           - return_result
           - error_message
           - return_code
