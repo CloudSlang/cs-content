@@ -62,7 +62,7 @@ operation:
          error_message = 'max and min must be integer'
 
   outputs:
-    - result: ${rand}
+    - result: ${ str(rand) }
     - error_message
   results:
     - SUCCESS: ${rand != None}

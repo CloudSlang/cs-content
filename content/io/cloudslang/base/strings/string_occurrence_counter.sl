@@ -45,9 +45,9 @@ operation:
         return_code = '-1'
         return_result = occurrence
   outputs:
-    - return_result
+    - return_result: ${ str(return_result) }
     - return_code
-    - error_message: ${ return_result if occurrence == 0  else '' }
+    - error_message: ${ str(return_result) if occurrence == 0  else '' }
   results:
     - SUCCESS: ${ return_result >= 1 }
     - FAILURE

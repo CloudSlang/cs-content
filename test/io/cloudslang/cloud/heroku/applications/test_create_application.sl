@@ -22,13 +22,13 @@ flow:
     - username
     - password
     - name:
-        default: None
+        default: ""
         required: false
     - region:
-        default: None
+        default: ""
         required: false
     - stack:
-        default: None
+        default: ""
         required: false
 
   workflow:
@@ -59,8 +59,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 201]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,201"
         navigate:
           - SUCCESS: get_id
           - FAILURE: CHECK_RESULT_FAILURE
@@ -69,7 +69,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['id']
+            - json_path: "id"
         publish:
           - id: ${value}
         navigate:
@@ -89,7 +89,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['name']
+            - json_path: "name"
         publish:
           - checked_name: ${value}
         navigate:
@@ -118,7 +118,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['created_at']
+            - json_path: "created_at"
         publish:
           - created_at: ${value}
         navigate:

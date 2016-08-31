@@ -35,7 +35,7 @@ testSSHManyInputs:
     - characterSet: "SJIS"
     - closeSession: "true"
     - smart_recovery: "false"
-    - retries: 5
+    - retries: "5"
   description: Tests ssh works with most of the inputs
   testFlowPath: io.cloudslang.base.ssh.ssh_flow
   outputs:

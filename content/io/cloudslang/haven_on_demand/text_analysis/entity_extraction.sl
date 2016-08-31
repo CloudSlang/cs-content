@@ -47,7 +47,7 @@ flow:
         default: 'people_eng'
         required: false
     - show_alternatives:
-        default: false
+        default: "false"
         required: false
     - proxy_host:
         required: false
@@ -58,7 +58,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) + '&show_alternatives=' + str(show_alternatives) + '&apikey=' + str(api_key)}
+            - url: ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) + '&show_alternatives=' + show_alternatives + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

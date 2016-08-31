@@ -44,7 +44,7 @@ flow:
     - ip_address:
         required: false
     - release_ip_address:
-        default: True
+        default: "True"
     - proxy_host:
         required: false
     - proxy_port:

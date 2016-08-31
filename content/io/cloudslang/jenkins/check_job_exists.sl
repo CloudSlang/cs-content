@@ -52,7 +52,7 @@ operation:
         result = 'FAILURE'
 
   outputs:
-    - exists
+    - exists: ${str(exists)}
     - result_message
 
   results:

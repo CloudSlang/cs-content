@@ -54,7 +54,7 @@ operation:
       else:
           error_message = "%s or %s are not integers" %(min,max)
   outputs:
-    - random_number
+    - random_number: ${ str(random_number) }
     - error_message
   results:
     - SUCCESS: ${ random_number is not None }

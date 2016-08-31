@@ -45,7 +45,7 @@ operation:
         default: ""
         required: false
     - timeout:
-        default: 0
+        default: "0"
         required: false
   python_action:
     script: |

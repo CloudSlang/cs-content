@@ -36,7 +36,7 @@ operation:
           result = False
 
   outputs:
-    - message
+    - message: ${ str(message) }
 
   results:
     - SUCCESS: ${result}

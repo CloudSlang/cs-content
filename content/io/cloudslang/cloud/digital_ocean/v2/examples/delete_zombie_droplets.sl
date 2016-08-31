@@ -32,7 +32,7 @@ flow:
   name: delete_zombie_droplets
 
   inputs:
-    - time_to_live: 150
+    - time_to_live: "150"
     - name_pattern: 'ci-([0-9]+)-coreos-([0-9]+)'
     - token:
         sensitive: true

@@ -57,7 +57,7 @@ operation:
 
   outputs:
      - message
-     - is_up
+     - is_up: ${ str(is_up) }
 
   results:
     - FAILURE: ${ is_error }

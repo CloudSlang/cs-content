@@ -32,7 +32,7 @@ operation:
      - pct
 
    java_action:
-     gav: 'io.cloudslang.content:cs-lists:0.0.4'
+     gav: 'io.cloudslang.content:cs-lists:0.0.6'
      class_name: io.cloudslang.content.actions.ListTrimAction
      method_name: trimList
 

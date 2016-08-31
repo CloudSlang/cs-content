@@ -26,24 +26,39 @@ operation:
   name: get_value
   inputs:
     - json_input
-    - json_path
+    - json_path:
+        required: false
   python_action:
     script: |
+      def representsInt(s):
+          try:
+              int(s)
+              return True
+          except ValueError:
+              return False
       try:
         import json
         decoded = json.loads(json_input)
-        for key in json_path:
-          decoded = decoded[key]
+        for key in json_path.split(","):
+          if key in ["", ''] and key not in decoded:
+            pass
+          else:
+            if representsInt(key):
+              key = int(key)
+            decoded = decoded[key]
         return_code = '0'
         return_result = 'Parsing successful.'
+        encoded = json.dumps(decoded, ensure_ascii=False)
+        if decoded is None:
+          encoded = 'null'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
   outputs:
-    - value: ${ decoded if return_code == '0' else '' }
-    - return_result
+    - value: ${ encoded if return_code == '0' else '' }
+    - return_result: ${ str(return_result) }
     - return_code
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - error_message: ${ str(return_result) if return_code == '-1' else '' }
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

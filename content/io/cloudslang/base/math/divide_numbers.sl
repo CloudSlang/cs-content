@@ -33,7 +33,7 @@ operation:
       else:
         result = value1/value2
   outputs:
-    - result
+    - result: ${ str(result) }
   results:
      - ILLEGAL: ${result == 'Cannot divide by zero'}
      - SUCCESS

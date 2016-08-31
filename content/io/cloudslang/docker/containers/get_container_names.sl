@@ -39,9 +39,9 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - all_containers: false
+    - all_containers: 'false'
     - ps_parameters:
-        default: ${'-a' if bool(all_containers) else ''}
+        default: ${'-a' if all_containers.lower() == 'true' else ''}
         required: false
         private: true
     - host

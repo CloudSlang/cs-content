@@ -76,7 +76,7 @@ flow:
         do:
          json.get_value:
            - json_input: ${return_result}
-           - json_path: [jobID]
+           - json_path: ${str(jobID))
         publish:
           - value
           - error_message

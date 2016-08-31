@@ -111,7 +111,7 @@ flow:
     - execute_get_filtered_containers:
         do:
           containers.get_filtered_containers:
-            - all_containers: true
+            - all_containers: 'true'
             - excluded_images
             - host
             - port

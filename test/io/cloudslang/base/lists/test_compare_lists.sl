@@ -27,5 +27,5 @@ operation:
     script: |
       result = list_1 == list_2
   results:
-    - SUCCESS: ${result}
+    - SUCCESS: ${str(result)}
     - FAILURE

@@ -8,28 +8,28 @@
 ####################################################
 testFindAllMultipleValues:
   inputs:
-    - list: ['a', 'b', 'c', 'b', 'a']
+    - list: "a,b,c,b,a"
     - element: 'b'
   description: Tests that find_all.sl operation correctly finds multiple values
   testFlowPath: io.cloudslang.base.lists.find_all
   outputs:
-    - indices: [1, 3]
+    - indices: "[1, 3]"
 
 testFindAllIgnoreCaseMultipleValues:
   inputs:
-    - list: ['a', 'b', 'c', 'b', 'a']
+    - list: "a,b,c,b,a"
     - element: 'B'
-    - ignore_case: true
+    - ignore_case: 'true'
   description: Tests that find_all.sl operation correctly finds values when ignore_case is true
   testFlowPath: io.cloudslang.base.lists.find_all
   outputs:
-    - indices: [1, 3]
+    - indices: "[1, 3]"
 
 testFindAllNoneFound:
   inputs:
-    - list: ['a', 'b', 'c', 'b', 'a']
+    - list: "a,b,c,b,a"
     - element: 'e'
-  description: Tests that find_all.sl operation correctly returns an empty list when element is not found 
+  description: Tests that find_all.sl operation correctly returns an empty list when element is not found
   testFlowPath: io.cloudslang.base.lists.find_all
   outputs:
-    - indices: []
+    - indices: "[]"

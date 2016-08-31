@@ -58,8 +58,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_status
           - FAILURE: CHECK_RESPONSES_FAILURE
@@ -68,7 +68,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['status']
+            - json_path: "status"
         publish:
           - status: ${value}
         navigate:
@@ -79,7 +79,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: 'ok'
-            - second_string: ${str(status)}
+            - second_string: ${status}
         navigate:
           - SUCCESS: get_messages_text
           - FAILURE: VERIFY_STATUS_FAILURE
@@ -88,7 +88,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['messages', 0, 'text']
+            - json_path: "'messages', 0, 'text'"
         publish:
           - messages_text: ${value}
         navigate:
@@ -98,9 +98,9 @@ flow:
     - get_found_text_occurrence:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${str(messages_text)}
+            - string_in_which_to_search: ${messages_text}
             - string_to_find: 'Found'
-            - ignore_case: True
+            - ignore_case: 'True'
         publish:
           - found_text_occurrence: ${return_result}
         navigate:
@@ -110,7 +110,7 @@ flow:
     - verify_found_text:
         do:
           strings.string_equals:
-            - first_string: ${str(found_text_occurrence)}
+            - first_string: ${found_text_occurrence}
             - second_string: ${str(1)}
         navigate:
           - SUCCESS: SUCCESS

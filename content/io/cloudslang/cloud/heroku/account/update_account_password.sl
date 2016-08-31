@@ -54,7 +54,7 @@ flow:
         do:
           json.add_value:
             - json_input: "{}"
-            - json_path: ['password']
+            - json_path: "password"
             - value: ${password}
         publish:
           - body_json: ${json_output}
@@ -78,7 +78,7 @@ flow:
         do:
           json.add_value:
             - json_input: ${body_json}
-            - json_path: ['new_password']
+            - json_path: "new_password"
             - value: ${new_password}
         publish:
           - body_json: ${json_output}

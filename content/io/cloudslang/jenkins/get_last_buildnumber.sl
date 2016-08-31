@@ -40,7 +40,7 @@ operation:
         result_message = 'Error while obtaining last build number for job: ' + job_name
 
   outputs:
-    - last_buildnumber
+    - last_buildnumber: ${str(last_buildnumber)}
     - result_message
 
   results:
