@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.base.math
+namespace: io.cloudslang.base.utils
 
 imports:
-  utils: io.cloudslang.base.math
+  utils: io.cloudslang.base.utils
   comparisons: io.cloudslang.base.comparisons
 
 flow:
