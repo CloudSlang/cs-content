@@ -51,7 +51,7 @@ flow:
             - region
             - tenant_name
             - server_name
-            - assign_floating: True
+            - assign_floating: 'True'
             - proxy_host
             - proxy_port
         publish:
@@ -71,6 +71,8 @@ flow:
         do:
           print.print_text:
             - text: ${'### Server (' + server_id + ') is active and booted. IP is ' + ip_address}
+        navigate:
+          - SUCCESS: terminate_server
 
     - terminate_server:
         do:
@@ -80,7 +82,7 @@ flow:
             - password
             - tenant_name
             - region
-            - release_ip_address: True
+            - release_ip_address: "True"
             - ip_address
             - proxy_host
             - proxy_port

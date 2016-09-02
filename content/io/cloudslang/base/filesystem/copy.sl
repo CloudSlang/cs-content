@@ -50,7 +50,7 @@ operation:
           print message
 
   outputs:
-    - message
+    - message: ${ str(message) }
 
   results:
     - SUCCESS: ${result}

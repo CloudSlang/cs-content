@@ -29,7 +29,7 @@
 #! @output standard_err: error message
 #! @result FAILURE: something went wrong
 #! @result RUNNING: process found running on the container
-#! @result NOT RUNNING: process is not running on the container
+#! @result NOT_RUNNING: process is not running on the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
@@ -119,7 +119,6 @@ flow:
 
         navigate:
           - SUCCESS: RUNNING
-          - FAILURE: FAILURE
 
   outputs:
     - container_id_result

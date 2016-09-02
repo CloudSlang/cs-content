@@ -87,7 +87,6 @@ flow:
             - target_dir: ${cp_folder + "/Content/Configuration/System Properties/"}
         navigate:
             - SUCCESS: create_cp_properties
-            - FAILURE: MOVE_CONFIG_ITEMS_FAILURE
     - create_cp_properties:
         do:
            files.write_to_file:
@@ -126,7 +125,6 @@ flow:
     - CREATE_SYSTEM_PROPERTIES_FAILURE
     - CREATE_LIBRARY_STRUCTURE_FAILURE
     - COPY_CONTENT_FAILURE
-    - MOVE_CONFIG_ITEMS_FAILURE
     - CREATE_CP_PROPERTIES_FAILURE
     - CREATE_ARCHIVE_FAILURE
     - CREATE_JAR_FAILURE

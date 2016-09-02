@@ -32,9 +32,11 @@ flow:
           lists.find_all:
             - list: ${query_result['text']}
             - element: ${query_text}
-            - ignore_case: true
+            - ignore_case: "true"
         publish:
           - indices
+        navigate:
+          - SUCCESS: check_emptiness
     - check_emptiness:
         do:
           comp.equals:
@@ -50,6 +52,8 @@ flow:
             - text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
         publish:
           - item_text: ${new_string}
+        navigate:
+          - SUCCESS: build_result
     - build_result:
         loop:
           for: index in indices
@@ -58,8 +62,11 @@ flow:
               - item_text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
               - query_result
               - index
+          break: []
           publish:
             - item_text: ${item_added + '<br>'}
+          navigate:
+           - SUCCESS: build_footer
     - build_footer:
         do:
           strings.append:
@@ -67,5 +74,9 @@ flow:
             - text: '</ul>'
         publish:
           - item_text: ${new_string}
+        navigate:
+          - SUCCESS: SUCCESS
   outputs:
     - built_results: ${item_text}
+  results:
+    - SUCCESS

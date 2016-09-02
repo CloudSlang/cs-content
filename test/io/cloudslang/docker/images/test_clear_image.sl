@@ -34,8 +34,6 @@ flow:
             - image_name
         navigate:
           - SUCCESS: get_all_images_after
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
           - MACHINE_IS_NOT_CLEAN: MACHINE_IS_NOT_CLEAN
           - FAIL_PULL_IMAGE: FAIL_PULL_IMAGE
           - FAIL_GET_ALL_IMAGES: FAIL_GET_ALL_IMAGES
@@ -66,8 +64,6 @@ flow:
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES

@@ -210,7 +210,6 @@ flow:
           - GET_CREATED_VM_DETAILS_FAILURE: GET_CREATED_VM_DETAILS_FAILURE
           - SEND_CREATED_VM_MAIL_FAILURE: SEND_CREATED_VM_MAIL_FAILURE
           - GET_VALUE_BEFORE_UPDATE_FAILURE: GET_VALUE_BEFORE_UPDATE_FAILURE
-          - ADD_DISK_ON_VM_FAILURE: ADD_DISK_ON_VM_FAILURE
           - UPDATE_VM_FAILURE: UPDATE_VM_FAILURE
           - GET_UPDATED_VM_DETAILS_FAILURE: GET_UPDATED_VM_DETAILS_FAILURE
           - GET_VALUE_AFTER_UPDATE_FAILURE: GET_VALUE_AFTER_UPDATE_FAILURE
@@ -229,8 +228,8 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(exception), int(return_code)]}
-            - list_2: ['', 0]
+            - list_1: ${str(exception) + "," + return_code}
+            - list_2: ",0"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULT_FAILURE
@@ -254,7 +253,6 @@ flow:
     - GET_CREATED_VM_DETAILS_FAILURE
     - SEND_CREATED_VM_MAIL_FAILURE
     - GET_VALUE_BEFORE_UPDATE_FAILURE
-    - ADD_DISK_ON_VM_FAILURE
     - UPDATE_VM_FAILURE
     - GET_UPDATED_VM_DETAILS_FAILURE
     - GET_VALUE_AFTER_UPDATE_FAILURE

@@ -34,13 +34,14 @@ operation:
     script: |
       try:
         import json
-        if len(json_path) > 0:
+        json_pa = json_path.split(",")
+        if len(json_pa) > 0:
           decoded = json.loads(json_input)
           temp = decoded
-          for key in json_path[:-1]:
+          for key in json_pa[:-1]:
             temp = temp[key]
-          temp[json_path[-1]] = value
-        elif (json_path == [] and value == '' and json_input == '{}'):
+          temp[json_pa[-1]] = value
+        elif (json_pa == [] and value == '' and json_input == '{}'):
           decoded = {}
         else:
           decoded = value
@@ -52,7 +53,7 @@ operation:
         return_code = '-1'
   outputs:
     - json_output: ${ encoded if return_code == '0' else '' }
-    - return_result
+    - return_result: ${ str(return_result) }
     - return_code
     - error_message: ${ return_result if return_code == '-1' else ''}
   results:

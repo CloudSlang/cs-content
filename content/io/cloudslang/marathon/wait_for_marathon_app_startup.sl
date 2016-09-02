@@ -32,9 +32,9 @@ flow:
         default: "8080"
         required: false
     - created_app_id
-    - attempts: 1
+    - attempts: "1"
     - time_to_sleep:
-        default: 1
+        default: "1"
         required: false
   workflow:
 
@@ -108,7 +108,7 @@ flow:
          do:
             math.compare_numbers:
               - value1: ${attempts}
-              - value2: 0
+              - value2: "0"
          navigate:
            - GREATER_THAN: wait
            - EQUALS: FAILURE
@@ -120,7 +120,7 @@ flow:
               - seconds: ${time_to_sleep}
               - attempts
         publish:
-          - attempts: ${attempts - 1}
+          - attempts: ${str(int(attempts) - 1)}
         navigate:
           - SUCCESS: list_marathon_apps
           - FAILURE: FAILURE

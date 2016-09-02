@@ -39,11 +39,15 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_createResourceCluster
 
     - print_createResourceCluster:
         do:
           print.print_text:
             - text: ${response}
+        navigate:
+          - SUCCESS: createCluster
 
     - createCluster:
         do:
@@ -58,16 +62,23 @@ flow:
           - cluster_name
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_createCluster
 
     - print_createCluster:
         do:
           print.print_text:
             - text: ${cluster_name}
+        navigate:
+          - SUCCESS: SleepTime
 
     - SleepTime:
         do:
           utils.sleep:
             - seconds: '240'
+        navigate:
+          - SUCCESS: deleteCluster
+          - FAILURE: FAILURE
 
     - deleteCluster:
         do:
@@ -81,11 +92,15 @@ flow:
           - response
           - error_message
           - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_deleteCluster
 
     - print_deleteCluster:
         do:
           print.print_text:
             - text: ${cluster_name}
+        navigate:
+          - SUCCESS: SUCCESS
 
   outputs:
     - return_result

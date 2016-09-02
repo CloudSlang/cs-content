@@ -67,7 +67,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: RESTORE_PRE_DUMP_FAILURE
           - FAILURE: RESTORE_PRE_DUMP_FAILURE
   - restore_dump:
       do:
@@ -88,7 +87,6 @@ flow:
           - return_result
       navigate:
           - SUCCESS: SUCCESS
-          - FAIL_VALIDATE_SSH: RESTORE_DUMP_FAILURE
           - FAILURE: RESTORE_DUMP_FAILURE
   results:
     - SUCCESS

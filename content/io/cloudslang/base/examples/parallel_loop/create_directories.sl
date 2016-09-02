@@ -21,17 +21,19 @@ flow:
   inputs:
     - base_dir_name
     - num_of_directories:
-        default: 10
+        default: "10"
 
   workflow:
     - print_start:
         do:
           print.print_text:
             - text: ${'Starting creating directories with base name ' + base_dir_name}
+        navigate:
+          - SUCCESS: create_directories
 
     - create_directories:
         parallel_loop:
-          for: suffix in range(1, num_of_directories + 1)
+          for: suffix in range(1, int(num_of_directories) + 1)
           do:
             examples.parallel_loop.create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
@@ -45,3 +47,4 @@ flow:
             do:
               print.print_text:
                 - text: ${error}
+            break: []

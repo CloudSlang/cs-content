@@ -152,7 +152,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['volume', 'id']
+            - json_path: "volume,id"
         publish:
           - volume_id: ${value}
         navigate:

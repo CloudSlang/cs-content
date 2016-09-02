@@ -68,7 +68,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jClouds:0.0.6'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
     class_name: io.cloudslang.content.jclouds.actions.images.DeregisterImageInRegionAction
     method_name: execute
 

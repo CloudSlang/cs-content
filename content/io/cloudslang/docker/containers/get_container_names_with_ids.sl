@@ -110,7 +110,6 @@ flow:
 
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
 
   outputs:
     - containers_with_process_found

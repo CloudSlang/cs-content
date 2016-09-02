@@ -54,7 +54,7 @@ flow:
         sensitive: true
     - region
     - assign_floating:
-        default: True
+        default: "True"
     - network_id:
         required: false
     - proxy_host:
@@ -62,10 +62,10 @@ flow:
     - proxy_port:
         required: false
     - polling_attempts:
-        default: 60
+        default: "60"
         required: false
     - polling_wait_time:
-        default: 10
+        default: "10"
         required: false
 
   workflow:
@@ -103,7 +103,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["server", "id"]
+            - json_path: "server,id"
         publish:
           - server_id: ${value}
 
@@ -111,10 +111,12 @@ flow:
         do:
           print.print_text:
             - text: "${'### New server created: '+server_id}"
+        navigate:
+          - SUCCESS: poll_server_until_active
 
     - poll_server_until_active:
         loop:
-          for: loop_counter in range(0,polling_attempts)
+          for: loop_counter in range(0,int(polling_attempts))
           do:
             hp_cloud.get_server_state_flow:
               - server_id
@@ -155,6 +157,8 @@ flow:
         do:
           print.print_text:
             - text: "${'### Got a floating IP: ' + ip_address}"
+        navigate:
+          - SUCCESS: assign_ip
 
     - assign_ip:
         do:
@@ -173,12 +177,15 @@ flow:
         do:
           print.print_text:
             - text: ${'### New server (' + server_name + ') is ready'}
-
+        navigate:
+          - SUCCESS: SUCCESS
     - on_failure:
       - create_server_error:
           do:
             print.print_text:
               - text: "${'! Create Server Flow Error: ' + return_result}"
+        navigate:
+          - SUCCESS: SUCCESS
   outputs:
     - return_result
     - ip_address

@@ -46,13 +46,13 @@ flow:
         required: false
         sensitive: true
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
     - git_repository_localdir: "/tmp/repo.git"
     - change_path:
-        default: false
+        default: 'false'
         required: false
     - new_path:
         required: false

@@ -13,7 +13,7 @@
 #! @result GREATER_THAN: value1 is greater than value2
 #! @result EQUALS: value1 is equal to value2
 #! @result LESS_THAN: value1 is less than value2
-#!!#
+#!!# compare_numbers
 ########################################################################################################
 
 namespace: io.cloudslang.base.math

@@ -90,7 +90,7 @@ flow:
     - wait:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: "10"
         publish:
           - error_message
         navigate:

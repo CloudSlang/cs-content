@@ -50,7 +50,7 @@ flow:
         default: ''
         required: false
     - create_home:
-        default: True
+        default: "True"
         required: false
     - home_path:
         default: '/home + user_name'
@@ -65,9 +65,9 @@ flow:
             - username: 'root'
             - password: ${root_password}
             - group_name_string: ${'' if group_name == '' else ' --ingroup ' + group_name}
-            - create_home_string: ${'' if create_home in [True, true, 'True', 'true'] else ' -m '}
+            - create_home_string: ${'' if create_home.lower() in [True, true, 'True', 'true'] else ' -m '}
             - home_path_string: >
-                ${' -U ' if (home_path == '' and create_home in [True, true, 'True', 'true']) else ' -d ' +
+                ${' -U ' if (home_path == '' and create_home.lower() in [True, true, 'True', 'true']) else ' -d ' +
                 home_path}
             - command: >
                 ${'useradd ' + user_name + ' -g ' + group_name + create_home_string + home_path_string + '

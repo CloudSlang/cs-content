@@ -86,12 +86,14 @@ flow:
             - result_set_delimiter: " "
         publish:
           - images_list_safe_to_delete: ${ result_set }
-          - amount_of_images: ${ len(result_set.split()) }
+          - amount_of_images: ${ str(len(result_set.split())) }
+        navigate:
+          - SUCCESS: verify_all_images_list_not_empty
     - verify_all_images_list_not_empty:
         do:
           strings.string_equals:
             - first_string: ${ all_images_list }
-            - second_string: ""
+            - second_string: None
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: verify_used_images_list_not_empty
@@ -130,7 +132,9 @@ flow:
             - result_set_delimiter: " "
         publish:
           - images_list_safe_to_delete: ${ result_set }
-          - amount_of_images: ${ len(result_set.split()) }
+          - amount_of_images: ${ str(len(result_set.split())) }
+        navigate:
+          - SUCCESS: delete_images
     - delete_images:
         do:
           images.clear_images:
@@ -147,9 +151,9 @@ flow:
 
   outputs:
     - images_list_safe_to_delete
-    - amount_of_images_deleted: ${ 0 if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
+    - amount_of_images_deleted: ${ '0' if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
-    - updated_all_parent_images: ${ get('all_parent_images', 0) }
+    - updated_all_parent_images: ${ get('all_parent_images', '0') }
   results:
     - SUCCESS
     - FAILURE

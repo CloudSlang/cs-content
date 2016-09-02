@@ -76,7 +76,7 @@ flow:
     - private_key_file:
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - git_repository:
         required: true
@@ -197,7 +197,7 @@ flow:
             - port
             - username
             - password
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - git_repository_localdir
             - git_push_branch
@@ -213,7 +213,7 @@ flow:
             - port
             - username: "root"
             - password: ${ root_password }
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - user
         navigate:
@@ -287,7 +287,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir
-            - change_path: false
+            - change_path: "false"
             - new_path: ""
         navigate:
           - SUCCESS: git_cleanup_second_repository
@@ -304,7 +304,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir: ${ second_git_repository_localdir }
-            - change_path: true
+            - change_path: 'true'
             - new_path: ${ second_git_repository_localdir }
         publish:
           - standard_out

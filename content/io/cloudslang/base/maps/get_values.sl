@@ -21,6 +21,8 @@ operation:
     - map
   python_action:
     script: |
+      import ast
+      map = ast.literal_eval(map)
       values=[]
       for key, value in map.items():
          if isinstance(value, basestring):
@@ -28,4 +30,4 @@ operation:
          else:
             values.append(value)
   outputs:
-    - result: ${values}
+    - result: ${ str(values) }

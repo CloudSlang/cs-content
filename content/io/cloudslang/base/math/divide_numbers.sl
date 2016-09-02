@@ -32,7 +32,7 @@ operation:
       else:
         result = value1.divide(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
   outputs:
-    - result
+    - result: ${ str(result) }
   results:
      - ILLEGAL: ${result == 'Cannot divide by zero'}
      - SUCCESS

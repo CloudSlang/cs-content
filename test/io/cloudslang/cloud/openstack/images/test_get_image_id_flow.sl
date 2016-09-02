@@ -70,8 +70,8 @@ flow:
     - check_get_image_id_flow_responses:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: check_image_id_is_empty
           - FAILURE: CHECK_GET_IMAGE_ID_FLOW_RESPONSES_FAILURE

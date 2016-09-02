@@ -51,7 +51,7 @@ flow:
         default: ''
         required: false
     - create_home:
-        default: True
+        default: "True"
         required: false
     - home_path:
         default: '/home'
@@ -66,9 +66,9 @@ flow:
             - username: 'root'
             - password: ${root_password}
             - group_name_string: ${'' if group_name == '' else ' --ingroup ' + group_name}
-            - create_home_string: ${'' if create_home in [True, true, 'True', 'true'] else ' --no-create-home '}
+            - create_home_string: ${'' if create_home.lower() in [True, true, 'True', 'true'] else ' --no-create-home '}
             - home_path_string: >
-                ${'/home' if (home_path == '' and create_home in [True, true, 'True', 'true']) else ' --home ' +
+                ${'/home' if (home_path == '' and create_home.lower() in [True, true, 'True', 'true']) else ' --home ' +
                 home_path}
             - command: >
                 ${'adduser ' + user_name + ' --disabled-password --gecos \"\"' + create_home_string +

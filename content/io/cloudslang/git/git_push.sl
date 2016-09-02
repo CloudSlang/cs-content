@@ -50,7 +50,7 @@ flow:
     - git_push_branch: "master"
     - git_push_remote: "origin"
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false

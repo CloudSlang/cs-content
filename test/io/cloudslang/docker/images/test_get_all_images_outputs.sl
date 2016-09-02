@@ -19,7 +19,6 @@
 #! @result VERIFYFAILURE: fails ro verify downloaded images
 #! @result DELETEFAIL: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
-#! @result FAIL_VALIDATE_SSH: ssh connection fails
 #! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
 #!!#
 ####################################################
@@ -50,7 +49,7 @@ flow:
         navigate:
           - SUCCESS: hello_world_image_download
           - FAILURE: MACHINE_IS_NOT_CLEAN
-          - FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
+          - FAIL_VALIDATE_SSH: MACHINE_IS_NOT_CLEAN
           - FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - hello_world_image_download:
@@ -106,5 +105,4 @@ flow:
     - VERIFYFAILURE
     - DELETEFAIL
     - MACHINE_IS_NOT_CLEAN
-    - FAIL_VALIDATE_SSH
     - FAIL_GET_ALL_IMAGES_BEFORE

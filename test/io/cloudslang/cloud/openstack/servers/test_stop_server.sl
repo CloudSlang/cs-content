@@ -70,8 +70,8 @@ flow:
     - check_stop_server_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 202]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,202"
         navigate:
           - SUCCESS: sleep
           - FAILURE: CHECK_STOP_SERVER_RESPONSES_FAILURE
@@ -113,8 +113,8 @@ flow:
     - check_get_server_details_result:
         do:
           lists.compare_lists:
-            - list_1: ${[str(error_message), int(return_code), int(status_code)]}
-            - list_2: ['', 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_status
           - FAILURE: CHECK_GET_SERVER_DETAILS_RESPONSES_FAILURE
@@ -123,7 +123,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ['server', 'status']
+            - json_path: "server,status"
         publish:
           - status: ${value}
         navigate:

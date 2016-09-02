@@ -31,7 +31,7 @@ operation:
     - delimiter
     - reverse:
         required: false
-        default: false
+        default: "false"
 
   java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.6'

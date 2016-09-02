@@ -64,7 +64,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
           - SUCCESS: call_restart_container_base_on_usage
           - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM

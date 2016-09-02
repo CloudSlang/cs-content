@@ -24,11 +24,11 @@ operation:
         default: ""
     - quote_plus:
         required: false
-        default: false
+        default: "false"
   python_action:
     script: |
       import urllib
-      if quote_plus in [True, 'True', 'true']:
+      if quote_plus.lower() == 'true':
         encoded = urllib.quote_plus(data, safe)
       else:
         encoded = urllib.quote(data, safe)

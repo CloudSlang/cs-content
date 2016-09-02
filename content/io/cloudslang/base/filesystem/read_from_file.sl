@@ -39,7 +39,7 @@ operation:
         res = False
   outputs:
     - read_text
-    - message
+    - message: ${ str(message) }
   results:
     - SUCCESS: ${res}
     - FAILURE

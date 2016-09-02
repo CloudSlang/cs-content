@@ -27,25 +27,30 @@ operation:
   name: get_keys
   inputs:
     - json_input
-    - json_path
+    - json_path:
+        required: false
   python_action:
     script: |
       try:
         import json
         decoded = json.loads(json_input)
-        for key in json_path:
-          decoded = decoded[key]
+        for key in json_path.split(","):
+          if key in ["", ''] and key not in decoded:
+            pass
+          else:
+            decoded = decoded[key]
         decoded = decoded.keys()
+        encoded = json.dumps(decoded, ensure_ascii=False)
         return_result = 'Parsing successful.'
         return_code = '0'
       except Exception as ex:
         return_result = ex
         return_code = '-1'
   outputs:
-    - keys: ${ decoded if return_code == '0' else '' }
-    - return_result
-    - return_code
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - keys: ${ encoded if return_code == '0' else '' }
+    - return_result: ${ str(return_result) }
+    - return_code: ${ str(return_code) }
+    - error_message: ${ str(return_result) if return_code == '-1' else '' }
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

@@ -69,7 +69,6 @@ flow:
     - proxy_port:
         required: false
   workflow:
-
     - create_db_container:
         do:
           containers.examples.create_db_container:
@@ -118,8 +117,8 @@ flow:
         do:
           network.verify_url_is_accessible:
             - url: ${'http://' + docker_host + ':' + app_port}
-            - attempts: 20
-            - time_to_sleep: 10
+            - attempts: '20'
+            - time_to_sleep: '10'
             - proxy_host
             - proxy_port
         publish:

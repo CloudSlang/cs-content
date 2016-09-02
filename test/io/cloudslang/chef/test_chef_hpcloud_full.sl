@@ -80,7 +80,7 @@ flow:
             - region
             - tenant_name
             - server_name
-            - assign_floating: True
+            - assign_floating: "True"
             - proxy_host
             - proxy_port
         publish:
@@ -148,7 +148,7 @@ flow:
         do:
           http.verify_url_is_accessible:
             - url: ${'http://' + ip_address + ":" + app_port}
-            - attempts: 300
+            - attempts: '300'
         publish:
           - return_result: ${output_message}
 
@@ -156,6 +156,8 @@ flow:
         do:
           print.print_text:
             - text: ${'### Done! Server is active and app installed; ' + ip_address + ':' + app_port}
+        navigate:
+          - SUCCESS: SUCCESS
 
     - on_failure:
       - ERROR:
