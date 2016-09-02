@@ -10,7 +10,7 @@ testUrlEncoder:
   inputs:
     - data: "http://example.com/site/user/action.php"
     - safe:
-    - quote_plus: False
+    - quote_plus: 'false'
   description: "Tests that url_encoder.sl operation finishes with SUCCESS"
   testFlowPath: io.cloudslang.base.http.url_encoder
   outputs:
@@ -21,7 +21,7 @@ testUrlEncoderQuotePlus:
   inputs:
     - data: "http://example.com/my site/my user/my action.php"
     - safe:
-    - quote_plus: True
+    - quote_plus: 'true'
   description: "Tests that url_encoder.sl operation finishes with SUCCESS and replaces spaces with '+' characters."
   testFlowPath: io.cloudslang.base.http.url_encoder
   outputs:
@@ -32,7 +32,7 @@ testUrlEncoderQuotePlusSafe:
   inputs:
     - data: "http://example.com/my site/my user/my action.php"
     - safe: /
-    - quote_plus: True
+    - quote_plus: 'true'
   description: "Tests that url_encoder.sl operation finishes with SUCCESS, replaces spaces with '+' characters and does not encode characters from 'safe' input."
   testFlowPath: io.cloudslang.base.http.url_encoder
   outputs:

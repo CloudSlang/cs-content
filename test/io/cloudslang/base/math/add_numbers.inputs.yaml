@@ -30,10 +30,10 @@ testAddString:
   inputs:
     - value1: '3'
     - value2: '5'
-  description: Tests that add_numbers.sl operation finishes with result = 8.0
+  description: Tests that add_numbers.sl operation finishes with result = 8
   testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
-    - result: '8.0'
+    - result: '8'
   result: SUCCESS
 
 testAddInvalidNumbers:

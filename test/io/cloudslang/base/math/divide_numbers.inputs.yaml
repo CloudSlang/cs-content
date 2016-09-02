@@ -53,7 +53,7 @@ testDivideZeroWithNegativeFloat:
   description: Tests that divide_numbers.sl operation finishes with result = 0.0
   testFlowPath: io.cloudslang.base.math.divide_numbers
   outputs:
-    - result: '0'
+    - result: '0.0'
   result: SUCCESS
 
 testDivideIllegal:
