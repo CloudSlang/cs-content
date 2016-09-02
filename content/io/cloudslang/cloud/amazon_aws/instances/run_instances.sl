@@ -8,19 +8,29 @@
 ####################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
-#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - the region where the server (instance) to be created/launched can be found.
-#!                           "regions/list_regions" operation can be used in order to get all regions - Default: 'us-east-1'
-#! @input availability_zone: optional - specifies the placement constraints for launching instance. Amazon automatically
-#!                                     selects an availability zone by default - Default: ''
-#! @input image_id: the ID of the AMI. For more information go to: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
-#!                   - Examples: 'ami-fce3c696', 'ami-4b91bb21'
+#! @input provider: Cloud provider on which the instance is
+#!                  Default: 'amazon'
+#! @input endpoint: Endpoint to which request will be sent
+#!                  Default: 'https://ec2.amazonaws.com'
+#! @input identity: optional - Amazon Access Key ID
+#!                  Default: ''
+#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#!                    Default: ''
+#! @input proxy_host: optional - Proxy server used to access the provider services
+#!                    Default: ''
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
+#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console
+#!                    Default: 'false'
+#! @input region: optional - Region where the instance will be launched.
+#!                           'regions/list_regions.sl' operation can be used in order to get all regions
+#!                           Default: 'us-east-1'
+#! @input availability_zone: optional - Specifies the placement constraints for launching instance. Amazon automatically
+#!                           selects an availability zone by default
+#!                           Default: ''
+#! @input image_id: ID of the AMI. For more information go to:
+#!                  http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
+#!                  Examples: 'ami-abcdef12'
 #! @input min_count: optional - The minimum number of launched instances - Default: '1'
 #! @input max_count: optional - The maximum number of launched instances - Default: '1'
 #! @output return_result: contains the exception in case of failure, success message otherwise
@@ -43,6 +53,7 @@ operation:
         required: false
         sensitive: true
     - credential:
+        default: ''
         required: false
         sensitive: true
     - proxy_host:
