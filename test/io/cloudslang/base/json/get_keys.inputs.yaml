@@ -133,9 +133,11 @@ testGetKeysSingleQuoteSuccess:
                                                                        }
                                                     }"
     - json_path: "server,metadata"
-    - expected_keys: "['My Server Name', 'min_ram']"
   description: Tests that get_keys.sl correctly gets all keys from a JSON with single quotes
-  testFlowPath: io.cloudslang.base.json.test_get_keys
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - return_result: "['min_ram', 'My Server Name']"
+    - return_code: '0'
   result: SUCCESS
 
 testGetKeysSingleQuoteFailure:
@@ -173,7 +175,6 @@ testGetKeysSingleQuoteFailure:
                                                                        }
                                                     }"
     - json_path: "server,name"
-    - expected_keys: "['My Server Name', 'min_ram']"
   description: Tests that get_keys.sl has a return_code of '-1' for a path that does not exist
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
