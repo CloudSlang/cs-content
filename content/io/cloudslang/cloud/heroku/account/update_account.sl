@@ -60,8 +60,7 @@ flow:
             - json_path: "allow_tracking"
             - value: ${str(bool(allow_tracking))}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -75,8 +74,7 @@ flow:
             - json_path: "beta"
             - value: ${str(bool(beta))}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -99,8 +97,7 @@ flow:
             - json_path: "name"
             - value: ${account_owner_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:

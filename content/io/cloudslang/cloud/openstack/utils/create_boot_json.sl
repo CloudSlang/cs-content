@@ -45,8 +45,7 @@ flow:
             - json_path: "boot_index"
             - value: ${boot_index}
         publish:
-          - boot_json: ${json_output}
-          - return_result
+          - boot_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -60,8 +59,7 @@ flow:
             - json_path: "uuid"
             - value: ${uuid}
         publish:
-          - boot_json: ${json_output}
-          - return_result
+          - boot_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -75,8 +73,7 @@ flow:
             - json_path: "source_type"
             - value: ${source_type}
         publish:
-          - boot_json: ${json_output}
-          - return_result
+          - boot_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -90,8 +87,7 @@ flow:
             - json_path: "delete_on_termination"
             - value: ${str(bool(delete_on_termination))}
         publish:
-          - boot_json: ${json_output}
-          - return_result
+          - boot_json: ${return_result}
           - error_message
           - return_code
         navigate:

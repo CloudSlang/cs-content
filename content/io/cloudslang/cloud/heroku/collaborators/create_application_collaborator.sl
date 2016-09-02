@@ -53,8 +53,7 @@ flow:
             - json_path: "silent"
             - value: ${str(bool(silent))}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -68,8 +67,7 @@ flow:
             - json_path: "user"
             - value: ${user}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:

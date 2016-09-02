@@ -69,8 +69,7 @@ flow:
             - json_path: ""
             - value: ''
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -93,8 +92,7 @@ flow:
             - json_path: "name"
             - value: ${name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -117,8 +115,7 @@ flow:
             - json_path: "region"
             - value: ${region}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -141,8 +138,7 @@ flow:
             - json_path: "stack"
             - value: ${stack}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:

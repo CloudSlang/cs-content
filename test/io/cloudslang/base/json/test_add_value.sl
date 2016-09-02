@@ -29,7 +29,7 @@ flow:
             - json_path
             - value
         publish:
-          - json_output
+          - json_output: ${return_result}
         navigate:
           - SUCCESS: test_equality
           - FAILURE: CREATEFAILURE

@@ -45,8 +45,7 @@ flow:
             - json_path: "hostname"
             - value: ${hostname}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:

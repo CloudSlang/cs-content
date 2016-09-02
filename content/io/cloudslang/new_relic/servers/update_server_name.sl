@@ -61,8 +61,7 @@ flow:
             - json_path: "server,name"
             - value: ${server_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
 

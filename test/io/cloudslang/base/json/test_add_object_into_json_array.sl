@@ -29,14 +29,14 @@ flow:
             - json_object
             - index
         publish:
-          - return_result
+          - result_json: ${return_result}
         navigate:
           - SUCCESS: test_equality
           - FAILURE: CREATEFAILURE
     - test_equality:
         do:
           json.equals:
-            - json_input1: ${ return_result }
+            - json_input1: ${ result_json }
             - json_input2: ${ json_after }
 
         navigate:
