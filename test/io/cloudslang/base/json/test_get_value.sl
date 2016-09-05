@@ -28,14 +28,14 @@ flow:
             - json_input: ${ json_before }
             - json_path
         publish:
-          - value
+          - return_result
         navigate:
           - SUCCESS: test_equality
           - FAILURE: CREATEFAILURE
     - test_equality:
         do:
           comp.equals:
-            - first: ${ value }
+            - first: ${ return_result }
             - second: ${ found_value }
 
         navigate:

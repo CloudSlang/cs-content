@@ -108,7 +108,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "entity,guid"
         publish:
-          - application_guid: ${value}
+          - application_guid: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_APPLICATION_GUID_FAILURE

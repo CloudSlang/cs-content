@@ -52,7 +52,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: check_id_is_present
           - FAILURE: GET_ID_FAILURE
@@ -72,7 +72,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "email"
         publish:
-          - checked_email: ${value}
+          - checked_email: ${return_result}
         navigate:
           - SUCCESS: check_email
           - FAILURE: GET_EMAIL_FAILURE

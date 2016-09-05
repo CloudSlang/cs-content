@@ -131,7 +131,7 @@ flow:
             - json_path: "0,'branches'"
 
         publish:
-          - branches: ${keys}
+          - branches: ${return_result}
           - error_message
 
   outputs:

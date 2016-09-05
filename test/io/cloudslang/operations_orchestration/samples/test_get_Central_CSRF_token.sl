@@ -66,7 +66,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "version"
         publish:
-          - version: ${value}
+          - version: ${return_result}
         navigate:
           - SUCCESS: check_response_headers_are_present
           - FAILURE: GET_VERSION_FAILURE

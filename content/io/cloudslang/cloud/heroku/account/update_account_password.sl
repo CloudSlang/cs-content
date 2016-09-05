@@ -57,8 +57,7 @@ flow:
             - json_path: "password"
             - value: ${password}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -81,8 +80,7 @@ flow:
             - json_path: "new_password"
             - value: ${new_password}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:

@@ -80,7 +80,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "'flavor','id'"
         publish:
-          - retrieved_id: ${value}
+          - retrieved_id: ${return_result}
         navigate:
           - SUCCESS: verify_retrieved_id
           - FAILURE: RETRIEVE_FLAVOR_ID_FAILURE

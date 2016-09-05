@@ -75,7 +75,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "server,status"
         publish:
-          - server_status: ${value}
+          - server_status: ${return_result}
         navigate:
           - SUCCESS: check_active
           - FAILURE: failed

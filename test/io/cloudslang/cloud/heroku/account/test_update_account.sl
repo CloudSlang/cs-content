@@ -68,7 +68,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "name"
         publish:
-          - name: ${value}
+          - name: ${return_result}
         navigate:
           - SUCCESS: check_name
           - FAILURE: GET_NAME_FAILURE
@@ -88,7 +88,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "allow_tracking"
         publish:
-          - tracking: ${value}
+          - tracking: ${return_result}
         navigate:
           - SUCCESS: check_allow_tracking
           - FAILURE: GET_ALLOW_TRACKING_FAILURE
