@@ -105,7 +105,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "resources"
         publish:
-          - apps_list: ${value}
+          - apps_list: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_APPLICATIONS_LIST_FAILURE

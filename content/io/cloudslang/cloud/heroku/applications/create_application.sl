@@ -69,8 +69,7 @@ flow:
             - json_path: ""
             - value: ''
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -93,8 +92,7 @@ flow:
             - json_path: "name"
             - value: ${name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -117,8 +115,7 @@ flow:
             - json_path: "region"
             - value: ${region}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -141,8 +138,7 @@ flow:
             - json_path: "stack"
             - value: ${stack}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -174,7 +170,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: get_name
           - FAILURE: GET_ID_FAILURE
@@ -185,7 +181,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "name"
         publish:
-          - name: ${value}
+          - name: ${return_result}
         navigate:
           - SUCCESS: get_created_at
           - FAILURE: GET_NAME_FAILURE
@@ -196,7 +192,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "created_at"
         publish:
-          - created_at: ${value}
+          - created_at: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_CREATED_AT_FAILURE

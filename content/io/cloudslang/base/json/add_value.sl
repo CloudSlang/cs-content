@@ -12,8 +12,7 @@
 #! @input json_input: JSON data input - Example: '{"k1": {"k2": ["v1", "v2"]}}'
 #! @input json_path: path at which to add value represented as a list of keys and/or indices - Example: ["k1","k2",1]
 #! @input value: value to associate with key - Example: "v3"
-#! @output json_output: JSON with key:value added
-#! @output return_result: parsing was successful or not
+#! @output return_result: JSON with key:value added
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: parsing was successful (return_code == '0') and value was added
@@ -33,29 +32,51 @@ operation:
   python_action:
     script: |
       try:
-        import json
+        import json, re
+        quote = None
+        quote_value = None
         json_pa = json_path.split(",")
         if len(json_pa) > 0:
+          for c in json_input:
+            if c in ['\'', '\"']:
+              quote = c
+              break
+          if quote == '\'':
+            json_input = str(re.sub(r"(?<!\\)(\')",'"', json_input))
+            json_input = str(re.sub(r"(\\')",'\'', json_input))
+            for c in value:
+              if c in ['\'', '\"']:
+                quote_value = c
+                break
+            if quote_value == '\'':
+              value = str(re.sub(r"(?<!\\)(\')",'"', value))
+              value = str(re.sub(r"(\\')",'\'', value))
+
+          try:
+            decoded_value = json.loads(value)
+          except Exception as ex:
+            decoded_value = value
+
           decoded = json.loads(json_input)
           temp = decoded
           for key in json_pa[:-1]:
             temp = temp[key]
-          temp[json_pa[-1]] = value
-        elif (json_pa == [] and value == '' and json_input == '{}'):
+          temp[json_pa[-1]] = decoded_value
+        elif (json_pa == [] and decoded_value == '' and json_input == '{}'):
           decoded = {}
         else:
-          decoded = value
+          decoded = decoded_value
         encoded = json.dumps(decoded)
+        if quote == '\'':
+          encoded = encoded.replace('\'','\\\'').replace('\"','\'')
         return_code = '0'
-        return_result = 'Parsing successful.'
       except Exception as ex:
-        return_result = ex
+        error_message = ex
         return_code = '-1'
   outputs:
-    - json_output: ${ encoded if return_code == '0' else '' }
-    - return_result: ${ str(return_result) }
+    - return_result: ${ str(encoded) if return_code == '0' else ''}
     - return_code
-    - error_message: ${ return_result if return_code == '-1' else ''}
+    - error_message: ${ str(error_message) if return_code == '-1' else ''}
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

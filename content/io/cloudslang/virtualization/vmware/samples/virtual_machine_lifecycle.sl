@@ -319,7 +319,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "numDisks"
         publish:
-          - before_update_value: ${value}
+          - before_update_value: ${return_result}
         navigate:
           - SUCCESS: update_vm
           - FAILURE: GET_VALUE_BEFORE_UPDATE_FAILURE
@@ -372,7 +372,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "numDisks"
         publish:
-          - after_update_value: ${value}
+          - after_update_value: ${return_result}
         navigate:
           - SUCCESS: update_vm_mail
           - FAILURE: GET_VALUE_AFTER_UPDATE_FAILURE

@@ -22,7 +22,7 @@ flow:
             - json_path
 
         publish:
-          - json_keys: ${keys}
+          - json_keys: ${return_result}
           - return_code
 
         navigate:

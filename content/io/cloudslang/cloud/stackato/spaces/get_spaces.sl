@@ -103,7 +103,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "resources"
         publish:
-          - spaces_list: ${value}
+          - spaces_list: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_SPACES_LIST_FAILURE

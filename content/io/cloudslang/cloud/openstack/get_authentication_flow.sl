@@ -79,7 +79,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "access,token,id"
         publish:
-          - token: ${value}
+          - token: ${return_result}
           - error_message
         navigate:
           - SUCCESS: get_tenant_id
@@ -91,7 +91,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "access,token,tenant,id"
         publish:
-          - tenant_id: ${value}
+          - tenant_id: ${return_result}
           - error_message
         navigate:
           - SUCCESS: SUCCESS

@@ -82,7 +82,7 @@ flow:
             - json_input: ${ response }
             - json_path: "droplet"
         publish:
-          - droplet: ${value}
+          - droplet: ${return_result}
   outputs:
     - response
     - status_code
