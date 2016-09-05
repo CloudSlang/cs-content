@@ -7,12 +7,10 @@
 #
 ####################################################
 #!!
-#! @description: Deploys an Amazon Web Services Elastic Compute Cloud (EC2) instance
+#! @description: Deploys an Amazon Web Services Elastic Compute Cloud (EC2 Classic) instance
 #!               Note: The instance will be launched into a specified region or if the region is not specified then
 #!                     'us-east-1' region (default) will be used. The instance will use a specific AMI and will be tagged.
-#!                     An volume is created, with specific parameters, in the same availability zone where the instance
-#!                     reside. The newly created volume will be attached to the instance. The instance will be attached
-#!                     to an existing network then the instance will be started.
+#!                     The instance will be attached to an existing default network then the instance will be started.
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
