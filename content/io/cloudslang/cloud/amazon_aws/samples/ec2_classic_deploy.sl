@@ -25,10 +25,11 @@
 #! @input region: optional - region where the server (instance) to be created/launched can be found. "regions/list_regions"
 #!                operation can be used in order to get all regions.
 #!                Default: 'us-east-1'
-#! @input availability_zone: specifies the placement constraints for launching instance. Amazon automatically selects an
-#!                           availability zone by default. For more information go to:
+#! @input availability_zone: optional - specifies the placement constraints for launching instance. If not provided Amazon
+#!                           will automatically select an availability zone by default. For more information go to:
 #!                           http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html
 #!                           Example: 'us-east-1d'
+#!                           Default: ''
 #! @input image_id: ID of the AMI needed to launch instance out of it. For more information go to:
 #!                  http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html
 #!                  Example: 'ami-abcdef12'
@@ -55,7 +56,7 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: ec2_clasic_deploy
+  name: ec2_classic_deploy
 
   inputs:
     - provider: ${get_sp('io.cloudslang.cloud.amazon_aws.provider')}
@@ -67,14 +68,12 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - proxy_username:
-        required: false
-    - proxy_password:
-        required: false
     - region:
         default: 'us-east-1'
         required: false
-    - availability_zone
+    - availability_zone:
+        default: ''
+        required: false
     - image_id
     - debug_mode:
         required: false
