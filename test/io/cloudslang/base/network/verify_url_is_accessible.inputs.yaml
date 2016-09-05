@@ -12,7 +12,7 @@ testVerifyUrlIsAccessible_Success:
     - time_to_sleep: '1'
   description: Tests that verify_url_is_accessible.sl operation does not contain an error message
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  testFlowPath: io.cloudslang.base.http.verify_url_is_accessible
   outputs:
     - return_code: '0'
   result: SUCCESS
@@ -23,7 +23,7 @@ testVerifyUrlIsAccessible_Failure_unreachable_url:
     - time_to_sleep: '1'
   description: Tests that verify_url_is_accessible.sl operation fails with unreachable input data
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  testFlowPath: io.cloudslang.base.http.verify_url_is_accessible
   outputs:
     - return_code: '-1'
     - output_message: 'Url is not accessible'
@@ -35,7 +35,7 @@ testVerifyUrlIsAccessible_Failure_Negative_TimeToSleep:
     - time_to_sleep: '-2'
   description: Tests that verify_url_is_accessible.sl operation fails with -2 time_to_sleep
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  testFlowPath: io.cloudslang.base.http.verify_url_is_accessible
   result: FAILURE
 
 testVerifyUrlIsAccessible_Exception_wrong_data:
@@ -44,12 +44,12 @@ testVerifyUrlIsAccessible_Exception_wrong_data:
     - time_to_sleep: 'aa'
   description: Tests that verify_url_is_accessible.sl operation goes to FAILURE with inappropriate input data
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  testFlowPath: io.cloudslang.base.http.verify_url_is_accessible
   result: FAILURE
 
 testVerifyUrlIsAccessible_Exception_missing_data:
   inputs:
   description: Tests that verify_url_is_accessible.sl operation throws exception with missing input data
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.network.verify_url_is_accessible
+  testFlowPath: io.cloudslang.base.http.verify_url_is_accessible
   throwsException: true

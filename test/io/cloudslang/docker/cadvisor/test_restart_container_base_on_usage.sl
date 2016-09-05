@@ -12,7 +12,7 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 
 flow:

@@ -8,42 +8,42 @@
 ####################################################
 testMultiplyInt:
   inputs:
-    - value1: "7"
-    - value2: "2"
+    - value1: '7'
+    - value2: '2'
   description: Tests that multiply_numbers.sl operation finishes with result = 14.0
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: "14.0"
+    - result: '14'
   result: SUCCESS
 
 testMyltiplyFloat:
   inputs:
-    - value1: ".3"
-    - value2: "2"
+    - value1: '.3'
+    - value2: '2'
   description: Tests that multiply_numbers.sl operation finishes with result = 0.6
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: "0.6"
+    - result: '0.6'
   result: SUCCESS
 
 testMyltiplyNegativeFloat:
   inputs:
-    - value1: ".5"
-    - value2: "-2"
+    - value1: '.5'
+    - value2: '-2'
   description: Tests that multiply_numbers.sl operation finishes with result = -0.6
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: "-1.0"
+    - result: '-1'
   result: SUCCESS
 
 testMyltiplyZeroWithNegativeFloat:
   inputs:
-    - value1: "0.0"
+    - value1: '0.0'
     - value2: "-2"
   description: Tests that multiply_numbers.sl operation finishes with result = 0.0
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: "0.0"
+    - result: '0.0'
   result: SUCCESS
 
 testMyltiplyStr:
@@ -53,5 +53,5 @@ testMyltiplyStr:
   description: Tests that multiply_numbers.sl operation finishes with result = 15.0
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: "15.0"
+    - result: '15'
   result: SUCCESS

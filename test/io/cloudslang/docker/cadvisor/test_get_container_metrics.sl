@@ -13,7 +13,7 @@ imports:
   cadvisor: io.cloudslang.docker.cadvisor
   strings: io.cloudslang.base.strings
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 
 flow:

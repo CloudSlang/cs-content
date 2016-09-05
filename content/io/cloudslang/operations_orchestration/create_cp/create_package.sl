@@ -31,7 +31,7 @@ namespace: io.cloudslang.operations_orchestration.create_cp
 
 imports:
   create_cp: io.cloudslang.operations_orchestration.create_cp
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
 
 flow:
   name: create_package

@@ -11,7 +11,7 @@ namespace: io.cloudslang.cloud.amazon_aws.instances
 imports:
   instances: io.cloudslang.cloud.amazon_aws.instances
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_start_instances

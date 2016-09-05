@@ -23,11 +23,9 @@ operation:
     - value2
   python_action:
     script: |
-      value1 = float(value1)
-      value2 = float(value2)
-      if bool(value1 == 0 or value2 == 0):
-        result = abs(value1 * value2)
-      else:
-        result = value1 * value2
+      from java.math import BigDecimal,MathContext
+      value1 = BigDecimal(value1, MathContext.DECIMAL64)
+      value2 = BigDecimal(value2, MathContext.DECIMAL64)
+      result = value1.multiply(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
   outputs:
      - result: ${ str(result) }

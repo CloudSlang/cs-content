@@ -35,7 +35,7 @@ namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   print: io.cloudslang.base.print
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   hod: io.cloudslang.haven_on_demand
 
 flow:

@@ -23,7 +23,7 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   marathon: io.cloudslang.marathon
 
 flow:

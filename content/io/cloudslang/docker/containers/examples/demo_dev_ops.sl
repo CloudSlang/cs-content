@@ -36,7 +36,7 @@ imports:
  containers: io.cloudslang.docker.containers
  images: io.cloudslang.docker.images
  mail: io.cloudslang.base.mail
- network: io.cloudslang.base.network
+ network: io.cloudslang.base.http
 
 flow:
   name: demo_dev_ops

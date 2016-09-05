@@ -4,7 +4,7 @@ imports:
   mysql: io.cloudslang.docker.monitoring.mysql
   containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   cmd: io.cloudslang.base.cmd
 
 flow:

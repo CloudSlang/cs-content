@@ -24,6 +24,7 @@ imports:
   chef: io.cloudslang.chef
   ssh: io.cloudslang.base.ssh
   net: io.cloudslang.base.network
+  http: io.cloudslang.base.http
 
 flow:
   name: test_chef_hpcloud_full
@@ -145,7 +146,7 @@ flow:
 
     - check_app:
         do:
-          net.verify_url_is_accessible:
+          http.verify_url_is_accessible:
             - url: ${'http://' + ip_address + ":" + app_port}
             - attempts: '300'
         publish:
