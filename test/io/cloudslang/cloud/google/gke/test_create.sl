@@ -11,7 +11,7 @@ namespace: io.cloudslang.cloud.google.gke
 
 imports:
   gke: io.cloudslang.cloud.google.gke
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   print: io.cloudslang.base.print
 
 flow:

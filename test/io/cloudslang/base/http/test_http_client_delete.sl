@@ -80,7 +80,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "0,id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: delete
           - FAILURE: GET_ID_FAILURE

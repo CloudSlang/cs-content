@@ -77,7 +77,7 @@ flow:
             - json_input: ${ response }
             - json_path: "droplets"
         publish:
-          - droplets: ${value}
+          - droplets: ${return_result}
   outputs:
     - response
     - droplets

@@ -60,7 +60,7 @@ imports:
   git: io.cloudslang.git
   ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   linux: io.cloudslang.base.os.linux.users
 
 flow:

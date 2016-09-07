@@ -154,7 +154,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "volume,id"
         publish:
-          - volume_id: ${value}
+          - volume_id: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: GET_VOLUME_ID_FAILURE

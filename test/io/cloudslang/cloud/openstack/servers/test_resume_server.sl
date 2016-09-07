@@ -14,7 +14,7 @@ imports:
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_resume_server
@@ -124,7 +124,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "server,status"
         publish:
-          - status: ${value}
+          - status: ${return_result}
         navigate:
           - SUCCESS: verify_status
           - FAILURE: GET_STATUS_FAILURE

@@ -117,7 +117,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "server,status"
         publish:
-          - status: ${value}
+          - status: ${return_result}
         navigate:
           - SUCCESS: verify_status
           - FAILURE: GET_STATUS_FAILURE

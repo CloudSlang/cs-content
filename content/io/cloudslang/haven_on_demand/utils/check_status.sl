@@ -63,7 +63,7 @@ flow:
              - json_input: ${return_result}
              - json_path: ${['actions', 0, 'status']}
         publish:
-          - value
+          - value: ${return_result}
           - error_message
     - evaluate_status:
         do:

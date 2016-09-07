@@ -63,7 +63,7 @@ testAddObjectIntoJsonArrayNegativeIndex-1:
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:
-    - json_output: '["string_object1", "string_object", "string_object2"]'
+    - return_result: '["string_object1", "string_object", "string_object2"]'
   result: SUCCESS
 
 testAddObjectIntoJsonArrayNegativeIndex-length:
@@ -74,7 +74,7 @@ testAddObjectIntoJsonArrayNegativeIndex-length:
   description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a valid command with negative index -1 * array length
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:
-    - json_output: '["string_object", "string_object1", "string_object2"]'
+    - return_result: '["string_object", "string_object1", "string_object2"]'
   result: SUCCESS
 
 testAddObjectIntoJsonEmptyArray:
@@ -118,6 +118,316 @@ testAddInvalidObjectIntoJsonArray:
     - json_array: '[{"firstName": "John", "lastName": "Doe"}]'
     - json_object: '{"firstName""John", "lastName": "Doe"}'
   description: Tests that add_object_into_json_array.sl operation fails when trying to add an invalid JSON object to an array
+  testFlowPath: io.cloudslang.base.json.add_object_into_json_array
+  outputs:
+    - return_code: "-1"
+  result: FAILURE
+
+testAddObjectIntoJsonArraySize2SingleQuotes:
+  inputs:
+    - json_array: "[{'firstName': 'Maayan', 'lastName': 'Avraham'}, {'firstName': 'Orit', 'lastName': 'Stone'}]"
+    - json_object: '{"firstName": "John", "lastName": "Doe"}'
+    - index: '0'
+  description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS when the JSON contains single quotes instead of double quotes
+  testFlowPath: io.cloudslang.base.json.add_object_into_json_array
+  outputs:
+    - return_result: "[{'lastName': 'Doe', 'firstName': 'John'}, {'lastName': 'Avraham', 'firstName': 'Maayan'}, {'lastName': 'Stone', 'firstName': 'Orit'}]"
+  result: SUCCESS
+
+testAddObjectIntoJsonArraySingleQuotesSuccess:
+  inputs:
+    - json_array: "[{
+                                                                       'server' : {
+                                                                                      'name' : 'server_1',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    },
+
+                  					{
+                                                                       'server' : {
+                                                                                      'name' : 'server_2',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    }]"
+    - json_object: "{
+                                                                         'server' : {
+                                                                                        'name' : 'server_3',
+                                                                                        'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                        'flavorRef' : '42',
+                                                                                        'block_device_mapping_v2' : [{
+                                                                                                                      'source_type' : 'image',
+                                                                                                                      'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                      'boot_index' : '0',
+                                                                                                                      'delete_on_termination' : true
+                                                                                                       }
+                                                                                        ],
+                                                                                        'networks' : [],
+                                                                                        'availability_zone' : 'nova',
+                                                                                        'key_name' : 'default_key',
+                                                                                        'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                        'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                         'metadata' : {
+                                                                                        'My Server Name' : 'Apache1',
+                                                                                        'min_ram' : '2'
+                                                                         },
+                                                                                        'security_groups' : [{
+                                                                                                                      'name' : 'default'
+                                                                                                       }
+                                                                                        ],
+                                                                                        'personality' : [{
+                                                                                                                      'path' : '/etc/banner.txt',
+                                                                                                                      'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                       }
+                                                                                        ]
+                                                                         }
+                                                      }"
+    - index: '0'
+    - json_after: "[{
+                  'server': {
+                  	'name': 'server_3',
+                  	'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  	'flavorRef': '42',
+                  	'block_device_mapping_v2': [{
+                  		'source_type': 'image',
+                  		'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  		'boot_index': '0',
+                  		'delete_on_termination': true
+                  	}],
+                  	'networks': [],
+                  	'availability_zone': 'nova',
+                  	'key_name': 'default_key',
+                  	'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                  	'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                  	'metadata': {
+                  		'My Server Name': 'Apache1',
+                  		'min_ram': '2'
+                  	},
+                  	'security_groups': [{
+                  		'name': 'default'
+                  	}],
+                  	'personality': [{
+                  		'path': '/etc/banner.txt',
+                  		'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                  	}]
+                  }
+                  },
+                  {
+                  'server': {
+                  	'name': 'server_1',
+                  	'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  	'flavorRef': '42',
+                  	'block_device_mapping_v2': [{
+                  		'source_type': 'image',
+                  		'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  		'boot_index': '0',
+                  		'delete_on_termination': true
+                  	}],
+                  	'networks': [],
+                  	'availability_zone': 'nova',
+                  	'key_name': 'default_key',
+                  	'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                  	'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                  	'metadata': {
+                  		'My Server Name': 'Apache1',
+                  		'min_ram': '2'
+                  	},
+                  	'security_groups': [{
+                  		'name': 'default'
+                  	}],
+                  	'personality': [{
+                  		'path': '/etc/banner.txt',
+                  		'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                  	}]
+                  }
+                  },
+
+                  {
+                  	'server': {
+                  		'name': 'server_2',
+                  		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  		'flavorRef': '42',
+                  		'block_device_mapping_v2': [{
+                  			'source_type': 'image',
+                  			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                  			'boot_index': '0',
+                  			'delete_on_termination': true
+                  		}],
+                  		'networks': [],
+                  		'availability_zone': 'nova',
+                  		'key_name': 'default_key',
+                  		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                  		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                  		'metadata': {
+                  			'My Server Name': 'Apache1',
+                  			'min_ram': '2'
+                  		},
+                  		'security_groups': [{
+                  			'name': 'default'
+                  		}],
+                  		'personality': [{
+                  			'path': '/etc/banner.txt',
+                  			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                  		}]
+                  	}
+                  }]
+                  "
+  description: Tests that add_object_into_json_array.sl operation finishes with SUCCESS for a complex single quotes JSON
+  testFlowPath: io.cloudslang.base.json.test_add_object_into_json_array
+  result: SUCCESS
+
+testAddObjectIntoJsonArraySingleQuotesFailure:
+  inputs:
+    - json_array: "[{
+                                                                       'server' : {
+                                                                                      'name' : 'server_1',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    },
+
+                  					{
+                                                                       'server' : {
+                                                                                      'name' : 'server_2',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    }]"
+    - json_object: "{
+                                                                         'server' : {
+                                                                                        'name' : 'server_3',
+                                                                                        'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                        'flavorRef' : '42',
+                                                                                        'block_device_mapping_v2' : [{
+                                                                                                                      'source_type' : 'image',
+                                                                                                                      'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                      'boot_index' : '0',
+                                                                                                                      'delete_on_termination' : true
+                                                                                                       }
+                                                                                        ],
+                                                                                        'networks' : [],
+                                                                                        'availability_zone' : 'nova',
+                                                                                        'key_name' : 'default_key',
+                                                                                        'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                        'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                         'metadata' : {
+                                                                                        'My Server Name' : 'Apache1',
+                                                                                        'min_ram' : '2'
+                                                                         },
+                                                                                        'security_groups' : [{
+                                                                                                                      'name' : 'default'
+                                                                                                       }
+                                                                                        ],
+                                                                                        'personality' : [{
+                                                                                                                      'path' : '/etc/banner.txt',
+                                                                                                                      'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                       }
+                                                                                        ]
+                                                                         }
+                                                      }"
+    - index: '5'
+  description: Tests that add_object_into_json_array.sl operation finishes with FAILURE for a complex single quotes JSON
   testFlowPath: io.cloudslang.base.json.add_object_into_json_array
   outputs:
     - return_code: "-1"

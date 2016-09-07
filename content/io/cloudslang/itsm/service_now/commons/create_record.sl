@@ -145,7 +145,7 @@ flow:
             - json_path: "result,sys_id"
 
         publish:
-            - system_id: ${value}
+            - system_id: ${return_result}
 
         navigate:
             - SUCCESS: SUCCESS

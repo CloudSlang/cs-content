@@ -24,7 +24,7 @@ namespace: io.cloudslang.marathon
 imports:
   marathon: io.cloudslang.marathon
   utils: io.cloudslang.base.utils
-  network: io.cloudslang.base.network
+  network: io.cloudslang.base.http
   print: io.cloudslang.base.print
 flow:
   name: setup_marathon_on_different_hosts

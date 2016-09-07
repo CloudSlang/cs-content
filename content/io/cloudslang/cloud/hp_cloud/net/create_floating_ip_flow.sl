@@ -76,7 +76,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "floatingip,floating_ip_address"
         publish:
-          - ip_address: ${value}
+          - ip_address: ${return_result}
 
     - on_failure:
       - ip_error:

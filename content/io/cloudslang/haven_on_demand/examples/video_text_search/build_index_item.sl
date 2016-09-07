@@ -42,7 +42,7 @@ flow:
             - json_input
             - json_path: ${['actions', 0, 'result', 'document']}
         publish:
-          - doc_list: ${value}
+          - doc_list: ${return_result}
           - error_message
     - append_content:
         loop:
@@ -75,7 +75,7 @@ flow:
             - json_path: ${['document', 0, 'title']}
             - value: ${title}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_link:
         do:
@@ -84,7 +84,7 @@ flow:
             - json_path: ${['document', 0, 'url']}
             - value: ${url}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_content:
         do:
@@ -93,7 +93,7 @@ flow:
             - json_path: ${['document', 0, 'content']}
             - value: ${all_content}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_text:
         do:
@@ -102,7 +102,7 @@ flow:
             - json_path: ${['document', 0, 'text']}
             - value: ${all_content.split()}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_offset:
         do:
@@ -111,7 +111,7 @@ flow:
             - json_path: ${['document', 0, 'offset']}
             - value: ${all_offsets.split()}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - on_failure:
         - print_fail:

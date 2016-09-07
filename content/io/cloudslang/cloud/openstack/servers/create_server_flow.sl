@@ -206,8 +206,7 @@ flow:
             - json_path: "server,name"
             - value: ${server_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -221,8 +220,7 @@ flow:
             - json_path: "server,imageRef"
             - value: ${img_ref}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -236,8 +234,7 @@ flow:
             - json_path: "server,flavorRef"
             - value: ${flavor_ref}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -285,8 +282,7 @@ flow:
             - json_path: "server,availability_zone"
             - value: ${availability_zone}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -309,8 +305,7 @@ flow:
             - json_path: "server,key_name"
             - value: ${key_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -333,8 +328,7 @@ flow:
             - json_path: "server,adminPass"
             - value: ${admin_pass}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -357,8 +351,7 @@ flow:
             - json_path: "server,user_data"
             - value: ${user_data}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
         navigate:
@@ -381,7 +374,7 @@ flow:
             - key: 'metadata'
             - value: ${metadata}
         publish:
-          - body_json: ${json_output}
+          - body_json: ${return_result}
           - return_result
           - error_message
           - return_code

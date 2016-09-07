@@ -121,7 +121,7 @@ flow:
             - json_input: ${ response }
             - json_path: "droplet,id"
         publish:
-          - droplet_id: ${value}
+          - droplet_id: ${return_result}
   outputs:
     - response
     - droplet_id: ${droplet_id if droplet_id else ''}

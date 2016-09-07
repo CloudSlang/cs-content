@@ -39,7 +39,7 @@ flow:
             - json_input
             - json_path: ${[key]}
         publish:
-          - value
+          - value: ${return_result}
           - error_message
     - get_list_size:
         do:
@@ -56,7 +56,7 @@ flow:
               - json_path: ${[key, index, 'reference']}
               - list: ${reference_list}
           publish:
-            - reference_list: ${list + value + " "}
+            - reference_list: ${list + return_result + " "}
             - error_message
 
   outputs:

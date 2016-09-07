@@ -74,7 +74,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "status"
         publish:
-          - status: ${value}
+          - status: ${return_result}
         navigate:
           - SUCCESS: verify_status
           - FAILURE: GET_STATUS_FAILURE
@@ -94,7 +94,7 @@ flow:
             - json_input: ${return_result}
             - json_path: "messages,0,text"
         publish:
-          - messages: ${value}
+          - messages: ${return_result}
         navigate:
           - SUCCESS: get_text_occurrence
           - FAILURE: GET_MESSAGES_FAILURE
