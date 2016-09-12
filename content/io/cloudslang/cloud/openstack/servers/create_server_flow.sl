@@ -43,7 +43,7 @@
 #!                      To disable a device from booting, the boot index of the device should be a negative value
 #!                    - Default: '0'
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @input source_type: the source type of the volume - Valid: '', 'image', 'snapshot' or 'volume' - Default: ''
+#! @input source_type: optional - the source type of the volume - Valid: '', 'image', 'snapshot' or 'volume' - Default: ''
 #! @input delete_on_termination: if True then the boot volume will be deleted when the server is destroyed, If false the
 #!                               boot volume will be deleted when the server is destroyed - Default: True
 #! @input availability_zone: - The availability zone from which to launch the server - Example: 'nova', 'us-east1'
@@ -146,7 +146,9 @@ flow:
     - flavor_ref: '42'
     - boot_index: '0'
     - uuid
-    - source_type: ''
+    - source_type:
+        default: ''
+        required: false
     - delete_on_termination: "True"
     - network_id:
         default: ''

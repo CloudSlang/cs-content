@@ -47,7 +47,6 @@ flow:
           - status_code
         navigate:
           - SUCCESS: check_result
-          - CREATE_EMPTY_JSON_FAILURE: CREATE_EMPTY_JSON_FAILURE
           - ADD_NAME_FAILURE: ADD_NAME_FAILURE
           - ADD_REGION_FAILURE: ADD_REGION_FAILURE
           - ADD_STACK_FAILURE: ADD_STACK_FAILURE
@@ -145,7 +144,6 @@ flow:
 
   results:
     - SUCCESS
-    - CREATE_EMPTY_JSON_FAILURE
     - ADD_NAME_FAILURE
     - ADD_REGION_FAILURE
     - ADD_STACK_FAILURE
