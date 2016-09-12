@@ -40,7 +40,7 @@ flow:
     - predump_image_location: ${root_path + "/" + runc_container + "/predump"}
     - dump_image_location: ${root_path + "/" + runc_container + "/dump"}
   workflow:
-  - check arguments:
+  - check_arguments:
       do:
         comparisons.equals:
           - first: ${pre_dump}
