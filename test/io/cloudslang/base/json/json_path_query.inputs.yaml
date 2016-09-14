@@ -63,7 +63,7 @@ testEmptyJsonObject:
   testSuites: [json_path_query]
   throwsException: true
 
-testEmptyJsonOPath:
+testEmptyJsonPath:
   inputs:
     - json_object: "{'a': 'b'}"
     - json_path: ""
