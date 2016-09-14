@@ -49,7 +49,6 @@ testComplexJsonPathQuery:
     - json_path: "$..book[?(@.author =~ /.*REES/i)]"
   description: Test that json path query works with a complex path.
   testFlowPath: io.cloudslang.base.json.json_path_query
-  testSuites: [json_path_query]
   outputs:
     - return_result: '[{"category":"reference","author":"Nigel Rees","title":"Sayings of the Century","price":8.95}]'
   result: SUCCESS
@@ -60,7 +59,6 @@ testEmptyJsonObject:
     - json_path: "$..book[?(@.author =~ /.*REES/i)]"
   description: Test that json path query fails if the json object is null.
   testFlowPath: io.cloudslang.base.json.json_path_query
-  testSuites: [json_path_query]
   throwsException: true
 
 testEmptyJsonPath:
@@ -69,5 +67,4 @@ testEmptyJsonPath:
     - json_path: ""
   description: Test that json path query fails if the json path is null.
   testFlowPath: io.cloudslang.base.json.json_path_query
-  testSuites: [json_path_query]
   throwsException: true
