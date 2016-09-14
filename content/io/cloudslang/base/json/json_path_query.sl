@@ -39,7 +39,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.content.json.actions
+namespace: io.cloudslang.base.json
 operation: 
    name: json_path_query
    inputs: 
@@ -64,7 +64,7 @@ operation:
    java_action:
       gav: 'io.cloudslang.content:cs-json:0.0.5'
       method_name: execute
-      class_name: io.cloudslang.content.json.actions.JsonPathQuery
+      class_name: io.cloudslang.content.actions.JsonPathQuery
    outputs: 
    -  return_result: ${returnResult}
    -  return_code: ${returnCode}
