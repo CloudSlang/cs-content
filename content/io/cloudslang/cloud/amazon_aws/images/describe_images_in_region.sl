@@ -149,7 +149,7 @@ operation:
         required: false
     - hypervisor:
         default: ''
-        required: true
+        required: false
     - image_id:
         required: false
     - imageId:
