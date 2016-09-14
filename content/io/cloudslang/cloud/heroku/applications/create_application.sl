@@ -62,20 +62,6 @@ flow:
         required: false
 
   workflow:
-    - create_empty_json:
-        do:
-          json.add_value:
-            - json_input: "{}"
-            - json_path: ""
-            - value: ''
-        publish:
-          - body_json: ${return_result}
-          - error_message
-          - return_code
-        navigate:
-          - SUCCESS: validate_name_input
-          - FAILURE: CREATE_EMPTY_JSON_FAILURE
-
     - validate_name_input:
         do:
           strings.string_equals:
@@ -88,7 +74,7 @@ flow:
     - add_name:
         do:
           json.add_value:
-            - json_input: ${body_json}
+            - json_input: '{}'
             - json_path: "name"
             - value: ${name}
         publish:
@@ -208,7 +194,6 @@ flow:
 
   results:
     - SUCCESS
-    - CREATE_EMPTY_JSON_FAILURE
     - ADD_NAME_FAILURE
     - ADD_REGION_FAILURE
     - ADD_STACK_FAILURE

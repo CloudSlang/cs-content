@@ -19,18 +19,26 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
-#! @input provider: Cloud provider on which you the instance, to attach volume to, is - Default: 'amazon'
-#! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input provider: Cloud provider on which you have the instance to attach volume to.
+#!                  Default: 'amazon'
+#! @input endpoint: Endpoint to which the request will be sent.
+#!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
+#!                  Default: ''
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#!                    Default: ''
 #! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#!                    Default: ''
+#! @input proxy_port: optional - Proxy server port used to access the provider services.
+#!                               Default: '8080'
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
-#!                           order to get all regions - Default: 'us-east-1'
+#! @input region: optional - Region where volume belongs. 'describe_regions' operation can
+#!                           be used in order to get all regions.
+#!                           Default: 'us-east-1'
 #! @input volume_id: ID of the EBS volume. The volume and instance must be within the same Availability Zone
 #! @input instance_id: ID of the instance
 #! @input device_name: Device name
+#!                     Example: '/dev/sdh'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
