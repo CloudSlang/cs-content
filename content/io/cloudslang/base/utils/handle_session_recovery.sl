@@ -48,8 +48,8 @@ flow:
           utils.is_true:
             - bool_value: ${ enabled }
         navigate:
-          - SUCCESS: check_retries
-          - FAILURE: RECOVERY_DISABLED
+          - 'TRUE': check_retries
+          - 'FALSE': RECOVERY_DISABLED
 
     - check_retries:
         do:

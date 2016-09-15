@@ -139,8 +139,8 @@ flow:
           base_utils.is_true:
             - bool_value: ${assign_floating}
         navigate:
-          - SUCCESS: allocate_new_ip
-          - FAILURE: done
+          - 'TRUE': allocate_new_ip
+          - 'FALSE': done
 
     - allocate_new_ip:
         do:

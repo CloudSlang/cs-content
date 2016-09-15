@@ -65,6 +65,9 @@ flow:
         do:
           utils.is_true:
             - bool_value: ${return_code == '0' and command_return_code == '0'}
+        navigate:
+            - 'TRUE': SUCCESS
+            - 'FALSE': FAILURE
   outputs:
     - return_result
     - standard_err
