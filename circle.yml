@@ -39,10 +39,6 @@ dependencies:
   override:
     - docker info
     - docker images
-    - exit 1
-
-test:
-  pre:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
@@ -86,6 +82,8 @@ test:
         ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
+
+test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
