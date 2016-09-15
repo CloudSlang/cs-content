@@ -43,8 +43,8 @@ flow:
             - first: ${indices}
             - second: ${[]}
         navigate:
-          - EQUALS: SUCCESS
-          - NOT_EQUALS: build_header
+          - 'TRUE': SUCCESS
+          - 'FALSE': build_header
     - build_header:
         do:
           strings.append:

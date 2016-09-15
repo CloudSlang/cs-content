@@ -46,8 +46,8 @@ flow:
           - first: ${pre_dump}
           - second: "true"
       navigate:
-          - EQUALS: pre_dump
-          - NOT_EQUALS: dump
+          - 'TRUE': pre_dump
+          - 'FALSE': dump
   - pre_dump:
       do:
         ssh.ssh_flow:
