@@ -39,6 +39,7 @@ dependencies:
   override:
     - docker info
     - docker images
+    - exit 1
 
 test:
   pre:
