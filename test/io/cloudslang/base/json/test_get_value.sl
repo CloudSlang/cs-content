@@ -39,8 +39,8 @@ flow:
             - second: ${ found_value }
 
         navigate:
-          - EQUALS: SUCCESS
-          - NOT_EQUALS: EQUALITY_FAILURE
+          - 'TRUE': SUCCESS
+          - 'FALSE': EQUALITY_FAILURE
 
   results:
     - SUCCESS
