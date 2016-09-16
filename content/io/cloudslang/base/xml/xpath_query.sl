@@ -14,6 +14,7 @@
 #!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_query: xpath query
+#!                     Example: '/root/child/'
 #! @input query_type: type of selection result from query
 #!                    attribute value; leave empty if setting the value of
 #!                    valid: 'node', 'nodelist' or 'value'
