@@ -32,7 +32,7 @@
 #! @input json_object: The JSON in the form of a string.
 #!                     Example: {'key1': 'value1', 'key2': 'value2'}
 #! @input json_path: The JSON path to be executed.
-#!                   Example: $.key1
+#!                   Example: '$.key1'
 #! @output return_result: The resulted JSON from the query execution.
 #! @output return_code: 0 the query succeeded, -1 otherwise.
 #! @output exception: The error's stacktrace.
