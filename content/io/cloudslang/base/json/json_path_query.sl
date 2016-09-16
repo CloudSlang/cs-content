@@ -12,22 +12,22 @@
 #!
 #! Notes:
 #!  1.Query syntax:
-#!  JSONPath 		      Description
+#!  JSONPath              Description
 #!  ------------          -------------
-#!  '$' 		          The root object/element
-#!  '@' 		          The current object/element #!\s+@
-#!  '.' or '[]' 		  Child operator
-#!  'n/a' 		          Parent operator
-#!  '..' 		          Recursive descent. JSONPath borrows this syntax from E4X.
-#!  '*' 		          Wildcard. All objects/elements regardless of their names.
-#!  'n/a' 		          Attribute access. JSON structures do not have attributes.
-#!  '[]' 		          Subscript operator. XPath uses it to iterate over element collections and for predicates.
+#!  '$'                   The root object/element
+#!  '@'                   The current object/element #!\s+@
+#!  '.' or '[]'           Child operator
+#!  'n/a'                 Parent operator
+#!  '..'                  Recursive descent. JSONPath borrows this syntax from E4X.
+#!  '*'                   Wildcard. All objects/elements regardless of their names.
+#!  'n/a'                 Attribute access. JSON structures do not have attributes.
+#!  '[]'                  Subscript operator. XPath uses it to iterate over element collections and for predicates.
 #!                        In Javascript and JSON it is the native array operator.
-#!  '[,]' 		          Union operator in XPath results in a combination of node sets.
+#!  '[,]'                 Union operator in XPath results in a combination of node sets.
 #!                        JSONPath allows alternate names or array indices as a set.
 #!  '[start:end:step]'    Array slice operator borrowed from ES4.
-#!  '?()' 	   	          Applies a filter (script) expression.
-#!  '()' 		          Script expression, using the underlying script engine.
+#!  '?()'                 Applies a filter (script) expression.
+#!  '()'                  Script expression, using the underlying script engine.
 #!
 #! @input json_object: The JSON in the form of a string.
 #!                     Example: {'key1': 'value1', 'key2': 'value2'}
