@@ -27,7 +27,7 @@
 #!                        JSONPath allows alternate names or array indices as a set.
 #!  '[start:end:step]'    Array slice operator borrowed from ES4.
 #!  '?()' 	   	          Applies a filter (script) expression.
-#!  '()' 		          Sript expression, using the underlying script engine.
+#!  '()' 		          Script expression, using the underlying script engine.
 #!
 #! @input json_object: The JSON in the form of a string.
 #!                     Example: {'key1': 'value1', 'key2': 'value2'}
