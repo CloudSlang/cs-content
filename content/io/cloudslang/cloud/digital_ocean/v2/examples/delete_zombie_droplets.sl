@@ -20,6 +20,8 @@
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @result SUCCESS: zombie droplets deleted successfully
+#! @result FAILURE: something went wrong while trying to delete zombie droplets
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud.digital_ocean.v2.examples
@@ -85,3 +87,6 @@ flow:
             - DELETED: SUCCESS
             - NOT_DELETED: SUCCESS
             - FAILURE: FAILURE
+  results:
+    - SUCCESS
+    - FAILURE

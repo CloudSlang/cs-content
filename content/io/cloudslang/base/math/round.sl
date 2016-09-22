@@ -10,6 +10,7 @@
 #! @description: rounds a float by converting it to integer and saving it as a string.
 #! @input value1: string which represents a float, with or without a percentage - Example: "58.44%"
 #! @output error_message: error message if error occurred
+#! @output rounded: rounded value of the float as a string
 #! @result SUCCESS: the value was rounded successfully
 #! @result FAILURE: input was not in correct format
 #!!#

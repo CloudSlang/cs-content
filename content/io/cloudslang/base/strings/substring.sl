@@ -11,6 +11,7 @@
  #! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
  #! @input end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
  #! @output new_string: new string - Example: "good"
+ #! @output error_message: something went wrong
  #! @result SUCCESS: if error_message is empty and new_string returns a value
  #! @result FAILURE: otherwise
  #!!#

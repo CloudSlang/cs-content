@@ -18,6 +18,7 @@
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
 #! @output standard_err: any STDERR
+#! @result SUCCESS: filtered result returned successfully
 #!!#
 ####################################################
 

@@ -7,29 +7,6 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Runs a python script provided through a inline script or the canonical path to the python file.
-#!               Note: The 'script' and 'file_path' are mutually exclusive
-#! @input script: The inline script to run.
-#! @input file_path: The canonical path to the script file.
-#!                   Note: The file should not be a symbolink link
-#! @input argv: The arguments to be passed to the script with the delimiter " " (a space). They will be present in the
-#!              script as an array named 'argv' and if the script is from a file, the file absolute path will be added
-#!              as the first element otherwise the word 'script'
-#!              Note: if you pass in the 'script' and the 'argv' "1 2 3 'the red fox'", in the script it will be as:
-#!                    argv = ['script', '1', '2', '3', 'the red fox']
-#!
-#! @input timeout: How many seconds to wait for the command to finish (in seconds).
-#!                 Default value: 0 (waits indefinitely).
-#!                 Note: It's recommended to have a non-zero value
-#! @output return_result: STDOUT of the script that was ran
-#! @output return_code: The exit code or errno of the script if present, 0 if the script succeeded or -1 otherwise.
-#! @output error_message: The error message of the script.
-#! @output return_code: The return code of the script
-#! @result SUCCESS: If the script ran successfully with no error messages
-#! @result FAILURE: If the script was invalid, the timeout was suppressed  or an error occurred
-#!!#
-
-# !!
 #! @description: Executes a PowerShell script on a remote host.
 #!
 #! @input host: The hostname or ip address of the remote host.
@@ -94,63 +71,41 @@ operation:
    name: powershell_script
    inputs:
    -  host:
-         private: false
-         sensitive: false
          required: true
    -  port:
-         private: false
-         sensitive: false
          required: false
    -  protocol:
-         private: false
-         sensitive: false
          required: false
    -  username:
-         private: false
-         sensitive: false
          required: false
    -  password:
-         private: false
          sensitive: true
          required: false
    -  auth_type:
-         private: false
-         sensitive: false
          required: false
    -  authType:
          private: true
          default: ${get("auth_type", "")}
-         sensitive: false
          required: false
    -  proxy_host:
-         private: false
-         sensitive: false
          required: false
    -  proxyHost:
          private: true
          default: ${get("proxy_host", "")}
-         sensitive: false
          required: false
    -  proxy_port:
-         private: false
-         sensitive: false
          required: false
    -  proxyPort:
          private: true
          default: ${get("proxy_port", "")}
-         sensitive: false
          required: false
    -  proxy_username:
-         private: false
-         sensitive: false
          required: false
    -  proxyUsername:
          private: true
          default: ${get("proxy_username", "")}
-         sensitive: false
          required: false
    -  proxy_password:
-         private: false
          sensitive: true
          required: false
    -  proxyPassword:
@@ -159,34 +114,24 @@ operation:
          sensitive: true
          required: false
    -  trust_all_roots:
-         private: false
-         sensitive: false
          required: false
    -  trustAllRoots:
          private: true
          default: ${get("trust_all_roots", "")}
-         sensitive: false
          required: false
    -  x509hostname_verifier:
-         private: false
-         sensitive: false
          required: false
    -  x509HostnameVerifier:
          private: true
          default: ${get("x509hostname_verifier", "")}
-         sensitive: false
          required: false
    -  trust_keystore:
-         private: false
-         sensitive: false
          required: false
    -  trustKeystore:
          private: true
          default: ${get("trust_keystore", "")}
-         sensitive: false
          required: false
    -  trust_password:
-         private: false
          sensitive: true
          required: false
    -  trustPassword:
@@ -195,38 +140,26 @@ operation:
          sensitive: true
          required: false
    -  kerberos_conf_file:
-         private: false
-         sensitive: false
          required: false
    -  kerberosConfFile:
          private: true
          default: ${get("kerberos_conf_file", "")}
-         sensitive: false
          required: false
    -  kerberos_login_conf_file:
-         private: false
-         sensitive: false
          required: false
    -  kerberosLoginConfFile:
          private: true
          default: ${get("kerberos_login_conf_file", "")}
-         sensitive: false
          required: false
    -  kerberos_skip_port_for_lookup:
-         private: false
-         sensitive: false
          required: false
    -  kerberosSkipPortForLookup:
          private: true
          default: ${get("kerberos_skip_port_for_lookup", "")}
-         sensitive: false
          required: false
    -  keystore:
-         private: false
-         sensitive: false
          required: false
    -  keystore_password:
-         private: false
          sensitive: true
          required: false
    -  keystorePassword:
@@ -235,35 +168,24 @@ operation:
          sensitive: true
          required: false
    -  winrm_max_envelop_size:
-         private: false
-         sensitive: false
          required: false
    -  winrmMaxEnvelopSize:
          private: true
          default: ${get("winrm_max_envelop_size", "")}
-         sensitive: false
          required: false
    -  script:
-         private: false
-         sensitive: false
          required: true
    -  winrm_locale:
-         private: false
-         sensitive: false
          required: false
    -  winrmLocale:
          private: true
          default: ${get("winrm_locale", "")}
-         sensitive: false
          required: false
    -  operation_timeout:
-         private: false
-         sensitive: false
          required: false
    -  operationTimeout:
          private: true
          default: ${get("operation_timeout", "")}
-         sensitive: false
          required: false
    java_action:
       gav: 'io.cloudslang.content:cs-powershell:0.0.3'

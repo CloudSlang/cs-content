@@ -21,6 +21,7 @@
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
 #! @input password: optional - password used for URL authentication
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
@@ -124,6 +125,7 @@ operation:
     - trustPassword:
         default: ${get("trust_password", "")}
         required: false
+        private: true
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
