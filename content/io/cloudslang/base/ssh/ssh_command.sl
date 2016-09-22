@@ -32,7 +32,7 @@
 #!                         added to the operation.
 #!                         Default value: aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
-#! @input connect_timeout: - optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
+#! @input connect_timeout: optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during the
@@ -40,7 +40,7 @@
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @input proxy_host: optional - The proxy server used to access the remote machine.
-#! @input proxy_port: optional - The proxy server port. Default: 8080. Valid values: -1 and numbers greater than 0.
+#! @input proxy_port: optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
 #! @input proxy_username: optional - The user name used when connecting to the proxy.
 #! @input proxy_password: optional - The proxy server password associated with the proxy_username input value.
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
