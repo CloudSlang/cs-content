@@ -43,7 +43,8 @@ operation:
         default: ${get("source_host", "")}
         required: false
         private: true
-    - source_path
+    - source_path:
+        required: false
     - sourcePath:
         default: ${get("source_path"), ""}
         required: false
