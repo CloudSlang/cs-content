@@ -81,7 +81,7 @@ operation:
         private: true
     - destination_path
     - destinationPath:
-        default: ${get("destination_path", "')}
+        default: ${get("destination_path", "")}
         required: false
         private: true
     - destination_port:
