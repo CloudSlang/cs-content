@@ -34,7 +34,22 @@
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
 #! @result SUCCESS: SSH access was successful
-#! @result FAILURE: otherwise
+#! @result INSTALL_JAVA_FAILURE: there was an error installing java on the machine
+#! @result SSH_VERIFY_GROUP_EXIST_FAILURE: error verifying group
+#! @result CHECK_GROUP_FAILURE: error checking for group
+#! @result ADD_GROUP_FAILURE: error adding group
+#! @result ADD_USER_FAILURE: error adding user
+#! @result CREATE_DOWNLOADING_FOLDER_FAILURE: error creating download folder
+#! @result DOWNLOAD_TOMCAT_APPLICATION_FAILURE: error downloading tomcat application
+#! @result UNTAR_TOMCAT_APPLICATION_FAILURE: error unpacking tomcat application
+#! @result CREATE_SYMLINK_FAILURE: error creating symlink
+#! @result INSTALL_TOMCAT_APPLICATION_FAILURE: error installing tomcat
+#! @result CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat folder ownership
+#! @result CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat download folder
+#! @result CREATE_INITIALIZATION_FOLDER_FAILURE: error creating initialization folder
+#! @result UPLOAD_INIT_CONFIG_FILE_FAILURE: error uploading config file
+#! @result CHANGE_PERMISSIONS_FAILURE: error changing permissions
+#! @result START_TOMCAT_APPLICATION_FAILURE: error starting tomcat application
 #!!#
 ####################################################
 namespace: io.cloudslang.base.os.linux.samples

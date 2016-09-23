@@ -116,7 +116,10 @@ operation:
         required: false
     - identity_id:
         required: false
-    - identityId: ${get("identity_id", "")}
+    - identityId:
+        default: ${get("identity_id", "")}
+        private: true
+        required: false
     - delete_on_termination:
         required: false
     - deleteOnTermination:

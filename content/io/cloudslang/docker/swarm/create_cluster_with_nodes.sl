@@ -20,7 +20,7 @@
 #! @input agent_passwords: optional - comma delimited list of password for agent machines - Example: "pass,pass"
 #! @input agent_private_key_files: optional - comma delimited list of paths to private key files for agent machines
 #!                                 Example: "foo/key_rsa,bar/key_rsa"
-#! @input attempt: number of attempts to check whether nodes were added to the cluster
+#! @input attempts: number of attempts to check whether nodes were added to the cluster
 #!                 total waiting time ~ attempt * time_to_sleep
 #!                 Default: '60'
 #! @input time_to_sleep: time in seconds to sleep between successive checks of whether nodes were added to the cluster
@@ -64,8 +64,10 @@ flow:
         sensitive: true
     - agent_private_key_files:
         required: false
-    - attempts: '60'
-    - time_to_sleep: '5'
+    - attempts:
+        default: '60'
+    - time_to_sleep:
+        default: '5'
   workflow:
     - create_swarm_cluster:
         do:

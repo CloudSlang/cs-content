@@ -116,6 +116,3 @@ flow:
   outputs:
     - return_code
     - output_message: ${"Url is accessible" if return_code == '0' else "Url is not accessible"}
-  results:
-    - SUCCESS
-    - FAILURE

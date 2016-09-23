@@ -49,6 +49,7 @@
 #!                                from authentication call response
 #! @result GET_AUTHENTICATION_FAILURE: authentication call fails
 #! @result CREATE_VOLUME_FAILURE: volume could not be created
+#! @result GET_VOLUME_ID_FAILURE: volume ID could not be retrieved
 #!!#
 ####################################################
 

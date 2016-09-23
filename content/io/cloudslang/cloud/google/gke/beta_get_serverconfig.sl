@@ -30,7 +30,7 @@
 #! @output response: JSON response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise
 #! @result SUCCESS: container configuration retrieved successfully
-#! @result FAILUREL: something went wrong while trying to retrieve container information
+#! @result FAILURE: something went wrong while trying to retrieve container information
 #!!#
 ####################################################
 

@@ -10,6 +10,8 @@
 #! @description: Un-deploys/terminates an Amazon Web Services Elastic Compute Cloud (EC2 Classic) instance
 #!               Note: As with all Amazon EC2 operations, the results might not appear immediately. Terminated instances
 #!                     remain visible after termination for approximately one hour
+#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
+#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
@@ -27,7 +29,9 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: the instance was successfully un-deployed/terminated
-#! @result FAILURE: an error occurred when trying to launch/create a server (instance)
+#! @result TERMINATE_INSTANCE_FAILURE: error while trying to terminate instance
+#! @result CHECK_TERMINATE_INSTANCE_FAILURE: error while trying to check if instance was terminated
+#! @result SHUTTING_DOWN_FAILURE: error while trying to shutdown instance
 #!!#
 ####################################################
 namespace: io.cloudslang.cloud.amazon_aws.samples

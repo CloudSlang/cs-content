@@ -146,6 +146,3 @@ flow:
     - return_code
     - status_code
     - response_headers
-  results:
-    - SUCCESS
-    - FAILURE

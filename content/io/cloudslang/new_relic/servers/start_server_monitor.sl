@@ -50,7 +50,7 @@ flow:
     - username
     - password:
         sensitive: true
-    - closeSession:
+    - close_session:
         required: false
         default: ''
     - private_key_file:
@@ -71,7 +71,7 @@ flow:
             - port
             - username
             - password
-            - closeSession
+            - close_session
             - command: "/etc/init.d/newrelic-sysmond start"
             - timeout
             - private_key_file

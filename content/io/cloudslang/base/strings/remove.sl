@@ -10,6 +10,8 @@
 #! @input origin_string: optional - original string - Example: "SPAMgood morning"
 #! @input text: optional - text to be removed - Example: "SPAM"
 #! @output new_string: string after removing - Example: "good morning"
+#! @result SUCCESS: text removed from string successfully
+#! @result FAILURE: something went wrong while trying to remote text from the string
 #!!#
 ####################################################
 
@@ -30,3 +32,6 @@ operation:
          new_string = origin_string
   outputs:
     - new_string
+  results:
+    - SUCCESS: ${new_string != ''}
+    - FAILURE

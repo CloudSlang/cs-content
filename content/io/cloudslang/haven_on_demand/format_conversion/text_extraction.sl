@@ -9,6 +9,7 @@
 #!!
 #! @description: Extracts metadata and text content from a file.
 #! @input api_key: API Key
+#! @input text_extraction_api: URL to the HoN APi
 #! @input reference: Haven OnDemand reference
 #! @input additional_metadata: JSON object containing additional metadata to add
 #!                             to the extracted documents.
@@ -35,6 +36,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: metadata and content successfully extracted from the file
+#! @result FAILURE: there was an error while trying to extract metadata and/or context from the file
 #!!#
 ####################################################
 

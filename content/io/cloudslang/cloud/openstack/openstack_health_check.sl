@@ -26,16 +26,33 @@
 #! @input to: email recipient
 #! @input from: email sender
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @result SUCCESS:
-#! @result CREATE_SERVER_FAILURE:
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE:
-#! @result GET_TENANT_ID_FAILURE:
-#! @result GET_AUTHENTICATION_FAILURE:
-#! @result GET_SERVERS_FAILURE:
-#! @result EXTRACT_SERVERS_FAILURE:
-#! @result CHECK_SERVER_FAILURE:
-#! @result SEND_EMAIL_FAILURE:
-#! @result FAILURE:
+#! @result SUCCESS: server created, checked and deleted successfully
+#! @result CREATE_SERVER_FAILURE: there was an error while trying to create the server
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: there was an error wihle trying to get authentification token
+#! @result GET_TENANT_ID_FAILURE: there was an error wihle trying to get tenant ID
+#! @result GET_AUTHENTICATION_FAILURE: there was an error while trying to authentigicate
+#! @result GET_SERVERS_FAILURE: there was an error while trying to retrieve servers
+#! @result EXTRACT_SERVERS_FAILURE: there was an error wihle trying to extract servers
+#! @result CHECK_SERVER_FAILURE: there was an error while trying to check the server
+#! @result SEND_EMAIL_FAILURE: there was an error while trying to send email
+#! @result FAILURE: something went wrong
+#! @result ADD_NAME_FAILURE: there was an error while trying to add server name
+#! @result ADD_IMG_REF_FAILURE: there was an error while trying to add image reference
+#! @result ADD_FLAVOR_REF_FAILURE: there was an error while trying to add flavor reference
+#! @result ADD_AVAILABILITY_ZONE_FAILURE: there was an error while trying to add availability zone
+#! @result ADD_KEY_NAME_FAILURE: there was an error while trying to add key anem
+#! @result ADD_ADMIN_PASS_FAILURE: there was an error wihle trying to set up admin password
+#! @result ADD_USER_DATA_FAILURE: there was an error while trying to set user data
+#! @result ADD_NETWORK_FAILURE: there was an error while trying to add server to the network
+#! @result ADD_METADATA_FAILURE: there was an error while trying to add metadata
+#! @result ADD_DEFAULT_SECURITY_GROUP_FAILURE: there was an error while trying to set up default security group
+#! @result ADD_SECURITY_GROUPS_FAILURE: there was an error while trying to add security groups
+#! @result ADD_BOOT_INDEX_FAILURE: there was an error while trying to set boot index
+#! @result ADD_UUID_FAILURE: there was an error while trying to add UUID
+#! @result ADD_SOURCE_TYPE_FAILURE: there was an error wihle trying to add srouce type
+#! @result ADD_DELETE_ON_TERMINATION_FAILURE: there was an error while trying to delete on termination
+#! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: there was an error wihle trying to add block device mapping
+#! @result ADD_PERSONALITY_FAILURE: there was an error wihle trying to set up personality
 #!!#
 ####################################################
 

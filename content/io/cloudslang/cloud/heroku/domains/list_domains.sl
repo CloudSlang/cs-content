@@ -9,6 +9,8 @@
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#! @result SUCCESS: domains associated to a specific application retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the application's domains
 #!!#
 ####################################################
 

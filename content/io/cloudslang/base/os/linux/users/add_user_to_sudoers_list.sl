@@ -24,8 +24,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute.
 #! @output return_code: return code of the command
-#! @output SUCCESS: user was successfully added
-#! @output FAILURE: error occurred when trying to add user
+#! @result SUCCESS: user was successfully added
+#! @result FAILURE: error occurred when trying to add user
 #!!#
 ####################################################
 
@@ -69,11 +69,20 @@ flow:
           - command_return_code
           - return_code
 
+        navigate:
+          - SUCCESS: check_result
+          - FAILURE: FAILURE
+
     - check_result:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ command_return_code }
             - string_to_find: "0"
+
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+
   outputs:
     - return_result
     - standard_out
@@ -81,3 +90,7 @@ flow:
     - exception
     - command_return_code
     - return_code
+
+  results:
+    - SUCCESS
+    - FAILURE

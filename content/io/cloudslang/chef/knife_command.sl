@@ -19,6 +19,7 @@
 #! @output knife_result: filtered output of knife command
 #! @output standard_err: any STDERR
 #! @result SUCCESS: filtered result returned successfully
+#! @result FAILURE: something went wrong while running knife command
 #!!#
 ####################################################
 
@@ -60,7 +61,15 @@ flow:
           - standard_err
           - return_code
 
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+
   outputs:
     - raw_result: ${return_result}
     - knife_result: ${standard_err + ' ' + return_result.split('[knife output]')[1] if return_result else ""}
     - standard_err
+
+  results:
+    - SUCCESS
+    - FAILURE

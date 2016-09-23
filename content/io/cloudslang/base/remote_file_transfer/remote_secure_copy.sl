@@ -6,8 +6,8 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
 #!!
-#! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different remote machine using
-#!               the SCP protocol.
+#! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different
+#!               remote machine using the SCP protocol.
 #! @input source_host: optional - host of the source machine (only if remote to remote)
 #! @input source_path: absolute or relative path of the file about to be copied
 #! @input source_port: optional - port number for the source machine (only if remote to remote) - Default: '22'
@@ -74,16 +74,25 @@ operation:
         required: false
         private: true
     - destination_host
-    - destinationHost: ${destination_host}
+    - destinationHost:
+        default: ${get("destination_host", ""}
+        required: false
+        private: true
     - destination_path
-    - destinationPath: ${destination_path}
+    - destinationPath:
+        default: ${get("destination_path", "')}
+        required: false
+        private: true
     - destination_port:
         required: false
     - destinationPort:
         default: ${get("destination_port", "22")}
         private: true
     - destination_username
-    - destinationUsername: ${destination_username}
+    - destinationUsername:
+        default: ${get("destination_username", ""}
+        required: false
+        private: true
     - destination_password:
         required: false
         sensitive: true

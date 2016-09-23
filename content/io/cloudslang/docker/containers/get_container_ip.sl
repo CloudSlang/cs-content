@@ -25,6 +25,8 @@
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output container_ip: IP of the specified container
 #! @output error_message: error message
+#! @result SUCCESS: Docker container IP retrieved sucessfully
+#! @result FAILURE: there was an error while trying to retrieve the Docker container IP address
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers

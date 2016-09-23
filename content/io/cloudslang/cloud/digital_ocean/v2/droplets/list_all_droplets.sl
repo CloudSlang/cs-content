@@ -19,6 +19,7 @@
 #! @output droplets: list of droplet objects - JSON types (object, array) are represented as Python objects
 #!                   information can be retrieved in Python style - Example: droplet['name']
 #! @result SUCCESS: information about all droplets retrieved successfully
+#! @result FAILURE: something went wrong while trying to list droplets
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud.digital_ocean.v2.droplets

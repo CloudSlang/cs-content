@@ -34,6 +34,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: content successfully added to the text index
+#! @result FAILURE: there was an error wihle trying to add content to the text index
 #!!#
 ####################################################
 

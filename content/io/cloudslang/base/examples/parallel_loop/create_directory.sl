@@ -41,6 +41,3 @@ flow:
 
   outputs:
     - error_msg: ${'Failed to create directory with name ' + directory_name + ',error is ' + message}
-  results:
-    - SUCCESS
-    - FAILURE

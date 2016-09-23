@@ -50,6 +50,3 @@ flow:
               print.print_text:
                 - text: ${error}
             break: []
-  results:
-    - SUCCESS
-    - FAILURE
