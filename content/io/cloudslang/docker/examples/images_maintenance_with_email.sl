@@ -85,5 +85,20 @@ flow:
             - password: ${email_password}
             - enable_TLS
 
+    - on_failure:
+      - send_failure_mail:
+          do:
+            mail.send_mail:
+              - hostname: ${email_hostname}
+              - port: ${email_port}
+              - from: ${email_from}
+              - to: ${email_to}
+              - subject: >
+                  ${"Machine '" + docker_host + "' cleanup: FAILURE"}
+              - body: 'Please check logs on CS machine'
+              - username: ${email_username}
+              - password: ${email_password}
+              - enable_TLS
+
   outputs:
     - total_amount_of_images_deleted
