@@ -32,6 +32,3 @@ operation:
          new_string = origin_string
   outputs:
     - new_string
-  results:
-    - SUCCESS: ${new_string != ''}
-    - FAILURE
