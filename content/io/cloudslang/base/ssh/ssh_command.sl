@@ -64,9 +64,13 @@ operation:
     name: ssh_command
     inputs:
       - host
-      - port: '22'
+      - port:
+          default: '22'
+          required: false
       - command
-      - pty: 'false'
+      - pty:
+          default: 'false'
+          required: false
       - username
       - password:
           required: false
@@ -86,7 +90,7 @@ operation:
           required: false
           private: true
       - known_hosts_policy:
-          default: allow
+          default: 'allow'
           required: false
       - knownHostsPolicy:
           default: ${get("known_hosts_policy", "")}
@@ -105,7 +109,9 @@ operation:
           default: ${get("allowed_ciphers", "")}
           required: false
           private: true
-      - timeout: '90000'
+      - timeout:
+          default: '90000'
+          required: false
       - connect_timeout:
           default: '10000'
           required: false
