@@ -46,7 +46,7 @@ operation:
     - source_path:
         required: false
     - sourcePath:
-        default: ${get("source_path"), ""}
+        default: ${get("source_path", ""}
         required: false
         private: true
     - source_port:
