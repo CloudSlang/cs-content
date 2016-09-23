@@ -76,7 +76,7 @@ operation:
         private: true
     - destination_host
     - destinationHost:
-        default: ${get("destination_host", ""}
+        default: ${get("destination_host", "")}
         required: false
         private: true
     - destination_path
@@ -91,7 +91,7 @@ operation:
         private: true
     - destination_username
     - destinationUsername:
-        default: ${get("destination_username", ""}
+        default: ${get("destination_username", "")}
         required: false
         private: true
     - destination_password:
