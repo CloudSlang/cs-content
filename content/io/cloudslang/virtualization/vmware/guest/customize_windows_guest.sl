@@ -238,7 +238,7 @@ operation:
         required: false
     - change_sid: 'true'
     - changeSID:
-        default: ${get("change_sid", ""}}
+        default: ${get("change_sid", "")}
         required: false
         private: true
     - auto_logon_count:
