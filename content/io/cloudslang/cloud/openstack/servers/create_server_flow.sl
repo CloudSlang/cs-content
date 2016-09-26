@@ -78,18 +78,18 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by operation
 #! @result SUCCESS: server created successfully
-#! @result GET_AUTHENTICATION_FAILURE: there was an error while retrieving authentification
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: there was an error while retrieving token authentification
+#! @result GET_AUTHENTICATION_FAILURE: there was an error while retrieving authentication
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: there was an error while retrieving token authentication
 #! @result GET_TENANT_ID_FAILURE: there was an error while trying to get the tenant ID
 #! @result ADD_NAME_FAILURE: there was an error while trying to add server name
 #! @result ADD_IMG_REF_FAILURE: there was an error while trying to add image reference to the server
-#! @result ADD_FLAVOR_REF_FAILURE: there was an error wihle trying to add flavor reference to the server
-#! @result ADD_KEY_NAME_FAILURE: there was an error wihle trying to add key name to the server
+#! @result ADD_FLAVOR_REF_FAILURE: there was an error while trying to add flavor reference to the server
+#! @result ADD_KEY_NAME_FAILURE: there was an error while trying to add key name to the server
 #! @result ADD_SECURITY_GROUPS_FAILURE: there was an error while trying to add the security group to the server
 #! @result ADD_ADMIN_PASS_FAILURE: there was an error while trying to add the admin password
 #! @result ADD_USER_DATA_FAILURE: there was an error while trying to add user data
 #! @result ADD_AVAILABILITY_ZONE_FAILURE: there was an error while trying to add availability zone
-#! @result ADD_DEFAULT_SECURITY_GROUP_FAILURE: there was an error while trying to add the default security gorup
+#! @result ADD_DEFAULT_SECURITY_GROUP_FAILURE: there was an error while trying to add the default security group
 #! @result ADD_SECURITY_GROUPS_FAILURE: there was an error while trying to add the security groups
 #! @result ADD_BOOT_INDEX_FAILURE: there was an error while trying to add boot index
 #! @result ADD_DELETE_ON_TERMINATION_FAILURE: there was an error while trying to add delete on termination
@@ -98,10 +98,10 @@
 #! @result ADD_PERSONALITY_FAILURE: there was an error while trying to add personality
 #! @result ADD_UUID_FAILURE: there was an error while trying to add the UUID
 #! @result ADD_SOURCE_TYPE_FAILURE: there was an error while trying to add source type
-#! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: there was an error wihle tryint to add the device mapping
+#! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: there was an error while trying to add the device mapping
 #! @result ADD_INSTANCE_SOURCE_BOOT_FAILURE: there was an error while trying to add instance source boot
 #! @result ADD_SERVER_OBJECT_JSON_FAILURE: there was an error while trying to add server JSON object
-#! @result CREATE_SERVER_FAILURE: there was an error wihle trying to create server
+#! @result CREATE_SERVER_FAILURE: there was an error while trying to create server
 #!!#
 ####################################################
 

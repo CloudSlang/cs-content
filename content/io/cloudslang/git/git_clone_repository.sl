@@ -27,7 +27,7 @@
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
 #! @result SUCCESS: GIT repository cloned successfully
-#! @result FAILURE: there was an error while tyring to clone the GIT repository
+#! @result FAILURE: there was an error while trying to clone the GIT repository
 #!!#
 ####################################################
 namespace: io.cloudslang.git

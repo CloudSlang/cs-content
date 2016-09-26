@@ -41,7 +41,7 @@
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
 #! @result SUCCESS: best phrases and terms retrieved successfully
-#! @result FAILURE: there was an error while tyring to retrieve best phrases and terms
+#! @result FAILURE: there was an error while trying to retrieve best phrases and terms
 #!!#
 ####################################################
 

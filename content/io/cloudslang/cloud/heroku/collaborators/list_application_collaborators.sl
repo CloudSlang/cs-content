@@ -9,7 +9,7 @@
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
-#! @result SUCCESS: Heroku collaborators for a specigic application retrieved successfully
+#! @result SUCCESS: Heroku collaborators for a specific application retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve Heroku application collaborators
 #!!#
 ####################################################

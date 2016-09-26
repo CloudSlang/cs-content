@@ -27,7 +27,7 @@
 #! @output standard_err: error message
 #! @output return_result: list of running processes on the container
 #! @result SUCCESS: the list of running processes on that specific container retrieved sucessfully
-#! @result FAILURE: there was an error wihle trying to retrieve the list of running processes from the container
+#! @result FAILURE: there was an error while trying to retrieve the list of running processes from the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers

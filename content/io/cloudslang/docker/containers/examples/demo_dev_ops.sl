@@ -29,7 +29,7 @@
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
 #! @result SUCCESS: Docker containers linked successfully
-#! @result FAILURE: there was an error while tyring to link Docker containers
+#! @result FAILURE: there was an error while trying to link Docker containers
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
