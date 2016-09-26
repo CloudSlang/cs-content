@@ -49,6 +49,8 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#! @result SUCCESS: GET REST call executed successfully
+#! @result FAILURE: something went wrong
 #!!#
 ################################################
 
@@ -145,3 +147,4 @@ flow:
     - return_code
     - status_code
     - response_headers
+

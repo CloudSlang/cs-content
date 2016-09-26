@@ -9,12 +9,12 @@
 #!!
 #! @description: Checks if the latest build of a project's branch from CircieCI has failed.
 #!               If the latest build from the branch has failed, it will send an email,
-#!               to the supervisor and commiter with the following:
+#!               to the supervisor and committer with the following:
 #!               Example:
 #!                        Repository: repository name
 #!                        Branch: branch name
 #!                        Username: github username
-#!                        Commiter email: email of github username
+#!                        committer email: email of github username
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from the branch has not failed, it will send an email to reflect that.
@@ -61,16 +61,16 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username - CircleCi username.
-#! #input project - Github project name.
-#! #input branch - Github project branch.
+#! @input username: CircleCi username.
+#! @input project: Github project name.
+#! @input branch: Github project branch.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! #input commiter_email: email address of the commiter.
-#! #input supervisor: github supervisor email.
+#! @input committer_email: email address of the committer.
+#! @input supervisor: github supervisor email.
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
@@ -330,7 +330,7 @@ flow:
                   '</tr>' +
                   '<tr>' +
                   '<td>' +
-                  'Commiter email:' +
+                  'committer email:' +
                   '</td>' +
                   '<td>' +
                   committer_email +

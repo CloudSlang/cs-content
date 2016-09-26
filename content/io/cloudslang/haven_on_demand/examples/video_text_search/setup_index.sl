@@ -20,6 +20,8 @@
 #!                    optional
 #! @input proxy_port: proxy server port
 #!                    optional
+#! @result SUCCESS: text index and video files index created successfully
+#! @result FAILURE: there was an error while trying to create text index
 #!!#
 ####################################################
 

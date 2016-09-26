@@ -22,7 +22,7 @@
 #! @input volume_id: ID of the EBS volume
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: the list with existing regions was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve the regions list
 #!!#

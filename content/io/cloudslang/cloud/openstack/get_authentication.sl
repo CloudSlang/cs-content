@@ -47,18 +47,18 @@ operation:
         required: false
         sensitive: true
     - proxyHost:
-        default: ${get("proxy_host", ""}
+        default: ${get("proxy_host", "")}
         private: true
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080"}
         private: true
     - proxyUsername:
-        default: ${get("proxy_username", ""}
+        default: ${get("proxy_username", "")}
         private: true
         required: false
     - proxyPassword:
-        default: ${get("proxy_password", ""}
+        default: ${get("proxy_password", "")}
         private: true
         sensitive: true
         required: false
