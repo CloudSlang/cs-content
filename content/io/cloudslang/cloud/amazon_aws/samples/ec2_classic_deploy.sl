@@ -44,13 +44,13 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: the server (instance) was successfully launched/created
-#! @result LAUNCH_INSTANCE_FAILURE: error_launching instance
+#! @result LAUNCH_INSTANCE_FAILURE: error launching instance
 #! @result CHECK_LAUNCH_INSTANCE_FAILURE: error checking if instance has launched
 #! @result EXTRACT_INSTANCE_ID_STRING_FAILURE: error extracting instance ID string
 #! @result EXTRACT_INSTANCE_ID_FAILURE: error extracting instance ID
 #! @result SLEEP_UNTIL_INSTANCE_AVAILABLE_FAIL: timeout error while waiting for instance is available
 #! @result TAG_INSTANCE_FAILURE: error while tagging instance
-#! @result GET_INSTANCE_DETAILS_FAILURE: errpr while retrieving instance details
+#! @result GET_INSTANCE_DETAILS_FAILURE: error while retrieving instance details
 #!!#
 ####################################################
 namespace: io.cloudslang.cloud.amazon_aws.samples

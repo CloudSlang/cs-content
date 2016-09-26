@@ -9,12 +9,12 @@
 #!!
 #! @description: Retrieves build failure from CircieCI - Github project - branches.
 #!               If the latest build has failed, it will send an email,
-#!               to the supervisor and commiter with the following:
+#!               to the supervisor and committer with the following:
 #!               Example:
 #!                        Repository: repository name
 #!                        Branch: branch name
 #!                        Username: github username
-#!                        Commiter email: email of github username
+#!                        committer email: email of github username
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from a branch has not failed, it will send an email to reflect that.
@@ -53,7 +53,7 @@
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! @input committer_email: email address of the commiter.
+#! @input committer_email: email address of the committer.
 #! @input branch: github branch
 #!                Default: ''
 #! @input branches: a list of all the available branches on a certain project

@@ -25,7 +25,7 @@
 #! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
 #! @result SUCCESS: Docker container sucessfully started
-#! @result FAILURE: there was an error wihle trying to start the Docker container
+#! @result FAILURE: there was an error while trying to start the Docker container
 #!!#
 ####################################################
 

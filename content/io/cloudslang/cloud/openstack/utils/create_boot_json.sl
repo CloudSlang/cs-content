@@ -22,7 +22,7 @@
 #! @result SUCCESS: successfully created a boot specific JSON object (return_code == '0')
 #! @result ADD_BOOT_INDEX_FAILURE: there was an error while trying to add the boot index
 #! @result ADD_UUID_FAILURE: there was an error while trying to add the UUID
-#! @result ADD_SOURCE_TYPE_FAILURE: there was an error wihle trying to add the source type
+#! @result ADD_SOURCE_TYPE_FAILURE: there was an error while trying to add the source type
 #! @result ADD_DELETE_ON_TERMINATION_FAILURE: there was an error while trying to add delete on termination
 #!!#
 ####################################################

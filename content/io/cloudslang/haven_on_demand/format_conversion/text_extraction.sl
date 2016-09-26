@@ -9,7 +9,7 @@
 #!!
 #! @description: Extracts metadata and text content from a file.
 #! @input api_key: API Key
-#! @input text_extraction_api: URL to the HoN APi
+#! @input text_extraction_api: URL to the HoD APi
 #! @input reference: Haven OnDemand reference
 #! @input additional_metadata: JSON object containing additional metadata to add
 #!                             to the extracted documents.

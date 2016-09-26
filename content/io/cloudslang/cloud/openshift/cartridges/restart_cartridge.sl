@@ -31,7 +31,7 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
 #! @result SUCCESS: embedded cartridge restarted successfully
-#! @result FAILURE: there was an error while trying to restart the running embeddded cartridge
+#! @result FAILURE: there was an error while trying to restart the running embedded cartridge
 #!!#
 ####################################################
 

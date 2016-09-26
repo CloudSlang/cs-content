@@ -34,7 +34,7 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
 #! @result SUCCESS: embedded cartridge successfully added to the Openshift application
-#! @result FAILURE: there was an error wihle trying to add the embedded cartridge to the Openshift application
+#! @result FAILURE: there was an error while trying to add the embedded cartridge to the Openshift application
 #!!#
 ####################################################
 

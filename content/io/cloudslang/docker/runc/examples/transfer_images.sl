@@ -19,7 +19,7 @@
 #! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
 #! @result SUCCESS: image archived and transferred successfully
-#! @result PACK_DUMP_FAILURE: DUMNP packing failure
+#! @result PACK_DUMP_FAILURE: DUMP packing failure
 #! @result TRANSFER_DUMP_FAILURE: DUMP transfer failure
 #! @result DELETE_DUMP_FAILURE: DUMP deletion failure
 #!!#

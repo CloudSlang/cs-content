@@ -10,7 +10,7 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
 #! @result SUCCESS: Heroku application deleted successfully
-#! @result FAILURE: there was an error wihle trying to delete Heroku application
+#! @result FAILURE: there was an error while trying to delete Heroku application
 #!!#
 ####################################################
 

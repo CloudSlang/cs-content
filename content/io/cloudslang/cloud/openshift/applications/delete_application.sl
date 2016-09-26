@@ -29,7 +29,7 @@
 #! @output error_message: return_result if statusCode is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
-#! @result SUCCESS: Openshit application deleted successfully
+#! @result SUCCESS: Openshift application deleted successfully
 #! @result FAILURE: there was an error while trying to delete Openshift application
 #!!#
 ####################################################

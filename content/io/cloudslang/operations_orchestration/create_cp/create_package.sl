@@ -15,10 +15,10 @@
 #! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
 #! @result SUCCESS: Content pack created successfully
 #! @result CREATE_LIB_FOLDER_FAILURE: there was an error while creting the LIB folder
-#! @result POPULATE_LIB_FOLDER_FAILURE: there was an error wihle trying to populate the LIB folder
-#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: there was an error wihle trying to create the system properties file
+#! @result POPULATE_LIB_FOLDER_FAILURE: there was an error while trying to populate the LIB folder
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: there was an error while trying to create the system properties file
 #! @result CREATE_LIBRARY_STRUCTURE_FAILURE: there was an error while trying to create the library structure
-#! @result COPY_CONTENT_FAILURE: there was an error wihle trying to copy content
+#! @result COPY_CONTENT_FAILURE: there was an error while trying to copy content
 #! @result MOVE_CONFIG_ITEMS_FAILURE: there was en error while trying to move the configuration items
 #! @result CREATE_CP_PROPERTIES_FAILURE: there was an error while trying to create CP properties
 #! @result CREATE_ARCHIVE_FAILURE: there was an error while trying to create the archive
