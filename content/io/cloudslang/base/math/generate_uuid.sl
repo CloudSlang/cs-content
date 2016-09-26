@@ -9,6 +9,7 @@
 #!!
 #! @description: Generates a UUID.
 #! @output result: new uuid
+#! @result SUCCESS: uuid generated successfully
 #!!#
 ########################################################################################################
 

@@ -16,6 +16,8 @@
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input port: optional - port number for running the command
 #! @output parent_image_name: name of the parent image
+#! @result SUCCESS: image`s parent inspected successfully
+#! @result FAILURE: there was an error while tyring to inspect the image and/or getting the parent
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images

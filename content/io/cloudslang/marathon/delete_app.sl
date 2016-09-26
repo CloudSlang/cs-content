@@ -44,13 +44,15 @@ operation:
     - proxy_host:
         required: false
     - proxyHost:
-        default: ${get('proxy_host', None)}
+        default: ${get('proxy_host', '')}
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
-        default: ${get('proxy_port', None)}
+        default: ${get('proxy_port', '')}
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:score-http-client:0.1.65'

@@ -7,6 +7,7 @@
 #! @input ignore_case: whether to ignore case when finding matches
 #!                     default: false
 #! @output indices: list of indices where <element> was found in <list>
+#! @result SUCCESS: element(s) found in list
 #!!#
 ####################################################
 

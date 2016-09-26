@@ -43,7 +43,7 @@
 #!                 Example: "2014-06-15"
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to attach network interface to specified instance
 #!!#

@@ -16,6 +16,8 @@
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @output machines_public_ip_list: list of public IP addresses of the machines in the cluster (delimiter: space)
+#! @result SUCCESS: public IPs retrieved successfully
+#! @result FAILURE: there was an error wihle trying to retrieve the public IPs from the servers
 #!!#
 #####################################################
 

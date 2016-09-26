@@ -24,6 +24,8 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
+#! @result SUCCESS: Docker container sucessfully started
+#! @result FAILURE: there was an error wihle trying to start the Docker container
 #!!#
 ####################################################
 

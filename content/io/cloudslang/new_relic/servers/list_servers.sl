@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Retrieves a paginated list of the Servers associated with your New Relic account.
-#! @input endpoint: New Relic servers API endpoint
+#! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
 #! @input proxy_host: optional - proxy server used to access web site
 #! @input proxy_port: optional - proxy server port

@@ -15,12 +15,15 @@
 #! @input source_type: the source type of the volume - Valid: "", "image", "snapshot" or "volume" - Default: ''
 #! @input delete_on_termination: if True then the boot volume will be deleted when the server is destroyed, If false the
 #!                               boot volume will be deleted when the server is destroyed.
-#! @output json_output: the boot specific JSON object
+#! @output boot_json: the boot specific JSON object
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: "0" if success, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: successfully created a boot specific JSON object (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result ADD_BOOT_INDEX_FAILURE: there was an error while trying to add the boot index
+#! @result ADD_UUID_FAILURE: there was an error while trying to add the UUID
+#! @result ADD_SOURCE_TYPE_FAILURE: there was an error wihle trying to add the source type
+#! @result ADD_DELETE_ON_TERMINATION_FAILURE: there was an error while trying to add delete on termination
 #!!#
 ####################################################
 

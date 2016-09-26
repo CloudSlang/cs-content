@@ -45,16 +45,20 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username: circleCi username.
-#! #input project: github project name.
-#! #input branches: github project branches.
+#! @input username: circleCi username.
+#! @input project: github project name.
+#! @input branches: github project branches.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! #input commiter_email: email address of the commiter.
-#! #input supervisor: github supervisor email.
+#! @input committer_email: email address of the commiter.
+#! @input branch: github branch
+#!                Default: ''
+#! @input branches: a list of all the available branches on a certain project
+#!                  Default: ''
+#! @input supervisor: github supervisor email.
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
@@ -191,6 +195,10 @@ flow:
             - return_code
             - status_code
             - error_message
+
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result

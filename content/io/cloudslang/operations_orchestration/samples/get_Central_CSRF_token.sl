@@ -28,6 +28,8 @@
 #! @output status_code: code returned by operation
 #! @output response_headers: response headers string from the HTTP Client REST call
 #! @output token: Central CSRF token
+#! @result SUCCESS: Central CSRF token retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the Central CSRF token
 #!!#
 ####################################################
 

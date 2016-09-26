@@ -20,6 +20,8 @@
 #!                    Example: 50%
 #! @output number_of_deleted_images_per_host: how many images were deleted for every host
 #!                                            Format: "ip1: number1, ip2: number2"
+#! @result SUCCESS: maintenance check performed successfully against all machines in the cluster
+#! @result FAILURE: there was an error while trying to run the maintenance check
 #!!#
 ####################################################
 
