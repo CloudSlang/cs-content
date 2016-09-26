@@ -32,7 +32,7 @@ script:
   - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.74/cslang-builder.zip
   - unzip -q cslang-builder.zip
   - chmod +x cslang-builder/bin/cslang-builder
-  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
+  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov -des
 
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
