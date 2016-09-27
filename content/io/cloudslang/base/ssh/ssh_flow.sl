@@ -94,7 +94,9 @@ flow:
       - allowed_ciphers:
           default: 'aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc'
           required: false
-      - timeout: '90000'
+      - timeout:
+          default: '90000'
+          required: false
       - connect_timeout:
           default: '10000'
           required: false
@@ -104,8 +106,10 @@ flow:
           required: false
       - agent_forwarding:
           required: false
-      - smart_recovery: "True"
-      - retries: '5'
+      - smart_recovery:
+          default: 'true'
+      - retries:
+          default: '5'
       - proxy_host:
           required: false
       - proxy_port:
