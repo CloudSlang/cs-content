@@ -14,7 +14,7 @@
 #! @input port: optional - SSH port
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input all_parent_images: list of parent images
+#! @input all_parent_images_input: list of parent images
 #! @output images_list_safe_to_delete: unused Docker images
 #! @output amount_of_images_deleted: how many images where deleted
 #! @output used_images_list: list of used Docker images

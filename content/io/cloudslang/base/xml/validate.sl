@@ -21,6 +21,19 @@
 #! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
 #! @input password: optional - password used for URL authentication
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the
+#!                              X.509 certificate. The hostname verification system prevents communication with other hosts other than the ones you intended.
+#!                              This is done by checking that the hostname is in the subject alternative name extension of the certificate. This system is
+#!                              designed to ensure that, if an attacker(Man In The Middle) redirects traffic to his machine, the client will not accept the
+#!                              connection. If you set this input to "allow_all", this verification is ignored and you become vulnerable to security attacks.
+#!                              For the value "browser_compatible" the hostname verifier works the same way as Curl and Firefox. The hostname must match
+#!                              either the first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of the subject-alts. The only
+#!                              difference between "browser_compatible" and "strict" is that a wildcard (such as "*.foo.com") with "browser_compatible" matches
+#!                              all subdomains, including "a.b.foo.com". From the security perspective, to provide protection against possible Man-In-The-Middle
+#!                              attacks, we strongly recommend to use "strict" option.
+#!                              Valid values are 'strict', 'browser_compatible', 'allow_all'.
+#!                              Default value is 'strict'.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
@@ -124,6 +137,7 @@ operation:
     - trustPassword:
         default: ${get("trust_password", "")}
         required: false
+        private: true
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
@@ -151,6 +165,7 @@ operation:
     - proxyUsername:
         default: ${get("proxy_username", "")}
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true

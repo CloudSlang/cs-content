@@ -19,6 +19,8 @@
 #! @input timeout: optional - time in milliseconds to wait for command to complete
 #! @output db_IP: IP of newly created container
 #! @output error_message: error message of failed operation
+#! @result SUCCESS: Docker container DB created successfully
+#! @result FAILURE: there was an error while trying to create Docker container DB
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers.examples

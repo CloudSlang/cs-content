@@ -41,6 +41,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_createResourceCluster
+          - FAILURE: FAILURE
 
     - print_createResourceCluster:
         do:
@@ -64,6 +65,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_createCluster
+          - FAILURE: FAILURE
 
     - print_createCluster:
         do:
@@ -94,6 +96,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_deleteCluster
+          - FAILURE: FAILURE
 
     - print_deleteCluster:
         do:

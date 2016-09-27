@@ -12,7 +12,7 @@
 #! @input xml: The XML document (in the form of a String).
 #! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that have attributes and text content.
 #!                             Default value: _text
-#! @input include_root: The flag for including the xml root in the resulted JSON.
+#! @input include_root_element: The flag for including the xml root in the resulted JSON.
 #!                       Default value: true
 #!                       Accepted values: true, false
 #! @input include_attributes: The flag for including XML attributes in the resulted JSON

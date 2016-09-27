@@ -47,11 +47,13 @@ operation:
     - proxyHost:
         default: ${get('proxy_host', None)}
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
+        private: true
     - method:
         default: "get"
         private: true

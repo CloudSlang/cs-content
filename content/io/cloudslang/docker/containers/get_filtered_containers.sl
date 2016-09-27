@@ -29,6 +29,8 @@
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
 #! @output container_names: comma separated list of container names
 #! @output container_ids: comma separated list of container IDs
+#! @result SUCCESS: Docker container names retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the Docker container names
 #!!#
 ####################################################
 

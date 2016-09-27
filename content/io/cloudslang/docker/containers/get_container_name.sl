@@ -25,6 +25,8 @@
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
 #! @output container_name: container name
 #! @output standard_err: error message
+#! @result SUCCESS: name of the container retrieved successfully
+#! @result FAILURE: there was an error in retrieving the name of the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers

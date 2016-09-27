@@ -14,6 +14,7 @@
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
@@ -50,19 +51,30 @@ flow:
             - password: ${root_password}
             - command: >
                 ${'cut -d\":\" -f1 /etc/passwd | grep ' + user_name}
+
         publish:
           - return_result
           - standard_err
           - standard_out
           - return_code
+          - exception
           - command_return_code
+
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result
     - standard_err
     - standard_out
     - return_code
+    - exception
     - command_return_code
     - message: >
         ${'The \"' + user_name + '\" user exist.' if (command_return_code == '0' and standard_out.strip() == user_name)
         else 'The \"' + user_name + '\" user does not exist.'}
+
+  results:
+    - SUCCESS
+    - FAILURE

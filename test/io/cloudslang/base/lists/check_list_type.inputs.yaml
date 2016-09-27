@@ -9,6 +9,7 @@
 testCheckListTypeSTRSuccess:
   inputs:
     - list: "element1,element2,element3,element4"
+    - delimiter: ','
 
   description: Tests that check_list_type.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.lists.check_list_type
@@ -19,6 +20,7 @@ testCheckListTypeSTRSuccess:
 testCheckListTypeINTSuccess:
   inputs:
     - list: "1,2,3,4"
+    - delimiter: ','
 
   description: Tests that check_list_type.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.lists.check_list_type
@@ -29,6 +31,7 @@ testCheckListTypeINTSuccess:
 testCheckListTypeFailure:
   inputs:
     - list: "element1,element2,3,4"
+    - delimiter: ','
 
   description: Tests that check_list_type.sl finishes with FAILURE
   testFlowPath: io.cloudslang.base.lists.check_list_type
