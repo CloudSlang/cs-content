@@ -24,7 +24,7 @@
 #!                          that the private key be protected by a passphrase that should be provided through the
 #!                          'password' input. - Default: none
 #! @input known_hosts_policy: optional - The policy used for managing known_hosts file.
-#!                            - Valid values: allow, strict, add. - Default value: strict
+#!                            - Valid values: allow, strict, add. - Default value: allow
 #! @input known_hosts_path: optional - The path to the known hosts file. - Default: {user.home}/.ssh/known_hosts
 #! @input allowed_ciphers: optional - A comma separated list of ciphers that will be used in the client-server handshake
 #!                         mechanism when the connection is created. Check the notes section for security concerns
@@ -90,7 +90,7 @@ operation:
           required: false
           private: true
       - known_hosts_policy:
-          default: 'strict'
+          default: 'allow'
           required: false
       - knownHostsPolicy:
           default: ${get("known_hosts_policy", "")}
