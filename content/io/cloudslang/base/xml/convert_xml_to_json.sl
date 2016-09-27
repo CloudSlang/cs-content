@@ -86,10 +86,12 @@ operation:
         private: true
     - parsing_features:
         required: false
+        default: |
+            http://apache.org/xml/features/disallow-doctype-decl true
+            http://xml.org/sax/features/external-general-entities false
+            http://xml.org/sax/features/external-parameter-entities false
     - parsingFeatures:
-        default: ${get("parsing_features", "http://apache.org/xml/features/disallow-doctype-decl true
-                                            http://xml.org/sax/features/external-general-entities false
-                                            http://xml.org/sax/features/external-parameter-entities false")}
+        default: ${get("parsing_features", "")}
         required: false
         private: true
 
