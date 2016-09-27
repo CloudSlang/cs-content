@@ -18,6 +18,20 @@
 #! @input password: optional - password of user
 #! @input arguments: optional - arguments to pass to the command
 #! @input private_key_file: optional - path to the private key file
+#! @input private_key_data: optional - A string representing the private key (OpenSSH type) used for authenticating the user.
+#!                          This string is usually the content of a private key file. The 'privateKeyData' and the
+#!                          'privateKeyFile' inputs are mutually exclusive. For security reasons it is recommend
+#!                          that the private key be protected by a passphrase that should be provided through the
+#!                          'password' input. - Default: none
+#! @input known_hosts_policy: optional - The policy used for managing known_hosts file.
+#!                            - Valid values: allow, strict, add. - Default value: allow
+#! @input known_hosts_path: optional - The path to the known hosts file. - Default: {user.home}/.ssh/known_hosts
+#! @input allowed_ciphers: optional - A comma separated list of ciphers that will be used in the client-server handshake
+#!                         mechanism when the connection is created. Check the notes section for security concerns
+#!                         regarding your choice of ciphers. The default value will be used even if the input is not
+#!                         added to the operation.
+#!                         Default value: aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc
+#! @input connect_timeout: optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
@@ -29,6 +43,10 @@
 #!                        such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
 #!                        Default: true
 #! @input retries: limit of reconnect tries - Default: 5
+#! @input proxy_host: optional - The proxy server used to access the remote machine.
+#! @input proxy_port: optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
+#! @input proxy_username: optional - The user name used when connecting to the proxy.
+#! @input proxy_password: optional - The proxy server password associated with the proxy_username input value.
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -66,29 +84,38 @@ flow:
           required: false
       - private_key_file:
           required: false
-      - privateKeyFile:
-          default: ${get("private_key_file", "")}
+      - private_key_data:
           required: false
-          private: true
+      - known_hosts_policy:
+          default: 'allow'
+          required: false
+      - known_hosts_path:
+          required: false
+      - allowed_ciphers:
+          default: 'aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc'
+          required: false
       - timeout: '90000'
+      - connect_timeout:
+          default: '10000'
+          required: false
       - character_set:
           required: false
-      - characterSet:
-          default: ${get("character_set", "UTF-8")}
-          private: true
       - close_session:
           required: false
-      - closeSession:
-          default: ${get("close_session", "false")}
-          private: true
       - agent_forwarding:
           required: false
-      - agentForwarding:
-          default: ${get("agent_forwarding", "")}
-          required: false
-          private: true
       - smart_recovery: "True"
       - retries: '5'
+      - proxy_host:
+          required: false
+      - proxy_port:
+          default: '8080'
+          required: false
+      - proxy_username:
+          required: false
+      - proxy_password:
+          sensitive: true
+          required: false
     workflow:
       - validate_ssh_access:
           do:
@@ -98,12 +125,21 @@ flow:
               - username
               - password
               - private_key_file
+              - private_key_data
+              - known_hosts_policy
+              - known_hosts_path
+              - allowed_ciphers
               - arguments
               - character_set
               - pty
               - timeout
+              - connect_timeout
               - close_session
               - agent_forwarding
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
 
           publish:
             - return_result
@@ -124,13 +160,22 @@ flow:
               - username
               - password
               - private_key_file
+              - private_key_data
+              - known_hosts_policy
+              - known_hosts_path
+              - allowed_ciphers
               - command
               - arguments
               - character_set
               - pty
               - timeout
+              - connect_timeout
               - close_session
               - agent_forwarding
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
           publish:
             - return_result
             - standard_out
