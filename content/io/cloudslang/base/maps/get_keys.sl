@@ -28,4 +28,6 @@ operation:
        for key, item in map.items():
           keys.append(str(key))
   outputs:
-    - result: ${ str(keys) }
+    - result: ${str(keys)}
+  results:
+    - SUCCESS
