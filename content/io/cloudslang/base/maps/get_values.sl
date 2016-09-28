@@ -31,4 +31,6 @@ operation:
          else:
             values.append(value)
   outputs:
-    - result: ${ str(values) }
+    - result: ${str(values)}
+  results:
+    - SUCCESS
