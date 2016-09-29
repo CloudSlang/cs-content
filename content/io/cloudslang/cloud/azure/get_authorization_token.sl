@@ -13,7 +13,7 @@
 #!                                  Management API tab of System Settings
 #! @input expiry: the expiration date and time for the access token, the value must be in the format MM/DD/YYYY H:MM PM|AM
 #!               Example: 08/04/2014 10:03 PM
-#! @output return_result: response of the operation
+#! @output return_result: the authorization token for Azure
 #! @output exception: the error message of the operation, if any
 #! @output return_code: '0' if success, '-1' otherwise
 #! @result SUCCESS: operation succeeded and returned the value for the authorization header

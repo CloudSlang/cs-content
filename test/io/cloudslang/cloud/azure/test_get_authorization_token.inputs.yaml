@@ -1,0 +1,56 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testGetAutorizationTokenSuccess:
+  description: "Test that you receive a valid autorizationToken"
+  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  inputs:
+    - identifier: "53dd860e1b72ff0467030003"
+    - primary_or_secondary_key: "pXeTVcmdbU9XxH6fPcPlq8Y9D9G3Cdo5Eh2nMSgKj/DWqeSFFXDdmpz5Trv+L2hQNM+nGa704Rf8Z22W9O1jdQ=="
+    - expiry: "08/04/2014 10:03 PM"
+  outputs:
+    - return_result: "SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T22:03:00.0000000Z&sn=FWBrF2PBYVEZgpoyaPWNKIBIGLQxbJAw6A3Lu4EB78aooaZldHXZTZBkqyMWlLdrpK5/q3BFDgj9vqX1vrR0ww=="
+  result: SUCCESS
+
+testGetAutorizationTokenSuccess2:
+  description: "Test that you receive a valid autorizationToken2"
+  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  inputs:
+    - identifier: "123"
+    - primary_or_secondary_key: "321"
+    - expiry: "08/04/2014 10:03 PM"
+  outputs:
+    - return_result: "SharedAccessSignature uid=123&ex=2014-08-04T22:03:00.0000000Z&sn=q6hTggdd9OCV+1sdVPDl88VzYyN9XZWegp/s3ApX1szHOI5eDuMkoqC43v25uL8xvNPfU0VtzrJQj/balAlxvw=="
+    - return_code: "0"
+  result: SUCCESS
+
+testGetAutorizationTokenFailsBlankInputs:
+  description: "Test blank inputs"
+  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  inputs:
+    - identifier: " "
+    - primary_or_secondary_key: " "
+    - expiry: " "
+  outputs:
+    - return_result: "The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty."
+    - exception: "The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty."
+    - return_code: "-1"
+  results: FAILURE
+
+testGetAutorizationTokenFailsParseDate:
+  description: "Test that you receive a valid autorizationToken2"
+  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  inputs:
+    - identifier: "53dd860e1b72ff0467030003"
+    - primary_or_secondary_key: "pXeTVcmdbU9XxH6fPcPlq8Y9D9G3Cdo5Eh2nMSgKj/DWqeSFFXDdmpz5Trv+L2hQNM+nGa704Rf8Z22W9O1jdQ=="
+    - expiry: "11111111"
+  outputs:
+    - return_result: "Unable to parse the date: 11111111"
+    - return_code: "-1"
+  results: FAILURE
