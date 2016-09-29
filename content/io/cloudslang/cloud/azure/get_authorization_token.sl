@@ -7,8 +7,17 @@
 #
 ####################################################
 #!!
-#!
-#!
+#! @description: Generates the authorization token for Azure API calls.
+#! @input identifier: the Identifier text box in the Credentials section of the Service Management API tab of System Settings
+#! @input primary_or_secondary_key: the Primary Key or the Secondary Key in the Credentials section of the Service
+#!                                  Management API tab of System Settings
+#! @input expiry: the expiration date and time for the access token, the value must be in the format MM/DD/YYYY H:MM PM|AM
+#!               Example: 08/04/2014 10:03 PM
+#! @output return_result: response of the operation
+#! @output exception: the error message of the operation, if any
+#! @output return_code: '0' if success, '-1' otherwise
+#! @result SUCCESS: operation succeeded and returned the value for the authorization header
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 
@@ -25,12 +34,8 @@ operation:
     - primaryOrSecondaryKey:
         default: ${get("primary_or_secondary_key", "")}
         private: true
-    - availability_time:
+    - expiry:
         required: true
-    - availabilityTime:
-        required: true
-        private: true
-        default: ${get("availability_time", "")}
 
   java_action:
     gav: 'io.cloudslang.content:cs-azure:0.0.1'
@@ -40,6 +45,7 @@ operation:
   outputs:
     - return_result: ${returnResult}
     - exception: ${exception}
+    - return_code: ${returnCode}
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE
