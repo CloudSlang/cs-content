@@ -28,14 +28,12 @@ operation:
 
   inputs:
     - identifier:
-        required: true
     - primary_or_secondary_key:
-        required: true
     - primaryOrSecondaryKey:
         default: ${get("primary_or_secondary_key", "")}
+        required: false
         private: true
     - expiry:
-        required: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-azure:0.0.1'
