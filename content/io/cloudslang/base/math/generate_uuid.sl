@@ -24,3 +24,5 @@ operation:
       new_uuid = str(uuid.uuid1())
   outputs:
     - result: ${new_uuid}
+  results:
+    - SUCCESS

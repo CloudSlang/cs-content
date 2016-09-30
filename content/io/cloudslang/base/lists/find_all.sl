@@ -30,4 +30,6 @@ operation:
         indices = [i for i, x in enumerate(list.split(",")) if x == element]
 
   outputs:
-    - indices: ${ str(indices) }
+    - indices: ${str(indices)}
+  results:
+    - SUCCESS

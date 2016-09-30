@@ -44,3 +44,5 @@ operation:
       result = result.lower() if bool(result_to_lowercase) else result
   outputs:
     - result
+  results:
+    - SUCCESS
