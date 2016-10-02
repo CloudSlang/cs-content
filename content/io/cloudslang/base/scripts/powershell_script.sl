@@ -191,8 +191,7 @@ operation:
          private: true
          default: ${get("winrm_max_envelop_size", "")}
          required: false
-   -  script:
-         required: true
+   -  script
    -  winrm_locale:
          required: false
          default: 'en-US'
