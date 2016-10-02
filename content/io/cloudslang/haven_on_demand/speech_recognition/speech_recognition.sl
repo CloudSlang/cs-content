@@ -26,6 +26,8 @@
 #! @input proxy_port: proxy server port
 #!                    optional
 #! @output job_id: id of request returned by Haven OnDemand
+#! @result SUCCESS: audio or video file created successfully based on the transcript
+#! @result FAILURE: there was an error while trying to create the audio or video file from the transcript
 #!!#
 ####################################################
 namespace: io.cloudslang.haven_on_demand.speech_recognition

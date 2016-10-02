@@ -88,6 +88,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: HoD database content retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve HoD database content
 #!!#
 ####################################################
 

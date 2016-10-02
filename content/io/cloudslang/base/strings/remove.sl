@@ -9,7 +9,9 @@
 #! @description: Removes text from a string.
 #! @input origin_string: optional - original string - Example: "SPAMgood morning"
 #! @input text: optional - text to be removed - Example: "SPAM"
-#! @output result: string after removing - Example: "good morning"
+#! @output new_string: string after removing - Example: "good morning"
+#! @result SUCCESS: text removed from string successfully
+#! @result FAILURE: something went wrong while trying to remote text from the string
 #!!#
 ####################################################
 

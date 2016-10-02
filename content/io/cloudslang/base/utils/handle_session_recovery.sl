@@ -13,7 +13,7 @@
 #! @input retries: limit of reconnect tries
 #! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception
-#! @input exception: from SSH: contains the stack trace in case of an exception
+#! @input return_code: from SSH: '0' if SSH session , different than '0' otherwise
 #! @input exit_status: from SSH: return code of the remote command
 #! @output updated_retries: updated input value (decreased by 1)
 #! @result RECOVERY_DISABLED: session recovery is disabled

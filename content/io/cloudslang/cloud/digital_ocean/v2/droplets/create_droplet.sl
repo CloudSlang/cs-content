@@ -30,6 +30,8 @@
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #! @output response: raw response of the API call
 #! @output droplet_id: ID of the created droplet in case of success, empty in case of failure
+#! @result SUCCESS: droplet created successfully
+#! @result FAILURE: something went wrong while trying to create droplet
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud.digital_ocean.v2.droplets

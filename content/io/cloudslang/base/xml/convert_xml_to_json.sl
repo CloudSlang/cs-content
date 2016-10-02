@@ -12,7 +12,7 @@
 #! @input xml: The XML document (in the form of a String).
 #! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that have attributes and text content.
 #!                             Default value: _text
-#! @input include_root: The flag for including the xml root in the resulted JSON.
+#! @input include_root_element: The flag for including the xml root in the resulted JSON.
 #!                       Default value: true
 #!                       Accepted values: true, false
 #! @input include_attributes: The flag for including XML attributes in the resulted JSON
@@ -86,15 +86,17 @@ operation:
         private: true
     - parsing_features:
         required: false
+        default: |
+            http://apache.org/xml/features/disallow-doctype-decl true
+            http://xml.org/sax/features/external-general-entities false
+            http://xml.org/sax/features/external-parameter-entities false
     - parsingFeatures:
-        default: ${get("parsing_features", "http://apache.org/xml/features/disallow-doctype-decl true
-                                            http://xml.org/sax/features/external-general-entities false
-                                            http://xml.org/sax/features/external-parameter-entities false")}
+        default: ${get("parsing_features", "")}
         required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.7'
+    gav: 'io.cloudslang.content:cs-xml:0.0.9'
     class_name: io.cloudslang.content.xml.actions.ConvertXmlToJson
     method_name: execute
 

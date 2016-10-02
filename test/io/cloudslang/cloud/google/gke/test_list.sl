@@ -35,6 +35,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_ListClusters
+          - FAILURE: FAILURE
 
     - print_ListClusters:
         do:
@@ -55,6 +56,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_ListOperations
+          - FAILURE: FAILURE
 
     - print_ListOperations:
         do:
@@ -75,6 +77,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_getServerconfig
+          - FAILURE: FAILURE
 
     - print_getServerconfig:
         do:
@@ -97,6 +100,7 @@ flow:
           - response_body: ${return_result}
         navigate:
           - SUCCESS: print_getOperations
+          - FAILURE: FAILURE
 
     - print_getOperations:
         do:
@@ -109,3 +113,4 @@ flow:
     - error_message
   results:
     - SUCCESS
+    - FAILURE

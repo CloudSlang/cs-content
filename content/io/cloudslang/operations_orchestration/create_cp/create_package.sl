@@ -13,19 +13,18 @@
 #! @input cp_publisher: content pack publisher - Example: "Customer"
 #! @input cp_location: location for the content pack jar file - Example: "c:/content_packs"
 #! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
-#! @result SUCCESS:
-#! @result CREATE_LIB_FOLDER_FAILURE:
-#! @result POPULATE_LIB_FOLDER_FAILURE:
-#! @result CREATE_SYSTEM_PROPERTIES_FAILURE:
-#! @result CREATE_LIBRARY_STRUCTURE_FAILURE:
-#! @result COPY_CONTENT_FAILURE:
-#! @result MOVE_CONFIG_ITEMS_FAILURE:
-#! @result CREATE_CP_PROPERTIES_FAILURE:
-#! @result CREATE_ARCHIVE_FAILURE:
-#! @result CREATE_JAR_FAILURE:
-#! @result CLEAN_FOLDER_FAILURE:
+#! @result SUCCESS: Content pack created successfully
+#! @result CREATE_LIB_FOLDER_FAILURE: there was an error while creting the LIB folder
+#! @result POPULATE_LIB_FOLDER_FAILURE: there was an error while trying to populate the LIB folder
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: there was an error while trying to create the system properties file
+#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: there was an error while trying to create the library structure
+#! @result COPY_CONTENT_FAILURE: there was an error while trying to copy content
+#! @result MOVE_CONFIG_ITEMS_FAILURE: there was en error while trying to move the configuration items
+#! @result CREATE_CP_PROPERTIES_FAILURE: there was an error while trying to create CP properties
+#! @result CREATE_ARCHIVE_FAILURE: there was an error while trying to create the archive
+#! @result CREATE_JAR_FAILURE: there was an error while trying to create the JAR file
+#! @result CLEAN_FOLDER_FAILURE: there was an error while cleaning up the folder
 #!!#
-#
 ####################################################
 namespace: io.cloudslang.operations_orchestration.create_cp
 
