@@ -27,13 +27,13 @@ operation:
   name: get_authorization_token
 
   inputs:
-    - identifier:
-    - primary_or_secondary_key:
+    - identifier
+    - primary_or_secondary_key
     - primaryOrSecondaryKey:
         default: ${get("primary_or_secondary_key", "")}
         required: false
         private: true
-    - expiry:
+    - expiry
 
   java_action:
     gav: 'io.cloudslang.content:cs-azure:0.0.1'
