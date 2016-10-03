@@ -41,12 +41,10 @@ testGetAutorizationTokenFailsBlankInputs:
     - primary_or_secondary_key: ' '
     - expiry: ' '
   outputs:
-    - return_result: |
-          The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty.
-    - exception: |
-          The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty.
+    - return_result: "The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty."
+    - exception: "The identifier can't be null or empty.\nThe primaryOrSecondaryKey can't be null or empty.\nThe expiry can't be null or empty."
     - return_code: '-1'
-  results: FAILURE
+  result: FAILURE
 
 testGetAutorizationTokenFailsParseDate:
   testSuites: [get_authorization]
@@ -59,4 +57,4 @@ testGetAutorizationTokenFailsParseDate:
   outputs:
     - return_result: 'Unable to parse the date: 11111111'
     - return_code: '-1'
-  results: FAILURE
+  result: FAILURE
