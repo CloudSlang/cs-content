@@ -8,7 +8,6 @@
 ####################################################
 
 testGetAutorizationTokenSuccess:
-  testSuites: [get_authorization]
   description: 'Test that you receive a valid autorizationToken'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
@@ -20,7 +19,6 @@ testGetAutorizationTokenSuccess:
   result: SUCCESS
 
 testGetAutorizationTokenSuccess2:
-  testSuites: [get_authorization]
   description: 'Test that you receive a valid autorizationToken2'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
@@ -33,7 +31,6 @@ testGetAutorizationTokenSuccess2:
   result: SUCCESS
 
 testGetAutorizationTokenFailsBlankInputs:
-  testSuites: [get_authorization]
   description: 'Test blank inputs'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
@@ -47,7 +44,6 @@ testGetAutorizationTokenFailsBlankInputs:
   result: FAILURE
 
 testGetAutorizationTokenFailsParseDate:
-  testSuites: [get_authorization]
   description: 'Test that you receive a valid autorizationToken2'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
