@@ -29,7 +29,7 @@
 #!                             Ex: "ami-1a2b3c4d"
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to apply tags to resources
 #!!#

@@ -11,6 +11,7 @@
 #!               it is sorted in numerical order. Otherwise it is sorted alphabetically.
 #! @input list: the list to be sorted - Example: '4,3,5,2,1'
 #! @input delimiter: the list delimiter - Example: ','
+#!                   For special delimiters, they must be escaped. e.g. '\\.'
 #! @input reverse: optional - a boolean value for sorting the list in reverse order
 #!                 default: False
 #! @output response: 'success' or 'failure'

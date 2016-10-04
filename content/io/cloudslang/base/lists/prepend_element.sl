@@ -10,7 +10,8 @@
 #! @description: pre-pends an element to a list of strings
 #! @input list: list in which to pre-pend the element - Example: '1,2,3,4,5,6'
 #! @input element: element to pre-pend to the list - Example: '7'
-#! @input delimiter: the list delimiter. delimiter can be empty string
+#! @input delimiter: optional - the list delimiter. delimiter can be empty string
+#!                   Default: ','
 #! @output response: 'success' or 'failure'
 #! @output return_result: the new list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
@@ -27,7 +28,9 @@ operation:
   inputs:
     - list
     - element
-    - delimiter
+    - delimiter:
+        required: false
+        default: ','
 
   java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.6'

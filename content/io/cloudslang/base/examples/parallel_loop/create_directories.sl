@@ -5,6 +5,8 @@
 #! The flow creates directories in a parallel loop.
 #! @input base_dir_name: path of base name of created directories
 #! @input num_of_directories: number of directories to create - Default: 10
+#! @result SUCCESS: directories created successfully
+#! @result FAILURE: something went wrong
 #!!#
 ####################################################
 

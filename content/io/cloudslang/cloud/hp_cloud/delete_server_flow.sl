@@ -84,8 +84,8 @@ flow:
           base_utils.is_true:
             - bool_value: ${release_ip_address}
         navigate:
-          - SUCCESS: do_release_ip
-          - FAILURE: done
+          - 'TRUE': do_release_ip
+          - 'FALSE': done
 
     - do_release_ip:
         do:

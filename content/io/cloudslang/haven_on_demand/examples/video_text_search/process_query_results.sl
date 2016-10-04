@@ -5,6 +5,8 @@
 #! @input query_text: text of the query
 #! @input query_result: single result from the query response
 #! @output built_results: HTML text containing query results with links
+#! @result SUCCESS: query result processed successfully
+#! @result FAILURE: there was an error while trying to process the query result
 #!!#
 ####################################################
 
@@ -43,8 +45,8 @@ flow:
             - first: ${indices}
             - second: ${[]}
         navigate:
-          - EQUALS: SUCCESS
-          - NOT_EQUALS: build_header
+          - 'TRUE': SUCCESS
+          - 'FALSE': build_header
     - build_header:
         do:
           strings.append:

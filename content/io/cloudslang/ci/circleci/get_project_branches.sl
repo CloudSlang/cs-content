@@ -36,8 +36,8 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username: circleCi username.
-#! #input project: github project name.
+#! @input username: circleCi username.
+#! @input project: github project name.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
@@ -58,7 +58,6 @@ namespace: io.cloudslang.ci.circleci
 imports:
   rest: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  lists: io.cloudslang.base.lists
 
 flow:
   name: get_project_branches

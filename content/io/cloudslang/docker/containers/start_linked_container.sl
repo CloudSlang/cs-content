@@ -28,6 +28,8 @@
 #!                       Valid: true, false
 #! @output container_id: ID of the container that was started
 #! @output error_message: error message
+#! @result SUCCESS: linked Docker container started successfully
+#! @result FAILURE: there was an error while trying to start the linked container
 #!!#
 ####################################################
 

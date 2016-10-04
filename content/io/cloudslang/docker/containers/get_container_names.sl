@@ -26,6 +26,8 @@
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
 #! @output container_names: list of container names separated by space
 #! @output raw_output: unparsed return result from the machine
+#! @result SUCCESS: the list of the running Docker container names retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the list of all the running Docker container names
 #!!#
 ####################################################
 

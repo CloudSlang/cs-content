@@ -24,7 +24,7 @@
 #! @input character_set: optional - Default: UTF-8
 #! @input content_transfer_encoding: optional - Default: base64
 #! @input delimiter: optional - Default: none
-#! @input enableTLS: optional - enable startTLS - Default : false
+#! @input enable_TLS: optional - enable startTLS - Default : false
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output return_result: success or exception message
 #! @output exception: possible exception details
