@@ -24,6 +24,8 @@
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output return_result: response of the operation
 #! @output error_message: error message
+#! @result SUCCESS: successful
+#! @result FAILURE: otherwise
 #!!#
 ####################################################
 
