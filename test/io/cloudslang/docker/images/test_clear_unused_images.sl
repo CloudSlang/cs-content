@@ -85,7 +85,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: verify_used_images
           - FAILURE: FAIL_GET_USED_IMAGES
@@ -132,7 +132,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: validate_image_list
           - FAILURE: FAIL_GET_ALL_IMAGES
