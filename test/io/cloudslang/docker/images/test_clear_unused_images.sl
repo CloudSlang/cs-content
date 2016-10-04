@@ -140,7 +140,7 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: ${ image_name1 + ' ' }
+            - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
           - SUCCESS: clear_host
