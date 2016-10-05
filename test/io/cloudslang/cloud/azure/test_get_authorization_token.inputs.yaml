@@ -8,7 +8,7 @@
 ####################################################
 
 testGetAutorizationTokenSuccess:
-  description: 'Test that you receive a valid autorizationToken'
+  description: 'Test that you receive a valid autorization_token'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
     - identifier: '53dd860e1b72ff0467030003'
@@ -19,7 +19,7 @@ testGetAutorizationTokenSuccess:
   result: SUCCESS
 
 testGetAutorizationTokenSuccess2:
-  description: 'Test that you receive a valid autorizationToken2'
+  description: 'Test that you receive a valid autorization_token2'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
     - identifier: '123'
@@ -44,7 +44,7 @@ testGetAutorizationTokenFailsBlankInputs:
   result: FAILURE
 
 testGetAutorizationTokenFailsParseDate:
-  description: 'Test that you receive a valid autorizationToken2'
+  description: 'Test that you receive an error when you give an invalid date'
   testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
   inputs:
     - identifier: '53dd860e1b72ff0467030003'

@@ -42,7 +42,7 @@ operation:
 
   outputs:
     - return_result: ${returnResult}
-    - exception: ${exception}
+    - exception
     - return_code: ${returnCode}
   results:
     - SUCCESS: ${returnCode == '0'}
