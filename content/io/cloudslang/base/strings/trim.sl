@@ -23,3 +23,5 @@
        new_string=origin_string.strip()
    outputs:
      - new_string
+   results:
+     - SUCCESS
