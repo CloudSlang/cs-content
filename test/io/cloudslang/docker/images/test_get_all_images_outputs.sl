@@ -80,7 +80,7 @@ flow:
     - verify_output:
         do:
           strings.string_equals:
-            - first_string: ${ image_name + ' ' }
+            - first_string: ${ image_name }
             - second_string: ${ list }
         navigate:
           - SUCCESS: delete_downloaded_image

@@ -117,7 +117,7 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_id: ${standard_out[:-1]}
+          - container_id: ${standard_out.strip()}
           - standard_err
   outputs:
     - container_id
