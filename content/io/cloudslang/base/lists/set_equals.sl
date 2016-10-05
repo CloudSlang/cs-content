@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Determines whether two sets are equal.
-#!               Sets are represented as trings in the following format: '1 2 3 4'
+#!               Sets are represented as strings in the following format: '1 2 3 4'
 #! @input raw_set_1: optional - first set
 #! @input delimiter_1: delimiter of first set - Default: `,` (comma)
 #! @input raw_set_2: optional - second set

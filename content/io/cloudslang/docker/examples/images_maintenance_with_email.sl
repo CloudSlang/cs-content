@@ -18,9 +18,9 @@
 #! @input email_port: email port
 #! @input email_from: email sender
 #! @input email_to: email recipient
-#! @input email_username: optional - Default: none
-#! @input email_password: optional - Default: none
-#! @input enable_TLS: optional - enable startTLS - Default : false
+#! @input email_username: optional
+#! @input email_password: optional
+#! @input enable_TLS: optional - enable startTLS
 #! @output total_amount_of_images_deleted: number of deleted images
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
