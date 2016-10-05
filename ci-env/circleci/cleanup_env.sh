@@ -1,5 +1,7 @@
 #!/bin/bash
 
+exit 0
+
 # parameters to the script:
 #   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
 #   - DO_API_TOKEN - DigitalOcean personal access token
