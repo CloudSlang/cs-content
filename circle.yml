@@ -88,7 +88,7 @@ test:
         case ${CIRCLE_NODE_INDEX} in
         0) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_0.properties ;;
         1) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_1.properties ;;
-        2) echo '2' ;;
+        2) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_2.properties ;;
         esac
       : parallel: true
   post:

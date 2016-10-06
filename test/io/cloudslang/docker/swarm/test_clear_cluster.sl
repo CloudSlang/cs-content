@@ -35,8 +35,9 @@ flow:
         required: false
     - timeout:
         required: false
-    - container_name: 'tomi'
-    - image_name: 'tomcat'
+    - container_name: 'busybox_container'
+    - image_name: 'busybox'
+    - container_command: 'tail -f /dev/null'
     - number_of_agent_containers_in_cluster
     - agent_ip_addresses
     - attempts:
@@ -102,6 +103,7 @@ flow:
             - swarm_manager_port
             - container_name
             - image_name
+            - container_command
             - host
             - port
             - username
