@@ -7,7 +7,7 @@
 #
 ####################################################
 test_run_container_in_cluster_success:
-  testSuites: [swarm]
+  testSuites: [swarm,swarm_lane_2]
   description: This flow clears the Swarm cluster, runs a contaniner in the cluster and verifies that it was created.
   testFlowPath: io.cloudslang.docker.swarm.test_run_container_in_cluster
   inputs:
