@@ -7,15 +7,17 @@
 ##
 #####################################################
 testUnzipArchiveSuccess:
+  testSuites: [default,zip]
   inputs:
     - name: test_arch_1.zip
     - path: folder_to_test_1
-    - out_folder: folder_unzip_to
+    - out_folder: folder_unzip_to_1
   description: Tests that unzip_archive.sl operation finishes with SUCCESS when inputs are valid
   testFlowPath: io.cloudslang.base.filesystem.test_unzip_archive
   result: SUCCESS
 
 testUnzipArchiveSuccess_non_existing_folder:
+  testSuites: [default,zip]
   inputs:
     - name: test_arch_2.zip
     - path: folder_to_test_2
@@ -25,6 +27,7 @@ testUnzipArchiveSuccess_non_existing_folder:
   result: SUCCESS
 
 testUnzipArchiveUNZIPFAILURE_wron_archive_name:
+  testSuites: [default,zip]
   inputs:
     - name: test_arch_3
     - path: folder_to_test_3
@@ -34,6 +37,7 @@ testUnzipArchiveUNZIPFAILURE_wron_archive_name:
   result: UNZIPFAILURE
 
 testUnzipArchiveSuccess_output_message:
+  testSuites: [default,zip]
   inputs:
     - name: test_arch_4.zip
     - path: folder_to_test_4
@@ -45,6 +49,7 @@ testUnzipArchiveSuccess_output_message:
      - unzip_message: unzipping done successfully
 
 testUnzipArchiveException:
+  testSuites: [default,zip]
   inputs:
     - name: test_arch_5.zip
   description: Unziping operation outputs test with EXCEPTION due to out_folder input is missing
