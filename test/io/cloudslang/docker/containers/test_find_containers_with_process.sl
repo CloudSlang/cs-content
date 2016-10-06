@@ -123,25 +123,12 @@ flow:
             - second_string: '2'
 
         navigate:
-          - SUCCESS: clear_docker_host
-          - FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
     - PREREQUISITE_MACHINE_IS_NOT_CLEAN
-    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAILURE
     - FAIL_RUN_IMAGE

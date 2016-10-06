@@ -38,7 +38,6 @@ flow:
           - FAIL_PULL_IMAGE: FAIL_PULL_IMAGE
           - FAIL_GET_ALL_IMAGES: FAIL_GET_ALL_IMAGES
           - FAILURE: FAILURE
-          - FAIL_CLEAR_IMAGE: FAIL_CLEAR_IMAGE
 
     - get_all_images_after:
         do:
@@ -68,4 +67,3 @@ flow:
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
     - FAILURE
-    - FAIL_CLEAR_IMAGE

@@ -83,26 +83,12 @@ flow:
             - first_string: ${ image_name }
             - second_string: ${ list }
         navigate:
-          - SUCCESS: delete_downloaded_image
-          - FAILURE: VERIFYFAILURE
-
-    - delete_downloaded_image:
-        do:
-          images.clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: ${ image_name }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: DELETEFAIL
-
+          - FAILURE: VERIFYFAILURE
   results:
     - SUCCESS
     - FAILURE
     - DOWNLOADFAIL
     - VERIFYFAILURE
-    - DELETEFAIL
     - MACHINE_IS_NOT_CLEAN
     - FAIL_GET_ALL_IMAGES_BEFORE
