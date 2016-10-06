@@ -12,6 +12,7 @@ namespace: io.cloudslang.docker.images
 imports:
   images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
+  maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_clear_image
@@ -24,7 +25,18 @@ flow:
     - image_name
 
   workflow:
-    - pull_image_and_clear:
+    - clear_docker_host:
+        do:
+          maintenance.clear_host:
+            - docker_host: ${ host }
+            - port
+            - docker_username: ${ username }
+            - docker_password: ${ password }
+        navigate:
+          - SUCCESS: pull_image
+          - FAILURE: CLEAR_DOCKER_HOST_FAILURE
+
+    - pull_image:
         do:
           images.test_pull_image:
             - host
@@ -63,6 +75,7 @@ flow:
 
   results:
     - SUCCESS
+    - CLEAR_DOCKER_HOST_FAILURE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
