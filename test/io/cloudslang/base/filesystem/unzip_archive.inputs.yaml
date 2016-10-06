@@ -19,7 +19,7 @@ testUnzipArchiveSuccess_non_existing_folder:
   inputs:
     - name: test_arch_2.zip
     - path: folder_to_test_2
-    - out_folder: folder_unzip_to_2
+    - out_folder: folder_unzip_to/2
   description: Tests that unzip_archive.sl operation finishes with SUCCESS when out_folder contains subfolder
   testFlowPath: io.cloudslang.base.filesystem.test_unzip_archive
   result: SUCCESS
