@@ -38,7 +38,8 @@ operation:
   name: add_launch_permissions_to_image
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -57,15 +58,18 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - debug_mode:
         required: false
     - debugMode:
         default: ${get("debug_mode", "false")}
+        required: false
         private: true
     - image_id
     - imageId:
         default: ${image_id}
+        required: false
         private: true
     - user_ids_string:
         required: false
@@ -82,7 +86,7 @@ operation:
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.images.AddLaunchPermissionsToImageAction
     method_name: execute
 

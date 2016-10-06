@@ -31,7 +31,8 @@ operation:
   name: deregister_image
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -50,20 +51,23 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - debug_mode:
         required: false
     - debugMode:
         default: ${get("debug_mode", "false")}
+        required: false
         private: true
     - image_id
     - imageId:
         default: ${image_id}
+        required: false
         private: true
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.images.DeregisterImageAction
     method_name: execute
 

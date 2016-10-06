@@ -80,7 +80,8 @@ operation:
   name: describe_images
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -99,6 +100,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - delimiter:
         default: ','
@@ -107,6 +109,7 @@ operation:
         required: false
     - debugMode:
         default: ${get("debug_mode", "false")}
+        required: false
         private: true
     - identity_id:
         required: false
@@ -273,7 +276,7 @@ operation:
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesAction
     method_name: execute
 
