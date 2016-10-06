@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit 0
-
 # parameters to the script:
 #   - COREOS_MACHINE_NAMES - string with machines names separated by space
 #   - DO_API_TOKEN - DigitalOcean personal access token

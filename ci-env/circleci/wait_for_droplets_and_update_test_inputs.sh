@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit 0
-
 # parameters to the script:
 #   - DROPLETS_FILE - droplets info is stored in this file (e.g. IDs)
 #   - SLEEP_INTERVAL - optional - sleep time between successive droplet checks
