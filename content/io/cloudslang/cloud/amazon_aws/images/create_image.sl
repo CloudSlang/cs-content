@@ -67,7 +67,7 @@ operation:
         private: true
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         required: false
         private: true
     - name

@@ -60,7 +60,7 @@ operation:
         private: true
     - image_id
     - imageId:
-        default: ${image_id}
+        default: ${get("image_id", "")}
         required: false
         private: true
     - version
