@@ -8,7 +8,7 @@
 #####################################################
 testUnzipArchiveSuccess:
   inputs:
-    - name: test_arch2.zip
+    - name: test_arch1.zip
     - path: folder_to_test
     - out_folder: folder_unzip_to
   description: Tests that unzip_archive.sl operation finishes with SUCCESS when inputs are valid
@@ -26,7 +26,7 @@ testUnzipArchiveSuccess_non_existing_folder:
 
 testUnzipArchiveUNZIPFAILURE_wron_archive_name:
   inputs:
-    - name: test_arch2
+    - name: test_arch3
     - path: folder_to_test
     - out_folder: folder_unzip_to
   description: Tests that unzip_archive.sl operation finishes with UNZIPFAILURE due to incorrect archive file name
@@ -35,7 +35,7 @@ testUnzipArchiveUNZIPFAILURE_wron_archive_name:
 
 testUnzipArchiveSuccess_output_message:
   inputs:
-    - name: test_arch2.zip
+    - name: test_arch4.zip
     - path: folder_to_test
     - out_folder: folder_unzip_to
   description: Unziping operation outputs test
@@ -46,7 +46,7 @@ testUnzipArchiveSuccess_output_message:
 
 testUnzipArchiveException:
   inputs:
-    - name: test_arch2.zip
+    - name: test_arch5.zip
   description: Unziping operation outputs test with EXCEPTION due to out_folder input is missing
   testFlowPath: io.cloudslang.base.filesystem.unzip_archive
   throwsException: true
