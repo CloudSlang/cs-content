@@ -128,53 +128,53 @@ flow:
               - username: ${agent_usernames.split(',')[0]}
               - private_key_file: ${agent_private_key_files.split(',')[0]}
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_number_of_nodes_in_cluster
           - FAILURE: ADD_NODES_TO_THE_CLUSTER_PROBLEM
 
-#    - get_number_of_nodes_in_cluster:
-#        do:
-#          swarm.get_cluster_info:
-#            - swarm_manager_ip: ${manager_machine_ip}
-#            - swarm_manager_port: ${manager_machine_port}
-#            - host: ${manager_machine_ip}
-#            - username: ${manager_machine_username}
-#            - password: ${manager_machine_password}
-#            - private_key_file: ${manager_machine_private_key_file}
-#        publish:
-#          - number_of_nodes_in_cluster: ${number_of_nodes_in_cluster}
-#        navigate:
-#          - SUCCESS: verify_node_is_added
-#          - FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
-#
-#    - verify_node_is_added:
-#        do:
-#          strings.string_equals:
-#            - first_string: ${str(len(agent_ip_addresses.split(',')))}
-#            - second_string: ${number_of_nodes_in_cluster}
-#        navigate:
-#          - SUCCESS: SUCCESS
-#          - FAILURE: check_attempts
-#
-#    - check_attempts:
-#        do:
-#          math.compare_numbers:
-#            - value1: ${attempts}
-#            - value2: "0"
-#            - attempts
-#        publish:
-#          - attempts: ${str(int(attempts) - 1)}
-#        navigate:
-#          - GREATER_THAN: sleep
-#          - EQUALS: NODES_NOT_ADDED
-#          - LESS_THAN: NODES_NOT_ADDED
-#
-#    - sleep:
-#        do:
-#          utils.sleep:
-#            - seconds: ${time_to_sleep}
-#        navigate:
-#          - SUCCESS: get_number_of_nodes_in_cluster
-#          - FAILURE: NODES_NOT_ADDED
+    - get_number_of_nodes_in_cluster:
+        do:
+          swarm.get_cluster_info:
+            - swarm_manager_ip: ${manager_machine_ip}
+            - swarm_manager_port: ${manager_machine_port}
+            - host: ${manager_machine_ip}
+            - username: ${manager_machine_username}
+            - password: ${manager_machine_password}
+            - private_key_file: ${manager_machine_private_key_file}
+        publish:
+          - number_of_nodes_in_cluster: ${number_of_nodes_in_cluster}
+        navigate:
+          - SUCCESS: verify_node_is_added
+          - FAILURE: GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
+
+    - verify_node_is_added:
+        do:
+          strings.string_equals:
+            - first_string: ${str(len(agent_ip_addresses.split(',')))}
+            - second_string: ${number_of_nodes_in_cluster}
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: check_attempts
+
+    - check_attempts:
+        do:
+          math.compare_numbers:
+            - value1: ${attempts}
+            - value2: "0"
+            - attempts
+        publish:
+          - attempts: ${str(int(attempts) - 1)}
+        navigate:
+          - GREATER_THAN: sleep
+          - EQUALS: NODES_NOT_ADDED
+          - LESS_THAN: NODES_NOT_ADDED
+
+    - sleep:
+        do:
+          utils.sleep:
+            - seconds: ${time_to_sleep}
+        navigate:
+          - SUCCESS: get_number_of_nodes_in_cluster
+          - FAILURE: NODES_NOT_ADDED
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM
@@ -182,5 +182,5 @@ flow:
     - PRE_CLEAR_AGENT_MACHINES_PROBLEM
     - START_MANAGER_CONTAINER_PROBLEM
     - ADD_NODES_TO_THE_CLUSTER_PROBLEM
-#    - GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
-#    - NODES_NOT_ADDED
+    - GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM
+    - NODES_NOT_ADDED
