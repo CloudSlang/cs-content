@@ -24,15 +24,8 @@ env:
    - SUITE=git,remote-copy
 
 script:
-  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
-  - docker ps -a
-  - docker info
-  - docker version
-  - df -kh
-  - wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016100601/cslang-builder.zip
-  - unzip -q cslang-builder.zip
-  - chmod +x cslang-builder/bin/cslang-builder
-  - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov -des
+  - git branch
+  - git diff --name-only master
 
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
