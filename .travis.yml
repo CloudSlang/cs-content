@@ -26,7 +26,8 @@ env:
 script:
     - git fetch origin
     - git branch
-    - git diff --name-only origin/master -- > difflist.yaml
+    - git checkout master || git checkout -b master origin/master
+    - git diff --name-only master -- > difflist.yaml
     - cat difflist.yaml
 
 # cat prints only part of the file for some reason so we print ourselves
