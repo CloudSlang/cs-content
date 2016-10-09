@@ -37,8 +37,9 @@ machine:
 
 dependencies:
   override:
+    - git fetch origin
     - git branch
-    - git diff --name-only master
+    - git diff --name-only origin/master
 
 test:
   override:
