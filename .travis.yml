@@ -27,7 +27,7 @@ script:
     - git fetch origin
     - git branch
     - git diff --name-only origin/master -- > difflist.yaml
-    - echo difflist.yaml
+    - cat difflist.yaml
 
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
