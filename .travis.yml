@@ -25,10 +25,10 @@ env:
 
 script:
     - git fetch origin
-    - git branch
-    - git checkout master || git checkout -b master origin/master
-    - git diff --name-only master -- > difflist.yaml
-    - cat difflist.yaml
+    - git branch -a
+#    - git checkout master || git checkout -b master origin/master
+    - git diff --name-only origin/master -- > difflist.txt
+    - cat difflist.txt
 
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
