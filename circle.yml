@@ -25,7 +25,7 @@ dependencies:
     - git fetch origin
     - git branch
     - git diff --name-only origin/master -- > difflist.yaml
-    - echo difflist.yaml
+    - cat difflist.yaml
 
 test:
   override:
