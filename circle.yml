@@ -15,7 +15,7 @@ machine:
   environment:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
     # ignore test suites on node 1 in fork builds
-    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,docker-circleci'; else echo '!default'; fi)
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,docker-circleci'; else echo '!default'; fi) # TODO external PRs
     ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,swarm'; else echo '!default'; fi)
 
     COREOS_MACHINE_NAMES_1: "ci-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BUILD_NUM}-coreos-3"
@@ -37,12 +37,23 @@ machine:
 
 dependencies:
   override:
+    - git fetch origin
+    - git branch -a
+#    - git checkout master || git checkout -b master origin/master
+    - git diff --name-only origin/master -- > difflist.txt
+    - cat difflist.txt
+    - grep '.sl$' difflist.txt > changed_items.txt
+    - sed -i -e 's/\//\./g' changed_items.txt
+    - sed -i -e 's/test\.//g' changed_items.txt
+    - sed -i -e 's/content\.//g' changed_items.txt
+    - sed -i -e 's/\.sl//g' changed_items.txt
+    - cat changed_items.txt
+
     - docker info
     - docker images
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-        then docker run -d -p 49165:8080 jenkins
-        && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
+        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
         && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
         && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
         fi
@@ -62,7 +73,7 @@ dependencies:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.RC2/cslang-builder.zip
+        wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016101001/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -87,9 +98,9 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov -des ;;
-        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov -des ;;
-        2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov -des ;;
+        0) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_0.properties --smart $(pwd)/changed_items.txt ;;
+        1) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_1.properties --smart $(pwd)/changed_items.txt ;;
+        2) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_2.properties --smart $(pwd)/changed_items.txt ;;
         esac
       : parallel: true
   post:

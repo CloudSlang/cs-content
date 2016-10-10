@@ -7,7 +7,7 @@
 #
 ####################################################
 test_clear_cluster_success:
-  testSuites: [swarm]
+  testSuites: [swarm,swarm_lane_2]
   description: >
     This flow assures that the Swarm cluster is not empty,
     calls the clear_cluster flow and validates its effect.
@@ -20,6 +20,6 @@ test_clear_cluster_success:
     - username: core
     - private_key_file: <private_key_file>
     - agent_ip_addresses: "<coreos_host_5>,<coreos_host_6>"
-    - attempts: "60"
-    - time_to_sleep: "5"
+    - attempts: "300"
+    - time_to_sleep: "1"
   result: SUCCESS

@@ -40,7 +40,7 @@ flow:
         required: false
     - timeout:
         required: false
-    - unused_image_name: 'tomcat:7'
+    - unused_image_name: 'alpine'
     - used_image_name: 'busybox'
     - number_of_images_in_cluster:
         default: "0"
@@ -140,20 +140,8 @@ flow:
             - first_string: '1'
             - second_string: ${str(number_of_images_in_cluster)}
         navigate:
-          - SUCCESS: clear_docker_host
-          - FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
-
-    - clear_docker_host: # at this stage only one machine from the cluster is not clean
-        do:
-          maintenance.clear_host:
-            - docker_host: ${coreos_host}
-            - port
-            - docker_username: ${coreos_username}
-            - docker_password: ${coreos_password}
-            - private_key_file
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
 
   results:
     - SUCCESS
@@ -164,4 +152,3 @@ flow:
     - RUN_CONTAINER_PROBLEM
     - COUNT_IMAGES_IN_CLUSTER_PROBLEM
     - NUMBER_OF_REMAINING_IMAGES_MISMATCH
-    - CLEAR_DOCKER_HOST_PROBLEM
