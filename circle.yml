@@ -13,6 +13,21 @@ general:
 
 machine:
   environment:
+    # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
+    # ignore test suites on node 1 in fork builds
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,coreos,cadvisor,docker-circleci'; else echo '!default'; fi) # TODO external PRs
+    ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2: $(if [ "${CIRCLE_PR_NUMBER}" = "" ]; then echo '!default,swarm'; else echo '!default'; fi)
+
+    COREOS_MACHINE_NAMES_1: "ci-${CIRCLE_BUILD_NUM}-coreos-1 ci-${CIRCLE_BUILD_NUM}-coreos-2 ci-${CIRCLE_BUILD_NUM}-coreos-3"
+    COREOS_MACHINE_NAMES_2: "ci-${CIRCLE_BUILD_NUM}-coreos-4 ci-${CIRCLE_BUILD_NUM}-coreos-5 ci-${CIRCLE_BUILD_NUM}-coreos-6"
+    RULE_DROPLET_MACHINE_NOT_FORK_1: '[ "${CIRCLE_PR_NUMBER}" = "" ] && [ "${CIRCLE_NODE_INDEX}" = "1" ]'
+    RULE_DROPLET_MACHINE_NOT_FORK_2: '[ "${CIRCLE_PR_NUMBER}" = "" ] && [ "${CIRCLE_NODE_INDEX}" = "2" ]'
+    CLOUD_CONFIG_FILE: 'ci-env/circleci/cloud-config.yaml'
+    DROPLETS_FILE_1: "droplets_${CIRCLE_BUILD_NUM}_1.txt"
+    DROPLETS_FILE_2: "droplets_${CIRCLE_BUILD_NUM}_2.txt"
+    COREOS_PLACEHOLDERS_1: '<coreos_host_1> <coreos_host_2> <coreos_host_3>'
+    COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
+
     JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
@@ -34,6 +49,70 @@ dependencies:
     - sed -i -e 's/\.sl//g' changed_items.txt
     - cat changed_items.txt
 
+    - docker info
+    - docker images
+    - ? > ### machine 0
+        if [ "${CIRCLE_NODE_INDEX}" = "0" ];
+        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
+        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
+        && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
+        fi
+      : parallel: true
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
+        then chmod +x ci-env/circleci/create_droplets.sh
+        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_1} DROPLETS_FILE=${DROPLETS_FILE_1}
+        ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 2
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
+        then chmod +x ci-env/circleci/create_droplets.sh
+        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_2} DROPLETS_FILE=${DROPLETS_FILE_2}
+        ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
+    - ? > ### every machine
+        wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016101001/cslang-builder.zip
+        && unzip cslang-builder.zip
+        && chmod +x cslang-builder/bin/cslang-builder
+        && mkdir cslang-builder/lib/Lib
+        && pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
+      : parallel: true
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_1} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_1}
+        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 2
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_2} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_2}
+        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
+        fi
+      : parallel: true
+
 test:
   override:
-    - echo 'SMART MODE'
+    - ? >
+        case ${CIRCLE_NODE_INDEX} in
+        0) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_0.properties --smart $(pwd)/changed_items.txt ;;
+        1) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_1.properties --smart $(pwd)/changed_items.txt ;;
+        2) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_2.properties --smart $(pwd)/changed_items.txt ;;
+        esac
+      : parallel: true
+  post:
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
+        then chmod +x ci-env/circleci/cleanup_env.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_1} ci-env/circleci/cleanup_env.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 2
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
+        then chmod +x ci-env/circleci/cleanup_env.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_2} ci-env/circleci/cleanup_env.sh;
+        fi
+      : parallel: true
