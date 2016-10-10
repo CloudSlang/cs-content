@@ -31,6 +31,13 @@ operation:
         required: false
   python_action:
     script: |
+      def representsInt(s):
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
+
       try:
         import json, re
         quote = None
@@ -60,7 +67,13 @@ operation:
           decoded = json.loads(json_input)
           temp = decoded
           for key in json_pa[:-1]:
+            if representsInt(key):
+              key = int(key)
             temp = temp[key]
+          if representsInt(json_pa[-1]):
+            json_pa[-1] = int(json_pa[-1])
+            if json_pa[-1] >= len(temp):
+              temp.extend([None]*(json_pa[-1]-len(temp)+1))
           temp[json_pa[-1]] = decoded_value
         elif (json_pa == [] and decoded_value == '' and json_input == '{}'):
           decoded = {}

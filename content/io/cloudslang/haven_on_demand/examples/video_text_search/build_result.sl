@@ -29,6 +29,9 @@ operation:
 
   python_action:
     script: |
+      index = int(index)
+      query_result = eval(query_result)
+      
       snippet_start = max(0, index - int(snippet_radius))
       snippet_end = min(len(query_result['text']), index + int(snippet_radius))
       snippet = ' '.join(query_result['text'][snippet_start : snippet_end])
