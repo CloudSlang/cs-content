@@ -40,7 +40,6 @@ dependencies:
     - git remote -v
     - git remote add new_origin https://github.com/CloudSlang/cloud-slang-content.git
     - git remote -v
-    - git remote fetch new_origin master
     - git fetch new_origin master
     - git branch -a
     #    - git checkout master || git checkout -b master origin/master
