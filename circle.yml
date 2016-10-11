@@ -37,10 +37,14 @@ machine:
 
 dependencies:
   override:
-    - git fetch origin master
+    - git remote -v
+    - git remote add new_origin https://github.com/CloudSlang/cloud-slang-content.git
+    - git remote -v
+    - git remote fetch new_origin master
+    - git fetch new_origin master
     - git branch -a
-#    - git checkout master || git checkout -b master origin/master
-    - git diff --name-only origin/master -- > difflist.txt
+    #    - git checkout master || git checkout -b master origin/master
+    - git diff --name-only new_origin/master -- > difflist.txt
     - cat difflist.txt
     - grep '.sl$' difflist.txt > changed_items.txt
     - sed -i -e 's/\//\./g' changed_items.txt
