@@ -23,11 +23,14 @@ flow:
     - amazon_api
     - uri
     - http_verb
-    - payload_hash
-    - security_token
+    - payload_hash:
+        required: false
+    - security_token:
+        required: false
     - date
     - headers
-    - query_params
+    - query_params:
+        required: false
 
   workflow:
     - compute_signature:
@@ -45,7 +48,7 @@ flow:
             - headers
             - query_params
         publish:
-          - authorization_header: ${authorizationHeader}
+          - authorization_header
           - signature
           - return_result
           - return_code
@@ -66,7 +69,7 @@ flow:
     - check_authorization_type_exist:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_result}
+            - string_in_which_to_search: ${authorization_header}
             - string_to_find: 'Authorization:AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request'
         navigate:
           - SUCCESS: check_signature
@@ -76,7 +79,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${signature}
-            - string_to_find: 'f0e8bdb87c964420e857bd35b5d6ed310bd44f0170aba48dd91039c6036bdb41'
+            - string_to_find: 'c0421ab854ff8a633bfe95d67f8f07312c4e3c45b4005cedbc94582bcb349c98'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_SIGNATURE_FAILURE

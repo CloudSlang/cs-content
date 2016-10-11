@@ -21,7 +21,5 @@ testAmazonComputeV4SignatureLocal:
     - security_token: ''
     - date: '20130524T000000Z'
     - query_params: ''
-    - headers: 'Range:bytes=0-9\r\n  +
-        x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\r\n +
-        x-amz-date:20130524T000000Z'
+    - headers: 'Range:bytes=0-9 x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 x-amz-date:20130524T000000Z'
   result: SUCCESS
