@@ -17,7 +17,6 @@
 #! @result FAILURE: get_all_images finished with an error
 #! @result DOWNLOAD_FAILURE: prerequest error - could not download dockerimage
 #! @result VERIFY_FAILURE: fails ro verify downloaded images
-#! @result DELETE_FAILURE: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
 #!!#
 ####################################################
@@ -82,25 +81,12 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: "/hello"
         navigate:
-          - SUCCESS: clear_after
-          - FAILURE: VERIFY_FAILURE
-
-    - clear_after:
-        do:
-          images.clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: ${ image_name }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: DELETE_FAILURE
+          - FAILURE: VERIFY_FAILURE
 
   results:
     - SUCCESS
     - FAILURE
     - DOWNLOAD_FAILURE
     - VERIFY_FAILURE
-    - DELETE_FAILURE
     - MACHINE_IS_NOT_CLEAN
