@@ -16,7 +16,6 @@ flow:
   name: test_add_launch_permissions_to_image_in_region
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -33,9 +32,6 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
     - image_id
     - user_ids_string:
         default: ''
@@ -43,22 +39,22 @@ flow:
     - user_groups_string:
         default: ''
         required: false
+    - version
 
   workflow:
     - add_permissions_to_image:
         do:
-          images.add_launch_permissions_to_image_in_region:
-            - provider
+          images.add_launch_permissions_to_image:
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
             - debug_mode
-            - region
             - image_id
             - user_ids_string
             - user_groups_string
+            - version
         publish:
           - return_result
           - return_code
