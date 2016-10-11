@@ -7,7 +7,7 @@
 #
 ####################################################
 test_get_cluster_info_success:
-  testSuites: [swarm]
+  testSuites: [swarm,swarm_lane_2]
   description: This flow claers the Swarm cluster and verifies that get_cluster_info works by checking the number of containers in the cluster.
   testFlowPath: io.cloudslang.docker.swarm.test_get_cluster_info
   inputs:

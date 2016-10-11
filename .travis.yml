@@ -24,12 +24,24 @@ env:
    - SUITE=git,remote-copy
 
 script:
+  - git fetch origin
+  - git branch -a
+#    - git checkout master || git checkout -b master origin/master
+  - git diff --name-only origin/master -- > difflist.txt
+  - cat difflist.txt
+  - grep '.sl$' difflist.txt > changed_items.txt
+  - sed -i -e 's/\//\./g' changed_items.txt
+  - sed -i -e 's/test\.//g' changed_items.txt
+  - sed -i -e 's/content\.//g' changed_items.txt
+  - sed -i -e 's/\.sl//g' changed_items.txt
+  - cat changed_items.txt
+
   - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
   - docker ps -a
   - docker info
   - docker version
   - df -kh
-  - wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.71/cslang-builder.zip
+  - wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016101001/cslang-builder.zip
   - unzip -q cslang-builder.zip
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov
