@@ -37,8 +37,23 @@ machine:
 
 dependencies:
   override:
+    - git fetch origin
+    - git branch -a
+    #    - git checkout master || git checkout -b master origin/master
+    - git diff --name-only origin/master -- > difflist.txt
+    - cat difflist.txt
+    - grep '.sl$' difflist.txt > changed_items.txt
+    - sed -i -e 's/\//\./g' changed_items.txt
+    - sed -i -e 's/test\.//g' changed_items.txt
+    - sed -i -e 's/content\.//g' changed_items.txt
+    - sed -i -e 's/\.sl//g' changed_items.txt
+    - cat changed_items.txt
+
     - docker info
     - docker images
+
+test:
+  pre:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -d -p 49165:8080 jenkins
@@ -62,7 +77,7 @@ dependencies:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.RC2/cslang-builder.zip
+        wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016101001/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -82,14 +97,12 @@ dependencies:
         ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
-
-test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov -des ;;
-        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov -des ;;
-        2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov -des ;;
+        0) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_0.properties --smart $(pwd)/changed_items.txt ;;
+        1) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_1.properties --smart $(pwd)/changed_items.txt ;;
+        2) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_2.properties --smart $(pwd)/changed_items.txt ;;
         esac
       : parallel: true
   post:
