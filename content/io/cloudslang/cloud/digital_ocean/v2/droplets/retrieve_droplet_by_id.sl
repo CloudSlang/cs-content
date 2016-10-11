@@ -22,6 +22,8 @@
 #!                  information can be retrieved in Python style - Example: droplet['name']
 #!                  None in case of FAILURE
 #! @output droplet_status: status of the droplet is case of SUCCESS, empty in case of FAILURE
+#! @result SUCCESS: existing droplet retrieved successfully
+#! @result FAILURE: something went wrong while trying to retrieve droplet by ID
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud.digital_ocean.v2.droplets

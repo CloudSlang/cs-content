@@ -6,13 +6,16 @@
 #! @input api_key: API key
 #! @input text: query text
 #! @input index: index to query
+#! @input hostname: SMTP hostname
+#! @input port: SMTP port
+#! @input from: sender email address
+#! @input to: recipient email address
 #! @input proxy_host: proxy server
 #!                    optional
 #! @input proxy_port: proxy server port
 #!                    optional
-
-#! @output output_name: output_description
-#! @result result_name: result_description
+#! @result SUCCESS: text index setup queried successfully
+#! @result FAILURE: there was an error while trying to query the text index setup
 #!!#
 ####################################################
 

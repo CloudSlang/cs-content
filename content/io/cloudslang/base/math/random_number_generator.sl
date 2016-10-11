@@ -16,7 +16,7 @@
 #! @result FAILURE: otherwise
 #!!#
 ##################################################
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.math
 
 operation:
   name: random_number_generator

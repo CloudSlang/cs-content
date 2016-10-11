@@ -18,6 +18,8 @@
 #! @input email_port: email server port
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#! @result SUCCESS: Jenkins job cloned successfully
+#! @result FAILURE: there was an eror while trying to clone the Jenkins job
 #!!#
 ####################################################
 

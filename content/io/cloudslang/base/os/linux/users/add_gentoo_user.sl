@@ -18,7 +18,8 @@
 #! @input home_path: optional - the path of the home folder - Default: '/home'
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
@@ -78,17 +79,22 @@ flow:
           - standard_err
           - standard_out
           - return_code
+          - exception
           - command_return_code
 
     - evaluate_result:
         do:
           utils.is_true:
             - bool_value: ${return_code == '0' and command_return_code == '0'}
+        navigate:
+            - 'TRUE': SUCCESS
+            - 'FALSE': FAILURE
   outputs:
     - return_result
     - standard_err
     - standard_out
     - return_code
+    - exception
     - command_return_code
 
   results:

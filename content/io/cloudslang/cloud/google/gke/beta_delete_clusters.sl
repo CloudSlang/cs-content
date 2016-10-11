@@ -32,6 +32,8 @@
 #! @output response: jSon response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output cluster_name: cluster name identifier
+#! @result SUCCESS: cluster deleted successfully
+#! @result FAILURE: something went wrong while trying to delete cluster
 #!!#
 ####################################################
 
@@ -73,3 +75,7 @@ operation:
     - response
     - return_code
     - cluster_name
+
+  results:
+    - SUCCESS: ${return_code == '0'}
+    - FAILURE
