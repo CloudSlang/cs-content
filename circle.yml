@@ -100,7 +100,7 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_0.properties --smart $(pwd)/changed_items.txt ;; // TODO: -des
+        0) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_0.properties --smart $(pwd)/changed_items.txt ;;
         1) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_1.properties --smart $(pwd)/changed_items.txt ;;
         2) ./cslang-builder/bin/cslang-builder -rcf $(pwd)/configuration/runconfig/lane_2.properties --smart $(pwd)/changed_items.txt ;;
         esac
