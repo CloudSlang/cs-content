@@ -15,17 +15,17 @@
 testNutanixComplete:
   inputs:
     - name: <name>
-    - numVcpus: <numVcpus>
-    - memoryMb: <memoryMb>
+    - num_vcpus: <numVcpus>
+    - memory_mb: <memoryMb>
     - uuid: <uuid>
     - host: <host>
     - port: <port>
     - username: <username>
     - password: <password>
-    - templateId: <templateId>
+    - template_id: <templateId>
     - description: <description>
-    - haPriority: <haPriority>
-    - numCoresPerVcpu: <numCoresPerVcpu>
+    - ha_priority: <haPriority>
+    - num_cores_per_vcpu: <numCoresPerVcpu>
   description: "Test Create & Delete nutanix"
   testFlowPath: io.cloudslang.nutanix.test_nutanix_complete
   testSuites: [nutanix-local]

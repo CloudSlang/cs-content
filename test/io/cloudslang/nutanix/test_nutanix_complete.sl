@@ -12,19 +12,20 @@ namespace: io.cloudslang.nutanix
 imports:
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
+  nutanix: io.cloudslang.nutanix
 
 flow:
   name: test_nutanix_complete
   inputs:
     - name
-    - numVcpus
-    - memoryMb
+    - num_vcpus
+    - memory_mb
     - uuid
     - host
     - port
     - username
     - password
-    - templateId
+    - template_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -35,93 +36,98 @@ flow:
         required: false
     - description:
         required: false
-    - haPriority:
+    - ha_priority:
         required: false
-    - numCoresPerVcpu:
+    - num_cores_per_vcpu:
         required: false
   workflow:
     - nutanixCreateResourceVMClone:
         do:
           create_resource_vmclonedto:
             - name
-            - numVcpus
-            - memoryMb
+            - num_vcpus
+            - memory_mb
             - uuid
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
+        navigate:
+          - SUCCESS: print_create_resource_vm_clone
+          - FAILURE: FAILURE
 
-    - print_reateResourceVMClone:
+    - print_create_resource_vm_clone:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
-    - nutanixCreateResourceVMCreate:
+    - nutanix_create_resource_vm_create:
         do:
           create_resource_vmcreatedto:
             - name
-            - memoryMb
-            - numVcpus
+            - memory_mb
+            - num_vcpus
             - description
-            - haPriority
-            - numCoresPerVcpu
+            - ha_priority
+            - num_cores_per_vcpu
             - uuid
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
-    - print_reateResourceVMCreate:
+    - print_create_resource_vm_reate:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
-    - nutanixCreateVM:
+    - nutanix_create_vm:
         do:
           vms_create:
             - host
             - port
             - username
             - password
-            - templateId
-            - body: response
+            - template_id
+            - body: ${response}
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
-    - print_nutanixCreateVM:
+    - print_nutanix_create_vm:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
-    - nutanixCloneVM:
+    - nutanix_clone_vm:
         do:
-          vms_clone:
+          nutanix.beta_vms_clone:
             - host
             - port
             - username
             - password
-            - templateId
-            - body: response
+            - template_id
+            - body: ${response}
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
 
-    - print_nutanixCloneVM:
+    - print_nutanix_clone_vm:
         do:
           print.print_text:
-            - text: response
+            - text: ${response}
 
   outputs:
     - return_result
+    - response
     - error_message
+    
   results:
     - SUCCESS
     - FAILURE

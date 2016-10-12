@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,22 +6,24 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates an create.dto.acropolis.VmDiskSpecCreateDTO object.
-# For example, it could be used for create a Virtual Machine operation.
-#
-#
-# Inputs:
-#   - size - Size of the Virtual Machine disk to be created in bytes
-#   - size_mb -  Size of the Virtual Machine disk to be created in MB
-#   - container_name - optional - WName of container to create disk in.
-#                                If this is specified, then 'containerId' should not be specified
-#   - container_id - optional -  Id of container to create disk in.
-#                               If this is specified, then 'containerName' should not be specified
-# Outputs:
-#   - return_result - the response of the operation in case of success, the error message otherwise
-#   - error_message - return_result if return_code is not "0"
-#   - response - JSON response body containing an instance of Operation
-#   - return_code - "0" if success, "-1" otherwise
+#!!
+#! @description: Creates an create.dto.acropolis.VmDiskSpecCreateDTO object.
+#!               For example, it could be used for create a Virtual Machine operation.
+#!
+#! @input size: Size of the Virtual Machine disk to be created in bytes
+#! @input size_mb:  Size of the Virtual Machine disk to be created in MB
+#! @input container_name: optional - WName of container to create disk in.
+#!                                If this is specified, then 'containerId' should not be specified
+#! @input container_id: optional -  Id of container to create disk in.
+#!                               If this is specified, then 'containerName' should not be specified
+#!
+#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output error_message: return_result if return_code is not "0"
+#! @output response: JSON response body containing an instance of Operation
+#! @output return_code: "0" if success, "-1" otherwise
+#!
+#! @result SUCCESS: command executed successfully
+#!!#
 ####################################################
 
 
@@ -35,8 +37,8 @@ operation:
     - container_name
     - container_id
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
 

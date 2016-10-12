@@ -12,20 +12,21 @@ imports:
   lists: io.cloudslang.base.lists
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
+  nutanix: io.cloudslang.nutanix
 
 flow:
   name: test_vms_clone
 
   inputs:
     - name
-    - numVcpus
-    - memoryMb
+    - num_v_cpus
+    - memory_mb
     - uuid
     - host
     - port
     - username
     - password
-    - templateId
+    - template_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -34,66 +35,63 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
 
   workflow:
-    - nutanixCreateResourceVMClone:
+    - nutanix_create_resource_vm_clone:
         do:
-          create_resource_vmclonedto:
+          nutanix.create_resource_vmclonedto:
             - name
-            - numVcpus
-            - memoryMb
+            - num_vcpus
+            - memory_mb
             - uuid
         publish:
           - return_result
           - error_message
           - return_code
         navigate:
-          SUCCESS: check_result
-          FAILURE: CREATE_RESOURCE_VMCLONEDTO
+          - SUCCESS: check_result
+          - FAILURE: CREATE_RESOURCE_VMCLONEDTO
 
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code)]
-            - list_2: ["''", 0]
+            - list_1: 'str(error_message), int(return_code)'
+            - list_2: '"''", 0'
         navigate:
-          SUCCESS: nutanixCloneVM
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: nutanix_clone_vm
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
-    - nutanixCloneVM:
+    - nutanix_clone_vm:
         do:
-          vms_clone:
+          nutanix.beta_vms_clone:
             - host
             - port
             - username
             - password
-            - templateId
-            - proxy_host:
-                required: false
-            - proxy_port:
-                required: false
-            - proxy_username:
-                required: false
-            - proxy_password:
-                required: false
-            - body: return_result
+            - template_id
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - body: ${return_result}
         publish:
           - return_result
           - response
           - error_message
-          - response_body: return_result
+          - response_body: ${return_result}
         navigate:
-          SUCCESS: check_result2
-          FAILURE: CLONE_VM
+          - SUCCESS: check_result2
+          - FAILURE: CLONE_VM
 
     - check_result2:
         do:
           lists.compare_lists:
-            - list_1: [str(error_message), int(return_code), int(status_code)]
-            - list_2: ["''", 0, 200]
+            - list_1: 'str(error_message), int(return_code), int(status_code)'
+            - list_2: '"''", 0, 200'
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CHECK_RESPONSES_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CHECK_RESPONSES_FAILURE
 
   outputs:
     - return_result
