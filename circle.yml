@@ -41,11 +41,9 @@ dependencies:
     - >
       if eval "${CHANGES_ONLY_BUILD_MODE}"; then echo 'Build mode: CHANGES_ONLY'; else echo 'Build mode: BASIC'; fi
     - git remote -v
-    - git remote add new_origin https://github.com/CloudSlang/cloud-slang-content.git
-    - git remote -v
-    - git fetch new_origin master
+    - git fetch origin master
     - git branch -a
-    - git diff --name-only new_origin/master -- > difflist.txt
+    - git diff --name-only origin/master -- > difflist.txt
     - cat difflist.txt
     - grep '.sl$' difflist.txt > changed_items.txt
     - sed -i -e 's/\//\./g' changed_items.txt
