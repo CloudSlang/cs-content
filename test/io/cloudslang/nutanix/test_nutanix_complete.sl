@@ -52,15 +52,9 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: ${return_result}
         navigate:
-          - SUCCESS: print_create_resource_vm_clone
+          - SUCCESS: nutanix_create_resource_vm_create
           - FAILURE: FAILURE
-
-    - print_create_resource_vm_clone:
-        do:
-          print.print_text:
-            - text: ${response}
 
     - nutanix_create_resource_vm_create:
         do:
@@ -76,12 +70,9 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: ${return_result}
-
-    - print_create_resource_vm_reate:
-        do:
-          print.print_text:
-            - text: ${response}
+        navigate:
+          - SUCCESS: nutanix_create_vm
+          - FAILURE: FAILURE
 
     - nutanix_create_vm:
         do:
@@ -96,12 +87,9 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: ${return_result}
-
-    - print_nutanix_create_vm:
-        do:
-          print.print_text:
-            - text: ${response}
+        navigate:
+          - SUCCESS: nutanix_clone_vm
+          - FAILURE: FAILURE
 
     - nutanix_clone_vm:
         do:
@@ -116,12 +104,9 @@ flow:
           - return_result
           - response
           - error_message
-          - response_body: ${return_result}
-
-    - print_nutanix_clone_vm:
-        do:
-          print.print_text:
-            - text: ${response}
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result
