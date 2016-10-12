@@ -79,7 +79,7 @@ dependencies:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016100601/cslang-builder.zip
+        wget https://github.com/Bonczidai/cloud-slang/releases/download/temp2016101205/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
