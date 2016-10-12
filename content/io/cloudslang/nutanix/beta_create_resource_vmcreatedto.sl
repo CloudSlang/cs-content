@@ -25,6 +25,7 @@
 #! @output return_code: "0" if success, "-1" otherwise
 #!
 #! @result SUCCESS: command completed successfully
+#! @result FAILURE: something went wrong
 #!!#
 ####################################################
 
@@ -85,4 +86,5 @@ operation:
     - response
     - return_code
   results:
-    - SUCCESS
+    - SUCCESS: ${return_code == '0'}
+    - FAILURE

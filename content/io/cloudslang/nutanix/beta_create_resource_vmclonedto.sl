@@ -22,6 +22,7 @@
 #! @output return_code: "0" if success, "-1" otherwise
 #!
 #! @result SUCCESS: virtual machine cloned successfully
+#! @result FAILURE: something went wrong
 #!!#
 ####################################################
 
@@ -68,9 +69,10 @@ operation:
         return_code = '-1'
   outputs:
     - return_result
-    - error_message: return_result if return_code == '-1' else ''
+    - error_message: ${return_result if return_code == '-1' else ''}
     - response
     - return_code
 
   results:
-    - SUCCESS
+    - SUCCESS: ${return_code == '0'}
+    - FAIYRE
