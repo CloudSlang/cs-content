@@ -44,6 +44,7 @@ dependencies:
         && ci-env/circleci/setup_changes_only_mode.sh;
         else echo 'Build mode: BASIC';
         fi
+      : parallel: true
 #    - git remote -v
 #    - git fetch origin master
 #    - git branch -a
