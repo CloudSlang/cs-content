@@ -75,4 +75,4 @@ operation:
 
   results:
     - SUCCESS: ${return_code == '0'}
-    - FAIYRE
+    - FAILURE
