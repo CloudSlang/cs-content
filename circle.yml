@@ -34,7 +34,7 @@ machine:
     DROPLETS_FILE_2: "droplets_${CIRCLE_BUILD_NUM}_2.txt"
     COREOS_PLACEHOLDERS_1: '<coreos_host_1> <coreos_host_2> <coreos_host_3>'
     COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
-    CHANGES_ONLY_BUILD_MODE: '[ "${CIRCLE_BRANCH}" != "master" ]'
+    CHANGES_ONLY_BUILD_MODE: '[ "${CIRCLE_BRANCH}" != "master" ] && [ "${BUILD_MODE}" = "CHANGES_ONLY" ]'
 
     JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
@@ -50,6 +50,7 @@ dependencies:
     - ? >
         if eval "${CHANGES_ONLY_BUILD_MODE}";
         then echo 'Build mode: CHANGES_ONLY'
+        && chmod +x ci-env/circleci/setup_changes_only_mode.sh
         && ci-env/circleci/setup_changes_only_mode.sh;
         else echo 'Build mode: BASIC';
         fi
