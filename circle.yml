@@ -45,6 +45,8 @@ machine:
 
 dependencies:
   override:
+    - echo ${CIRCLE_BRANCH}
+    - echo ${BUILD_MODE}
     - ? >
         if eval "${CHANGES_ONLY_BUILD_MODE}";
         then echo 'Build mode: CHANGES_ONLY'
