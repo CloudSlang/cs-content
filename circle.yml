@@ -7,6 +7,13 @@
 #
 ####################################################
 
+# ENV VARS SET IN CIRCLE UI:
+# - BUILD_MODE: CHANGES_ONLY / BASIC
+# - DO_API_TOKEN
+# - DO_DROPLET_SSH_PRIVATE_KEY
+# - DO_DROPLET_SSH_PUBLIC_KEY_ID
+# - DO_REGION
+
 general:
   artifacts:
     - "./cslang-builder/logs/builder.log"
