@@ -43,7 +43,7 @@ flow:
   workflow:
     - nutanixCreateResourceVMClone:
         do:
-          create_resource_vmclonedto:
+          nutanix.beta_create_resource_vmclonedto:
             - name
             - num_vcpus
             - memory_mb
@@ -64,7 +64,7 @@ flow:
 
     - nutanix_create_resource_vm_create:
         do:
-          create_resource_vmcreatedto:
+          nutanix.beta_create_resource_vmcreatedto:
             - name
             - memory_mb
             - num_vcpus
@@ -85,7 +85,7 @@ flow:
 
     - nutanix_create_vm:
         do:
-          vms_create:
+          nutanix.beta_vms_create:
             - host
             - port
             - username

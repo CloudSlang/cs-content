@@ -40,7 +40,7 @@ flow:
   workflow:
     - nutanix_create_resource_vm_clone:
         do:
-          nutanix.create_resource_vmclonedto:
+          nutanix.beta.create_resource_vmclonedto:
             - name
             - num_vcpus
             - memory_mb
