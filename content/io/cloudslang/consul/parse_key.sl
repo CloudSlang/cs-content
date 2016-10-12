@@ -6,24 +6,22 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses a JSON response holding Consul key information.
-#
-# Inputs:
-#   - json_response - response holding Consul key information
-# Outputs:
-#   - decoded - parsed response
-#   - key -key name
-#   - flags - key flags
-#   - create_index- key create index
-#   - value - key value
-#   - modify_index - key modify index
-#   - lock_index - key lock index
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - returnResult - response of the operation
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses a JSON response holding Consul key information.
+#! @input json_response: response holding Consul key information
+#! @output decoded: parsed response
+#! @output key: key name
+#! @output flags: key flags
+#! @output create_index: key create index
+#! @output value: key value
+#! @output modify_index: key modify index
+#! @output lock_index: key lock index
+#! @output return_result: response of the operation
+#! @output error_message: return_result if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul
@@ -32,36 +30,36 @@ operation:
   name: parse_key
   inputs:
     - json_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         import base64
 
         decoded = json.loads(json_response)
-        decoded= decoded[0]
-        key=decoded['Key']
-        flags=decoded['Flags']
-        create_index=decoded['CreateIndex']
-        value=encoded = base64.b64decode(decoded['Value'])
-        modify_index=decoded['ModifyIndex']
-        lock_index=decoded['LockIndex']
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        decoded = decoded[0]
+        key = decoded['Key']
+        flags = decoded['Flags']
+        create_index = decoded['CreateIndex']
+        value = encoded = base64.b64decode(decoded['Value'])
+        modify_index = decoded['ModifyIndex']
+        lock_index = decoded['LockIndex']
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error or key does not exist.'
+        return_code = '-1'
+        return_result = 'Parsing error or key does not exist.'
   outputs:
-    - decoded
-    - key
-    - flags
-    - create_index
-    - value
-    - modify_index
-    - lock_index
-    - returnCode
-    - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - decoded: ${ str(decoded) }
+    - key: ${ str(key) }
+    - flags: ${ str(flags) }
+    - create_index: ${ str(create_index) }
+    - value: ${ str(value) }
+    - modify_index: ${ str(modify_index) }
+    - lock_index: ${ str(lock_index) }
+    - return_result: ${ str(return_result) }
+    - error_message: ${ str(return_result) if return_code == '-1' else ''}
+    - return_code: ${ str(return_code) }
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

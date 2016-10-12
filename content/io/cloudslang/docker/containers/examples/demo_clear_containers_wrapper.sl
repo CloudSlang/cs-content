@@ -6,26 +6,25 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes two Docker containers.
-#
-# Inputs:
-#   - db_container_id - ID of the DB container
-#   - linked_container_id - ID of the linked container
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine host password
-#   - private_key_file - optional - path to private key file
-# Outputs:
-#   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
+#!!
+#! @description: Deletes two Docker containers.
+#! @input db_container_id: ID of the DB container
+#! @input linked_container_id: ID of the linked container
+#! @input docker_host: Docker machine host
+#! @input port: optional - SSH port
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine host password
+#! @input private_key_file: optional - path to private key file
+#! @output error_message: error message
+#! @result SUCCESS: both Docker containers deleted successfully
+#! @result FAILURE: there was an error while trying to delete one or both Docker containers
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
- docker_containers: io.cloudslang.docker.containers
+ containers: io.cloudslang.docker.containers
 
 flow:
   name: demo_clear_containers_wrapper
@@ -38,13 +37,15 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
+
   workflow:
     - clear_db_container:
         do:
-          docker_containers.clear_container:
-            - container_id: db_container_id
+          containers.clear_container:
+            - container_id: ${db_container_id}
             - docker_host
             - port
             - docker_username
@@ -54,8 +55,8 @@ flow:
           - error_message
     - clear_linked_container:
         do:
-          docker_containers.clear_container:
-            - container_id: linked_container_id
+          containers.clear_container:
+            - container_id: ${linked_container_id}
             - docker_host
             - port
             - docker_username
@@ -65,6 +66,3 @@ flow:
           - error_message
   outputs:
     - error_message
-  results:
-    - SUCCESS
-    - FAILURE

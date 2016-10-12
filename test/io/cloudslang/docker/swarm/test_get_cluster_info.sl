@@ -10,10 +10,12 @@
 namespace: io.cloudslang.docker.swarm
 
 imports:
+  swarm: io.cloudslang.docker.swarm
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_get_cluster_info
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -37,31 +39,31 @@ flow:
   workflow:
     - setup_cluster:
         do:
-          create_cluster_with_nodes:
-            - manager_machine_ip: swarm_manager_ip
-            - manager_machine_username: username
-            - manager_machine_password: password
-            - manager_machine_private_key_file: private_key_file
-            - swarm_manager_port
+          swarm.create_cluster_with_nodes:
+            - manager_machine_ip: ${swarm_manager_ip}
+            - manager_machine_username: ${username}
+            - manager_machine_password: ${password}
+            - manager_machine_private_key_file: ${private_key_file}
+            - manager_machine_port: ${swarm_manager_port}
             - agent_ip_addresses
-            - agent_usernames: [username, username]
-            - agent_passwords: [password, password]
-            - agent_private_key_files: [private_key_file, private_key_file]
+            - agent_usernames: ${username + "," + username}
+            - agent_passwords: ${get(password,"") + "," + get(password,"")}
+            - agent_private_key_files: ${private_key_file + "," + private_key_file}
             - attempts
             - time_to_sleep
         navigate:
-          SUCCESS: get_cluster_info
-          CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
-          PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
-          START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          ADD_NODES_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
-          NODES_NOT_ADDED: SETUP_CLUSTER_PROBLEM
+          - SUCCESS: get_cluster_info
+          - CREATE_SWARM_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - PRE_CLEAR_MANAGER_MACHINE_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - PRE_CLEAR_AGENT_MACHINES_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - START_MANAGER_CONTAINER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - ADD_NODES_TO_THE_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM: SETUP_CLUSTER_PROBLEM
+          - NODES_NOT_ADDED: SETUP_CLUSTER_PROBLEM
 
     - get_cluster_info:
         do:
-          get_cluster_info:
+          swarm.get_cluster_info:
             - swarm_manager_ip
             - swarm_manager_port
             - host
@@ -76,11 +78,11 @@ flow:
     - verify_number_of_containers_in_cluster:
         do:
           strings.string_equals:
-            - first_string: str(number_of_agent_containers_in_cluster)
-            - second_string: number_of_containers_in_cluster
+            - first_string: ${str(number_of_agent_containers_in_cluster)}
+            - second_string: ${number_of_containers_in_cluster}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: VERIFY_NUMBER_OF_CONTAINERS_IN_CLUSTER_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: VERIFY_NUMBER_OF_CONTAINERS_IN_CLUSTER_PROBLEM
   results:
     - SUCCESS
     - SETUP_CLUSTER_PROBLEM

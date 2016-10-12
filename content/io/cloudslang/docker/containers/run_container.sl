@@ -6,47 +6,45 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Pulls and runs a Docker container.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - detach - optional - run container in background (detached / daemon mode) - Default: true
-#   - container_name - optional - container name
-#   - container_params - optional - command parameters
-#   - container_command - optional - container command
-#   - image_name - Docker image that will be assigned to the container
-#   - host - Docker machine host
-#   - port - optional - SSH port
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - arguments - optional - arguments to pass to command
-#   - characterSet - optional - character encoding used for input stream encoding from target machine - Valid: SJIS, EUC-JP, UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
-#   - agentForwarding - optional - whether to forward the user authentication agent
-# Outputs:
-#   - container_id - ID of the container
-#   - standard_err - STDERR of the machine in case of successful request, null otherwise
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Pulls and runs a Docker container.
+#! @input docker_options: optional - options for the Docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input detach: optional - run container in background (detached / daemon mode) - Default: true
+#! @input container_name: optional - container name
+#! @input container_params: optional - command parameters
+#! @input container_command: optional - container command
+#! @input image_name: Docker image that will be assigned to the container
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: optional - Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input arguments: optional - arguments to pass to command
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed; Valid: true, false
+#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @output container_id: ID of the container
+#! @output error_message: STDERR of the machine in case of successful request, null otherwise
+#! @result SUCCESS: Docker container pulled and executed successfully
+#! @result FAILURE: there was an error while trying to pull and run the Docker container
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  images: io.cloudslang.docker.images
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: run_container
   inputs:
     - docker_options:
         required: false
-    - detach:
-        default: true
+    - detach: 'true'
     - container_name:
         required: false
     - container_params:
@@ -60,39 +58,47 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
-        default: "'300000'"
+        default: '300000'
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
     - docker_options_expression:
-        default: "(docker_options + ' ') if bool(docker_options) else ''"
-        overridable: false
+        default: ${(docker_options + ' ') if bool(docker_options) else ''}
+        required: false
+        private: true
     - detach_expression:
-        default: "'-d ' if detach else ''"
-        overridable: false
+        default: ${'-d ' if (detach.lower() == 'true') else ''}
+        required: false
+        private: true
     - container_name_param:
-        default: "'--name ' + container_name + ' ' if bool(container_name) else ''"
-        overridable: false
+        default: ${'--name ' + container_name + ' ' if bool(container_name) else ''}
+        required: false
+        private: true
     - container_params_cmd:
-        default: "container_params + ' ' if bool(container_params) else ''"
-        overridable: false
+        default: ${container_params + ' ' if bool(container_params) else ''}
+        required: false
+        private: true
     - container_command_cmd:
-        default: "' ' + container_command if bool(container_command) else ''"
-        overridable: false
+        default: ${' ' + container_command if bool(container_command) else ''}
+        required: false
+        private: true
     - command:
-        default: "'docker ' + docker_options_expression + 'run ' + detach_expression + container_name_param + container_params_cmd + image_name + container_command_cmd"
-        overridable: false
+        default: >
+            ${'docker ' + docker_options_expression + 'run ' + detach_expression + container_name_param +
+            container_params_cmd + image_name + container_command_cmd}
+        private: true
 
   workflow:
     - run_container:
@@ -102,17 +108,17 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
-          - container_id: standard_out[:-1]
+          - container_id: ${standard_out.strip()}
           - standard_err
   outputs:
     - container_id
-    - standard_err
+    - error_message: ${standard_err}

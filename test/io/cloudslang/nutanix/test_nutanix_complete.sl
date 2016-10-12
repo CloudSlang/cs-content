@@ -17,14 +17,14 @@ flow:
   name: test_nutanix_complete
   inputs:
     - name
-    - num_vcpus
-    - memory_mb
+    - numVcpus
+    - memoryMb
     - uuid
     - host
     - port
     - username
     - password
-    - template_id
+    - templateId
     - proxy_host:
         required: false
     - proxy_port:
@@ -35,17 +35,17 @@ flow:
         required: false
     - description:
         required: false
-    - ha_priority:
+    - haPriority:
         required: false
-    - num_cores_per_vcpu:
+    - numCoresPerVcpu:
         required: false
   workflow:
     - nutanixCreateResourceVMClone:
         do:
-          beta_create_resource_vmclonedto:
+          create_resource_vmclonedto:
             - name
-            - num_vcpus
-            - memory_mb
+            - numVcpus
+            - memoryMb
             - uuid
         publish:
           - return_result
@@ -60,13 +60,13 @@ flow:
 
     - nutanixCreateResourceVMCreate:
         do:
-          beta_create_resource_vmcreatedto:
+          create_resource_vmcreatedto:
             - name
-            - memory_mb
-            - num_vcpus
+            - memoryMb
+            - numVcpus
             - description
-            - ha_priority
-            - num_cores_per_vcpu
+            - haPriority
+            - numCoresPerVcpu
             - uuid
         publish:
           - return_result
@@ -81,12 +81,12 @@ flow:
 
     - nutanixCreateVM:
         do:
-          beta_vms_create:
+          vms_create:
             - host
             - port
             - username
             - password
-            - template_id
+            - templateId
             - body: response
         publish:
           - return_result
@@ -101,12 +101,12 @@ flow:
 
     - nutanixCloneVM:
         do:
-          beta_vms_clone:
+          vms_clone:
             - host
             - port
             - username
             - password
-            - template_id
+            - templateId
             - body: response
         publish:
           - return_result
@@ -125,3 +125,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+

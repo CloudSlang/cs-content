@@ -6,28 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Sends an email.
-#
-# Inputs:
-#   - hostname - email host
-#   - port - email port
-#   - from - email sender
-#   - to - email recipient
-#   - cc - optional - Default: none
-#   - bcc - optional - Default: none
-#   - subject - email subject
-#   - body - email text
-#   - htmlEmail - optional - Default: true
-#   - readReceipt - optional - Default: false
-#   - attachments - optional - Default: none
-#   - username - optional - Default: none
-#   - password - optional - Default: none
-#   - characterSet - optional - Default: UTF-8
-#   - contentTransferEncoding - optional - Default: base64
-#   - delimiter - optional - Default: none
-# Results:
-#   - SUCCESS - succeeds if mail was sent successfully (returnCode is equal to 0)
-#   - FAILURE - otherwise
+#!!
+#! @description: Sends an email.
+#! @input hostname: email host
+#! @input port: email port
+#! @input from: email sender
+#! @input to: email recipient
+#! @input cc: optional - comma-delimited list of cc recipients - Default: none
+#! @input bcc: optional - comma-delimited list of bcc recipients - Default: none
+#! @input subject: email subject
+#! @input body: email text
+#! @input html_email: optional - Default: true
+#! @input read_receipt: optional - Default: false
+#! @input attachments: optional - Default: none
+#! @input username: optional - Default: none
+#! @input password: optional - Default: none
+#! @input character_set: optional - Default: UTF-8
+#! @input content_transfer_encoding: optional - Default: base64
+#! @input delimiter: optional - Default: none
+#! @input enable_TLS: optional - enable startTLS - Default : false
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output return_result: success or exception message
+#! @output exception: possible exception details
+#! @result SUCCESS: succeeds if mail was sent successfully (returnCode is equal to 0)
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.mail
@@ -45,29 +48,49 @@ operation:
         required: false
     - subject
     - body
+    - html_email:
+        required: false
     - htmlEmail:
-        default: "'true'"
+        default: ${get("html_email", "true")}
+        private: true
+    - read_receipt:
         required: false
     - readReceipt:
-        default: "'false'"
-        required: false
+        default: ${get("read_receipt", "false")}
+        private: true
     - attachments:
         required: false
     - username:
         required: false
     - password:
         required: false
+        sensitive: true
+    - character_set:
+        required: false
     - characterSet:
+        default: ${get("character_set", "UTF-8")}
+        private: true
+    - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
-        default: "'base64'"
-        required: false
+        default: ${get("content_transfer_encoding", "base64")}
+        private: true
     - delimiter:
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.mail.actions.SendMailAction
-      methodName: execute
+    - enable_TLS:
+        required: false
+    - enableTLS:
+        default: ${get("enable_TLS", "")}
+        required: false
+        private: true
+  java_action:
+    gav: 'io.cloudslang.content:cs-mail:0.0.32'
+    class_name: io.cloudslang.content.mail.actions.SendMailAction
+    method_name: execute
+  outputs:
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${get('exception', '')}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

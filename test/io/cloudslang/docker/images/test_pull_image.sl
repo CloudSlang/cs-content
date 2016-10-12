@@ -10,12 +10,13 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  images: io.cloudslang.docker.images
   strings: io.cloudslang.base.strings
   maintenance: io.cloudslang.docker.maintenance
 
 flow:
   name: test_pull_image
+
   inputs:
     - host
     - port:
@@ -26,32 +27,19 @@ flow:
 
   workflow:
     - clear_docker_host_prereqeust:
-       do:
-         maintenance.clear_host:
-           - docker_host: host
-           - port
-           - docker_username: username
-           - docker_password: password
-       navigate:
-         SUCCESS: pull_image
-         FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - test_verify_no_images:
         do:
-          test_verify_no_images:
-            - host
+          maintenance.clear_host:
+            - docker_host: ${ host }
             - port
-            - username
-            - password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
         navigate:
-          SUCCESS: pull_image
-          FAILURE: MACHINE_IS_NOT_CLEAN
-          FAIL_VALIDATE_SSH: FAIL_VALIDATE_SSH
-          FAIL_GET_ALL_IMAGES_BEFORE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: pull_image
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - pull_image:
         do:
-          pull_image:
+          images.pull_image:
             - host
             - port
             - username
@@ -61,12 +49,12 @@ flow:
           - return_result
           - error_message
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: FAIL_PULL_IMAGE
+          - SUCCESS: get_all_images
+          - FAILURE: FAIL_PULL_IMAGE
 
     - get_all_images:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username
@@ -74,34 +62,32 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_image_name
-          FAILURE: FAIL_GET_ALL_IMAGES
+          - SUCCESS: verify_image_name
+          - FAILURE: FAIL_GET_ALL_IMAGES
 
     - verify_image_name:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: image_list
-            - string_to_find: image_name
+            - string_in_which_to_search: ${ image_list }
+            - string_to_find: ${ image_name }
         navigate:
-          SUCCESS: clear_image
-          FAILURE: FAILURE
+          - SUCCESS: clear_image
+          - FAILURE: FAILURE
 
     - clear_image:
         do:
-          clear_images:
+          images.clear_images:
             - host
             - port
             - username
             - password
-            - images: image_name
+            - images: ${ image_name }
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_CLEAR_IMAGE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_CLEAR_IMAGE
 
   results:
     - SUCCESS
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE
     - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES

@@ -6,49 +6,51 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status of a Docker container.
-#
-# Inputs:
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-# Outputs:
-#   - decoded - parsed response
-#   - num_cores - machine number of cores
-#   - cpu_frequency_khz - machine CPU
-#   - memory_capacity - machine memory
-#   - file_systems - parsed cAdvisor machine filesystems
-#   - disk_map - parsed cAdvisor machine disk map
-#   - network_devices- parsed cAdvisor machine network devices
-#   - topology- parsed cAdvisor machine topology
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves cAdvisor status of a Docker container.
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @output decoded: parsed response
+#! @output num_cores: machine number of cores
+#! @output cpu_frequency_khz: machine CPU
+#! @output memory_capacity: machine memory
+#! @output file_systems: parsed cAdvisor machine filesystems
+#! @output disk_map: parsed cAdvisor machine disk map
+#! @output network_devices: parsed cAdvisor machine network devices
+#! @output topology: parsed cAdvisor machine topology
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
+
+imports:
+  cadvisor: io.cloudslang.docker.cadvisor
 
 flow:
   name: report_machine_metrics
   inputs:
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
+
   workflow:
     - retrieve_machine_metrics:
         do:
-          get_machine_metrics:
-              - host
-              - cadvisor_port
+          cadvisor.get_machine_metrics:
+            - host
+            - cadvisor_port
         publish:
-          - response_body: returnResult
-          - returnCode
-          - errorMessage
+          - response_body: ${return_result}
+          - error_message
+          - return_code
     - parse_machine_metrics:
         do:
-          parse_machine:
-            - json_response: response_body
+          cadvisor.parse_machine:
+            - json_response: ${response_body}
         publish:
           - decoded
           - num_cores
@@ -58,7 +60,7 @@ flow:
           - disk_map
           - network_devices
           - topology
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - num_cores
@@ -68,7 +70,7 @@ flow:
     - disk_map
     - network_devices
     - topology
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

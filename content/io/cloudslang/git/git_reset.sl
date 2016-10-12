@@ -6,27 +6,34 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow performs a git reset on a git directory to clean it up
-#
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command
-#       - username - username to connect as
-#       - password - password of user
-#       - sudo_user - true or false, whether the command should execute using sudo
-#       - git_reset_target - the SHA you want to reset the branch to - Defaults: HEAD
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to - Default: /tmp/repo.git
-#       - privateKeyFile - the absolute path to the private key file
-#
-# Results:
-#  SUCCESS: git repository successfully cleaned up using git reset
-#  FAILURE: an error when trying to clone a git repository
-#
+#!!
+#! @description: Performs a git reset on a git directory to clean it up.
+#! @input host: hostname or IP address
+#! @input port: optional - port number for running the command
+#! @input username: username to connect as
+#! @input password: optional - password of user
+#! @input git_repository_localdir: target directory where a git repository exists - Default: /tmp/repo.git
+#! @input git_reset_target: optional - SHA you want to reset the branch to - Default: HEAD
+#! @input sudo_user: optional - true or false, whether the command should execute using sudo
+#! @input private_key_file: absolute path to the private key file
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: return code of remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute
+#! @output return_code: return code of the command
+#! @result SUCCESS: GIT directory was reset successfully
+#! @result FAILURE: there was an error while trying to reset GIT directory and/or while trying to clean it
+#!!#
 ####################################################
 namespace: io.cloudslang.git
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -39,40 +46,47 @@ flow:
     - username
     - password:
         required: false
-    - git_repository_localdir: "'/tmp/repo.git'"
+        sensitive: true
+    - git_repository_localdir: "/tmp/repo.git"
     - git_reset_target:
-        default: "'HEAD'"
+        default: "HEAD"
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
-    - privateKeyFile:
+    - private_key_file:
         required: false
-  
+
   workflow:
     - git_reset:
         do:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_reset: "' && git reset --hard ' + git_reset_target "
-            - command: "sudo_command + ' cd ' + git_repository_localdir + git_reset + ' && echo GIT_SUCCESS'"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
+            - git_reset: ${ ' && git reset --hard ' + git_reset_target }
+            - command: ${ sudo_command + ' cd ' + git_repository_localdir + git_reset + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFilee
+            - private_key_file
         publish:
-          - standard_err
+          - return_result
           - standard_out
-          - command
+          - standard_err
+          - exception
+          - command_return_code
+          - return_code
 
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "GIT_SUCCESS"
 
   outputs:
-    - standard_err
+    - return_result
     - standard_out
-    - command
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code

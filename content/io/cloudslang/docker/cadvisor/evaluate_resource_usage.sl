@@ -6,23 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Evaluates if a Docker container's resource usages (memory, cpu, network) exceeds the given maximum usage.
-#
-# Inputs:
-#   - rule - optional - Python query to determine if the resource usages is high - Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8 and error_rx < 0.5 and error_tx < 0.5
-#   - memory_usage- calculated memory usage of container; if machine_memory_limit is given use lower of container memory limit and machine memory limit to calculate
-#   - cpu_usage - calculated CPU usage of container
-#   - throughput_rx - calculated network Throughput Tx bytes
-#   - throughput_tx - calculated network Throughput Rx bytes
-#   - error_rx - calculated network error Tx
-#   - error_tx - calculated network error Rx
-# Outputs:
-#   - errorMessage - returnResult if returnCode == -1 or statusCode != 200
-#   - result - if all resource usage did not exceed the maximum
-# Results:
-#   - LESS -  all resource usage did not exceed the maximum
-#   - MORE -  one or more resources' usage exceeded the maximum
-#   - FAILURE - input was not in correct format
+#!!
+#! @description: Evaluates if a Docker container's resource usages (memory, cpu, network) exceeds the given maximum usage.
+#! @input rule: optional - Python query to determine if the resource usages is high
+#!              Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8
+#!              and error_rx < 0.5 and error_tx < 0.5
+#! @input memory_usage: calculated memory usage of container; if machine_memory_limit is given use lower of container
+#!                      memory limit and machine memory limit to calculate
+#! @input cpu_usage: calculated CPU usage of container
+#! @input throughput_rx: calculated network Throughput Tx bytes
+#! @input throughput_tx: calculated network Throughput Rx bytes
+#! @input error_rx: calculated network error Tx
+#! @input error_tx: calculated network error Rx
+#! @output error_message: error message if error occurred
+#! @output result: result if all resource usage did not exceed the maximum
+#! @result LESS: all resource usage did not exceed the maximum
+#! @result MORE: one or more resources' usage exceeded the maximum
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
@@ -31,7 +31,10 @@ operation:
   name: evaluate_resource_usage
   inputs:
     - rule:
-        default: "memory_usage +'< 0.8 and '+cpu_usage+' < 0.8 and '+throughput_rx+' < 0.8 and '+throughput_tx+' < 0.8 and '+error_rx+'<0.5 and '+error_tx+'<0.5'"
+        default: >
+          ${str(memory_usage) + '< 0.8 and ' + str(cpu_usage) + ' < 0.8 and ' + str(throughput_rx) + ' < 0.8 and ' +
+          str(throughput_tx) + ' < 0.8
+          and ' + str(error_rx) + '<0.5 and ' + str(error_tx) + '<0.5'}
         required: false
     - memory_usage
     - cpu_usage
@@ -39,8 +42,8 @@ operation:
     - throughput_tx
     - error_rx
     - error_tx
-  action:
-    python_script: |
+  python_action:
+    script: |
       error_message = ""
       result = None
       try:
@@ -51,8 +54,7 @@ operation:
           error_message = "inputs have to be float"
   outputs:
     - error_message
-    - result
+    - result: ${str(result)}
   results:
-    - LESS: result
-    - MORE: not result
-    - FAILURE: error_message <> ""
+    - LESS: ${result}
+    - MORE

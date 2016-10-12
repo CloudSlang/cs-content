@@ -6,31 +6,31 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Displays system-wide Docker information.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - host - Docker machine host
-#   - port - optional - SSH port
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - character_set - optional - character encoding used for input stream encoding from target machine; Valid: SJIS, EUC-JP, UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false
-#   - timeout - optional - time in milliseconds to wait for command to complete
-#   - close_session - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false
-#   - agent_forwarding - optional - whether to forward the user authentication agent
-# Outputs:
-#   - docker_info - information returned by Docker
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Displays system-wide Docker information.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: optional - Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed; Valid: true, false
+#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @output docker_info: information returned by Docker
+#! @result SUCCESS: successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.utils
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -44,6 +44,7 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - character_set:
@@ -57,9 +58,8 @@ flow:
     - agent_forwarding:
         required: false
     - command:
-        default: >
-          'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'
-        overridable: false
+        default: ${'docker ' + (docker_options + ' ' if bool(docker_options) else '') + 'info'}
+        private: true
 
   workflow:
     - get_docker_info:
@@ -69,20 +69,20 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - command
-            - characterSet: character_set
+            - character_set
             - pty
             - timeout
-            - closeSession: close_session
-            - agentForwarding: agent_forwarding
+            - close_session
+            - agent_forwarding
         publish:
-          - docker_info: returnResult
+          - docker_info: ${return_result}
 
     - evaluate_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: docker_info
-            - string_to_find: "'Containers'"
+            - string_in_which_to_search: ${docker_info}
+            - string_to_find: 'Containers'
   outputs:
     - docker_info

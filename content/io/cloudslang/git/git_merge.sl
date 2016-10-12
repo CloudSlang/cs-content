@@ -6,28 +6,35 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# This flow merges a git branch to another branch
-#
-#   Inputs:
-#       - host - hostname or IP address
-#       - port - optional - port number for running the command
-#       - username - username to connect as
-#       - password - optional - password of user
-#       - git_repository_localdir - the target directory where a git repository exists and git_branch should be checked out to
-#                                 - Default: /tmp/repo.git
-#       - git_merge_branch - specify the branch to merge from
-#       - sudo_user - optional - true or false, whether the command should execute using sudo
-#       - private_key_file - relative or absolute path to the private key file
-#
-# Results:
-#  SUCCESS: git repository successfully merged
-#  FAILURE: an error when trying to merge a git branch
-#
+#!!
+#! @description: Merges a git branch to another branch.
+#! @input host: hostname or IP address
+#! @input port: optional - port number for running the command
+#! @input username: username to connect as
+#! @input password: optional - password of user
+#! @input git_repository_localdir: optional - target directory where a git repository exists
+#!                                 Default: /tmp/repo.git
+#! @input git_merge_branch: optional - branch to merge from
+#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input private_key_file: optional - relative or absolute path to private key file
+#! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output exception: contains the stack trace in case of an exception
+#! @output command_return_code: return code of remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute
+#! @output return_code: return code of the command
+#! @result SUCCESS: GIT branch merged successfully to another branch
+#! @result FAILURE: there was an error while trying to merge a GIT branch to another
+#!!#
 ####################################################
 namespace: io.cloudslang.git
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -40,13 +47,14 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - git_repository_localdir:
-        default: "'/tmp/repo.git'"
+        default: "/tmp/repo.git"
         required: true
     - git_merge_branch:
         required: true
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -57,23 +65,29 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: "'echo ' + password + ' | sudo -S ' if bool(sudo_user) else ''"
-            - git_merge: "' && git merge ' + git_merge_branch "
-            - command: "sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS'"
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
+            - git_merge: ${ ' && git merge ' + git_merge_branch }
+            - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS' }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
         publish:
-          - standard_err
+          - return_result
           - standard_out
-          - command
+          - standard_err
+          - exception
+          - command_return_code
+          - return_code
 
     - check_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: standard_out
-            - string_to_find: "'GIT_SUCCESS'"
+            - string_in_which_to_search: ${ standard_out }
+            - string_to_find: "GIT_SUCCESS"
   outputs:
-    - standard_err
+    - return_result
     - standard_out
-    - command
+    - standard_err
+    - exception
+    - command_return_code
+    - return_code

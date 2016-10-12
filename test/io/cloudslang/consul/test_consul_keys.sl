@@ -10,7 +10,8 @@
 namespace: io.cloudslang.consul
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  consul: io.cloudslang.consul
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: test_consul_keys
@@ -27,19 +28,18 @@ flow:
     - key_value
 
   workflow:
-
     - create_key:
         do:
-          create_kv:
+          consul.create_kv:
             - host
             - key_name
             - key_value
         navigate:
-          SUCCESS: get_key
-          FAILURE: FAIL_CREATING_KEY
+          - SUCCESS: get_key
+          - FAILURE: FAIL_CREATING_KEY
     - get_key:
         do:
-          report_kv:
+          consul.report_kv:
             - host
             - key_name
         publish:
@@ -50,16 +50,16 @@ flow:
           - flags
           - value
         navigate:
-          SUCCESS: delete_key
-          FAILURE: FAIL_GETTING_KEY
+          - SUCCESS: delete_key
+          - FAILURE: FAIL_GETTING_KEY
     - delete_key:
         do:
-          delete_kv:
+          consul.delete_kv:
             - host
             - key_name
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_DELETING_KEY
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_DELETING_KEY
 
   outputs:
     - create_index
@@ -70,7 +70,6 @@ flow:
     - value
   results:
     - SUCCESS
-    - FAIL_STARTING_CONTAINER
     - FAIL_CREATING_KEY
     - FAIL_DELETING_KEY
     - FAIL_GETTING_KEY

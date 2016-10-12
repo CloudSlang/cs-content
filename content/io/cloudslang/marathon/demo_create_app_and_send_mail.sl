@@ -6,33 +6,35 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 
 ##################################################################################################################################################
-# Demo that creates a new app and sends a status email.
-#
-# Inputs:
-#   - email_host - email host
-#   - email_port - email port
-#   - email_sender - email sender
-#   - email_recipient - email recipient
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - marathon agent port - Default: 8080
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
-#   - json_file - path to JSON of new app
-# Outputs:
-#   - return_result - operation response
-#   - status_code - normal status code is 200
-#   - return_code - if returnCode == -1 then there was an error
-#   - error_message: returnResult if returnCode == -1 or statusCode != 200
-# Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Demo that creates a new Marathon app and sends a status email.
+#! @input email_host: email host
+#! @input email_port: email port
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @input enable_tls: enable TLS
+#! @input email_username: email username
+#! @input email_password: email password
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @input json_file: path to JSON of new app
+#! @output return_result: operation response
+#! @output status_code: normal status code is 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ##################################################################################################################################################
 
 namespace: io.cloudslang.marathon
 
 imports:
-  files: io.cloudslang.base.files
-  base_mail: io.cloudslang.base.mail
+  mail: io.cloudslang.base.mail
+  marathon: io.cloudslang.marathon
+
 flow:
   name: demo_create_app_and_send_mail
   inputs:
@@ -40,59 +42,72 @@ flow:
     - email_port
     - email_sender
     - email_recipient
+    - enable_tls:
+        required: false
+    - email_username:
+        required: false
+    - email_password:
+        required: false
+        sensitive: true
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
-    - proxyHost:
+    - proxy_host:
         required: false
-    - proxyPort:
+    - proxy_port:
         required: false
     - json_file
 
   workflow:
     - create_app:
         do:
-          create_app:
+          marathon.create_app:
             - marathon_host
             - marathon_port
             - json_file
-            - proxyHost
-            - proxyPort
+            - proxy_host
+            - proxy_port
         publish:
-          - returnResult
-          - statusCode
-          - returnCode
-          - errorMessage
+          - return_result
+          - status_code
+          - return_code
+          - error_message
 
     - send_status_mail:
         do:
-          base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - htmlEmail: "'false'"
-            - from: email_sender
-            - to: email_recipient
-            - subject: "'New app '"
-            - body: "'App creation succeeded.'"
+          mail.send_mail:
+            - hostname: ${email_host}
+            - port: ${email_port}
+            - html_email: "false"
+            - from: ${email_sender}
+            - to: ${email_recipient}
+            - subject: "New app "
+            - body: "App creation succeeded."
+            - enable_TLS: ${enable_tls}
+            - username: ${email_username}
+            - password: ${email_password}
 
     - on_failure:
         - send_error_mail:
             do:
-              base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - htmlEmail: "'false'"
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'New app fail'"
-                - body: "'App creation failed '+errorMessage"
+              mail.send_mail:
+                - hostname: ${email_host}
+                - port: ${email_port}
+                - html_email: "false"
+                - from: ${email_sender}
+                - to: ${email_recipient}
+                - subject: "New app fail"
+                - body: ${"App creation failed " + error_message}
+                - enable_TLS: ${enable_tls}
+                - username: ${email_username}
+                - password: ${email_password}
 
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage
+    - return_result
+    - status_code
+    - return_code
+    - error_message
   results:
     - SUCCESS
     - FAILURE

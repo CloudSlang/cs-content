@@ -6,18 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Schedules Jenkins job to be built.
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job to build
-# Outputs:
-#   - result_message - operation results
-# Results:
-#   - SUCCESS - return code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Schedules Jenkins job to be built.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job to build
+#! @output result_message: operation results
+#! @result SUCCESS: return code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
@@ -27,8 +24,8 @@ operation:
   inputs:
     - url
     - job_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')
@@ -46,5 +43,5 @@ operation:
     - result_message
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE

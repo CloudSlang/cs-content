@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -23,58 +23,52 @@ testSearchAndReplaceMissingInputs:
     - text_to_replace: ex
   description: Tests that search_and_replace.sl operation throws an exception when a required input is missing
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  outputs:
-    - replaced_string: that
-  throwsException: true
+  result: FAILURE
 
 testSearchAndReplaceNothingToReplace:
   inputs:
     - origin_string: text
     - text_to_replace: ab
     - replace_with: ba
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when text_to_replace not present in origin_string having output equal with origin_string
+  description: Tests that search_and_replace.sl operation finishes with FAILURE when text_to_replace not present in origin_string having output equal with origin_string
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
-    - replaced_string: text
-  result: SUCCESS
+    - error_message: Substring not found
+  result: FAILURE
 
 testSearchAndReplaceEmptyOriginString:
   inputs:
     - origin_string: ""
     - text_to_replace: ab
     - replace_with: hello
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string is empty also having an empty output
+  description: Tests that search_and_replace.sl operation throws exception when origin_string is empty also having an empty output
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  outputs:
-    - replaced_string: ""
-  result: SUCCESS
+  result: FAILURE
 
 testSearchAndReplaceEmptyTextToReplace:
   inputs:
     - origin_string: lll
     - text_to_replace: ""
     - replace_with: a
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when text_to_replace is empty
+  description: Tests that search_and_replace.sl operation throws exception when text_to_replace is empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
   outputs:
     - replaced_string: alalala
-  result: SUCCESS
+  throwsException: true
 
 testSearchAndReplaceEmptyReplaceWith:
   inputs:
     - origin_string: text
     - text_to_replace: ex
     - replace_with: ""
-  description: Tests that search_and_replace.sl operation finishes with SUCCESS when replace_with is empty
+  description: Tests that search_and_replace.sl operation throws exception when replace_with is empty
   testFlowPath: io.cloudslang.base.strings.search_and_replace
-  outputs:
-    - replaced_string: tt
   result: SUCCESS
 
 testSearchAndReplaceSpecialCharacters:
   inputs:
-    - origin_string: h$%*/)o
-    - text_to_replace: $%*/)
+    - origin_string: 'h$%*/)o'
+    - text_to_replace: '$%*/)'
     - replace_with: ell
   description: Tests that search_and_replace.sl operation finishes with SUCCESS when inputs contain special characters
   testFlowPath: io.cloudslang.base.strings.search_and_replace
@@ -82,3 +76,57 @@ testSearchAndReplaceSpecialCharacters:
     - replaced_string: hello
   result: SUCCESS
 
+testSearchAndReplaceUsingNumbers:
+  inputs:
+    - origin_string: 123text45
+    - text_to_replace: 23t
+    - replace_with: '22'
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when inputs contain digits
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: 122ext45
+  result: SUCCESS
+
+testSearchAndReplaceEmptyOriginStringAndTextToReplace:
+  inputs:
+    - origin_string: ""
+    - text_to_replace: ""
+    - replace_with: text
+  description: Tests that search_and_replace.sl operation throws exception when origin_string and text_to_replace are empty
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: text
+  throwsException: true
+
+testSearchAndReplaceSubstringFoundedTwiceInOriginString:
+  inputs:
+    - origin_string: text,text
+    - text_to_replace: ex
+    - replace_with: ha
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when replace_with string is founded twice in origin_string
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: that,that
+  result: SUCCESS
+
+testSearchAndReplaceUsingDiacritics:
+  inputs:
+    - origin_string:  ăaâî ḃċşţtôúè
+    - text_to_replace: şţ
+    - replace_with: text
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string and substrings contain diacritics
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: ăaâî ḃċtexttôúè
+  result: SUCCESS
+
+testSearchAndReplaceUsingJapaneseCharacters:
+  inputs:
+    - origin_string:  "目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変"
+    - text_to_replace: "、方法の変"
+    - replace_with: "目は脂"
+  description: Tests that search_and_replace.sl operation finishes with SUCCESS when origin_string and substrings contain japanese characters
+  testFlowPath: io.cloudslang.base.strings.search_and_replace
+  outputs:
+    - replaced_string: "目は脂肪供えを取得失います。冬の缶実際の文字は目は脂"
+  result: SUCCESS

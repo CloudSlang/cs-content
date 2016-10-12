@@ -10,8 +10,9 @@
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
+  cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 
 flow:
@@ -23,25 +24,25 @@ flow:
     - private_key_file
     - cadvisor_port
     - cadvisor_container_name
-    - timeout: "'600000'"
+    - timeout: '600000'
 
   workflow:
     - clear_docker_containers:
        do:
          containers.clear_containers:
-           - docker_host: host
-           - docker_username: username
+           - docker_host: ${host}
+           - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: create_cAdvisor_container
-         FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
+         - SUCCESS: create_cAdvisor_container
+         - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - create_cAdvisor_container:
         do:
           containers.run_container:
-            - container_name: cadvisor_container_name
+            - container_name: ${cadvisor_container_name}
             - container_params: >
-                '--privileged --publish=' + cadvisor_port + ':8080 ' +
+                ${'--privileged --publish=' + cadvisor_port + ':8080 ' +
                 '--volume=/:/rootfs:ro ' +
                 '--volume=/var/run:/var/run:rw ' +
                 '--volume=/sys:/sys:ro ' +
@@ -50,34 +51,35 @@ flow:
                 '--volume=/sys/fs/cgroup/cpuacct:/cgroup/cpuacct ' +
                 '--volume=/sys/fs/cgroup/cpuset:/cgroup/cpuset ' +
                 '--volume=/sys/fs/cgroup/memory:/cgroup/memory ' +
-                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio'
-            - image_name: "'google/cadvisor:latest'"
+                '--volume=/sys/fs/cgroup/blkio:/cgroup/blkio'}
+            - image_name: 'google/cadvisor:latest'
             - host
             - username
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: sleep
-          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+          - SUCCESS: sleep
+          - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
-          SUCCESS: call_restart_container_base_on_usage
+          - SUCCESS: call_restart_container_base_on_usage
+          - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
 
     - call_restart_container_base_on_usage:
         do:
-          restart_container_base_on_usage:
-            - container: cadvisor_container_name
+          cadvisor.restart_container_base_on_usage:
+            - container: ${cadvisor_container_name}
             - host
             - cadvisor_port
             - username
-            - privateKeyFile: private_key_file
+            - private_key_file
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
   results:
     - SUCCESS
     - CLEAR_DOCKER_CONTAINERS_PROBLEM

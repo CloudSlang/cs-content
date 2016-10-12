@@ -6,28 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status of a Docker container.
-#
-# Inputs:
-#   - container - name or ID of Docker container that runs MySQL
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-# Outputs:
-#   - decoded - parsed response
-#   - timestamp - time used to calculate stat
-#   - memory_usage- calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
-#   - cpu_usage - calculated CPU usage of the container
-#   - throughput_rx - calculated network Throughput Rx bytes
-#   - throughput_tx - calculated network Throughput Tx bytes
-#   - error_rx- calculated network error Rx
-#   - error_tx- calculated network error Tx
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves cAdvisor status of a Docker container.
+#! @input container: name or ID of Docker container that runs MySQL
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @output decoded: parsed response
+#! @output timestamp: time used to calculate stat
+#! @output memory_usage: calculated memory usage of the container; the container memory usage divided by the
+#!                       machine_memory_limit or by the minimum memory limit of the container whichever is smaller
+#! @output cpu_usage: calculated CPU usage of the container
+#! @output throughput_rx: calculated network Throughput Rx bytes
+#! @output throughput_tx: calculated network Throughput Tx bytes
+#! @output error_rx: calculated network error Rx
+#! @output error_tx: calculated network error Tx
+#! @output error_message: error message
+#! @result SUCCESS: parsing was successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
+
+imports:
+  cadvisor: io.cloudslang.docker.cadvisor
 
 flow:
   name: report_container_metrics
@@ -35,31 +37,32 @@ flow:
     - container
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
+
   workflow:
     - retrieve_container_metrics:
         do:
-          get_container_metrics:
-              - container
-              - host
-              - cadvisor_port
+          cadvisor.get_container_metrics:
+            - container
+            - host
+            - cadvisor_port
         publish:
-          - response_body: returnResult
+          - response_body: ${return_result}
           - returnCode
-          - errorMessage
+          - error_message
     - retrieve_machine_memory:
         do:
-          report_machine_metrics:
+          cadvisor.report_machine_metrics:
             - host
             - cadvisor_port
         publish:
           - memory_capacity
     - parse_container_metrics:
         do:
-          parse_container:
-            - json_response: response_body
-            - machine_memory_limit: memory_capacity
+          cadvisor.parse_container:
+            - json_response: ${response_body}
+            - machine_memory_limit: ${memory_capacity}
         publish:
           - decoded
           - timestamp
@@ -69,7 +72,7 @@ flow:
           - throughput_tx
           - error_rx
           - error_tx
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - timestamp
@@ -79,7 +82,7 @@ flow:
     - throughput_tx
     - error_rx
     - error_tx
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

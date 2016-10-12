@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Assigns a given SCM URL to a Jenkins job.
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job
-#   - new_scm_url - the SCM url to assign
-# Outputs:
-#   - result_message - operation results
-# Results:
-#   - SUCCESS - return code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Assigns a given SCM URL to a Jenkins job.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job
+#! @input new_scm_url: SCM url to assign
+#! @output result_message: operation results
+#! @result SUCCESS: return code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
@@ -29,8 +26,8 @@ operation:
     - url
     - job_name
     - new_scm_url
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')
@@ -48,5 +45,5 @@ operation:
     - result_message
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE

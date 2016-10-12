@@ -5,28 +5,27 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Deletes unused dangling Docker images.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - private_key_file - optional - absolute path to private key file - Default: none
-#   - used_images - list of used images - Format: space delimited list of strings
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-# Outputs:
-#   - images_list_safe_to_delete - unused Docker images (including dangling ones)
-#   - amount_of_dangling_images_deleted - number of dangling images that where deleted
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Deletes unused dangling Docker images.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input private_key_file: optional - absolute path to private key file
+#! @input used_images: list of used images - Format: space delimited list of strings
+#! @input port: optional - SSH port
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @output dangling_images_list_safe_to_delete: unused Docker images (including dangling ones)
+#! @output amount_of_dangling_images_deleted: number of dangling images that where deleted
+#! @result SUCCESS: successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 
 imports:
- base_os_linux: io.cloudslang.base.os.linux
- base_lists: io.cloudslang.base.lists
+  images: io.cloudslang.docker.images
+  lists: io.cloudslang.base.lists
 
 flow:
   name: clear_dangling_images
@@ -37,9 +36,11 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
-    - used_images
+    - used_images:
+        required: false
     - port:
         required: false
     - timeout:
@@ -48,40 +49,42 @@ flow:
   workflow:
     - get_dangling_images:
         do:
-          get_dangling_images:
+          images.get_dangling_images:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - private_key_file
             - timeout
             - port
         publish:
-          - all_dangling_images: dangling_image_list
+          - all_dangling_images: ${ dangling_image_list }
     - substract_used_dangling_images:
         do:
-          base_lists.subtract_sets:
-            - set_1: all_dangling_images
-            - set_1_delimiter: "' '"
-            - set_2: used_images
-            - set_2_delimiter: "' '"
-            - result_set_delimiter: "' '"
+          lists.subtract_sets:
+            - set_1: ${ all_dangling_images }
+            - set_1_delimiter: " "
+            - set_2: ${ used_images }
+            - set_2_delimiter: " "
+            - result_set_delimiter: " "
         publish:
-          - images_list_safe_to_delete: result_set
-          - amount_of_dangling_images: len(result_set.split())
+          - images_list_safe_to_delete: ${ result_set }
+          - amount_of_dangling_images: ${ str(len(result_set.split())) }
+        navigate:
+          - SUCCESS: delete_images
     - delete_images:
         do:
-          clear_images:
+          images.clear_images:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
-            - images: images_list_safe_to_delete
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
+            - private_key_file
+            - images: ${ images_list_safe_to_delete }
             - timeout
             - port
         publish:
           - response
   outputs:
-    - dangling_images_list_safe_to_delete: images_list_safe_to_delete
-    - amount_of_dangling_images_deleted: "0 if images_list_safe_to_delete == '' else amount_of_dangling_images"
+    - dangling_images_list_safe_to_delete: ${ images_list_safe_to_delete }
+    - amount_of_dangling_images_deleted: ${ '0' if images_list_safe_to_delete == '' else amount_of_dangling_images }

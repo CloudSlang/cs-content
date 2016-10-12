@@ -18,14 +18,14 @@ flow:
 
   inputs:
     - name
-    - num_vcpus
-    - memory_mb
+    - numVcpus
+    - memoryMb
     - uuid
     - host
     - port
     - username
     - password
-    - template_id
+    - templateId
     - proxy_host:
         required: false
     - proxy_port:
@@ -38,10 +38,10 @@ flow:
   workflow:
     - nutanixCreateResourceVMClone:
         do:
-          beta_create_resource_vmclonedto:
+          create_resource_vmclonedto:
             - name
-            - num_vcpus
-            - memory_mb
+            - numVcpus
+            - memoryMb
             - uuid
         publish:
           - return_result
@@ -62,12 +62,12 @@ flow:
 
     - nutanixCloneVM:
         do:
-          beta_vms_clone:
+          vms_clone:
             - host
             - port
             - username
             - password
-            - template_id
+            - templateId
             - proxy_host:
                 required: false
             - proxy_port:

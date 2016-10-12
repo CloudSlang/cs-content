@@ -1,0 +1,67 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testTrimSuccess:
+  inputs:
+    - origin_string: ' good '
+  description: Tests that trim.sl operation remove whitespace characters both sides of the string and finishes with result = 'good'
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: good
+  result: SUCCESS
+
+testTrimBackSuccess:
+  inputs:
+    - origin_string: 'good   '
+  description: Tests that trim.sl operation remove whitespace characters from the end of the string and finishes with result = 'good'
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: good
+  result: SUCCESS
+
+testTrimBeforeSuccess:
+  inputs:
+    - origin_string: '   good'
+  description: Tests that trim.sl operation remove whitespace characters from the beginning of the string and finishes with result = 'good'
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: good
+  result: SUCCESS
+
+testTrimNullValueSuccess:
+  inputs:
+    - origin_string: ''
+  description: Tests that trim.sl throws exception when input is empty string
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: ''
+  throwsException: true
+
+testMissingInput:
+  inputs: []
+  description: Tests that trim.sl operation throws an exception when the required input is missing
+  testFlowPath: io.cloudslang.base.strings.trim
+  throwsException: true
+
+testTrimWhitespacesInsideStringSuccess:
+  inputs:
+    - origin_string: '  go  od  '
+  description: Tests that trim.sl operation remove whitespace characters both sides of the string but not from the inside of string and finishes with result = 'go  od'
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: 'go  od'
+  result: SUCCESS
+
+testTrimWhitespacesUsingJapaneseCharacters:
+  inputs:
+    - origin_string: '  目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変  '
+  description: Tests that trim.sl operation remove whitespace characters both sides of the string but not from the inside of string
+  testFlowPath: io.cloudslang.base.strings.trim
+  outputs:
+    - new_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変'
+  result: SUCCESS

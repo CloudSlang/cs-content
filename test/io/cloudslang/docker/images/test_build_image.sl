@@ -10,21 +10,22 @@
 namespace: io.cloudslang.docker.images
 
 imports:
+  images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  lists: io.cloudslang.base.lists
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_build_image
+
   inputs:
     - docker_image
     - base_image:
-        default: "'busybox:latest'"
+        default: "busybox:latest"
     - workdir:
-        default: "'.'"
+        default: "."
     - dockerfile_name:
-        default: "'Dockerfile'"
+        default: "Dockerfile"
     - host
     - port:
         required: false
@@ -48,14 +49,14 @@ flow:
     - pre_clear_docker_host:
         do:
           maintenance.clear_host:
-            - docker_host: host
+            - docker_host: ${ host }
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
             - private_key_file
         navigate:
-          SUCCESS: create_dockerfile
-          FAILURE: PRE_CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: create_dockerfile
+          - FAILURE: PRE_CLEAR_DOCKER_HOST_PROBLEM
 
     - create_dockerfile:
         do:
@@ -63,18 +64,18 @@ flow:
             - host
             - port
             - command: >
-                "mkdir -p " + workdir + " && echo -e 'FROM " + base_image + "' > " + workdir + "/" + dockerfile_name
+                ${ "mkdir -p " + workdir + " && echo -e 'FROM " + base_image + "' > " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - timeout
         navigate:
-          SUCCESS: build_image
-          FAILURE: CREATE_DOCKERFILE_PROBLEM
+          - SUCCESS: build_image
+          - FAILURE: CREATE_DOCKERFILE_PROBLEM
 
     - build_image:
         do:
-          build_image:
+          images.build_image:
             - docker_image
             - workdir
             - dockerfile_name
@@ -82,39 +83,39 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - timeout
         navigate:
-          SUCCESS: get_all_images
-          FAILURE: FAILURE
+          - SUCCESS: get_all_images
+          - FAILURE: FAILURE
 
     - get_all_images:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - timeout
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_image_exists
-          FAILURE: GET_ALL_IMAGES_PROBLEM
+          - SUCCESS: verify_image_exists
+          - FAILURE: GET_ALL_IMAGES_PROBLEM
 
     - verify_image_exists:
         loop:
           for: image in image_list.split()
           do:
             strings.string_equals:
-              - first_string: docker_image
-              - second_string: image
+              - first_string: ${ docker_image }
+              - second_string: ${ image }
           break:
             - SUCCESS
         navigate:
-          SUCCESS: remove_dockerfile
-          FAILURE: VERIFY_IMAGE_EXISTS_PROBLEM
+          - SUCCESS: remove_dockerfile
+          - FAILURE: VERIFY_IMAGE_EXISTS_PROBLEM
 
     - remove_dockerfile:
         do:
@@ -122,26 +123,26 @@ flow:
             - host
             - port
             - command: >
-                "rm " + workdir + "/" + dockerfile_name
+                ${ "rm " + workdir + "/" + dockerfile_name }
             - username
             - password
-            - privateKeyFile: private_key_file
+            - private_key_file
             - timeout
         navigate:
-          SUCCESS: post_clear_docker_host
-          FAILURE: REMOVE_DOCKERFILE_PROBLEM
+          - SUCCESS: post_clear_docker_host
+          - FAILURE: REMOVE_DOCKERFILE_PROBLEM
 
     - post_clear_docker_host:
         do:
           maintenance.clear_host:
-            - docker_host: host
+            - docker_host: ${ host }
             - port
-            - docker_username: username
-            - docker_password: password
+            - docker_username: ${ username }
+            - docker_password: ${ password }
             - private_key_file
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: POST_CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: POST_CLEAR_DOCKER_HOST_PROBLEM
 
   results:
     - SUCCESS

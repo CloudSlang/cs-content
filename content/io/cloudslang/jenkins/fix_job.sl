@@ -6,19 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# "Fixes" following issue in a Jenkins job by disabling and enabling the job.
-# After copying a job, the job cannot be directly triggered from the Jenkins UI because the "Build now" link is missing.
-# this
-#
-# Inputs:
-#   - url - the URL to Jenkins
-#   - job_name - the name of the job to fix
-# Results:
-#   - SUCCESS
-#   - FAILURE
+#!!
+#! @description: "Fixes" following issue in a Jenkins job by disabling and enabling the job.
+#!               After copying a job, the job cannot be directly triggered from the Jenkins UI because the "Build now" link is missing.
+#! @input url: the URL to Jenkins
+#! @input job_name: the name of the job to fix
+#! @result SUCCESS: Jenkins job successfully enabled/disabled and fixed
+#! @result FAILURE: there was an error while trying to enable/disable the Jenkins job in an attempt to fix it
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
+
+imports:
+  jenkins: io.cloudslang.jenkins
 
 flow:
   name: fix_job
@@ -30,13 +31,12 @@ flow:
 
     - disable_job:
         do:
-          disable_job:
-            - url: url
-            - job_name: job_name
+          jenkins.disable_job:
+            - url
+            - job_name
 
     - enable_job:
         do:
-          enable_job:
-            - url: url
-            - job_name: job_name
-
+          jenkins.enable_job:
+            - url
+            - job_name

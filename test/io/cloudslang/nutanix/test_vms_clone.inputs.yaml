@@ -12,14 +12,14 @@
 testVMsCloneLocal:
   inputs:
     - name: <name>
-    - num_vcpus: <num_vcpus>
-    - memory_mb: <memory_mb>
+    - numVcpus: <numVcpus>
+    - memoryMb: <memoryMb>
     - uuid: <uuid>
     - host: <host>
     - port: <port>
     - username: <username>
     - password: <password>
-    - template_id: <template_id>
+    - templateId: <templateId>
   description: "Test clone a Nutanix template."
   testFlowPath: io.cloudslang.nutanix.test_vms_clone
   testSuites: [nutanix-local]

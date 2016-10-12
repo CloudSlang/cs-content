@@ -6,19 +6,17 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Counts the occurrences of a string in another string.
-#
-# Inputs:
-#   - string_in_which_to_search - string where to search
-#   - string_to_find - string to be found
-#   - ignore_case - optional - ignores case if set to true - Default: true
-# Outputs:
-#   - return_result - number of times string_to_find was found in container
-#   - return_code - 0 if everything went ok, -1 if an error was thrown
-#   - error_message: returnResult if occurrence == '0'  else ''
-# Results:
-#   - SUCCESS - string is found at least once
-#   - FAILURE - otherwise
+#!!
+#! @description: Counts the occurrences of a string in another string.
+#! @input string_in_which_to_search: string where to search
+#! @input string_to_find: string to be found
+#! @input ignore_case: optional - ignores case if set to true - Default: true
+#! @output return_result: number of times string_to_find was found in container
+#! @output return_code: 0 if everything went ok, -1 if an error was thrown
+#! @output error_message: return_result if occurrence == '0'  else ''
+#! @result SUCCESS: string is found at least once
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.strings
@@ -26,13 +24,15 @@ namespace: io.cloudslang.base.strings
 operation:
   name: string_occurrence_counter
   inputs:
-    - string_in_which_to_search
-    - string_to_find
-    - ignore_case:
-        default: "'true'"
+    - string_in_which_to_search:
         required: false
-  action:
-    python_script: |
+    - string_to_find:
+        required: false
+    - ignore_case:
+        default: 'true'
+        required: false
+  python_action:
+    script: |
       try:
         if ignore_case == 'true':
           string_in_which_to_search = string_in_which_to_search.lower()
@@ -45,9 +45,9 @@ operation:
         return_code = '-1'
         return_result = occurrence
   outputs:
-    - return_result
+    - return_result: ${ str(return_result) }
     - return_code
-    - error_message: return_result if occurrence == 0  else ''
+    - error_message: ${ str(return_result) if occurrence == 0  else '' }
   results:
-    - SUCCESS: return_result >= 1
+    - SUCCESS: ${ return_result >= 1 }
     - FAILURE

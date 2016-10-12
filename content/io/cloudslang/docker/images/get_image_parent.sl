@@ -5,25 +5,26 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
-# Inspects specified image and gets parent.
-#
-# Inputs:
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - image_name - image for which to check parents - ex: <repository>:<tag>
-#   - private_key_file - optional - path to the private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete
-#   - port - optional - port number for running the command
-# Outputs:
-#   - parents - parents of the specified containers
+#!!
+#! @description: Inspects specified image and gets parent.
+#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input image_name: image for which to check parents - Example: <repository>:<tag>
+#! @input private_key_file: optional - path to the private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input port: optional - port number for running the command
+#! @output parent_image_name: name of the parent image
+#! @result SUCCESS: image's parent inspected successfully
+#! @result FAILURE: there was an error while trying to inspect the image and/or getting the parent
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_utils: io.cloudslang.docker.utils
- base_os_linux: io.cloudslang.base.os.linux
+  images: io.cloudslang.docker.images
+  utils: io.cloudslang.docker.utils
 
 flow:
   name: get_image_parent
@@ -34,6 +35,7 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - image_name
     - private_key_file:
         required: false
@@ -45,37 +47,37 @@ flow:
   workflow:
     - inspect_image:
         do:
-          inspect_image:
+          images.inspect_image:
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
+            - host: ${ docker_host }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
             - image_name
             - port
-            - privateKeyFile: private_key_file
+            - private_key_file
             - timeout
         publish:
-          - image_inspect_json: standard_out
+          - image_inspect_json: ${ standard_out }
 
     - get_parent:
         do:
-           docker_utils.parse_inspect_for_parent:
-             - json_response: image_inspect_json
+           utils.parse_inspect_for_parent:
+             - json_response: ${ image_inspect_json }
         publish:
           - parent_image
 
     - get_parent_name:
         do:
-           get_image_name_from_id:
+           images.get_image_name_from_id:
              - docker_options
-             - host: docker_host
-             - username: docker_username
-             - password: docker_password
-             - privateKeyFile: private_key_file
+             - host: ${ docker_host }
+             - username: ${ docker_username }
+             - password: ${ docker_password }
+             - private_key_file
              - port
              - timeout
-             - image_id: parent_image[:10]
+             - image_id: ${ parent_image[:10] }
         publish:
           - image_name
   outputs:
-    - parent_image_name: image_name
+    - parent_image_name: ${ image_name }

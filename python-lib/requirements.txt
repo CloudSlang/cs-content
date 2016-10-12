@@ -1,4 +1,1 @@
-setuptools
 jenkinsapi == 0.2.22
-git+https://github.com/mbettan/httplib2.git@0.9.4
-google-api-python-client

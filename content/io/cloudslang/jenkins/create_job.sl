@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates a Jenkins job
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job to create
-#   - config_xml - configuration xml used to create a jenkins job, actual file must be passed not its path
-# Outputs:
-#   - result_message - operation results
-# Results:
-#   - SUCCESS - return code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Creates a Jenkins job.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job to create
+#! @input config_xml: configuration xml used to create a Jenkins job, actual file must be passed not its path
+#! @output result_message: operation results
+#! @result SUCCESS: return code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
@@ -29,8 +26,8 @@ operation:
     - url
     - job_name
     - config_xml
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
 
@@ -49,5 +46,5 @@ operation:
     - result_message
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE

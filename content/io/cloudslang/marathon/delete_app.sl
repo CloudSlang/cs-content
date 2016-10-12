@@ -6,22 +6,20 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes an app.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - appId - app ID to delete
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
-# Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode is equal to -1 then there was an error
-#   - errorMessage: returnResult if returnCode is equal to -1 or statusCode different than 200
-# Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Deletes a Marathon app.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: '8080'
+#! @input app_id: app ID to delete
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code == '-1' or status_code != '200'
+#! @output return_code: if return_code == '-1' then there was an error
+#! @output status_code: normal status code is '200'
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon
@@ -31,31 +29,40 @@ operation:
   inputs:
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - app_id
     - url:
-        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps/'+app_id"
-        overridable: false
+        default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps/' +app_id}
+        private: true
     - method:
-        default: "'delete'"
-        overridable: false
+        default: "delete"
+        private: true
     - contentType:
-        default: "'application/json'"
-        overridable: false
+        default: "application/json"
+        private: true
+    - proxy_host:
+        required: false
     - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
         required: false
     - proxyPort:
+        default: ${get('proxy_port', '')}
         required: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:score-http-client:0.1.65'
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - return_result: ${returnResult}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${statusCode}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

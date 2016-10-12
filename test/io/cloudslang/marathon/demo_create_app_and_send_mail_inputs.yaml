@@ -1,0 +1,28 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+test_demo_create_app_and_send_mail_inputs:
+  testSuites: [marathon-local]
+  description: Tests SUCCESS case
+  testFlowPath: io.cloudslang.marathon.test_demo_create_app_and_send_mail
+  inputs:
+    - marathon_host: <coreos_host_3>
+    - username: core
+    - private_key_file: <private_key_file>
+    - marathon_port: "8888"
+    - json_file: test/io/cloudslang/marathon/sample-marathon-app.json
+    - created_app_id: sample-app
+    - is_core_os: 'true'
+    - email_host: email_host
+    - email_port: email_port
+    - email_sender: email_sender
+    - email_recipient: email_recipient
+    - enable_tls: 'true'
+    - email_username: email_username
+    - email_password: password
+  result: SUCCESS

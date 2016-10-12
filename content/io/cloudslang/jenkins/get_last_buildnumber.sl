@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves the build number of the latest build for a Jenkins job.
-#
-# Prerequisites: jenkinsapi Python module
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - job_name - name of job to check
-# Outputs:
-#   - last_buildnumber - number of last build for the specified job
-#   - result_message - operation results
-# Results:
-#   - SUCCESS - return code is 0
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves the build number of the latest build for a Jenkins job.
+#! @prerequisites: jenkinsapi Python module
+#! @input url: URL to Jenkins
+#! @input job_name: name of job to check
+#! @output last_buildnumber: number of last build for the specified job
+#! @output result_message: operation results
+#! @result SUCCESS: return code is 0
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
@@ -28,8 +25,8 @@ operation:
   inputs:
     - url
     - job_name
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')
@@ -43,9 +40,9 @@ operation:
         result_message = 'Error while obtaining last build number for job: ' + job_name
 
   outputs:
-    - last_buildnumber
+    - last_buildnumber: ${str(last_buildnumber)}
     - result_message
 
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${ return_code == '0' }
     - FAILURE

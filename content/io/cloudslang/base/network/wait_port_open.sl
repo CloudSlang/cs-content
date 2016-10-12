@@ -6,18 +6,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Poll host repeatedly until TCP port is open
-#
-# Inputs:
-#   - host - hostname or IP to check
-#   - port - TCP port number to check
-#   - timeout - optional - timeout for each check, throttles the polling (in seconds)
-#             - Default: 10 sec
-#   - tries - optional - total number of tries - total wait time = timeout x tries
-#           - Default: 30
-# Results:
-#   - SUCCESS - Connection successful, host is active and listening on port
-#   - FAILURE - Host is not listening, port is closed or host down
+#!!
+#! @description: Poll host repeatedly until TCP port is open.
+#! @input host: hostname or IP to check
+#! @input port: TCP port number to check
+#! @input timeout: optional - timeout, in seconds, for each check, throttles the polling - Default: 10 sec
+#! @input tries: optional - total number of tries: total wait time = timeout x tries - Default: 30
+#! @result SUCCESS: connection successful, host is active and listening on port
+#! @result FAILURE: host is not listening, port is closed or host down
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.network
@@ -28,14 +25,14 @@ operation:
     - host
     - port
     - timeout:
-        default: "'10'"
+        default: "10"
         required: false
     - tries:
-        default: "'30'"
-        required: false    
+        default: "30"
+        required: false
 
-  action:
-    python_script: |
+  python_action:
+    script: |
       import socket, time, sys
       is_open = False
 
@@ -47,12 +44,12 @@ operation:
         if res in [0, 10056]:
           is_open = True
           break
-        elif res != None: 
+        elif res != None:
           time.sleep(float(timeout))
 
       sock.close()
       del sock
 
   results:
-    - SUCCESS: is_open == True
+    - SUCCESS: ${ is_open == True }
     - FAILURE

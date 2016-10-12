@@ -6,32 +6,27 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Remove node and client from Chef, delete /etc/chef folder on node.
-#
-# Inputs:
-#   - node_name - name of node in Chef to be deleted
-#   - knife_host - server with configured knife accessable via SSH, can be main Chef server
-#   - knife_username - SSH username to access server with knife
-#   - knife_password - optional - if using password auth
-#   - knife_privkey - optional - SSH keyfile, if using keyfile auth  (local file that resides where flow is executing)
-#   - node_host - hostname or IP of Chef node
-#   - node_username - SSH username for the Chef node
-#   - node_password - optional - if using password auth to access node
-#   - node_privkey - optional - if using keyfile auth to access node (local file that resides where flow is executing)
-#   - knife_config - optional - location of knife.rb config file, default ~/.chef/knife.rb
-# Outputs:
-#   - knife_result - filtered output of knife command
-#   - raw_result - full STDOUT
-#   - standard_err - any STDERR
-# Results:
-#   - SUCCESS - node deleted OK
-#   - FAILURE - otherwise
+#!!
+#! @description: Remove node and client from Chef, delete /etc/chef folder on node.
+#! @input node_name: name of node in Chef to be deleted
+#! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
+#! @input knife_username: SSH username to access server with knife
+#! @input knife_password: optional - password to access server with knife
+#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
+#! @input knife_config: optional - location of knife.rb config file
+#! @output knife_result: filtered output of knife command
+#! @output raw_result: full STDOUT
+#! @output standard_err: any STDERR
+#! @result SUCCESS: node deleted OK
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
+  chef: io.cloudslang.chef
 
 flow:
   name: delete_node
@@ -41,6 +36,7 @@ flow:
     - knife_username
     - knife_password:
         required: false
+        sensitive: true
     - knife_privkey:
         required: false
     - knife_config:
@@ -49,8 +45,8 @@ flow:
   workflow:
     - remove_client:
         do:
-          knife_command:
-            - knife_cmd: "'client delete ' + node_name + ' -y'"
+          chef.knife_command:
+            - knife_cmd: ${'client delete ' + node_name + ' -y'}
             - knife_host
             - knife_username
             - knife_password
@@ -60,11 +56,11 @@ flow:
           - raw_result
           - standard_err
           - knife_result
-          
+
     - remove_node:
         do:
-          knife_command:
-            - knife_cmd: "'node delete ' + node_name + ' -y'"
+          chef.knife_command:
+            - knife_cmd: ${'node delete ' + node_name + ' -y'}
             - knife_host
             - knife_username
             - knife_password

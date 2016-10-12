@@ -6,45 +6,46 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Low level mechanism for directly removing entries in the catalog.
-#
-# Inputs:
-#   - host - Consul agent host
-#   - consul_port - optional - Consul agent host port - Default: 8500
-#   - node - node name
-#   - datacenter - optional - Default: matches that of the agent
-#   - service - optional - if Service key is provided, then service will also be registered
-#   - check - optional - if Check key is provided, then a health check will also be registered
-# Outputs:
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Low level mechanism for directly removing entries in the catalog.
+#! @input host: Consul agent host
+#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input node: node name
+#! @input datacenter: optional - Default: ''; matches that of the agent
+#! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
+#! @input check: optional - if Check key is provided, then a health check will also be registered- Default: ''
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul
+
+imports:
+  consul: io.cloudslang.consul
 
 flow:
   name: deregister_endpoint
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: '8500'
         required: false
     - node
     - datacenter:
-        default: "''"
+        default: ''
         required: false
     - service:
-        default: "''"
+        default: ''
         required: false
     - check:
-        default: "''"
+        default: ''
         required: false
   workflow:
     - parse_register_endpoint_request:
         do:
-          parse_register_endpoint_request:
+          consul.parse_register_endpoint_request:
             - node
             - datacenter
             - service
@@ -54,15 +55,15 @@ flow:
 
     - send_register_endpoint_request:
         do:
-          send_deregister_endpoint_request:
+          consul.send_deregister_endpoint_request:
             - host
             - consul_port
             - json_request
         publish:
-          - errorMessage
+          - error_message
 
   outputs:
-      - errorMessage
+      - error_message
   results:
       - SUCCESS
       - FAILURE

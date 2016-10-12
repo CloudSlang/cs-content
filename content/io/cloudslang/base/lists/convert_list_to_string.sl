@@ -6,15 +6,15 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Convert items of a given list to string and concatenate them in result
-#
-# Inputs:
-#   - list - the list of item that will be converted to string and concatenated in result - Example: [123, 'xyz']
-#   - double_quotes - optional - if True every list item will be double quoted before concatenation - Default: False
-#   - result_delimiter - optional - if True will be appended after every list item (except the last one) before concatenation - Default: "''"
-#   - result_to_lowercase - optional - if True the result will be a string in lowercase only - Default: False
-# Outputs:
-#   - result - the string that results from concatenation of list elements
+#!!
+#! @description: Converts each item in a list to a string and concatenates them.
+#! @input list: list of items that will be converted to string and concatenated - Example: [123, 'xyz']
+#! @input double_quotes: optional - if true, list items will be double quoted - Default: False
+#! @input result_delimiter: optional - if true, will be appended after every list item (except the last one) - Default: "''"
+#! @input result_to_lowercase: optional - if true, list items will be lowercased - Default: False
+#! @output result: string that results from concatenation of list elements
+#! @result SUCCESS: list converted to string successfully
+#!!#
 ####################################################
 
 namespace: io.cloudslang.base.lists
@@ -24,16 +24,16 @@ operation:
   inputs:
     - list
     - double_quotes:
-        default: False
+        default: "False"
         required: false
     - result_delimiter:
-        default: "''"
+        default: ''
         required: false
     - result_to_lowercase:
-        default: False
+        default: "False"
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       result = ''
       list_length = len(list)
       for item in list:
@@ -44,3 +44,5 @@ operation:
       result = result.lower() if bool(result_to_lowercase) else result
   outputs:
     - result
+  results:
+    - SUCCESS

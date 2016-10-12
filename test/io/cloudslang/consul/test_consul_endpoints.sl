@@ -10,8 +10,9 @@
 namespace: io.cloudslang.consul
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  base_utils: io.cloudslang.base.utils
+  consul: io.cloudslang.consul
+  ssh: io.cloudslang.base.ssh
+
 
 flow:
   name: test_consul_endpoints
@@ -32,54 +33,54 @@ flow:
 
     - register_endpoint:
         do:
-          register_endpoint:
+          consul.register_endpoint:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: get_catalog_services
-          FAILURE: FAIL_TO_REGISTER
+          - SUCCESS: get_catalog_services
+          - FAILURE: FAIL_TO_REGISTER
 
     - get_catalog_services:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: deregister_endpoint
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: deregister_endpoint
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_register: returnResult
-          - errorMessage
+          - services_after_register: ${return_result}
+          - error_message
 
     - deregister_endpoint:
         do:
-          deregister_endpoint:
+          consul.deregister_endpoint:
             - host
             - node
         navigate:
-          SUCCESS: get_catalog_services2
-          FAILURE: FAIL_TO_DEREGISTER
+          - SUCCESS: get_catalog_services2
+          - FAILURE: FAIL_TO_DEREGISTER
 
     - get_catalog_services2:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
-          - services_after_deregister: returnResult
-          - errorMessage
+          - services_after_deregister: ${return_result}
+          - error_message
   outputs:
-    - services_after_register: str(services_after_register)
-    - services_after_deregister: str(services_after_deregister)
+    - services_after_register: ${str(services_after_register)}
+    - services_after_deregister: ${str(services_after_deregister)}
   results:
     - SUCCESS
     - FAIL_TO_REGISTER

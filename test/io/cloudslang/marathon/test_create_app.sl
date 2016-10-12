@@ -10,11 +10,12 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  base_strings: io.cloudslang.base.strings
-  base_print: io.cloudslang.base.print
-  utils: io.cloudslang.base.utils
+  marathon: io.cloudslang.marathon
+  strings: io.cloudslang.base.strings
+
 flow:
   name: test_create_app
+
   inputs:
     - marathon_host
     - username
@@ -23,184 +24,184 @@ flow:
         required: false
     - json_file
     - created_app_id
+    - is_core_os
 
   workflow:
-    - setup_marathon:
+    - setup_marathon_on_different_hosts:
         do:
-          setup_marathon:
-            - host: marathon_host
+          marathon.setup_marathon_on_different_hosts:
+            - marathon_host
             - username
             - private_key_file
             - marathon_port
+            - is_core_os
         navigate:
-          SUCCESS: wait_for_marathon_startup
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-
-    - wait_for_marathon_startup:
-        do:
-          utils.sleep:
-              - seconds: 20
+          - SUCCESS: list_initial_marathon_apps
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
-          get_apps_list:
+          marathon.get_apps_list:
             - marathon_host
             - marathon_port
-        publish:
-          - returnResult
-        navigate:
-          SUCCESS: parse_initial_response
-          FAILURE: APPS_NOT_RETRIEVED
-
-    - parse_initial_response:
-         do:
-           parse_get_app_list:
-             - operation_response: returnResult
-         publish:
-           - app_list
-         navigate:
-           SUCCESS: check_if_list_is_empty
-           FAILURE: PARSE_FAILURE
-
-    - check_if_list_is_empty:
-         do:
-            base_strings.string_equals:
-              - first_string: app_list
-              - second_string: "''"
-         navigate:
-           SUCCESS: create_marathon_app
-           FAILURE: delete_initial_apps
-
-    - delete_initial_apps:
-        loop:
-            for: 'app in app_list.split(",")'
-            do:
-              delete_app:
-                - marathon_host
-                - marathon_port
-                - app_id: app
-        navigate:
-          SUCCESS: create_marathon_app
-          FAILURE: FAIL_TO_DELETE
-
-    - create_marathon_app:
-         do:
-           create_app:
-             - marathon_host
-             - marathon_port
-             - json_file
-         navigate:
-           SUCCESS: wait_for_app_startup
-           FAILURE: FAIL_TO_CREATE
-
-    - wait_for_app_startup:
-        do:
-          utils.sleep:
-              - seconds: 10
-
-    - list_marathon_apps:
-        do:
-          get_apps_list:
-            - marathon_host
-            - marathon_port
-        publish:
-          - returnResult
-        navigate:
-          SUCCESS: parse_response
-          FAILURE: APPS_NOT_RETRIEVED
-
-    - parse_response:
-         do:
-           parse_get_app_list:
-             - operation_response: returnResult
-         publish:
-           - app_list
-         navigate:
-           SUCCESS: check_app_was_created
-           FAILURE: PARSE_FAILURE
-
-    - check_app_was_created:
-        do:
-          base_strings.string_occurrence_counter:
-            - string_in_which_to_search: app_list
-            - string_to_find: created_app_id
         publish:
           - return_result
         navigate:
-          SUCCESS: list_mesos_tasks
-          FAILURE: APP_NOT_CREATED
+          - SUCCESS: parse_initial_response
+          - FAILURE: APPS_NOT_RETRIEVED
+
+    - parse_initial_response:
+        do:
+          marathon.parse_get_app_list:
+            - operation_response: ${return_result}
+        publish:
+          - app_list
+        navigate:
+          - SUCCESS: check_if_list_is_empty
+          - FAILURE: PARSE_FAILURE
+
+    - check_if_list_is_empty:
+        do:
+          strings.string_equals:
+            - first_string: ${app_list}
+            - second_string: ''
+        navigate:
+         - SUCCESS: create_marathon_app
+         - FAILURE: delete_initial_apps
+
+    - delete_initial_apps:
+        loop:
+            for: app in app_list.split(",")
+            do:
+              marathon.delete_app:
+                - marathon_host
+                - marathon_port
+                - app_id: ${app}
+        navigate:
+          - SUCCESS: create_marathon_app
+          - FAILURE: FAIL_TO_DELETE
+
+    - create_marathon_app:
+        do:
+          marathon.create_app:
+            - marathon_host
+            - marathon_port
+            - json_file
+        navigate:
+          - SUCCESS: wait_for_marathon_app_startup
+          - FAILURE: FAIL_TO_CREATE
+
+    - wait_for_marathon_app_startup:
+        do:
+          marathon.wait_for_marathon_app_startup:
+              - marathon_host
+              - marathon_port
+              - created_app_id
+              - attempts: '30'
+              - time_to_sleep: '20'
+        navigate:
+          - SUCCESS: list_marathon_apps
+          - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
+
+    - list_marathon_apps:
+        do:
+          marathon.get_apps_list:
+            - marathon_host
+            - marathon_port
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: parse_response
+          - FAILURE: APPS_NOT_RETRIEVED
+
+    - parse_response:
+        do:
+          marathon.parse_get_app_list:
+            - operation_response: ${return_result}
+        publish:
+          - app_list
+        navigate:
+          - SUCCESS: check_app_was_created
+          - FAILURE: PARSE_FAILURE
+
+    - check_app_was_created:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${app_list}
+            - string_to_find: ${created_app_id}
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: list_mesos_tasks
+          - FAILURE: APP_NOT_CREATED
 
     - list_mesos_tasks:
         do:
-          get_tasks_list:
+          marathon.get_tasks_list:
             - marathon_host
             - marathon_port
         publish:
-          - tasks_list: returnResult
+          - tasks_list: ${return_result}
         navigate:
-          SUCCESS: check_task_was_created
-          FAILURE: TASKS_NOT_RETRIEVED
-
+          - SUCCESS: check_task_was_created
+          - FAILURE: TASKS_NOT_RETRIEVED
 
     - check_task_was_created:
         do:
-          base_strings.string_occurrence_counter:
-            - string_in_which_to_search: tasks_list
-            - string_to_find: created_app_id
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${tasks_list}
+            - string_to_find: ${created_app_id}
         navigate:
-          SUCCESS: delete_marathon_app
-          FAILURE: TASK_NOT_CREATED
+          - SUCCESS: delete_marathon_app
+          - FAILURE: TASK_NOT_CREATED
 
     - delete_marathon_app:
         do:
-          delete_app:
+          marathon.delete_app:
              - marathon_host
              - marathon_port
-             - app_id: created_app_id
+             - app_id: ${created_app_id}
         navigate:
-          SUCCESS: list_marathon_apps_again
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: list_marathon_apps_again
+          - FAILURE: FAIL_TO_DELETE
 
     - list_marathon_apps_again:
         do:
-          get_apps_list:
+          marathon.get_apps_list:
             - marathon_host
             - marathon_port
         publish:
-          - returnResult
+          - return_result
         navigate:
-          SUCCESS: parse_second_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_second_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_second_response:
-         do:
-           parse_get_app_list:
-             - operation_response: returnResult
-         publish:
-           - app_list
-         navigate:
-           SUCCESS: verify_there_are_no_servers
-           FAILURE: PARSE_FAILURE
+        do:
+          marathon.parse_get_app_list:
+            - operation_response: ${return_result}
+        publish:
+          - app_list
+        navigate:
+          - SUCCESS: verify_there_are_no_servers
+          - FAILURE: PARSE_FAILURE
 
     - verify_there_are_no_servers:
-         do:
-            base_strings.string_equals:
-              - first_string: app_list
-              - second_string: "''"
-         navigate:
-           SUCCESS: SUCCESS
-           FAILURE: APP_STILL_UP
+        do:
+          strings.string_equals:
+            - first_string: ${app_list}
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: APP_STILL_UP
 
   results:
     - SUCCESS
-    - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - PARSE_FAILURE
-    - FAIL_TO_DELETE
     - APP_NOT_CREATED
     - APPS_NOT_RETRIEVED
     - TASK_NOT_CREATED
@@ -208,4 +209,3 @@ flow:
     - FAIL_TO_CREATE
     - FAIL_TO_DELETE
     - APP_STILL_UP
-

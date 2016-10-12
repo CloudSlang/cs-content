@@ -6,27 +6,27 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves cAdvisor status and performs restart to the container if the resource usage is too high.
-#
-# Inputs:
-#   - container - name or ID of Docker container that runs cAdvisor
-#   - host - Docker machine host
-#   - cadvisor_port - optional - port used for cAdvisor - Default: 8080
-#   - machine_connect_port - optional - port to use to connect to machine running Docker - Default: 22
-#   - username - Docker machine username
-#   - password - optional - Docker machine password
-#   - privateKeyFile - optional - path to the private key file
-#   - rule - optional - Python query to determine if the resource usages is high
-# Results:
-#   - SUCCESS - successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves cAdvisor status and performs restart to the container if the resource usage is too high.
+#! @input container: name or ID of Docker container that runs cAdvisor
+#! @input host: Docker machine host
+#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input machine_connect_port: optional - port to use to connect to machine running Docker - Default: '22'
+#! @input username: Docker machine username
+#! @input password: optional - Docker machine password
+#! @input private_key_file: optional - path to the private key file
+#! @input rule: optional - Python query to determine if the resource usages is high
+#! @result SUCCESS: successful
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  docker_container: io.cloudslang.docker.containers
-  docker_print: io.cloudslang.base.print
+  cadvisor: io.cloudslang.docker.cadvisor
+  containers: io.cloudslang.docker.containers
+  print: io.cloudslang.base.print
 
 flow:
   name: restart_container_base_on_usage
@@ -34,23 +34,24 @@ flow:
     - container
     - host
     - cadvisor_port:
-        default: "'8080'"
+        default: '8080'
         required: false
     - machine_connect_port:
-        default: "'22'"
+        default: '22'
         required: false
     - username
     - password:
         required: false
-    - privateKeyFile:
+        sensitive: true
+    - private_key_file:
         required: false
     - rule:
-        default: "''"
+        default: ''
         required: false
   workflow:
     - retrieve_container_usage:
         do:
-          report_container_metrics:
+          cadvisor.report_container_metrics:
             - container
             - host
             - cadvisor_port
@@ -61,11 +62,11 @@ flow:
           - throughput_tx
           - error_rx
           - error_tx
-          - returnCode
-          - errorMessage
+          - return_code
+          - error_message
     - evaluate_resource_usage:
         do:
-          evaluate_resource_usage:
+          cadvisor.evaluate_resource_usage:
             - rule
             - memory_usage
             - cpu_usage
@@ -73,44 +74,39 @@ flow:
             - throughput_tx
             - error_rx
             - error_tx
-            - errorMessage
         navigate:
-            MORE: stop_container
-            LESS: SUCCESS
-            FAILURE: FAILURE
+            - MORE: stop_container
+            - LESS: SUCCESS
     - stop_container:
         do:
-          docker_container.stop_container:
-            - container_id: container
+          containers.stop_container:
+            - container_id: ${container}
             - host
             - username
             - password
-            - port: machine_connect_port
-            - privateKeyFile
+            - port: ${machine_connect_port}
+            - private_key_file
         publish:
-          - errorMessage
+          - error_message
         navigate:
-            SUCCESS: start_container
-            FAILURE: FAILURE
+            - SUCCESS: start_container
+            - FAILURE: FAILURE
     - start_container:
         do:
-          docker_container.start_container:
-            - privateKeyFile
-            - container_id: container
+          containers.start_container:
+            - private_key_file
+            - start_container_id: ${container}
             - host
             - username
             - password
-            - port: machine_connect_port
+            - port: ${machine_connect_port}
         publish:
-          - errorMessage
+          - error_message
     - on_failure:
         - print_error:
             do:
-              docker_print.print_text:
-                - text: "'cAdvisor ended with the following error message '+errorMessage"
-            navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              print.print_text:
+                - text: ${'cAdvisor ended with the following error message ' + error_message}
   results:
     - SUCCESS
     - FAILURE

@@ -6,34 +6,39 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes a Docker container.
-#
-# Inputs:
-#   - container_id - ID of the container to be deleted
-#   - docker_options - optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - optional - Docker machine password
-#   - private_key_file - optional - path to private key file
-# Outputs:
-#   - error_message - error message of the operation that failed
-# Results:
-#   - SUCCESS - successful
-#   - FAILURE - otherwise
+#!!
+#! @description: Deletes a Docker container.
+#! @input container_id: ID of the container to be deleted
+#! @input docker_options: optional - options for the Docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: optional - Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input port: optional - SSH port
+#! @output error_message: error message of the operation that failed
+#! @result SUCCESS: Docker container deleted successfully
+#! @result FAILURE: there was an error while trying to delete the Docker container
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers
 
+imports:
+  containers: io.cloudslang.docker.containers
+
 flow:
   name: clear_container
   inputs:
-    - container_id
+    - container_id:
+        required: false
     - docker_options:
         required: false
     - docker_host
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - port:
@@ -41,26 +46,26 @@ flow:
   workflow:
     - stop_container:
         do:
-          stop_container:
+          containers.stop_container:
             - container_id
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - private_key_file
             - port
         publish:
           - error_message
 
     - delete_container:
         do:
-          delete_container:
+          containers.delete_container:
             - container_id
             - docker_options
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - privateKeyFile: private_key_file
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - private_key_file
             - port
         publish:
           - error_message

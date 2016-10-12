@@ -1,14 +1,15 @@
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
+  mysql: io.cloudslang.docker.monitoring.mysql
+  containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   cmd: io.cloudslang.base.cmd
-  network: io.cloudslang.base.network
 
 flow:
   name: test_report_mysql_status
+
   inputs:
     - docker_host
     - docker_port:
@@ -25,48 +26,47 @@ flow:
     - email_recipient
 
   workflow:
-
     - pre_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: docker_port
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: run_postfix
-           FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+         maintenance.clear_host:
+           - docker_host
+           - port: ${ docker_port }
+           - docker_username
+           - docker_password
+        navigate:
+         - SUCCESS: run_postfix
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - run_postfix:
         do:
           cmd.run_command:
-            - command: "'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix'"
+            - command: ${ 'docker run -p ' + email_port + ':' + '25' + ' -e maildomain=mail.example.com -e smtp_user=user:pwd --name postfix -d catatnight/postfix' }
 
     - wait_for_postfix:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: '10'
 
     - start_mysql_container:
         do:
-          docker_containers_examples.create_db_container:
-            - host: docker_host
-            - port: docker_port
-            - username: docker_username
-            - password: docker_password
+          containers_examples.create_db_container:
+            - host: ${ docker_host }
+            - port: ${ docker_port }
+            - username: ${ docker_username }
+            - password: ${ docker_password }
         navigate:
-          SUCCESS: wait_for_mysql
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: wait_for_mysql
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - wait_for_mysql:
         do:
           utils.sleep:
-            - seconds: 20
+            - seconds: '20'
 
     - report_mysql_status:
         do:
-          report_mysql_status:
-            - container: "'mysqldb'"
+          mysql.report_mysql_status:
+            - container: "mysqldb"
             - docker_host
             - docker_port
             - docker_username
@@ -80,32 +80,30 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: post_test_cleanup
-          FAILURE: FAILURE
+          - SUCCESS: post_test_cleanup
+          - FAILURE: FAILURE
 
     - post_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: docker_port
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: postfix_cleanup
-           FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+         maintenance.clear_host:
+           - docker_host
+           - port: ${ docker_port }
+           - docker_username
+           - docker_password
+        navigate:
+         - SUCCESS: postfix_cleanup
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - postfix_cleanup:
-           do:
-             cmd.run_command:
-               - command: "'docker rm -f postfix && docker rmi catatnight/postfix'"
-           navigate:
-             SUCCESS: SUCCESS
-             FAILURE: FAIL_TO_CLEAN_POSTFIX
+        do:
+         cmd.run_command:
+           - command: "docker rm -f postfix && docker rmi catatnight/postfix"
+        navigate:
+         - SUCCESS: SUCCESS
+         - FAILURE: FAIL_TO_CLEAN_POSTFIX
 
   results:
     - SUCCESS
-    - FAIL_TO_PULL_POSTFIX
-    - FAIL_TO_START_POSTFIX
     - FAIL_TO_CLEAN_POSTFIX
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER

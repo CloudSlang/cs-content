@@ -10,10 +10,11 @@
 namespace: io.cloudslang.marathon
 
 imports:
-  utils: io.cloudslang.base.utils
+  marathon: io.cloudslang.marathon
 
 flow:
   name: test_update_app
+
   inputs:
     - marathon_host
     - username
@@ -23,67 +24,69 @@ flow:
     - json_file_for_creation
     - json_file_for_update
     - created_app_id
+    - is_core_os
   workflow:
-    - setup_marathon:
+    - setup_marathon_on_different_hosts:
         do:
-          setup_marathon:
-            - host: marathon_host
+          marathon.setup_marathon_on_different_hosts:
+            - marathon_host
             - username
             - private_key_file
             - marathon_port
+            - is_core_os
         navigate:
-          SUCCESS: wait_for_marathon_startup
-          CLEAR_CONTAINERS_ON_HOST_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_ZOOKEEPER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_MASTER_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MESOS_SLAVE_PROBLEM: SETUP_MARATHON_PROBLEM
-          START_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-
-    - wait_for_marathon_startup:
-        do:
-          utils.sleep:
-              - seconds: 20
+          - SUCCESS: create_marathon_app
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - create_marathon_app:
-         do:
-           create_app:
-             - marathon_host
-             - marathon_port
-             - json_file: json_file_for_creation
-         navigate:
-           SUCCESS: wait_for_app_to_deploy
-           FAILURE: FAIL_TO_CREATE
-
-    - wait_for_app_to_deploy:
         do:
-          utils.sleep:
-              - seconds: 5
+          marathon.create_app:
+            - marathon_host
+            - marathon_port
+            - json_file: ${json_file_for_creation}
+        navigate:
+          - SUCCESS: wait_for_marathon_app_startup
+          - FAILURE: FAIL_TO_CREATE
+
+    - wait_for_marathon_app_startup:
+        do:
+          marathon.wait_for_marathon_app_startup:
+            - marathon_host
+            - marathon_port
+            - created_app_id
+            - attempts: '30'
+            - time_to_sleep: '10'
+        navigate:
+          - SUCCESS: update_marathon_app
+          - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
 
     - update_marathon_app:
         do:
-          update_app:
+          marathon.update_app:
             - marathon_host
             - marathon_port
-            - json_file: json_file_for_update
-            - app_id: created_app_id
+            - json_file: ${json_file_for_update}
+            - app_id: ${created_app_id}
         navigate:
-          SUCCESS: delete_marathon_app
-          FAILURE: FAIL_TO_UPDATE
+          - SUCCESS: delete_marathon_app
+          - FAILURE: FAIL_TO_UPDATE
 
     - delete_marathon_app:
         do:
-          delete_app:
+          marathon.delete_app:
              - marathon_host
              - marathon_port
-             - app_id: created_app_id
+             - app_id: ${created_app_id}
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_DELETE
 
   results:
     - SUCCESS
-    - FAILURE
     - SETUP_MARATHON_PROBLEM
+    - WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT
+    - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
     - FAIL_TO_CREATE
     - FAIL_TO_DELETE
     - FAIL_TO_UPDATE

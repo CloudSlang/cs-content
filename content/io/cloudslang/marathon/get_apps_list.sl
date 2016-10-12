@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Retrieves a list of Marathon apps.
-#
-# Inputs:
-#   - marathon_host - Marathon agent host
-#   - marathon_port - optional - Marathon agent port - Default: 8080
-#   - cmd - optional - filter apps to only those whose commands contain cmd - Default: none
-#   - embed - optional - embeds nested resources that match supplied path - Default: none -
-#     Valid: "apps.tasks" Apps' tasks are not embedded in response by default
-#            "apps.failures". Apps' last failures are not embedded in response by default
-#   - proxyHost - optional - proxy host - Default: none
-#   - proxyPort - optional - proxy port - Default: 8080
-# Outputs:
-#   - returnResult - response of the operation
-#   - statusCode - normal status code is 200
-#   - returnCode - if returnCode == -1 then there was an error
-#   - errorMessage: returnResult if returnCode == -1 or statusCode != 200
-# Results:
-#   - SUCCESS - operation succeeded (returnCode != '-1' and statusCode == '200')
-#   - FAILURE - otherwise
+#!!
+#! @description: Retrieves a list of Marathon apps.
+#! @input marathon_host: Marathon agent host
+#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input cmd: optional - filter apps to only those whose commands contain cmd
+#! @input embed: optional - embeds nested resources that match supplied path - Default: none
+#!               Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
+#!               App's last failures are not embedded in response by default
+#! @input proxy_host: optional - proxy host
+#! @input proxy_port: optional - proxy port
+#! @output return_result: response of the operation
+#! @output error_message: return_result if return_code == -1 or status_code != 200
+#! @output return_code: if return_code == -1 then there was an error
+#! @output status_code: normal status code is 200
+#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.marathon
@@ -34,35 +32,43 @@ operation:
   inputs:
     - marathon_host
     - marathon_port:
-        default: "'8080'"
+        default: "8080"
         required: false
     - cmd:
         required: false
     - embed:
-        default: "'none'"
+        default: "none"
         required: false
     - url:
-        default: "'http://'+ marathon_host + ':' + marathon_port +'/v2/apps?embed='+embed"
-        overridable: false
+        default: ${'http://' + marathon_host + ':' + marathon_port + '/v2/apps?embed=' + embed}
+        private: true
+    - proxy_host:
+        required: false
     - proxyHost:
+        default: ${get('proxy_host', None)}
+        required: false
+        private: true
+    - proxy_port:
         required: false
     - proxyPort:
+        default: ${get('proxy_port', None)}
         required: false
+        private: true
     - method:
-        default: "'get'"
-        overridable: false
+        default: "get"
+        private: true
     - contentType:
-        default: "'application/json'"
-        overridable: false
-  action:
-    java_action:
-      className: io.cloudslang.content.httpclient.HttpClientAction
-      methodName: execute
+        default: "application/json"
+        private: true
+  java_action:
+    gav: 'io.cloudslang.content:score-http-client:0.1.65'
+    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    method_name: execute
   outputs:
-    - returnResult
-    - statusCode
-    - returnCode
-    - errorMessage: returnResult if returnCode == '-1' or statusCode != '200' else ''
+    - return_result: ${returnResult}
+    - error_message: ${returnResult if returnCode == '-1' or statusCode != '200' else ''}
+    - return_code: ${returnCode}
+    - status_code: ${get('statusCode', None)}
   results:
-    - SUCCESS: returnCode != '-1' and statusCode == '200'
+    - SUCCESS: ${returnCode != '-1' and statusCode == '200'}
     - FAILURE

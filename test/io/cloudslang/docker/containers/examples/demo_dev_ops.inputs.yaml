@@ -7,15 +7,14 @@
 #
 ####################################################
 test_demo_dev_ops:
-  testSuites: [docker_local]
-  description: Tests SUCCESS case - this test needs to be run on local machine by activating the test suite and supplying the inputs
+  testSuites: [docker,docker-circleci]
+  description: Tests SUCCESS case - clears docker container and calls the flow
   testFlowPath: io.cloudslang.docker.containers.examples.test_demo_dev_ops
   inputs:
-    - docker_host: localhost
-    - docker_ssh_port: "49153"
-    - docker_username: root
-    - docker_password: screencast
-    - app_port: "49153"
+    - docker_host: <coreos_host_1>
+    - docker_username: core
+    - private_key_file: <private_key_file>
+    - app_port: "49154"
     - email_host: sub-domain.domain
     - email_port: "25"
     - email_sender: user@domain

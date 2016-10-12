@@ -6,21 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Creates JSON for request to register new agent service.
-#
-# Inputs:
-#   - address - optional - will default to that of the agent
-#   - service_name - name of the service to be registered
-#   - service_id - optional - service_name will be used if not specified
-#   - check - optional - if the Check key is provided, then a health check will also be registered
-# Outputs:
-#   - json_request - JSON request for registering endpoint
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - returnResult - response of the operation
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Creates JSON for request to register new agent service.
+#! @input address: optional - will default to that of the agent - Default: ''
+#! @input service_name: name of the service to be registered
+#! @input service_id: optional - service_name will be used if not specified
+#! @input check: optional - if the Check key is provided, then a health check will also be registered
+#! @output return_result: response of the operation
+#! @output error_message: return_result if there was an error
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output json_request: JSON request for registering endpoint
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul
@@ -29,36 +27,36 @@ operation:
   name: parse_register_agent_service_request
   inputs:
     - address:
-        default: "''"
+        default: ''
         required: false
     - service_name
     - service_id:
         required: false
     - check:
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
-        data= {}
+        data = {}
         if address:
           data['Address'] = address
-        if service_id != '':
+        if service_id:
           data['ID'] = service_id
         data['Name'] = service_name
         if check:
           data['Check'] = json.loads(check)
         json_request = json.dumps(data)
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except Exception as ex:
-        returnCode = '-1'
-        returnResult = 'Parsing error: ' + str(ex)
+        return_code = '-1'
+        return_result = 'Parsing error: ' + str(ex)
   outputs:
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
+    - return_code
     - json_request
-    - returnCode
-    - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

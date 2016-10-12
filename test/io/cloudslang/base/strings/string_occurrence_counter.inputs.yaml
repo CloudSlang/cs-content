@@ -37,7 +37,7 @@ testStringOccurrenceCounterMissingInputs:
     - string_in_which_to_search: long string in which to search
   description: Tests that string_occurrence_counter.sl operation throws an exception when a required input is missing
   testFlowPath: io.cloudslang.base.strings.string_occurrence_counter
-  throwsException: true
+  result: FAILURE
 
 testStringOccurrenceCounterEmptyStringInWhichToSearch:
   inputs:

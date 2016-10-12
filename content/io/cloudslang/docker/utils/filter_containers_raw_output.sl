@@ -6,20 +6,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Filters and extracts the Docker container names from the raw output returned by 'docker ps' command.
-# Containers can be filtered based on the images they are created from.
-#
-# Inputs:
-#   - raw_output - raw output from 'docker ps' command
-#   - excluded_images - comma separated list of Docker images
-#                     - the containers based on these images will not be included in the result list
-#                     - e.g. swarm:latest,tomcat:7
-# Outputs:
-#   - container_names - comma separated list of container names
-#   - container_ids - comma separated list of container IDs
-# Results:
-#   - SUCCESS - parsing was successful (return_code == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Filters and extracts the Docker container names from the raw output returned by 'docker ps' command.
+#!               Containers can be filtered based on the images they are created from.
+#! @input raw_output: raw output from 'docker ps' command
+#! @input excluded_images: comma separated list of Docker images
+#!                         the containers based on these images will not be included in the result list
+#!                         Example: swarm:latest,tomcat:7
+#! @output container_names: comma separated list of container names
+#! @output container_ids: comma separated list of container IDs
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.utils
@@ -29,8 +27,8 @@ operation:
   inputs:
     - raw_output
     - excluded_images
-  action:
-    python_script: |
+  python_action:
+    script: |
       def extract_container_name_from_line(line):
         return line.split()[-1]
 
@@ -75,5 +73,5 @@ operation:
     - container_names
     - container_ids
   results:
-    - SUCCESS: return_code == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

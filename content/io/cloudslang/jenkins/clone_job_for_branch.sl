@@ -6,29 +6,28 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Clones an existing Jenkins job and changes it's SCM URL.
-#
-# Use case: as a build manager, after creating a new SCM branch, you want to clone your Jenkins builds, and you want to set the SCM URL of these clones to point to the new SCM branch.
-#
-# Inputs:
-#   - url - URL to Jenkins
-#   - jnks_job_name - name of the origin job
-#   - jnks_new_job_name - name of the new job
-#   - new_scm_url - URL of the new SCM branch
-#   - delete_job_if_existing - true to delete job if it exists already
-#   - email_host - email server host
-#   - email_port - email server port
-#   - email_sender - email sender
-#   - email_recipient - email recipient
-# Results:
-#   - SUCCESS
-#   - FAILURE
+#!!
+#! @description: Clones an existing Jenkins job and changes it's SCM URL.
+#!               Use case: as a build manager, after creating a new SCM branch, you want to clone your Jenkins builds, and you want to set the SCM URL of these clones to point to the new SCM branch.
+#! @input url: URL to Jenkins
+#! @input jnks_job_name: name of the origin job
+#! @input jnks_new_job_name: name of the new job
+#! @input new_scm_url: URL of the new SCM branch
+#! @input delete_job_if_existing: true to delete job if it exists already
+#! @input email_host: email server host
+#! @input email_port: email server port
+#! @input email_sender: email sender
+#! @input email_recipient: email recipient
+#! @result SUCCESS: Jenkins job cloned successfully
+#! @result FAILURE: there was an eror while trying to clone the Jenkins job
+#!!#
 ####################################################
 
 namespace: io.cloudslang.jenkins
 
 imports:
-  base_mail: io.cloudslang.base.mail
+  jenkins: io.cloudslang.jenkins
+  mail: io.cloudslang.base.mail
 
 flow:
   name: clone_job_for_branch
@@ -45,74 +44,71 @@ flow:
   workflow:
     - check_job_exists:
         do:
-          check_job_exists:
+          jenkins.check_job_exists:
             - url
-            - job_name: jnks_new_job_name
-            - expected_status: delete_job_if_existing
+            - job_name: ${ jnks_new_job_name }
+            - expected_status: ${ delete_job_if_existing }
         navigate:
-          EXISTS_EXPECTED: delete_job
-          EXISTS_UNEXPECTED: fail_with_job_existing
-          NOT_EXISTS: copy_job
-          FAILURE: FAILURE
+          - EXISTS_EXPECTED: delete_job
+          - EXISTS_UNEXPECTED: fail_with_job_existing
+          - NOT_EXISTS: copy_job
+          - FAILURE: FAILURE
 
     - delete_job:
         do:
-          delete_job:
+          jenkins.delete_job:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
 
     - copy_job:
         do:
-          copy_job:
+          jenkins.copy_job:
             - url
-            - job_name: jnks_job_name
-            - new_job_name: jnks_new_job_name
+            - job_name: ${ jnks_job_name }
+            - new_job_name: ${ jnks_new_job_name }
         publish:
           - result_message
 
     - modify_scm_url:
         do:
-          modify_scm_url:
+          jenkins.modify_scm_url:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
             - new_scm_url
         publish:
           - result_message
 
     - fix_job:
         do:
-          fix_job:
+          jenkins.fix_job:
             - url
-            - job_name: jnks_new_job_name
+            - job_name: ${ jnks_new_job_name }
         publish:
           - result_message
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
     - fail_with_job_existing:
         do:
-          base_mail.send_mail:
-            - hostname: email_host
-            - port: email_port
-            - from: email_sender
-            - to: email_recipient
-            - subject: "'Flow failure'"
-            - body: "'Job ' + jnks_new_job_name + ' is already existing.'"
+          mail.send_mail:
+            - hostname: ${ email_host }
+            - port: ${ email_port }
+            - from: ${ email_sender }
+            - to: ${ email_recipient }
+            - subject: "Flow failure"
+            - body: ${ 'Job ' + jnks_new_job_name + ' is already existing.' }
         navigate:
-          SUCCESS: FAILURE
-          FAILURE: FAILURE
+          - SUCCESS: FAILURE
+          - FAILURE: FAILURE
 
     - on_failure:
         - send_error_mail:
             do:
-              base_mail.send_mail:
-                - hostname: email_host
-                - port: email_port
-                - from: email_sender
-                - to: email_recipient
-                - subject: "'Flow failure'"
-                - body: "'Operation failed: ' + result_message"
-            navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+              mail.send_mail:
+                - hostname: ${ email_host }
+                - port: ${ email_port }
+                - from: ${ email_sender }
+                - to: ${ email_recipient }
+                - subject: "Flow failure"
+                - body: "${ 'Operation failed: ' + result_message }"

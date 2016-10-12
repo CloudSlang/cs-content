@@ -10,57 +10,56 @@
 namespace: io.cloudslang.docker.containers
 
 imports:
-  maintenance: io.cloudslang.docker.maintenance
+  containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
   lists: io.cloudslang.base.lists
 
 flow:
   name: test_get_container_names
+
   inputs:
     - host
     - port:
-        default: "'22'"
+        default: '22'
     - username
     - password:
         required: false
     - private_key_file:
         required: false
     - image_name:
-        default: "'busybox'"
-        overridable: false
+        default: 'busybox'
+        private: true
     - container_name1:
-        default: "'busy1'"
-        overridable: false
+        default: 'busy1'
+        private: true
     - container_name2:
-        default: "'busy2'"
-        overridable: false
+        default: 'busy2'
+        private: true
     - timeout:
-        default: "'6000000'"
+        default: '6000000'
 
   workflow:
     - run_container1:
        do:
-         run_container:
-            - container_name: container_name1
-            - container_command: >
-                '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
+          containers.run_container:
+            - container_name: ${container_name1}
+            - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
             - image_name
             - host
             - port
             - username
-            - password: password
+            - password: ${password}
             - private_key_file
             - timeout
        navigate:
-         SUCCESS: run_container2
-         FAILURE: RUN_CONTAINER1_PROBLEM
+         - SUCCESS: run_container2
+         - FAILURE: RUN_CONTAINER1_PROBLEM
 
     - run_container2:
        do:
-         run_container:
-            - container_name: container_name2
-            - container_command: >
-                '/bin/sh -c "while true; do echo hello world; sleep 1; done"'
+          containers.run_container:
+            - container_name: ${ container_name2 }
+            - container_command: ${'/bin/sh -c "while true; do echo hello world; sleep 1; done"'}
             - image_name
             - host
             - port
@@ -69,12 +68,12 @@ flow:
             - private_key_file
             - timeout
        navigate:
-         SUCCESS: get_container_names
-         FAILURE: RUN_CONTAINER2_PROBLEM
+         - SUCCESS: get_container_names
+         - FAILURE: RUN_CONTAINER2_PROBLEM
 
     - get_container_names:
        do:
-         get_container_names:
+          containers.get_container_names:
             - host
             - port
             - username
@@ -84,42 +83,43 @@ flow:
        publish:
         - container_names
        navigate:
-         SUCCESS: subtract_names
-         FAILURE: FAILURE
+         - SUCCESS: subtract_names
+         - FAILURE: FAILURE
 
     - subtract_names:
         do:
           lists.subtract_sets:
-            - set_1: container_names
-            - set_1_delimiter: "' '"
-            - set_2: >
-                container_name1 + ' ' + container_name2
-            - set_2_delimiter: "' '"
-            - result_set_delimiter: "' '"
+            - set_1: ${container_names}
+            - set_1_delimiter: ' '
+            - set_2: ${container_name1 + ' ' + container_name2}
+            - set_2_delimiter: ' '
+            - result_set_delimiter: ' '
         publish:
           - result_set
+        navigate:
+          - SUCCESS: check_empty_set
 
     - check_empty_set:
         do:
           strings.string_equals:
-            - first_string: result_set
-            - second_string: "''"
+            - first_string: ${result_set}
+            - second_string: ''
         navigate:
-          SUCCESS: clear_machine
-          FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
+          - SUCCESS: clear_machine
+          - FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
 
     - clear_machine:
         do:
-          clear_containers:
-            - docker_host: host
-            - docker_username: username
-            - docker_password: password
+          containers.clear_containers:
+            - docker_host: ${host}
+            - docker_username: ${username}
+            - docker_password: ${password}
             - private_key_file
             - timeout
             - port
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: CLEAR_DOCKER_HOST_PROBLEM
 
   results:
     - SUCCESS

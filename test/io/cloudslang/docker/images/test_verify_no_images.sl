@@ -10,7 +10,8 @@
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  images: io.cloudslang.docker.images
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -32,15 +33,15 @@ flow:
             - port
             - username
             - password
-            - command: "' '"
-            - timeout: "'30000000'"
+            - command: " "
+            - timeout: "30000000"
         navigate:
-          SUCCESS: get_all_images_before
-          FAILURE: FAIL_VALIDATE_SSH
+          - SUCCESS: get_all_images_before
+          - FAILURE: FAIL_VALIDATE_SSH
 
     - get_all_images_before:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username
@@ -48,14 +49,14 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_no_images_before
-          FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: verify_no_images_before
+          - FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - verify_no_images_before:
         do:
           strings.string_equals:
-            - first_string: image_list
-            - second_string: "''"
+            - first_string: ${ image_list }
+            - second_string: ""
 
   results:
     - SUCCESS

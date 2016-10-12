@@ -1,0 +1,51 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testGetBranchesSuccess:
+  inputs:
+    - protocol: 'https'
+    - host: 'circleci.com'
+    - token: 'circleci-token'
+    - proxy_host: 'proxy_host'
+    - proxy_port: '8080'
+    - project: 'cloud-slang-content'
+    - headers: 'Accept:application/json'
+    - content_type: 'application/json'
+
+  description: Tests that get_project_branches.sl operation finishes with SUCCESS
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testSuites: [circleci-local]
+  testFlowPath: io.cloudslang.ci.circleci.get_project_branches
+  outputs:
+    - branches: "circleci,master,utils,json"
+    - status_code: "200"
+    - return_code: "0"
+
+  result: SUCCESS
+
+testGetBranchesWrongAPIFailure:
+  inputs:
+    - protocol: 'https'
+    - host: 'circleci.com'
+    - token: 'wrong-circleci-token'
+    - proxy_host: 'proxy_host'
+    - proxy_port: '8080'
+    - project: 'cloud-slang-content'
+    - headers: 'Accept:application/json'
+    - content_type: 'application/json'
+
+  description: Tests that get_project_branches.sl operation finishes with FAILURE
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testSuites: [circleci-local]
+  testFlowPath: io.cloudslang.ci.circleci.get_project_branches
+  outputs:
+    - return_result: '{"message":"You must log in first."}'
+    - status_code: "401"
+    - return_code: "0"
+
+  result: FAILURE

@@ -9,10 +9,12 @@
 namespace: io.cloudslang.git
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  git: io.cloudslang.git
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: test_git_flow
+
   inputs:
     - host
     - port
@@ -28,7 +30,7 @@ flow:
   workflow:
     - clone_a_git_repository:
         do:
-          git_clone_repository:
+          git.git_clone_repository:
             - host
             - port
             - username
@@ -36,12 +38,12 @@ flow:
             - git_repository
             - git_repository_localdir
         navigate:
-          SUCCESS: checkout_git_branch
-          FAILURE: CLONEFAILURE
+          - SUCCESS: checkout_git_branch
+          - FAILURE: CLONEFAILURE
 
     - checkout_git_branch:
         do:
-          git_checkout_branch:
+          git.git_checkout_branch:
             - host
             - port
             - username
@@ -50,14 +52,14 @@ flow:
             - git_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: fetch_git_branch
-          FAILURE: CHECKOUTFAILURE
+          - SUCCESS: fetch_git_branch
+          - FAILURE: CHECKOUTFAILURE
         publish:
           - standard_out
 
     - fetch_git_branch:
         do:
-          git_fetch:
+          git.git_fetch:
             - host
             - port
             - username
@@ -65,14 +67,14 @@ flow:
             - git_fetch_remote
             - git_repository_localdir
         navigate:
-          SUCCESS: merge_git_branch
-          FAILURE: FETCHFAILURE
+          - SUCCESS: merge_git_branch
+          - FAILURE: FETCHFAILURE
         publish:
           - standard_out
 
     - merge_git_branch:
         do:
-          git_merge:
+          git.git_merge:
             - host
             - port
             - username
@@ -80,14 +82,14 @@ flow:
             - git_merge_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: reset_git_branch
-          FAILURE: MERGEFAILURE
+          - SUCCESS: reset_git_branch
+          - FAILURE: MERGEFAILURE
         publish:
           - standard_out
 
     - reset_git_branch:
         do:
-          git_reset:
+          git.git_reset:
             - host
             - port
             - username
@@ -95,8 +97,8 @@ flow:
             - git_reset_target
             - git_repository_localdir
         navigate:
-          SUCCESS: git_cleanup
-          FAILURE: RESETFAILURE
+          - SUCCESS: git_cleanup
+          - FAILURE: RESETFAILURE
         publish:
           - standard_out
 
@@ -105,12 +107,12 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - command: "'rm -r ' + git_repository_localdir"
+            - command: ${ 'rm -r ' + git_repository_localdir }
             - username
             - password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEANUPFAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: CLEANUPFAILURE
         publish:
           - standard_out
 

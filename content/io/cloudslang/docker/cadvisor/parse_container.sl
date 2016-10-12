@@ -6,31 +6,30 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the cAdvisor container information.
-#
-# Inputs:
-#   - json_response - response of the cAdvisor container information
-#   - machine_memory_limit - optional - the container machine memory limit
-# Outputs:
-#   - decoded - parsed response
-#   - spec - parsed cAdvisor spec
-#   - stat - parsed cAdvisor stat
-#   - timestamp - time used to calculate the stat
-#   - cpu - parsed cAdvisor CPU
-#   - memory - parsed cAdvisor memory
-#   - network - parsed cAdvisor network
-#   - cpu_usage - calculated CPU usage of the container
-#   - memory_usage - calculated memory usage of the container; if machine_memory_limit is given lower of container memory limit and machine memory limit used to calculate
-#   - throughput_rx - calculated network Throughput Rx bytes
-#   - throughput_tx - calculated network Throughput Tx bytes
-#   - error_rx - calculated network error Rx
-#   - error_tx - calculated network error Tx
-#   - returnResult - notification string; was parsing was successful or not
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses the response of the cAdvisor container information.
+#! @input json_response: response of cAdvisor container information
+#! @input machine_memory_limit: optional - container machine memory limit - Default: -1
+#! @output decoded: parsed response
+#! @output spec: parsed cAdvisor spec
+#! @output stats: parsed cAdvisor stats
+#! @output timestamp: time used to calculate the stat
+#! @output cpu: parsed cAdvisor CPU
+#! @output memory: parsed cAdvisor memory
+#! @output network: parsed cAdvisor network
+#! @output cpu_usage: calculated CPU usage of the container
+#! @output memory_usage: calculated memory usage of the container; the container memory usage divided by the
+#!                       machine_memory_limit or by the minimum memory limit of the container whichever is smaller
+#! @output throughput_rx: calculated network Throughput Rx bytes
+#! @output throughput_tx: calculated network Throughput Tx bytes
+#! @output error_rx: calculated network error Rx
+#! @output error_tx: calculated network error Tx
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output return_result: notification string; was parsing was successful or not
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
@@ -40,10 +39,10 @@ operation:
   inputs:
     - json_response
     - machine_memory_limit:
-        default: -1
+        default: '-1'
         required: false
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_response)
@@ -79,28 +78,28 @@ operation:
           if min>machine_memory_limit:
             min=machine_memory_limit
         memory_usage=memory_usage/min
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except Exception as ex:
-        returnCode = '-1'
-        returnResult = 'Parsing error: ' + str(ex)
+        return_code = '-1'
+        return_result = 'Parsing error: ' + str(ex)
   outputs:
-    - decoded
-    - spec
-    - stats
-    - timestamp
-    - cpu
-    - memory
-    - network
-    - cpu_usage
-    - memory_usage
-    - throughput_rx
-    - throughput_tx
-    - error_rx
-    - error_tx
-    - returnCode
-    - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - decoded: ${str(decoded)}
+    - spec: ${str(spec)}
+    - stats: ${str(stats)}
+    - timestamp: ${str(timestamp)}
+    - cpu: ${str(cpu)}
+    - memory: ${str(memory)}
+    - network: ${str(network)}
+    - cpu_usage: ${str(cpu_usage)}
+    - memory_usage: ${str(memory_usage)}
+    - throughput_rx: ${str(throughput_rx)}
+    - throughput_tx: ${str(throughput_tx)}
+    - error_rx: ${str(error_rx)}
+    - error_tx: ${str(error_tx)}
+    - return_code: ${str(return_code)}
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

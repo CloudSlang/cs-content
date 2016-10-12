@@ -6,21 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Deletes all Docker images and containers from Docker Host.
-#
-# Inputs:
-#   - docker_host - Docker machine host
-#   - docker_username - Docker machine username
-#   - docker_password - Docker machine password
-#   - private_key_file - optional - path to private key file
-#   - timeout - optional - time in milliseconds to wait for the command to complete - Default: 6000000
-#   - port - optional - SSH port
+#!!
+#! @description: Deletes all Docker images and containers from a Docker Host.
+#! @input docker_host: Docker machine host
+#! @input docker_username: Docker machine username
+#! @input docker_password: Docker machine password
+#! @input private_key_file: optional - path to private key file
+#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: '6000000'
+#! @input port: optional - SSH port
+#! @result SUCCESS: Docker images deleted successfully
+#! @result FAILURE: there was an error while trying to delete Docker containers
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.containers
 
 imports:
- docker_images: io.cloudslang.docker.images
+ containers: io.cloudslang.docker.containers
 
 flow:
   name: clear_containers
@@ -29,29 +31,30 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
-    - timeout: "'6000000'"
+    - timeout: '6000000'
     - port:
         required: false
   workflow:
     - get_all_containers:
         do:
-          get_all_containers:
-            - host: docker_host
-            - username: docker_username
-            - password: docker_password
-            - all_containers: true
+          containers.get_all_containers:
+            - host: ${docker_host}
+            - username: ${docker_username}
+            - password: ${docker_password}
+            - all_containers: 'true'
             - private_key_file
             - timeout
             - port
         publish:
-          - all_containers: container_list
+          - all_containers: ${container_list}
 
     - clear_all_containers:
         do:
-          clear_container:
-            - container_id: all_containers
+          containers.clear_container:
+            - container_id: ${all_containers}
             - docker_host
             - docker_username
             - docker_password

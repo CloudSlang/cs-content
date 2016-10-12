@@ -7,7 +7,7 @@
 #
 ####################################################
 testJenkins_clone_job_for_branch_Success:
-  testSuites: [jenkins]
+  testSuites: [jenkins-local]
   description: Tests that clone job for branch meets its intended purpose
   testFlowPath: io.cloudslang.jenkins.test_clone_job_for_branch
   inputs:
@@ -53,5 +53,5 @@ testJenkins_clone_job_for_branch_Success:
            <buildWrappers/>
          </project>
   outputs:
-    - last_buildnumber: 1
+    - last_buildnumber: '1'
   result: SUCCESS

@@ -6,25 +6,23 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Parses the response of the cAdvisor container information.
-#
-# Inputs:
-#   - json_response - response of the cAdvisor container information
-# Outputs:
-#   - decoded - parsed response
-#   - num_cores - machine number of cores
-#   - cpu_frequency_khz - machine CPU
-#   - memory_capacity- machine memory
-#   - file_systems - parsed cAdvisor machine filesystems
-#   - disk_map- parsed cAdvisor machine disk map
-#   - network_devices- parsed cAdvisor machine network devices
-#   - topology- parsed cAdvisor machine topology
-#   - returnCode - 0 if parsing was successful, -1 otherwise
-#   - returnResult - notification string; was parsing was successful or not
-#   - errorMessage - returnResult if there was an error
-# Results:
-#   - SUCCESS - parsing was successful (returnCode == '0')
-#   - FAILURE - otherwise
+#!!
+#! @description: Parses the response of the cAdvisor container information.
+#! @input json_response: response of the cAdvisor container information
+#! @output decoded: parsed response
+#! @output num_cores: machine number of cores
+#! @output cpu_frequency_khz: machine CPU
+#! @output memory_capacity: machine memory
+#! @output file_systems: parsed cAdvisor machine filesystems
+#! @output disk_map: parsed cAdvisor machine disk map
+#! @output network_devices: parsed cAdvisor machine network devices
+#! @output topology: parsed cAdvisor machine topology
+#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output return_result: notification string; was parsing was successful or not
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.docker.cadvisor
@@ -33,8 +31,8 @@ operation:
   name: parse_machine
   inputs:
     - json_response
-  action:
-    python_script: |
+  python_action:
+    script: |
       try:
         import json
         decoded = json.loads(json_response)
@@ -45,23 +43,23 @@ operation:
         disk_map=decoded['disk_map']
         network_devices=decoded['network_devices']
         topology=decoded['topology']
-        returnCode = '0'
-        returnResult = 'Parsing successful.'
+        return_code = '0'
+        return_result = 'Parsing successful.'
       except:
-        returnCode = '-1'
-        returnResult = 'Parsing error.'
+        return_code = '-1'
+        return_result = 'Parsing error.'
   outputs:
-    - decoded
-    - num_cores
-    - cpu_frequency_khz
-    - memory_capacity
-    - file_systems
-    - disk_map
-    - network_devices
-    - topology
-    - returnCode
-    - returnResult
-    - errorMessage: returnResult if returnCode == '-1' else ''
+    - decoded: ${ str(decoded) }
+    - num_cores: ${str(num_cores)}
+    - cpu_frequency_khz: ${str(cpu_frequency_khz)}
+    - memory_capacity: ${ str(memory_capacity) }
+    - file_systems: ${ str(file_systems) }
+    - disk_map: ${ str(disk_map) }
+    - network_devices: ${ str(network_devices) }
+    - topology: ${ str(topology) }
+    - return_code
+    - return_result
+    - error_message: ${return_result if return_code == '-1' else ''}
   results:
-    - SUCCESS: returnCode == '0'
+    - SUCCESS: ${return_code == '0'}
     - FAILURE

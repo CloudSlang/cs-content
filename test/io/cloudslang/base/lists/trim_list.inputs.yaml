@@ -1,0 +1,30 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+
+testTrimListINTSuccess:
+  inputs:
+    - list: "1,2,3,4,5,6,7,8"
+    - delimiter: ','
+    - pct: '50'
+  description: Tests that trim_list.sl operation finishes with result = 3,4,5,6
+  testFlowPath: io.cloudslang.base.lists.trim_list
+  outputs:
+    - return_result: "3,4,5,6"
+  result: SUCCESS
+
+testTrimListSTRSuccess:
+  inputs:
+    - list: "element1,element2,element3,element4,element5,element6,element7,element8"
+    - delimiter: ','
+    - pct: '30'
+  description: Tests that trim_list.sl operation finishes with result = element3, element4, element5
+  testFlowPath: io.cloudslang.base.lists.trim_list
+  outputs:
+    - return_result: "element2,element3,element4,element5,element6,element7"
+  result: SUCCESS

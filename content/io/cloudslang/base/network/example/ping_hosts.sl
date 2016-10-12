@@ -6,26 +6,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Pings addresses from input list and sends an email with results.
-#
-# Prerequisites: system property file with email properties
-#
-# Inputs:
-#   - ip_list - list of IPs to be checked
-#   - message_body - the message to be sent in emails
-#   - all_nodes_are_up - whether the nodes are up or not - Default: True
-#   - hostname - email host - System Property: io.cloudslang.base.hostname
-#   - port - email port - System Property: io.cloudslang.base.port
-#   - from - email sender - System Property: io.cloudslang.base.from
-#   - to - email recipient - System Property: io.cloudslang.base.to
-#   - subject - email subject - Default: "'Ping Result'"
-#   - username - optional - username to connect to email host - System Property: io.cloudslang.base.username
-#   - password - optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
-#
-# Results:
-#   - SUCCESS - addressee will get an email with result
-#   - FAILURE - addressee will get an email with exception of operation
-#
+#!!
+#! @description: Pings addresses from input list and sends an email with results.
+#! @prerequisites: system property file with email properties
+#! @input ip_list: list of IPs to be checked
+#! @input message_body: the message to be sent in emails
+#! @input all_nodes_are_up: whether the nodes are up or not - Default: True
+#! @input hostname: email host - System Property: io.cloudslang.base.hostname
+#! @input port: email port - System Property: io.cloudslang.base.port
+#! @input from: email sender - System Property: io.cloudslang.base.from
+#! @input to: email recipient - System Property: io.cloudslang.base.to
+#! @input subject: email subject - Default: "Ping Result"
+#! @input username: optional - username to connect to email host - System Property: io.cloudslang.base.username
+#! @input password: optional - password for the username to connect to email host - System Property: io.cloudslang.base.password
+#! @result SUCCESS: addressee will get an email with result
+#! @result FAILURE: addressee will get an email with exception of operation
+#!!#
 ####################################################
 namespace: io.cloudslang.base.network.example
 
@@ -39,23 +35,22 @@ flow:
 
   inputs:
     - ip_list
-    - message_body: []
-    - all_nodes_are_up: True
-    - hostname:
-        system_property: io.cloudslang.base.hostname
-    - port:
-        system_property: io.cloudslang.base.port
-    - from:
-        system_property: io.cloudslang.base.from
-    - to:
-        system_property: io.cloudslang.base.to
-    - subject: "'Ping Result'"
+    - message_body:
+        default: ""
+        required: false
+    - all_nodes_are_up: "True"
+    - hostname: ${get_sp('io.cloudslang.base.hostname')}
+    - port: ${get_sp('io.cloudslang.base.port')}
+    - from: ${get_sp('io.cloudslang.base.from')}
+    - to: ${get_sp('io.cloudslang.base.to')}
+    - subject: "Ping Result"
     - username:
-        system_property: io.cloudslang.base.username
+        default: ${get_sp('io.cloudslang.base.username')}
         required: false
     - password:
-        system_property: io.cloudslang.base.password
+        default: ${get_sp('io.cloudslang.base.password')}
         required: false
+        sensitive: true
 
   workflow:
     - check_address:
@@ -64,24 +59,24 @@ flow:
           do:
             network.ping:
               - address
+              - message_body
+              - all_nodes_are_up
         publish:
-          - messagebody: "self['message_body'].append(message)"
-          - all_nodes_are_up: "self['all_nodes_are_up'] and is_up"
+          - messagebody: ${ message_body + message }
+          - all_nodes_are_up: ${ str(all_nodes_are_up.lower() == 'true' and is_up.lower() == 'true') }
         navigate:
-          UP: check_result
-          DOWN: failure_mail_send
-          FAILURE: failure_mail_send
+          - UP: check_result
+          - DOWN: failure_mail_send
+          - FAILURE: failure_mail_send
 
     - check_result:
         do:
           strings.string_equals:
-            - first_string: >
-                str(all_nodes_are_up)
-            - second_string: >
-                "True"
+            - first_string: ${ all_nodes_are_up }
+            - second_string: "True"
         navigate:
-          SUCCESS: mail_send
-          FAILURE: failure_mail_send
+          - SUCCESS: mail_send
+          - FAILURE: failure_mail_send
 
     - mail_send:
         do:
@@ -91,7 +86,7 @@ flow:
             - from
             - to
             - subject
-            - body: "'Result: ' + ' '.join(message_body)"
+            - body: "${ 'Result: ' + message_body }"
             - username
             - password
 
@@ -104,6 +99,6 @@ flow:
                 - from
                 - to
                 - subject
-                - body: "'Result: Failure to ping: ' + ' '.join(message_body)"
+                - body: "${ 'Result: Failure to ping: ' + message_body }"
                 - username
                 - password

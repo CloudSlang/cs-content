@@ -1,0 +1,43 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testAddAttributeSuccess:
+  inputs:
+    - xml_document: <root>test</root>
+    - xml_document_source: 'xmlString'
+    - xpath_element_query: /root
+    - attribute_name: attr
+    - value: ibute
+  description: Tests that add_attribute.sl operation finishes with SUCCESS and adds the given attribute
+  testFlowPath: io.cloudslang.base.xml.add_attribute
+  outputs:
+    - result_xml: <root attr="ibute">test</root>
+  result: SUCCESS
+
+testAddAttributeFailure:
+  inputs:
+    - xml_document: <root>test</root>
+    - xml_document_source: 'xmlString'
+    - xpath_element_query: /toot
+    - attribute_name: attr
+    - value: ibute
+  description: Tests that add_attribute.sl operation finishes with FAILURE with bad XPATH query
+  testFlowPath: io.cloudslang.base.xml.add_attribute
+  result: FAILURE
+
+testAddAttributeSuccessFromXmlFile:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: 'xmlPath'
+    - xpath_element_query: /note/from
+    - attribute_name: attr
+    - value: ibute
+  description: Tests that add_attribute.sl operation finishes with SUCCESS and adds the given attribute
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.add_attribute
+  result: SUCCESS

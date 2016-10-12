@@ -10,10 +10,10 @@ CloudSlang is a [YAML](http://yaml.org) based language for writing human-readabl
 
 ###### Pre-Requisite: Java JRE >= 7
 
-1. Download the CloudSlang CLI file named cslang-cli-with-content.zip:
-    + [Stable release](http://www.cloudslang.io/download)
-    + [Latest snapshot](https://github.com/CloudSlang/cloud-slang/releases/latest)
-2. Unzip it.
+1. Download the CloudSlang CLI file named cslang-cli-with-content:
+    + [Stable release](https://github.com/CloudSlang/cloud-slang/releases/latest)
+    + [Latest snapshot](https://github.com/CloudSlang/cloud-slang/releases/)
+2. Extract it.
 3. Go to the folder `cslang/bin/`
 4. Run the executable :
   - For Windows : `cslang.bat`
@@ -36,9 +36,12 @@ Argument|Description
 
 **Installing packages into the python-lib folder:**
 
-Prerequisite: **pip** - see **pip**'s [documentation](https://pip.pypa.io/en/latest/installing.html) for how to install. 
+Prerequisites:  Python 2.7 and pip.
 
-1. Edit the **requirements.txt** file in the **python-lib** folder, which is found at the same level as the **bin** folder that contains the CLI executable. 
+You can download Python (version 2.7) from [here] (https://www.python.org/). Python 2.7.9 and later include pip by default. If you already have Python but don't have pip, see the pip [documentation] (https://pip.pypa.io/en/latest/installing.html) for
+installation instructions.
+
+1. Edit the **requirements.txt** file in the **python-lib** folder, which is found at the same level as the **bin** folder that contains the CLI executable.
 2. Enter the Python package and all its dependencies in the requirements file.
 	+ See the **pip** [documentation](https://pip.pypa.io/en/latest/user_guide.html#requirements-files) for information on how to format the requirements file.
 3.  Run the following command from inside the **python-lib** folder:
@@ -47,7 +50,7 @@ Prerequisite: **pip** - see **pip**'s [documentation](https://pip.pypa.io/en/lat
     ```
     **Note:** If your machine is behind a proxy you will need to specify the proxy using pip's `--proxy` flag.
 
-**Note:** If you have defined a `JYTHONPATH` environment variable, you will need to add the **python-lib** folder's path to its value. 
+**Note:** If you have defined a `JYTHONPATH` environment variable, you will need to add the **python-lib** folder's path to its value.
 
 **Editing the executable file**
 

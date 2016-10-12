@@ -18,6 +18,7 @@ testStringEqualsFailure:
   inputs:
     - first_string: text
     - second_string: different
+    - ignore_case: "true"
   description: Tests that string_equals.sl operation finishes with FAILURE when inputs are different
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: FAILURE
@@ -25,14 +26,15 @@ testStringEqualsFailure:
 testStringEqualsMissingInputs:
   inputs:
     - second_string: different
-  description: Tests that string_equals.sl operation throws an exception when a required input is missing
+  description: Tests that string_equals.sl operation finishes with FAILURE when a required input is missing
   testFlowPath: io.cloudslang.base.strings.string_equals
-  throwsException: true
+  result: FAILURE
 
 testStringEqualsEmptyFirst:
   inputs:
     - first_string: ""
     - second_string: text
+    - ignore_case: "true"
   description: Tests that string_equals.sl operation finishes with FAILURE when first_string is empty
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: FAILURE
@@ -57,8 +59,155 @@ testStringEqualsSpecialCharacters:
   inputs:
     - first_string: t%&e$\"
     - second_string: t%&e$\"
-  description: Tests that string_equals.sl operation finishes with SUCCESS strings contain special characters
+  description: Tests that string_equals.sl operation finishes with SUCCESS when strings contain special characters
   testFlowPath: io.cloudslang.base.strings.string_equals
   result: SUCCESS
 
+testStringEqualsIgnoreCaseBoolean1Success:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: "true"
+    description: Tests that string_equals.sl operation finishes with success when strings contain the same sequence of characters and ignore_case is boolean true
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
 
+testStringEqualsIgnoreCaseBoolean2Success:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: "True"
+    description: Tests that string_equals.sl operation finishes with success when strings contain the same sequence of characters  and ignore_case is boolean True
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCaseStringValue1Success:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: 'true'
+    description: Tests that string_equals.sl operation finishes with success when strings contain the same sequence of characters and ignore_case is 'true'
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCaseStringValue2Success:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: 'True'
+    description: Tests that string_equals.sl operation finishes with success when strings contain the same sequence of characters and ignore_case is 'True'
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCaseFailure:
+    inputs:
+      - first_string: "Test"
+      - second_string: "test"
+      - ignore_case: "false"
+    description: Tests that string_equals.sl operation finishes with success when strings contain the same sequence of characters
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: FAILURE
+
+testStringEqualsWhitespacesFailure:
+  inputs:
+    - first_string: ""
+    - second_string: "  "
+  description: Tests that string_equals.sl operation fail when strings doesn't contain the same sequence of characters
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsOrderChanged:
+  inputs:
+    - first_string: "test"
+    - second_string: "etts"
+  description: Tests that string_equals.sl operation fail when strings doesn't contain the same sequence of characters
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsLengthChanged:
+  inputs:
+    - first_string: "test"
+    - second_string: "testte"
+  description: Tests that string_equals.sl operation fail when strings doesn't contain the same sequence of characters
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsIgnoreCase:
+  inputs:
+    - first_string: "Test"
+    - second_string: "test"
+  description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's true.
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: FAILURE
+
+testStringEqualsIgnoreCaseBoolean1:
+  inputs:
+    - first_string: "TEST"
+    - second_string: "test"
+    - ignore_case: "true"
+  description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's true.
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsIgnoreCaseBoolean2:
+  inputs:
+    - first_string: "TEST"
+    - second_string: "test"
+    - ignore_case: "True"
+  description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's True.
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsIgnoreCaseStringValue1:
+    inputs:
+      - first_string: "TEST"
+      - second_string: "test"
+      - ignore_case: 'true'
+    description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's 'true'.
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCaseStringValue2:
+    inputs:
+      - first_string: "TEST"
+      - second_string: "test"
+      - ignore_case: 'True'
+    description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's 'True'.
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCase2Boolean1:
+  inputs:
+    - first_string: "test"
+    - second_string: "TEST"
+    - ignore_case: "true"
+  description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's true.
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsIgnoreCase2Boolean2:
+    inputs:
+      - first_string: "test"
+      - second_string: "TEST"
+      - ignore_case: "True"
+    description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's True.
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS
+
+testStringEqualsIgnoreCase2StringValue1:
+  inputs:
+    - first_string: "test"
+    - second_string: "TEST"
+    - ignore_case: 'true'
+  description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's 'true'.
+  testFlowPath: io.cloudslang.base.strings.string_equals
+  result: SUCCESS
+
+testStringEqualsIgnoreCase2StringValue2:
+    inputs:
+      - first_string: "test"
+      - second_string: "TEST"
+      - ignore_case: 'True'
+    description: Tests that string_equals.sl operation finishes with SUCCESS and the comparison ignores case considerations when ignore_case it's 'True'.
+    testFlowPath: io.cloudslang.base.strings.string_equals
+    result: SUCCESS

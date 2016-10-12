@@ -6,57 +6,61 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-# Gets the IP of the specified Docker container.
-#
-# Inputs:
-#   - containerName - container name
-#   - host - Docker machine host
-#   - port - optional - SSH port - Default: 22
-#   - username - Docker machine username
-#   - password - Docker machine password
-#   - privateKeyFile - optional - absolute path to private key file - Default: none
-#   - arguments - optional - arguments to pass to the command; Default: none
-#   - characterSet - optional - character encoding used for input stream encoding from target machine Valid: SJIS, EUC-JP, UTF-8 - Default: UTF-8
-#   - pty - optional - whether to use PTY - Valid: true, false - Default: false
-#   - timeout - optional - time in milliseconds to wait for command to complete - Default: 90000
-#   - closeSession - optional - if false SSH session will be cached for future calls during the life of the flow, if true the SSH session used will be closed; Valid: true, false - Default: false
-# Outputs:
-#   - container_ip - IP of the specified container
-#   - error_message - error message
-# Results:
-#   - SUCCESS
-#   - FAILURE
+#!!
+#! @description: Gets the IP of the specified Docker container.
+#! @input container_name: container name
+#! @input host: Docker machine host
+#! @input port: optional - SSH port
+#! @input username: Docker machine username
+#! @input password: Docker machine password
+#! @input private_key_file: optional - absolute path to private key file
+#! @input arguments: optional - arguments to pass to the command
+#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
+#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input timeout: optional - time in milliseconds to wait for command to complete
+#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#!                       if 'true' the SSH session used will be closed;
+#!                       Valid: true, false
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#! @output container_ip: IP of the specified container
+#! @output error_message: error message
+#! @result SUCCESS: Docker container IP retrieved sucessfully
+#! @result FAILURE: there was an error while trying to retrieve the Docker container IP address
+#!!#
 ####################################################
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_container_ip
   inputs:
     - container_name
-    - command: >
-        "docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name
+    - command:
+        default: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
+        private: true
     - host
     - port:
         required: false
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:
         required: false
-    - characterSet:
+    - character_set:
         required: false
     - pty:
         required: false
     - timeout:
         required: false
-    - closeSession:
+    - close_session:
         required: false
-    - agentForwarding:
+    - agent_forwarding:
         required: false
 
   workflow:
@@ -67,22 +71,21 @@ flow:
             - port
             - username
             - password
-            - privateKeyFile
+            - private_key_file
             - command
             - arguments
-            - characterSet
+            - character_set
             - pty
             - timeout
-            - closeSession
-            - agentForwarding
+            - close_session
+            - agent_forwarding
         publish:
-          - returnResult
+          - return_result
           - standard_err
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
-    - container_ip: returnResult[:-1]
-    - error_message: standard_err
+    - container_ip: ${return_result[:-1]}
+    - error_message: ${standard_err}

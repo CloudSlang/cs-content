@@ -6,49 +6,50 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-#  Retrieves parsed key data.
-#
-#  Inputs:
-#    - host - Consul agent host
-#    - consul_port - optional - Consul agent port - Default: 8500
-#    - key_name - name of key to retrieve
-#  Outputs:
-#    - decoded - parsed response
-#    - key - key name
-#    - flags - key flags
-#    - create_index - key create index
-#    - value - key value
-#    - modify_index - key modify index
-#    - lock_index - key lock index
-#    - errorMessage - returnResult if there was an error
-#  Results:
-#    - SUCCESS - parsing was successful (returnCode == '0')
-#    - FAILURE - otherwise
+#!!
+#! @description: Retrieves parsed key data.
+#! @input host: Consul agent host
+#! @input consul_port: optional - Consul agent port - Default: '8500'
+#! @input key_name: name of key to retrieve
+#! @output decoded: parsed response
+#! @output key: key name
+#! @output flags: key flags
+#! @output create_index: key create index
+#! @output value: key value
+#! @output modify_index: key modify index
+#! @output lock_index: key lock index
+#! @output error_message: return_result if there was an error
+#! @result SUCCESS: parsing was successful (return_code == '0')
+#! @result FAILURE: otherwise
+#!!#
 ####################################################
 
 namespace: io.cloudslang.consul
+
+imports:
+  consul: io.cloudslang.consul
 
 flow:
   name: report_kv
   inputs:
     - host
     - consul_port:
-        default: "'8500'"
+        default: "8500"
         required: false
     - key_name
   workflow:
     - retrieve_key:
         do:
-          get_kv:
+          consul.get_kv:
             - key_name
             - host
             - consul_port
         publish:
-          - returnResult
+          - return_result
     - parse_key:
         do:
-          parse_key:
-            - json_response: returnResult
+          consul.parse_key:
+            - json_response: ${return_result}
         publish:
           - decoded
           - key
@@ -57,7 +58,7 @@ flow:
           - value
           - modify_index
           - lock_index
-          - errorMessage
+          - error_message
   outputs:
     - decoded
     - key
@@ -66,7 +67,7 @@ flow:
     - value
     - modify_index
     - lock_index
-    - errorMessage
+    - error_message
   results:
     - SUCCESS
     - FAILURE

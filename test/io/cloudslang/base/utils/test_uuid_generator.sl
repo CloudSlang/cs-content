@@ -9,30 +9,29 @@
 namespace: io.cloudslang.base.utils
 
 imports:
+  utils: io.cloudslang.base.utils
   strings: io.cloudslang.base.strings
 
 flow:
   name: test_uuid_generator
+
   workflow:
     - execute_uuid_generator:
         do:
-          uuid_generator:
-
+          utils.uuid_generator:
         publish:
           - new_uuid
         navigate:
-          SUCCESS: verify_output_is_not_empty
-          FAILURE: FAILURE
+          - SUCCESS: verify_output_is_not_empty
     - verify_output_is_not_empty:
         do:
           strings.string_equals:
-            - first_string: "''"
-            - second_string: new_uuid
+            - first_string: ''
+            - second_string: ${ new_uuid }
         navigate:
-          SUCCESS: OUTPUT_IS_EMPTY
-          FAILURE: SUCCESS
+          - SUCCESS: OUTPUT_IS_EMPTY
+          - FAILURE: SUCCESS
 
   results:
     - SUCCESS
-    - FAILURE
     - OUTPUT_IS_EMPTY
