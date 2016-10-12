@@ -4,10 +4,7 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
-# NUTANIX TEST FLOW
-# This flow tests Nutanix cloning
-#  - Clone a virtual machine
+
 ####################################################
 testVMsCloneLocal:
   inputs:

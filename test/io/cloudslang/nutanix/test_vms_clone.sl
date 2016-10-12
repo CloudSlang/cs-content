@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -40,7 +40,7 @@ flow:
   workflow:
     - nutanix_create_resource_vm_clone:
         do:
-          nutanix.beta.create_resource_vmclonedto:
+          nutanix.beta_create_resource_vmclonedto:
             - name
             - num_vcpus
             - memory_mb
