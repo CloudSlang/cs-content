@@ -66,14 +66,16 @@ operation:
         sensitive: true
     - amazon_api
     - amazonApi:
-        default: ${amazon_api}
+        default: ${get("amazon_api", "")}
+        required: false
         private: true
     - uri:
         default: '/'
         required: false
     - http_verb: 'GET'
     - httpVerb:
-        default: ${http_verb}
+        default: $(get("http_verb", "")}
+        required: false
         private: true
     - payload_hash:
         required: false
