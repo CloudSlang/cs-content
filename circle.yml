@@ -7,6 +7,13 @@
 #
 ####################################################
 
+# ENV VARS SET IN CIRCLE UI:
+# - BUILD_MODE: set to a value - e.g. CHANGES_ONLY to activate (this is POC mode)
+# - DO_API_TOKEN
+# - DO_DROPLET_SSH_PRIVATE_KEY
+# - DO_DROPLET_SSH_PUBLIC_KEY_ID
+# - DO_REGION
+
 general:
   artifacts:
     - "./cslang-builder/logs/builder.log"
@@ -27,6 +34,7 @@ machine:
     DROPLETS_FILE_2: "droplets_${CIRCLE_BUILD_NUM}_2.txt"
     COREOS_PLACEHOLDERS_1: '<coreos_host_1> <coreos_host_2> <coreos_host_3>'
     COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
+    CHANGES_ONLY_BUILD_MODE: '[ "${CIRCLE_BRANCH}" != "master" ] && [ -n $BUILD_MODE ]'
 
     JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
@@ -37,15 +45,21 @@ machine:
 
 dependencies:
   override:
+    - echo ${CIRCLE_BRANCH}
+    - echo ${BUILD_MODE}
+    - ? >
+        if eval "${CHANGES_ONLY_BUILD_MODE}";
+        then echo 'Build mode: CHANGES_ONLY'
+        && chmod +x ci-env/circleci/setup_changes_only_mode.sh
+        && ci-env/circleci/setup_changes_only_mode.sh;
+        else echo 'Build mode: BASIC';
+        fi
+      : parallel: true
     - docker info
     - docker images
-
-test:
-  pre:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-        then docker run -d -p 49165:8080 jenkins
-        && docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
+        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
         && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
         && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
         fi
@@ -65,7 +79,7 @@ test:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-0.9.71/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.1/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -85,12 +99,18 @@ test:
         ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
+
+test:
   override:
     - ? >
-        case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov ;;
-        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov ;;
-        2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov ;;
+        if eval "${CHANGES_ONLY_BUILD_MODE}";
+        then CHANGES_PARAM="--changes-only $(pwd)/changed_items.txt";
+        else CHANGES_PARAM="";
+        fi
+        && case ${CIRCLE_NODE_INDEX} in
+        0) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_0.properties ${CHANGES_PARAM} ;;
+        1) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_1.properties ${CHANGES_PARAM} ;;
+        2) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_2.properties ${CHANGES_PARAM} ;;
         esac
       : parallel: true
   post:

@@ -26,8 +26,8 @@
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
 #! @output result: ID of the container that was stopped
-#! @result SUCCESS:
-#! @result FAILURE:
+#! @result SUCCESS: Docker container stopped successfully
+#! @result FAILURE: there was an error while trying to stop the Docker container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers

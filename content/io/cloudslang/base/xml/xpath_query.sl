@@ -14,6 +14,7 @@
 #!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
 #! @input xpath_query: xpath query
+#!                     Example: '/root/child/'
 #! @input query_type: type of selection result from query
 #!                    attribute value; leave empty if setting the value of
 #!                    valid: 'node', 'nodelist' or 'value'
@@ -76,7 +77,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.7'
+    gav: 'io.cloudslang.content:cs-xml:0.0.9'
     class_name: io.cloudslang.content.xml.actions.XpathQuery
     method_name: execute
 

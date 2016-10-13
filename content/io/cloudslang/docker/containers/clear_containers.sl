@@ -14,6 +14,8 @@
 #! @input private_key_file: optional - path to private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: '6000000'
 #! @input port: optional - SSH port
+#! @result SUCCESS: Docker images deleted successfully
+#! @result FAILURE: there was an error while trying to delete Docker containers
 #!!#
 ####################################################
 

@@ -26,6 +26,8 @@
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
 #! @output standard_err: error message
 #! @output return_result: list of running processes on the container
+#! @result SUCCESS: the list of running processes on that specific container retrieved sucessfully
+#! @result FAILURE: there was an error while trying to retrieve the list of running processes from the container
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers

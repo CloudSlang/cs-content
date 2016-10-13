@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.math
 
 imports:
-  utils: io.cloudslang.base.utils
+  math: io.cloudslang.base.math
   comparisons: io.cloudslang.base.comparisons
 
 flow:
@@ -22,7 +22,7 @@ flow:
   workflow:
     - execute_random_number_generator:
         do:
-          utils.random_number_generator:
+          math.random_number_generator:
             - min
             - max
         publish:

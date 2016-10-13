@@ -22,6 +22,7 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed - Valid: true, false
 #! @output disk_space: percentage - Example: 50%
+#! @output cpu: percentage of the CPU used
 #! @output error_message: error message if error occurred
 #! @result SUCCESS: operation finished successfully
 #! @result FAILURE: otherwise

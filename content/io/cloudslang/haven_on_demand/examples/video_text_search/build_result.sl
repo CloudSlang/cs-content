@@ -4,11 +4,13 @@
 #!
 #! @input item_text: HTML text of a result retrieved from the query response
 #! @input query_result: result object retrieved from the query response
-#! @output index: index in the results of the found term
-#! @output snippet_radius: number of words to display surrounding found term
+#! @input index: index in the results of the found term
+#! @input snippet_radius: number of words to display surrounding found term
 #!                         (snippet will be twice the size of this number)
 #!                         default: 5
-#! @result item_added: <item_text> with new list item added
+#! @output item_added: <item_text> with new list item added
+#! @result SUCCESS: HTML list item built successfully
+#! @result FAILURE: there was an error while trying to build the HTML list item
 #!!#
 ####################################################
 

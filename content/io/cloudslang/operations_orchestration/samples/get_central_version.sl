@@ -27,6 +27,8 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by operation
 #! @output response_headers: response headers string from the HTTP Client REST call
+#! @result SUCCESS: Central version retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the Central version
 #!!#
 ####################################################
 

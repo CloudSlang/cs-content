@@ -71,20 +71,8 @@ flow:
             - string_in_which_to_search: ${ image_list }
             - string_to_find: ${ image_name }
         navigate:
-          - SUCCESS: clear_image
-          - FAILURE: FAILURE
-
-    - clear_image:
-        do:
-          images.clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: ${ image_name }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAIL_CLEAR_IMAGE
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
@@ -92,4 +80,3 @@ flow:
     - FAIL_PULL_IMAGE
     - FAIL_GET_ALL_IMAGES
     - FAILURE
-    - FAIL_CLEAR_IMAGE

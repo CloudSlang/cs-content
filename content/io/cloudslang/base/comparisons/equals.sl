@@ -10,8 +10,8 @@
 #! @description: Compares two inputs for Python equality (==).
 #! @input first: first Python object to compare
 #! @input second: second Python object to compare
-#! @result EQUAL: object are equal
-#! @result NOT_EQUAL: objects are not equal
+#! @result TRUE: object are equal
+#! @result FALSE: objects are not equal
 #!!#
 ####################################################
 
@@ -23,5 +23,5 @@ decision:
     - first
     - second
   results:
-    - EQUALS: ${ first == second }
-    - NOT_EQUALS
+    - 'TRUE': ${ first == second }
+    - 'FALSE'

@@ -109,10 +109,13 @@ flow:
 
   outputs:
     - image_list: >
-          ${ return_result.replace("\n"," ")
+          ${
+          return_result.replace("\n"," ")
           .replace("<none>:<none> ","")
           .replace(":latest", "")
-          .replace("REPOSITORY:TAG ","") }
+          .replace("REPOSITORY:TAG ","")
+          .strip()
+          }
   results:
     - SUCCESS
     - FAILURE

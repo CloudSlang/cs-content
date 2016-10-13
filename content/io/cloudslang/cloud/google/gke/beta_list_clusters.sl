@@ -28,6 +28,8 @@
 #! @output error_message: return_result if return_code is '-1'
 #! @output response: JSON response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise
+#! @result SUCCESS: clusters retrieved successfully
+#! @result FAILURE: something went wrong while retrieving clusters
 #!!#
 ####################################################
 
@@ -65,3 +67,7 @@ operation:
     - error_message: ${return_result if return_code == '-1' else ''}
     - response
     - return_code
+
+  results:
+    - SUCCESS : ${return_code == '0'}
+    - FAILURE

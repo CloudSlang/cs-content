@@ -55,6 +55,9 @@ flow:
         do:
           utils.is_true:
             - bool_value: ${'status_code' in locals() and status_code == '200'}
+        navigate:
+            - 'TRUE': SUCCESS
+            - 'FALSE': FAILURE
   outputs:
     - return_result
     - error_message

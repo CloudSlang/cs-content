@@ -28,4 +28,6 @@ operation:
       value2 = BigDecimal(value2, MathContext.DECIMAL64)
       result = value1.multiply(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
   outputs:
-     - result: ${ str(result) }
+     - result: ${str(result)}
+  results:
+     - SUCCESS

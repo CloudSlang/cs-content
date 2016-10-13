@@ -9,6 +9,7 @@
 #!!
 #! @description: Generates a UUID.
 #! @output result: new uuid
+#! @result SUCCESS: uuid generated successfully
 #!!#
 ########################################################################################################
 
@@ -23,3 +24,5 @@ operation:
       new_uuid = str(uuid.uuid1())
   outputs:
     - result: ${new_uuid}
+  results:
+    - SUCCESS

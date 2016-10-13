@@ -41,8 +41,8 @@ flow:
           utils.is_true:
             - bool_value: ${is_core_os}
         navigate:
-          - SUCCESS: setup_marathon_core_os
-          - FAILURE: setup_marathon_docker_host
+          - 'TRUE': setup_marathon_core_os
+          - 'FALSE': setup_marathon_docker_host
 
     - setup_marathon_core_os:
         do:

@@ -47,6 +47,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: text index created successfully
+#! @result FAILURE: there was an error while trying to create text index
 #!!#
 ####################################################
 

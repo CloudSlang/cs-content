@@ -14,7 +14,7 @@
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code is equal to '-1' or status_code different than '200'
 #! @output return_code: if return_code is equal to '-1' then there was an error
-#! @output statusCode: normal status code is '200'
+#! @output status_code: normal status code is '200'
 #! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
 #! @result FAILURE: otherwise
 #!!#
