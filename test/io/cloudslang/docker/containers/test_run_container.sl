@@ -80,25 +80,12 @@ flow:
             - first_string: ${ image_name + " " }
             - second_string: ${list}
         navigate:
-          - SUCCESS: clear_docker_host
-          - FAILURE: VEFIFYFAILURE
-
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
+          - FAILURE: VEFIFYFAILURE
 
   results:
     - SUCCESS
     - PREREQUST_MACHINE_IS_NOT_CLEAN
-    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAILURE
     - FAIL_RUN_IMAGE

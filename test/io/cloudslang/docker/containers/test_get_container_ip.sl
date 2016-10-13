@@ -83,19 +83,8 @@ flow:
             - regex: ${'^\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}$'}
             - text: ${ip}
         navigate:
-          - MATCH: clear_docker_host
+          - MATCH: SUCCESS
           - NO_MATCH: VEFIFYFAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
