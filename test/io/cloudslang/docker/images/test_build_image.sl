@@ -129,21 +129,8 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          - SUCCESS: post_clear_docker_host
-          - FAILURE: REMOVE_DOCKERFILE_PROBLEM
-
-    - post_clear_docker_host:
-        do:
-          maintenance.clear_host:
-            - docker_host: ${ host }
-            - port
-            - docker_username: ${ username }
-            - docker_password: ${ password }
-            - private_key_file
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: POST_CLEAR_DOCKER_HOST_PROBLEM
-
+          - FAILURE: REMOVE_DOCKERFILE_PROBLEM
   results:
     - SUCCESS
     - FAILURE
@@ -152,4 +139,3 @@ flow:
     - GET_ALL_IMAGES_PROBLEM
     - VERIFY_IMAGE_EXISTS_PROBLEM
     - REMOVE_DOCKERFILE_PROBLEM
-    - POST_CLEAR_DOCKER_HOST_PROBLEM

@@ -19,14 +19,14 @@ namespace: io.cloudslang.base.maps
 operation:
   name: get_keys
   inputs:
-     - map
+    - map
   python_action:
     script: |
-       import ast
-       map = ast.literal_eval(map)
-       keys=[]
-       for key, item in map.items():
-          keys.append(str(key))
+      import ast
+      map = ast.literal_eval(map)
+      keys=[]
+      for key, item in map.items():
+        keys.append(str(key))
   outputs:
     - result: ${str(keys)}
   results:

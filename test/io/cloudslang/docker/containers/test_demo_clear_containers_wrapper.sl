@@ -132,20 +132,8 @@ flow:
             - first_string: ${all_containers}
             - second_string: ''
         navigate:
-          - SUCCESS: clear_docker_host
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-            - private_key_file
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

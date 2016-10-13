@@ -13,22 +13,28 @@ The following is an overview of what is included in the ready-made content:
 
 + **cloudslang**
   + **base:** This folder contains general purpose content.
-    + **cmd:** Shell command content.
-    + **comparisons:** Comparison content.
-    + **files:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.
+    + **cmd:** Local shell command content, such as: run command.
+    + **comparisons:** Comparison content, such as: equals and less than percentage.
+    + **datetime:** Date/Time content, such as: get, parse and offset time.
+    + **filesystem:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.
+    + **flow_control:** Flow control content, such as: sleep.
+    + **http:** Http REST calls, such as: GET, POST, DELETE, PUT, TRACE, PATCH.
     + **json:** JSON related content.
     + **lists:** List manipulation.
     + **mail:** Email related content.
-    + **math:** Numeric operations.
-    + **network:** Network related actions, such as: pinging and performing REST calls.
-    + **os:** Content for working with operating systems, such as determining the OS, checking disk space and validating SSH access.
+    + **maps:** Maps related content, such as: get keys and values.
+    + **math:** Numeric operations, such as: add, divide, multiply, round and subtract numbers.
+    + **network:** Network related actions, such as: ping and wait port open.
+    + **os:** Content for working with operating systems, such as: determining the OS, checking disk space and validating SSH access.
     + **print:** Printing text.
-    + **remote_command_execution:**
-      + **remote_file_transfer:** Remote file transfer related content.
-      + **ssh:** SSH command related content.
+    + **remote_file_transfer:** Remote file transfer related content.
+    + **scripts:** Various scripts, such as: Python and PowerShell.
+    + **ssh:** SSH command related content.
     + **strings:** String actions and manipulations, such as: match, replace, occurrence counter.
-    + **utils:** Utility actions, such as: random number generator, sleep, uuid generator.         
+    + **utils:** Utility actions, such as: base64 encoder and decoder, is true, uuid generator.
+    + **xml:** XML related actions, such as: edit and validate XML.
   + **chef:** [Chef](https://www.chef.io/) is a systems and cloud infrastructure automation framework for deploying servers and applications to any physical, virtual, or cloud location. This folder contains content for bootstrapping nodes, adding/removing rules and/or recipes, and deleting nodes.
+  + **ci:** CircleCI related content.
   + **cloud:**
     + **amazon_aws:** [Amazon Web Services (AWS)](https://aws.amazon.com/) is a collection of remote computing services that make up a cloud-computing platform. This folder contains content for starting, stopping and listing servers.
     + **digital_ocean/v2:** [DigitalOcean](https://www.digitalocean.com/) is a cloud infrastructure provider focused on simplifying web infrastructure for software developers. This folder contains content for dealing with droplets, such as: create, list and delete.
