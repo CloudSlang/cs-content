@@ -74,7 +74,7 @@
 #! @input network_interface_public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to associate the IP address with spacified network interface
 #!!#
@@ -85,7 +85,8 @@ operation:
   name: associate_address
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity
     - credential:
         sensitive: true
@@ -96,6 +97,7 @@ operation:
         private: true
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
@@ -109,9 +111,11 @@ operation:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
         private: true
+        sensitive: true
         required: false
     - version
     - headers:

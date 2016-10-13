@@ -41,7 +41,7 @@
 #!                              Example: 'eni-12345678'
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to delete the specified network interface
 #!!#
@@ -52,7 +52,8 @@ operation:
   name: delete_network_interface
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity
     - credential:
         sensitive: true
@@ -92,8 +93,9 @@ operation:
     - version
     - network_interface_id
     - networkInterfaceId:
-        default: ${network_interface_id}
+        default: ${get("network_interface_id", "")}
         private: true
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'

@@ -46,7 +46,7 @@
 #!                                     Default: ''
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output exception: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to disassociate specified IP address
 #!!#
@@ -57,7 +57,8 @@ operation:
   name: disassociate_address
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity
     - credential:
         sensitive: true
@@ -81,9 +82,11 @@ operation:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
         private: true
+        sensitive: true
         required: false
     - headers:
         default: ''
