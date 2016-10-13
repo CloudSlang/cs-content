@@ -12,7 +12,7 @@
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input username: username to connect as
 #! @input password: optional - password of user
-#! @input arguments: optional - arguments to pass to the command
+#! @input command: optional - arguments to pass to the command
 #! @input private_key_file: optional - absolute path to private key file - Default: none
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
 #! @input character_set: optional - character encoding used for input stream encoding from target machine
@@ -36,7 +36,6 @@
 #!!#
 ####################################################
 
-
 namespace: io.cloudslang.new_relic.servers
 
 imports:
@@ -51,7 +50,7 @@ flow:
     - password:
         sensitive: true
     - command
-    - closeSession:
+    - close_session:
         required: false
         default: ''
     - private_key_file:
@@ -72,7 +71,7 @@ flow:
             - port
             - username
             - password
-            - closeSession
+            - close_session
             - command: "/etc/init.d/newrelic-sysmond stop"
             - timeout
             - private_key_file

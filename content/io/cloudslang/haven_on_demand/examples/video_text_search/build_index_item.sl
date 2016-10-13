@@ -6,6 +6,8 @@
 #! @input title: title for video to be added to the index
 #! @input url: YouTube url for the video
 #! @output json_index_item: JSON representation of item to add to the index
+#! @result SUCCESS: index item created successfully from the result
+#! @result FAILURE: there was an error while trying to create item index
 #!!#
 ####################################################
 

@@ -9,6 +9,7 @@
 #! @description: Trims string.
 #! @input origin_string: string - Example: " good "
 #! @output new_string: string in which all whitespace characters have been stripped of both sides of the string
+#! @result SUCCESS: string trimmed successfully
 #!!#
 ####################################################
  namespace: io.cloudslang.base.strings
@@ -22,3 +23,5 @@
        new_string=origin_string.strip()
    outputs:
      - new_string
+   results:
+     - SUCCESS

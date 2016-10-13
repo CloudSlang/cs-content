@@ -17,6 +17,8 @@
 #!                    default: '8080'
 #! @output references: references to content from the container file
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: container files content extracted successfully
+#! @result FAILURE: there was an error while trying to extract content from the container files
 #!!#
 ####################################################
 

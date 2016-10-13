@@ -3,8 +3,10 @@
 #! @description: Performs a search in the response_headers to get the specified header value.
 #! @input response_headers: response headers string from an HTTP Client REST call
 #! @input header_name: name of header to get value for
-#! @output return_result: specified header value in case of success, error message otherwise
+#! @output result: specified header value in case of success, error message otherwise
 #! @output error_message: exception if occurs
+#! @result SUCCESS: retrieved specified header value
+#! @result FAILURE: there was an error retrieving header value
 #!!#
 ####################################################
 

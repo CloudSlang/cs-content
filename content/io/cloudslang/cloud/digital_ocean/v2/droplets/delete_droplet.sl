@@ -17,6 +17,8 @@
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #! @output response: raw response of the API call
+#! @result SUCCESS: droplet deleted successfully
+#! @result FAILURE: something went wrong while trying to delete droplet
 #!!#
 ########################################################################################################
 namespace: io.cloudslang.cloud.digital_ocean.v2.droplets

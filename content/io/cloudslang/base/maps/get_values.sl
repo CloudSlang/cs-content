@@ -10,6 +10,7 @@
 #! @description: Gets values from a map.
 #! @input map: map - Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
 #! @output result: values from map
+#! @result SUCCESS: values retrieved successfully
 #!!#
 ####################################################
 
@@ -30,4 +31,6 @@ operation:
          else:
             values.append(value)
   outputs:
-    - result: ${ str(values) }
+    - result: ${str(values)}
+  results:
+    - SUCCESS

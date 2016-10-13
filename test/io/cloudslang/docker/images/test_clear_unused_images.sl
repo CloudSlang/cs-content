@@ -85,7 +85,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: verify_used_images
           - FAILURE: FAIL_GET_USED_IMAGES
@@ -93,7 +93,7 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: ${ image_name1 + ' ' }
+            - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
           - SUCCESS: clear_unused_images
@@ -132,7 +132,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: validate_image_list
           - FAILURE: FAIL_GET_ALL_IMAGES
@@ -140,7 +140,7 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: ${ image_name1 + ' ' }
+            - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
           - SUCCESS: clear_host

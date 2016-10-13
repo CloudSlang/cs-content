@@ -26,6 +26,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#! @result SUCCESS: GIT directory was reset successfully
+#! @result FAILURE: there was an error while trying to reset GIT directory and/or while trying to clean it
 #!!#
 ####################################################
 namespace: io.cloudslang.git

@@ -62,7 +62,7 @@ dependencies:
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.RC1/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.RC2/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib
@@ -87,9 +87,9 @@ test:
   override:
     - ? >
         case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov ;;
-        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov ;;
-        2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov ;;
+        0) ./cslang-builder/bin/cslang-builder -ts default,jenkins,consul,http,rest,mail -cov -des ;;
+        1) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_1} -cov -des ;;
+        2) ./cslang-builder/bin/cslang-builder -ts ${ACTIVE_CI_TEST_SUITES_DROPLETS_NODE_2} -cov -des ;;
         esac
       : parallel: true
   post:

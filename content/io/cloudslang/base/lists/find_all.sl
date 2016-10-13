@@ -7,6 +7,7 @@
 #! @input ignore_case: whether to ignore case when finding matches
 #!                     default: false
 #! @output indices: list of indices where <element> was found in <list>
+#! @result SUCCESS: element(s) found in list
 #!!#
 ####################################################
 
@@ -29,4 +30,6 @@ operation:
         indices = [i for i, x in enumerate(list.split(",")) if x == element]
 
   outputs:
-    - indices: ${ str(indices) }
+    - indices: ${str(indices)}
+  results:
+    - SUCCESS

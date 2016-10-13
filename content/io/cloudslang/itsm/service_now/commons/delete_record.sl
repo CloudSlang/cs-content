@@ -42,6 +42,8 @@
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#! @result SUCCESS: record deleted successfully
+#! @result FAILURE: there was an error while trying to delete the record
 #!!#
 ################################################
 

@@ -75,3 +75,30 @@ testSSHWorksWhenPTYtrue:
   testFlowPath: io.cloudslang.base.ssh.ssh_flow
   testSuites: [docker,docker-misc]
   result: SUCCESS
+
+testSSHWorksWithProxy:
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - command: "echo testing\nexit\n"
+    - username: root
+    - password: screencast
+    - proxy_host: <proxy_host>
+    - connect_timeout: '0'
+  description: Tests ssh actually works when proxy is defined
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+  testSuites: [ssh-local]
+  result: SUCCESS
+
+testSSHFailsWhenHostPolicyIsStrict:
+  inputs:
+    - host: localhost
+    - port: "49153"
+    - command: "echo testing\nexit\n"
+    - username: root
+    - password: screencast
+    - known_hosts_policy: strict
+  description: Tests ssh actually works when known hosts policy is strict
+  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+  testSuites: [docker,docker-misc]
+  result: FAILURE
