@@ -148,7 +148,7 @@ flow:
           http.http_client_delete:
             - url
             - auth_type
-            - headers: "${'Authorization: Bearer ' + auth_token}"
+            - headers: "${'Authorization: ' + auth_token}"
             - username
             - password
             - preemptive_auth

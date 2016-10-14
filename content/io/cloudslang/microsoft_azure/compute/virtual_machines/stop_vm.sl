@@ -140,7 +140,7 @@ flow:
             - url
             - headers: >
                      ${'Content-Length: 0' + '\n' +
-                     'Authorization: Bearer '+ auth_token}
+                     'Authorization: '+ auth_token}
             - auth_type
             - content_type
             - username

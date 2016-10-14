@@ -129,7 +129,7 @@ flow:
         do:
           http.http_client_get:
             - url
-            - headers: "${'Authorization: Bearer ' + auth_token}"
+            - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - content_type
             - proxy_host

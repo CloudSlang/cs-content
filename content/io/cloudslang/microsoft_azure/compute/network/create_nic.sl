@@ -150,7 +150,7 @@ flow:
           http.http_client_put:
             - url
             - body: ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '}"}}}]}}'}
-            - headers: "${'Authorization: Bearer ' + auth_token}"
+            - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
             - password

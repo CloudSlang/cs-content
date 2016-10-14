@@ -12,8 +12,10 @@
 #! @input username: Azure username
 #! @input password: Azure password
 #! @input client_id: Service Client ID
-#! @input authority: the authority URL
-#! @input resource: the resource URL
+#! @input authority: optional - the authority URL
+#!                   Default: 'https://sts.windows.net/common'
+#! @input resource: optional - the resource URL
+#!                  Default: 'https://management.azure.com/'
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
@@ -36,13 +38,18 @@ operation:
   inputs:
     - username
     - password
-    - client_id
+    - client_id:
+        required: false
     - clientId:
         default: ${get("client_id", "")}
         required: false
         private: true
-    - authority
-    - resource
+    - authority:
+        required: false
+        default: 'https://sts.windows.net/common'
+    - resource:
+        required: false
+        default: 'https://management.azure.com/'
     - proxy_host:
         required: false
     - proxyHost:
