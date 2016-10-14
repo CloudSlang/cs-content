@@ -191,15 +191,6 @@ flow:
         required: false
 
   workflow:
-    - get_auth_token:
-        do:
-          auth.get_auth_token:
-        publish:
-          - auth_token
-        navigate:
-          - SUCCESS: create_linux_machine
-          - FAILURE: FAILURE
-
     - create_linux_machine:
         do:
           http.http_client_put:

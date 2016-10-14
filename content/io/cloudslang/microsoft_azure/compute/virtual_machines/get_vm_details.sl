@@ -123,15 +123,6 @@ flow:
         required: false
 
   workflow:
-    - get_auth_token:
-        do:
-          auth.get_auth_token:
-        publish:
-          - auth_token
-        navigate:
-          - SUCCESS: get_information_about_vm
-          - FAILURE: FAILURE
-
     - get_information_about_vm:
         do:
           http.http_client_get:

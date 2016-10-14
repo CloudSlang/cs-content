@@ -21,7 +21,7 @@
 #!!#
 ####################################################
 
-namespace: io.cloudslang.cloud.azure
+namespace: io.cloudslang.microsoft_azure.utility
 
 operation:
   name: get_shared_access_key_token
