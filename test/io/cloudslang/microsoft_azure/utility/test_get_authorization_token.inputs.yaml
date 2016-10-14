@@ -9,7 +9,7 @@
 
 testGetAutorizationTokenSuccess:
   description: 'Test that you receive a valid autorization_token'
-  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  testFlowPath: io.cloudslang.microsoft_azure.utility.get_shared_access_key_token
   inputs:
     - identifier: '53dd860e1b72ff0467030003'
     - primary_or_secondary_key: 'pXeTVcmdbU9XxH6fPcPlq8Y9D9G3Cdo5Eh2nMSgKj/DWqeSFFXDdmpz5Trv+L2hQNM+nGa704Rf8Z22W9O1jdQ=='
@@ -20,7 +20,7 @@ testGetAutorizationTokenSuccess:
 
 testGetAutorizationTokenSuccess2:
   description: 'Test that you receive a valid autorization_token2'
-  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  testFlowPath: io.cloudslang.microsoft_azure.utility.get_shared_access_key_token
   inputs:
     - identifier: '123'
     - primary_or_secondary_key: '321'
@@ -32,7 +32,7 @@ testGetAutorizationTokenSuccess2:
 
 testGetAutorizationTokenFailsBlankInputs:
   description: 'Test blank inputs'
-  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  testFlowPath: io.cloudslang.microsoft_azure.utility.get_shared_access_key_token
   inputs:
     - identifier: ' '
     - primary_or_secondary_key: ' '
@@ -45,7 +45,7 @@ testGetAutorizationTokenFailsBlankInputs:
 
 testGetAutorizationTokenFailsParseDate:
   description: 'Test that you receive an error when you give an invalid date'
-  testFlowPath: io.cloudslang.cloud.azure.get_authorization_token
+  testFlowPath: io.cloudslang.microsoft_azure.utility.get_shared_access_key_token
   inputs:
     - identifier: '53dd860e1b72ff0467030003'
     - primary_or_secondary_key: 'pXeTVcmdbU9XxH6fPcPlq8Y9D9G3Cdo5Eh2nMSgKj/DWqeSFFXDdmpz5Trv+L2hQNM+nGa704Rf8Z22W9O1jdQ=='
