@@ -15,7 +15,6 @@
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
-#! @input auth_token:
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
