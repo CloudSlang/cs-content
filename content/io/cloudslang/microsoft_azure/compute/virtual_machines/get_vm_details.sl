@@ -15,6 +15,7 @@
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
+#! @input auth_token: Azure authorization Bearer token
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -55,6 +56,7 @@
 #!                                Default: "false"
 #!
 #! @output output: json response about the model view of a virtual machine
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
 #! @result SUCCESS: virtual machine details retrieved successfully.
@@ -65,7 +67,6 @@
 namespace: io.cloudslang.microsoft_azure.compute.virtual_machines
 
 imports:
-  auth: io.cloudslang.microsoft_azure.utility
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
@@ -77,6 +78,7 @@ flow:
     - subscription_id
     - resource_group_name
     - vm_name
+    - auth_token
     - url:
         default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '?api-version=2015-06-15'}
     - auth_type:
@@ -123,15 +125,6 @@ flow:
         required: false
 
   workflow:
-    - get_auth_token:
-        do:
-          auth.get_auth_token:
-        publish:
-          - auth_token
-        navigate:
-          - SUCCESS: get_information_about_vm
-          - FAILURE: FAILURE
-
     - get_information_about_vm:
         do:
           http.http_client_get:
@@ -190,6 +183,7 @@ flow:
 
   outputs:
     - output
+    - status_code
     - error_message
 
   results:

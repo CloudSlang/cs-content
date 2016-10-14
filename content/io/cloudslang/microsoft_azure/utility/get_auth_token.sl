@@ -7,10 +7,22 @@
 #
 ####################################################
 #!!
-#! @description: Performs a Bearer token request.
+#! @description: This operation retrieves the authentication Bearer token for Azure
 #!
-#! @input command: POC command to generate Bearer token
-#! @output auth_token: generated Bearer token
+#! @input username: Azure username
+#! @input password: Azure password
+#! @input client_id: Service Client ID
+#! @input authority: the authority URL
+#! @input resource: the resource URL
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port - Default: '8080'
+#! @input proxy_username: optional - user name used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#!
+#! @output auth_token: the authorization Bearer token for Azure
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output exception: an error message in case there was an error while generating the Bearer token
+#!
 #! @result SUCCESS: Bearer token generated successfully
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
@@ -18,42 +30,56 @@
 
 namespace: io.cloudslang.microsoft_azure.utility
 
-imports:
-  cmd: io.cloudslang.base.cmd
-  strings: io.cloudslang.base.strings
 
-flow:
+operation:
   name: get_auth_token
-
   inputs:
-    - command: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe "& "c:\users\moldovas\desktop\azure\get_token.ps1""'
+    - username
+    - password
+    - client_id
+    - clientId:
+        default: ${get("client_id", "")}
+        required: false
+        private: true
+    - authority
+    - resource
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get("proxy_host", "")}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get("proxy_port", "8080")}
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get("proxy_username", "")}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+        sensitive: true
+    - proxyPassword:
+        default: ${get("proxy_password", "")}
+        required: false
+        private: true
+        sensitive: true
 
-  workflow:
-    - get_auth_token:
-        do:
-          cmd.run_command:
-            - command
-        publish:
-          - return_result
-        navigate:
-          - SUCCESS: filter_response
-          - FAILURE: FAILURE
-
-    - filter_response:
-        do:
-          strings.match_regex:
-            - regex: (?<='Common')(?s)(.*$)
-            - text: ${return_result}
-        publish:
-          - auth_token: ${match_text.strip()}
-        navigate:
-          - MATCH: SUCCESS
-          - NO_MATCH: FAILURE
+  java_action:
+    gav: 'io.cloudslang.content:cs-azure:0.0.2'
+    class_name: io.cloudslang.content.azure.actions.GetAuthorizationToken
+    method_name: execute
 
   outputs:
-    - auth_token
+    - auth_token: ${returnResult}
+    - return_code: ${returnCode}
+    - exception
 
   results:
-      - SUCCESS
+      - SUCCESS: ${returnCode == '0'}
       - FAILURE
 

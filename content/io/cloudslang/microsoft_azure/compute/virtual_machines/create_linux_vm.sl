@@ -96,7 +96,7 @@
 #!                                Default: "false"
 #!
 #! @output output: json response with information about the virtual machine instance
-#! @output status_code: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: Error message in case something went wrong
 #!
 #! @result SUCCESS: Linux virtual machine created successfully.
@@ -191,15 +191,6 @@ flow:
         required: false
 
   workflow:
-    - get_auth_token:
-        do:
-          auth.get_auth_token:
-        publish:
-          - auth_token
-        navigate:
-          - SUCCESS: create_linux_machine
-          - FAILURE: FAILURE
-
     - create_linux_machine:
         do:
           http.http_client_put:

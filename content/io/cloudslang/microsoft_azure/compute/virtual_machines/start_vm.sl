@@ -15,6 +15,9 @@
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
+#! @input auth_token: authentication token
+#! @input resource_group_name: resource group name
+#! @input vm_name: virtual machine name
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -55,10 +58,8 @@
 #! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
-#! @input auth_token: authentication token
-#! @input resource_group_name: resource group name
-#! @input vm_name: virtual machine name
 #!
+#! @output output: Result of the operation
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
 #!
 #! @result SUCCESS: virtual machine started successfully.
@@ -166,6 +167,7 @@ flow:
             - method
         publish:
           - status_code
+          - output: ${return_result}
         navigate:
           - SUCCESS: string_equals
           - FAILURE: FAILURE
@@ -181,6 +183,7 @@ flow:
           - FAILURE: FAILURE
 
   outputs:
+    - output
     - status_code
 
   results:

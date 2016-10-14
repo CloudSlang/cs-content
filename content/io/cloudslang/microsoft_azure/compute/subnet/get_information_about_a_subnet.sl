@@ -15,11 +15,12 @@
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
+#! @input url: url to the Azure resource
+#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
@@ -70,12 +71,12 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Information about the network interface card retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the network interface card.
+#! @result SUCCESS: Network interface card created successfully.
+#! @result FAILURE: There was an error while trying to create the network interface card.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network
+namespace: io.cloudslang.microsoft_azure.compute.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -83,15 +84,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: get_nic_name_info
+  name: get_information_about_a_subnet
   
-  inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
+  inputs: 
     - subscription_id   
-    - resource_group_name
-    - nic_name
     - auth_token
+    - resource_group_name   
+    - virtual_network_name   
+    - subnet_name
     - auth_type:
         default: 'anonymous'
         required: false
@@ -137,41 +137,51 @@ flow:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '30'
+        default: '50'
         required: false
     - connections_max_total:
-        default: '300'
+        default: '500'
         required: false
-
+    
   workflow: 
-    - get_nic_info:
+    - http_client_get:
         do:
           http.http_client_get:
-            - url
-            - headers: "${'Authorization: Bearer ' + auth_token}"
-            - auth_type
+            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
+            - headers: 'Content-Type:application/json
+Authorization:${authToken}' 
+            - auth_type: 'anonymous' 
             - username
             - password
-            - preemptive_auth
+            - preemptive_auth: 'true' 
             - proxy_host
-            - proxy_port
+            - proxy_port: '8080' 
             - proxy_username
             - proxy_password
-            - trust_all_roots
-            - x509_hostname_verifier
+            - trust_all_roots: 'false' 
+            - x509_hostname_verifier: 'strict' 
             - trust_keystore
-            - trust_password
+            - trust_password: 'changeit' 
             - keystore
-            - keystore_password
-            - use_cookies
-            - keep_alive
-            - connections_max_per_route
-            - connections_max_total
-            - request_character_set
+            - keystore_password: 'changeit' 
+            - connect_timeout: '0' 
+            - socket_timeout: '0' 
+            - use_cookies: 'true' 
+            - keep_alive: 'true' 
+            - connections_max_per_route: '30' 
+            - connections_max_total: '300' 
+            - follow_redirects: 'true' 
+            - destination_file
+            - response_character_set: 'UTF-8' 
+            - query_params
+            - query_params_are_urlencoded: 'false' 
+            - query_params_are_form_encoded: 'true' 
+            - method: 'GET' 
+        publish: 
         publish:
           - output: ${return_result}
           - status_code
-        navigate: 
+        navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -199,7 +209,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '200'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -208,8 +218,8 @@ flow:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 

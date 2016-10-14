@@ -7,7 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: Performs an HTTP request to stop a virtual machine
+#! @description: Performs an HTTP request to stop and deallocate a virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input url: url to the Azure resource
@@ -62,8 +62,8 @@
 #! @output output: Result of the operation
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
 #!
-#! @result SUCCESS: virtual machine stopped successfully.
-#! @result FAILURE: There was an error while trying to stop the virtual machine.
+#! @result SUCCESS: virtual machine stopped and was deallocated  successfully.
+#! @result FAILURE: There was an error while trying to stop and deallocate the virtual machine.
 #!!#
 ####################################################
 
@@ -74,11 +74,11 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: stop_vm
+  name: stop_and_deallocate_vm
 
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '/powerOff?api-version=2015-05-01-preview'}
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '/deallocate?api-version=2015-05-01-preview'}
     - subscription_id
     - auth_token
     - resource_group_name
