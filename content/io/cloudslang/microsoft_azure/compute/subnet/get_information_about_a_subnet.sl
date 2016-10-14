@@ -147,37 +147,28 @@ flow:
     - http_client_get:
         do:
           http.http_client_get:
-            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
-            - headers: 'Content-Type:application/json
-Authorization:${authToken}' 
-            - auth_type: 'anonymous' 
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
+            - headers: "${'Authorization: ' + auth_token}"
+            - auth_type
             - username
             - password
-            - preemptive_auth: 'true' 
+            - preemptive_auth
             - proxy_host
-            - proxy_port: '8080' 
+            - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false' 
-            - x509_hostname_verifier: 'strict' 
+            - trust_all_roots
+            - x509_hostname_verifier
             - trust_keystore
-            - trust_password: 'changeit' 
+            - trust_password
             - keystore
-            - keystore_password: 'changeit' 
-            - connect_timeout: '0' 
-            - socket_timeout: '0' 
-            - use_cookies: 'true' 
-            - keep_alive: 'true' 
-            - connections_max_per_route: '30' 
-            - connections_max_total: '300' 
-            - follow_redirects: 'true' 
-            - destination_file
-            - response_character_set: 'UTF-8' 
-            - query_params
-            - query_params_are_urlencoded: 'false' 
-            - query_params_are_form_encoded: 'true' 
-            - method: 'GET' 
-        publish: 
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+            - use_cookies
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
         publish:
           - output: ${return_result}
           - status_code
