@@ -15,10 +15,6 @@
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
@@ -27,6 +23,7 @@
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
+#! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -57,7 +54,7 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
@@ -70,12 +67,12 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Information about the network interface card retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the network interface card.
+#! @result SUCCESS: Network interface card created successfully.
+#! @result FAILURE: There was an error while trying to create the network interface card.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -83,95 +80,113 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: get_nic_name_info
+  name: update_subnet
   
-  inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
+  inputs: 
     - subscription_id   
-    - resource_group_name
-    - nic_name
     - auth_token
+    - resource_group_name   
+    - subnet_name   
+    - virtual_network_name   
+    - network_security_group_name
+    - content_type:
+        default: 'application/json'
+        required: false
     - auth_type:
-        default: 'anonymous'
+        default: "anonymous"
         required: false
     - username:
         required: false
     - password:
         required: false
-    - preemptive_auth:
-        default: 'true'
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        default: '8080'
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+    - proxy_port:
+        required: false
+        default: "8080"
+    - proxy_host:
+        required: false
     - trust_all_roots:
-        default: 'false'
+        default: "false"
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: "strict"
         required: false
     - trust_keystore:
         required: false
-    - trust_password:
         default: ''
+    - trust_password:
         required: false
+        default: ""
     - keystore:
         required: false
-    - keystore_password:
         default: ''
+    - keystore_password:
+        default: ""
         required: false
     - use_cookies:
-        default: 'true'
+        default: "true"
+        required: false
+    - keep_alive:
+        default: "true"
+        required: false
+    - connections_max_per_root:
+        default: "50"
+        required: false
+    - connections_max_total:
+        default: "500"
         required: false
     - request_character_set:
         default: 'UTF-8'
-        required: false
-    - keep_alive:
-        default: 'true'
-        required: false
-    - connections_max_per_route:
-        default: '30'
-        required: false
-    - connections_max_total:
-        default: '300'
-        required: false
-
+    
   workflow: 
-    - get_nic_info:
+    - http_client_put:
         do:
-          http.http_client_get:
-            - url
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type
+          http.http_client_put:
+            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
+            - body: '{ 
+   &quot;properties&quot;:{ 
+      &quot;addressPrefix&quot;:&quot;10.1.0.0/24&quot;,
+      &quot;networkSecurityGroup&quot;:{ 
+         &quot;id&quot;:&quot;/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${networkSecurityGroupName}&quot;
+      }
+      
+   }
+}' 
+            - headers: 'Authorization:${authToken}' 
+            - auth_type: 'anonymous' 
             - username
             - password
-            - preemptive_auth
+            - preemptive_auth: 'true' 
             - proxy_host
-            - proxy_port
+            - proxy_port: '8080' 
             - proxy_username
             - proxy_password
-            - trust_all_roots
-            - x509_hostname_verifier
+            - trust_all_roots: 'false' 
+            - x509_hostname_verifier: 'strict' 
             - trust_keystore
-            - trust_password
+            - trust_password: 'changeit' 
             - keystore
-            - keystore_password
-            - use_cookies
-            - keep_alive
-            - connections_max_per_route
-            - connections_max_total
-            - request_character_set
+            - keystore_password: 'changeit' 
+            - connect_timeout: '0' 
+            - socket_timeout: '0' 
+            - use_cookies: 'true' 
+            - keep_alive: 'true' 
+            - connections_max_per_route: '50' 
+            - connections_max_total: '500' 
+            - source_file
+            - content_type: 'application/json' 
+            - request_character_set: 'UTF-8' 
+            - destination_file
+            - response_character_set
+            - chunked_request_entity
+            - method: 'PUT' 
         publish:
           - output: ${return_result}
           - status_code
-        navigate: 
+        navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -199,7 +214,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '200'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -208,8 +223,8 @@ flow:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 

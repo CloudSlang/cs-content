@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a network interface card
+#! @description: Performs an HTTP request to create a network interface card
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
@@ -21,12 +21,12 @@
 #! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
+#! @input username: username used to connect to Azure
+#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -66,16 +66,16 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted network interface card
+#! @output output: json response about the model view of a virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Network interface card deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the network interface card.
+#! @result SUCCESS: Network interface card created successfully.
+#! @result FAILURE: There was an error while trying to create the network interface card.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -83,15 +83,13 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: delete_nic
+  name: delete_subnet
   
-  inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
+  inputs: 
     - auth_token   
-    - location
     - resource_group_name   
-    - nic_name   
+    - virtual_network_name
+    - subnet_name   
     - subscription_id
     - auth_type:
         default: 'anonymous'
@@ -131,48 +129,49 @@ flow:
     - use_cookies:
         default: 'true'
         required: false
+    - request_character_set:
+        default: 'UTF-8'
+        required: false
     - keep_alive:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '20'
+        default: '50'
         required: false
     - connections_max_total:
-        default: '200'
+        default: '500'
         required: false
-    - content_type:
-        default: 'application/json'
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
-        required: false
-
+    
   workflow: 
-    - http_client_put:
+    - http_client_delete:
         do:
           http.http_client_delete:
-            - url
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type
+            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
+            - headers: 'Content-Type:application/json
+Authorization:${authToken}' 
+            - auth_type: 'anonymous' 
             - username
             - password
-            - preemptive_auth
+            - preemptive_auth: 'true' 
             - proxy_host
-            - proxy_port
+            - proxy_port: '8080' 
             - proxy_username
             - proxy_password
-            - trust_all_roots
-            - x509_hostname_verifier
+            - trust_all_roots: 'false' 
+            - x509_hostname_verifier: 'strict' 
             - trust_keystore
-            - trust_password
+            - trust_password: 'changeit' 
             - keystore
-            - keystore_password
-            - use_cookies
-            - keep_alive
-            - connections_max_per_route
-            - connections_max_total
-            - content_type
-            - request_character_set
+            - keystore_password: 'changeit' 
+            - connect_timeout: '0' 
+            - socket_timeout: '0' 
+            - use_cookies: 'true' 
+            - keep_alive: 'true' 
+            - connections_max_per_route: '50' 
+            - connections_max_total: '500' 
+            - destination_file
+            - response_character_set: 'UTF-8' 
+            - method: 'DELETE' 
         publish:
           - output: ${return_result}
           - status_code
@@ -204,7 +203,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '202'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

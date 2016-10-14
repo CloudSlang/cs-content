@@ -23,7 +23,6 @@
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
-#! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -65,14 +64,15 @@
 #!
 #! @output output: json response about the model view of a virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If a network interface card  is not found the error message will be populated with a response,
+#!                        empty otherwise
 #!
 #! @result SUCCESS: Network interface card created successfully.
 #! @result FAILURE: There was an error while trying to create the network interface card.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.subnet
+namespace: io.cloudslang.microsoft_azure.compute.network.network_interface_card
 
 imports:
   http: io.cloudslang.base.http
@@ -80,15 +80,19 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: update_subnet
+  name: create_nic
   
-  inputs: 
+  inputs:
+    - url:
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
+    - nic_name   
+    - location
+    - auth_token   
     - subscription_id   
-    - auth_token
-    - resource_group_name   
-    - subnet_name   
+    - public_ip_address_name   
     - virtual_network_name   
-    - network_security_group_name
+    - subnet_name   
+    - resource_group_name
     - content_type:
         default: 'application/json'
         required: false
@@ -142,51 +146,41 @@ flow:
         default: 'UTF-8'
     
   workflow: 
-    - http_client_put:
+    - create_network_interface_card:
         do:
           http.http_client_put:
-            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
-            - body: '{ 
-   &quot;properties&quot;:{ 
-      &quot;addressPrefix&quot;:&quot;10.1.0.0/24&quot;,
-      &quot;networkSecurityGroup&quot;:{ 
-         &quot;id&quot;:&quot;/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${networkSecurityGroupName}&quot;
-      }
-      
-   }
-}' 
-            - headers: 'Authorization:${authToken}' 
-            - auth_type: 'anonymous' 
+            - url
+            - body: ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '}"}}}]}}'}
+            - headers: "${'Authorization: ' + auth_token}"
+            - auth_type
             - username
             - password
-            - preemptive_auth: 'true' 
+            - preemptive_auth
             - proxy_host
-            - proxy_port: '8080' 
+            - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false' 
-            - x509_hostname_verifier: 'strict' 
+            - trust_all_roots
+            - x509_hostname_verifier
             - trust_keystore
-            - trust_password: 'changeit' 
+            - trust_password
             - keystore
-            - keystore_password: 'changeit' 
-            - connect_timeout: '0' 
-            - socket_timeout: '0' 
-            - use_cookies: 'true' 
-            - keep_alive: 'true' 
-            - connections_max_per_route: '50' 
-            - connections_max_total: '500' 
-            - source_file
-            - content_type: 'application/json' 
-            - request_character_set: 'UTF-8' 
-            - destination_file
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+            - use_cookies
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
+            - content_type
+            - request_character_set
             - response_character_set
+            - multipart_bodies_content_type
             - chunked_request_entity
-            - method: 'PUT' 
         publish:
           - output: ${return_result}
           - status_code
-        navigate:
+        navigate: 
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -214,17 +208,18 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '201'
+            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-  outputs:
+           
+    
+  outputs: 
     - output
     - status_code
     - error_message
-
-  results:
+  
+  results: 
       - SUCCESS
       - FAILURE
 

@@ -16,15 +16,16 @@
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
+#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
@@ -75,7 +76,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.subnet
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -83,14 +84,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: delete_subnet
+  name: get_information_about_a_subnet
   
   inputs: 
-    - auth_token   
+    - subscription_id   
+    - auth_token
     - resource_group_name   
-    - virtual_network_name
-    - subnet_name   
-    - subscription_id
+    - virtual_network_name   
+    - subnet_name
     - auth_type:
         default: 'anonymous'
         required: false
@@ -143,35 +144,31 @@ flow:
         required: false
     
   workflow: 
-    - http_client_delete:
+    - http_client_get:
         do:
-          http.http_client_delete:
-            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
-            - headers: 'Content-Type:application/json
-Authorization:${authToken}' 
-            - auth_type: 'anonymous' 
+          http.http_client_get:
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
+            - headers: "${'Authorization: ' + auth_token}"
+            - auth_type
             - username
             - password
-            - preemptive_auth: 'true' 
+            - preemptive_auth
             - proxy_host
-            - proxy_port: '8080' 
+            - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false' 
-            - x509_hostname_verifier: 'strict' 
+            - trust_all_roots
+            - x509_hostname_verifier
             - trust_keystore
-            - trust_password: 'changeit' 
+            - trust_password
             - keystore
-            - keystore_password: 'changeit' 
-            - connect_timeout: '0' 
-            - socket_timeout: '0' 
-            - use_cookies: 'true' 
-            - keep_alive: 'true' 
-            - connections_max_per_route: '50' 
-            - connections_max_total: '500' 
-            - destination_file
-            - response_character_set: 'UTF-8' 
-            - method: 'DELETE' 
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+            - use_cookies
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
         publish:
           - output: ${return_result}
           - status_code

@@ -12,15 +12,11 @@
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
 #! @input nic_name: network interface card name
+#! @input network_routing_table: Reference to route table that will be applied to this subnet.
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
-#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
@@ -28,6 +24,11 @@
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
+#! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -76,7 +77,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.subnet
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -84,14 +85,18 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: get_information_about_a_subnet
+  name: create_subnet
   
   inputs: 
     - subscription_id   
     - auth_token
     - resource_group_name   
-    - virtual_network_name   
-    - subnet_name
+    - subnet_name   
+    - virtual_network_name
+    - network_routing_table:
+        required: false
+    - network_security_group_name:
+        required: false
     - auth_type:
         default: 'anonymous'
         required: false
@@ -144,10 +149,12 @@ flow:
         required: false
     
   workflow: 
-    - http_client_get:
+    - http_client_put:
         do:
-          http.http_client_get:
+          http.http_client_put:
             - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
+            - body: >
+                ${'{"properties":{"addressPrefix":"10.1.0.0/24","networkSecurityGroup":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkSecurityGroups/' + network_security_group_name + '"},"routeTable":{"id": "/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/routeTables/' + network_routing_table + '"}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -169,6 +176,12 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
+            - source_file
+            - content_type
+            - request_character_set
+            - destination_file
+            - response_character_set
+            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
