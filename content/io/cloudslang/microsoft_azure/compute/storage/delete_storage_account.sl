@@ -7,12 +7,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a resource group from the specified subscription
-#!               Note: When you delete a resource group, all of its dependent resources are also deleted.
-#!               Deleting a resource group also deletes all of its template deployments and currently stored operations.
+#! @description: Performs an HTTP request to delete a storage account
 #! @input subscription_id: Azure subscription ID
 #! @input auth_token: Azure authorization Bearer token
 #! @input resource_group_name: resource group name
+#! @input storage_account: Storage account name
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
@@ -61,17 +60,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted resource group
-#! @output status_code: 202 if request completed successfully, others in case something went wrong
+#! @output status_code: 202 if request completed successfully, 204 (NoContent) is returned if the account does not
+#1                      exist in the subscription, other errors in case of exceptions
 #! @output error_message: If a resource group is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Resource group deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the resource group.
+#! @result SUCCESS: Storage account deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the storage account.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.resource_groups
+namespace: io.cloudslang.microsoft_azure.compute.storage
 
 imports:
   http: io.cloudslang.base.http
@@ -79,13 +78,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: delete_resource_group
+  name: delete_storage_account
 
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups/' + resource_group_name + '?api-version=2016-09-01'}
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account + '?api-version=2015-06-15'}
     - auth_token
     - resource_group_name
+    - storage_account
     - subscription_id
     - auth_type:
         default: 'anonymous'
@@ -196,15 +196,14 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '202'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,204'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - output
     - status_code
     - error_message
 

@@ -5,55 +5,53 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################################
+####################################################
 #!!
-#! @description: Performs an HTTP request to delete a resource group from the specified subscription
-#!               Note: When you delete a resource group, all of its dependent resources are also deleted.
-#!               Deleting a resource group also deletes all of its template deployments and currently stored operations.
+#! @description: Performs an HTTP request to return the access keys for the specified storage account
+#!
 #! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
-#! @input resource_group_name: resource group name
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
+#! @input auth_token: authentication token
+#! @input resource_group_name: resource group name
+#! @input account_name: storage account name from which the key will be retrieved
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
 #! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
+#!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
+#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: ''
 #! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
-#!                           is empty, keystore_password default will be supplied.
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: ''
 #! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
 #!                    Default: true
@@ -61,93 +59,96 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted resource group
+#! @output output: json response with the access keys for the specified storage account
+#! @output key: the storage account key
+#! @output error_message: an error message in case there was an error while trying to retrieve the storage account key
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
-#! @output error_message: If a resource group is not found the error message will be populated with a response,
-#!                        empty otherwise
 #!
-#! @result SUCCESS: Resource group deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the resource group.
+#! @result SUCCESS: returned the access keys for the specified storage account successfully
+#! @result FAILURE: there was an error while trying to return the access keys for the specified storage account.
 #!!#
-########################################################################################################################
+####################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.resource_groups
+namespace: io.cloudslang.microsoft_azure.compute.storage
 
 imports:
   http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
+  json: io.cloudslang.base.json
 
 flow:
-  name: delete_resource_group
+  name: get_storage_account_keys
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups/' + resource_group_name + '?api-version=2016-09-01'}
+    - subscription_id
     - auth_token
     - resource_group_name
-    - subscription_id
+    - account_name
+    - url:
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + account_name + '/listKeys?api-version=2015-06-15'}
+    - content_type:
+        default: 'application/json'
+        required: false
     - auth_type:
-        default: 'anonymous'
+        default: "anonymous"
         required: false
     - username:
         required: false
     - password:
         required: false
-    - preemptive_auth:
-        default: 'true'
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        default: '8080'
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+    - proxy_port:
+        required: false
+        default: "8080"
+    - proxy_host:
+        required: false
     - trust_all_roots:
-        default: 'false'
+        default: "false"
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: "strict"
         required: false
     - trust_keystore:
         required: false
-    - trust_password:
         default: ''
+    - trust_password:
         required: false
+        default: ""
     - keystore:
         required: false
-    - keystore_password:
         default: ''
+    - keystore_password:
+        default: ""
         required: false
     - use_cookies:
-        default: 'true'
+        default: "true"
         required: false
     - keep_alive:
-        default: 'true'
+        default: "true"
         required: false
-    - connections_max_per_route:
-        default: '20'
+    - connections_max_per_root:
+        default: "50"
         required: false
     - connections_max_total:
-        default: '200'
-        required: false
-    - content_type:
-        default: 'application/json'
+        default: "500"
         required: false
     - request_character_set:
         default: 'UTF-8'
-        required: false
 
   workflow:
-    - http_client_put:
+
+    - http_client_post:
         do:
-          http.http_client_delete:
+          http.http_client_post:
             - url
-            - headers: "${'Authorization: ' + auth_token}"
+            - headers: >
+                     ${'Content-Length: 0' + '\n' +
+                     'Authorization: '+ auth_token}
             - auth_type
+            - content_type
             - username
             - password
             - preemptive_auth
@@ -163,13 +164,13 @@ flow:
             - keystore_password
             - use_cookies
             - keep_alive
+            - request_character_set
             - connections_max_per_route
             - connections_max_total
-            - content_type
-            - request_character_set
+            - method
         publish:
-          - output: ${return_result}
           - status_code
+          - output: ${return_result}
         navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
@@ -177,7 +178,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
+            - string_in_which_to_search: '400,401,404,409'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -196,19 +197,29 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '202'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,202'
+            - string_to_find: ${status_code}
+        navigate:
+          - SUCCESS: get_storage_account_key
+          - FAILURE: FAILURE
+    - get_storage_account_key:
+        do:
+          json.get_value:
+            - json_input: ${output}
+            - json_path: 'key1'
+        publish:
+          - key: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
     - output
+    - key
     - status_code
     - error_message
 
   results:
       - SUCCESS
       - FAILURE
-

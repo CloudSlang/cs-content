@@ -7,12 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a resource group from the specified subscription
-#!               Note: When you delete a resource group, all of its dependent resources are also deleted.
-#!               Deleting a resource group also deletes all of its template deployments and currently stored operations.
+#! @description: Performs an HTTP request to create a storage account
+#!
 #! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
 #! @input resource_group_name: resource group name
+#! @input storage_account: Storage account name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input auth_token: Azure authorization Bearer token
+#! @input account_type: Type of account to be created
+#1                     One of the following account types (case-sensitive):
+#1                     Standard_LRS (Standard Locally-redundant storage)
+#!                     Standard_ZRS (Standard Zone-redundant storage)
+#!                     Standard_GRS (Standard Geo-redundant storage)
+#!                     Standard_RAGRS (Standard Read access geo-redundant storage)
+#!                     Premium_LRS (Premium Locally-redundant storage)
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
@@ -22,6 +31,7 @@
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
+#! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -61,17 +71,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted resource group
-#! @output status_code: 202 if request completed successfully, others in case something went wrong
-#! @output error_message: If a resource group is not found the error message will be populated with a response,
+#! @output output: json response with information about the created storage account
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output error_message: If the storage account could not be created the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Resource group deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the resource group.
+#! @result SUCCESS: Storage account created successfully.
+#! @result FAILURE: There was an error while trying to create the storage account.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.resource_groups
+namespace: io.cloudslang.microsoft_azure.compute.storage
 
 imports:
   http: io.cloudslang.base.http
@@ -79,14 +89,21 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: delete_resource_group
+  name: create_storage_account
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups/' + resource_group_name + '?api-version=2016-09-01'}
-    - auth_token
-    - resource_group_name
+    - account_type:
+        required: false
+        default: 'Standard_RAGRS'
+    - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account + '?api-version=2015-06-15'}
     - subscription_id
+    - location
+    - auth_token
+    - storage_account
+    - resource_group_name
+    - content_type:
+        required: false
+        default: 'application/json'
     - auth_type:
         default: 'anonymous'
         required: false
@@ -125,29 +142,28 @@ flow:
     - use_cookies:
         default: 'true'
         required: false
+    - request_character_set:
+        default: 'UTF-8'
+        required: false
     - keep_alive:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '20'
+        default: '50'
         required: false
     - connections_max_total:
-        default: '200'
-        required: false
-    - content_type:
-        default: 'application/json'
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
+        default: '500'
         required: false
 
   workflow:
     - http_client_put:
         do:
-          http.http_client_delete:
+          http.http_client_put:
             - url
             - headers: "${'Authorization: ' + auth_token}"
+            - body: ${'{"location":"' + location + '","properties":{"accountType":"' + account_type + '"}}'}
             - auth_type
+            - content_type
             - username
             - password
             - preemptive_auth
@@ -165,8 +181,9 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - content_type
             - request_character_set
+            - response_character_set
+            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
@@ -177,7 +194,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
+            - string_in_which_to_search: '400,401,404,409'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -196,9 +213,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '202'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

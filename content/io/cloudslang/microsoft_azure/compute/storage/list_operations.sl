@@ -7,21 +7,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a resource group from the specified subscription
-#!               Note: When you delete a resource group, all of its dependent resources are also deleted.
-#!               Deleting a resource group also deletes all of its template deployments and currently stored operations.
+#! @description: Performs an HTTP request to retrieve a list of the operations supported by the specified account
+#!
 #! @input subscription_id: Azure subscription ID
+#! @input list_cont_auth_header: Storage authorization header
+#! @input storage_account: Storage account name
+#! @input date: Specifies the Coordinated Universal Time (UTC) for the request
 #! @input auth_token: Azure authorization Bearer token
-#! @input resource_group_name: resource group name
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -61,17 +62,18 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted resource group
-#! @output status_code: 202 if request completed successfully, others in case something went wrong
-#! @output error_message: If a resource group is not found the error message will be populated with a response,
+#! @output output: the list of the list of the operations supported by the storage resource provider
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output error_message: If the operations are not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Resource group deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the resource group.
+#! @result SUCCESS: The list of the operations supported by the storage resource provider retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of the operations supported by the storage
+#!                  resource provider
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.resource_groups
+namespace: io.cloudslang.microsoft_azure.compute.storage
 
 imports:
   http: io.cloudslang.base.http
@@ -79,14 +81,16 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: delete_resource_group
+  name: list_operations
 
   inputs:
+    - list_cont_auth_header
+    - storage_account
+    - date
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups/' + resource_group_name + '?api-version=2016-09-01'}
-    - auth_token
-    - resource_group_name
+        default: ${'https://management.azure.com/providers/Microsoft.Storage/operations?api-version=2015-06-15'}
     - subscription_id
+    - auth_token
     - auth_type:
         default: 'anonymous'
         required: false
@@ -125,28 +129,28 @@ flow:
     - use_cookies:
         default: 'true'
         required: false
+    - request_character_set:
+        default: 'UTF-8'
+        required: false
     - keep_alive:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '20'
+        default: '30'
         required: false
     - connections_max_total:
-        default: '200'
-        required: false
-    - content_type:
-        default: 'application/json'
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
+        default: '300'
         required: false
 
   workflow:
-    - http_client_put:
+    - get_nic_info:
         do:
-          http.http_client_delete:
+          http.http_client_get:
             - url
-            - headers: "${'Authorization: ' + auth_token}"
+            - headers: >
+                ${'Authorization: ' + list_cont_auth_header + '\n' +
+                'x-ms-date:' + date + '\n' +
+                'x-ms-version:2015-04-05'}
             - auth_type
             - username
             - password
@@ -165,7 +169,6 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - content_type
             - request_character_set
         publish:
           - output: ${return_result}
@@ -198,7 +201,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '202'
+            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
