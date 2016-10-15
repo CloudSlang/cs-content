@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to delete a virtual network
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
@@ -16,16 +16,14 @@
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
-#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
+#! @input public_ip_address_name: Virtual machine public IP address
+#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
+#! @input auth_type: optional - authentication type
+#!                   Default: "anonymous"
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input public_ip_address_name: Virtual machine public IP address
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
@@ -69,29 +67,28 @@
 #!
 #! @output output: json response about the model view of a virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If a virtual network is not found the error message will be empty, otherwise exception
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Virtual network deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network.subnet
+namespace: io.cloudslang.microsoft_azure.compute.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow: 
-  name: get_information_about_a_subnet
-  
-  inputs: 
-    - subscription_id   
+flow:
+  name: delete_virtual_network
+
+  inputs:
     - auth_token
-    - resource_group_name   
-    - virtual_network_name   
-    - subnet_name
+    - resource_group_name
+    - virtual_network_name
+    - subscription_id
     - auth_type:
         default: 'anonymous'
         required: false
@@ -142,12 +139,12 @@ flow:
     - connections_max_total:
         default: '500'
         required: false
-    
-  workflow: 
-    - http_client_get:
+
+  workflow:
+    - http_client_delete:
         do:
-          http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
+          http.http_client_delete:
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '?api-version=2015-06-15'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -158,17 +155,16 @@ flow:
             - proxy_username
             - proxy_password
             - trust_all_roots
-            - x509_hostname_verifier
+            - x509_hostname_verifier'
             - trust_keystore
             - trust_password
             - keystore
             - keystore_password
-            - connect_timeout
-            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
             - connections_max_total
+            - response_character_set
         publish:
           - output: ${return_result}
           - status_code

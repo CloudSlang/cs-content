@@ -11,8 +11,6 @@
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header

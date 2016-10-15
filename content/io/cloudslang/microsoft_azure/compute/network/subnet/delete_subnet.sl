@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to delete a subnet
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
@@ -66,12 +66,11 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response about the model view of a virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If a subnet is not found the error message will be empty, otherwise exception
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Subnet deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the subnet.
 #!!#
 ########################################################################################################################
 
@@ -85,7 +84,8 @@ imports:
 flow: 
   name: delete_subnet
   
-  inputs: 
+  inputs:
+    - url: ${'https://management.azure.com/subscriptions/+ + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
     - auth_token   
     - resource_group_name   
     - virtual_network_name
@@ -146,32 +146,27 @@ flow:
     - http_client_delete:
         do:
           http.http_client_delete:
-            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
-            - headers: 'Content-Type:application/json
-Authorization:${authToken}' 
-            - auth_type: 'anonymous' 
+            - url
+            - headers: "${'Authorization: ' + auth_token}"
+            - auth_type
             - username
             - password
-            - preemptive_auth: 'true' 
+            - preemptive_auth
             - proxy_host
-            - proxy_port: '8080' 
+            - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false' 
-            - x509_hostname_verifier: 'strict' 
+            - trust_all_roots
+            - x509_hostname_verifier
             - trust_keystore
-            - trust_password: 'changeit' 
+            - trust_password
             - keystore
-            - keystore_password: 'changeit' 
-            - connect_timeout: '0' 
-            - socket_timeout: '0' 
-            - use_cookies: 'true' 
-            - keep_alive: 'true' 
-            - connections_max_per_route: '50' 
-            - connections_max_total: '500' 
-            - destination_file
-            - response_character_set: 'UTF-8' 
-            - method: 'DELETE' 
+            - keystore_password
+            - use_cookies
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
+            - response_character_set
         publish:
           - output: ${return_result}
           - status_code
@@ -201,15 +196,14 @@ Authorization:${authToken}'
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '201'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '202,204'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - output
     - status_code
     - error_message
 

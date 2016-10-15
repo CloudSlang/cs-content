@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to retrieve information about a subnet
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
@@ -16,6 +16,11 @@
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
+#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
@@ -53,7 +58,7 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
@@ -62,17 +67,16 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response about the network card interface created
+#! @output output: information about the subnet
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a network interface card is not found the error message will be populated with a response,
-#!                        empty otherwise
+#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Subnet information retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve information about the subnet.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network.network_interface_card
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
@@ -80,77 +84,70 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow: 
-  name: create_nic
+  name: information_about_subnet
   
-  inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
-    - nic_name   
-    - location
-    - auth_token   
+  inputs: 
     - subscription_id   
-    - public_ip_address_name   
+    - auth_token
+    - resource_group_name   
     - virtual_network_name   
-    - subnet_name   
-    - resource_group_name
-    - content_type:
-        default: 'application/json'
-        required: false
+    - subnet_name
     - auth_type:
-        default: "anonymous"
+        default: 'anonymous'
         required: false
     - username:
         required: false
     - password:
         required: false
+    - preemptive_auth:
+        default: 'true'
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
-    - proxy_port:
-        required: false
-        default: "8080"
-    - proxy_host:
-        required: false
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: 'strict'
         required: false
     - trust_keystore:
         required: false
-        default: ''
     - trust_password:
+        default: ''
         required: false
-        default: ""
     - keystore:
         required: false
-        default: ''
     - keystore_password:
-        default: ""
+        default: ''
         required: false
     - use_cookies:
-        default: "true"
-        required: false
-    - keep_alive:
-        default: "true"
-        required: false
-    - connections_max_per_root:
-        default: "50"
-        required: false
-    - connections_max_total:
-        default: "500"
+        default: 'true'
         required: false
     - request_character_set:
         default: 'UTF-8'
+        required: false
+    - keep_alive:
+        default: 'true'
+        required: false
+    - connections_max_per_route:
+        default: '50'
+        required: false
+    - connections_max_total:
+        default: '500'
+        required: false
     
   workflow: 
-    - create_network_interface_card:
+    - http_client_get:
         do:
-          http.http_client_put:
-            - url
-            - body: ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '}"}}}]}}'}
+          http.http_client_get:
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -172,15 +169,10 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - content_type
-            - request_character_set
-            - response_character_set
-            - multipart_bodies_content_type
-            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
-        navigate: 
+        navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -208,18 +200,17 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '200'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-           
-    
-  outputs: 
+
+  outputs:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 

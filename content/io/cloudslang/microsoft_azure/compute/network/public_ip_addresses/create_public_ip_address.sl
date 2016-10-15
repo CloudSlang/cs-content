@@ -7,18 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to create a public IP address
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
+#! @input public_ip_address_version: Public IP address version
+#!                                   Default: 'Ipv4'
+#! @input domain_name_label: Domain label name
+#!                           Default: 'mylabel'
+#! @input reverse_fqdn: Reverse fully qualified domain name
+#!                     Default: 'contoso.com.'
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
@@ -62,37 +65,43 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response about the network card interface created
+#! @output output: json response about the public IP address
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a network interface card is not found the error message will be populated with a response,
+#! @output error_message: If a public IP address is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Public IP address created successfully.
+#! @result FAILURE: There was an error while trying to create the public IP address.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network.network_interface_card
+namespace: io.cloudslang.microsoft_azure.compute.network.public_ip_addresses
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow: 
-  name: create_nic
-  
+flow:
+  name: create_public_ip_address
+
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
-    - nic_name   
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '?api-version=2016-03-30'}
     - location
-    - auth_token   
-    - subscription_id   
-    - public_ip_address_name   
-    - virtual_network_name   
-    - subnet_name   
+    - auth_token
+    - subscription_id
+    - public_ip_address_name
     - resource_group_name
+    - public_ip_address_version:
+        required: false
+        default: 'Ipv4'
+    - domain_name_label:
+        required: false
+        default: 'mylabel'
+    - reverse_fqdn:
+        required: false
+        default: 'contoso.com.'
     - content_type:
         default: 'application/json'
         required: false
@@ -144,13 +153,13 @@ flow:
         required: false
     - request_character_set:
         default: 'UTF-8'
-    
-  workflow: 
+
+  workflow:
     - create_network_interface_card:
         do:
           http.http_client_put:
             - url
-            - body: ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '}"}}}]}}'}
+            - body: ${'{"location":"' + location + '","tags":{"key":"value"},"properties":{"publicIPAllocationMethod":"Static","publicIPAddressVersion":"' + public_ip_address_version + '","idleTimeoutInMinutes":4,"dnsSettings":{"domainNameLabel":"' + domain_name_label + '","reverseFqdn":"' + reverse_fqdn + '"}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -180,7 +189,7 @@ flow:
         publish:
           - output: ${return_result}
           - status_code
-        navigate: 
+        navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -212,14 +221,14 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-           
-    
-  outputs: 
+
+
+  outputs:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 
