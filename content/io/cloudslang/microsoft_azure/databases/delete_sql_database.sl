@@ -7,20 +7,21 @@
 #
 ####################################################
 #!!
-#! @description: Performs an HTTP request to start a virtual machine
+#! @description: Performs an HTTP request to delete an sql database
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
+#! @input server_name: Sql server name
+#! @input database_name: sql database name
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
-#! @input auth_token: authentication token
-#! @input resource_group_name: resource group name
-#! @input vm_name: virtual machine name
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
+#! @input location: Specifies the supported Azure location where the sql database should be created.
+#!                  This can be different from the location of the resource group.
 #! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
@@ -46,7 +47,7 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
@@ -58,94 +59,99 @@
 #! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
+#! @input auth_token: authentication token
+#! @input resource_group_name: resource group name
+#! @input vm_name: sql database name
 #!
-#! @output output: Result of the operation
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
+#! @output output: result of the operation
+#! @output error_message: An error message in case something went wrong
 #!
-#! @result SUCCESS: virtual machine started successfully.
-#! @result FAILURE: there was an error while trying to start the virtual machine.
+#! @result SUCCESS: sql database deleted successfully.
+#! @result FAILURE: there was an error while trying to delete the sql database.
 #!!#
 ####################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft_azure.databases
 
 imports:
   http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
-  name: start_vm
+  name: delete_sql_database
 
   inputs:
-    - subscription_id
-    - auth_token
-    - resource_group_name
-    - vm_name
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '/start?api-version=2015-06-15'}
-    - content_type:
-        default: 'application/json'
-        required: false
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + server_name + '/databases/' + database_name + '?api-version=2014-04-01-preview'}
+    - auth_token
+    - server_name
+    - database_name
+    - resource_group_name
+    - subscription_id
+    - location
     - auth_type:
-        default: "anonymous"
+        default: 'anonymous'
         required: false
     - username:
         required: false
     - password:
         required: false
+    - preemptive_auth:
+        default: 'true'
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
-    - proxy_port:
-        required: false
-        default: "8080"
-    - proxy_host:
-        required: false
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: 'strict'
         required: false
     - trust_keystore:
         required: false
-        default: ''
     - trust_password:
+        default: ''
         required: false
-        default: ""
     - keystore:
         required: false
-        default: ''
     - keystore_password:
-        default: ""
+        default: ''
         required: false
     - use_cookies:
-        default: "true"
+        default: 'true'
         required: false
     - keep_alive:
-        default: "true"
+        default: 'true'
         required: false
-    - connections_max_per_root:
-        default: "50"
+    - connections_max_per_route:
+        default: '20'
         required: false
     - connections_max_total:
-        default: "500"
+        default: '200'
+        required: false
+    - content_type:
+        default: 'application/json'
         required: false
     - request_character_set:
         default: 'UTF-8'
+        required: false
 
   workflow:
-
-    - start_vm:
+    - delete_sql_database:
         do:
-          http.http_client_post:
+          http.http_client_delete:
             - url
-            - headers: >
-                     ${'Content-Length: 0' + '\n' +
-                     'Authorization: '+ auth_token}
             - auth_type
-            - content_type
+            - headers: "${'Authorization: ' + auth_token}"
             - username
             - password
             - preemptive_auth
@@ -161,30 +167,51 @@ flow:
             - keystore_password
             - use_cookies
             - keep_alive
-            - request_character_set
             - connections_max_per_route
             - connections_max_total
-            - method
+            - content_type
+            - request_character_set
         publish:
-          - status_code
           - output: ${return_result}
+          - status_code
         navigate:
-          - SUCCESS: string_equals
-          - FAILURE: FAILURE
+          - FAILURE: check_error_status
+          - SUCCESS: check_error_status
 
-    - string_equals:
+    - check_error_status:
         do:
-          strings.string_equals:
-            - first_string: "${ status_code }"
-            - second_string: "202"
-            - ignore_case: "true"
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '400,401,404'
+            - string_to_find: ${status_code}
+        navigate:
+          - SUCCESS: retrieve_error
+          - FAILURE: retrieve_success
+
+    - retrieve_error:
+        do:
+          json.get_value:
+            - json_input: ${output}
+            - json_path: 'error,message'
+        publish:
+          - error_message: ${return_result}
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: retrieve_success
+
+    - retrieve_success:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
+
   outputs:
-    - output
     - status_code
+    - output
+    - error_message
 
   results:
       - SUCCESS

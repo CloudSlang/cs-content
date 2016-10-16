@@ -141,7 +141,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_network_security_group:
         do:
           http.http_client_delete:
             - url

@@ -142,7 +142,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_storage_account:
         do:
           http.http_client_delete:
             - url

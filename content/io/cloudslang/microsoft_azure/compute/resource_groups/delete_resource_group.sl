@@ -142,7 +142,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_resource_group:
         do:
           http.http_client_delete:
             - url

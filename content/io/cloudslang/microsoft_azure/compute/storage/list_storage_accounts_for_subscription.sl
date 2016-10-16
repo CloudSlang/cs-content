@@ -138,7 +138,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_storage_accounts_for_subscription:
         do:
           http.http_client_get:
             - url

@@ -134,7 +134,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_subscriptions:
         do:
           http.http_client_get:
             - url

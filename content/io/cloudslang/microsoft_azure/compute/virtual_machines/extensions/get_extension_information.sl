@@ -142,7 +142,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - get_extension_information:
         do:
           http.http_client_get:
             - url

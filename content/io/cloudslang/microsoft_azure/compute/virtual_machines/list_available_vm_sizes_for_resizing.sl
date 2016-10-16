@@ -119,7 +119,7 @@ flow:
         required: false
 
   workflow:
-    - get_information_about_vms:
+    - list_available_vm_sizes_for_resizing:
         do:
           http.http_client_get:
             - url

@@ -145,7 +145,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_available_vm_sizes_in_availability_set:
         do:
           http.http_client_get:
             - url

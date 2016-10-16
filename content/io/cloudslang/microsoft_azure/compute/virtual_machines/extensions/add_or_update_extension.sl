@@ -166,7 +166,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - add_or_update_extension:
         do:
           http.http_client_put:
             - url

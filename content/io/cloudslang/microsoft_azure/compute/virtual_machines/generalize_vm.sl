@@ -141,7 +141,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_post:
+    - generalize_vm:
         do:
           http.http_client_post:
             - url

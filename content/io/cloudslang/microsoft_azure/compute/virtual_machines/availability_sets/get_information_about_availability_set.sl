@@ -138,7 +138,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - get_information_about_availability_set:
         do:
           http.http_client_get:
             - url

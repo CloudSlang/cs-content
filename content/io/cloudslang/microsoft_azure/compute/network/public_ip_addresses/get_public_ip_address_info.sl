@@ -146,7 +146,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - get_public_ip_address_info:
         do:
           http.http_client_get:
             - url

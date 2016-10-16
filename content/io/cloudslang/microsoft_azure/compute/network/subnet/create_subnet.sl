@@ -149,7 +149,7 @@ flow:
         required: false
     
   workflow: 
-    - http_client_put:
+    - create_subnet:
         do:
           http.http_client_put:
             - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}

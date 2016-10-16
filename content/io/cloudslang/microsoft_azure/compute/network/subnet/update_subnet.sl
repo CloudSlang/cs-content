@@ -82,7 +82,8 @@ imports:
 flow: 
   name: update_subnet
   
-  inputs: 
+  inputs:
+    - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' subnet_name + '?api-version&#x3D;2015-06-15'}
     - subscription_id   
     - auth_token
     - resource_group_name   
@@ -142,19 +143,11 @@ flow:
         default: 'UTF-8'
     
   workflow: 
-    - http_client_put:
+    - update_subnet:
         do:
           http.http_client_put:
-            - url: 'https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnetName}?api-version&#x3D;2015-06-15' 
-            - body: '{ 
-   &quot;properties&quot;:{ 
-      &quot;addressPrefix&quot;:&quot;10.1.0.0/24&quot;,
-      &quot;networkSecurityGroup&quot;:{ 
-         &quot;id&quot;:&quot;/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/${networkSecurityGroupName}&quot;
-      }
-      
-   }
-}' 
+            - url
+            - body: ${'{"properties":{"addressPrefix":"10.1.0.0/24","networkSecurityGroup":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkSecurityGroups/' + network_security_group_name + '"}}}'}
             - headers: 'Authorization:${authToken}' 
             - auth_type: 'anonymous' 
             - username

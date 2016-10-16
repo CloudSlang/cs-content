@@ -144,7 +144,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - create_resource_group:
         do:
           http.http_client_put:
             - url

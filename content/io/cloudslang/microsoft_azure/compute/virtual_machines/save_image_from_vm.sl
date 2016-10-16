@@ -148,7 +148,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_post:
+    - save_image_from_vm:
         do:
           http.http_client_post:
             - url

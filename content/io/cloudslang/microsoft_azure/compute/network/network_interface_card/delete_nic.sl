@@ -12,8 +12,6 @@
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
 #! @input nic_name: network interface card name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
@@ -90,8 +88,7 @@ flow:
     - url:
         default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
     - auth_token   
-    - location
-    - resource_group_name   
+    - resource_group_name
     - nic_name   
     - subscription_id
     - auth_type:
@@ -149,7 +146,7 @@ flow:
         required: false
 
   workflow: 
-    - http_client_put:
+    - delete_network_interface_card:
         do:
           http.http_client_delete:
             - url

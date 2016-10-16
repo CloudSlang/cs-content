@@ -145,7 +145,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_shares:
         do:
           http.http_client_get:
             - url

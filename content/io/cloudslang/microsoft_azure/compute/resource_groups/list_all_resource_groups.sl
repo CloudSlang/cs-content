@@ -152,7 +152,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_all_resource_groups:
         do:
           http.http_client_get:
             - url

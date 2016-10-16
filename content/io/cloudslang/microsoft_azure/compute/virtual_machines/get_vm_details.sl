@@ -125,7 +125,7 @@ flow:
         required: false
 
   workflow:
-    - get_information_about_vm:
+    - get_vm_details:
         do:
           http.http_client_get:
             - url

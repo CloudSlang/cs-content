@@ -146,7 +146,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - create_availability_set:
         do:
           http.http_client_put:
             - url

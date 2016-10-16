@@ -141,7 +141,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - export_template_for_resource_group:
         do:
           http.http_client_post:
             - url

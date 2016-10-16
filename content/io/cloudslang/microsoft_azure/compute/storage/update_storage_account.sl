@@ -165,7 +165,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - update_storage_account:
         do:
           http.http_client_patch:
             - url

@@ -155,7 +155,7 @@ flow:
         default: 'UTF-8'
 
   workflow:
-    - create_network_interface_card:
+    - create_public_ip_address:
         do:
           http.http_client_put:
             - url

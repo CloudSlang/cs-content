@@ -147,7 +147,7 @@ flow:
         default: 'UTF-8'
 
   workflow:
-    - create_network_interface_card:
+    - create_virtual_network:
         do:
           http.http_client_put:
             - url

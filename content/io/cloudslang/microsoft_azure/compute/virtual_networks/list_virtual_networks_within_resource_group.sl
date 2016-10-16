@@ -139,7 +139,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_virtual_networks_within_resource_group:
         do:
           http.http_client_get:
             - url

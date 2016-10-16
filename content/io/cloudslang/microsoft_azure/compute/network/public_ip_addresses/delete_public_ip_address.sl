@@ -143,7 +143,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_public_ip_address:
         do:
           http.http_client_delete:
             - url

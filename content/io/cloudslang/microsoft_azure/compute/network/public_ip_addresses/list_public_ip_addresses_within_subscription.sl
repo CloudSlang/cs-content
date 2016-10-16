@@ -139,7 +139,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_public_ip_addresses:
         do:
           http.http_client_get:
             - url

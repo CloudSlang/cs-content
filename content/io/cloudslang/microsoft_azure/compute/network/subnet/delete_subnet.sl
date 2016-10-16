@@ -143,7 +143,7 @@ flow:
         required: false
     
   workflow: 
-    - http_client_delete:
+    - delete_subnet:
         do:
           http.http_client_delete:
             - url

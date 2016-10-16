@@ -143,7 +143,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_vm:
         do:
           http.http_client_delete:
             - url

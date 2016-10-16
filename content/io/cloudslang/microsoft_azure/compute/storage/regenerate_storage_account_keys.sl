@@ -146,7 +146,7 @@ flow:
 
   workflow:
 
-    - http_client_post:
+    - regenerate_storage_account_keys:
         do:
           http.http_client_post:
             - url

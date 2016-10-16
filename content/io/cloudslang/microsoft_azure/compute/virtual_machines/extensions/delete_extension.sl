@@ -147,7 +147,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_put:
+    - delete_extension:
         do:
           http.http_client_delete:
             - url

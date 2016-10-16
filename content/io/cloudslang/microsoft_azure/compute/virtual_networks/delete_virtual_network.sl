@@ -141,7 +141,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_delete:
+    - delete_virtual_network:
         do:
           http.http_client_delete:
             - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '?api-version=2015-06-15'}

@@ -140,7 +140,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - get_subscription_usage:
         do:
           http.http_client_get:
             - url

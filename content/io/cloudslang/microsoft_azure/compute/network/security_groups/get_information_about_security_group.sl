@@ -140,7 +140,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - get_network_security_group_info:
         do:
           http.http_client_get:
             - url

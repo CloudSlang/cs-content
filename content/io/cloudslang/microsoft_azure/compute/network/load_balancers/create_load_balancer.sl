@@ -7,16 +7,24 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information a lists all the storage accounts available under the given resource group
+#! @description: Performs an HTTP request to create a load balancer
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input resource_group_name: resource group name
+#! @input nic_name: network interface card name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input frontend_ip_name: Frontend IP name
+#! @input backend_ip_pool_name: Backend IP pool name
+#! @input private_ip_address: Private IP address
+#! @input public_ip_address: Public IP address
+#! @input probe_name: Probe name
+#! @input load_balancer_name: Load balancer name
+#! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
+#! @input public_ip_address_name: Virtual machine public IP address
+#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
+#! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
@@ -51,7 +59,7 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
@@ -60,19 +68,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the properties for the specified storage account including but not limited to name,
-#!                 account type, location, and account status
+#! @output output: json response about the load balancer created
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If no storage found the error message will be populated with a response,
+#! @output error_message: If a load balancer is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the lists all the storage accounts available under the given resource group
-#! @result FAILURE: There was an error while trying to retrieve information about the lists all the storage accounts
-#!                  available under the given resource group
+#! @result SUCCESS: Load balancer created successfully.
+#! @result FAILURE: There was an error while trying to create the load balancer.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.storage
+namespace: io.cloudslang.microsoft_azure.compute.network.load_balancers
 
 imports:
   http: io.cloudslang.base.http
@@ -80,70 +86,82 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_storage_accounts_for_resource_group
+  name: create_load_balancer
 
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15'}
-    - subscription_id
-    - resource_group_name
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '?api-version=2015-06-15'}
+    - nic_name
+    - location
     - auth_token
+    - subscription_id
+    - virtual_network_name
+    - frontend_ip_name
+    - backend_ip_pool_name
+    - private_ip_address
+    - public_ip_address
+    - probe_name
+    - load_balancer_name
+    - subnet_name
+    - resource_group_name
+    - content_type:
+        default: 'application/json'
+        required: false
     - auth_type:
-        default: 'anonymous'
+        default: "anonymous"
         required: false
     - username:
         required: false
     - password:
         required: false
-    - preemptive_auth:
-        default: 'true'
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        default: '8080'
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+    - proxy_port:
+        required: false
+        default: "8080"
+    - proxy_host:
+        required: false
     - trust_all_roots:
-        default: 'false'
+        default: "false"
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: "strict"
         required: false
     - trust_keystore:
         required: false
-    - trust_password:
         default: ''
+    - trust_password:
         required: false
+        default: ""
     - keystore:
         required: false
-    - keystore_password:
         default: ''
+    - keystore_password:
+        default: ""
         required: false
     - use_cookies:
-        default: 'true'
+        default: "true"
+        required: false
+    - keep_alive:
+        default: "true"
+        required: false
+    - connections_max_per_root:
+        default: "50"
+        required: false
+    - connections_max_total:
+        default: "500"
         required: false
     - request_character_set:
         default: 'UTF-8'
-        required: false
-    - keep_alive:
-        default: 'true'
-        required: false
-    - connections_max_per_route:
-        default: '30'
-        required: false
-    - connections_max_total:
-        default: '300'
-        required: false
 
   workflow:
-    - list_storage_accounts_for_resource_group:
+    - create_load_balancer:
         do:
-          http.http_client_get:
+          http.http_client_put:
             - url
+            - body: ${'{"location":"' + location + '","tags":{"key":"value"},"properties":{"frontendIPConfigurations":{"name":"' + frontend_ip_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAddress":"' + private_ip_address + '","privateIPAllocationMethod":"Static","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address + '"}}},"backendAddressPools":[{"name":"' + backend_ip_pool_name + '"}],"loadBalancingRules":[{"name":"HTTP Traffic","properties":{"frontendIPConfiguration":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '/frontendIPConfigurations/ip1"},"backendAddressPool":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '/backendAddressPool/pool1"},"protocol":"Tcp","frontendPort":80,"backendPort":8080,"probe":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '/probes/probe1"},"enableFloatingIP":true,"idleTimeoutInMinutes":4,"loadDistribution":"Default"}}],"probes":[{"name":"' + probe_name + '", "properties":{"protocol":"Tcp","port":8080,"requestPath":"myprobeapp1/myprobe1.svc","intervalInSeconds":5,"numberOfProbes":16}}],"inboundNatRules":[{"name":"RDP Traffic","properties":{"frontendIPConfiguration":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '/frontendIPConfigurations/ip1"},"protocol":"Tcp","frontendPort":3389,"backendPort":3389}}]}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -159,11 +177,17 @@ flow:
             - trust_password
             - keystore
             - keystore_password
+            - connect_timeout
+            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
             - connections_max_total
+            - content_type
             - request_character_set
+            - response_character_set
+            - multipart_bodies_content_type
+            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
@@ -199,6 +223,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
 
   outputs:
     - output

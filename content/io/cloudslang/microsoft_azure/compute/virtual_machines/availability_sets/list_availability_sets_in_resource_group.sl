@@ -141,7 +141,7 @@ flow:
         required: false
 
   workflow:
-    - get_nic_info:
+    - list_availability_sets_in_resource_group:
         do:
           http.http_client_get:
             - url
