@@ -7,21 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the the current usage count and the limit
-#!               for the resources under the subscription
-#!
+#! @description: Performs an HTTP request to delete an extension from the virtual machine
 #! @input subscription_id: Azure subscription ID
 #! @input auth_token: Azure authorization Bearer token
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input resource_group_name: resource group name
+#! @input availability_set_name: availability set name
+#! @input extension_name: Name of the extension to be deleted from the virtual machine
+#! @niput virtual_machine_name: Virtual machine name
+#! @input virtual_machine_name: Virtual machine name
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -61,19 +63,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the properties for the specified storage account including but not limited to name,
-#!                 account type, location, and account status
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the subscription is not found the error message will be populated with a response,
+#! @output output: json response with information of the deleted extension
+#! @output status_code: 202 if request completed successfully, others in case something went wrong
+#! @output error_message: If an extension is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the current usage count and the limit for the resources under the subscription
-#! @result FAILURE: There was an error while trying to retrieve information about the current usage count and the limit
-#!                  for the resources under the subscription
+#! @result SUCCESS: Extension deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the extension.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.storage
+namespace: io.cloudslang.microsoft_azure.compute.virtual_machines.extensions
 
 imports:
   http: io.cloudslang.base.http
@@ -81,13 +81,17 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: get_subscription_usage
+  name: delete_extension
 
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Storage/usages?api-version=2015-06-15'}
-    - subscription_id
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/extensions/' + extension_name + '?api-version=2015-06-15'}
     - auth_token
+    - resource_group_name
+    - availability_set_name
+    - extension_name
+    - virtual_machine_name
+    - subscription_id
     - auth_type:
         default: 'anonymous'
         required: false
@@ -126,23 +130,26 @@ flow:
     - use_cookies:
         default: 'true'
         required: false
-    - request_character_set:
-        default: 'UTF-8'
-        required: false
     - keep_alive:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '30'
+        default: '20'
         required: false
     - connections_max_total:
-        default: '300'
+        default: '200'
+        required: false
+    - content_type:
+        default: 'application/json'
+        required: false
+    - request_character_set:
+        default: 'UTF-8'
         required: false
 
   workflow:
-    - get_nic_info:
+    - http_client_put:
         do:
-          http.http_client_get:
+          http.http_client_delete:
             - url
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
@@ -163,6 +170,7 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
+            - content_type
             - request_character_set
         publish:
           - output: ${return_result}

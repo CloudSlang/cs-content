@@ -7,17 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the the current usage count and the limit
-#!               for the resources under the subscription
+#! @description: Performs an HTTP request to retrieve  a list of the shares under the specified account
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input auth_token: Azure authorization Bearer token
+#! @input storage_account: Storage account name
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input resource_group_name: resource group name
 #! @input url: url to the Azure resource
+#! @input top: can be used to limit the number of items returned
+#! @input skip_token: is only used if a partial result is returned in a previous operation call
+#! @input filter: filter can be used to restrict the results to specific tagged resources.
+#!                The following possible values can be used with filter:
+#!                filter=tagname eq {value}
+#!                filter=tagname eq {tagname} and tagvalue eq {tagvalue}
+#!                filter=startswith(tagname, {tagname prefix})
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
@@ -61,19 +67,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the properties for the specified storage account including but not limited to name,
-#!                 account type, location, and account status
+#! @output output: information about all of the resource groups that are defined in the specified subscription
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the subscription is not found the error message will be populated with a response,
+#! @output error_message: If no share is found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the current usage count and the limit for the resources under the subscription
-#! @result FAILURE: There was an error while trying to retrieve information about the current usage count and the limit
-#!                  for the resources under the subscription
+#! @result SUCCESS: Information about the  list of the shares under the specified account
+#! @result FAILURE: There was an error while trying to retrieve the list of the shares under the specified account
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.storage
+namespace: io.cloudslang.microsoft_azure.compute.storage.file_service
 
 imports:
   http: io.cloudslang.base.http
@@ -81,12 +85,13 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: get_subscription_usage
+  name: list_shares
 
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Storage/usages?api-version=2015-06-15'}
+        default: ${'https://' + storage_account + '.file.core.windows.net/?comp=list'}
     - subscription_id
+    - storage_account
     - auth_token
     - auth_type:
         default: 'anonymous'

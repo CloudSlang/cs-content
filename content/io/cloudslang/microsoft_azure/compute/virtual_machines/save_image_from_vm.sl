@@ -7,21 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the the current usage count and the limit
-#!               for the resources under the subscription
+#! @description: Performs an HTTP request to save an image that is associated with a generalized virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
-#! @input resource_group_name: resource group name
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
+#! @input auth_token: authentication token
+#! @input vhd_prefix: Specifies the prefix in the name of the blobs that will constitute the storage profile of the image
+#! @input destination_container_name: Specifies the name of the container inside which the vhds constituting the image will reside
+#! @input override_vhds: Specifies if an existing vhd with same prefix inside the destination container is overwritten
+#!                       Default: 'true'
+#! @input resource_group_name: resource group name
+#! @input virtual_machine_name: virtual machine name
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -52,8 +52,12 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
 #!                    Default: true
@@ -61,91 +65,97 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the properties for the specified storage account including but not limited to name,
-#!                 account type, location, and account status
+#! @output output: Result of the operation
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the subscription is not found the error message will be populated with a response,
-#!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the current usage count and the limit for the resources under the subscription
-#! @result FAILURE: There was an error while trying to retrieve information about the current usage count and the limit
-#!                  for the resources under the subscription
+#! @result SUCCESS: virtual machine image saved successfully.
+#! @result FAILURE: There was an error while trying to save the virtual machine image.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.storage
+namespace: io.cloudslang.microsoft_azure.compute.virtual_machines
 
 imports:
   http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
 flow:
-  name: get_subscription_usage
+  name: save_image_from_vm
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Storage/usages?api-version=2015-06-15'}
     - subscription_id
     - auth_token
+    - resource_group_name
+    - virtual_machine_name
+    - vhd_prefix
+    - destination_container_name
+    - override_vhds:
+        required: false
+        default: 'true'
+    - url:
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/capture?api-version=2015-06-15'}
     - auth_type:
-        default: 'anonymous'
+        default: "anonymous"
         required: false
     - username:
         required: false
     - password:
         required: false
-    - preemptive_auth:
-        default: 'true'
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        default: '8080'
+    - content_type:
+        default: 'application/json'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+    - proxy_port:
+        required: false
+        default: "8080"
+    - proxy_host:
+        required: false
     - trust_all_roots:
-        default: 'false'
+        default: "false"
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: "strict"
         required: false
     - trust_keystore:
         required: false
+        default: ""
     - trust_password:
-        default: ''
         required: false
+        default: ""
     - keystore:
         required: false
+        default: ""
     - keystore_password:
-        default: ''
+        default: ""
         required: false
     - use_cookies:
-        default: 'true'
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
+        default: "true"
         required: false
     - keep_alive:
-        default: 'true'
+        default: "true"
         required: false
-    - connections_max_per_route:
-        default: '30'
+    - connections_max_per_root:
+        default: "50"
         required: false
     - connections_max_total:
-        default: '300'
+        default: "500"
+        required: false
+    - request_character_set:
+        default: "UTF-8"
         required: false
 
   workflow:
-    - get_nic_info:
+    - http_client_post:
         do:
-          http.http_client_get:
+          http.http_client_post:
             - url
-            - headers: "${'Authorization: ' + auth_token}"
+            - headers: "${'Authorization: '+ auth_token}"
+            - body: ${'{"vhdPrefix":"' + vhd_prefix + '","destinationContainerName":"' + destination_container_name + '","overwriteVhds":' + override_vhds + '}'}
             - auth_type
+            - content_type
             - username
             - password
             - preemptive_auth
@@ -163,39 +173,19 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - request_character_set
         publish:
-          - output: ${return_result}
           - status_code
+          - output: ${return_result}
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
+          - SUCCESS: string_equals
+          - FAILURE: FAILURE
 
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
-
-    - retrieve_error:
-        do:
-          json.get_value:
-            - json_input: ${output}
-            - json_path: 'error,message'
-        publish:
-          - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
+    - string_equals:
         do:
           strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
+            - first_string: "${ status_code }"
+            - second_string: "200"
+            - ignore_case: "true"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -203,9 +193,7 @@ flow:
   outputs:
     - output
     - status_code
-    - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
-
+    - SUCCESS
+    - FAILURE

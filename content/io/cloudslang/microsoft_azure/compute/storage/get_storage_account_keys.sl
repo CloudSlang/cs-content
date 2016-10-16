@@ -17,7 +17,7 @@
 #! @input password: passowrd used to connect to Azure
 #! @input auth_token: authentication token
 #! @input resource_group_name: resource group name
-#! @input account_name: storage account name from which the key will be retrieved
+#! @input storage_account: storage account name from which the key will be retrieved
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -83,9 +83,9 @@ flow:
     - subscription_id
     - auth_token
     - resource_group_name
-    - account_name
+    - storage_account
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + account_name + '/listKeys?api-version=2015-06-15'}
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account + '/listKeys?api-version=2015-06-15'}
     - content_type:
         default: 'application/json'
         required: false
