@@ -13,7 +13,7 @@
 #! @input timezone: optional - the timezone you want the current datetime to be.
 #!                  Examples: GMT, GMT+1, PST
 #!                  Default: GMT
-#! @input dateFormat: optional - the format of the output date/time.The Default date/time format is from the Java
+#! @input date_format: optional - the format of the output date/time.The Default date/time format is from the Java
 #!                    environment (which is dependent on the OS date/time format)
 #!                    Example: dd-M-yyyy HH:mm:ss
 #! @output return_result: contains the current date and time according to the given locale, exception otherwise
