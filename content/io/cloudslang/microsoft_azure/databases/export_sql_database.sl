@@ -7,17 +7,29 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of the containers under the specified account
+#! @description: Performs an HTTP request to export an sql database
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input list_cont_auth_header: Storage authorization header
-#! @input storage_account: Storage account name
-#! @input date: Specifies the Coordinated Universal Time (UTC) for the request
+#! @input resource_group_name: resource group name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input database_name: Azure database name to be created
+#! @input sql_server_name: Sql Database server name
+#! @inputstorage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
+#!                          - StorageAccessKey (using storage account key)
+#!                          - SharedAccessKey (using SAS key)
+#! @input storage_key: Specifies the access key for the storage account.
+#! @input uri_of_the_bacpac_file: pecifies the blob URI of the .bacpac file.
+#! @input sql_admin_name: Specifies the name of the SQL administrator.
+#! @input sql_admin_password: Specifies the password of the SQL administrator.
+#! @input sql_auth_type: optional - (This parameter is only available on SQL Database V12 servers).
+#!                      Specifies the type of authentication used to access the server. Defaults to SQL if no
+#!                      authenticationType is set. Acceptable values are:
+#!                      SQL (SQL authentication) - set the 'administratorLogin' and 'administratorLoginPassword'
+#!                                               to the SQL admin username and password.
+#!                      ADPassword (Azure Active Directory authentication) – set the 'administratorLogin' and
+#!                      'administratorLoginPassword' to the Azure AD admin username and password.
 #! @input auth_token: Azure authorization Bearer token
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
@@ -53,7 +65,7 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
@@ -62,17 +74,17 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: the list of the containers under the specified account
+#! @output output: response with information about the exported sql database
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the containers are not found the error message will be populated with a response,
+#! @output error_message: If a database is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: The list of the containers under the specified account retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of the containers under the specified account
+#! @result SUCCESS: Database exported successfully.
+#! @result FAILURE: There was an error while trying to export the database.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.storage
+namespace: io.cloudslang.microsoft_azure.databases
 
 imports:
   http: io.cloudslang.base.http
@@ -80,76 +92,83 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_containers
+  name: export_sql_database
 
   inputs:
-    - list_cont_auth_header
-    - storage_account
-    - date
     - url:
-        default: ${'https://' + storage_account + '.blob.core.windows.net/?comp=list'}
-    - subscription_id
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '/databases/' + database_name + '/export?api-version=2014-04-01-preview'}
     - auth_token
+    - location
+    - subscription_id
+    - database_name
+    - sql_server_name
+    - storage_key_type
+    - storage_key
+    - uri_of_the_bacpac_file
+    - sql_admin_name
+    - sql_admin_password
+    - sql_auth_type:
+        required: false
+        default: 'SQL'
+    - content_type:
+        default: 'application/json'
+        required: false
     - auth_type:
-        default: 'anonymous'
+        default: "anonymous"
         required: false
     - username:
         required: false
     - password:
         required: false
-    - preemptive_auth:
-        default: 'true'
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        default: '8080'
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+    - proxy_port:
+        required: false
+        default: "8080"
+    - proxy_host:
+        required: false
     - trust_all_roots:
-        default: 'false'
+        default: "false"
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: "strict"
         required: false
     - trust_keystore:
         required: false
-    - trust_password:
         default: ''
+    - trust_password:
         required: false
+        default: ""
     - keystore:
         required: false
-    - keystore_password:
         default: ''
+    - keystore_password:
+        default: ""
         required: false
     - use_cookies:
-        default: 'true'
+        default: "true"
+        required: false
+    - keep_alive:
+        default: "true"
+        required: false
+    - connections_max_per_root:
+        default: "50"
+        required: false
+    - connections_max_total:
+        default: "500"
         required: false
     - request_character_set:
         default: 'UTF-8'
-        required: false
-    - keep_alive:
-        default: 'true'
-        required: false
-    - connections_max_per_route:
-        default: '30'
-        required: false
-    - connections_max_total:
-        default: '300'
-        required: false
 
   workflow:
-    - list_containers:
+    - export_sql_database:
         do:
-          http.http_client_get:
+          http.http_client_post:
             - url
-            - headers: >
-                ${'Authorization: ' + list_cont_auth_header + '\n' +
-                'x-ms-date:' + date + '\n' +
-                'x-ms-version:2015-04-05'}
+            - body: ${'{"storageKeyType":"' + storage_key_type + '","storageKey":"' + storage_key + '","storageUri":"' + uri_of_the_bacpac_file + '","administratorLogin":"' sql_admin_name + '","administratorLoginPassword":"' + sql_admin_password + '","authenticationType":"' + sql_auth_type + '"}'}
+            - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
             - password
@@ -164,11 +183,17 @@ flow:
             - trust_password
             - keystore
             - keystore_password
+            - connect_timeout
+            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
             - connections_max_total
+            - content_type
             - request_character_set
+            - response_character_set
+            - multipart_bodies_content_type
+            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
@@ -204,6 +229,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
 
   outputs:
     - output
