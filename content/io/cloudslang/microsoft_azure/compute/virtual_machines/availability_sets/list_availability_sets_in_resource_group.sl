@@ -7,14 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a network interface card
+#! @description: Performs an HTTP request to retrieve a List of all availability sets in a resource group
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
@@ -23,10 +24,6 @@
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
 #! @input password: passowrd used to connect to Azure
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -66,33 +63,32 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response with information of the deleted network interface card
+#! @output output: the list of all availability sets in a resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If no availability set is  found the error message will be populated with a response,
+#!                        empty otherwise
 #!
-#! @result SUCCESS: Network interface card deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the network interface card.
+#! @result SUCCESS: The list with all availability sets in a resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve all the availability sets in a resource group.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network
+namespace: io.cloudslang.microsoft_azure.compute.virtual_machines.availability_sets
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow: 
-  name: delete_nic
-  
+flow:
+  name: list_availability_sets_in_resource_group
+
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
-    - auth_token   
-    - location
-    - resource_group_name   
-    - nic_name   
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/availabilitySets?api-version=2015-06-15'}
     - subscription_id
+    - resource_group_name
+    - auth_token
     - auth_type:
         default: 'anonymous'
         required: false
@@ -131,26 +127,23 @@ flow:
     - use_cookies:
         default: 'true'
         required: false
+    - request_character_set:
+        default: 'UTF-8'
+        required: false
     - keep_alive:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '20'
+        default: '30'
         required: false
     - connections_max_total:
-        default: '200'
-        required: false
-    - content_type:
-        default: 'application/json'
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
+        default: '300'
         required: false
 
-  workflow: 
-    - http_client_put:
+  workflow:
+    - list_availability_sets_in_resource_group:
         do:
-          http.http_client_delete:
+          http.http_client_get:
             - url
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
@@ -171,7 +164,6 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - content_type
             - request_character_set
         publish:
           - output: ${return_result}
@@ -204,7 +196,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '202'
+            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

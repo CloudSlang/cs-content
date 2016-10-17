@@ -137,7 +137,7 @@ flow:
 
   workflow:
 
-    - http_client_post:
+    - start_vm:
         do:
           http.http_client_post:
             - url

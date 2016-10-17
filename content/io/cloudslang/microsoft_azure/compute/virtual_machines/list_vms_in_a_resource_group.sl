@@ -124,7 +124,7 @@ flow:
         required: false
 
   workflow:
-    - get_information_about_vms:
+    - list_vms_in_a_resource_group:
         do:
           http.http_client_get:
             - url

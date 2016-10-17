@@ -7,18 +7,30 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to export an sql database
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
+#! @input database_name: Azure database name to be created
+#! @input sql_server_name: Sql Database server name
+#! @inputstorage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
+#!                          - StorageAccessKey (using storage account key)
+#!                          - SharedAccessKey (using SAS key)
+#! @input storage_key: Specifies the access key for the storage account.
+#! @input uri_of_the_bacpac_file: pecifies the blob URI of the .bacpac file.
+#! @input sql_admin_name: Specifies the name of the SQL administrator.
+#! @input sql_admin_password: Specifies the password of the SQL administrator.
+#! @input sql_auth_type: optional - (This parameter is only available on SQL Database V12 servers).
+#!                      Specifies the type of authentication used to access the server. Defaults to SQL if no
+#!                      authenticationType is set. Acceptable values are:
+#!                      SQL (SQL authentication) - set the 'administratorLogin' and 'administratorLoginPassword'
+#!                                               to the SQL admin username and password.
+#!                      ADPassword (Azure Active Directory authentication) – set the 'administratorLogin' and
+#!                      'administratorLoginPassword' to the Azure AD admin username and password.
 #! @input auth_token: Azure authorization Bearer token
 #! @input url: url to the Azure resource
-#! @input public_ip_address_name: Virtual machine public IP address
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input username: username used to connect to Azure
@@ -62,36 +74,42 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response about the model view of a virtual machine
+#! @output output: response with information about the exported sql database
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If a database is not found the error message will be populated with a response,
+#!                        empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Database exported successfully.
+#! @result FAILURE: There was an error while trying to export the database.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.network
+namespace: io.cloudslang.microsoft_azure.databases
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow: 
-  name: create_nic
-  
+flow:
+  name: export_sql_database
+
   inputs:
     - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '?api-version=2015-06-15'}
-    - nic_name   
+        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '/databases/' + database_name + '/export?api-version=2014-04-01-preview'}
+    - auth_token
     - location
-    - auth_token   
-    - subscription_id   
-    - public_ip_address_name   
-    - virtual_network_name   
-    - subnet_name   
-    - resource_group_name
+    - subscription_id
+    - database_name
+    - sql_server_name
+    - storage_key_type
+    - storage_key
+    - uri_of_the_bacpac_file
+    - sql_admin_name
+    - sql_admin_password
+    - sql_auth_type:
+        required: false
+        default: 'SQL'
     - content_type:
         default: 'application/json'
         required: false
@@ -143,13 +161,13 @@ flow:
         required: false
     - request_character_set:
         default: 'UTF-8'
-    
-  workflow: 
-    - create_network_interface_card:
+
+  workflow:
+    - export_sql_database:
         do:
-          http.http_client_put:
+          http.http_client_post:
             - url
-            - body: ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name + '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '}"}}}]}}'}
+            - body: ${'{"storageKeyType":"' + storage_key_type + '","storageKey":"' + storage_key + '","storageUri":"' + uri_of_the_bacpac_file + '","administratorLogin":"' sql_admin_name + '","administratorLoginPassword":"' + sql_admin_password + '","authenticationType":"' + sql_auth_type + '"}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - username
@@ -179,7 +197,7 @@ flow:
         publish:
           - output: ${return_result}
           - status_code
-        navigate: 
+        navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
 
@@ -211,14 +229,14 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-           
-    
-  outputs: 
+
+
+  outputs:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 

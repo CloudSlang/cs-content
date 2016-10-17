@@ -122,7 +122,7 @@ flow:
         required: false
 
   workflow:
-    - get_information_about_vms:
+    - list_vms_in_a_subscription:
         do:
           http.http_client_get:
             - url

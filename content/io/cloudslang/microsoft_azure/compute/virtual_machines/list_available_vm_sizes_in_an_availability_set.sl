@@ -124,7 +124,7 @@ flow:
         required: false
 
   workflow:
-    - get_information_about_vms:
+    - list_available_vm_sizes_in_an_availability_set:
         do:
           http.http_client_get:
             - url

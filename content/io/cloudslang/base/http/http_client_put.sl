@@ -113,6 +113,8 @@ flow:
     - content_type:
         default: "text/plain"
         required: false
+    - request_character_set:
+        required: false
     - method:
         default: "PUT"
         private: true

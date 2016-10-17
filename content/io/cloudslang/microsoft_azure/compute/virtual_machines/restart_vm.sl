@@ -139,7 +139,7 @@ flow:
         required: false
 
   workflow:
-    - http_client_post:
+    - restart_vm:
         do:
           http.http_client_post:
             - url
