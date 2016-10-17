@@ -154,7 +154,10 @@ flow:
         do:
           http.http_client_put:
             - url
-            - headers: "${'Authorization: ' + auth_token}"
+            - headers: >
+                ${'Authorization: ' + list_cont_auth_header + '\n' +
+                'x-ms-date:' + date + '\n' +
+                'x-ms-version:2015-04-05'}
             - auth_type
             - content_type
             - username
