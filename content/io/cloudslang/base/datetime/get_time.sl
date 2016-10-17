@@ -10,6 +10,12 @@
 #! @description: retrieves the current date and time according to the given locale
 #! @input locale_lang: optional - the locale language
 #! @input locale_country: optional - the locale country
+#! @input timezone: optional - the timezone you want the current datetime to be.
+#!                  Examples: GMT, GMT+1, PST
+#!                  Default: GMT
+#! @input dateFormat: optional - the format of the output date/time.The Default date/time format is from the Java
+#!                    environment (which is dependent on the OS date/time format)
+#!                    Example: dd-M-yyyy HH:mm:ss
 #! @output return_result: contains the current date and time according to the given locale, exception otherwise
 #!                        Example: 'July 1, 2016 2:32:09 PM EEST'
 #! @result SUCCESS: the current date/time was obtained successfully
@@ -33,9 +39,18 @@ operation:
     - localeCountry:
         default: ${get("locale_country", "US")}
         private: true
+    - timezone:
+        required: false
+        default: 'GMT'
+    - date_format:
+        required: false
+    - dateFormat:
+        default: ${get("date_format", "")}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.3'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.4'
     class_name: io.cloudslang.content.datetime.actions.GetCurrentDateTime
     method_name: execute
 
