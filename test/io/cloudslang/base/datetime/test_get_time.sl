@@ -20,6 +20,10 @@ flow:
         required: false
     - locale_country:
         required: false
+    - timezone:
+        required: false
+    - date_format:
+        required: false
 
   workflow:
     - execute_get_current_time:
@@ -27,6 +31,8 @@ flow:
           datetime.get_time:
             - locale_lang
             - locale_country
+            - timezone
+            - date_format
         publish:
             - response: ${result}
         navigate:
