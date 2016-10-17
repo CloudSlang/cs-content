@@ -33,9 +33,17 @@ operation:
     - localeCountry:
         default: ${get("locale_country", "US")}
         private: true
+    - timezone:
+        required: false
+        default: 'GMT'
+    - date_format:
+        required: false
+    - dateFormat:
+        default: ${get("date_format", "")}
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.3'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.4'
     class_name: io.cloudslang.content.datetime.actions.GetCurrentDateTime
     method_name: execute
 
