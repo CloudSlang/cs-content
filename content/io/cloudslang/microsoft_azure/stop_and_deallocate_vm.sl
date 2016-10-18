@@ -119,7 +119,7 @@ flow:
 
     - stop_and_deallocate_vm:
         do:
-          vm.stop_and_deallocate:
+          vm.stop_and_deallocate_vm:
             - vm_name
             - subscription_id
             - resource_group_name
