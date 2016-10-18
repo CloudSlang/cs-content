@@ -7,23 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to create a subnet
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
 #! @input network_routing_table: Reference to route table that will be applied to this subnet.
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
-#! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
@@ -48,13 +46,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -68,12 +64,12 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: json response about the model view of a virtual machine
+#! @output output: Information about the subnet created
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Subnet created successfully.
+#! @result FAILURE: There was an error while trying to create subnet.
 #!!#
 ########################################################################################################################
 
@@ -93,16 +89,15 @@ flow:
     - resource_group_name   
     - subnet_name   
     - virtual_network_name
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - network_routing_table:
         required: false
     - network_security_group_name:
         required: false
     - auth_type:
         default: 'anonymous'
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - preemptive_auth:
         default: 'true'
@@ -116,6 +111,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -126,11 +122,13 @@ flow:
         required: false
     - trust_password:
         default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
         default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -152,13 +150,11 @@ flow:
     - create_subnet:
         do:
           http.http_client_put:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=2015-06-15'}
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=' + api_version}
             - body: >
                 ${'{"properties":{"addressPrefix":"10.1.0.0/24","networkSecurityGroup":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkSecurityGroups/' + network_security_group_name + '"},"routeTable":{"id": "/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/routeTables/' + network_routing_table + '"}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -170,8 +166,6 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-            - connect_timeout
-            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
@@ -224,6 +218,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

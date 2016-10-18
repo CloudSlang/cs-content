@@ -10,11 +10,9 @@
 #! @description: Performs an HTTP request to delete a virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input url: url to the Azure resource
+#! @input api_version: The API version used to create calls to Azure
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -36,7 +34,7 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -81,19 +79,16 @@ flow:
   name: delete_vm
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '?api-version=2015-05-01-preview'}
     - auth_token
     - resource_group_name
     - subscription_id
     - location
     - vm_name
+    - api_version:
+        required: false
+        default: '2015-05-01-preview'
     - auth_type:
         default: 'anonymous'
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - preemptive_auth:
         default: 'true'
@@ -107,6 +102,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -117,11 +113,13 @@ flow:
         required: false
     - trust_password:
         default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
         default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -146,11 +144,9 @@ flow:
     - delete_vm:
         do:
           http.http_client_delete:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '?api-version=' + api_version}
             - auth_type
             - headers: "${'Authorization: ' + auth_token}"
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -211,5 +207,5 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE

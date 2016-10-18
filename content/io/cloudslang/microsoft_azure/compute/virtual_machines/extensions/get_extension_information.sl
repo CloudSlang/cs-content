@@ -10,6 +10,7 @@
 #! @description: Performs an HTTP request to retrieve information about the specified extension
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
@@ -18,11 +19,8 @@
 #! @input virtual_machine_name: Virtual machine name
 #! @input extension_name: Extension name
 #! @input resource_group_name: resource group name
-#! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -42,13 +40,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -83,19 +79,16 @@ flow:
   name: get_extension_information
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/extensions/' + extension_name + '?api-version=2016-03-30'}
     - subscription_id
     - resource_group_name
     - virtual_machine_name
     - extension_name
     - auth_token
+    - api_version:
+        required: false
+        default: '2016-03-30'
     - auth_type:
         default: 'anonymous'
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - preemptive_auth:
         default: 'true'
@@ -109,6 +102,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -119,11 +113,13 @@ flow:
         required: false
     - trust_password:
         default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
         default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -145,11 +141,9 @@ flow:
     - get_extension_information:
         do:
           http.http_client_get:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/extensions/' + extension_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -208,6 +202,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

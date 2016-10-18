@@ -7,22 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a network interface card
+#! @description: Performs an HTTP request to update a subnet
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
-#! @input url: url to the Azure resource
-#! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
@@ -43,13 +40,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -67,7 +62,7 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
+#! @result SUCCESS: Subnet updated successfully.
 #! @result FAILURE: There was an error while trying to create the network interface card.
 #!!#
 ########################################################################################################################
@@ -83,27 +78,26 @@ flow:
   name: update_subnet
   
   inputs:
-    - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' subnet_name + '?api-version&#x3D;2015-06-15'}
-    - subscription_id   
+    - subscription_id
     - auth_token
     - resource_group_name   
     - subnet_name   
     - virtual_network_name   
     - network_security_group_name
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - content_type:
         default: 'application/json'
         required: false
     - auth_type:
         default: "anonymous"
         required: false
-    - username:
-        required: false
-    - password:
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
         default: "8080"
@@ -119,13 +113,15 @@ flow:
         required: false
         default: ''
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
-        default: ""
     - keystore:
         required: false
         default: ''
     - keystore_password:
-        default: ""
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: "true"
@@ -146,36 +142,29 @@ flow:
     - update_subnet:
         do:
           http.http_client_put:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' subnet_name + '?api-version=' + api_version}
             - body: ${'{"properties":{"addressPrefix":"10.1.0.0/24","networkSecurityGroup":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkSecurityGroups/' + network_security_group_name + '"}}}'}
-            - headers: 'Authorization:${authToken}' 
-            - auth_type: 'anonymous' 
-            - username
-            - password
-            - preemptive_auth: 'true' 
+            - headers: "${'Authorization: ' + auth_token}"
+            - auth_type
+            - preemptive_auth
             - proxy_host
-            - proxy_port: '8080' 
+            - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false' 
-            - x509_hostname_verifier: 'strict' 
+            - trust_all_roots
+            - x509_hostname_verifier
             - trust_keystore
-            - trust_password: 'changeit' 
+            - trust_password
             - keystore
-            - keystore_password: 'changeit' 
-            - connect_timeout: '0' 
-            - socket_timeout: '0' 
-            - use_cookies: 'true' 
-            - keep_alive: 'true' 
-            - connections_max_per_route: '50' 
-            - connections_max_total: '500' 
-            - source_file
-            - content_type: 'application/json' 
-            - request_character_set: 'UTF-8' 
-            - destination_file
+            - keystore_password
+            - use_cookies
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
+            - content_type
+            - request_character_set
             - response_character_set
             - chunked_request_entity
-            - method: 'PUT' 
         publish:
           - output: ${return_result}
           - status_code
@@ -218,6 +207,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

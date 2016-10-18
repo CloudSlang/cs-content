@@ -7,23 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a virtual network
+#! @description: Performs an HTTP request to list virtual networks within a resource group.
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
-#! @input nic_name: network interface card name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
+#! @input api_version: The API version used to create calls to Azure
 #! @input auth_token: Azure authorization Bearer token
+#! @input resource_group_name: resource group name
+#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header
+#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
+#!                         will be sent - Default: true
 #! @input url: url to the Azure resource
-#! @input public_ip_address_name: Virtual machine public IP address
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input network_security_group_name: network security group name
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -43,18 +39,16 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
+#! @input connections_max_per_route: optional - maximum limit of connections on a per route basis - Default: '50'
 #! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
@@ -63,17 +57,18 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: response with information about the created virtual network
+#! @output output: information about the list of network security groups within a resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a virtual network is not found the error message will be populated with a response,
+#! @output error_message: If the resource group is  not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Virtual network created successfully.
-#! @result FAILURE: There was an error while trying to create the virtual network.
+#! @result SUCCESS: Information about the list of virtual networks withing the resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve retrieve information about the list of virtual networks
+#!                  withing the resource group.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.virtual_networks
+namespace: io.cloudslang.microsoft_azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
@@ -81,81 +76,72 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: create_virtual_network
+  name: list_virtual_networks_within_resource_group
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '?api-version=2015-06-15'}
-    - auth_token
-    - location
-    - subnet_name
-    - resource_group_name
-    - network_security_group_name
-    - virtual_network_name
     - subscription_id
-    - public_ip_address_name
-    - content_type:
-        default: 'application/json'
+    - resource_group_name
+    - auth_token
+    - api_version:
         required: false
+        default: '2016-03-30'
     - auth_type:
-        default: "anonymous"
+        default: 'anonymous'
         required: false
-    - username:
+    - preemptive_auth:
+        default: 'true'
         required: false
-    - password:
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
-    - proxy_port:
-        required: false
-        default: "8080"
-    - proxy_host:
-        required: false
+        sensitive: true
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: 'strict'
         required: false
     - trust_keystore:
         required: false
-        default: ''
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
-        default: ""
     - keystore:
         required: false
-        default: ''
     - keystore_password:
-        default: ""
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
-        default: "true"
-        required: false
-    - keep_alive:
-        default: "true"
-        required: false
-    - connections_max_per_root:
-        default: "50"
-        required: false
-    - connections_max_total:
-        default: "500"
+        default: 'true'
         required: false
     - request_character_set:
         default: 'UTF-8'
+        required: false
+    - keep_alive:
+        default: 'true'
+        required: false
+    - connections_max_per_route:
+        default: '30'
+        required: false
+    - connections_max_total:
+        default: '300'
+        required: false
 
   workflow:
-    - create_virtual_network:
+    - list_virtual_networks_within_resource_group:
         do:
-          http.http_client_put:
-            - url
-            - body: ${'[{"location":"' + location + '","tags":{"key":"value"},"etag":"W/\"00000000-0000-0000-0000-000000000000\"","properties":{"addressSpace":{"addressPrefixes":["10.1.0.0/16","10.2.0.0/16"]},"dhcpOptions":{"dnsServers":["10.1.0.5","10.1.0.6"]}"subnets":[{"name":"' + subnet_name + '","properties":{"provisioningState":"Succeeded","addressPrefix":"10.1.0.0/24","networkSecurityGroup":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkSecurityGroups/' + network_security_group_name + '"}}}]}}]'}
+          http.http_client_get:
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualnetworks?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -167,17 +153,11 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-            - connect_timeout
-            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - content_type
             - request_character_set
-            - response_character_set
-            - multipart_bodies_content_type
-            - chunked_request_entity
         publish:
           - output: ${return_result}
           - status_code
@@ -214,13 +194,12 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
-
   outputs:
     - output
     - status_code
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

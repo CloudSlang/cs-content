@@ -65,6 +65,6 @@ flow:
     - date
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

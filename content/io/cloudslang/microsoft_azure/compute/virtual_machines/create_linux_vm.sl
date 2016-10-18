@@ -10,16 +10,14 @@
 #! @description: Performs an HTTP request to create a linux virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: Azure resource group name
-#! @input username: Username needed to log in to Azure
-#! @input password: Password needed to log in to Azure
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
 #! @input vm_name: virtual machine name
-#! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input resource_group_name: Azure resource group name
@@ -74,13 +72,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -127,6 +123,9 @@ flow:
     - admin_username
     - admin_password
     - vm_size
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - storage_account:
         default: ''
         required: false
@@ -141,10 +140,6 @@ flow:
     - auth_type:
         default: 'anonymous'
         required: false
-    - username:
-        required: false
-    - password:
-        required: false
     - preemptive_auth:
         default: 'true'
         required: false
@@ -157,6 +152,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -166,10 +162,14 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -194,13 +194,11 @@ flow:
     - create_linux_machine:
         do:
           http.http_client_put:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '?validating=false&api-version=2015-06-15'}
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '?validating=false&api-version=' + api_version}
             - body: >
-                ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name + '","type":"Microsoft.Compute/virtualMachines","location":"' + location + '","tags":{"department":"cslteam"},"properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name + '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' + publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' + vm_name + '}osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' + vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"},"dataDisks":[{"name":"' + vm_name + 'dataDisk","diskSizeGB":"1","lun":0,"vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' + vm_name + 'dataDisk.vhd"},"createOption":"Empty"}]},"osProfile":{"computerName":"' + vm_name + '","adminUsername":"' + admin_username + '","adminPassword":"' + admin_password + '"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '"}]}}}'}
+                ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name + '","type":"Microsoft.Compute/virtualMachines","location":"' + location + '","properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name + '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' + publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' + vm_name + '}osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' + vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"},"dataDisks":[{"name":"' + vm_name + 'dataDisk","diskSizeGB":"1","lun":0,"vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' + vm_name + 'dataDisk.vhd"},"createOption":"Empty"}]},"osProfile":{"computerName":"' + vm_name + '","adminUsername":"' + admin_username + '","adminPassword":"' + admin_password + '"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name + '"}]}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -249,7 +247,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '201'
+            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -262,5 +260,5 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE

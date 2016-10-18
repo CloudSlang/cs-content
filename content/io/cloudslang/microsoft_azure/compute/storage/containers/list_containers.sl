@@ -10,6 +10,7 @@
 #! @description: Performs an HTTP request to retrieve a list of the containers under the specified account
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
 #! @input list_cont_auth_header: Storage authorization header
 #! @input storage_account: Storage account name
 #! @input date: Specifies the Coordinated Universal Time (UTC) for the request
@@ -18,11 +19,8 @@
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -42,13 +40,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -86,16 +82,10 @@ flow:
     - list_cont_auth_header
     - storage_account
     - date
-    - url:
-        default: ${'https://' + storage_account + '.blob.core.windows.net/?comp=list'}
     - subscription_id
     - auth_token
     - auth_type:
         default: 'anonymous'
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - preemptive_auth:
         default: 'true'
@@ -109,6 +99,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -119,11 +110,13 @@ flow:
         required: false
     - trust_password:
         default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
         default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -145,14 +138,12 @@ flow:
     - list_containers:
         do:
           http.http_client_get:
-            - url
+            - url: ${'https://' + storage_account + '.blob.core.windows.net/?comp=list'}
             - headers: >
                 ${'Authorization: ' + list_cont_auth_header + '\n' +
                 'x-ms-date:' + date + '\n' +
                 'x-ms-version:2015-04-05'}
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -211,6 +202,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

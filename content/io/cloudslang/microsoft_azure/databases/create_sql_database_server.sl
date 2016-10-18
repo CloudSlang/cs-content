@@ -10,6 +10,7 @@
 #! @description: Performs an HTTP request to create an sql database server
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: resource group name
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
@@ -25,11 +26,8 @@
 #! @input sql_admin_name: Sql database server admin username
 #! @input sql_admin_password: Sql database server admin password
 #! @input auth_token: Azure authorization Bearer token
-#! @input url: url to the Azure resource
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -49,7 +47,7 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -90,8 +88,6 @@ flow:
   name: create_sql_database_server
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '?api-version=2014-04-01-preview'}
     - auth_token
     - location
     - subscription_id
@@ -101,20 +97,20 @@ flow:
         default: '12.0'
     - sql_admin_name
     - sql_admin_password
+    - api_version:
+        required: false
+        default: '2014-04-01-preview'
     - content_type:
         default: 'application/json'
         required: false
     - auth_type:
         default: "anonymous"
         required: false
-    - username:
-        required: false
-    - password:
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
         default: "8080"
@@ -130,13 +126,15 @@ flow:
         required: false
         default: ''
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
-        default: ""
     - keystore:
         required: false
         default: ''
     - keystore_password:
-        default: ""
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: "true"
@@ -157,13 +155,11 @@ flow:
     - create_sql_database_server:
         do:
           http.http_client_put:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '?api-version=' + api_version}
             - body: >
                  ${'{"location":"' + location + '","tags":{"key":"value"},"properties":{"version":"' + sql_server_version + '","administratorLogin":"' +  sql_admin_name + '","administratorLoginPassword":"' + sql_admin_password + '"}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -175,8 +171,6 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-            - connect_timeout
-            - socket_timeout
             - use_cookies
             - keep_alive
             - connections_max_per_route
@@ -229,6 +223,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

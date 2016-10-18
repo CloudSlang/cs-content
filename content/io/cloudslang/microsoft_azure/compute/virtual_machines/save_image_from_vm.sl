@@ -10,11 +10,9 @@
 #! @description: Performs an HTTP request to save an image that is associated with a generalized virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input url: url to the Azure resource
+#! @input api_version: The API version used to create calls to Azure
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input auth_token: authentication token
 #! @input vhd_prefix: Specifies the prefix in the name of the blobs that will constitute the storage profile of the image
 #! @input destination_container_name: Specifies the name of the container inside which the vhds constituting the image will reside
@@ -41,13 +39,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -89,17 +85,14 @@ flow:
     - virtual_machine_name
     - vhd_prefix
     - destination_container_name
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - override_vhds:
         required: false
         default: 'true'
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/capture?api-version=2015-06-15'}
     - auth_type:
         default: "anonymous"
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - content_type:
         default: 'application/json'
@@ -108,6 +101,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
         default: "8080"
@@ -123,13 +117,15 @@ flow:
         required: false
         default: ""
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
-        default: ""
     - keystore:
         required: false
         default: ""
     - keystore_password:
-        default: ""
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: "true"
@@ -151,13 +147,11 @@ flow:
     - save_image_from_vm:
         do:
           http.http_client_post:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + virtual_machine_name + '/capture?api-version=' + api_version}
             - headers: "${'Authorization: '+ auth_token}"
             - body: ${'{"vhdPrefix":"' + vhd_prefix + '","destinationContainerName":"' + destination_container_name + '","overwriteVhds":' + override_vhds + '}'}
             - auth_type
             - content_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
