@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the list of all the sql servers available
+#! @description: Performs an HTTP request to list virtual networks within a subscription.
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input api_version: The API version used to create calls to Azure
@@ -16,7 +16,6 @@
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input resource_group_name: resource group name
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
@@ -43,8 +42,6 @@
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -58,17 +55,18 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the specified sql servers found
+#! @output output: information about the list of network security groups within a resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the no databases are foun the error message will be populated with a response,
+#! @output error_message: If the resource group is  not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the list of sql servers retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve retrieve information about the sql servers found
+#! @result SUCCESS: Information about the list of virtual networks withing subscription retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve retrieve information about the list of virtual networks
+#!                  withing subscription
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.databases
+namespace: io.cloudslang.microsoft_azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
@@ -76,15 +74,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_sql_servers
+  name: list_virtual_networks_within_subscription
 
   inputs:
     - subscription_id
-    - resource_group_name
     - auth_token
     - api_version:
         required: false
-        default: '2014-04-01-preview'
+        default: '2016-03-30'
     - auth_type:
         default: 'anonymous'
         required: false
@@ -136,10 +133,10 @@ flow:
         required: false
 
   workflow:
-    - list_sql_databases:
+    - list_virtual_networks_within_subscription:
         do:
           http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers?api-version=' + api_version}
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/ providers/Microsoft.Network/virtualnetworks?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - preemptive_auth

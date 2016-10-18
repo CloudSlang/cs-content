@@ -37,7 +37,8 @@ operation:
   name: get_auth_token
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - client_id:
         required: false
     - clientId:

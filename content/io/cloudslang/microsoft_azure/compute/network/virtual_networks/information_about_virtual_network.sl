@@ -7,19 +7,26 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to list virtual networks within a subscription.
+#! @description: Performs an HTTP request to retrieve information about a virtual network
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input api_version: The API version used to create calls to Azure
+#! @input resource_group_name: resource group name
+#! @input nic_name: network interface card name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
+#! @input url: url to the Azure resource
+#! @input network_security_group: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input url: url to the Azure resource
+#! @input public_ip_address_name: Virtual machine public IP address
+#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
+#! @input subnet_name: Name of the network subnet
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -39,13 +46,11 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -59,18 +64,16 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the list of network security groups within a resource group
+#! @output output: json response about the virtual network
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the resource group is  not found the error message will be populated with a response,
-#!                        empty otherwise
+#! @output error_message: If a VM is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: Information about the list of virtual networks withing subscription retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve retrieve information about the list of virtual networks
-#!                  withing subscription
+#! @result SUCCESS: Virtual network information retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve information about the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.virtual_networks
+namespace: io.cloudslang.microsoft_azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
@@ -78,19 +81,19 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_virtual_networks_within_subscription
+  name: information_about_virtual_network
 
   inputs:
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/ providers/Microsoft.Network/virtualnetworks?api-version=2016-03-30'}
     - subscription_id
     - auth_token
+    - resource_group_name
+    - virtual_network_name
+    - subnet_name
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - auth_type:
         default: 'anonymous'
-        required: false
-    - username:
-        required: false
-    - password:
         required: false
     - preemptive_auth:
         default: 'true'
@@ -104,6 +107,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -114,11 +118,13 @@ flow:
         required: false
     - trust_password:
         default: ''
+        sensitive: true
         required: false
     - keystore:
         required: false
     - keystore_password:
         default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: 'true'
@@ -130,21 +136,19 @@ flow:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '30'
+        default: '50'
         required: false
     - connections_max_total:
-        default: '300'
+        default: '500'
         required: false
 
   workflow:
-    - list_virtual_networks_within_subscription:
+    - information_about_virtual_network:
         do:
           http.http_client_get:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '/subnets/' + subnet_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -160,7 +164,6 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - request_character_set
         publish:
           - output: ${return_result}
           - status_code
@@ -192,7 +195,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '200'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -203,6 +206,6 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
 

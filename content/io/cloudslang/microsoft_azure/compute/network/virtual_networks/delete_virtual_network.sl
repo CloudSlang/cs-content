@@ -7,18 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the list of all the sql servers available
+#! @description: Performs an HTTP request to delete a virtual network
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input api_version: The API version used to create calls to Azure
+#! @input resource_group_name: resource group name
+#! @input nic_name: network interface card name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
 #! @input auth_token: Azure authorization Bearer token
+#! @input public_ip_address_name: Virtual machine public IP address
+#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
+#! @input auth_type: optional - authentication type
+#!                   Default: "anonymous"
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent - Default: true
-#! @input resource_group_name: resource group name
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
@@ -43,8 +48,6 @@
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -58,17 +61,16 @@
 #! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: information about the specified sql servers found
+#! @output output: json response about the model view of a virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the no databases are foun the error message will be populated with a response,
-#!                        empty otherwise
+#! @output error_message: If a virtual network is not found the error message will be empty, otherwise exception
 #!
-#! @result SUCCESS: Information about the list of sql servers retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve retrieve information about the sql servers found
+#! @result SUCCESS: Virtual network deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.databases
+namespace: io.cloudslang.microsoft_azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
@@ -76,15 +78,16 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_sql_servers
+  name: delete_virtual_network
 
   inputs:
-    - subscription_id
-    - resource_group_name
     - auth_token
+    - resource_group_name
+    - virtual_network_name
+    - subscription_id
     - api_version:
         required: false
-        default: '2014-04-01-preview'
+        default: '2015-06-15'
     - auth_type:
         default: 'anonymous'
         required: false
@@ -129,17 +132,17 @@ flow:
         default: 'true'
         required: false
     - connections_max_per_route:
-        default: '30'
+        default: '50'
         required: false
     - connections_max_total:
-        default: '300'
+        default: '500'
         required: false
 
   workflow:
-    - list_sql_databases:
+    - delete_virtual_network:
         do:
-          http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers?api-version=' + api_version}
+          http.http_client_delete:
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - preemptive_auth
@@ -148,7 +151,7 @@ flow:
             - proxy_username
             - proxy_password
             - trust_all_roots
-            - x509_hostname_verifier
+            - x509_hostname_verifier'
             - trust_keystore
             - trust_password
             - keystore
@@ -157,7 +160,7 @@ flow:
             - keep_alive
             - connections_max_per_route
             - connections_max_total
-            - request_character_set
+            - response_character_set
         publish:
           - output: ${return_result}
           - status_code
@@ -189,7 +192,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '200'
+            - second_string: '201'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

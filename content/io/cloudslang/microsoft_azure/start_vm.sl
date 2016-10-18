@@ -7,17 +7,17 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all available virtual machine sizes it can be resized to
+#! @description: E2E start virtual machine flow.
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input api_version: The API version used to create calls to Azure
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input username: Azure username
+#! @input password: Azure password
+#! @input authority: the authority URL
+#! @input resource: the resource URL
 #! @input vm_name: virtual machine name
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
-#! @input auth_token: Azure authorization Bearer token
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
-#!                      of the data in the message body
-#!                      Default: "application/json; charset=utf-8"
+#! @input resource_group_name: Azure resource group name
 #! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
@@ -43,145 +43,176 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
-#! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
-#!                    Default: true
-#! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
 #!
-#! @output output: the list of all available virtual machine sizes it can be resized to
-#! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
-#! @output error_message: If no offer is found the error message will be populated with a response, empty otherwise
+#! @output output: Information about the virtual machine that has been started
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output return_code: 0 if success, -1 if failure
+#! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #!
-#! @result SUCCESS: the list of all available virtual machine sizes it can be resized to retrieved successfully
-#! @result FAILURE: There was an error while trying to retrieve the list of all available virtual machine sizes it can be resized to
+#! @result SUCCESS: The E2E flow completed successfully.
+#! @result GET_AUTH_TOKEN_FAILURE: There was an error while trying to get the authentication token
+#! @result START_VM_FAILURE: There was an error while trying to start the virtual machine
+#! @result GET_POWER_STATE_FAILURE: There was an error while trying to retrieve the power state of the VM.
+#! @result COMPARE_POWER_STATE_FAILURE: There was an error while trying to compare the power state excepted and received.
+#! @result FAILURE: There was an error while trying to run every step of the flow.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft_azure
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
+  flow: io.cloudslang.base.flow_control
+  auth: io.cloudslang.microsoft_azure.utility
+  vm: io.cloudslang.microsoft_azure.compute.virtual_machines
 
 flow:
-  name: list_available_vm_sizes_for_resizing
+  name: start_vm
 
   inputs:
-    - subscription_id
-    - auth_token
+    - username
+    - password
+    - authority
+    - resource
     - vm_name
-    - api_version:
-        required: false
-        default: '2015-06-15'
-    - auth_type:
-        default: "anonymous"
-        required: false
-    - content_type:
-        default: 'application/json'
-        required: false
+    - subscription_id
+    - resource_group_name
     - proxy_host:
         required: false
     - proxy_port:
         required: false
-        default: '8080'
     - proxy_username:
         required: false
     - proxy_password:
         required: false
-        sensitive: true
     - trust_all_roots:
-        default: "false"
         required: false
+        default: 'false'
     - x_509_hostname_verifier:
-        default: "strict"
         required: false
-    - trust_keystore:
-        required: false
-        default: ''
-    - trust_password:
-        default: ''
-        sensitive: true
-        required: false
+        default: 'strict'
     - keystore:
         required: false
-        default: ''
     - keystore_password:
+        required: false
         default: ''
         sensitive: true
+    - trust_keystore:
         required: false
-    - use_cookies:
-        default: "true"
+    - trust_password:
         required: false
-    - keep_alive:
-        default: "true"
-        required: false
-    - request_character_set:
-        default: "UTF-8"
-        required: false
+        default: ''
+        sensitive: true
 
   workflow:
-    - list_available_vm_sizes_for_resizing:
+    - get_auth_token:
         do:
-          http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '/vmSizes?api-version=' + api_version}
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type
-            - content_type
+          auth.get_auth_token:
+            - username
+            - password
+            - authority
+            - resource
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - auth_token
+          - return_code
+          - error_message: ${exception}
+        navigate:
+          - SUCCESS: start_vm
+          - FAILURE: GET_AUTH_TOKEN_FAILURE
+
+    - start_vm:
+        do:
+          vm.start_vm:
+            - vm_name
+            - subscription_id
+            - resource_group_name
+            - auth_token
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - trust_all_roots
-            - x509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - x_509_hostname_verifier
             - keystore
             - keystore_password
-            - use_cookies
-            - keep_alive
-            - request_character_set
+            - trust_keystore
+            - trust_password
         publish:
-          - output: ${return_result}
-          - status_code
+          - output
+          - error_message
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
+          - SUCCESS: get_power_state
+          - FAILURE: START_VM_FAILURE
 
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '502'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+    - get_power_state:
+         do:
+           vm.get_power_state:
+            - vm_name
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - keystore
+            - keystore_password
+            - trust_keystore
+            - trust_password
+         publish:
+           - power_state: ${output}
+           - error_message
+         navigate:
+           - SUCCESS: check_power_state
+           - FAILURE: GET_POWER_STATE_FAILURE
 
-    - retrieve_error:
+    - check_power_state:
         do:
           json.get_value:
-            - json_input: ${output}
-            - json_path: 'error,message'
+            - json_input: ${power_state}
+            - json_path: 'statuses,1,code'
         publish:
-          - error_message: ${return_result}
+          - expected_power_state: ${return_result}
         navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
+          - SUCCESS: compare_power_state
+          - FAILURE: COMPARE_POWER_STATE_FAILURE
 
-    - retrieve_success:
+    - compare_power_state:
         do:
           strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
+            - first_string: ${expected_power_state}
+            - second_string: 'PowerState/running'
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: sleep
+
+    - sleep:
+        do:
+          flow.sleep:
+            - seconds: '30'
+        navigate:
+          - SUCCESS: get_power_state
           - FAILURE: FAILURE
 
   outputs:
     - output
     - status_code
+    - return_code
     - error_message
 
   results:
-    - SUCCESS
-    - FAILURE
+      - SUCCESS
+      - GET_AUTH_TOKEN_FAILURE
+      - START_VM_FAILURE
+      - GET_POWER_STATE_FAILURE
+      - COMPARE_POWER_STATE_FAILURE
+      - FAILURE
+

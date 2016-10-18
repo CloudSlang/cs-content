@@ -10,11 +10,9 @@
 #! @description: Performs an HTTP request to return the access keys for the specified storage account
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input url: url to the Azure resource
+#! @input api_version: The API version used to create calls to Azure
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
-#! @input username: username used to connect to Azure
-#! @input password: passowrd used to connect to Azure
 #! @input auth_token: authentication token
 #! @input resource_group_name: resource group name
 #! @input storage_account: storage account name from which the key will be retrieved
@@ -37,7 +35,7 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: true
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -84,22 +82,20 @@ flow:
     - auth_token
     - resource_group_name
     - storage_account
-    - url:
-        default: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account + '/listKeys?api-version=2015-06-15'}
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - content_type:
         default: 'application/json'
         required: false
     - auth_type:
         default: "anonymous"
         required: false
-    - username:
-        required: false
-    - password:
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - proxy_port:
         required: false
         default: "8080"
@@ -115,13 +111,15 @@ flow:
         required: false
         default: ''
     - trust_password:
+        default: ''
+        sensitive: true
         required: false
-        default: ""
     - keystore:
         required: false
         default: ''
     - keystore_password:
-        default: ""
+        default: ''
+        sensitive: true
         required: false
     - use_cookies:
         default: "true"
@@ -143,14 +141,12 @@ flow:
     - get_storage_account_keys:
         do:
           http.http_client_post:
-            - url
+            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Storage/storageAccounts/' + storage_account + '/listKeys?api-version=' + api_version}
             - headers: >
                      ${'Content-Length: 0' + '\n' +
                      'Authorization: '+ auth_token}
             - auth_type
             - content_type
-            - username
-            - password
             - preemptive_auth
             - proxy_host
             - proxy_port
@@ -221,5 +217,5 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
