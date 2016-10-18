@@ -238,7 +238,7 @@
 #!                                                  the default value is "true".
 #!                                                  Valid values: "true", "false"
 #!                                                  Default: ""
-#! @input network_interface_delete_on_termination_string: optional - String that contains one or more values that indicates
+#! @input network_interface_delete_on_termination: optional - String that contains one or more values that indicates
 #!                                                  that the interface is deleted when the instance is terminated.
 #!                                                  You can specify true only if creating a new network interface when
 #!                                                  launching an instance.
