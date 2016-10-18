@@ -445,12 +445,6 @@ operation:
          private: true
          default: ${get("security_group_ids_string", "")}
          required: false
-   -  network_interface_group_names_string:
-         required: false
-   -  networkInterfaceGroupNamesString:
-         private: true
-         default: ${get("network_interface_group_names_string", "")}
-         required: false
    -  affinity:
          required: false
    -  client_token:
