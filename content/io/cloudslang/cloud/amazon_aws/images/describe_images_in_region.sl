@@ -306,8 +306,8 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesAction
     method_name: execute
 
   outputs:

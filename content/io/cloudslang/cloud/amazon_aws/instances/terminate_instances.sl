@@ -97,7 +97,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.instances.TerminateInstancesAction
     method_name: execute
 
