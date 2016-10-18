@@ -29,6 +29,10 @@
 #!                    inputs or leave them both empty.
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
 #! @input availability_zone: Specifies the Availability Zone in which to create the volume. See more on:
 #!                           https://aws.amazon.com/about-aws/global-infrastructure. Amazon automatically selects an
 #!                           Example: 'us-east-1d'
