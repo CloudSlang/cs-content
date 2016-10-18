@@ -72,7 +72,8 @@ operation:
   name: create_volume
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         required: false
         sensitive: true
@@ -103,6 +104,14 @@ operation:
         default: ${get("proxy_password", "")}
         private: true
         required: false
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        required: false
+        default: ${get("query_params", "")}
+        private: true
     - availability_zone
     - availabilityZone:
         default: ${availability_zone}

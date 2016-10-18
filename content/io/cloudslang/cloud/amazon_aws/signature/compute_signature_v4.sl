@@ -60,7 +60,8 @@ operation:
   name: compute_signature_v4
 
   inputs:
-    - endpoint
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity
     - credential:
         sensitive: true
@@ -72,7 +73,8 @@ operation:
     - uri:
         default: '/'
         required: false
-    - http_verb: 'GET'
+    - http_verb:
+        default: 'GET'
     - httpVerb:
         default: $(get("http_verb", "")}
         required: false

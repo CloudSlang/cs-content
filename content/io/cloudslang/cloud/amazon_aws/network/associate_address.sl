@@ -19,8 +19,8 @@
 #!                          return an error, and you may be charged for each time the Elastic IP address is remapped to
 #!                          the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2
 #!                          Pricing.
-#! @input endpoint: Endpoint to which the request will be sent
-#!                  Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
@@ -67,11 +67,11 @@
 #!                              interface, you must specify a network interface ID.
 #!                              Example: 'eni-12345678'
 #!                              Default: ''
-#! @input network_interface_private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
+#! @input private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
 #!                                              with the Elastic IP address. If no private IP address is specified, the Elastic
 #!                                              IP address is associated with the primary private IP address.
 #!                                              Default: ''
-#! @input network_interface_public_ip: optional - Elastic IP address. This is required for EC2-Classic.
+#! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
@@ -151,16 +151,16 @@ operation:
         default: ${get("network_interface_id", "")}
         private: true
         required: false
-    - network_interface_private_ip_address:
+    - private_ip_address:
         required: false
-    - networkInterfacePrivateIpAddress:
-        default: ${get("network_interface_private_ip_address", "")}
+    - privateIpAddress:
+        default: ${get("private_ip_address", "")}
         private: true
         required: false
-    - network_interface_public_ip:
+    - public_ip:
         required: false
-    - networkInterfacePublicIp:
-        default: ${get("network_interface_public_ip", "")}
+    - publicIp:
+        default: ${get("public_ip", "")}
         private: true
         required: false
 

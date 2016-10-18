@@ -10,15 +10,28 @@
 #! @description: requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to
 #!               reboot the specified instances. The operation succeeds if the instances are valid and belong to you.
 #!               Requests to reboot terminated instances are ignored.
-#! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: optional - the Amazon Access Key ID
 #! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - the region where the server (instance) to be rebooted can be found. list_regions operation
-#!                can be used in order to get all regions - Default: 'us-east-1'
+#! @input proxy_port: optional - the proxy saerver port used to access the provider services - Default: '8080'
+#! @input proxy_username: optional - proxy server user name.
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#! @input version: version of the web service to made the call against it.
+#!                 Example: "2016-04-01"
+#!                 Default: ""
+#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
+#!                    Default: ','
 #! @input instance_id: the ID of the server (instance) you want to reboot
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -33,8 +46,8 @@ operation:
   name: reboot_instances
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         required: false
         sensitive: true
@@ -52,17 +65,35 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
-    - debug_mode:
+    - proxy_username:
         required: false
-    - debugMode:
-        default: ${get("debug_mode", "false")}
+    - proxyUsername:
+        required: false
+        default: ${get("proxy_username", "")}
         private: true
-    - region:
-        default: 'us-east-1'
+    - proxy_password:
         required: false
+        sensitive: true
+    - proxyPassword:
+        required: false
+        default: ${get("proxy_password", "")}
+        private: true
+        sensitive: true
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        required: false
+        default: ${get("query_params", "")}
+        private: true
+    - version
+    - delimiter:
+        required: false
+        default: ','
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         private: true
 
   java_action:

@@ -68,7 +68,7 @@ operation:
         required: false
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         private: true
     - server_type:
         required: false
