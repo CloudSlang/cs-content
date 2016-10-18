@@ -18,9 +18,10 @@ testRunAmazonInstancesLocal:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - debug_mode: <debug_mode>
-    - region: <region>
     - availability_zone: <availability_zone>
     - image_id: <image_id>
     - min_count: <min_count>
     - max_count: <max_count>
+    - instance_type: <instance_type>
+    - version: <version>
   result: SUCCESS
