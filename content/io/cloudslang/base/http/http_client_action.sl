@@ -221,7 +221,7 @@ operation:
     - connections_max_total:
         required: false
     - connectionsMaxTotal:
-        default: ${get("connections_max_total", "2")}
+        default: ${get("connections_max_total", "20")}
         private: true
     - headers:
         required: false
