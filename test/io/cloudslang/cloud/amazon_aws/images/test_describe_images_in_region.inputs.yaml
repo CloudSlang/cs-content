@@ -9,17 +9,48 @@
 testDescribeAMILocal:
   testSuites: [amazon-local]
   description: "Test successfully shows all details of a specified Amazon AWS EC2 image."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.images.test_describe_images_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.images.describe_images_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - region: <region>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - headers: <headers>
+    - query_params: <query_params>
+    - version: <version>
+    - delimiter: <delimiter>
     - identity_id: <identity_id>
-    - image_ids_string: <image_ids_string>
+    - architecture: <architecture>
+    - delete_on_termination: <delete_on_termination>
+    - block_mapping_device_name: <block_mapping_device_name>
+    - block_device_mapping_snapshot_id: <block_device_mapping_snapshot_id>
+    - volume_size: <volume_size>
+    - volume_type: <volume_type>
+    - hypervisor: <hypervisor>
+    - image_id: <image_id>
+    - kernel_id: <kernel_id>
+    - owner_alias: <owner_alias>
+    - owner_id: <owner_id>
+    - platform: <platform>
+    - product_code: <product_code>
+    - product_code_type: <product_code_type>
+    - ramdisk_id: <ramdisk_id>
+    - root_device_name: <root_device_name>
+    - root_device_type: <root_device_type>
+    - state_reason_code: <state_reason_code>
+    - state_reason_message: <state_reason_message>
+    - key_tags_string: <key_tags_string>
+    - value_tags_string: <value_tags_string>
+    - virtualization_type: <virtualization_type>
+    - ids_string: <ids_string>
     - owners_string: <owners_string>
+    - description: <description>
+    - type: <type>
+    - is_public: <is_public>
+    - manifest_location: <manifest_location>
+    - name: <name>
+    - state: <state>
   result: SUCCESS

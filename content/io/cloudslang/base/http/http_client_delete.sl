@@ -37,6 +37,8 @@
 #!                           Default value: changeit
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
+#! @input request_character_set: optional - character encoding to be used for the HTTP request body; should not be provided
+#!                               for method=GET, HEAD, TRACE - Default: 'ISO-8859-1'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
@@ -44,6 +46,7 @@
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'text/plain'
+#! @input method: HTTP method used - Default: 'DELETE'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -100,6 +103,8 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - request_character_set:
+        required: false
     - headers:
         required: false
     - query_params:
@@ -130,6 +135,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - request_character_set
             - headers
             - query_params
             - content_type

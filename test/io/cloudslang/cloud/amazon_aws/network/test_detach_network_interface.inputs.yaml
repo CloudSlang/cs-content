@@ -9,7 +9,7 @@
 testAmazonDetachNetworkInterfaceLocal:
   testSuites: [amazon-local]
   description: "Test that successfully detaches a specified network interface from a Amazon AWS instance."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.network.test_detach_network_interface
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.detach_network_interface
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

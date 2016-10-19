@@ -41,7 +41,7 @@
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
 #! @input network_interface_description: optional - A description for the network interface.
 #!                                       Default: ''
-#! @input network_interface_private_ip_address: optional - Primary private IP address of the network interface. If you
+#! @input private_ip_address: optional - Primary private IP address of the network interface. If you
 #!                                              don't specify an IP address, Amazon EC2 selects one for you from the subnet
 #!                                              range. If you specify an IP address, you cannot indicate any IP addresses
 #!                                              specified in privateIpAddresses as primary (only one IP address can be
@@ -60,7 +60,7 @@
 #!                                            Example: '2'
 #! @input security_group_ids_string: optional - IDs of one or more security groups.
 #!                                   Default: ''
-#! @input network_interface_subnet_id: ID of the subnet to associate with the network interface.
+#! @input subnet_id: ID of the subnet to associate with the network interface.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
@@ -124,10 +124,10 @@ operation:
         default: ${get("network_interface_description", "")}
         private: true
         required: false
-    - network_interface_private_ip_address:
+    - private_ip_address:
         required: false
-    - networkInterfacePrivateIpAddress:
-        default: ${get("network_interface_private_ip_address", "")}
+    - privateIpAddress:
+        default: ${get("private_ip_address", "")}
         private: true
         required: false
     - private_ip_addresses_string:
@@ -148,9 +148,9 @@ operation:
         default: ${get("security_group_ids_string", "")}
         private: true
         required: false
-    - network_interface_subnet_id
-    - networkInterfaceSubnetId:
-        default: ${get("network_interface_subnet_id", "")}
+    - subnet_id
+    - subnetId:
+        default: ${get("subnet_id", "")}
         private: true
         required: false
 

@@ -14,8 +14,8 @@
 #!                     As with all Amazon EC2 operations, the results might not appear immediately.
 #!                     For Region-Endpoint correspondence information, check all the service endpoints available at:
 #!                     http://docs.amazonwebservices.com/general/latest/gr/rande.html#ec2_region
-#! @input endpoint: Endpoint to which the request will be sent
-#!                  Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
@@ -54,7 +54,8 @@ operation:
   name: attach_network_interface
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity
     - credential:
         sensitive: true
@@ -109,7 +110,7 @@ operation:
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.network.AttachNetworkInterfaceAction
     method_name: execute
 
