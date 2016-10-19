@@ -11,13 +11,15 @@ testAmazonCreateSnapshotLocal:
   description: "Test that successfully creates an Amazon AWS snapshot."
   testFlowPath: io.cloudslang.cloud.amazon_aws.snapshots.test_create_snapshot_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - region: <region>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
     - volume_id: <volume_id>
   result: SUCCESS
