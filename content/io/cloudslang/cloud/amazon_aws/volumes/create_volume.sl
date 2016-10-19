@@ -33,6 +33,11 @@
 #!                            The header name-value pair will be separated by ":".
 #!                            Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input availability_zone: Specifies the Availability Zone in which to create the volume. See more on:
 #!                           https://aws.amazon.com/about-aws/global-infrastructure. Amazon automatically selects an
 #!                           Example: 'us-east-1d'
