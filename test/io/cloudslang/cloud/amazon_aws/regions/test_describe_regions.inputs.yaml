@@ -11,13 +11,19 @@ testAmazonListRegionsLocal:
   description: "Test that successfully retrieves Amazon AWS available regions list."
   testFlowPath: io.cloudslang.cloud.amazon_aws.regions.test_describe_regions
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
     - delimiter: <delimiter>
-    - debug_mode: <debug_mode>
+    - key_filters_string: <key_filters_string>
+    - value_filters_string: <value_filters_string>
+    - regions_string: <regions_string>
   result: SUCCESS
 
