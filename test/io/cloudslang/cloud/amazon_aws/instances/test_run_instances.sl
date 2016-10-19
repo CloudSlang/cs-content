@@ -16,8 +16,8 @@ flow:
   name: test_run_instances
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - provider
+    - endpoint
     - identity:
         default: ''
         required: false
@@ -33,9 +33,6 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
     - availability_zone:
         default: ''
         required: false
@@ -46,6 +43,9 @@ flow:
     - max_count:
         default: '1'
         required: false
+    - instance_type:
+        required: false
+    - version
 
   workflow:
     - run_instances:
@@ -63,6 +63,8 @@ flow:
             - image_id
             - min_count
             - max_count
+            - instance_type
+            - version
         publish:
           - return_result
           - return_code
