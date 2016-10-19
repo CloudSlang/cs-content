@@ -9,7 +9,7 @@
 testAmazonDeleteSnapshotLocal:
   testSuites: [amazon-local]
   description: "Test that successfully deletes an Amazon AWS snapshot."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.snapshots.test_delete_snapshot_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.snapshots.delete_snapshot_in_region
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

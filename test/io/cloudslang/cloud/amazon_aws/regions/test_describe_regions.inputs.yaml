@@ -9,7 +9,7 @@
 testAmazonListRegionsLocal:
   testSuites: [amazon-local]
   description: "Test that successfully retrieves Amazon AWS available regions list."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.regions.test_describe_regions
+  testFlowPath: io.cloudslang.cloud.amazon_aws.regions.describe_regions
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>
