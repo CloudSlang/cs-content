@@ -11,15 +11,15 @@ testAmazonComputeV4SignatureLocal:
   description: "Test that successfully computes a Amazon AWS signature based on V4 mechanism."
   testFlowPath: io.cloudslang.cloud.amazon_aws.signature.test_compute_signature_v4
   inputs:
-    - endpoint: 'https://examplebucket.s3.amazonaws.com'
-    - identity: 'AKIAIOSFODNN7EXAMPLE'
-    - credential: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
-    - amazon_api: 's3'
-    - uri: '/test.txt'
-    - http_verb: 'GET'
-    - payload_hash: ''
-    - security_token: ''
-    - date: '20130524T000000Z'
-    - query_params: ''
-    - headers: 'Range:bytes=0-9 x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 x-amz-date:20130524T000000Z'
+    - endpoint: <endpoint>
+    - identity: <identity>
+    - credential: <credential>
+    - amazon_api: <amazon_api>
+    - uri: <uri>
+    - http_verb: <http_verb>
+    - payload_hash: <payload_hash>
+    - security_token: <security_token>
+    - date: <date>
+    - query_params: <query_params>
+    - headers: <headers>
   result: SUCCESS
