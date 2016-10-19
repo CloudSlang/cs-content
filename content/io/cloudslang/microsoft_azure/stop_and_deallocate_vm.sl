@@ -18,31 +18,25 @@
 #! @input resource: the resource URL
 #! @input vm_name: virtual machine name
 #! @input resource_group_name: Azure resource group name
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
-#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
-#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
-#!                           is empty, keystore_password default will be supplied.
-#!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
+#! @input polling_interval: Time to wait between checks
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Default: ''
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
 #!
 #! @output output: Information about the virtual machine that has been stopped and deallocated
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -73,12 +67,15 @@ flow:
 
   inputs:
     - username
-    - password
+    - password:
+        sensitive: true
     - authority
     - resource
     - vm_name
     - subscription_id
     - resource_group_name
+    - polling_interval:
+        default: '30'
     - proxy_host:
         required: false
     - proxy_port:
@@ -93,12 +90,6 @@ flow:
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
-    - keystore:
-        required: false
-    - keystore_password:
-        required: false
-        default: ''
-        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
@@ -128,7 +119,7 @@ flow:
 
     - stop_and_deallocate_vm:
         do:
-          vm.stop_vm:
+          vm.stop_and_deallocate_vm:
             - vm_name
             - subscription_id
             - resource_group_name
@@ -197,7 +188,7 @@ flow:
     - sleep:
         do:
           flow.sleep:
-            - seconds: '30'
+            - seconds: ${polling_interval}
         navigate:
           - SUCCESS: get_power_state
           - FAILURE: FAILURE
@@ -209,10 +200,10 @@ flow:
     - error_message
 
   results:
-      - SUCCESS
-      - GET_AUTH_TOKEN_FAILURE
-      - STOP_AND_DEALLOCATE_VM_FAILURE
-      - GET_POWER_STATE_FAILURE
-      - COMPARE_POWER_STATE_FAILURE
-      - FAILURE
+    - SUCCESS
+    - GET_AUTH_TOKEN_FAILURE
+    - STOP_AND_DEALLOCATE_VM_FAILURE
+    - GET_POWER_STATE_FAILURE
+    - COMPARE_POWER_STATE_FAILURE
+    - FAILURE
 
