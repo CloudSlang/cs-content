@@ -68,7 +68,7 @@ operation:
         required: false
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         private: true
     - server_type:
         required: false
@@ -90,7 +90,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.instances.UpdateInstanceTypeAction
     method_name: execute
 

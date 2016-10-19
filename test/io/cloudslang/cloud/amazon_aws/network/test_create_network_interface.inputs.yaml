@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonDeleteVolumeLocal:
+testAmazonCreateNetworkInterfaceLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully deletes a specified Amazon AWS volume."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.delete_volume_in_region
+  description: "Test that successfully creates a network interface."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.create_network_interface
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>
@@ -21,5 +21,11 @@ testAmazonDeleteVolumeLocal:
     - version: <version>
     - headers: <headers>
     - query_params: <query_params>
-    - volume_id: <volume_id>
+    - delimiter: <delimiter>
+    - network_interface_description: <network_interface_description>
+    - private_ip_address: <private_ip_address>
+    - private_ip_addresses_string: <private_ip_addresses_string>
+    - secondary_private_ip_address_count: <secondary_private_ip_address_count>
+    - security_group_ids_string: <security_group_ids_string>
+    - subnet_id: <subnet_id>
   result: SUCCESS

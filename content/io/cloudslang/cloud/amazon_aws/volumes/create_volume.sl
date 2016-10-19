@@ -29,6 +29,15 @@
 #!                    inputs or leave them both empty.
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input availability_zone: Specifies the Availability Zone in which to create the volume. See more on:
 #!                           https://aws.amazon.com/about-aws/global-infrastructure. Amazon automatically selects an
 #!                           Example: 'us-east-1d'
@@ -72,7 +81,8 @@ operation:
   name: create_volume
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         required: false
         sensitive: true
@@ -103,6 +113,14 @@ operation:
         default: ${get("proxy_password", "")}
         private: true
         required: false
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        required: false
+        default: ${get("query_params", "")}
+        private: true
     - availability_zone
     - availabilityZone:
         default: ${availability_zone}
@@ -136,7 +154,7 @@ operation:
     - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.volumes.CreateVolumeAction
     method_name: execute
 

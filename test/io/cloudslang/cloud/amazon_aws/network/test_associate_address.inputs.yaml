@@ -6,10 +6,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonDeleteVolumeLocal:
+testAmazonAssociateAddressLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully deletes a specified Amazon AWS volume."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.delete_volume_in_region
+  description: "Test that successfully associates an ip address."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.associate_address
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>
@@ -21,5 +21,10 @@ testAmazonDeleteVolumeLocal:
     - version: <version>
     - headers: <headers>
     - query_params: <query_params>
-    - volume_id: <volume_id>
+    - allocation_id: <allocation_id>
+    - instance_id: <instance_id>
+    - allow_reassociation: <allow_reassociation>
+    - network_interface_id: <network_interface_id>
+    - private_ip_address: <private_ip_address>
+    - public_ip: <public_ip>
   result: SUCCESS

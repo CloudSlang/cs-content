@@ -42,7 +42,7 @@
 #!                 Example: '2014-06-15'
 #! @input association_id: optional - [EC2-VPC] Association ID. Required for EC2-VPC.
 #!                        Default: ''
-#! @input network_interface_public_ip: optional - Elastic IP address. This is required for EC2-Classic.
+#! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #!                                     Default: ''
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -104,16 +104,16 @@ operation:
         default: ${get("association_id", "")}
         private: true
         required: false
-    - network_interface_public_ip:
+    - public_ip:
         required: false
-    - networkInterfacePublicIp:
-        default: ${get("network_interface_public_ip", "")}
+    - publicIp:
+        default: ${get("public_ip", "")}
         private: true
         required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.network.DisassociateAddress
+    class_name: io.cloudslang.content.jclouds.actions.network.DisassociateAddressAction
     method_name: execute
 
   outputs:

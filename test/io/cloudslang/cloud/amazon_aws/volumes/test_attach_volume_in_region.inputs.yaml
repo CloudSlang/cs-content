@@ -9,16 +9,18 @@
 testAmazonAttachVolumeLocal:
   testSuites: [amazon-local]
   description: "Test that successfully attached to instance a specified Amazon AWS volume."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.test_attach_volume_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.attach_volume_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - region: <region>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
     - volume_id: <volume_id>
     - instance_id: <instance_id>
     - device_name: <device_name>

@@ -19,8 +19,6 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
-#! @input provider: Cloud provider on which you have the instance to attach volume to.
-#!                  Default: 'amazon'
 #! @input endpoint: Endpoint to which the request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
@@ -31,10 +29,20 @@
 #!                    Default: ''
 #! @input proxy_port: optional - Proxy server port used to access the provider services.
 #!                               Default: '8080'
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where volume belongs. 'describe_regions' operation can
-#!                           be used in order to get all regions.
-#!                           Default: 'us-east-1'
+#! @input proxy_username: optional - proxy server user name.
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#! @input version: version of the web service to made the call against it.
+#!                 Example: "2016-04-01"
+#!                 Default: ""
 #! @input volume_id: ID of the EBS volume. The volume and instance must be within the same Availability Zone
 #! @input instance_id: ID of the instance
 #! @input device_name: Device name
@@ -52,8 +60,8 @@ operation:
   name: attach_volume_in_region
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         required: false
         sensitive: true
@@ -71,21 +79,36 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
-    - debug_mode:
+    - proxy_username:
         required: false
-    - debugMode:
-        default: ${get("debug_mode", "false")}
+    - proxyUsername:
+        required: false
+        default: ${get("proxy_username", "")}
         private: true
-    - region:
-        default: 'us-east-1'
+    - proxy_password:
         required: false
+        sensitive: true
+    - proxyPassword:
+        required: false
+        default: ${get("proxy_password", "")}
+        private: true
+        sensitive: true
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        required: false
+        default: ${get("query_params", "")}
+        private: true
+    - version
     - volume_id
     - volumeId:
         default: ${volume_id}
         private: true
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         private: true
     - device_name
     - deviceName: 
@@ -93,8 +116,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.volumes.AttachVolumeInRegionAction
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    class_name: io.cloudslang.content.jclouds.actions.volumes.AttachVolumeAction
     method_name: execute
 
   outputs:

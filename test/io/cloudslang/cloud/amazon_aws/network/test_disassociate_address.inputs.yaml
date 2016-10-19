@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,22 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testRunAmazonInstancesLocal:
+testAmazonDisassociateAddressLocal:
   testSuites: [amazon-local]
-  description: "Test successfully launch a certain number of Amazon AWS EC2 instances within a specified zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_run_instances
+  description: "Test that successfully disassociates an ip address."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.disassociate_address
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - availability_zone: <availability_zone>
-    - image_id: <image_id>
-    - min_count: <min_count>
-    - max_count: <max_count>
-    - instance_type: <instance_type>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
     - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
+    - association_id: <association_id>
+    - public_ip: <public_ip>
   result: SUCCESS

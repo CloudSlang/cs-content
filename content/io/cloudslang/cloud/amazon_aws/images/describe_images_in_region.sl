@@ -11,17 +11,28 @@
 #!               public images, private images that you own, and private images owned by other AWS accounts but for which you
 #!               have explicit launch permissions.
 #!               Note: De-registered images are included in the returned results for an unspecified interval after de-registration.
-#! @input provider: Cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input delimiter: optional - Delimiter that will be used - Default: ','
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where image to be de-registered reside. ListRegionAction can be used in order to get
-#!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#!                         - Default: 'us-east-1'
+#! @input proxy_username: optional - proxy server user name.
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#! @input version: version of the web service to made the call against it.
+#!                 Example: "2016-04-01"
+#!                 Default: ""
+#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
+#!                    Default: ','
 #! @input identity_id: - Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
 #!                       (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
 #!                       'self', 'all' or AWS account ID - Default: ''
@@ -82,8 +93,8 @@ operation:
   name: describe_images_in_region
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -103,22 +114,39 @@ operation:
     - proxyPort:
         default: ${get("proxy_port", "8080")}
         private: true
-    - delimiter:
-        default: ','
+    - proxy_username:
         required: false
-    - debug_mode:
+    - proxyUsername:
         required: false
-    - debugMode:
-        default: ${get("debug_mode", "false")}
+        default: ${get("proxy_username", "")}
         private: true
-    - region:
-        default: 'us-east-1'
+    - proxy_password:
         required: false
+        sensitive: true
+    - proxyPassword:
+        required: false
+        default: ${get("proxy_password", "")}
+        private: true
+        sensitive: true
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        required: false
+        default: ${get("query_params", "")}
+        private: true
+    - version
+    - delimiter:
+        required: false
+        default: ','
     - identity_id:
         required: false
     - identityId:
         default: ${get("identity_id", "")}
         private: true
+        required: false
+    - architecture:
         required: false
     - delete_on_termination:
         required: false
@@ -278,8 +306,8 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesAction
     method_name: execute
 
   outputs:

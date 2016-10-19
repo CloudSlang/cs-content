@@ -9,15 +9,17 @@
 testGetLaunchAMIPermissionsLocal:
   testSuites: [amazon-local]
   description: "Test successfully shows launch permissions of a specified Amazon AWS EC2 image."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.images.test_get_launch_permission_for_image_in_region
+  testFlowPath: io.cloudslang.cloud.amazon_aws.images.get_launch_permission_for_image_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - region: <region>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - headers: <headers>
+    - query_params: <query_params>
+    - version: <version>
     - image_id: <image_id>
   result: SUCCESS

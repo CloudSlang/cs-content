@@ -8,24 +8,34 @@
 ####################################################
 #!!
 #! @description: Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped.
-#! @input provider: Cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where image will be created. ListRegionAction can be used in order to get all regions.
-#!                           For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#!                         - Default: 'us-east-1'
+#! @input proxy_username: optional - proxy server user name.
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                            The header name-value pair will be separated by ":".
+#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                            Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
+#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                                 separated from query value by "=".
+#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#! @input version: version of the web service to made the call against it.
+#!                 Example: "2016-04-01"
+#!                 Default: ""
 #! @input instance_id: ID of the server (instance) to be used to create image for
 #! @input name: A name for the new image
-#! @input image_description: optional - A description for the new image - Default: ''
-#! @input image_no_reboot: optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
+#! @input description: optional - A description for the new image.
+#! @input no_reboot: optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
 #!                                    the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance
 #!                                    before creating the image. When this option is used, file system integrity on the created
 #!                                    image can't be guaranteed
-#!                                  - Default: 'true'
+#!                                  Default: 'true'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -39,8 +49,8 @@ operation:
   name: create_image_in_region
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -58,37 +68,50 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
+        required: false
         default: ${get("proxy_port", "8080")}
         private: true
-    - debug_mode:
-        required: false
-    - debugMode:
-        default: ${get("debug_mode", "false")}
-        private: true
-    - region:
-        default: 'us-east-1'
-        required: false
+    - proxy_username:
+       required: false
+    - proxyUsername:
+       required: false
+       default: ${get("proxy_username", "")}
+       private: true
+    - proxy_password:
+       required: false
+       sensitive: true
+    - proxyPassword:
+       required: false
+       default: ${get("proxy_password", "")}
+       private: true
+       sensitive: true
+    - headers:
+       required: false
+    - query_params:
+       required: false
+    - queryParams:
+       required: false
+       default: ${get("query_params", "")}
+       private: true
+    - version
     - instance_id
     - instanceId:
-        default: ${instance_id}
+        default: ${get("instance_id", "")}
         private: true
+    - description:
+        default: ''
+        required: false
     - name
-    - image_description:
+    - no_reboot:
         required: false
-    - imageDescription:
-        default: ${get("image_description", "")}
-        private: true
-        required: false
-    - image_no_reboot:
-        required: false
-    - imageNoReboot:
-        default: ${get("image_no_reboot", "")}
+    - noReboot:
+        default: ${get("no_reboot", "true")}
         private: true
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.images.CreateImageInRegionAction
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    class_name: io.cloudslang.content.jclouds.actions.images.CreateImageAction
     method_name: execute
 
   outputs:
