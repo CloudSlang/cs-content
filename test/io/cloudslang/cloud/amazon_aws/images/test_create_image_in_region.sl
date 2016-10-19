@@ -17,7 +17,6 @@ flow:
   name: test_create_image_in_region
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -45,23 +44,23 @@ flow:
     - image_no_reboot:
         default: ''
         required: false
+    - version
 
   workflow:
     - create_image:
         do:
-          images.create_image_in_region:
-            - provider
+          images.create_image:
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
             - debug_mode
-            - region
             - instance_id
             - name
             - image_description
             - image_no_reboot
+            - version
         publish:
           - return_result
           - return_code

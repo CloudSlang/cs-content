@@ -11,15 +11,14 @@ testAddsLaunchPermissionsToImageLocal:
   description: "Test successfully adds launch permissions to an existing Amazon AWS EC2 image within a specified zone."
   testFlowPath: io.cloudslang.cloud.amazon_aws.images.test_add_launch_permissions_to_image_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - debug_mode: <debug_mode>
-    - region: <region>
     - image_id: <image_id>
     - user_ids_string: <user_ids_string>
     - user_groups_string: <user_groups_string>
+    - version: <version>
   result: SUCCESS

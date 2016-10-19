@@ -11,16 +11,15 @@ testCreatesAMILocal:
   description: "Test successfully creates Amazon AWS EC2 image from a specified instance."
   testFlowPath: io.cloudslang.cloud.amazon_aws.images.test_create_image_in_region
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - debug_mode: <debug_mode>
-    - region: <region>
     - server_id: <server_id>
     - image_name: <image_name>
     - image_description: <image_description>
     - image_no_reboot: <image_no_reboot>
+    - version: <version>
   result: SUCCESS

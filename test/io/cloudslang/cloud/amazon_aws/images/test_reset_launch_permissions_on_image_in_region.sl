@@ -16,7 +16,6 @@ flow:
   name: test_reset_launch_permissions_on_image_in_region
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -33,24 +32,21 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
     - image_id
+    - version
 
   workflow:
     - reset_launch_permissions:
         do:
-          images.reset_launch_permissions_on_image_in_region:
-            - provider
+          images.reset_launch_permissions_on_image:
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
             - debug_mode
-            - region
             - image_id
+            - version
         publish:
           - return_result
           - return_code

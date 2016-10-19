@@ -11,7 +11,6 @@
 #!               public images, private images that you own, and private images owned by other AWS accounts but for which you
 #!               have explicit launch permissions.
 #!               Note: De-registered images are included in the returned results for an unspecified interval after de-registration.
-#! @input provider: Cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: optional - Amazon Access Key ID
 #! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -19,9 +18,6 @@
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where image to be de-registered reside. ListRegionAction can be used in order to get
-#!                           all regions. For further details check: http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-#!                         - Default: 'us-east-1'
 #! @input identity_id: - Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
 #!                       (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
 #!                       'self', 'all' or AWS account ID - Default: ''
@@ -69,6 +65,8 @@
 #! @input manifest_location: optional - Location of the image manifest - Default: ''
 #! @input name: optional - Name of the AMI (provided during image creation) - Default: ''
 #! @input state: optional - State of the image - Valid values: '' (no state filtering), 'available', 'pending', 'failed' - Default: ''
+#! @input version: Version of the web service to made the call against it.
+#!                 Example: "2014-06-15"
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -79,11 +77,11 @@
 namespace: io.cloudslang.cloud.amazon_aws.images
 
 operation:
-  name: describe_images_in_region
+  name: describe_images
 
   inputs:
-    - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
         required: false
@@ -102,6 +100,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - delimiter:
         default: ','
@@ -110,10 +109,8 @@ operation:
         required: false
     - debugMode:
         default: ${get("debug_mode", "false")}
-        private: true
-    - region:
-        default: 'us-east-1'
         required: false
+        private: true
     - identity_id:
         required: false
     - identityId:
@@ -276,10 +273,11 @@ operation:
     - state:
         default: ''
         required: false
+    - version
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesInRegionAction
+    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    class_name: io.cloudslang.content.jclouds.actions.images.DescribeImagesAction
     method_name: execute
 
   outputs:

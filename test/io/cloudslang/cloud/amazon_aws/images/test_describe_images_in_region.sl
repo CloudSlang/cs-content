@@ -50,18 +50,17 @@ flow:
   workflow:
     - describe_image:
         do:
-          images.describe_images_in_region:
-            - provider
+          images.describe_images:
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
             - debug_mode
-            - region
             - identity_id
             - image_ids_string
             - owners_string
+            - version
         publish:
           - return_result
           - return_code
