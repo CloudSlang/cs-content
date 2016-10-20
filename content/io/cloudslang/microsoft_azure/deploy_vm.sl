@@ -8,7 +8,6 @@
 ########################################################################################################################
 #!!
 #! @description: VM provison flow.
-#!
 #! @input username: Azure username
 #! @input password: Azure password
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -37,10 +36,10 @@
 #! @input nic_name: Name of the network interface card
 #! @input vm_username: Name of the virtual machine username
 #! @input vm_password: Password of the virtual machine username
-#! @input disk_name: Name of the disk to attach to the virtual machine
-#! @input disk_size: Size of the disk to attach to the virtual machine
 #! @input tag_name: Name of the tag to be added to the virtual machine
 #! @input tag_value: Value of the tag to be added to the vrtual machine
+#! @input disk_name: Name of the disk to attach to the virtual machine
+#! @input disk_size: Size of the disk to attach to the virtual machine
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -59,7 +58,6 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
-#!
 #! @output output: Information about the virtual machine that has been restarted
 #! @output ip_address: the IP address of the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -73,8 +71,8 @@
 #! @result COMPARE_POWER_STATE_FAILURE: There was an error while trying to compare power states
 #! @result GET_IP_ADDRESS_FAILURE: There was an error while trying to retrieve IP address
 #! @result ATTACH_DISK_FAILURE: There was an error while trying to attach disk to virtual machine
-#! @result GET_NIC_LIST_FAILURE: There was an error while trying to retrieve the nic list
 #! @result FAILURE: Something went wrong
+#! @result GET_NIC_LIST_FAILURE: There was an error while trying to retrieve the nic list
 #!!#
 ########################################################################################################################
 
@@ -152,7 +150,7 @@ flow:
         publish:
           - auth_token
           - return_code
-          - error_message: ${exception}
+          - error_message: '${exception}'
         navigate:
           - SUCCESS: create_public_ip
           - FAILURE: GET_AUTH_TOKEN_FAILURE
@@ -174,7 +172,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - ip_state: ${output}
+          - ip_state: '${output}'
           - status_code
           - error_message
         navigate:
@@ -201,7 +199,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - nic_state: ${output}
+          - nic_state: '${output}'
           - status_code
           - error_message
         navigate:
@@ -210,7 +208,7 @@ flow:
     - windows_vm:
         do:
           strings.string_equals:
-            - first_string: ${os_platform}
+            - first_string: '${os_platform}'
             - second_string: Windows
         navigate:
           - SUCCESS: create_windows_vm
@@ -241,7 +239,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - vm_state: ${output}
+          - vm_state: '${output}'
           - status_code
           - error_message
         navigate:
@@ -263,7 +261,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - vm_info: ${output}
+          - vm_info: '${output}'
           - status_code
           - error_message
         navigate:
@@ -272,21 +270,21 @@ flow:
     - check_vm_state:
         do:
           json.get_value:
-            - json_input: ${vm_info}
+            - json_input: '${vm_info}'
             - json_path: 'properties,provisioningState'
         publish:
-          - expected_vm_state: ${return_result}
+          - expected_vm_state: '${return_result}'
         navigate:
           - SUCCESS: compare_power_state
           - FAILURE: COMPARE_POWER_STATE_FAILURE
     - compare_power_state:
         do:
           strings.string_equals:
-            - first_string: ${expected_vm_state}
-            - second_string: 'Succeeded'
+            - first_string: '${expected_vm_state}'
+            - second_string: Succeeded
         navigate:
-          - SUCCESS: get_vm_public_ip_address
           - FAILURE: sleep
+          - SUCCESS: wait_before_check
     - sleep:
         do:
           flow.sleep:
@@ -309,27 +307,27 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - ip_details: ${output}
+          - ip_details: '${output}'
           - status_code
           - error_message
         navigate:
-          - SUCCESS: get_nic_list
           - FAILURE: GET_PUBLIC_IP_ADDRESS_FAILURE
+          - SUCCESS: wait_for_response
     - get_nic_list:
         do:
           json.json_path_query:
-            - json_object: ${ip_details}
+            - json_object: '${ip_details}'
             - json_path: 'value.*.name'
         publish:
-          - nics: ${return_result}
+          - nics: '${return_result}'
         navigate:
           - SUCCESS: get_nic_location
           - FAILURE: GET_NIC_LIST_FAILURE
     - get_nic_location:
         do:
           lists.find_all:
-            - list: ${nics}
-            - element: ${'"' + nic_name + '"'}
+            - list: '${nics}'
+            - element: "${'\"' + nic_name + '\"'}"
             - ignore_case: 'true'
         publish:
           - indices
@@ -338,10 +336,10 @@ flow:
     - get_ip_address:
         do:
           json.json_path_query:
-            - json_object: ${ip_details}
-            - json_path: ${'value[' + indices + '].properties.ipAddress'}
+            - json_object: '${ip_details}'
+            - json_path: "${'value[' + indices + '].properties.ipAddress'}"
         publish:
-          - ip_address: ${return_result}
+          - ip_address: '${return_result}'
         navigate:
           - SUCCESS: attach_disk
           - FAILURE: GET_IP_ADDRESS_FAILURE
@@ -349,13 +347,13 @@ flow:
         do:
           vm.attach_disk_to_vm:
             - subscription_id
-            - location: ${location}
+            - location: '${location}'
             - resource_group_name
             - auth_token
-            - vm_name: ${vm_name}
-            - storage_account: ${storage_account}
-            - disk_name: ${dsk_name}
-            - disk_size: ${disk_size}
+            - vm_name: '${vm_name}'
+            - storage_account: '${storage_account}'
+            - disk_name: '${dsk_name}'
+            - disk_size: '${disk_size}'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -365,7 +363,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - attached: ${output}
+          - attached: '${output}'
           - status_code
           - error_message
         navigate:
@@ -390,7 +388,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - tag: ${output}
+          - tag: '${output}'
           - status_code
           - error_message
         navigate:
@@ -399,31 +397,31 @@ flow:
     - create_linux_vm:
         do:
           vm.create_linux_vm:
-            - subscription_id: ${subscription_id}
-            - publisher: ${publisher}
-            - auth_token: ${auth_token}
-            - sku: ${sku}
-            - offer: ${offer}
-            - resource_group_name: ${resource_group_name}
-            - vm_name: ${vm_name}
-            - nic_name: ${nic_name}
-            - location: ${location}
-            - vm_username: ${vm_username}
-            - vm_password: ${vm_password}
-            - vm_size: ${vm_size}
-            - availability_set_name: ${availability_set_name}
-            - storage_account: ${storage_account}
+            - subscription_id: '${subscription_id}'
+            - publisher: '${publisher}'
+            - auth_token: '${auth_token}'
+            - sku: '${sku}'
+            - offer: '${offer}'
+            - resource_group_name: '${resource_group_name}'
+            - vm_name: '${vm_name}'
+            - nic_name: '${nic_name}'
+            - location: '${location}'
+            - vm_username: '${vm_username}'
+            - vm_password: '${vm_password}'
+            - vm_size: '${vm_size}'
+            - availability_set_name: '${availability_set_name}'
+            - storage_account: '${storage_account}'
         publish:
-          - vm_state: ${output}
-          - status_code: ${status_code}
-          - error_message: ${error_message}
+          - vm_state: '${output}'
+          - status_code: '${status_code}'
+          - error_message: '${error_message}'
         navigate:
           - FAILURE: delete_nic
           - SUCCESS: get_vm_info
     - linux_vm:
         do:
           strings.string_equals:
-            - first_string: ${os_platform}
+            - first_string: '${os_platform}'
             - second_string: Linux
             - ignore_case: 'true'
         navigate:
@@ -432,22 +430,43 @@ flow:
     - delete_public_ip_address:
         do:
           ip.delete_public_ip_address:
-            - auth_token: ${auth_token}
-            - resource_group_name: ${resource_group_name}
-            - subscription_id: ${subscription_id}
+            - auth_token: '${auth_token}'
+            - resource_group_name: '${resource_group_name}'
+            - subscription_id: '${subscription_id}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
     - delete_nic:
         do:
           nic.delete_nic:
-            - auth_token: ${auth_token}
-            - resource_group_name: ${resource_group_name}
-            - nic_name: ${nic_name}
-            - subscription_id: ${subscription_id}
+            - auth_token: '${auth_token}'
+            - resource_group_name: '${resource_group_name}'
+            - nic_name: '${nic_name}'
+            - subscription_id: '${subscription_id}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: wait_before_nic
+    - wait_before_check:
+        do:
+          flow.sleep:
+            - seconds: '20'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_vm_public_ip_address
+    - wait_before_nic:
+        do:
+          flow.sleep:
+            - seconds: '20'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: delete_public_ip_address
+    - wait_for_response:
+        do:
+          flow.sleep:
+            - seconds: '20'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_nic_list
   outputs:
     - output
     - ip_address

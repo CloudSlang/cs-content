@@ -151,7 +151,7 @@ flow:
             - proxy_username
             - proxy_password
             - trust_all_roots
-            - x509_hostname_verifier'
+            - x_509_hostname_verifier'
             - trust_keystore
             - trust_password
             - keystore

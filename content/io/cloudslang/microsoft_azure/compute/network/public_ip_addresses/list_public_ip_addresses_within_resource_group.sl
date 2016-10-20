@@ -100,7 +100,7 @@ flow:
             - proxy_username
             - proxy_password
             - trust_all_roots
-            - x509_hostname_verifier
+            - x_509_hostname_verifier
             - trust_keystore
             - trust_password
         publish:
@@ -132,9 +132,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,201,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
