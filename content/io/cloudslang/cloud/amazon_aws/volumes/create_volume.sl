@@ -68,6 +68,7 @@
 #!                                (for Cold HDD) and 'standard' (for Magnetic volumes) - Default: 'standard'
 #! @input version: Version of the web service to made the call against it.
 #!                 Example: "2014-06-15"
+#!                 Default: "2014-06-15"
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -151,7 +152,9 @@ operation:
     - volumeType:
         default: ${get("volume_type", "standard")}
         private: true
-    - version
+    - version:
+        default: "2016-04-01"
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'

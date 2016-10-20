@@ -27,7 +27,7 @@
 #!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input version: version of the web service to made the call against it.
 #!                 Example: "2016-04-01"
-#!                 Default: ""
+#!                 Default: "2016-04-01"
 #! @input image_id: ID of the specified image to retrieve launch permission for
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -85,7 +85,9 @@ operation:
         required: false
         default: ${get("query_params", "")}
         private: true
-    - version
+    - version:
+        default: "2016-04-01"
+        required: false
     - image_id
     - imageId:
         default: ${get("image_id", "")}

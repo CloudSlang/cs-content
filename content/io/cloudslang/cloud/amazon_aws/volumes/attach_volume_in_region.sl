@@ -101,7 +101,9 @@ operation:
         required: false
         default: ${get("query_params", "")}
         private: true
-    - version
+    - version:
+        default: "2016-04-01"
+        required: false
     - volume_id
     - volumeId:
         default: ${volume_id}

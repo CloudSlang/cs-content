@@ -31,7 +31,7 @@
 #!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input version: version of the web service to made the call against it.
 #!                 Example: "2016-04-01"
-#!                 Default: ""
+#!                 Default: "2016-04-01"
 #! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
 #!                    Default: ','
 #! @input image_id: ID of the specified image to remove launch permission for
@@ -95,7 +95,9 @@ operation:
         required: false
         default: ${get("query_params", "")}
         private: true
-    - version
+    - version:
+        default: "2016-04-01"
+        required: false
     - delimiter:
         required: false
         default: ','

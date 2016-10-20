@@ -311,7 +311,9 @@ operation:
          private: true
          default: ${get("query_params", "")}
          required: false
-   -  version
+   -  version:
+         default: "2016-04-01"
+         required: false
    -  delimiter:
          required: false
    -  availability_zone:
