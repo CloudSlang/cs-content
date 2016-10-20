@@ -122,7 +122,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.volumes.DetachVolumeAction
+    class_name: io.cloudslang.content.amazon.actions.volumes.DetachVolumeAction
     method_name: execute
 
   outputs:

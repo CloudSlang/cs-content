@@ -91,7 +91,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.instances.UpdateInstanceTypeAction
+    class_name: io.cloudslang.content.amazon.actions.instances.UpdateInstanceTypeAction
     method_name: execute
 
   outputs:

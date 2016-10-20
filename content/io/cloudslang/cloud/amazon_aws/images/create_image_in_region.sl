@@ -113,7 +113,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.images.CreateImageAction
+    class_name: io.cloudslang.content.amazon.actions.images.CreateImageAction
     method_name: execute
 
   outputs:

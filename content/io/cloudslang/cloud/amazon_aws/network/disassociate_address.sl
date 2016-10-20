@@ -116,7 +116,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.network.DisassociateAddressAction
+    class_name: io.cloudslang.content.amazon.actions.network.DisassociateAddressAction
     method_name: execute
 
   outputs:

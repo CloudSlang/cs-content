@@ -533,7 +533,7 @@ operation:
          required: false
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.instances.RunInstancesAction
+    class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
   outputs:
