@@ -101,9 +101,9 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
     class_name: io.cloudslang.content.jclouds.actions.snapshots.DeleteSnapshotAction
-    method_name: deleteSnapshot
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}
