@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: E2E stop virtual machine flow.
+#! @description: Stop virtual machine flow.
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -43,7 +43,7 @@
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #!
-#! @result SUCCESS: The E2E flow completed successfully.
+#! @result SUCCESS: The flow completed successfully.
 #! @result GET_AUTH_TOKEN_FAILURE: There was an error while trying to get the authentication token
 #! @result STOP_VM_FAILURE: There was an error while trying to stop the virtual machine
 #! @result GET_POWER_STATE_FAILURE: There was an error while trying to retrieve the power state of the VM.
