@@ -115,7 +115,7 @@ operation:
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.network.AttachNetworkInterfaceAction
-    method_name: execute
+    method_name: attachNetworkInterface
 
   outputs:
     - return_result: ${returnResult}

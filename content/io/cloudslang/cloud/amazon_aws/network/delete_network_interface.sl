@@ -105,7 +105,7 @@ operation:
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.network.DeleteNetworkInterfaceAction
-    method_name: execute
+    method_name: deleteNetworkInterface
 
   outputs:
     - return_result: ${returnResult}
