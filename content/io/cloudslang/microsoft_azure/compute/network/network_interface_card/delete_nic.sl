@@ -194,9 +194,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '202'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,201,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
