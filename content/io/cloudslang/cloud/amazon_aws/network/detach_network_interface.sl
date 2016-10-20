@@ -35,8 +35,9 @@
 #!                       Example: "eni-attach-12345678"
 #! @input force_detach: optional - specifies whether to force a detachment or not - Valid values: "true", "false".
 #!                      Default: "false"
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
+#!                 Default: "2014-06-15"
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -98,7 +99,9 @@ operation:
     - forceDetach:
         default: ${get("force_detach", "false")}
         private: true
-    - version
+    - version:
+        default: "2014-06-15"
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'

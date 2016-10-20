@@ -31,9 +31,9 @@
 #!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                                 separated from query value by "=".
 #!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#! @input version: version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
-#!                 Default: ""
+#!                 Default: "2016-04-01"
 #! @input volume_id: ID of the EBS volume. The volume and instance must be within the same Availability Zone
 #! @input instance_id: optional - ID of the instance
 #! @input device_name: optional - Device name
@@ -97,7 +97,9 @@ operation:
         required: false
         default: ${get("query_params", "")}
         private: true
-    - version
+    - version:
+        default: "2016-04-01"
+        required: false
     - volume_id
     - volumeId:
         default: ${volume_id}

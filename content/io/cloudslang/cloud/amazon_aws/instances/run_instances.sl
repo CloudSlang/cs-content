@@ -33,7 +33,7 @@
 #!                                 name-value pairs is "&" symbol. The query name will be separated from query value by "=".
 #!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: ""
 #! @input delimiter: optional - delimiter that will be used.
@@ -311,7 +311,9 @@ operation:
          private: true
          default: ${get("query_params", "")}
          required: false
-   -  version
+   -  version:
+         default: "2016-04-01"
+         required: false
    -  delimiter:
          required: false
    -  availability_zone:

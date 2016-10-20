@@ -35,8 +35,9 @@
 #!                      value by '='.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
+#!                 Default: '2014-06-15'
 #! @input network_interface_id: ID of the network interface to delete.
 #!                              Example: 'eni-12345678'
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
@@ -92,7 +93,9 @@ operation:
         default: ${get("query_params", "")}
         private: true
         required: false
-    - version
+    - version:
+        default: "2014-06-15"
+        required: false
     - network_interface_id
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
