@@ -215,6 +215,7 @@ operation:
     - imageId:
         default: ${get("image_id", "")}
         private: true
+        required: false
     - instance_id:
         required: false
     - instanceId:
