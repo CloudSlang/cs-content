@@ -26,16 +26,17 @@
 #! @input storage_account: Azure storage account
 #! @input data_disk_name: Name of the data disk where the virtual machine will be installed
 #! @input osdisk_name: Specifies information about the operating system disk used by the virtual machine.
+#! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
-#! @input admin_username: Specifies the name of the administrator account.
+#! @input vm_username: Specifies the name of the administrator account.
 #!                        Windows-only restriction: Cannot end in "."
 #!                        Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1",
 #!                        "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
 #!                        "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
 #!                        "sys", "test2", "test3", "user4", "user5".
-#! @input admin_password: Specifies the password of the administrator account.
+#! @input vm_password: Specifies the password of the administrator account.
 #!                        Minimum-length (Windows): 8 characters
 #!                        Minimum-length (Linux): 6 characters
 #!                        Max-length (Windows): 123 characters
@@ -95,19 +96,30 @@ flow:
     - vm_name
     - nic_name
     - location
-    - admin_username
-    - admin_password
+    - vm_username
+    - vm_password
     - vm_size
     - availability_set_name
     - storage_account
+    - vm_template:
+        required: false
+        default: >
+             ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name +
+             '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name +
+             '","type":"Microsoft.Compute/virtualMachines","location":"' + location +
+             '","properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
+             resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
+             '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' +
+             publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' +
+             vm_name + 'osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
+             vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"}},"osProfile":{"computerName":"' +
+             vm_name + '","adminUsername":"' + vm_username + '","adminPassword":"' + vm_password +
+             '"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
+             '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
+             nic_name + '"}]}}}'}
     - api_version:
         required: false
         default: '2015-06-15'
-    - data_disk_name:
-        required: false
-    - osdisk_name:
-        default: ''
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -139,23 +151,7 @@ flow:
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
                 resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name +
                 '?validating=false&api-version=' + api_version}
-            - body: >
-                ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name +
-                '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name +
-                '","type":"Microsoft.Compute/virtualMachines","location":"' + location +
-                '","properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
-                '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' +
-                publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' +
-                vm_name + 'osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
-                vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"},"dataDisks":[{"name":"' +
-                vm_name + 'dataDisk","diskSizeGB":"1","lun":0,"vhd":{"uri":"http://' + storage_account +
-                '.blob.core.windows.net/vhds/' + vm_name +
-                'dataDisk.vhd"},"createOption":"Empty"}]},"osProfile":{"computerName":"' + vm_name +
-                '","adminUsername":"' + admin_username + '","adminPassword":"' + admin_password +
-                '"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
-                '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
-                nic_name + '"}]}}}'}
+            - body: ${vm_template}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
