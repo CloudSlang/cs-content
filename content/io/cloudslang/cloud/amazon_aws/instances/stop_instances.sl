@@ -108,7 +108,7 @@ operation:
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.instances.StopInstancesAction
-    method_name: execute
+    method_name: stopInstances
 
   outputs:
     - return_result: ${returnResult}

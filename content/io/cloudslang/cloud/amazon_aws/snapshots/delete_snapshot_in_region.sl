@@ -103,7 +103,7 @@ operation:
   java_action:
     gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
     class_name: io.cloudslang.content.jclouds.actions.snapshots.DeleteSnapshotAction
-    method_name: execute
+    method_name: deleteSnapshot
 
   outputs:
     - return_result: ${returnResult}
