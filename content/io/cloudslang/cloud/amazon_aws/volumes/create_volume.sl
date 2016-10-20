@@ -153,7 +153,7 @@ operation:
         default: ${get("volume_type", "standard")}
         private: true
     - version:
-        default: "2016-04-01"
+        default: "2014-06-15"
         required: false
 
   java_action:
