@@ -68,7 +68,7 @@
 #!                                 Default: 'strict'
 #!
 #! @output output: json response with information about the virtual machine instance
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output status_code: 201 if request completed successfully, others in case something went wrong
 #! @output error_message: Error message in case something went wrong
 #!
 #! @result SUCCESS: Windows virtual machine created successfully.
@@ -194,9 +194,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '201'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,201,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
