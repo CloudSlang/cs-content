@@ -100,7 +100,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.instances.TerminateInstancesAction
+    class_name: io.cloudslang.content.amazon.actions.instances.TerminateInstancesAction
     method_name: execute
 
   outputs:

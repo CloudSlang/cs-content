@@ -100,7 +100,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.0'
-    class_name: io.cloudslang.content.jclouds.actions.instances.RebootInstancesAction
+    class_name: io.cloudslang.content.amazon.actions.instances.RebootInstancesAction
     method_name: execute
 
   outputs:
