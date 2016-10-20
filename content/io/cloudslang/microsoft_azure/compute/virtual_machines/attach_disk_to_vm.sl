@@ -10,40 +10,34 @@
 #! @description: Performs an HTTP request to add a virtual disk to a virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input api_version: The API version used to create calls to Azure
-#! @input auth_token: Azure authorization Bearer token
-#!                     Default: '2015-06-15'
 #! @input resource_group_name: Azure resource group name
-#! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
-#!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
+#! @input auth_token: Azure authorization Bearer token
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2015-06-15'
 #! @input vm_name: virtual machine name
+#! @input storage_account: Storage account name
 #! @input disk_name: Name of the virtual disk to be attached
 #! @input disk_size: Size of the virtual disk to be attached
-#! @input resource_group_name: Azure resource group name
-#! @input storage_account: Storage account name
 #! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.\
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input location: Specifies the supported Azure location where the virtual disk will be attached to a VM.
 #!                  This can be different from the location of the resource group.
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: json response with information about the added virtual disk to the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -65,17 +59,17 @@ flow:
   name: attach_disk_to_vm
 
   inputs:
-    - auth_token
-    - location
     - subscription_id
     - resource_group_name
+    - auth_token
+    - api_version:
+        required: false
+        default: '2015-06-15'
+    - location
     - vm_name
     - storage_account
     - disk_name
     - disk_size
-    - api_version:
-        required: false
-        default: '2015-06-15'
     - proxy_username:
         required: false
     - proxy_password:

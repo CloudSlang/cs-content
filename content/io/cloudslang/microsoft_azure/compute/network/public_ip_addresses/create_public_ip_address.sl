@@ -10,18 +10,24 @@
 #! @description: Performs an HTTP request to create a public IP address
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: resource group name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input auth_token: Azure authorization Bearer token
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2016-03-30'
+#! @input location: Specifies the supported Azure location where public IP address should be created.
 #!                  This can be different from the location of the resource group.
+#! @input public_ip_address_name: Virtual machine public IP address
 #! @input public_ip_address_version: Public IP address version
 #!                                   Default: 'Ipv4'
-#! @input domain_name_label: Domain label name
-#!                           Default: 'mylabel'
-#! @input reverse_fqdn: Reverse fully qualified domain name
-#!                     Default: 'contoso.com.'
-#! @input auth_token: Azure authorization Bearer token
-#! @input public_ip_address_name: Virtual machine public IP address
+#! @input proxy_host: optional - proxy server used to access the web site
+#! @input proxy_port: optional - proxy server port - Default: '8080'
+#! @input proxy_username: optional - username used when connecting to the proxy
+#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
 #! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -30,20 +36,10 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
 #!
 #! @output output: json response about the public IP address created
-#! @output status_code: 201 if request completed successfully, others in case something went wrong
-#! @output error_message: If a public IP address is not found the error message will be populated with a response,
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output error_message: If a public IP address could not be created the error message will be populated with a response,
 #!                        empty otherwise
 #!
 #! @result SUCCESS: Public IP address created successfully.
@@ -62,27 +58,27 @@ flow:
   name: create_public_ip_address
 
   inputs:
-    - location
-    - auth_token
     - subscription_id
-    - public_ip_address_name
     - resource_group_name
+    - auth_token
     - api_version:
         required: false
         default: '2016-03-30'
+    - location
+    - public_ip_address_name
     - public_ip_address_version:
         required: false
         default: 'Ipv4'
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: "8080"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
         default: "false"
         required: false
@@ -92,7 +88,6 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
         required: false
         sensitive: true
 
@@ -150,9 +145,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '201'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,201'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

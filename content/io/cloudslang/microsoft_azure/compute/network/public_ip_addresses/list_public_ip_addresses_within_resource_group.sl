@@ -10,36 +10,36 @@
 #! @description: Performs an HTTP request to retrieve a List of public IP addresses within a resource group
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2016-03-30'
 #! @input resource_group_name: resource group name
 #! @input auth_token: Azure authorization Bearer token
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2016-03-30'
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: ''
 #! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
+#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: the list of public IP addresses from within the resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a network interface card is not found the error message will be populated with a response,
+#! @output error_message: If no public IP addresses are found the error message will be populated with a response,
 #!                        empty otherwise
 #!
 #! @result SUCCESS: The list with all the public IP addresses within the resource group retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of public IP addresses from within the resource group.
+#! @result FAILURE: There was an error while trying to retrieve the list of public IP addresses
+#!                  from within the resource group.
 #!!#
 ########################################################################################################################
 
@@ -60,16 +60,16 @@ flow:
     - api_version:
         required: false
         default: '2016-03-30'
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: "8080"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
         default: "false"
         required: false
@@ -79,7 +79,6 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
         required: false
         sensitive: true
 

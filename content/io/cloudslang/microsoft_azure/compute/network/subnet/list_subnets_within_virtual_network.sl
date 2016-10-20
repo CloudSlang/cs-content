@@ -7,13 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of the data center locations that are valid for the
-#!               specified subscription
+#! @description: Performs an HTTP request to retrieve a list of subnets from within a virtual network
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input resource_group_name: resource group name
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2016-09-01'
+#!                     Default: '2015-06-15'
+#! @input virtual_network_name: Name of the virtual network containing the subnets
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -32,33 +33,33 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: the list of the data center locations that are valid for the specified subscription
+#! @output output: json response about the list of subnets within a virtual network
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the subscription is  not found the error message will be populated with a response,
-#!                        empty otherwise
+#! @output error_message: If no subnets are found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: The list of the the data center locations that are valid for the specified subscription retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of the the data center locations that are valid
-#!                  for the specified subscription.
+#! @result SUCCESS: Subnet list retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of subnets from the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft_azure.compute.locations
+namespace: io.cloudslang.microsoft_azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow:
-  name: list_locations
-
+flow: 
+  name: list_subnets_within_virtual_network
+  
   inputs:
     - subscription_id
     - auth_token
+    - resource_group_name   
     - api_version:
         required: false
-        default: '2016-09-01'
+        default: '2015-06-15'
+    - virtual_network_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -80,14 +81,15 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-
-  workflow:
-    - list_locations:
+    
+  workflow: 
+    - update_subnet:
         do:
           http.http_client_get:
             - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id +
-                '/locations?api-version=' + api_version}
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
+                resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
+                '/subnets?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'

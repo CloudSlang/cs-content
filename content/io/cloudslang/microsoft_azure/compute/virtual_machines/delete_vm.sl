@@ -14,13 +14,11 @@
 #! @input resource_group_name: resource group name
 #! @input vm_name: virtual machine name
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-05-01-preview'
+#!                     Default: '2016-03-30'
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
 #! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -36,8 +34,8 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output status_code: 202 if request completed successfully, others in case something went wrong
-#! @output output: result of the operation
+#! @output output: json response about the deleted virtual machine
+#! @output status_code: 200,202 if request completed successfully, others in case something went wrong
 #! @output error_message: An error message in case something went wrong
 #!
 #! @result SUCCESS: Virtual machine deleted successfully.
@@ -58,12 +56,11 @@ flow:
   inputs:
     - subscription_id
     - resource_group_name
-    - vm_name
     - auth_token
-    - location
     - api_version:
         required: false
-        default: '2015-05-01-preview'
+        default: '2016-03-30'
+    - vm_name
     - proxy_username:
         required: false
     - proxy_password:
@@ -118,7 +115,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
+            - string_in_which_to_search: '400,401,404,412'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error

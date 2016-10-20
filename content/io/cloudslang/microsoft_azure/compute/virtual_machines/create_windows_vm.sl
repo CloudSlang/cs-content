@@ -7,29 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create a windows virtual machine
+#! @description: Performs an HTTP request to create a Windows virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input resource_group_name: Azure resource group name
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input resource_group_name: Azure resource group name
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
-#! @input resource_group_name: Azure resource group name
-#! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.
-#! @input vm_size: Specifies the size of the virtual machine.
-#! @input publisher: Specifies the publisher of the image.
-#! @input sku: Specifies the SKU of the image used to create the virtual machine.
-#! @input offer: Specifies the offer of the image used to create the virtual machine.
-#! @input storage_account: Azure storage account
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
-#! @input nic_name: Name of the network interface card
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
-#! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
+#! @input storage_account: Azure storage account
+#! @input publisher: Specifies the publisher of the image.
+#! @input offer: Specifies the offer of the image used to create the virtual machine.
+#! @input sku: Specifies the SKU of the image used to create the virtual machine.
+#! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.
 #! @input vm_username: Specifies the name of the administrator account.
 #!                        Windows-only restriction: Cannot end in "."
 #!                        Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1",
@@ -48,6 +42,8 @@
 #!                        Has a special character (Regex match [\W_])
 #!                        Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
 #!                        "Password!", "Password1", "Password22", "iloveyou!"
+#! @input nic_name: Name of the network interface card
+#! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -88,19 +84,21 @@ flow:
   
   inputs:
     - subscription_id
-    - auth_token
     - resource_group_name
-    - vm_name
-    - nic_name
+    - auth_token
+    - api_version:
+        required: false
+        default: '2015-06-15'
     - location
-    - vm_username
-    - vm_password
-    - vm_size
-    - publisher
-    - sku
-    - offer
     - availability_set_name
     - storage_account
+    - publisher
+    - offer
+    - sku
+    - vm_name
+    - vm_username
+    - vm_password
+    - nic_name
     - vm_template:
         required: false
         default: >
@@ -114,12 +112,10 @@ flow:
              vm_name + 'osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
              vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"}},"osProfile":{"computerName":"' +
              vm_name + '","adminUsername":"' + vm_username + '","adminPassword":"' + vm_password +
-             '","windowsConfiguration":{"provisionVMAgent":true,"enableAutomaticUpdates":true}},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
+             '","windowsConfiguration":{"provisionVMAgent":true,"enableAutomaticUpdates":true}},' +
+             '"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
              '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
              nic_name + '"}]}}}'}
-    - api_version:
-        required: false
-        default: '2015-06-15'
     - proxy_username:
         required: false
     - proxy_password:
