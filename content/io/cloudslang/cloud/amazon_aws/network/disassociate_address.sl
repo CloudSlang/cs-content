@@ -38,7 +38,7 @@
 #!                      value by '='.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
 #!                 Default: '2014-06-15'
 #! @input association_id: optional - [EC2-VPC] Association ID. Required for EC2-VPC.

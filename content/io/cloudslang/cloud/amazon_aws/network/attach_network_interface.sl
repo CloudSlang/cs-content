@@ -39,7 +39,7 @@
 #!                              Example: "eni-12345678"
 #! @input device_index: optional - ID of the device for the network interface attachment on the instance.
 #!                      Example: "1"
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
 #!                 Example: "2014-06-15"
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise

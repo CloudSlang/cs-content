@@ -34,7 +34,7 @@
 #!                    Default: ''
 #! @input proxy_password: optional - Proxy server password associated with the <proxy_username> input value.
 #!                    Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
 #!                 Default: "2014-06-15"
 #! @input headers: optional - String containing the headers to use for the request separated by new line (CRLF). The
