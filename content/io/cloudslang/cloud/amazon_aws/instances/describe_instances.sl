@@ -10,12 +10,12 @@
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list the instances within a cloud
 #!               region with advance filtering support. If value for input filter is not supplied than that filter is ignored.
 #! @input provider: cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - proxy server used to access the provider services
 #! @input proxy_port: optional - proxy server port used to access the provider services - Default: '8080'
-#! @input delimiter: optional - delimiter that will be used - Default: ','
+#! @input delimiter: Optional - delimiter that will be used - Default: ','
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - region where the servers (instances) are. list_regions operation can be used in order to get
 #!                           all regions - Default: 'us-east-1'
@@ -163,12 +163,11 @@ operation:
 
   inputs:
     - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

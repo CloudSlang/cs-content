@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list all regions.
 #! @input provider: the cloud provider - Default: 'amazon'
-#! @input endpoint: the endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input endpoint: Optional - the endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: the Amazon Access Key ID
+#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -28,8 +28,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input key_filters_string: optional - String that contains one or more filter keys separated by delimiter.
 #!                           Example: "endpoint", "region-name"
 #!                          Default: ""
@@ -53,11 +53,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

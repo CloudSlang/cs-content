@@ -14,12 +14,12 @@
 #!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
 #!               Actions in the Amazon Elastic Compute Cloud User Guide.
 #! @input provider: Cloud provider on which you have the resources - Default: 'amazon'
-#! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input endpoint: Optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
-#! @input delimiter: optional - Delimiter that will be used - Default: ','
+#! @input delimiter: Optional - Delimiter that will be used - Default: ','
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
 #!                           order to get all regions - Default: 'us-east-1'
@@ -41,12 +41,11 @@ operation:
 
   inputs:
     - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
+    - endpoint:
         required: false
-        sensitive: true
+        default: 'https://ec2.amazonaws.com'
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

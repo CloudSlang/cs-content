@@ -19,11 +19,11 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent.
+#! @input endpoint: Optional - Endpoint to which the request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
 #!                  Default: ''
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #!                    Default: ''
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #!                    Default: ''
@@ -62,11 +62,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

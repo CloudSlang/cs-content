@@ -8,11 +8,11 @@
 ####################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
-#! @input endpoint: Endpoint to which request will be sent
+#! @input endpoint: Optional - Endpoint to which request will be sent
 #!                  Default: "https://ec2.amazonaws.com"
-#! @input identity: optional - Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
 #!                  Default: ""
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #!                    Default: ""
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #!                    Default: ""
@@ -36,7 +36,7 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: ""
-#! @input delimiter: optional - delimiter that will be used.
+#! @input delimiter: Optional - delimiter that will be used.
 #!                   Default: ","
 #! @input availability_zone: optional - Specifies the placement constraints for launching instance. Amazon automatically
 #!                                      selects an availability zone by default
@@ -273,7 +273,9 @@ operation:
   name: run_instances
 
   inputs:
-   -  endpoint
+   -  endpoint:
+         default: 'https://ec2.amazonaws.com'
+         required: false
    -  identity
    -  credential:
          sensitive: true

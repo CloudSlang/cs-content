@@ -9,10 +9,10 @@
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
 #!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: the Amazon Access Key ID
+#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -29,8 +29,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input instance_id: the ID of the server (instance) you want to stop
 #! @input force_stop: optional - Forces the instances to stop. The instances do not have an opportunity to flush
 #!                      file system caches or file system metadata. If you use this option, you must perform file
@@ -51,11 +51,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

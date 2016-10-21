@@ -10,10 +10,10 @@
 #! @description: requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to
 #!               reboot the specified instances. The operation succeeds if the instances are valid and belong to you.
 #!               Requests to reboot terminated instances are ignored.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: the Amazon Access Key ID
+#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy saerver port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -30,8 +30,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input instance_id: the ID of the server (instance) you want to reboot
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -48,11 +48,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

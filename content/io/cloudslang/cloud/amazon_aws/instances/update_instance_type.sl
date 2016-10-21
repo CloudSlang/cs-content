@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: the Amazon Access Key ID
+#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
@@ -38,14 +38,11 @@ operation:
 
   inputs:
     - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
         required: false
-        sensitive: true
+    - identity
     - credential:
-        default: ''
-        required: false
         sensitive: true
     - proxy_host:
         required: false

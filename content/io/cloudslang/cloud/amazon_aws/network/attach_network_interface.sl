@@ -14,7 +14,7 @@
 #!                     As with all Amazon EC2 operations, the results might not appear immediately.
 #!                     For Region-Endpoint correspondence information, check all the service endpoints available at:
 #!                     http://docs.amazonwebservices.com/general/latest/gr/rande.html#ec2_region
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -57,6 +57,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true

@@ -12,10 +12,10 @@
 #!                     launch on specified image.
 #!                     AWS Marketplace product codes cannot be modified. Images with an AWS Marketplace product code
 #!                     cannot be made public.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -32,8 +32,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input image_id: ID of the specified image to add launch permission for
 #! @input user_ids_string: optional - a string that contains: none, one or more user IDs separated by delimiter.
 #!                                  - Default: ''
@@ -54,13 +54,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
         required: false
-        sensitive: true
+    - identity
     - credential:
-        default: ''
-        required: false
         sensitive: true
     - proxy_host:
         required: false

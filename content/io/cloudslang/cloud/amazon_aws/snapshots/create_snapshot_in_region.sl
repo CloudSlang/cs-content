@@ -22,10 +22,10 @@
 #!               that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and
 #!               any associated snapshots always remain protected. For more information, see Amazon Elastic Block Store
 #!               and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'#!
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -58,13 +58,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
         required: false
-        sensitive: true
+    - identity
     - credential:
-        default: ''
-        required: false
         sensitive: true
     - proxy_host:
         required: false

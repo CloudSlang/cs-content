@@ -12,7 +12,7 @@
 #!               Note: This operation uses Signature V4 mechanism. The 'authorizationHeader' output's value should be added
 #!                     in the 'Authorization' header. For more information see:
 #!                     http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html#sigv4-add-signature-auth-header
-#! @input endpoint: Service endpoint used to compute the signature.
+#! @input endpoint: Optional - Service endpoint used to compute the signature.
 #!                  Example: 'ec2.amazonaws.com', 's3.amazonaws.com'
 #!                  Default: 'ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -62,6 +62,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true

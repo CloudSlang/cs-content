@@ -10,7 +10,7 @@
 #! @description: Acquires an Elastic IP address.
 #!               Note: An Elastic IP address is for use either in the EC2-Classic platform or in a VPC.
 #!                     For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -58,6 +58,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true

@@ -10,7 +10,7 @@
 #! @description: Creates a network interface in the specified subnet.
 #!               Note: For more information about network interfaces, see Elastic Network Interfaces in the Amazon Elastic
 #!                     Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -39,7 +39,7 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
 #!                 Default: '2014-06-15'
-#! @input delimiter: optional - Delimiter that will be used - Default: ','
+#! @input delimiter: Optional - Delimiter that will be used - Default: ','
 #! @input network_interface_description: optional - A description for the network interface.
 #!                                       Default: ''
 #! @input private_ip_address: optional - Primary private IP address of the network interface. If you
@@ -77,6 +77,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true

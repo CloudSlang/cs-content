@@ -14,10 +14,10 @@
 #!               To detach the root volume, stop the instance first. When a volume with an AWS Marketplace product code
 #!               is detached from an instance, the product code is no longer associated with the instance. For more
 #!               information, see Detaching an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - the Amazon Access Key ID
-#! @input credential: optional - the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: the Amazon Access Key ID
+#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -58,11 +58,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false

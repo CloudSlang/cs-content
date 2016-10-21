@@ -12,7 +12,7 @@
 #!                     see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
 #!               Important: This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't
 #!                          return an error.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -60,6 +60,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true

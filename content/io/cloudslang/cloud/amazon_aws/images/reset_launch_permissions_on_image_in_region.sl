@@ -9,10 +9,10 @@
 #!!
 #! @description: Resets the launch permission attribute of a specified AMI to its default value.
 #!               Note: The productCodes attribute can't be reset.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -29,8 +29,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input image_id: ID of the image to resets the launch permission attribute for
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -47,13 +47,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
         required: false
-        sensitive: true
+    - identity
     - credential:
-        default: ''
-        required: false
         sensitive: true
     - proxy_host:
         required: false

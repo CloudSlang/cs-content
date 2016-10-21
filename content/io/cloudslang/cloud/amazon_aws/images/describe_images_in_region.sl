@@ -11,10 +11,10 @@
 #!               public images, private images that you own, and private images owned by other AWS accounts but for which you
 #!               have explicit launch permissions.
 #!               Note: De-registered images are included in the returned results for an unspecified interval after de-registration.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
@@ -31,8 +31,8 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: the delimiter to split the user_ids_string and user_groups_string
-#!                    Default: ','
+#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#!                   Default: ','
 #! @input identity_id: - Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
 #!                       (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
 #!                       'self', 'all' or AWS account ID - Default: ''
@@ -95,13 +95,9 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
         required: false
-        sensitive: true
+    - identity
     - credential:
-        default: ''
-        required: false
         sensitive: true
     - proxy_host:
         required: false
