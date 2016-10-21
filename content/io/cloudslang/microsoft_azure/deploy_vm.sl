@@ -281,17 +281,27 @@ flow:
         do:
           strings.string_equals:
             - first_string: '${expected_vm_state}'
-            - second_string: Succeeded
+            - second_string: 'Succeeded'
         navigate:
-          - FAILURE: sleep
           - SUCCESS: wait_before_check
-    - sleep:
+          - FAILURE: wait_between_checks
+
+    - wait_between_checks:
         do:
           flow.sleep:
-            - seconds: '30'
+            - seconds: '60'
         navigate:
           - SUCCESS: get_vm_info
           - FAILURE: on_failure
+
+    - wait_before_check:
+        do:
+          flow.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_vm_public_ip_address
+          - FAILURE: on_failure
+
     - get_vm_public_ip_address:
         do:
           ip.list_public_ip_addresses_within_resource_group:
@@ -311,23 +321,48 @@ flow:
           - status_code
           - error_message
         navigate:
-          - FAILURE: GET_PUBLIC_IP_ADDRESS_FAILURE
           - SUCCESS: wait_for_response
+          - FAILURE: GET_PUBLIC_IP_ADDRESS_FAILURE
+
     - get_nic_list:
         do:
           json.json_path_query:
-            - json_object: '${ip_details}'
+            - json_object: ${ip_details}
             - json_path: 'value.*.name'
         publish:
           - nics: '${return_result}'
         navigate:
-          - SUCCESS: get_nic_location
+          - SUCCESS: strip_result
           - FAILURE: GET_NIC_LIST_FAILURE
+    - strip_result:
+        do:
+          strings.search_and_replace:
+            - origin_string: ${nics}
+            - text_to_replace: '['
+            - replace_with: ''
+        publish:
+          - first_replace: ${replaced_string}
+        navigate:
+          - SUCCESS: final_result_replace
+          - FAILURE: on_failure
+
+    - final_result_replace:
+        do:
+          strings.search_and_replace:
+            - origin_string: ${first_replace}
+            - text_to_replace: ']'
+            - replace_with: ''
+        publish:
+          - final_replace: ${replaced_string}
+        navigate:
+          - SUCCESS: get_nic_location
+          - FAILURE: on_failure
+
     - get_nic_location:
         do:
           lists.find_all:
-            - list: '${nics}'
-            - element: "${'\"' + nic_name + '\"'}"
+            - list: '${final_replace}'
+            - element: "${'\"' + public_ip_address_name + '\"'}"
             - ignore_case: 'true'
         publish:
           - indices
@@ -337,7 +372,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${ip_details}'
-            - json_path: "${'value[' + indices + '].properties.ipAddress'}"
+            - json_path: "${'value' + indices + '.properties.ipAddress'}"
         publish:
           - ip_address: '${return_result}'
         navigate:
@@ -352,7 +387,7 @@ flow:
             - auth_token
             - vm_name: '${vm_name}'
             - storage_account: '${storage_account}'
-            - disk_name: '${dsk_name}'
+            - disk_name: '${disk_name}'
             - disk_size: '${disk_size}'
             - proxy_host
             - proxy_port
@@ -363,7 +398,6 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - attached: '${output}'
           - status_code
           - error_message
         navigate:
@@ -388,12 +422,12 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - tag: '${output}'
           - status_code
           - error_message
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
     - create_linux_vm:
         do:
           vm.create_linux_vm:
@@ -416,8 +450,9 @@ flow:
           - status_code: '${status_code}'
           - error_message: '${error_message}'
         navigate:
-          - FAILURE: delete_nic
           - SUCCESS: get_vm_info
+          - FAILURE: delete_nic
+
     - linux_vm:
         do:
           strings.string_equals:
@@ -425,48 +460,67 @@ flow:
             - second_string: Linux
             - ignore_case: 'true'
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: create_linux_vm
+          - FAILURE: on_failure
+
     - delete_public_ip_address:
         do:
           ip.delete_public_ip_address:
-            - auth_token: '${auth_token}'
-            - resource_group_name: '${resource_group_name}'
-            - subscription_id: '${subscription_id}'
+            - vm_name
+            - location
+            - subscription_id
+            - resource_group_name
+            - public_ip_address_name
+            - auth_token
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+
     - delete_nic:
         do:
           nic.delete_nic:
-            - auth_token: '${auth_token}'
-            - resource_group_name: '${resource_group_name}'
-            - nic_name: '${nic_name}'
-            - subscription_id: '${subscription_id}'
+            - nic_name
+            - location
+            - subscription_id
+            - resource_group_name
+            - public_ip_address_name
+            - auth_token
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: wait_before_nic
-    - wait_before_check:
-        do:
-          flow.sleep:
-            - seconds: '20'
-        navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_vm_public_ip_address
+
     - wait_before_nic:
         do:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: delete_public_ip_address
+          - FAILURE: on_failure
+
     - wait_for_response:
         do:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: get_nic_list
+          - FAILURE: on_failure
+
   outputs:
     - output
     - ip_address
