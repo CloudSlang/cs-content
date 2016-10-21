@@ -48,8 +48,8 @@ operation:
         sensitive: true
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxyPort:
         default: ${get("proxy_port", "8080"}
         private: true

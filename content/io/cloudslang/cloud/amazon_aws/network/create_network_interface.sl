@@ -10,7 +10,7 @@
 #! @description: Creates a network interface in the specified subnet.
 #!               Note: For more information about network interfaces, see Elastic Network Interfaces in the Amazon Elastic
 #!                     Compute Cloud User Guide.
-#! @input endpoint: Optional - Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -39,15 +39,15 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
 #!                 Default: '2014-06-15'
-#! @input delimiter: Optional - Delimiter that will be used - Default: ','
+#! @input delimiter: optional - Delimiter that will be used - Default: ','
 #! @input network_interface_description: optional - A description for the network interface.
 #!                                       Default: ''
 #! @input private_ip_address: optional - Primary private IP address of the network interface. If you
-#!                                              don't specify an IP address, Amazon EC2 selects one for you from the subnet
-#!                                              range. If you specify an IP address, you cannot indicate any IP addresses
-#!                                              specified in privateIpAddresses as primary (only one IP address can be
-#!                                              designated as primary).
-#!                                              Default: ''
+#!                            don't specify an IP address, Amazon EC2 selects one for you from the subnet
+#!                            range. If you specify an IP address, you cannot indicate any IP addresses
+#!                            specified in privateIpAddresses as primary (only one IP address can be
+#!                            designated as primary).
+#!                            Default: ''
 #! @input private_ip_addresses_string: optional - String that contains one or more private IP addresses separated by <delimiter>
 #!                                     Default: ''
 #! @input secondary_private_ip_address_count: optional - Number of secondary private IP addresses to assign to a network
@@ -85,8 +85,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -159,7 +159,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.network.CreateNetworkInterfaceAction
     method_name: execute
 

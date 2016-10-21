@@ -19,7 +19,7 @@
 #!                          return an error, and you may be charged for each time the Elastic IP address is remapped to
 #!                          the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2
 #!                          Pricing.
-#! @input endpoint: Optional - Endpoint to which first request will be sent
+#! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -69,9 +69,9 @@
 #!                              Example: 'eni-12345678'
 #!                              Default: ''
 #! @input private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
-#!                                              with the Elastic IP address. If no private IP address is specified, the Elastic
-#!                                              IP address is associated with the primary private IP address.
-#!                                              Default: ''
+#!                            with the Elastic IP address. If no private IP address is specified, the Elastic
+#!                            IP address is associated with the primary private IP address.
+#!                            Default: ''
 #! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -96,8 +96,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         default: '8080'
         required: false
@@ -169,7 +169,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.network.AssociateAddressAction
     method_name: execute
 

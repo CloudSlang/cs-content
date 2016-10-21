@@ -9,21 +9,21 @@
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
 #! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - the region where the server (instance) to be updated can be found. "regions/list_regions" operation
-#!                           can be used in order to get all regions - Default: 'us-east-1'
+#!                can be used in order to get all regions - Default: 'us-east-1'
 #! @input instance_id: the ID of the server (instance) you want to update
 #! @input server_type: optional - the new server type to be used when updating the instance. The complete list of instance
-#!                                types can be found at: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html
-#!                              - Example: 't2.medium', 'm3.large' - Default: 't2.micro'
+#!                     types can be found at: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html
+#!                     Example: 't2.medium', 'm3.large' - Default: 't2.micro'
 #! @input operation_timeout: optional - the total time (in milliseconds) that operation will wait to complete the execution
 #! @input pooling_interval: optional - the time (in milliseconds) that operation will wait until next check of the instance
-#!                                     state
+#!                          state
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -48,8 +48,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -87,7 +87,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.instances.UpdateInstanceTypeAction
     method_name: execute
 

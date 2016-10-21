@@ -40,8 +40,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxyPort:
         default: ${get("proxy_port", "")}
         private: true

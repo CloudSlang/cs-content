@@ -12,7 +12,7 @@
 #!                     see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
 #!               Important: This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't
 #!                          return an error.
-#! @input endpoint: Optional - Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -44,7 +44,7 @@
 #! @input association_id: optional - [EC2-VPC] Association ID. Required for EC2-VPC.
 #!                        Default: ''
 #! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
-#!                                     Default: ''
+#!                   Default: ''
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
@@ -68,8 +68,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -116,7 +116,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.network.DisassociateAddressAction
     method_name: execute
 

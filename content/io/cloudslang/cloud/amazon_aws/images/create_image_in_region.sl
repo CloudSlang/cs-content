@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped.
-#! @input endpoint: Optional - Endpoint to which first request will be sent
+#! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -17,14 +17,14 @@
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
-#!                            The header name-value pair will be separated by ":".
-#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
-#!                            Examples: "Accept:text/plain"
+#!                 The header name-value pair will be separated by ":".
+#!                 Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                 Examples: "Accept:text/plain"
 #! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
-#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
-#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
-#!                                 separated from query value by "=".
-#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#!                      and the values must not be URL encoded because if they are encoded then a double encoded
+#!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                      separated from query value by "=".
+#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
@@ -32,10 +32,10 @@
 #! @input name: A name for the new image
 #! @input description: optional - A description for the new image.
 #! @input no_reboot: optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
-#!                                    the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance
-#!                                    before creating the image. When this option is used, file system integrity on the created
-#!                                    image can't be guaranteed
-#!                                  Default: 'true'
+#!                   the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance
+#!                   before creating the image. When this option is used, file system integrity on the created
+#!                   image can't be guaranteed
+#!                   Default: 'true'
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -59,13 +59,13 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
-        required: false
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
        required: false
@@ -108,7 +108,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.images.CreateImageAction
     method_name: execute
 

@@ -11,7 +11,7 @@
 #!               public images, private images that you own, and private images owned by other AWS accounts but for which you
 #!               have explicit launch permissions.
 #!               Note: De-registered images are included in the returned results for an unspecified interval after de-registration.
-#! @input endpoint: Optional - Endpoint to which first request will be sent
+#! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -20,18 +20,18 @@
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
-#!                            The header name-value pair will be separated by ":".
-#!                            Format: Conforming with HTTP standard for headers (RFC 2616)
-#!                            Examples: "Accept:text/plain"
+#!                 The header name-value pair will be separated by ":".
+#!                 Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                 Examples: "Accept:text/plain"
 #! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
-#!                                 and the values must not be URL encoded because if they are encoded then a double encoded
-#!                                 will occur. The separator between name-value pairs is "&" symbol. The query name will be
-#!                                 separated from query value by "=".
-#!                                 Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#!                      and the values must not be URL encoded because if they are encoded then a double encoded
+#!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                      separated from query value by "=".
+#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: Optional - the delimiter to split the user_ids_string and user_groups_string
+#! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
 #! @input identity_id: - Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
 #!                       (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
@@ -44,39 +44,39 @@
 #! @input block_device_mapping_snapshot_id: optional - ID of the snapshot used for the Amazon EBS volume - Default: ''
 #! @input volume_size: optional - Volume size of the Amazon EBS volume, in GiB - Default: ''
 #! @input volume_type: optional - Volume type of the Amazon EBS volume - Valid values: '' (no delete_on_termination filtering),
-#!                                'gp2' (for General Purpose SSD volumes), 'io1' (for Provisioned IOPS SSD volumes),
-#!                                and 'standard' (for Magnetic volumes) - Default: ''
+#!                     'gp2' (for General Purpose SSD volumes), 'io1' (for Provisioned IOPS SSD volumes),
+#!                     and 'standard' (for Magnetic volumes) - Default: ''
 #! @input hypervisor: optional - Hypervisor type of the instance. Valid values: '' (no hypervisor filtering), 'ovm', 'xen'
-#!                             - Default: ''
+#!                    Default: ''
 #! @input image_id: optional - ID of the specified image to search for - Default: ''
 #! @input kernel_id: optional - Kernel ID  - Default: ''
 #! @input owner_alias: optional - AWS account alias. Ex: 'amazon' - Default: ''
 #! @input owner_id: optional - AWS account ID of the instance owner - Default: ''
 #! @input platform: optional - platform used. Use 'windows' if you have Windows instances; otherwise leave blank.
-#!                           - Valid values: '', 'windows' - Default: ''
+#!                  Valid values: '', 'windows' - Default: ''
 #! @input product_code: optional - product code associated with the AMI used to launch the instance - Default: ''
 #! @input product_code_type: optional - type of product code. Valid values: '' (no hypervisor filtering), 'devpay',
-#!                                      'marketplace' - Default: ''
+#!                           'marketplace' - Default: ''
 #! @input ramdisk_id: optional - RAM disk ID - Default: ''
 #! @input root_device_name: optional - name of the root device for the instance. Ex: '/dev/sda1' - Default: ''
 #! @input root_device_type: optional - type of root device that the instance uses - Valid values: '' (no root_device_type filtering),
-#!                                     'ebs', 'instance-store' - Default: ''
+#!                          'ebs', 'instance-store' - Default: ''
 #! @input state_reason_code: optional - reason code for the state change - Default: ''
 #! @input state_reason_message: optional - a message that describes the state change - Default: ''
 #! @input key_tags_string: optional - A string that contains: none, one or more key tags separated by delimiter - Default: ''
 #! @input value_tags_string: optional - A string that contains: none, one or more tag values separated by delimiter - Default: ''
 #! @input virtualization_type: optional - virtualization type of the instance - Valid values: '' (no virtualization_type filtering),
-#!                                        'paravirtual', 'hvm' - Default: '
+#!                             'paravirtual', 'hvm' - Default: '
 #! @input ids_string: optional - A string that contains: none, one or more image IDs separated by delimiter - Default: ''
 #! @input owners_string: optional - Filters the images by the owner. Specify an AWS account ID, a'mazon' (owner is Amazon),
-#!                                  'aws-marketplace' (owner is AWS Marketplace), 'self' (owner is the sender of the request).
-#!                                  Omitting this option returns all images for which you have launch permissions, regardless
-#!                                  of ownership - Valid values: '' (no owners_string filtering), 'amazon', 'aws-marketplace',
-#!                                  or 'self' - Default: ''
+#!                       'aws-marketplace' (owner is AWS Marketplace), 'self' (owner is the sender of the request).
+#!                       Omitting this option returns all images for which you have launch permissions, regardless
+#!                       of ownership - Valid values: '' (no owners_string filtering), 'amazon', 'aws-marketplace',
+#!                       or 'self' - Default: ''
 #! @input description: optional - Description of the image (provided during image creation) - Default: ''
 #! @input type: optional - Image type - Valid values: '' (no owners_string filtering), 'machine', 'kernel', 'ramdisk' - Default: ''
 #! @input is_public: optional - A Boolean that indicates whether the image is public - Valid values: '' (no is_public filtering),
-#!                              'true', 'false' - Default: ''
+#!                   'true', 'false' - Default: ''
 #! @input manifest_location: optional - Location of the image manifest - Default: ''
 #! @input name: optional - Name of the AMI (provided during image creation) - Default: ''
 #! @input state: optional - State of the image - Valid values: '' (no state filtering), 'available', 'pending', 'failed' - Default: ''
@@ -103,8 +103,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -113,15 +113,15 @@ operation:
     - proxy_username:
         required: false
     - proxyUsername:
-        required: false
         default: ${get("proxy_username", "")}
+        required: false
         private: true
     - proxy_password:
         required: false
         sensitive: true
     - proxyPassword:
-        required: false
         default: ${get("proxy_password", "")}
+        required: false
         private: true
         sensitive: true
     - headers:
@@ -304,7 +304,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.images.DescribeImagesAction
     method_name: execute
 

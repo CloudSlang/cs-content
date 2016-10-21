@@ -9,7 +9,7 @@
 #!!
 #! @description: Deletes the specified network interface.
 #!               Note: You must detach the network interface before you can delete it.
-#! @input endpoint: Optional - Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -63,8 +63,8 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -104,7 +104,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.network.DeleteNetworkInterfaceAction
     method_name: execute
 
