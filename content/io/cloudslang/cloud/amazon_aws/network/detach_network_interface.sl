@@ -13,7 +13,7 @@
 #!                     As with all Amazon EC2 operations, the results might not appear immediately.
 #!                     For Region-Endpoint correspondence information, check all the service endpoints available at:
 #!                     http://docs.amazonwebservices.com/general/latest/gr/rande.html#ec2_region
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -53,6 +53,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -60,26 +61,26 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
     - headers:
         default: ''
         required: false
@@ -87,13 +88,13 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - attachment_id
     - attachmentId:
         default: ${get("attachment_id", "")}
-        private: true
         required: false
+        private: true
     - force_detach:
         required: false
     - forceDetach:
@@ -104,7 +105,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
     class_name: io.cloudslang.content.amazon.actions.network.DetachNetworkInterfaceAction
     method_name: execute
 

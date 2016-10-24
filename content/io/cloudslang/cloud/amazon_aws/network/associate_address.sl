@@ -19,7 +19,7 @@
 #!                          return an error, and you may be charged for each time the Elastic IP address is remapped to
 #!                          the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2
 #!                          Pricing.
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -69,9 +69,9 @@
 #!                              Example: 'eni-12345678'
 #!                              Default: ''
 #! @input private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
-#!                                              with the Elastic IP address. If no private IP address is specified, the Elastic
-#!                                              IP address is associated with the primary private IP address.
-#!                                              Default: ''
+#!                            with the Elastic IP address. If no private IP address is specified, the Elastic
+#!                            IP address is associated with the primary private IP address.
+#!                            Default: ''
 #! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -88,6 +88,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -95,21 +96,21 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -128,47 +129,47 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - allocation_id:
         required: false
     - allocationId:
         default: ${get("allocation_id", "")}
-        private: true
         required: false
+        private: true
     - instance_id:
         required: false
     - instanceId:
         default: ${get("instance_id", "")}
-        private: true
         required: false
+        private: true
     - allow_reassociation:
         required: false
     - allowReassociation:
         default: ${get("allow_reassociation", "false")}
-        private: true
         required: false
+        private: true
     - network_interface_id:
         required: false
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
-        private: true
         required: false
+        private: true
     - private_ip_address:
         required: false
     - privateIpAddress:
         default: ${get("private_ip_address", "")}
-        private: true
         required: false
+        private: true
     - public_ip:
         required: false
     - publicIp:
         default: ${get("public_ip", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
     class_name: io.cloudslang.content.amazon.actions.network.AssociateAddressAction
     method_name: execute
 

@@ -10,7 +10,7 @@
 #! @description: Creates a network interface in the specified subnet.
 #!               Note: For more information about network interfaces, see Elastic Network Interfaces in the Amazon Elastic
 #!                     Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -43,11 +43,11 @@
 #! @input network_interface_description: optional - A description for the network interface.
 #!                                       Default: ''
 #! @input private_ip_address: optional - Primary private IP address of the network interface. If you
-#!                                              don't specify an IP address, Amazon EC2 selects one for you from the subnet
-#!                                              range. If you specify an IP address, you cannot indicate any IP addresses
-#!                                              specified in privateIpAddresses as primary (only one IP address can be
-#!                                              designated as primary).
-#!                                              Default: ''
+#!                            don't specify an IP address, Amazon EC2 selects one for you from the subnet
+#!                            range. If you specify an IP address, you cannot indicate any IP addresses
+#!                            specified in privateIpAddresses as primary (only one IP address can be
+#!                            designated as primary).
+#!                            Default: ''
 #! @input private_ip_addresses_string: optional - String that contains one or more private IP addresses separated by <delimiter>
 #!                                     Default: ''
 #! @input secondary_private_ip_address_count: optional - Number of secondary private IP addresses to assign to a network
@@ -77,6 +77,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -84,20 +85,20 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -113,8 +114,8 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - version:
         default: "2014-06-15"
         required: false
@@ -125,40 +126,40 @@ operation:
         required: false
     - networkInterfaceDescription:
         default: ${get("network_interface_description", "")}
-        private: true
         required: false
+        private: true
     - private_ip_address:
         required: false
     - privateIpAddress:
         default: ${get("private_ip_address", "")}
-        private: true
         required: false
+        private: true
     - private_ip_addresses_string:
         required: false
     - privateIpAddressesString:
         default: ${get("private_ip_addresses_string", "")}
-        private: true
         required: false
+        private: true
     - secondary_private_ip_address_count:
         required: false
     - secondaryPrivateIpAddressCount:
         default: ${get("secondary_private_ip_address_count", "")}
-        private: true
         required: false
+        private: true
     - security_group_ids_string:
         required: false
     - securityGroupIdsString:
         default: ${get("security_group_ids_string", "")}
-        private: true
         required: false
+        private: true
     - subnet_id
     - subnetId:
         default: ${get("subnet_id", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.0'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
     class_name: io.cloudslang.content.amazon.actions.network.CreateNetworkInterfaceAction
     method_name: execute
 
