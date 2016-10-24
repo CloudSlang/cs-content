@@ -68,7 +68,7 @@ flow:
           - return_result
     - add_files:
         loop:
-          for: video in files_info
+          for: video in eval(files_info)
           do:
             hod.examples.video_text_search.add_to_index:
               - api_key
