@@ -77,6 +77,7 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft_azure
+
 imports:
   strings: io.cloudslang.base.strings
   ip: io.cloudslang.microsoft_azure.compute.network.public_ip_addresses
@@ -87,6 +88,7 @@ imports:
   flow: io.cloudslang.base.flow_control
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft_azure.compute.virtual_machines
+
 flow:
   name: deploy_vm
   inputs:
@@ -135,6 +137,7 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+
   workflow:
     - get_auth_token:
         do:
@@ -154,6 +157,7 @@ flow:
         navigate:
           - SUCCESS: create_public_ip
           - FAILURE: GET_AUTH_TOKEN_FAILURE
+
     - create_public_ip:
         do:
           ip.create_public_ip_address:
@@ -178,6 +182,7 @@ flow:
         navigate:
           - SUCCESS: create_network_interface
           - FAILURE: CREATE_PUBLIC_IP_ADDRESS_FAILURE
+
     - create_network_interface:
         do:
           nic.create_nic:
@@ -213,6 +218,7 @@ flow:
         navigate:
           - SUCCESS: create_windows_vm
           - FAILURE: linux_vm
+
     - create_windows_vm:
         do:
           vm.create_windows_vm:
@@ -245,6 +251,7 @@ flow:
         navigate:
           - SUCCESS: get_vm_info
           - FAILURE: delete_nic
+
     - get_vm_info:
         do:
           vm.get_vm_details:
@@ -267,6 +274,7 @@ flow:
         navigate:
           - SUCCESS: check_vm_state
           - FAILURE: GET_VM_INFO_FAILURE
+
     - check_vm_state:
         do:
           json.get_value:
@@ -277,6 +285,7 @@ flow:
         navigate:
           - SUCCESS: compare_power_state
           - FAILURE: COMPARE_POWER_STATE_FAILURE
+
     - compare_power_state:
         do:
           strings.string_equals:
@@ -332,52 +341,31 @@ flow:
         publish:
           - nics: '${return_result}'
         navigate:
-          - SUCCESS: strip_result
-          - FAILURE: GET_NIC_LIST_FAILURE
-    - strip_result:
-        do:
-          strings.search_and_replace:
-            - origin_string: ${nics}
-            - text_to_replace: '['
-            - replace_with: ''
-        publish:
-          - first_replace: ${replaced_string}
-        navigate:
-          - SUCCESS: final_result_replace
-          - FAILURE: on_failure
-
-    - final_result_replace:
-        do:
-          strings.search_and_replace:
-            - origin_string: ${first_replace}
-            - text_to_replace: ']'
-            - replace_with: ''
-        publish:
-          - final_replace: ${replaced_string}
-        navigate:
           - SUCCESS: get_nic_location
-          - FAILURE: on_failure
+          - FAILURE: GET_NIC_LIST_FAILURE
 
     - get_nic_location:
         do:
           lists.find_all:
-            - list: '${final_replace}'
+            - list: '${nics}'
             - element: "${'\"' + public_ip_address_name + '\"'}"
             - ignore_case: 'true'
         publish:
           - indices
         navigate:
           - SUCCESS: get_ip_address
+
     - get_ip_address:
         do:
           json.json_path_query:
             - json_object: '${ip_details}'
-            - json_path: "${'value' + indices + '.properties.ipAddress'}"
+            - json_path: "${'value[' + indices + '].properties.ipAddress'}"
         publish:
           - ip_address: '${return_result}'
         navigate:
           - SUCCESS: attach_disk
           - FAILURE: GET_IP_ADDRESS_FAILURE
+
     - attach_disk:
         do:
           vm.attach_disk_to_vm:
@@ -403,6 +391,7 @@ flow:
         navigate:
           - SUCCESS: tag_virtual_machine
           - FAILURE: ATTACH_DISK_FAILURE
+
     - tag_virtual_machine:
         do:
           vm.tag_vm:
@@ -481,7 +470,7 @@ flow:
             - trust_keystore
             - trust_password
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: on_failure
           - FAILURE: on_failure
 
     - delete_nic:

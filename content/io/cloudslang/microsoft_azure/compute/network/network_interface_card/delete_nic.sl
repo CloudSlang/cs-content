@@ -108,6 +108,7 @@ flow:
         publish:
           - output: ${return_result}
           - status_code
+          - return_code
         navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
@@ -115,7 +116,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '204,400,401,404'
+            - string_in_which_to_search: '204,400,401,404,411,412'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -144,6 +145,7 @@ flow:
   outputs:
     - output
     - status_code
+    - return_code
     - error_message
 
   results:

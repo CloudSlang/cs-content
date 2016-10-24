@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of the containers under the specified account
+#! @description: Performs an HTTP request to retrieve a list of the blobs under the specified container
 #!
 #! @input subscription_id: Azure subscription ID
 #! @input auth_token: Azure authorization Bearer token
@@ -16,6 +16,7 @@
 #! @input list_cont_auth_header: Storage authorization header
 #! @input date: Specifies the Coordinated Universal Time (UTC) for the request
 #! @input storage_account: Storage account name
+#! @input container_name: Container name
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -34,13 +35,13 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: the list of the containers under the specified account
+#! @output output: the list of blobs under the specified container
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If the containers are not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: The list of the containers under the specified account retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of the containers under the specified account
+#! @result SUCCESS: The list of blobs under the specified container retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of blobs under the specified container
 #!!#
 ########################################################################################################################
 
@@ -52,7 +53,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_containers
+  name: list_blobs
 
   inputs:
     - subscription_id
@@ -63,6 +64,7 @@ flow:
     - list_cont_auth_header
     - date
     - storage_account
+    - container_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -89,7 +91,7 @@ flow:
     - list_containers:
         do:
           http.http_client_get:
-            - url: ${'https://' + storage_account + '.blob.core.windows.net/?comp=list'}
+            - url: ${'https://' + storage_account + '.blob.core.windows.net/mycontainer?restype=container&comp=list'}
             - headers: >
                 ${'Authorization: ' + list_cont_auth_header + '\n' +
                 'x-ms-date:' + date + '\n' +
