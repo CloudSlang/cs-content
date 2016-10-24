@@ -32,7 +32,7 @@ flow:
     - find_all:
         do:
           lists.find_all:
-            - list: ${query_result['text']}
+            - list: ${",".join(eval(query_result)['text'])}
             - element: ${query_text}
             - ignore_case: "true"
         publish:
@@ -43,7 +43,7 @@ flow:
         do:
           comp.equals:
             - first: ${indices}
-            - second: ${[]}
+            - second: ${" "}
         navigate:
           - 'TRUE': SUCCESS
           - 'FALSE': build_header
@@ -51,17 +51,17 @@ flow:
         do:
           strings.append:
             - origin_string: " "
-            - text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
+            - text: ${'<h3>' + eval(query_result)['title'] + ' - <a href="' + eval(query_result)['url'][0] + '">' + eval(query_result)['url'][0] + '</a></h3><br><ul>'}
         publish:
           - item_text: ${new_string}
         navigate:
           - SUCCESS: build_result
     - build_result:
         loop:
-          for: index in indices
+          for: index in indices.split()
           do:
             hod.examples.video_text_search.build_result:
-              - item_text: ${'<h3>' + query_result['title'] + ' - <a href="' + query_result['url'][0] + '">' + query_result['url'][0] + '</a></h3><br><ul>'}
+              - item_text: ${'<h3>' + eval(query_result)['title'] + ' - <a href="' + eval(query_result)['url'][0] + '">' + eval(query_result)['url'][0] + '</a></h3><br><ul>'}
               - query_result
               - index
           break: []
