@@ -92,8 +92,8 @@ operation:
     - query_params:
         required: false
     - queryParams:
-        required: false
         default: ${get("query_params", "")}
+        required: false
         private: true
     - version:
         default: "2016-04-01"
@@ -106,14 +106,14 @@ operation:
         required: false
     - instanceId:
         default: ${get("instance_id", "")}
-        private: true
         required: false
+        private: true
     - device_name:
         required: false
     - deviceName:
         default: ${get("device_name", "")}
-        private: true
         required: false
+        private: true
     - force:
         default: 'false'
         required: false

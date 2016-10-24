@@ -59,6 +59,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -79,8 +80,8 @@ operation:
     - query_params:
         required: false
     - queryParams:
-        required: false
         default: ${get("query_params", "")}
+        required: false
         private: true
     - version:
         default: "2016-04-01"
@@ -88,6 +89,7 @@ operation:
     - image_id
     - imageId:
         default: ${get("image_id", "")}
+        required: false
         private: true
 
   java_action:

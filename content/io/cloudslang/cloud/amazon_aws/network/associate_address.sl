@@ -103,14 +103,14 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -129,44 +129,44 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - allocation_id:
         required: false
     - allocationId:
         default: ${get("allocation_id", "")}
-        private: true
         required: false
+        private: true
     - instance_id:
         required: false
     - instanceId:
         default: ${get("instance_id", "")}
-        private: true
         required: false
+        private: true
     - allow_reassociation:
         required: false
     - allowReassociation:
         default: ${get("allow_reassociation", "false")}
-        private: true
         required: false
+        private: true
     - network_interface_id:
         required: false
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
-        private: true
         required: false
+        private: true
     - private_ip_address:
         required: false
     - privateIpAddress:
         default: ${get("private_ip_address", "")}
-        private: true
         required: false
+        private: true
     - public_ip:
         required: false
     - publicIp:
         default: ${get("public_ip", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'

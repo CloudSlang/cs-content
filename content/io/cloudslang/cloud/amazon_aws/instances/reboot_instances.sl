@@ -82,8 +82,8 @@ operation:
     - query_params:
         required: false
     - queryParams:
-        required: false
         default: ${get("query_params", "")}
+        required: false
         private: true
     - version:
         default: "2016-04-01"

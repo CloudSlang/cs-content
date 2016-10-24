@@ -129,8 +129,8 @@ operation:
     - query_params:
         required: false
     - queryParams:
-        required: false
         default: ${get("query_params", "")}
+        required: false
         private: true
     - version:
         default: "2016-04-01"
@@ -142,40 +142,40 @@ operation:
         required: false
     - identityId:
         default: ${get("identity_id", "")}
-        private: true
         required: false
+        private: true
     - architecture:
         required: false
     - delete_on_termination:
         required: false
     - deleteOnTermination:
         default: ${get("delete_on_termination", "")}
-        private: true
         required: false
+        private: true
     - block_mapping_device_name:
         required: false
     - blockMappingDeviceName:
         default: ${get("block_mapping_device_name", "")}
-        private: true
         required: false
+        private: true
     - block_device_mapping_snapshot_id:
         required: false
     - blockDeviceMappingSnapshotId:
         default: ${get("block_device_mapping_snapshot_id", "")}
-        private: true
         required: false
+        private: true
     - volume_size:
         required: false
     - volumeSize:
         default: ${get("volume_size", "")}
-        private: true
         required: false
+        private: true
     - volume_type:
         required: false
     - volumeType:
         default: ${get("volume_type", "")}
-        private: true
         required: false
+        private: true
     - hypervisor:
         default: ''
         required: false
@@ -183,26 +183,26 @@ operation:
         required: false
     - imageId:
         default: ${get("image_id", "")}
-        private: true
         required: false
+        private: true
     - kernel_id:
         required: false
     - kernelId:
         default: ${get("kernel_id", "")}
-        private: true
         required: false
+        private: true
     - owner_alias:
         required: false
     - ownerAlias:
         default: ${get("owner_alias", "")}
-        private: true
         required: false
+        private: true
     - owner_id:
         required: false
     - ownerId:
         default: ${get("owner_id", "")}
-        private: true
         required: false
+        private: true
     - platform:
         default: ''
         required: false
@@ -210,74 +210,74 @@ operation:
         required: false
     - productCode:
         default: ${get("product_code", "")}
-        private: true
         required: false
+        private: true
     - product_code_type:
         required: false
     - productCodeType:
         default: ${get("product_code_type", "")}
-        private: true
         required: false
+        private: true
     - ramdisk_id:
         required: false
     - ramdiskId:
         default: ${get("ramdisk_id", "")}
-        private: true
         required: false
+        private: true
     - root_device_name:
         required: false
     - rootDeviceName:
         default: ${get("root_device_name", "")}
-        private: true
         required: false
+        private: true
     - root_device_type:
         required: false
     - rootDeviceType:
         default: ${get("root_device_type", "")}
-        private: true
         required: false
+        private: true
     - state_reason_code:
         required: false
     - stateReasonCode:
         default: ${get("state_reason_code", "")}
-        private: true
         required: false
+        private: true
     - state_reason_message:
         required: false
     - stateReasonMessage:
         default: ${get("state_reason_message", "")}
-        private: true
         required: false
+        private: true
     - key_tags_string:
         required: false
     - keyTagsString:
         default: ${get("key_tags_string", "")}
-        private: true
         required: false
+        private: true
     - value_tags_string:
         required: false
     - valueTagsString:
         default: ${get("value_tags_string", "")}
-        private: true
         required: false
+        private: true
     - virtualization_type:
         required: false
     - virtualizationType:
         default: ${get("virtualization_type", "")}
-        private: true
         required: false
+        private: true
     - ids_string:
         required: false
     - idsString:
         default: ${get("ids_string", "")}
-        private: true
         required: false
+        private: true
     - owners_string:
         required: false
     - ownersString:
         default: ${get("owners_string", "")}
-        private: true
         required: false
+        private: true
     - description:
         default: ''
         required: false
@@ -288,14 +288,14 @@ operation:
         required: false
     - isPublic:
         default: ${get("is_public", "")}
-        private: true
         required: false
+        private: true
     - manifest_location:
         required: false
     - manifestLocation:
         default: ${get("manifest_location", "")}
-        private: true
         required: false
+        private: true
     - name:
         default: ''
         required: false

@@ -67,20 +67,20 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
     - headers:
         default: ''
         required: false
@@ -88,13 +88,13 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - attachment_id
     - attachmentId:
         default: ${get("attachment_id", "")}
-        private: true
         required: false
+        private: true
     - force_detach:
         required: false
     - forceDetach:

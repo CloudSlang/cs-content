@@ -69,14 +69,14 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -92,16 +92,16 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - version:
         default: "2014-06-15"
         required: false
     - network_interface_id
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'

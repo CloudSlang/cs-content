@@ -104,21 +104,21 @@ operation:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
     - headers:
         required: false
     - query_params:
         required: false
     - queryParams:
-        required: false
         default: ${get("query_params", "")}
+        required: false
         private: true
     - availability_zone
     - availabilityZone:
@@ -134,8 +134,8 @@ operation:
         required: false
     - kmsKeyId:
         default: ${get("kms_key_id", "")}
-        private: true
         required: false
+        private: true
     - size:
         default: ''
         required: false
@@ -143,8 +143,8 @@ operation:
         required: false
     - snapshotId:
         default: ${get("snapshot_id", "")}
-        private: true
         required: false
+        private: true
     - volume_type:
         required: false
     - volumeType:

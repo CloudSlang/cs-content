@@ -71,20 +71,20 @@ operation:
         required: false
     - serverType:
         default: ${get("server_type", "")}
-        private: true
         required: false
+        private: true
     - operation_timeout:
         required: false
     - operationTimeout:
         default: ${get("operation_timeout", "")}
-        private: true
         required: false
+        private: true
     - pooling_interval:
         required: false
     - poolingInterval:
         default: ${get("pooling_interval", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'

@@ -73,14 +73,14 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -99,8 +99,8 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - domain:
         default: 'standard'
         required: false

@@ -282,37 +282,37 @@ operation:
    -  proxy_host:
          required: false
    -  proxyHost:
-         private: true
          default: ${get("proxy_host", "")}
          required: false
+         private: true
    -  proxy_port:
          required: false
    -  proxyPort:
-         private: true
          default: ${get("proxy_port", "")}
          required: false
+         private: true
    -  proxy_username:
          required: false
    -  proxyUsername:
-         private: true
          default: ${get("proxy_username", "")}
          required: false
-   -  proxy_password:
-         sensitive: true
-         required: false
-   -  proxyPassword:
          private: true
-         default: ${get("proxy_password", "")}
-         sensitive: true
+   -  proxy_password:
          required: false
+         sensitive: true
+   -  proxyPassword:
+         default: ${get("proxy_password", "")}
+         required: false
+         private: true
+         sensitive: true
    -  headers:
          required: false
    -  query_params:
          required: false
    -  queryParams:
-         private: true
          default: ${get("query_params", "")}
          required: false
+         private: true
    -  version:
          default: "2016-04-01"
          required: false
@@ -321,218 +321,218 @@ operation:
    -  availability_zone:
          required: false
    -  availabilityZone:
-         private: true
          default: ${get("availability_zone", "")}
          required: false
+         private: true
    -  host_id:
          required: false
    -  hostId:
-         private: true
          default: ${get("host_id", "")}
          required: false
+         private: true
    -  image_id
    -  imageId:
-         private: true
          default: ${get("image_id", "")}
          required: false
+         private: true
    -  instance_type:
          required: false
    -  instanceType:
-         private: true
          default: ${get("instance_type", "")}
          required: false
+         private: true
    -  kernel_id:
          required: false
    -  kernelId:
-         private: true
          default: ${get("kernel_id", "")}
          required: false
+         private: true
    -  ramdisk_id:
          required: false
    -  ramdiskId:
-         private: true
          default: ${get("ramdisk_id", "")}
          required: false
+         private: true
    -  subnet_id:
          required: false
    -  subnetId:
-         private: true
          default: ${get("subnet_id", "")}
          required: false
+         private: true
    -  block_device_mapping_device_names_string:
          required: false
    -  blockDeviceMappingDeviceNamesString:
-         private: true
          default: ${get("block_device_mapping_device_names_string", "")}
          required: false
+         private: true
    -  block_device_mapping_virtual_names_string:
          required: false
    -  blockDeviceMappingVirtualNamesString:
-         private: true
          default: ${get("block_device_mapping_virtual_names_string", "")}
          required: false
+         private: true
    -  delete_on_terminations_string:
          required: false
    -  deleteOnTerminationsString:
-         private: true
          default: ${get("delete_on_terminations_string", "")}
          required: false
+         private: true
    -  ebs_optimized:
          required: false
    -  ebsOptimized:
-         private: true
          default: ${get("ebs_optimized", "")}
          required: false
+         private: true
    -  encrypted_string:
          required: false
    -  encryptedString:
-         private: true
          default: ${get("encrypted_string", "")}
          required: false
+         private: true
    -  iops_string:
          required: false
    -  iopsString:
-         private: true
          default: ${get("iops_string", "")}
          required: false
+         private: true
    -  snapshot_ids_string:
          required: false
    -  snapshotIdsString:
-         private: true
          default: ${get("snapshot_ids_string", "")}
          required: false
+         private: true
    -  volume_sizes_string:
          required: false
    -  volumeSizesString:
-         private: true
          default: ${get("volume_sizes_string", "")}
          required: false
+         private: true
    -  volume_types_string:
          required: false
    -  volumeTypesString:
-         private: true
          default: ${get("volume_types_string", "")}
          required: false
+         private: true
    -  private_ip_address:
          required: false
    -  privateIpAddress:
-         private: true
          default: ${get("private_ip_address", "")}
          required: false
+         private: true
    -  private_ip_addresses_string:
          required: false
    -  privateIpAddressesString:
-         private: true
          default: ${get("private_ip_addresses_string", "")}
          required: false
+         private: true
    -  iam_instance_profile_arn:
          required: false
    -  iamInstanceProfileArn:
-         private: true
          default: ${get("iam_instance_profile_arn", "")}
          required: false
+         private: true
    -  iam_instance_profile_name:
          required: false
    -  iamInstanceProfileName:
-         private: true
          default: ${get("iam_instance_profile_name", "")}
          required: false
+         private: true
    -  key_pair_name:
          required: false
    -  keyPairName:
-         private: true
          default: ${get("key_pair_name", "")}
          required: false
+         private: true
    -  security_group_ids_string:
          required: false
    -  securityGroupIdsString:
-         private: true
          default: ${get("security_group_ids_string", "")}
          required: false
+         private: true
    -  affinity:
          required: false
    -  client_token:
          required: false
    -  clientToken:
-         private: true
          default: ${get("client_token", "")}
          required: false
+         private: true
    -  disable_api_termination:
          required: false
    -  disableApiTermination:
-         private: true
          default: ${get("disable_api_termination", "")}
          required: false
+         private: true
    -  instance_initiated_shutdown_behavior:
          required: false
    -  instanceInitiatedShutdownBehavior:
-         private: true
          default: ${get("instance_initiated_shutdown_behavior", "")}
          required: false
+         private: true
    -  max_count:
          required: false
    -  maxCount:
-         private: true
          default: ${get("max_count", "")}
          required: false
+         private: true
    -  min_count:
          required: false
    -  minCount:
-         private: true
          default: ${get("min_count", "")}
          required: false
+         private: true
    -  monitoring:
          required: false
    -  placement_group_name:
          required: false
    -  placementGroupName:
-         private: true
          default: ${get("placement_group_name", "")}
          required: false
+         private: true
    -  tenancy:
          required: false
    -  user_data:
          required: false
    -  userData:
-         private: true
          default: ${get("user_data", "")}
          required: false
+         private: true
    -  network_interface_associate_public_ip_address:
          required: false
    -  networkInterfaceAssociatePublicIpAddress:
-         private: true
          default: ${get("network_interface_associate_public_ip_address", "")}
          required: false
+         private: true
    -  network_interface_delete_on_termination:
          required: false
    -  networkInterfaceDeleteOnTermination:
-         private: true
          default: ${get("network_interface_delete_on_termination", "")}
          required: false
+         private: true
    -  network_interface_description:
          required: false
    -  networkInterfaceDescription:
-         private: true
          default: ${get("network_interface_description", "")}
          required: false
+         private: true
    -  network_interface_device_index:
          required: false
    -  networkInterfaceDeviceIndex:
-         private: true
          default: ${get("network_interface_device_index", "")}
          required: false
+         private: true
    -  network_interface_id:
          required: false
    -  networkInterfaceId:
-         private: true
          default: ${get("network_interface_id", "")}
          required: false
+         private: true
    -  secondary_private_ip_address_count:
          required: false
    -  secondaryPrivateIpAddressCount:
-         private: true
          default: ${get("secondary_private_ip_address_count", "")}
          required: false
+         private: true
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction

@@ -84,14 +84,14 @@ operation:
         required: false
     - payloadHash:
         default: ${get("payload_hash", "")}
-        private: true
         required: false
+        private: true
     - security_token:
         required: false
     - securityToken:
         default: ${get("security_token", "")}
-        private: true
         required: false
+        private: true
     - date
     - headers:
         default: ''
@@ -100,8 +100,8 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'

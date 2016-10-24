@@ -71,26 +71,26 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
     - instance_id:
         required: false
     - instanceId:
         default: ${get("instance_id", "")}
-        private: true
         required: false
+        private: true
     - headers:
         default: ''
         required: false
@@ -98,13 +98,13 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - network_interface_id
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
-        private: true
         required: false
+        private: true
     - device_index
     - deviceIndex:
         default: ${get("device_index", "")}

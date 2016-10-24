@@ -70,15 +70,15 @@ operation:
     - proxy_username:
        required: false
     - proxyUsername:
-       required: false
        default: ${get("proxy_username", "")}
+       required: false
        private: true
     - proxy_password:
        required: false
        sensitive: true
     - proxyPassword:
-       required: false
        default: ${get("proxy_password", "")}
+       required: false
        private: true
        sensitive: true
     - headers:
@@ -86,8 +86,8 @@ operation:
     - query_params:
        required: false
     - queryParams:
-       required: false
        default: ${get("query_params", "")}
+       required: false
        private: true
     - version:
        default: "2016-04-01"
@@ -95,6 +95,7 @@ operation:
     - instance_id
     - instanceId:
         default: ${get("instance_id", "")}
+        required: false
         private: true
     - description:
         default: ''
@@ -104,8 +105,8 @@ operation:
         required: false
     - noReboot:
         default: ${get("no_reboot", "true")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.1'
