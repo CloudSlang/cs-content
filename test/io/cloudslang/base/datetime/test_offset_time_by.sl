@@ -34,7 +34,7 @@ flow:
             - locale_lang
             - locale_country
         publish:
-            - response: ${result}
+            - output
         navigate:
             - SUCCESS: verify_against_expected_result
             - FAILURE: OFFSET_TIME_BY_FAILURE
@@ -43,7 +43,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: 'April 26, 2016 1:32:25 PM EEST'
-            - second_string: ${response}
+            - second_string: ${output}
         navigate:
             - SUCCESS: SUCCESS
             - FAILURE: INCORRECT_OUTPUT

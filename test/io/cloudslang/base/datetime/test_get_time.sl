@@ -34,7 +34,7 @@ flow:
             - timezone
             - date_format
         publish:
-            - response: ${result}
+            - output
         navigate:
             - SUCCESS: verify_output_is_not_empty
             - FAILURE: GET_CURRENT_TIME_FAILURE
@@ -43,7 +43,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ''
-            - second_string: ${response}
+            - second_string: ${output}
         navigate:
             - SUCCESS: OUTPUT_IS_EMPTY
             - FAILURE: SUCCESS
