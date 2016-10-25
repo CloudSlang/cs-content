@@ -57,8 +57,8 @@ flow:
 
   inputs:
     - subscription_id
-    - auth_token
     - resource_group_name
+    - auth_token
     - api_version:
         required: false
         default: '2015-06-15'

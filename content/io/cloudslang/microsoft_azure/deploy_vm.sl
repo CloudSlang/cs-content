@@ -152,7 +152,6 @@ flow:
             - proxy_password
         publish:
           - auth_token
-          - return_code
           - error_message: '${exception}'
         navigate:
           - SUCCESS: create_public_ip
@@ -359,7 +358,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${ip_details}'
-            - json_path: "${'value[' + indices + '].properties.ipAddress'}"
+            - json_path: "${'value' + indices + '.properties.ipAddress'}"
         publish:
           - ip_address: '${return_result}'
         navigate:
@@ -514,7 +513,6 @@ flow:
     - output
     - ip_address
     - status_code
-    - return_code
     - error_message
   results:
     - SUCCESS
