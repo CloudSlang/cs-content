@@ -70,6 +70,9 @@ flow:
     - username
     - authority
     - resource
+    - vm_name
+    - public_ip_address_name
+    - nic_name
     - password:
         sensitive: true
     - proxy_host:
@@ -80,14 +83,19 @@ flow:
         required: false
     - proxy_password:
         sensitive: true
-    - vm_name
-    - public_ip_address_name
-    - nic_name
     - trust_keystore:
         required: false
     - trust_password:
+        default: ''
         required: false
         sensitive: true
+    - trust_all_roots:
+        required: false
+        default: 'false'
+    - x_509_hostname_verifier:
+        required: false
+        default: 'strict'
+
 
   workflow:
 
@@ -100,8 +108,14 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
         publish:
           - auth_token
+          - return_code
+          - error_message: ${exception}
         navigate:
           - SUCCESS: stop_and_deallocate_vm
           - FAILURE: on_failure
@@ -110,16 +124,19 @@ flow:
         do:
           vm.stop_and_deallocate_vm:
             - subscription_id: '${subscription_id}'
-            - auth_token: '${resource_grouo_name}'
+            - auth_token: '${auth_token}'
             - vm_name: '${vm_name}'
             - resource_group_name: '${resource_grouo_name}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
             - proxy_host: '${proxy_host}'
+            - x_509_hostname_verifier
+            - trust_all_roots
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
         publish:
           - status_code
+          - error_message
         navigate:
           - SUCCESS: delete_vm
           - FAILURE: on_failure
@@ -134,10 +151,13 @@ flow:
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_port}'
             - proxy_host: '${proxy_port}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
         publish:
-          - status_code: '${status_code}'
+          - status_code
+          - error_message
         navigate:
           - SUCCESS: list_vms_in_a_resource_group
           - FAILURE: on_failure
@@ -151,10 +171,14 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
         publish:
           - deleted_vm: '${output}'
+          - status_code
+          - error_message
         navigate:
           - SUCCESS: retrieve_vm
           - FAILURE: on_failure
@@ -195,8 +219,13 @@ flow:
             - proxy_username: '${proxy_username}'
             - proxy_host: '${proxy_host}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
+        publish:
+          - status_code
+          - error_message
         navigate:
           - FAILURE: on_failure
           - SUCCESS: list_nics_within_resource_group
@@ -210,8 +239,13 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
+        publish:
+          - status_code
+          - error_message
         publish:
           - nics: '${output}'
         navigate:
@@ -222,7 +256,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${nics}'
-            - json_path: "'value.*.' + nic_name"
+            - json_path: 'value.*.name'
         publish:
           - nics_result: '${return_result}'
         navigate:
@@ -231,12 +265,12 @@ flow:
 
     - check_empty_nic:
         do:
-          strings.string_equals:
-            - first_string: '${nics_result}'
-            - second_string: ''
+          strings.string_occurence_counter:
+            - string_in_which_to_search: '${nics_result}'
+            - string_to_find: '${nic_name}'
         navigate:
-          - SUCCESS: delete_public_ip_address
-          - FAILURE: wait_nic_check
+          - SUCCESS: wait_nic_check
+          - FAILURE: delete_public_ip_address
 
     - wait_nic_check:
         do:
@@ -249,13 +283,18 @@ flow:
     - delete_public_ip_address:
         do:
           ip.delete_public_ip_address:
-            - auth_token: '${auth_token}'
-            - resource_group_name: '${resource_grouo_name}'
             - subscription_id: '${subscription_id}'
+            - resource_group_name: '${resource_grouo_name}'
+            - auth_token: '${auth_token}'
             - public_ip_address_name: '${public_ip_address_name}'
             - proxy_host: '${proxy_host}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+        publish:
+          - status_code
+          - error_message
         navigate:
           - SUCCESS: list_public_ip_addresses_within_resource_group
           - FAILURE: on_failure
@@ -269,8 +308,13 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore: '${trust_keystore}'
             - trust_password: '${trust_password}'
+        publish:
+          - status_code
+          - error_message
         publish:
           - ips_result: '${output}'
         navigate:
@@ -281,7 +325,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${ips_result}'
-            - json_path: 'value.*.ipAddress'
+            - json_path: 'value.*.name'
         publish:
           - ips_response: '${return_result}'
         navigate:
@@ -290,12 +334,12 @@ flow:
 
     - check_empty_ip:
         do:
-          strings.string_equals:
-            - first_string: '${ips_response}'
-            - second_string: ''
+          strings.string_occurence_counter:
+            - string_in_which_to_search: '${ips_response}'
+            - string_to_find: '${public_ip_address_name}'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: wait_ip_check
+          - SUCCESS: wait_ip_check
+          - FAILURE: SUCCESS
 
     - wait_ip_check:
         do:
@@ -304,6 +348,10 @@ flow:
         navigate:
           - SUCCESS: list_public_ip_addresses_within_resource_group
           - FAILURE: on_failure
+  outputs:
+    - return_code
+    - status_code
+    - error_message
 
   results:
     - SUCCESS
