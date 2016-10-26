@@ -179,7 +179,7 @@ flow:
 
     - wait_vm_check:
         do:
-          flow.flow_control.sleep:
+          flow.sleep:
             - seconds: '20'
         navigate:
           - SUCCESS: list_vms_in_a_resource_group
@@ -240,7 +240,7 @@ flow:
 
     - wait_nic_check:
         do:
-          flow.flow_control.sleep:
+          flow.sleep:
             - seconds: '20'
         navigate:
           - SUCCESS: list_nics_within_resource_group
