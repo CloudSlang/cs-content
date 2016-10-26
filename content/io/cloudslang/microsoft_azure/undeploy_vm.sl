@@ -196,10 +196,12 @@ flow:
 
     - check_empty_vm:
         do:
-          strings.string_equals:
+          strings.string_occurrence_counter:
+            - string_in_which_to_find: '${return_deleted}'
+            - string_to_find: '${vm_name}'
         navigate:
-          - SUCCESS: delete_nic
-          - FAILURE: wait_vm_check
+          - SUCCESS: wait_vm_check
+          - FAILURE: delete_nic
 
     - wait_vm_check:
         do:
@@ -265,7 +267,7 @@ flow:
 
     - check_empty_nic:
         do:
-          strings.string_occurence_counter:
+          strings.string_occurrence_counter:
             - string_in_which_to_search: '${nics_result}'
             - string_to_find: '${nic_name}'
         navigate:
@@ -334,7 +336,7 @@ flow:
 
     - check_empty_ip:
         do:
-          strings.string_occurence_counter:
+          strings.string_occurrence_counter:
             - string_in_which_to_search: '${ips_response}'
             - string_to_find: '${public_ip_address_name}'
         navigate:
