@@ -35,6 +35,7 @@
 #!
 #! @output output: json response with the access keys for the specified storage account
 #! @output key: the storage account key
+#! @output date: the GMT date required for the authentication header
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
 #! @output error_message: an error message in case there was an error while trying to retrieve the storage account key
 #!
@@ -49,14 +50,15 @@ imports:
   http: io.cloudslang.base.http
   strings: io.cloudslang.base.strings
   json: io.cloudslang.base.json
+  datetime: io.cloudslang.base.datetime
 
 flow:
   name: get_storage_account_keys
 
   inputs:
     - subscription_id
-    - auth_token
     - resource_group_name
+    - auth_token
     - api_version:
         required: false
         default: '2015-06-15'
@@ -151,12 +153,23 @@ flow:
         publish:
           - key: ${return_result}
         navigate:
+          - SUCCESS: get_date
+          - FAILURE: FAILURE
+
+    - get_date:
+        do:
+          datetime.get_time:
+            - date_format: 'EEE, dd MMM yyyy HH:mm:ss z'
+        publish:
+          - date: ${output}
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
     - output
     - key
+    - date
     - status_code
     - error_message
 

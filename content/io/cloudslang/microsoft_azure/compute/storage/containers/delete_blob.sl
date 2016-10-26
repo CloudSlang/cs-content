@@ -7,15 +7,17 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of the containers under the specified account
+#! @description: Performs an HTTP request to delete a blob inside a container
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure Storage
+#! @input resource_group_name: Azure resource group name
+#! @input list_cont_auth_header: Azure Storage authorization key
+#! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-04-05'
-#! @input list_cont_auth_header: Storage authorization header
-#! @input date: Specifies the Coordinated Universal Time (UTC) for the request
 #! @input storage_account: Storage account name
+#! @input nic_name: network interface card name
+#! @input container_name: Name of the container from which to delete the blob
+#! @input blob_name: Name of the blob to be erased
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -34,13 +36,14 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: the list of the containers under the specified account
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the containers are not found the error message will be populated with a response,
+#! @output output: json response with information of the deleted network interface card
+#! @output status_code: 202 if request completed successfully, 204 if resource does not exist,
+#!                      others in case something went wrong
+#! @output error_message: If a network interface card is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: The list of the containers under the specified account retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of the containers under the specified account
+#! @result SUCCESS: Blob deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the blob.
 #!!#
 ########################################################################################################################
 
@@ -50,19 +53,21 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
+  storage_auth: io.cloudslang.microsoft_azure.compute.storage
 
 flow:
-  name: list_containers
+  name: delete_blob
 
   inputs:
     - subscription_id
-    - auth_token
+    - resource_group_name
+    - list_cont_auth_header
     - api_version:
         required: false
         default: '2015-04-05'
-    - list_cont_auth_header
-    - date
     - storage_account
+    - container_name
+    - blob_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -86,12 +91,35 @@ flow:
         sensitive: true
 
   workflow:
-    - list_containers:
+    - get_storage_account:
         do:
-          http.http_client_get:
-            - url: ${'https://' + storage_account + '.blob.core.windows.net/?comp=list'}
+          storage_auth.get_storage_account_keys:
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - storage_account
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
+        publish:
+          - key
+          - date
+          - error_message
+        navigate:
+          - SUCCESS: delete_blob
+          - FAILURE: FAILURE
+
+    - delete_blob:
+        do:
+          http.http_client_delete:
+            - url: ${'https://' + storage_account + '.blob.core.windows.net/' + container_name + '/' + blob_name}
             - headers: >
-                ${'Authorization: ' + list_cont_auth_header + '\n' +
+                ${'Authorization: SharedKey ' + storage_account + ':' + list_cont_auth_header + '\n' +
                 'x-ms-date:' + date + '\n' +
                 'x-ms-version:' + api_version}
             - auth_type: 'anonymous'
@@ -109,6 +137,7 @@ flow:
         publish:
           - output: ${return_result}
           - status_code
+          - return_code
         navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
@@ -116,7 +145,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
+            - string_in_which_to_search: '204,400,401,404,411,412'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -135,9 +164,9 @@ flow:
 
     - retrieve_success:
         do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: '200,201,202'
+            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

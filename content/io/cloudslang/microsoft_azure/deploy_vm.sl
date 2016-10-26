@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: VM provison flow.
+#!
 #! @input username: Azure username
 #! @input password: Azure password
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -58,25 +59,20 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
-#! @output output: Information about the virtual machine that has been restarted
+#!
+#! @output output: Information about the virtual machine that has been created
 #! @output ip_address: the IP address of the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
+#!
 #! @result SUCCESS: The flow completed successfully.
-#! @result GET_AUTH_TOKEN_FAILURE: There was a problem while trying to generate Bearer token
-#! @result CREATE_PUBLIC_IP_ADDRESS_FAILURE: There was an error while trying to crate public IP address
-#! @result GET_VM_INFO_FAILURE: There was an error while trying to retrieve virtual machine info
-#! @result GET_PUBLIC_IP_ADDRESS_FAILURE: There was an error while trying to retrieve ip address list
-#! @result COMPARE_POWER_STATE_FAILURE: There was an error while trying to compare power states
-#! @result GET_IP_ADDRESS_FAILURE: There was an error while trying to retrieve IP address
-#! @result ATTACH_DISK_FAILURE: There was an error while trying to attach disk to virtual machine
 #! @result FAILURE: Something went wrong
-#! @result GET_NIC_LIST_FAILURE: There was an error while trying to retrieve the nic list
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft_azure
+
 imports:
   strings: io.cloudslang.base.strings
   ip: io.cloudslang.microsoft_azure.compute.network.public_ip_addresses
@@ -87,6 +83,7 @@ imports:
   flow: io.cloudslang.base.flow_control
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft_azure.compute.virtual_machines
+
 flow:
   name: deploy_vm
   inputs:
@@ -135,6 +132,7 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+
   workflow:
     - get_auth_token:
         do:
@@ -149,11 +147,11 @@ flow:
             - proxy_password
         publish:
           - auth_token
-          - return_code
           - error_message: '${exception}'
         navigate:
           - SUCCESS: create_public_ip
-          - FAILURE: GET_AUTH_TOKEN_FAILURE
+          - FAILURE: FAILURE
+
     - create_public_ip:
         do:
           ip.create_public_ip_address:
@@ -177,7 +175,8 @@ flow:
           - error_message
         navigate:
           - SUCCESS: create_network_interface
-          - FAILURE: CREATE_PUBLIC_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
+
     - create_network_interface:
         do:
           nic.create_nic:
@@ -213,6 +212,7 @@ flow:
         navigate:
           - SUCCESS: create_windows_vm
           - FAILURE: linux_vm
+
     - create_windows_vm:
         do:
           vm.create_windows_vm:
@@ -245,6 +245,7 @@ flow:
         navigate:
           - SUCCESS: get_vm_info
           - FAILURE: delete_nic
+
     - get_vm_info:
         do:
           vm.get_vm_details:
@@ -266,7 +267,8 @@ flow:
           - error_message
         navigate:
           - SUCCESS: check_vm_state
-          - FAILURE: GET_VM_INFO_FAILURE
+          - FAILURE: FAILURE
+
     - check_vm_state:
         do:
           json.get_value:
@@ -276,7 +278,8 @@ flow:
           - expected_vm_state: '${return_result}'
         navigate:
           - SUCCESS: compare_power_state
-          - FAILURE: COMPARE_POWER_STATE_FAILURE
+          - FAILURE: FAILURE
+
     - compare_power_state:
         do:
           strings.string_equals:
@@ -322,7 +325,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: wait_for_response
-          - FAILURE: GET_PUBLIC_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
 
     - get_nic_list:
         do:
@@ -332,42 +335,20 @@ flow:
         publish:
           - nics: '${return_result}'
         navigate:
-          - SUCCESS: strip_result
-          - FAILURE: GET_NIC_LIST_FAILURE
-    - strip_result:
-        do:
-          strings.search_and_replace:
-            - origin_string: ${nics}
-            - text_to_replace: '['
-            - replace_with: ''
-        publish:
-          - first_replace: ${replaced_string}
-        navigate:
-          - SUCCESS: final_result_replace
-          - FAILURE: on_failure
-
-    - final_result_replace:
-        do:
-          strings.search_and_replace:
-            - origin_string: ${first_replace}
-            - text_to_replace: ']'
-            - replace_with: ''
-        publish:
-          - final_replace: ${replaced_string}
-        navigate:
           - SUCCESS: get_nic_location
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
 
     - get_nic_location:
         do:
           lists.find_all:
-            - list: '${final_replace}'
+            - list: '${nics}'
             - element: "${'\"' + public_ip_address_name + '\"'}"
             - ignore_case: 'true'
         publish:
           - indices
         navigate:
           - SUCCESS: get_ip_address
+
     - get_ip_address:
         do:
           json.json_path_query:
@@ -377,7 +358,8 @@ flow:
           - ip_address: '${return_result}'
         navigate:
           - SUCCESS: attach_disk
-          - FAILURE: GET_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
+
     - attach_disk:
         do:
           vm.attach_disk_to_vm:
@@ -402,7 +384,8 @@ flow:
           - error_message
         navigate:
           - SUCCESS: tag_virtual_machine
-          - FAILURE: ATTACH_DISK_FAILURE
+          - FAILURE: FAILURE
+
     - tag_virtual_machine:
         do:
           vm.tag_vm:
@@ -481,7 +464,7 @@ flow:
             - trust_keystore
             - trust_password
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: on_failure
           - FAILURE: on_failure
 
     - delete_nic:
@@ -525,16 +508,7 @@ flow:
     - output
     - ip_address
     - status_code
-    - return_code
     - error_message
   results:
     - SUCCESS
-    - GET_AUTH_TOKEN_FAILURE
-    - CREATE_PUBLIC_IP_ADDRESS_FAILURE
-    - GET_VM_INFO_FAILURE
-    - GET_PUBLIC_IP_ADDRESS_FAILURE
-    - COMPARE_POWER_STATE_FAILURE
-    - GET_IP_ADDRESS_FAILURE
-    - ATTACH_DISK_FAILURE
     - FAILURE
-    - GET_NIC_LIST_FAILURE
