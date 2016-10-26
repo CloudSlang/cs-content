@@ -1,0 +1,102 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+####################################################
+testDescribeInstancesInRegionWithFiltersAmazonLocal:
+  testSuites: [amazon-local]
+  description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."
+  testFlowPath: io.cloudslang.amazon.ec2.instances.describe_instances
+  inputs:
+    - provider: <provider>
+    - endpoint: <endpoint>
+    - identity: <identity>
+    - credential: <credential>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - delimiter: <delimiter>
+    - debug_mode: <debug_mode>
+    - region: <region>
+    - volume_id: <volume_id>
+    - group_id: <group_id>
+    - host_id: <host_id>
+    - image_id: <image_id>
+    - instance_id: <instance_id>
+    - kernel_id: <kernel_id>
+    - owner_id: <owner_id>
+    - ramdisk_id: <ramdisk_id>
+    - reservation_id: <reservation_id>
+    - subnet_id: <subnet_id>
+    - vpc_id: <vpc_id>
+    - allocation_id: <allocation_id>
+    - association_id: <association_id>
+    - architecture: <architecture>
+    - block_device_mapping_status: <block_device_mapping_status>
+    - delete_on_termination: <delete_on_termination>
+    - block_mapping_device_name: <block_mapping_device_name>
+    - hypervisor: <hypervisor>
+    - platform: <platform>
+    - product_code: <product_code>
+    - product_code_type: <product_code_type>
+    - root_device_name: <root_device_name>
+    - root_device_type: <root_device_type>
+    - key_tags_string: <key_tags_string>
+    - value_tags_string: <value_tags_string>
+    - virtualization_type: <virtualization_type>
+    - affinity: <affinity>
+    - availability_zone: <availability_zone>
+    - attach_time: <attach_time>
+    - client_token: <client_token>
+    - dns_name: <dns_name>
+    - group_name: <group_name>
+    - iam_arn: <iam_arn>
+    - instance_lifecycle: <instance_lifecycle>
+    - instance_state_code: <instance_state_code>
+    - instance_state_name: <instance_state_name>
+    - instance_type: <instance_type>
+    - instance_group_id: <instance_group_id>
+    - instance_group_name: <instance_group_name>
+    - ip_address: <ip_address>
+    - key_name: <key_name>
+    - launch_index: <launch_index>
+    - launch_time: <launch_time>
+    - monitoring_state: <monitoring_state>
+    - placement_group_name: <placement_group_name>
+    - private_dns_name: <private_dns_name>
+    - private_ip_address: <private_ip_address>
+    - reason: <reason>
+    - requester_id: <requester_id>
+    - source_destination_check: <source_destination_check>
+    - spot_instance_request_id: <spot_instance_request_id>
+    - tenancy: <tenancy>
+    - public_ip: <public_ip>
+    - ip_owner_id: <ip_owner_id>
+    - network_interface_description: <network_interface_description>
+    - network_interface_subnet_id: <network_interface_subnet_id>
+    - network_interface_vpc_id: <network_interface_vpc_id>
+    - network_interface_id: <network_interface_id>
+    - network_interface_owner_id: <network_interface_owner_id>
+    - network_interface_availability_zone: <network_interface_availability_zone>
+    - network_interface_requester_id: <network_interface_requester_id>
+    - network_interface_requester_managed: <network_interface_requester_managed>
+    - network_interface_status: <network_interface_status>
+    - network_interface_mac_address: <network_interface_mac_address>
+    - network_interface_private_dns_name: <network_interface_private_dns_name>
+    - network_interface_source_destination_check: <network_interface_source_destination_check>
+    - network_interface_group_id: <network_interface_group_id>
+    - network_interface_groupName: <network_interface_groupName>
+    - network_interface_attachment_id: <network_interface_attachment_id>
+    - network_interface_instance_id: <network_interface_instance_id>
+    - network_interface_instance_owner_id: <network_interface_instance_owner_id>
+    - network_interface_private_ip_address: <network_interface_private_ip_address>
+    - network_interface_device_index: <network_interface_device_index>
+    - network_interface_attachment_status: <network_interface_attachment_status>
+    - network_interface_attach_time: <network_interface_attach_time>
+    - network_interface_delete_on_termination: <network_interface_delete_on_termination>
+    - network_interface_addresses_primary: <network_interface_addresses_primary>
+    - network_interface_public_ip: <network_interface_public_ip>
+    - network_interface_ip_owner_id: <network_interface_ip_owner_id>
+  result: SUCCESS

@@ -8,11 +8,11 @@
 ####################################################
 # Google Container Engine (GKE) property file for authentication JSON file
 #
-# io.cloudslang.cloud.google.gke.json_google_auth_path: the path to the authentication JSON file
+# io.cloudslang.google.gke.json_google_auth_path: the path to the authentication JSON file
 #
 ####################################################
 
-namespace: io.cloudslang.cloud.google.gke
+namespace: io.cloudslang.google.gke
 
 properties:
   - json_google_auth_path: <path>

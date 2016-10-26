@@ -8,14 +8,14 @@
 ####################################################
 # System property file for openstack operations
 #
-# io.cloudslang.cloud.openstack.trust_keystore: the pathname of the Java TrustStore file
-# io.cloudslang.cloud.openstack.trust_password: the password associated with the TrustStore file
-# io.cloudslang.cloud.openstack.keystore: the pathname of the Java KeyStore file
-# io.cloudslang.cloud.openstack.keystore_password: the password associated with the KeyStore file
+# io.cloudslang.openstack.trust_keystore: the pathname of the Java TrustStore file
+# io.cloudslang.openstack.trust_password: the password associated with the TrustStore file
+# io.cloudslang.openstack.keystore: the pathname of the Java KeyStore file
+# io.cloudslang.openstack.keystore_password: the password associated with the KeyStore file
 #
 ####################################################
 
-namespace: io.cloudslang.cloud.openstack
+namespace: io.cloudslang.openstack
 
 properties:
   - trust_keystore: ""
