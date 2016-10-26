@@ -14,7 +14,10 @@
 #! @input list_cont_auth_header: Azure Storage authorization key
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-04-05'
+#! @input storage_account: Storage account name
 #! @input nic_name: network interface card name
+#! @input container_name: Name of the container from which to delete the blob
+#! @input blob_name: Name of the blob to be erased
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -58,13 +61,12 @@ flow:
   inputs:
     - subscription_id
     - resource_group_name
-    - auth_token
     - list_cont_auth_header
     - api_version:
         required: false
         default: '2015-04-05'
     - storage_account
-    - container
+    - container_name
     - blob_name
     - proxy_host:
         required: false
@@ -115,7 +117,7 @@ flow:
     - delete_blob:
         do:
           http.http_client_delete:
-            - url: ${'https://' + storage_account + '.blob.core.windows.net/' + container + '/' + blob_name}
+            - url: ${'https://' + storage_account + '.blob.core.windows.net/' + container_name + '/' + blob_name}
             - headers: >
                 ${'Authorization: SharedKey ' + storage_account + ':' + list_cont_auth_header + '\n' +
                 'x-ms-date:' + date + '\n' +

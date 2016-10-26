@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: VM provison flow.
+#!
 #! @input username: Azure username
 #! @input password: Azure password
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -58,21 +59,15 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
-#! @output output: Information about the virtual machine that has been restarted
+#!
+#! @output output: Information about the virtual machine that has been created
 #! @output ip_address: the IP address of the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
+#!
 #! @result SUCCESS: The flow completed successfully.
-#! @result GET_AUTH_TOKEN_FAILURE: There was a problem while trying to generate Bearer token
-#! @result CREATE_PUBLIC_IP_ADDRESS_FAILURE: There was an error while trying to crate public IP address
-#! @result GET_VM_INFO_FAILURE: There was an error while trying to retrieve virtual machine info
-#! @result GET_PUBLIC_IP_ADDRESS_FAILURE: There was an error while trying to retrieve ip address list
-#! @result COMPARE_POWER_STATE_FAILURE: There was an error while trying to compare power states
-#! @result GET_IP_ADDRESS_FAILURE: There was an error while trying to retrieve IP address
-#! @result ATTACH_DISK_FAILURE: There was an error while trying to attach disk to virtual machine
 #! @result FAILURE: Something went wrong
-#! @result GET_NIC_LIST_FAILURE: There was an error while trying to retrieve the nic list
 #!!#
 ########################################################################################################################
 
@@ -155,7 +150,7 @@ flow:
           - error_message: '${exception}'
         navigate:
           - SUCCESS: create_public_ip
-          - FAILURE: GET_AUTH_TOKEN_FAILURE
+          - FAILURE: FAILURE
 
     - create_public_ip:
         do:
@@ -180,7 +175,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: create_network_interface
-          - FAILURE: CREATE_PUBLIC_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
 
     - create_network_interface:
         do:
@@ -272,7 +267,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: check_vm_state
-          - FAILURE: GET_VM_INFO_FAILURE
+          - FAILURE: FAILURE
 
     - check_vm_state:
         do:
@@ -283,7 +278,7 @@ flow:
           - expected_vm_state: '${return_result}'
         navigate:
           - SUCCESS: compare_power_state
-          - FAILURE: COMPARE_POWER_STATE_FAILURE
+          - FAILURE: FAILURE
 
     - compare_power_state:
         do:
@@ -330,7 +325,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: wait_for_response
-          - FAILURE: GET_PUBLIC_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
 
     - get_nic_list:
         do:
@@ -341,7 +336,7 @@ flow:
           - nics: '${return_result}'
         navigate:
           - SUCCESS: get_nic_location
-          - FAILURE: GET_NIC_LIST_FAILURE
+          - FAILURE: FAILURE
 
     - get_nic_location:
         do:
@@ -363,7 +358,7 @@ flow:
           - ip_address: '${return_result}'
         navigate:
           - SUCCESS: attach_disk
-          - FAILURE: GET_IP_ADDRESS_FAILURE
+          - FAILURE: FAILURE
 
     - attach_disk:
         do:
@@ -389,7 +384,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: tag_virtual_machine
-          - FAILURE: ATTACH_DISK_FAILURE
+          - FAILURE: FAILURE
 
     - tag_virtual_machine:
         do:
@@ -516,12 +511,4 @@ flow:
     - error_message
   results:
     - SUCCESS
-    - GET_AUTH_TOKEN_FAILURE
-    - CREATE_PUBLIC_IP_ADDRESS_FAILURE
-    - GET_VM_INFO_FAILURE
-    - GET_PUBLIC_IP_ADDRESS_FAILURE
-    - COMPARE_POWER_STATE_FAILURE
-    - GET_IP_ADDRESS_FAILURE
-    - ATTACH_DISK_FAILURE
     - FAILURE
-    - GET_NIC_LIST_FAILURE
