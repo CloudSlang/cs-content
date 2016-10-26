@@ -197,7 +197,7 @@ flow:
     - check_empty_vm:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_find: '${return_deleted}'
+            - string_in_which_to_search: '${return_deleted}'
             - string_to_find: '${vm_name}'
         navigate:
           - SUCCESS: wait_vm_check
