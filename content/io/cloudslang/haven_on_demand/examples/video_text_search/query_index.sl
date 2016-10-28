@@ -69,17 +69,17 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ${['documents']}
+            - json_path: 'documents'
         publish:
           - doc_list: ${return_result}
           - error_message
     - process_results:
         loop:
-          for: item in doc_list
+          for: item in eval(doc_list)
           do:
             hod.examples.video_text_search.process_query_results:
               - query_text: ${text}
-              - query_result: ${item}
+              - query_result: ${str(item)}
               - result_text: ${email_text}
           break: []
           publish:
