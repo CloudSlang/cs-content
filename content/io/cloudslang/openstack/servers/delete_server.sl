@@ -56,7 +56,7 @@ operation:
         default: 'delete'
         private: true
   java_action:
-    gav: 'io.cloudslang.content:score-http-client:0.1.65'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
   outputs:
