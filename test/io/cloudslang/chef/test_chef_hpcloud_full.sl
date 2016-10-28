@@ -19,7 +19,7 @@
 namespace: io.cloudslang.chef
 
 imports:
-  hpcloud: io.cloudslang.cloud.hp_cloud
+  hpcloud: io.cloudslang.hp_cloud
   print: io.cloudslang.base.print
   chef: io.cloudslang.chef
   ssh: io.cloudslang.base.ssh
