@@ -11,12 +11,8 @@
 # io.cloudslang.amazon.aws.ec2.provider: cloud service provider
 # io.cloudslang.amazon.aws.ec2.endpoint: endpoint to which the request will be sent
 # io.cloudslang.amazon.aws.ec2.aws_latency: time (in seconds) to wait until launched instance is available
-# io.cloudslang.amazon.aws.ec2.instance_output_id_regex: regex needed to extract instance id from 'run_instances' operation
-#                                                          string formatted output
-# io.cloudslang.amazon.aws.ec2.volume_output_id_xpath_query: xpath formatted string needed to extract volume id from
-#                                                              'create_volume' operation string formatted xml output
-# io.cloudslang.amazon.aws.ec2.volume_output_query_type: type of selection result from xpath_query
-# io.cloudslang.amazon.aws.ec2.volumes_query_api_version: version of the volume web service to made the call against it
+# io.cloudslang.amazon.aws.ec2.instance_output_id_regex: regex needed to extract instance id from 'run_instances'
+#                                                        operation string formatted output
 # io.cloudslang.amazon.aws.ec2.success_call_list: string formatted list that verifies the HTTP call has '0' as
 #                                                   return_code and no exception message
 #
