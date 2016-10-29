@@ -1,0 +1,20 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testListApplicationLocal:
+  inputs:
+    - host: <host>
+    - username: <username>
+    - password: <password>
+    - proxy_host: <proxy_host>
+    - domain: <domain>
+  description: "Test list all RedHat OpenShift online applications from a specified domain."
+  testFlowPath: io.cloudslang.openshift.applications.test_list_applications
+  testSuites: [openshift-local]
+  result: SUCCESS
+
+
