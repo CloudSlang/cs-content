@@ -14,15 +14,15 @@
 #!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
 #!               Actions in the Amazon Elastic Compute Cloud User Guide.
 #! @input provider: Cloud provider on which you have the resources - Default: 'amazon'
-#! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - Amazon Access Key ID
-#! @input credential: optional - Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
 #! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
 #! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
-#!                           order to get all regions - Default: 'us-east-1'
+#!                         order to get all regions - Default: 'us-east-1'
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter.
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter.
 #! @input resource_ids_string: String that contains Id's of one or more resources to tag.
@@ -41,19 +41,18 @@ operation:
 
   inputs:
     - provider: 'amazon'
-    - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
+    - endpoint:
         required: false
-        sensitive: true
+        default: 'https://ec2.amazonaws.com'
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -84,8 +83,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.tags.ApplyToResourcesAction
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.tags.ApplyToResourcesAction
     method_name: execute
 
   outputs:

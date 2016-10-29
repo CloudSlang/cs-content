@@ -10,7 +10,7 @@
 #! @description: Acquires an Elastic IP address.
 #!               Note: An Elastic IP address is for use either in the EC2-Classic platform or in a VPC.
 #!                     For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -22,11 +22,12 @@
 #!                    inputs or leave them both empty.
 #!                    Default: ''
 #! @input proxy_username: optional - Proxy server user name.
-#!                    Default: ''
+#!                        Default: ''
 #! @input proxy_password: optional - Proxy server password associated with the <proxy_username> input value.
-#!                    Default: ''
-#! @input version: Version of the web service to made the call against it.
+#!                        Default: ''
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
+#!                 Default: "2014-06-15"
 #! @input headers: optional - String containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
@@ -57,6 +58,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -64,21 +66,21 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -87,7 +89,9 @@ operation:
         private: true
         sensitive: true
         required: false
-    - version
+    - version:
+        default: "2014-06-15"
+        required: false
     - headers:
         default: ''
         required: false
@@ -95,15 +99,15 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - domain:
         default: 'standard'
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.network.AllocateAddressAction
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.network.AllocateAddressAction
     method_name: execute
 
   outputs:

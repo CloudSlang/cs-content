@@ -12,7 +12,7 @@
 #!               Note: This operation uses Signature V4 mechanism. The 'authorizationHeader' output's value should be added
 #!                     in the 'Authorization' header. For more information see:
 #!                     http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html#sigv4-add-signature-auth-header
-#! @input endpoint: Service endpoint used to compute the signature.
+#! @input endpoint: optional - Service endpoint used to compute the signature.
 #!                  Example: 'ec2.amazonaws.com', 's3.amazonaws.com'
 #!                  Default: 'ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -60,7 +60,9 @@ operation:
   name: compute_signature_v4
 
   inputs:
-    - endpoint
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -72,7 +74,8 @@ operation:
     - uri:
         default: '/'
         required: false
-    - http_verb: 'GET'
+    - http_verb:
+        default: 'GET'
     - httpVerb:
         default: $(get("http_verb", "")}
         required: false
@@ -81,14 +84,14 @@ operation:
         required: false
     - payloadHash:
         default: ${get("payload_hash", "")}
-        private: true
         required: false
+        private: true
     - security_token:
         required: false
     - securityToken:
         default: ${get("security_token", "")}
-        private: true
         required: false
+        private: true
     - date
     - headers:
         default: ''
@@ -97,13 +100,13 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.signature.ComputeSignatureV4
-    method_name: computeSignature
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.signature.ComputeSignatureV4
+    method_name: execute
 
   outputs:
     - signature

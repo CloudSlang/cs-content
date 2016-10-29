@@ -19,16 +19,25 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
-#! @input endpoint: Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: optional - ID of the secret access key associated with your Amazon AWS or IAM account.
+#! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
-#! @input credential: optional - Secret access key associated with your Amazon AWS or IAM account.
+#! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 #! @input proxy_host: optional - proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: optional - proxy server port. You must either specify values for both <proxyHost> and <proxyPort>
 #!                    inputs or leave them both empty.
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                 The header name-value pair will be separated by ":".
+#!                 Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                 Examples: "Accept:text/plain"
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                      and the values must not be URL encoded because if they are encoded then a double encoded
+#!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                      separated from query value by "=".
+#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input availability_zone: Specifies the Availability Zone in which to create the volume. See more on:
 #!                           https://aws.amazon.com/about-aws/global-infrastructure. Amazon automatically selects an
 #!                           Example: 'us-east-1d'
@@ -41,8 +50,8 @@
 #!                   Valid values: 'false', 'true'. Any other but valid values provided will be ignored.
 #!                   Default: 'false'
 #! @input iops: optional - only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second (IOPS) to
-#!                         provision for the volume, with a maximum ratio of 30 IOPS/GiB. Constraint: Range is 100 to 20000
-#!                         for Provisioned IOPS SSD volumes
+#!              provision for the volume, with a maximum ratio of 30 IOPS/GiB. Constraint: Range is 100 to 20000
+#!              for Provisioned IOPS SSD volumes
 #! @input kms_key_id: optional - The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use
 #!                    when creating the encrypted volume. This parameter is only required if you want to use a non-default
 #!                    CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the
@@ -55,10 +64,11 @@
 #!              "st1", 500-16384 for "sc1", and 1-1024 for "standard".
 #! @input snapshot_id: optional - Snapshot from which to create the volume - Default: ''
 #! @input volume_type: optional - Volume type of the Amazon EBS volume - Valid values: 'gp2' (for General Purpose SSD volumes),
-#!                                'io1' (for Provisioned IOPS SSD volumes), 'st1' (for Throughput Optimized HDD), 'sc1'
-#!                                (for Cold HDD) and 'standard' (for Magnetic volumes) - Default: 'standard'
-#! @input version: Version of the web service to made the call against it.
+#!                     'io1' (for Provisioned IOPS SSD volumes), 'st1' (for Throughput Optimized HDD), 'sc1'
+#!                     (for Cold HDD) and 'standard' (for Magnetic volumes) - Default: 'standard'
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
+#!                 Default: "2014-06-15"
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -72,19 +82,18 @@ operation:
   name: create_volume
 
   inputs:
-    - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
         required: false
-        sensitive: true
+    - identity
     - credential:
-        required: false
         sensitive: true
     - proxy_host:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
@@ -95,14 +104,22 @@ operation:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        default: ${get("query_params", "")}
+        required: false
+        private: true
     - availability_zone
     - availabilityZone:
         default: ${availability_zone}
@@ -117,8 +134,8 @@ operation:
         required: false
     - kmsKeyId:
         default: ${get("kms_key_id", "")}
-        private: true
         required: false
+        private: true
     - size:
         default: ''
         required: false
@@ -126,18 +143,20 @@ operation:
         required: false
     - snapshotId:
         default: ${get("snapshot_id", "")}
-        private: true
         required: false
+        private: true
     - volume_type:
         required: false
     - volumeType:
         default: ${get("volume_type", "standard")}
         private: true
-    - version
+    - version:
+        default: "2014-06-15"
+        required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.9'
-    class_name: io.cloudslang.content.jclouds.actions.volumes.CreateVolumeAction
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.volumes.CreateVolumeAction
     method_name: execute
 
   outputs:

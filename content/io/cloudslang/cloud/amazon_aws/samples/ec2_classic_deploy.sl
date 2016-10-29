@@ -12,7 +12,7 @@
 #!                     'us-east-1' region (default) will be used. The instance will use a specific AMI and will be tagged.
 #!                     The instance will be attached to an existing default network then the instance will be started.
 #! @input provider: the cloud provider on which the instance is - Default: 'amazon'
-#! @input endpoint: the endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.

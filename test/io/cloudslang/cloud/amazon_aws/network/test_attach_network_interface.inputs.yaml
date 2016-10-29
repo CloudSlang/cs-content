@@ -9,7 +9,7 @@
 testAmazonAttachNetworkInterfaceLocal:
   testSuites: [amazon-local]
   description: "Test that successfully attaches a specified network interface to a provided Amazon AWS instance."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.network.test_attach_network_interface
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.attach_network_interface
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

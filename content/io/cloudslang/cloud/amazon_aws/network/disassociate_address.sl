@@ -12,7 +12,7 @@
 #!                     see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
 #!               Important: This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't
 #!                          return an error.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -38,12 +38,13 @@
 #!                      value by '='.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
+#!                 Default: '2014-06-15'
 #! @input association_id: optional - [EC2-VPC] Association ID. Required for EC2-VPC.
 #!                        Default: ''
-#! @input network_interface_public_ip: optional - Elastic IP address. This is required for EC2-Classic.
-#!                                     Default: ''
+#! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
+#!                   Default: ''
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
@@ -59,6 +60,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -66,20 +68,20 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -95,25 +97,27 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
-    - version
+        private: true
+    - version:
+        default: "2014-06-15"
+        required: false
     - association_id:
         required: false
     - associationId:
         default: ${get("association_id", "")}
+        required: false
         private: true
+    - public_ip:
         required: false
-    - network_interface_public_ip:
+    - publicIp:
+        default: ${get("public_ip", "")}
         required: false
-    - networkInterfacePublicIp:
-        default: ${get("network_interface_public_ip", "")}
         private: true
-        required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.network.DisassociateAddress
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.network.DisassociateAddressAction
     method_name: execute
 
   outputs:

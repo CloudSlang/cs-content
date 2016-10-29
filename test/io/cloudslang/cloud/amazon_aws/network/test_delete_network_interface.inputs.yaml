@@ -6,23 +6,21 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonCreateVolumeLocal:
+testAmazonDeleteNetworkInterfaceLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully creates an Amazon AWS volume into a specified availability zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.test_create_volume_in_availability_zone
+  description: "Test that successfully deletes a network interface."
+  testFlowPath: io.cloudslang.cloud.amazon_aws.network.delete_network_interface
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - debug_mode: <debug_mode>
-    - region: <region>
-    - availability_zone: <availability_zone>
-    - snapshot_id: <snapshot_id>
-    - volume_type: <volume_type>
-    - size: <size>
-    - iops: <iops>
-    - encrypted: <encrypted>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
+    - delimiter: <delimiter>
+    - network_interface_id: <network_interface_id>
   result: SUCCESS

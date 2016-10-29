@@ -221,7 +221,7 @@ operation:
     - connections_max_total:
         required: false
     - connectionsMaxTotal:
-        default: ${get("connections_max_total", "2")}
+        default: ${get("connections_max_total", "20")}
         private: true
     - headers:
         required: false
@@ -346,5 +346,5 @@ operation:
     - status_code: ${get('statusCode', '')}
     - response_headers: ${get('responseHeaders', '')}
   results:
-    - SUCCESS : ${returnCode == '0' and str(statusCode) in valid_http_status_codes}
+    - SUCCESS: ${returnCode == '0' and str(statusCode) in valid_http_status_codes}
     - FAILURE

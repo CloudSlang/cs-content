@@ -9,7 +9,7 @@
 testDescribeInstancesInRegionWithFiltersAmazonLocal:
   testSuites: [amazon-local]
   description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.test_describe_instances
+  testFlowPath: io.cloudslang.cloud.amazon_aws.instances.describe_instances
   inputs:
     - provider: <provider>
     - endpoint: <endpoint>
@@ -33,17 +33,25 @@ testDescribeInstancesInRegionWithFiltersAmazonLocal:
     - vpc_id: <vpc_id>
     - allocation_id: <allocation_id>
     - association_id: <association_id>
-    - affinity: <affinity>
     - architecture: <architecture>
+    - block_device_mapping_status: <block_device_mapping_status>
+    - delete_on_termination: <delete_on_termination>
+    - block_mapping_device_name: <block_mapping_device_name>
+    - hypervisor: <hypervisor>
+    - platform: <platform>
+    - product_code: <product_code>
+    - product_code_type: <product_code_type>
+    - root_device_name: <root_device_name>
+    - root_device_type: <root_device_type>
+    - key_tags_string: <key_tags_string>
+    - value_tags_string: <value_tags_string>
+    - virtualization_type: <virtualization_type>
+    - affinity: <affinity>
     - availability_zone: <availability_zone>
     - attach_time: <attach_time>
-    - delete_on_termination: <delete_on_termination>
-    - device_name: <device_name>
-    - status: <status>
     - client_token: <client_token>
     - dns_name: <dns_name>
     - group_name: <group_name>
-    - hypervisor: <hypervisor>
     - iam_arn: <iam_arn>
     - instance_lifecycle: <instance_lifecycle>
     - instance_state_code: <instance_state_code>
@@ -57,25 +65,15 @@ testDescribeInstancesInRegionWithFiltersAmazonLocal:
     - launch_time: <launch_time>
     - monitoring_state: <monitoring_state>
     - placement_group_name: <placement_group_name>
-    - platform: <platform>
     - private_dns_name: <private_dns_name>
     - private_ip_address: <private_ip_address>
-    - product_code: <product_code>
-    - product_code_type: <product_code_type>
     - reason: <reason>
     - requester_id: <requester_id>
-    - root_device_name: <root_device_name>
-    - root_device_type: <root_device_type>
     - source_destination_check: <source_destination_check>
     - spot_instance_request_id: <spot_instance_request_id>
-    - state_reason_code: <state_reason_code>
-    - state_reason_message: <state_reason_message>
     - tenancy: <tenancy>
-    - virtualization_type: <virtualization_type>
     - public_ip: <public_ip>
     - ip_owner_id: <ip_owner_id>
-    - key_tags_string: <key_tags_string>
-    - value_tags_string: <value_tags_string>
     - network_interface_description: <network_interface_description>
     - network_interface_subnet_id: <network_interface_subnet_id>
     - network_interface_vpc_id: <network_interface_vpc_id>

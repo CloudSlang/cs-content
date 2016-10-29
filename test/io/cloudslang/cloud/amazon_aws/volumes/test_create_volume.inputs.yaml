@@ -9,9 +9,8 @@
 testAmazonCreateVolumeQueryAPILocal:
   testSuites: [amazon-local]
   description: "Test that successfully creates an Amazon AWS volume with specified set of parameters."
-  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.test_create_volume
+  testFlowPath: io.cloudslang.cloud.amazon_aws.volumes.create_volume
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
@@ -19,6 +18,10 @@ testAmazonCreateVolumeQueryAPILocal:
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - headers: <headers>
+    - query_params: <query_params>
     - availability_zone: <availability_zone>
     - encrypted: <encrypted>
     - iops: <iops>

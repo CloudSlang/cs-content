@@ -19,8 +19,8 @@
 #!                          return an error, and you may be charged for each time the Elastic IP address is remapped to
 #!                          the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2
 #!                          Pricing.
-#! @input endpoint: Endpoint to which the request will be sent
-#!                  Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: optional - Endpoint to which first request will be sent
+#!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
@@ -34,8 +34,9 @@
 #!                    Default: ''
 #! @input proxy_password: optional - Proxy server password associated with the <proxy_username> input value.
 #!                    Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
+#!                 Default: "2014-06-15"
 #! @input headers: optional - String containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
@@ -67,11 +68,11 @@
 #!                              interface, you must specify a network interface ID.
 #!                              Example: 'eni-12345678'
 #!                              Default: ''
-#! @input network_interface_private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
-#!                                              with the Elastic IP address. If no private IP address is specified, the Elastic
-#!                                              IP address is associated with the primary private IP address.
-#!                                              Default: ''
-#! @input network_interface_public_ip: optional - Elastic IP address. This is required for EC2-Classic.
+#! @input private_ip_address: optional - [EC2-VPC] The primary or secondary private IP address to associate
+#!                            with the Elastic IP address. If no private IP address is specified, the Elastic
+#!                            IP address is associated with the primary private IP address.
+#!                            Default: ''
+#! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
@@ -87,6 +88,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -94,21 +96,21 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -117,7 +119,9 @@ operation:
         private: true
         sensitive: true
         required: false
-    - version
+    - version:
+        default: "2014-06-15"
+        required: false
     - headers:
         default: ''
         required: false
@@ -125,48 +129,48 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - allocation_id:
         required: false
     - allocationId:
         default: ${get("allocation_id", "")}
-        private: true
         required: false
+        private: true
     - instance_id:
         required: false
     - instanceId:
         default: ${get("instance_id", "")}
-        private: true
         required: false
+        private: true
     - allow_reassociation:
         required: false
     - allowReassociation:
         default: ${get("allow_reassociation", "false")}
-        private: true
         required: false
+        private: true
     - network_interface_id:
         required: false
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
+        required: false
         private: true
+    - private_ip_address:
         required: false
-    - network_interface_private_ip_address:
+    - privateIpAddress:
+        default: ${get("private_ip_address", "")}
         required: false
-    - networkInterfacePrivateIpAddress:
-        default: ${get("network_interface_private_ip_address", "")}
         private: true
+    - public_ip:
         required: false
-    - network_interface_public_ip:
+    - publicIp:
+        default: ${get("public_ip", "")}
         required: false
-    - networkInterfacePublicIp:
-        default: ${get("network_interface_public_ip", "")}
         private: true
-        required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.network.AssociateAddressAction
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.network.AssociateAddressAction
     method_name: execute
 
   outputs:

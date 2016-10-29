@@ -9,7 +9,7 @@
 #!!
 #! @description: Deletes the specified network interface.
 #!               Note: You must detach the network interface before you can delete it.
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -35,8 +35,9 @@
 #!                      value by '='.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
-#! @input version: Version of the web service to made the call against it.
+#! @input version: version of the web service to make the call against it.
 #!                 Example: '2014-06-15'
+#!                 Default: '2014-06-15'
 #! @input network_interface_id: ID of the network interface to delete.
 #!                              Example: 'eni-12345678'
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
@@ -54,6 +55,7 @@ operation:
   inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -61,20 +63,20 @@ operation:
         required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
-        private: true
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -90,18 +92,20 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
-    - version
+        private: true
+    - version:
+        default: "2014-06-15"
+        required: false
     - network_interface_id
     - networkInterfaceId:
         default: ${get("network_interface_id", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-jclouds:0.0.10'
-    class_name: io.cloudslang.content.jclouds.actions.network.DeleteNetworkInterfaceAction
+    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    class_name: io.cloudslang.content.amazon.actions.network.DeleteNetworkInterfaceAction
     method_name: execute
 
   outputs:
