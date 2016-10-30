@@ -9,12 +9,12 @@
 #!!
 #! @description: This operation retrieves the authentication Bearer token for Azure
 #!
-#! @input username: Azure username
-#! @input password: Azure password
-#! @input client_id: Service Client ID
-#! @input authority: optional - the authority URL
+#! @input username: The username to be used to authenticate to the Azure Management Service.
+#! @input password: The password to be used to authenticate to the Azure Management Service.
+#! @input client_id: optional - Service Client ID
+#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                   Default: 'https://sts.windows.net/common'
-#! @input resource: optional - the resource URL
+#! @input resource: optional - resource URl for which the Authentication Token is intended
 #!                  Default: 'https://management.azure.com/'
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
@@ -46,11 +46,13 @@ operation:
         required: false
         private: true
     - authority:
-        required: false
         default: 'https://sts.windows.net/common'
-    - resource:
         required: false
+        private: true
+    - resource:
         default: 'https://management.azure.com/'
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -61,6 +63,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false

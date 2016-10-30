@@ -9,21 +9,21 @@
 #!!
 #! @description: VM provison flow.
 #!
-#! @input username: Azure username
-#! @input password: Azure password
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
-#! @input authority: the authority URL
-#! @input resource: the resource URL
-#! @input vm_name: virtual machine name
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: Azure resource group name
+#! @input username: The username to be used to authenticate to the Azure Management Service.
+#! @input password: The password to be used to authenticate to the Azure Management Service.
+#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input resource: optional - resource URl for which the Authentication Token is intended
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input vm_name: virtual machine name
 #! @input vm_size: Virtual machine size given by Azure
 #!                 Example: 'Standard_DS1_v2'
 #! @input offer: Virtual machine offer
 #!               Example: 'WindowsServer'
 #! @input sku: Version of the operating system to be installed on the virtual machine
-#!             Example: 2008-R2-SP1
+#!             Example: '2008-R2-SP1'
 #! @input publisher: Name of the publisher for the operating system offer and sku
 #!                   Examople: 'MicrosoftWindowsServer'
 #! @input public_ip_address_name: Name of the public address to be created
@@ -87,6 +87,8 @@ imports:
 flow:
   name: deploy_vm
   inputs:
+    - subscription_id
+    - resource_group_name
     - username
     - password:
         sensitive: true
@@ -94,8 +96,6 @@ flow:
     - authority
     - resource
     - vm_name
-    - subscription_id
-    - resource_group_name
     - vm_size
     - offer
     - sku
