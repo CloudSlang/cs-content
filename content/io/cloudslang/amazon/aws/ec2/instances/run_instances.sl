@@ -261,6 +261,7 @@
 #!                                            using the private IP addresses option. Minimum valid number is 2.
 #!                                            Default: ""
 #! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output instance_id_result: id of the instance in case of success
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: the server (instance) was successfully launched/created
@@ -542,6 +543,7 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
+    - instance_id_result: ${get("instanceIdResult", "")}
 
   results:
     - SUCCESS: ${returnCode == "0"}

@@ -63,6 +63,7 @@
 #!                                   Default: ''
 #! @input subnet_id: ID of the subnet to associate with the network interface.
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
+#! @output network_interface_id_result: ID of the network interface
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
@@ -167,6 +168,7 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
+    - network_interface_id_result: ${get("networkInterfaceIdResult", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}
