@@ -535,7 +535,7 @@ operation:
          required: false
          private: true
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
