@@ -1,0 +1,42 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMwareVirtualMachineLifecycleLocal:
+  testSuites: [vmware-local]
+  description: "Test that performs a complete virtual machine lifecycle (Create-Read-Update-Delete scenario) against a
+               VMware data center using CloudSlang operations"
+  testFlowPath: io.cloudslang.vmware.vcenter.samples.test_virtual_machine_lifecycle
+  inputs:
+    - host: <host>
+    - port: <port>
+    - protocol: <protocol>
+    - username: <username>
+    - password: <password>
+    - trust_everyone: <trust_everyone>
+    - data_center_name: <data_center_name>
+    - hostname: <hostname>
+    - virtual_machine_name: <virtual_machine_name>
+    - data_store: <data_store>
+    - guest_os_id: <guest_os_id>
+    - folder_name: <folder_name>
+    - resource_pool: <resource_pool>
+    - description: <description>
+    - num_cpus: <num_cpus>
+    - vm_disk_size: <vm_disk_size>
+    - vm_memory_size: <vm_memory_size>
+    - operation: <operation>
+    - device: <device>
+    - update_value: <update_value>
+    - vm_disk_mode: <vm_disk_mode>
+    - delimiter: <delimiter>
+    - email_host: <email_host>
+    - email_port: <email_port>
+    - email_username: <email_username>
+    - email_password: <email_password>
+    - email_sender: <email_sender>
+    - email_recipient: <email_recipient>
+  result: SUCCESS

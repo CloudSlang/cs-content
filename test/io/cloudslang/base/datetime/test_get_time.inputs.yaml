@@ -10,6 +10,8 @@ testGetTimeSuccess:
   inputs:
     - locale_lang: <locale_lang>
     - locale_country: <locale_country>
+    - timezone: <timezone>
+    - date_format: <date_format>
   description: "Test that successfully retrieves the local current time."
   testSuites: [datetime-local]
   testFlowPath: io.cloudslang.base.datetime.get_time

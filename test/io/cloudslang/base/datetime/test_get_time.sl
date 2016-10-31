@@ -20,6 +20,10 @@ flow:
         required: false
     - locale_country:
         required: false
+    - timezone:
+        required: false
+    - date_format:
+        required: false
 
   workflow:
     - execute_get_current_time:
@@ -27,8 +31,10 @@ flow:
           datetime.get_time:
             - locale_lang
             - locale_country
+            - timezone
+            - date_format
         publish:
-            - response: ${result}
+            - output
         navigate:
             - SUCCESS: verify_output_is_not_empty
             - FAILURE: GET_CURRENT_TIME_FAILURE
@@ -37,7 +43,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ''
-            - second_string: ${response}
+            - second_string: ${output}
         navigate:
             - SUCCESS: OUTPUT_IS_EMPTY
             - FAILURE: SUCCESS

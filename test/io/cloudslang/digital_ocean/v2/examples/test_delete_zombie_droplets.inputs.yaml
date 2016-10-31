@@ -1,0 +1,19 @@
+#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################
+test_delete_zombie_droplets_success:
+  testSuites: [digital_ocean_local]
+  description: Calls test_delete_zombie_droplets.sl - see description in the flow
+  testFlowPath: io.cloudslang.digital_ocean.v2.examples.test_delete_zombie_droplets
+  inputs:
+    - time_to_live: '0'
+    - droplet_name: ci-<build_number>-coreos-4
+    - image: "coreos-stable"
+    - ssh_keys: "<ssh_public_key_id>"
+    - token: <digital_ocean_token>
+  result: SUCCESS
