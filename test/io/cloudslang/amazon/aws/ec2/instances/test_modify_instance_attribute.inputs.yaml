@@ -9,7 +9,7 @@
 testModifyInstanceAttributeLocal:
   testSuites: [amazon-local]
   description: "Test successfully updates Amazon AWS EC2 instance attribute."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.instances.test_update_instance_type
+  testFlowPath: io.cloudslang.amazon.aws.ec2.instances.test_modify_instance_attribute
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

@@ -20,6 +20,17 @@
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#!                 The header name-value pair will be separated by ":".
+#!                 Format: Conforming with HTTP standard for headers (RFC 2616)
+#!                 Examples: "Accept:text/plain"
+#!                 Default: ""
+#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#!                      and the values must not be URL encoded because if they are encoded then a double encoded
+#!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
+#!                      separated from query value by "=".
+#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
+#!                      Default: ""
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"

@@ -148,7 +148,7 @@ flow:
           - attachement_id: '${attachement_id_result}'
         navigate:
           - FAILURE: terminate_instances
-          - SUCCESS: apply_to_resources
+          - SUCCESS: create_tags
     - delete_network_interface:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
@@ -235,13 +235,15 @@ flow:
         navigate:
           - FAILURE: delete_network_interface
           - SUCCESS: delete_network_interface
-    - apply_to_resources:
+    - create_tags:
         do:
-          io.cloudslang.amazon.aws.ec2.tags.apply_to_resources:
+          io.cloudslang.amazon.aws.ec2.tags.create_tags:
             - identity: '${identity}'
             - credential: '${credential}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
             - resource_ids_string: '${instance_id}'
             - key_tags_string: '${key_tags_string}'
             - value_tags_string: '${value_tags_string}'
@@ -296,7 +298,7 @@ extensions:
       check_instance_state_1:
         x: 511
         y: 450
-      apply_to_resources:
+      create_tags:
         x: 771
         y: 252
         navigate:
