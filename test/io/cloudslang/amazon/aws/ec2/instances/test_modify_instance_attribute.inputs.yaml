@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -6,19 +6,16 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonEC2ClassicDeployLocal:
+testModifyInstanceAttributeLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully deployes an Amazon AWS instance EC2 classic style."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.samples.test_ec2_classic_deploy
+  description: "Test successfully updates Amazon AWS EC2 instance attribute."
+  testFlowPath: io.cloudslang.amazon.aws.ec2.instances.test_update_instance_type
   inputs:
+    - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - region: <region>
-    - availability_zone: <availability_zone>
-    - image_id: <image_id>
-    - debug_mode: <debug_mode>
-    - instance_name: <instance_name>
-    - platform: <platform>
+    - version: <version>
+    - instance_id: <server_id>
   result: SUCCESS
