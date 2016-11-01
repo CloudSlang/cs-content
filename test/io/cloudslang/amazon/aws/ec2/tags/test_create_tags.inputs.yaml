@@ -6,12 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonApplyTagsToResourcesLocal:
+testAmazonCreateTagsLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully applies tags to specified Amazon AWS resources."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.tags.test_apply_to_resources
+  description: "Test that successfully creates tags to specified Amazon AWS resources."
+  testFlowPath: io.cloudslang.amazon.aws.ec2.tags.test_create_tags
   inputs:
-    - provider: <provider>
     - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
@@ -19,7 +18,6 @@ testAmazonApplyTagsToResourcesLocal:
     - proxy_port: <proxy_port>
     - delimiter: <delimiter>
     - debug_mode: <debug_mode>
-    - region: <region>
     - key_tags_string: <key_tags_string>
     - value_tags_string: <value_tags_string>
     - resource_ids_string: <resource_ids_string>

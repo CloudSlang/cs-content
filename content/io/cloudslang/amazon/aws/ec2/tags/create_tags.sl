@@ -13,16 +13,17 @@
 #!               Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control
 #!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
 #!               Actions in the Amazon Elastic Compute Cloud User Guide.
-#! @input provider: Cloud provider on which you have the resources - Default: 'amazon'
 #! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_username: optional - proxy server user name.
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
+#! @input version: version of the web service to make the call against it.
+#!                 Example: "2016-04-01"
+#!                 Default: "2016-04-01"
 #! @input delimiter: optional - Delimiter that will be used - Default: ','
-#! @input debug_mode: optional - If 'true' then the execution logs will be shown in CLI console - Default: 'false'
-#! @input region: optional - Region where volume belongs. Ex: 'RegionOne', 'us-east-1'. ListRegionAction can be used in
-#!                         order to get all regions - Default: 'us-east-1'
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter.
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter.
 #! @input resource_ids_string: String that contains Id's of one or more resources to tag.
@@ -37,13 +38,12 @@
 namespace: io.cloudslang.amazon.aws.ec2.tags
 
 operation:
-  name: apply_to_resources
+  name: create_tags
 
   inputs:
-    - provider: 'amazon'
     - endpoint:
-        required: false
         default: 'https://ec2.amazonaws.com'
+        required: false
     - identity
     - credential:
         sensitive: true
@@ -54,20 +54,39 @@ operation:
         required: false
         private: true
     - proxy_port:
+        default: "8080"
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get("proxy_username", "")}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+        sensitive: true
+    - proxyPassword:
+        default: ${get("proxy_password", "")}
+        required: false
+        private: true
+        sensitive: true
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
+        default: ${get("query_params", "")}
+        required: false
+        private: true
+    - version:
+        default: "2016-04-01"
+        required: false
     - delimiter:
         default: ','
-        required: false
-    - debug_mode:
-        required: false
-    - debugMode:
-        default: ${get("debug_mode", "false")}
-        private: true
-    - region:
-        default: 'us-east-1'
         required: false
     - key_tags_string
     - keyTagsString:
@@ -84,7 +103,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.3'
-    class_name: io.cloudslang.content.amazon.actions.tags.ApplyToResourcesAction
+    class_name: io.cloudslang.content.amazon.actions.tags.CreateTagsAction
     method_name: execute
 
   outputs:
