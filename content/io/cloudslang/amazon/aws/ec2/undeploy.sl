@@ -7,7 +7,8 @@
 #
 ####################################################
 #!!
-#! @description: TODO add me
+#! @description: This flow terminates an instance. In oder to do this, it detaches the network interface attached to
+#!               the instance, terminates the instance, and after that it deletes the network interface.
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.

@@ -7,7 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: TODO add me
+#! @description: This flow creates an instance. A new network interface in created and attached to the instance.
+#!               After this, a tag is added to the instance. If there is something wrong during the execution,
+#!               the resources created will be deleted.
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
