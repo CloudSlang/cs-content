@@ -44,11 +44,14 @@
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'text/plain'
+#! @input method: HTTP method used - Default: 'GET'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#! @result SUCCESS: GET REST call executed successfully
+#! @result FAILURE: something went wrong
 #!!#
 ################################################
 
@@ -145,3 +148,4 @@ flow:
     - return_code
     - status_code
     - response_headers
+

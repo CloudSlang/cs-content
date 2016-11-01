@@ -7,6 +7,7 @@
 #! @input ignore_case: whether to ignore case when finding matches
 #!                     default: false
 #! @output indices: list of indices where <element> was found in <list>
+#! @result SUCCESS: element(s) found in list
 #!!#
 ####################################################
 
@@ -19,14 +20,14 @@ operation:
     - list
     - element
     - ignore_case:
-        default: false
+        default: "false"
 
   python_action:
     script: |
-      if ignore_case:
-        indices = [i for i, x in enumerate(list) if x.lower() == element.lower()]
+      if ignore_case.lower() == 'true':
+        indices = [str(i) for i, x in enumerate(list.split(",")) if x.lower() == element.lower()]
       else:
-        indices = [i for i, x in enumerate(list) if x == element]
+        indices = [str(i) for i, x in enumerate(list.split(",")) if x == element]
 
   outputs:
-    - indices
+    - indices: ${ ",".join(indices) }

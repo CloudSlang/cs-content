@@ -8,6 +8,7 @@
 ####################################################
 #!!
 #! @description: parse the given date/time and convert it to an output format
+#!
 #! @input date: the date/time to parse
 #!              Example:  "2001-07-04T12:08:56.235+0700"
 #! @input date_format: optional - the format of the date/time
@@ -22,7 +23,11 @@
 #!                         Example: 'fr'
 #! @input out_locale_country: optional - the output locale country
 #!                            Example: 'FR'
-#! @output result: the new date/time after if parsing was successful, exception otherwise
+#!
+#! @output output: the new date/time after if parsing was successful, exception otherwise
+#! @output return_code: 0 if success, -1 if failure
+#! @output exception: an exception in case of failure
+#!
 #! @result SUCCESS: the date/time was parsed properly
 #! @result FAILURE: failed to parse the date/time
 #!!#
@@ -39,42 +44,48 @@ operation:
         required: false
     - dateFormat:
         default: ${get("date_format", "")}
-        private: true
         required: false
+        private: true
     - date_locale_lang:
         required: false
     - dateLocaleLang:
         default: ${get("date_locale_lang", "en")}
+        required: false
         private: true
     - date_locale_country:
         required: false
     - dateLocaleCountry:
         default: ${get("date_locale_country", "US")}
+        required: false
         private: true
     - out_format:
         required: false
     - outFormat:
         default: ${get("out_format", "")}
-        private: true
         required: false
+        private: true
     - out_locale_lang:
         required: false
     - outLocaleLang:
         default: ${get("out_locale_lang", "en")}
+        required: false
         private: true
     - out_locale_country:
         required: false
     - outLocaleCountry:
         default: ${get("out_locale_country", "US")}
+        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.3'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.5'
     class_name: io.cloudslang.content.datetime.actions.ParseDate
     method_name: execute
 
   outputs:
-    - result: ${returnResult}
+    - output: ${returnResult}
+    - return_code: ${returnCode}
+    - exception
 
   results:
     - SUCCESS: ${returnCode == '0'}

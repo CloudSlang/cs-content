@@ -13,6 +13,7 @@
 #! @input result_delimiter: optional - if true, will be appended after every list item (except the last one) - Default: "''"
 #! @input result_to_lowercase: optional - if true, list items will be lowercased - Default: False
 #! @output result: string that results from concatenation of list elements
+#! @result SUCCESS: list converted to string successfully
 #!!#
 ####################################################
 
@@ -23,13 +24,13 @@ operation:
   inputs:
     - list
     - double_quotes:
-        default: False
+        default: "False"
         required: false
     - result_delimiter:
         default: ''
         required: false
     - result_to_lowercase:
-        default: False
+        default: "False"
         required: false
   python_action:
     script: |
@@ -43,3 +44,5 @@ operation:
       result = result.lower() if bool(result_to_lowercase) else result
   outputs:
     - result
+  results:
+    - SUCCESS

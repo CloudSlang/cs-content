@@ -9,21 +9,19 @@
 testGetMapValuesIntSuccess:
   inputs:
     - map:
-        value: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
+        value: "{'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}"
   description: Tests that get_values.sl operation finishes with result = [1000, 200, 500, 100]
   testFlowPath: io.cloudslang.base.maps.get_values
   outputs:
-    - result: [1000, 200, 500, 100]
+    - result: "[200, 1000, 100, 500]"
   result: SUCCESS
-  testSuites: [daria]
 
 testGetMapValuesStringSuccess:
   inputs:
     - map:
-        value: {laptop: "none", docking station: 200, monitor: 12.9, phone: "not yet"}
+        value: "{'laptop': 'none', 'docking station': 200, 'monitor': 12.9, 'phone': 'not yet'}"
   description: Tests that get_values.sl operation finishes with result = ["none", 200, 12.9, 100]
   testFlowPath: io.cloudslang.base.maps.get_values
   outputs:
-    - result: ["'none'", 200, 12.9, "'not yet'"]
+    - result: "[200, 'none', 'not yet', 12.9]"
   result: SUCCESS
-  testSuites: [daria]

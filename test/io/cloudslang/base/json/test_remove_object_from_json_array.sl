@@ -33,7 +33,6 @@ flow:
             - index
 
         publish:
-          - json_output
           - return_result
 
         navigate:
@@ -43,7 +42,7 @@ flow:
     - test_equality:
         do:
           json.equals:
-            - json_input1: ${ json_output }
+            - json_input1: ${ return_result }
             - json_input2: ${ json_after }
 
         navigate:

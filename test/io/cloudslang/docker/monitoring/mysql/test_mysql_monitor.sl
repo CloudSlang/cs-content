@@ -13,7 +13,7 @@ imports:
   mysql: io.cloudslang.docker.monitoring.mysql
   containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_mysql_monitor
@@ -51,7 +51,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 20
+            - seconds: '20'
         navigate:
           - SUCCESS: get_mysql_status
           - FAILURE: FAILED_TO_SLEEP
@@ -67,19 +67,9 @@ flow:
             - mysql_username: "user"
             - mysql_password: "pass"
         navigate:
-          - SUCCESS: post_test_cleanup
+          - SUCCESS: SUCCESS
           - FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
 
-    - post_test_cleanup:
-        do:
-         maintenance.clear_host:
-           - docker_host: ${ host }
-           - port
-           - docker_username: ${ username }
-           - docker_password: ${ password }
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
   results:
     - SUCCESS
     - MACHINE_IS_NOT_CLEAN

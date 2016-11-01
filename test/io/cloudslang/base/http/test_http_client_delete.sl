@@ -68,8 +68,8 @@ flow:
     - check_get_result:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: get_id
           - FAILURE: CHECK_GET_FAILURE
@@ -78,9 +78,9 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0, 'id']
+            - json_path: "0,id"
         publish:
-          - id: ${value}
+          - id: ${return_result}
         navigate:
           - SUCCESS: delete
           - FAILURE: GET_ID_FAILURE
@@ -108,8 +108,8 @@ flow:
     - check_delete_result:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_DELETE_FAILURE

@@ -26,6 +26,8 @@
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
 #! @output container_names: list of container names separated by space
 #! @output raw_output: unparsed return result from the machine
+#! @result SUCCESS: the list of the running Docker container names retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the list of all the running Docker container names
 #!!#
 ####################################################
 
@@ -39,9 +41,9 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - all_containers: false
+    - all_containers: 'false'
     - ps_parameters:
-        default: ${'-a' if bool(all_containers) else ''}
+        default: ${'-a' if all_containers.lower() == 'true' else ''}
         required: false
         private: true
     - host

@@ -221,7 +221,7 @@ operation:
     - connections_max_total:
         required: false
     - connectionsMaxTotal:
-        default: ${get("connections_max_total", "2")}
+        default: ${get("connections_max_total", "20")}
         private: true
     - headers:
         required: false
@@ -333,10 +333,10 @@ operation:
         required: false
         private: true
     - valid_http_status_codes:
-        default: ${range(200, 300)}
+        default: ${ str(range(200, 300)) }
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.67'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
   outputs:
@@ -346,5 +346,5 @@ operation:
     - status_code: ${get('statusCode', '')}
     - response_headers: ${get('responseHeaders', '')}
   results:
-    - SUCCESS : ${returnCode == '0' and int(statusCode) in valid_http_status_codes}
+    - SUCCESS: ${returnCode == '0' and str(statusCode) in valid_http_status_codes}
     - FAILURE

@@ -40,6 +40,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: best phrases and terms retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve best phrases and terms
 #!!#
 ####################################################
 
@@ -69,16 +71,16 @@ flow:
         default: ""
         required: false
     - max_results:
-        default: 20
+        default: "20"
         required: false
     - min_date:
         default: ""
         required: false
     - min_score:
-        default: 0
+        default: "0"
         required: false
     - sample_size:
-        default: 250
+        default: "250"
         required: false
     - proxy_host:
         required: false
@@ -89,7 +91,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(find_related_concepts_api) + '?text=' + str(text) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_results=' + str(max_results) + '&min_date=' + str(min_date) + '&sample_size=' + str(sample_size) + '&apikey=' + str(api_key)}
+            - url: ${str(find_related_concepts_api) + '?text=' + str(text) + '&indexes=' + str(indexes) + '&max_date=' + str(max_date) + '&max_results=' + max_results + '&min_date=' + str(min_date) + '&sample_size=' + sample_size + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

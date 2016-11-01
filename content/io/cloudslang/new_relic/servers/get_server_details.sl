@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Retrieves a single Server, identified by ID. The time range for summary data is the last 10 minutes.
-#! @input endpoint: New Relic servers API endpoint
+#! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
 #! @input server_id: server id
 #! @input proxy_host: optional - proxy server used to access web site

@@ -28,6 +28,8 @@
 #! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
+#! @result SUCCESS: Docker containers linked successfully
+#! @result FAILURE: there was an error while trying to link Docker containers
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.containers.examples
@@ -36,7 +38,7 @@ imports:
  containers: io.cloudslang.docker.containers
  images: io.cloudslang.docker.images
  mail: io.cloudslang.base.mail
- network: io.cloudslang.base.network
+ network: io.cloudslang.base.http
 
 flow:
   name: demo_dev_ops
@@ -69,7 +71,6 @@ flow:
     - proxy_port:
         required: false
   workflow:
-
     - create_db_container:
         do:
           containers.examples.create_db_container:
@@ -118,8 +119,8 @@ flow:
         do:
           network.verify_url_is_accessible:
             - url: ${'http://' + docker_host + ':' + app_port}
-            - attempts: 20
-            - time_to_sleep: 10
+            - attempts: '20'
+            - time_to_sleep: '10'
             - proxy_host
             - proxy_port
         publish:

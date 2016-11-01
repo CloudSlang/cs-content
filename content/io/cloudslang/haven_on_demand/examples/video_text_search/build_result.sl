@@ -4,11 +4,13 @@
 #!
 #! @input item_text: HTML text of a result retrieved from the query response
 #! @input query_result: result object retrieved from the query response
-#! @output index: index in the results of the found term
-#! @output snippet_radius: number of words to display surrounding found term
+#! @input index: index in the results of the found term
+#! @input snippet_radius: number of words to display surrounding found term
 #!                         (snippet will be twice the size of this number)
 #!                         default: 5
-#! @result item_added: <item_text> with new list item added
+#! @output item_added: <item_text> with new list item added
+#! @result SUCCESS: HTML list item built successfully
+#! @result FAILURE: there was an error while trying to build the HTML list item
 #!!#
 ####################################################
 
@@ -22,13 +24,16 @@ operation:
     - query_result
     - index
     - snippet_radius:
-        default: 5
+        default: "5"
         required: false
 
   python_action:
     script: |
-      snippet_start = max(0, index - snippet_radius)
-      snippet_end = min(len(query_result['text']), index + snippet_radius)
+      index = int(index)
+      query_result = eval(query_result)
+      
+      snippet_start = max(0, index - int(snippet_radius))
+      snippet_end = min(len(query_result['text']), index + int(snippet_radius))
       snippet = ' '.join(query_result['text'][snippet_start : snippet_end])
 
       link = query_result['url'][0]

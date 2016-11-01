@@ -43,6 +43,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: unique values from a particular field retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the unique values
 #!!#
 ####################################################
 
@@ -63,7 +65,7 @@ flow:
         private: true
     - field_name
     - document_count:
-        default: true
+        default: "true"
         required: false
     - field_text:
         default: ""
@@ -72,10 +74,10 @@ flow:
         default: ""
         required: false
     - max_values:
-        default: 100
+        default: "100"
         required: false
     - min_score:
-        default: 0
+        default: "0"
         required: false
     - sort:
         default: "off"
@@ -95,7 +97,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ str(document_count) + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + str(max_values) +'&min_score=' + str(min_score) + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
+            - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ document_count + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + max_values +'&min_score=' + min_score + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

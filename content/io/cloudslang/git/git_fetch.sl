@@ -27,6 +27,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#! @result SUCCESS: GIT branch fetched successfully
+#! @result FAILURE: there was an error while trying to fetch GIT branch
 #!!#
 ####################################################
 namespace: io.cloudslang.git
@@ -53,7 +55,7 @@ flow:
         default: "origin"
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -64,7 +66,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
             - git_fetch: ${ ' && git fetch ' + git_fetch_remote }
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_fetch + ' && echo GIT_SUCCESS' }
             - username

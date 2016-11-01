@@ -29,8 +29,9 @@ flow:
         required: false
     - timeout:
         required: false
-    - container_name: 'tomi'
-    - image_name: 'tomcat'
+    - container_name: 'busybox_container'
+    - image_name: 'busybox'
+    - container_command: 'tail -f /dev/null'
     - agent_ip_addresses
     - attempts:
         required: false
@@ -47,9 +48,9 @@ flow:
             - manager_machine_private_key_file: ${private_key_file}
             - manager_machine_port: ${swarm_manager_port}
             - agent_ip_addresses
-            - agent_usernames: ${[username, username]}
-            - agent_passwords: ${[password, password]}
-            - agent_private_key_files: ${[private_key_file, private_key_file]}
+            - agent_usernames: ${username + "," + username}
+            - agent_passwords: ${get(password,"") + "," + get(password,"")}
+            - agent_private_key_files: ${private_key_file + "," + private_key_file}
             - attempts
             - time_to_sleep
         navigate:
@@ -86,6 +87,7 @@ flow:
             - swarm_manager_port
             - container_name
             - image_name
+            - container_command
             - host
             - port
             - username

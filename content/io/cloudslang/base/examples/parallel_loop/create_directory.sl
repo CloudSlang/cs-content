@@ -4,13 +4,15 @@
 #!
 #! @input directory_name: name of directory to be created
 #! @output error_msg: error message
+#! @result SUCCESS: directory created successfully
+#! @result FAILURE: something went wrong
 #!!#
 ####################################################
 
 namespace: io.cloudslang.base.examples.parallel_loop
 
 imports:
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   print: io.cloudslang.base.print
 
 flow:
@@ -33,6 +35,9 @@ flow:
             - folder_name : ${directory_name}
         publish:
          - message
+        navigate:
+         - SUCCESS: SUCCESS
+         - FAILURE: FAILURE
 
   outputs:
     - error_msg: ${'Failed to create directory with name ' + directory_name + ',error is ' + message}

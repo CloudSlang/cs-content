@@ -11,7 +11,7 @@ namespace: io.cloudslang.jenkins
 
 imports:
   jenkins: io.cloudslang.jenkins
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_clone_job_for_branch
@@ -49,7 +49,7 @@ flow:
     - wait:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: '10'
         navigate:
           - SUCCESS: get_last_buildnumber
           - FAILURE: FAIL_TO_GET_BUILDNUMBER

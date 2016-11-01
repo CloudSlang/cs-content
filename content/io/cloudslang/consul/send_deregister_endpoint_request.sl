@@ -14,7 +14,7 @@
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code is equal to '-1' or status_code different than '200'
 #! @output return_code: if return_code is equal to '-1' then there was an error
-#! @output statusCode: normal status code is '200'
+#! @output status_code: normal status code is '200'
 #! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
 #! @result FAILURE: otherwise
 #!!#
@@ -40,7 +40,7 @@ operation:
         default: 'put'
         private: true
   java_action:
-    gav: 'io.cloudslang.content:score-http-client:0.1.65'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
   outputs:

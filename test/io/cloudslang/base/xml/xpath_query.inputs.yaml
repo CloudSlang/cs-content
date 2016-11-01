@@ -241,6 +241,7 @@ testSelectBadXpathEmptyStringXPathQuery:
   outputs:
     - return_result: "XPath parsing error: javax.xml.transform.TransformerException: Empty expression!"
   result: FAILURE
+  throwsException: true
 
 testSelectBadXpathEmptyStringQueryType:
   inputs:

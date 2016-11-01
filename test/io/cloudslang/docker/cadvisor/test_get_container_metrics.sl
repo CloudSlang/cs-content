@@ -13,7 +13,7 @@ imports:
   cadvisor: io.cloudslang.docker.cadvisor
   strings: io.cloudslang.base.strings
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 
 flow:
@@ -65,7 +65,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
           - SUCCESS: call_get_container_metrics
           - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM

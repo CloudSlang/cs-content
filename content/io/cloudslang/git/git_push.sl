@@ -27,6 +27,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#! @result SUCCESS: GIT branch successfully pushed to the remote repository
+#! @result FAILURE: there was an error while trying to push the branch to the remote repository
 #!!#
 ####################################################
 namespace: io.cloudslang.git
@@ -50,7 +52,7 @@ flow:
     - git_push_branch: "master"
     - git_push_remote: "origin"
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false

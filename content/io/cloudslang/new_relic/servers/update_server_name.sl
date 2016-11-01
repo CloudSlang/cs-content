@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Renames a server
-#! @input endpoint: New Relic servers API endpoint
+#! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
 #! @input server_id: server id
 #! @input server_name: new server name
@@ -58,11 +58,10 @@ flow:
         do:
           json.add_value:
             - json_input: '{"server":{"name":"default"}}'
-            - json_path: ['server', 'name']
+            - json_path: "server,name"
             - value: ${server_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
 

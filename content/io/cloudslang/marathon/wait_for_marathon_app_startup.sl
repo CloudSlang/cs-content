@@ -13,6 +13,8 @@
 #! @input created_app_id: Marathon app id
 #! @input attempts: optional - attempts to reach host - Default: 1
 #! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 1
+#! @result SUCCESS: waiting for the Maranthon app to start up completed successfully
+#! @result FAILURE: there was an error while waiting for the Marathon app to start
 #!!#
 ####################################################
 
@@ -22,7 +24,7 @@ imports:
   marathon: io.cloudslang.marathon
   strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   print: io.cloudslang.base.print
 flow:
   name: wait_for_marathon_app_startup
@@ -32,9 +34,9 @@ flow:
         default: "8080"
         required: false
     - created_app_id
-    - attempts: 1
+    - attempts: "1"
     - time_to_sleep:
-        default: 1
+        default: "1"
         required: false
   workflow:
 
@@ -108,7 +110,7 @@ flow:
          do:
             math.compare_numbers:
               - value1: ${attempts}
-              - value2: 0
+              - value2: "0"
          navigate:
            - GREATER_THAN: wait
            - EQUALS: FAILURE
@@ -120,11 +122,11 @@ flow:
               - seconds: ${time_to_sleep}
               - attempts
         publish:
-          - attempts: ${attempts - 1}
+          - attempts: ${str(int(attempts) - 1)}
         navigate:
           - SUCCESS: list_marathon_apps
           - FAILURE: FAILURE
 
-  outputs:
+  results:
     - SUCCESS
     - FAILURE

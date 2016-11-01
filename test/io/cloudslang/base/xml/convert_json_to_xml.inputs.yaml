@@ -9,7 +9,7 @@
 
 testConvertJsonEmptyStringToXmlElements:
   inputs:
-    - json: " "
+    - json: ""
     - pretty_print: "false"
     - show_xml_declaration: "false"
     - root_tag_name: ""
@@ -112,7 +112,7 @@ testConvertJsonArrayWithRootTagNameToXmlElements:
 
 testInvalidBooleanInput:
   inputs:
-    - json: " "
+    - json: ""
     - pretty_print: "invalid"
     - show_xml_declaration: "invalid"
     - root_tag_name: ""

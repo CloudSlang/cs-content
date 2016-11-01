@@ -8,6 +8,7 @@
 ####################################################
 #!!
 #! @description: Returns all container names where a certain process runs.
+#! @input process_name: name of the process running in the container(s)
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
 #! @input username: Docker machine username
@@ -26,6 +27,7 @@
 #!                                 Default: ''
 #! @input containers_with_processes: optional - names of all containers running the defined process
 #!                                   Default: ''
+#! @input container_id_list: a list of all the servers found
 #! @input container_ids: optional - a list containing the ID`s all the containers running
 #!                       Default: ''
 #! @output containers_found: the names of the containers with runing processes
@@ -48,7 +50,7 @@ flow:
     - port:
         default: '22'
         required: false
-    - proc_command: 
+    - proc_command:
         default: 'docker ps -q'
         private: true
     - username
@@ -169,7 +171,7 @@ flow:
               - containers_with_process: ${containers_with_processes}
               - container_id
               - host
-              - port   
+              - port
               - username
               - password
               - private_key_file

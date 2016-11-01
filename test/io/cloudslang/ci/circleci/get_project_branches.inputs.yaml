@@ -22,9 +22,9 @@ testGetBranchesSuccess:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_project_branches
   outputs:
-    - branches: [u'circleci', u'master', u'utils', u'json']
-    - status_code: 200
-    - return_code: 0
+    - branches: "circleci,master,utils,json"
+    - status_code: "200"
+    - return_code: "0"
 
   result: SUCCESS
 
@@ -45,7 +45,7 @@ testGetBranchesWrongAPIFailure:
   testFlowPath: io.cloudslang.ci.circleci.get_project_branches
   outputs:
     - return_result: '{"message":"You must log in first."}'
-    - status_code: 401
-    - return_code: 0
+    - status_code: "401"
+    - return_code: "0"
 
   result: FAILURE

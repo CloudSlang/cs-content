@@ -17,7 +17,8 @@ flow:
 
   inputs:
     - json_before
-    - json_path
+    - json_path:
+        required: false
     - found_value
 
   workflow:
@@ -27,19 +28,19 @@ flow:
             - json_input: ${ json_before }
             - json_path
         publish:
-          - value
+          - return_result
         navigate:
           - SUCCESS: test_equality
           - FAILURE: CREATEFAILURE
     - test_equality:
         do:
           comp.equals:
-            - first: ${ value }
+            - first: ${ return_result }
             - second: ${ found_value }
 
         navigate:
-          - EQUALS: SUCCESS
-          - NOT_EQUALS: EQUALITY_FAILURE
+          - 'TRUE': SUCCESS
+          - 'FALSE': EQUALITY_FAILURE
 
   results:
     - SUCCESS

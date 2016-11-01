@@ -13,7 +13,7 @@
 #! @input retries: limit of reconnect tries
 #! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception
-#! @input exception: from SSH: contains the stack trace in case of an exception
+#! @input return_code: from SSH: '0' if SSH session , different than '0' otherwise
 #! @input exit_status: from SSH: return code of the remote command
 #! @output updated_retries: updated input value (decreased by 1)
 #! @result RECOVERY_DISABLED: session recovery is disabled
@@ -35,7 +35,7 @@ imports:
 flow:
   name: handle_session_recovery
   inputs:
-    - enabled: True
+    - enabled: "True"
     - retries
     - return_result:
         required: false
@@ -48,17 +48,17 @@ flow:
           utils.is_true:
             - bool_value: ${ enabled }
         navigate:
-          - SUCCESS: check_retries
-          - FAILURE: RECOVERY_DISABLED
+          - 'TRUE': check_retries
+          - 'FALSE': RECOVERY_DISABLED
 
     - check_retries:
         do:
           math.compare_numbers:
             - value1: ${ retries }
-            - value2: 0
+            - value2: "0"
             - retries
         publish:
-          - retries: ${ int(retries) - 1 }
+          - retries: ${ str(int(retries) - 1) }
         navigate:
           - GREATER_THAN: check_unstable_session
           - EQUALS: TIMEOUT

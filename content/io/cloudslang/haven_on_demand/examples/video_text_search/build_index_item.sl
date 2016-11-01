@@ -6,6 +6,8 @@
 #! @input title: title for video to be added to the index
 #! @input url: YouTube url for the video
 #! @output json_index_item: JSON representation of item to add to the index
+#! @result SUCCESS: index item created successfully from the result
+#! @result FAILURE: there was an error while trying to create item index
 #!!#
 ####################################################
 
@@ -24,15 +26,15 @@ flow:
     - title
     - url
     - all_content:
-        default: " "
+        default: ""
         required: false
         private: true
     - all_offsets:
-        default: " "
+        default: ""
         required: false
         private: true
     - json_item:
-        default: '{"document" : [{}]}'
+        default: '{"document" : [{"title":"","content":"","url":"","text":[],"offset":[]}]}'
         private: true
 
   workflow:
@@ -40,13 +42,13 @@ flow:
         do:
           json.get_value:
             - json_input
-            - json_path: ${['actions', 0, 'result', 'document']}
+            - json_path: ${"actions,0,result,document"}
         publish:
-          - doc_list: ${value}
+          - doc_list: ${return_result}
           - error_message
     - append_content:
         loop:
-          for: item in doc_list
+          for: item in eval(doc_list)
           do:
             strings.append:
               - origin_string: ${all_content}
@@ -58,7 +60,7 @@ flow:
             - SUCCESS: append_offsets
     - append_offsets:
         loop:
-          for: item in doc_list
+          for: item in eval(doc_list)
           do:
             strings.append:
               - origin_string: ${all_offsets}
@@ -72,47 +74,51 @@ flow:
         do:
           json.add_value:
             - json_input: ${json_item}
-            - json_path: ${['document', 0, 'title']}
+            - json_path: ${"document,0,title"}
             - value: ${title}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_link:
         do:
           json.add_value:
             - json_input: ${json_item}
-            - json_path: ${['document', 0, 'url']}
+            - json_path: ${"document,0,url"}
             - value: ${url}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_content:
         do:
           json.add_value:
             - json_input: ${json_item}
-            - json_path: ${['document', 0, 'content']}
+            - json_path: ${"document,0,content"}
             - value: ${all_content}
         publish:
-          - json_item: ${json_output}
+          - json_item: ${return_result}
           - error_message
     - add_text:
-        do:
-          json.add_value:
-            - json_input: ${json_item}
-            - json_path: ${['document', 0, 'text']}
-            - value: ${all_content.split()}
-        publish:
-          - json_item: ${json_output}
-          - error_message
+        loop:
+          for: i in range(0,len(all_content.split()))
+          do:
+            json.add_value:
+              - json_input: ${json_item}
+              - json_path: ${"document,0,text," + str(i)}
+              - value: ${all_content.split()[i]}
+          publish:
+            - json_item: ${return_result}
+            - error_message
     - add_offset:
-        do:
-          json.add_value:
-            - json_input: ${json_item}
-            - json_path: ${['document', 0, 'offset']}
-            - value: ${all_offsets.split()}
-        publish:
-          - json_item: ${json_output}
-          - error_message
+        loop:
+          for: i in range(0,len(all_offsets.split()))
+          do:
+            json.add_value:
+              - json_input: ${json_item}
+              - json_path: ${"document,0,offset," + str(i)}
+              - value: ${all_offsets.split()[i]}
+          publish:
+            - json_item: ${return_result}
+            - error_message
     - on_failure:
         - print_fail:
             do:

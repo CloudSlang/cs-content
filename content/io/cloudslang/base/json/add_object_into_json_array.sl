@@ -11,8 +11,7 @@
 #! @input json_array: JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
 #! @input json_object: JSON object to insert into array - Example: '{"b": "1"}'
 #! @input index: optional - position at which to insert the new object - Example: 1
-#! @output json_output: JSON array with object inserted
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: JSON array with object inserted
 #! @output return_code: "0" if inserting was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: inserting was successful (return_code == '0')
@@ -29,10 +28,28 @@ operation:
     - json_object
     - index:
         required: false
+
   python_action:
     script: |
       try:
-        import json
+        import json, re
+        array_quote = None
+        object_quote = None
+        for c in json_array:
+          if c in ['\'', '\"']:
+            array_quote = c
+            break
+        for c in json_object:
+          if c in ['\'', '\"']:
+            object_quote = c
+            break
+        if array_quote == '\'':
+          json_array = str(re.sub(r"(?<!\\)(\')",'"', json_array))
+          json_array = str(re.sub(r"(\\')",'\'', json_array))
+        if object_quote == '\'':
+          json_object = str(re.sub(r"(?<!\\)(\')",'"', json_object))
+          json_object = str(re.sub(r"(\\')",'\'', json_object))
+
         decoded_json_array = json.loads(json_array)
         decoded_json_object = json.loads (json_object)
         index = locals().get('index')
@@ -40,18 +57,23 @@ operation:
          decoded_json_array.append(decoded_json_object)
         else:
          index=int(index)
-         decoded_json_array.insert(index,decoded_json_object)
-        encoded_json_array = json.dumps(decoded_json_array)
+         if index >= len(decoded_json_array)*(-1) and index <= len(decoded_json_array):
+          decoded_json_array.insert(index,decoded_json_object)
+         else:
+          raise Exception('Input "index" is out of range.')
+        decoded_json_array = json.dumps(decoded_json_array)
+        if array_quote == '\'':
+          decoded_json_array = decoded_json_array.replace('\'','\\\'').replace('\"','\'')
         return_code = '0'
-        return_result = 'Inserting successful.'
       except Exception as ex:
-        return_result = ex
+        error_message = ex
         return_code = '-1'
+
   outputs:
-    - json_output: ${ encoded_json_array if return_code == '0' else '' }
-    - return_result
+    - return_result: ${ str(decoded_json_array) if return_code == '0' else '' }
     - return_code
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - error_message: ${ str(error_message) if return_code == '-1' else '' }
+
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

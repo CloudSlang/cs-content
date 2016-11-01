@@ -24,7 +24,7 @@ decision:
     - list_1
     - list_2
   outputs:
-    - result: ${list_1 == list_2}
+    - result: ${ str(list_1 == list_2) }
   results:
     - SUCCESS: ${list_1 == list_2}
     - FAILURE

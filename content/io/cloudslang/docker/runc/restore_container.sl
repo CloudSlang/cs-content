@@ -40,14 +40,14 @@ flow:
     - predump_image_location: ${root_path + "/" + runc_container + "/predump"}
     - dump_image_location: ${root_path + "/" + runc_container + "/dump"}
   workflow:
-  - check arguments:
+  - check_arguments:
       do:
         comparisons.equals:
           - first: ${pre_dump}
           - second: "true"
       navigate:
-          - EQUALS: restore_pre_dump
-          - NOT_EQUALS: restore_dump
+          - 'TRUE': restore_pre_dump
+          - 'FALSE': restore_dump
   - restore_pre_dump:
       do:
         ssh.ssh_flow:

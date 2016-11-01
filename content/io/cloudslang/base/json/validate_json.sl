@@ -26,7 +26,14 @@ operation:
   python_action:
     script: |
       try:
-        import json
+        import json,re
+        for c in json_input:
+          if c in ['\'', '\"']:
+            quote = c
+            break
+        if quote == '\'':
+          json_input = str(re.sub(r"(?<!\\)(\')",'"', json_input))
+          json_input = str(re.sub(r"(\\)",'', json_input))
         decoded = json.loads(json_input)
         return_result = 'Valid JSON'
         return_code = '0'
@@ -34,9 +41,9 @@ operation:
         return_result = ex
         return_code = '-1'
   outputs:
-    - return_result
+    - return_result: ${ str(return_result) }
     - return_code
-    - error_message: ${ return_result if return_code == '-1' else '' }
+    - error_message: ${ str(return_result) if return_code == '-1' else '' }
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

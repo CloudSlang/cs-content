@@ -27,6 +27,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#! @result SUCCESS: GIT branch merged successfully to another branch
+#! @result FAILURE: there was an error while trying to merge a GIT branch to another
 #!!#
 ####################################################
 namespace: io.cloudslang.git
@@ -52,7 +54,7 @@ flow:
     - git_merge_branch:
         required: true
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -63,7 +65,7 @@ flow:
           ssh.ssh_flow:
             - host
             - port
-            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
+            - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
             - git_merge: ${ ' && git merge ' + git_merge_branch }
             - command: ${ sudo_command + 'cd ' + git_repository_localdir + git_merge + ' && echo GIT_SUCCESS' }
             - username

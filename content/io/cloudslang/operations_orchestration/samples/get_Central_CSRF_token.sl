@@ -28,6 +28,8 @@
 #! @output status_code: code returned by operation
 #! @output response_headers: response headers string from the HTTP Client REST call
 #! @output token: Central CSRF token
+#! @result SUCCESS: Central CSRF token retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the Central CSRF token
 #!!#
 ####################################################
 
@@ -35,7 +37,7 @@ namespace: io.cloudslang.operations_orchestration.samples
 
 imports:
   rest: io.cloudslang.base.http
-  utils: io.cloudslang.base.http.utils
+  utils: io.cloudslang.base.http
 
 flow:
   name: get_Central_CSRF_token

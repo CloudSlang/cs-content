@@ -10,7 +10,8 @@ flow:
 
   inputs:
     - json_input
-    - json_path
+    - json_path:
+        required: false
     - expected_keys
 
   workflow:
@@ -21,7 +22,7 @@ flow:
             - json_path
 
         publish:
-          - json_keys: ${str(keys)}
+          - json_keys: ${return_result}
           - return_code
 
         navigate:

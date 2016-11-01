@@ -12,9 +12,9 @@ namespace: io.cloudslang.base.remote_file_transfer
 imports:
   cmd: io.cloudslang.base.cmd
   rft: io.cloudslang.base.remote_file_transfer
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 flow:
   name: test_remote_secure_copy_remote_to_remote
@@ -102,7 +102,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 30
+            - seconds: "30"
         navigate:
           - SUCCESS: create_file_and_copy_it_to_src_host
           - FAILURE: SLEEP_FAIL

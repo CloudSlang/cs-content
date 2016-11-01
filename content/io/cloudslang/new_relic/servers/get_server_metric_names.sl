@@ -8,7 +8,7 @@
 ####################################################
 #!!
 #! @description: Returns a list of known metrics and their value names for the given resource.
-#! @input endpoint: New Relic servers API endpoint
+#! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
 #! @input server_id: server id
 #! @input proxy_host: optional - proxy server used to access web site

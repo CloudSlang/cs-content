@@ -19,11 +19,12 @@
 namespace: io.cloudslang.chef
 
 imports:
-  hpcloud: io.cloudslang.cloud.hp_cloud
+  hpcloud: io.cloudslang.hp_cloud
   print: io.cloudslang.base.print
   chef: io.cloudslang.chef
   ssh: io.cloudslang.base.ssh
   net: io.cloudslang.base.network
+  http: io.cloudslang.base.http
 
 flow:
   name: test_chef_hpcloud_full
@@ -79,7 +80,7 @@ flow:
             - region
             - tenant_name
             - server_name
-            - assign_floating: True
+            - assign_floating: "True"
             - proxy_host
             - proxy_port
         publish:
@@ -145,9 +146,9 @@ flow:
 
     - check_app:
         do:
-          net.verify_url_is_accessible:
+          http.verify_url_is_accessible:
             - url: ${'http://' + ip_address + ":" + app_port}
-            - attempts: 300
+            - attempts: '300'
         publish:
           - return_result: ${output_message}
 

@@ -12,7 +12,7 @@ namespace: io.cloudslang.docker.cadvisor
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
 
 
 flow:
@@ -64,7 +64,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
           - SUCCESS: call_restart_container_base_on_usage
           - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM

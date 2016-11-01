@@ -36,14 +36,6 @@ testAppendStringWhichContainsWhitespaces:
     - new_string: 'aaa aaabbb'
   result: SUCCESS
 
-testAppendEmptyValueString:
-  inputs:
-    - origin_string: ''
-    - text: 'text'
-  description: Tests that append.sl operation throws an exception when string input contains empty value.
-  testFlowPath: io.cloudslang.base.strings.append
-  result: SUCCESS
-
 testAppendMissingInputs:
   inputs: []
   description: Tests that append.sl operation throws an exception when required inputs are missing.

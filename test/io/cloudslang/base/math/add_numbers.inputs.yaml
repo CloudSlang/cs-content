@@ -8,30 +8,40 @@
 ####################################################
 testAddInt:
   inputs:
-    - value1: 3
-    - value2: 5
+    - value1: '3'
+    - value2: '5'
   description: Tests that add_numbers.sl operation finishes with result = 8.0
   testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
-    - result: 8.0
+    - result: '8'
   result: SUCCESS
 
 testAddFloat:
   inputs:
-    - value1: .3
-    - value2: 5
+    - value1: '.3'
+    - value2: '5'
   description: Tests that add_numbers.sl operation finishes with result = 5.3
   testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
-    - result: 5.3
+    - result: '5.3'
   result: SUCCESS
 
 testAddString:
   inputs:
     - value1: '3'
     - value2: '5'
-  description: Tests that add_numbers.sl operation finishes with result = 8.0
+  description: Tests that add_numbers.sl operation finishes with result = 8
   testFlowPath: io.cloudslang.base.math.add_numbers
   outputs:
-    - result: 8.0
+    - result: '8'
   result: SUCCESS
+
+testAddInvalidNumbers:
+  inputs:
+    - value1: 'one'
+    - value2: 'two'
+  description: Tests that add_numbers.sl operation fails when numbers format is invalid
+  testFlowPath: io.cloudslang.base.math.add_numbers
+  outputs:
+    - result: "Invalid number format"
+  result: FAILURE

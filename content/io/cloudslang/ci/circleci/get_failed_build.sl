@@ -9,12 +9,12 @@
 #!!
 #! @description: Checks if the latest build of a project's branch from CircieCI has failed.
 #!               If the latest build from the branch has failed, it will send an email,
-#!               to the supervisor and commiter with the following:
+#!               to the supervisor and committer with the following:
 #!               Example:
 #!                        Repository: repository name
 #!                        Branch: branch name
 #!                        Username: github username
-#!                        Commiter email: email of github username
+#!                        committer email: email of github username
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from the branch has not failed, it will send an email to reflect that.
@@ -61,16 +61,16 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username - CircleCi username.
-#! #input project - Github project name.
-#! #input branch - Github project branch.
+#! @input username: CircleCi username.
+#! @input project: Github project name.
+#! @input branch: Github project branch.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! #input commiter_email: email address of the commiter.
-#! #input supervisor: github supervisor email.
+#! @input committer_email: email address of the committer.
+#! @input supervisor: github supervisor email.
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
@@ -181,10 +181,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'username']
+            - json_path: "0,'username'"
 
         publish:
-          - username: ${value}
+          - username: ${return_result}
           - error_message
 
         navigate:
@@ -195,10 +195,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'committer_email']
+            - json_path: "0,'committer_email'"
 
         publish:
-          - committer_email: ${value}
+          - committer_email: ${return_result}
           - error_message
 
         navigate:
@@ -209,10 +209,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'branch']
+            - json_path: "0,'branch'"
 
         publish:
-          - branch: ${value}
+          - branch: ${return_result}
           - error_message
 
         navigate:
@@ -223,10 +223,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'subject']
+            - json_path: "0,'subject'"
 
         publish:
-          - ci_subject: ${value}
+          - ci_subject: ${return_result}
           - error_message
 
         navigate:
@@ -237,10 +237,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'build_num']
+            - json_path: "0,'build_num'"
 
         publish:
-          - build_num: ${value}
+          - build_num: ${return_result}
           - error_message
 
         navigate:
@@ -251,10 +251,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'vcs_revision']
+            - json_path: "0,'vcs_revision'"
 
         publish:
-          - commit: ${value}
+          - commit: ${return_result}
           - error_message
 
         navigate:
@@ -265,10 +265,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'outcome']
+            - json_path: "0,'outcome'"
 
         publish:
-          - outcome: ${value}
+          - outcome: ${return_result}
           - error_message
 
         navigate:
@@ -300,7 +300,7 @@ flow:
              - to: ${committer_email}
              - cc: ${supervisor}
              - subject: ${'[Build' + '] ' + 'Failed:' + username + '/' + project + '/' + branch}
-             - htmlEmail: True
+             - htmlEmail: "True"
              - body: >
                   ${'<p align=center>' + 'Build failure on repository:' + project + '-' + 'branch:' + branch + '</p>'
                   '<table align="center" border="1" cellpadding="0" cellspacing="0" width="400">' +
@@ -330,7 +330,7 @@ flow:
                   '</tr>' +
                   '<tr>' +
                   '<td>' +
-                  'Commiter email:' +
+                  'committer email:' +
                   '</td>' +
                   '<td>' +
                   committer_email +

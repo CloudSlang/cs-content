@@ -12,7 +12,9 @@
 #! @input proxy_port: proxy server port
 #!                    optional
 #! @output error_message: error message if one exists, empty otherwise
-#! @result return_result: result retured by Haven OnDemand upon adding item to the index
+#! @output return_result: result retured by Haven OnDemand upon adding item to the index
+#! @result SUCCESS: video text extracted successfully
+#! @result FAILURE: there was an error while trying to extract the text from a video
 #!!#
 ####################################################
 
@@ -20,7 +22,7 @@ namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
 imports:
   hod: io.cloudslang.haven_on_demand
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.http
 
 flow:
   name: add_to_index
@@ -43,7 +45,7 @@ flow:
           hod.speech_recognition.process_video:
             - api_key
             - file
-            - interval: 0
+            - interval: "0"
             - proxy_host
             - proxy_port
         publish:
@@ -61,7 +63,7 @@ flow:
         do:
           utils.url_encoder:
             - data: ${json_index_item}
-            - quote_plus: true
+            - quote_plus: "true"
         publish:
           - encoded_json: ${result}
     - add_to_index:

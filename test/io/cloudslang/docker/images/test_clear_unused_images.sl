@@ -85,7 +85,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: verify_used_images
           - FAILURE: FAIL_GET_USED_IMAGES
@@ -93,7 +93,7 @@ flow:
     - verify_used_images:
         do:
           strings.string_equals:
-            - first_string: ${ image_name1 + ' ' }
+            - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
           - SUCCESS: clear_unused_images
@@ -119,7 +119,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${ amount_of_images_deleted }
-            - second_string: 1
+            - second_string: '1'
         navigate:
           - SUCCESS: get_all_images
           - FAILURE: AMOUNT_OF_IMAGES_DELETED_IS_WRONG
@@ -132,7 +132,7 @@ flow:
             - username
             - password
         publish:
-          - image_list
+          - image_list: ${image_list.strip()}
         navigate:
           - SUCCESS: validate_image_list
           - FAILURE: FAIL_GET_ALL_IMAGES
@@ -140,23 +140,11 @@ flow:
     - validate_image_list:
         do:
           strings.string_equals:
-            - first_string: ${ image_name1 + ' ' }
+            - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
-          - SUCCESS: clear_host
-          - FAILURE: VERIFY_FAILURE
-
-    - clear_host:
-        do:
-          maintenance.clear_host:
-            - docker_host: ${ host }
-            - port
-            - docker_username: ${ username }
-            - docker_password: ${ password }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
-
+          - FAILURE: VERIFY_FAILURE
   results:
     - SUCCESS
     - PREREQUST_MACHINE_IS_NOT_CLEAN
@@ -168,4 +156,3 @@ flow:
     - AMOUNT_OF_IMAGES_DELETED_IS_WRONG
     - FAIL_GET_ALL_IMAGES
     - VERIFY_FAILURE
-    - MACHINE_IS_NOT_CLEAN

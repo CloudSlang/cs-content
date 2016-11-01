@@ -17,7 +17,6 @@
 #! @result FAILURE: get_image_name_from_id finished with an error
 #! @result DOWNLOADFAIL: prerequest error - could not download dockerimage
 #! @result VEFIFYFAILURE: fails ro verify downloaded images
-#! @result DELETEFAIL: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
 #! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
 #!!#
@@ -83,25 +82,12 @@ flow:
             - first_string: "raskin/hello-world:latest "
             - second_string: ${ image_name }
         navigate:
-          - SUCCESS: delete_downloaded_image
-          - FAILURE: VEFIFYFAILURE
-
-    - delete_downloaded_image:
-        do:
-          images.clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: "raskin/hello-world"
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: DELETEFAIL
+          - FAILURE: VEFIFYFAILURE
 
   results:
     - SUCCESS
     - FAILURE
     - DOWNLOADFAIL
     - VEFIFYFAILURE
-    - DELETEFAIL
     - MACHINE_IS_NOT_CLEAN

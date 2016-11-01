@@ -111,7 +111,7 @@ flow:
     - execute_get_filtered_containers:
         do:
           containers.get_filtered_containers:
-            - all_containers: true
+            - all_containers: 'true'
             - excluded_images
             - host
             - port
@@ -141,21 +141,9 @@ flow:
             - string_in_which_to_search: ${expected_container_ids} # e.g. 086a88b556b61cc8e84a923f81ea077462f9e195136f48713d4dc021011b43ec
             - string_to_find: ${actual_container_ids} # e.g. 086a88b556b6
         navigate:
-          - SUCCESS: post_clear_machine
+          - SUCCESS: SUCCESS
           - FAILURE: CHECK_CONTAINER_IDS_PROBLEM
 
-    - post_clear_machine:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - docker_username: ${username}
-            - docker_password: ${password}
-            - private_key_file
-            - timeout
-            - port
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: POST_CLEAR_MACHINE_PROBLEM
   results:
     - SUCCESS
     - FAILURE
@@ -164,4 +152,3 @@ flow:
     - RUN_CONTAINER_PYTHON_PROBLEM
     - CHECK_CONTAINER_NAMES_PROBLEM
     - CHECK_CONTAINER_IDS_PROBLEM
-    - POST_CLEAR_MACHINE_PROBLEM

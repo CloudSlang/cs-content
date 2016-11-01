@@ -44,6 +44,9 @@
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#! @result SUCCESS: record created successfully
+#! @result REST_POST_API_CALL_FAILURE: there was an error while running a call on the REST API
+#! @result GET_SYSID_FAILURE: there was an error while trying to retrieve SYSID
 #!!#
 ################################################
 
@@ -142,10 +145,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: ["result","sys_id"]
+            - json_path: "result,sys_id"
 
         publish:
-            - system_id: ${value}
+            - system_id: ${return_result}
 
         navigate:
             - SUCCESS: SUCCESS

@@ -28,6 +28,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: video transcribed successfully
+#! @result FAILURE: there was an error while trying to transcribe the video
 #!!#
 ####################################################
 
@@ -35,7 +37,7 @@ namespace: io.cloudslang.haven_on_demand.speech_recognition
 
 imports:
   print: io.cloudslang.base.print
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.flow_control
   hod: io.cloudslang.haven_on_demand
 
 flow:
@@ -90,7 +92,7 @@ flow:
     - wait:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: "10"
         publish:
           - error_message
         navigate:

@@ -20,8 +20,8 @@
 #!                     Default: True
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
-#! @output exception: contains the stack trace in case of an exception
+#! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
 #!                              (more exactly, just before the channel is closed).
@@ -50,7 +50,7 @@ flow:
         default: ''
         required: false
     - recursively:
-        default: True
+        default: "True"
         required: false
 
   workflow:
@@ -62,7 +62,7 @@ flow:
             - username: 'root'
             - password: ${root_password}
             - group_name_string: ${'' if group_name == '' else group_name}
-            - recursively_string: ${'-R ' if recursively in [True, true, 'True', 'true'] else ''}
+            - recursively_string: ${'-R ' if recursively.lower() in [True, true, 'True', 'true'] else ''}
             - command: >
                 ${'chown ' + recursively_string + user_name + ':' + group_name + ' ' + folder_path}
         publish:
@@ -76,6 +76,9 @@ flow:
         do:
           utils.is_true:
             - bool_value: ${return_code == '0' and command_return_code == '0'}
+        navigate:
+            - 'TRUE': SUCCESS
+            - 'FALSE': FAILURE
   outputs:
     - return_result
     - standard_err

@@ -47,11 +47,13 @@ operation:
     - proxyHost:
         default: ${get('proxy_host', None)}
         required: false
+        private: true
     - proxy_port:
         required: false
     - proxyPort:
         default: ${get('proxy_port', None)}
         required: false
+        private: true
     - method:
         default: "get"
         private: true
@@ -59,7 +61,7 @@ operation:
         default: "application/json"
         private: true
   java_action:
-    gav: 'io.cloudslang.content:score-http-client:0.1.65'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
   outputs:

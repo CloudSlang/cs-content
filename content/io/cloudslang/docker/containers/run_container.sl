@@ -28,7 +28,9 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output container_id: ID of the container
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output error_message: STDERR of the machine in case of successful request, null otherwise
+#! @result SUCCESS: Docker container pulled and executed successfully
+#! @result FAILURE: there was an error while trying to pull and run the Docker container
 #!!#
 ####################################################
 
@@ -42,7 +44,7 @@ flow:
   inputs:
     - docker_options:
         required: false
-    - detach: true
+    - detach: 'true'
     - container_name:
         required: false
     - container_params:
@@ -77,7 +79,7 @@ flow:
         required: false
         private: true
     - detach_expression:
-        default: ${'-d ' if detach else ''}
+        default: ${'-d ' if (detach.lower() == 'true') else ''}
         required: false
         private: true
     - container_name_param:
@@ -115,7 +117,7 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_id: ${standard_out[:-1]}
+          - container_id: ${standard_out.strip()}
           - standard_err
   outputs:
     - container_id

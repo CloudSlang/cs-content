@@ -17,8 +17,26 @@
 #! @input proxy_port: optional - proxy server port - Default: "8080"
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
+#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
+#!                        trustAllRoots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#!                        trustPassword default will be supplied.
+#!                        Default value: changeit
+#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
+#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                  Format: Java KeyStore (JKS)
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#!                           is empty, keystorePassword default will be supplied.
+#!                           Default value: changeit
 #! @input connect_timeout: optional - time to wait for a connection to be established, in seconds - Default: "0" (infinite)
 #! @input socket_timeout: optional - time to wait for data to be retrieved, in seconds - Default: "0" (infinite)
+#! @input request_character_set: optional - character encoding to be used for the HTTP request body; should not be provided
+#!                               for method=GET, HEAD, TRACE - Default: 'ISO-8859-1'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for headers (RFC 2616)
 #!                 Examples: Accept:text/plain
@@ -27,11 +45,14 @@
 #! @input body: optional - string to include in body for HTTP PATCH operation
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body - Default: text/plain
+#! @input method: HTTP method used - Default: 'PATCH'
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: returnResult if statusCode different than "200"
 #! @output return_code: "0" if success, "-1" otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#! @result SUCCESS: PATCH REST call executed successfully
+#! @result FAILURE: something went wrong
 #!!#
 ################################################
 
@@ -81,6 +102,8 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - request_character_set:
+        required: false
     - headers:
         required: false
     - query_params:
@@ -113,6 +136,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - request_character_set
             - headers
             - query_params
             - body

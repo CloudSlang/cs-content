@@ -24,7 +24,10 @@
 #! @input character_set: optional - Default: UTF-8
 #! @input content_transfer_encoding: optional - Default: base64
 #! @input delimiter: optional - Default: none
-#! @input enableTLS: optional - enable startTLS - Default : false
+#! @input enable_TLS: optional - enable startTLS - Default : false
+#! @output return_code: '0' if success, '-1' otherwise
+#! @output return_result: success or exception message
+#! @output exception: possible exception details
 #! @result SUCCESS: succeeds if mail was sent successfully (returnCode is equal to 0)
 #! @result FAILURE: otherwise
 #!!#
@@ -84,6 +87,10 @@ operation:
     gav: 'io.cloudslang.content:cs-mail:0.0.32'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
+  outputs:
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${get('exception', '')}
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE

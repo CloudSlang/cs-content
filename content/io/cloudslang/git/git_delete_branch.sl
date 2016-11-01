@@ -27,6 +27,8 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#! @result SUCCESS: GIT branch deleted successfully
+#! @result FAILURE: there was an error while trying to delete GIT branch
 #!!#
 ####################################################
 namespace: io.cloudslang.git
@@ -51,7 +53,7 @@ flow:
         required: false
     - git_branch
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - private_key_file:
         required: false
@@ -61,7 +63,7 @@ flow:
 
   workflow:
     - git_delete_branch:
-    
+
         do:
           ssh.ssh_flow:
             - git_command: ${'git push origin --delete ' if branch_type == 'remote' else 'git branch -dr ' if branch_type == 'remote-tracking' else 'git branch -d '}

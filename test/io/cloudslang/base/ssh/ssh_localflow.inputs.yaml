@@ -10,7 +10,7 @@ testSSHManyInputs2:
     - characterSet: "UTF-8"
     - closeSession: "false"
     - smart_recovery: "true"
-    - retries: 5
+    - retries: "5"
   description: Tests ssh works with most of the inputs, including private key
   testFlowPath: io.cloudslang.base.ssh.ssh_flow
   outputs:

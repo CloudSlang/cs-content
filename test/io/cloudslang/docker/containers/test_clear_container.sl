@@ -95,7 +95,7 @@ flow:
             - host
             - username
             - password
-            - all_containers: true
+            - all_containers: 'true'
             - port
         publish:
           - all_containers: ${container_list}
@@ -122,7 +122,7 @@ flow:
             - port
             - username
             - password
-            - all_containers: true
+            - all_containers: 'true'
         publish:
           - all_containers: ${container_list}
     - compare:

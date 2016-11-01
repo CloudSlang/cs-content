@@ -88,6 +88,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: HoD database content retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve HoD database content
 #!!#
 ####################################################
 
@@ -123,7 +125,7 @@ flow:
         default: ""
         required: false
     - ignore_operators:
-        default: false
+        default: "false"
         required: false
     - index:
         default: "wiki_eng"
@@ -138,7 +140,7 @@ flow:
         default: ""
         required: false
     - min_score:
-        default: 0
+        default: "0"
         required: false
     - print_value:
         default: "fields"
@@ -147,7 +149,7 @@ flow:
         default: ""
         required: false
     - promotion:
-        default: false
+        default: "false"
         required: false
     - query_profile:
         default: ""
@@ -156,7 +158,7 @@ flow:
         default: 'relevance'
         required: false
     - start:
-        default: 1
+        default: "1"
         required: false
     - start_tag:
         default: '%3Cspan+style%3D%22background-color%3A+yellow%22%3E'
@@ -165,7 +167,7 @@ flow:
         default: "off"
         required: false
     - total_results:
-        default: false
+        default: "false"
         required: false
     - proxy_host:
         required: false
@@ -176,7 +178,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' + str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' + str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' + str(ignore_operators) + '&indexes=' + str(index) + '&max_date=' + str(max_date) + '&max_page_results='+ str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ str(min_score) + '&print='+ str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + str(promotion) + '&query_profile=' + str(query_profile) +  '&sort=' + str(sort) + '&start=' + str(start) + '&start_tag=' + str(start_tag) + '&summary=' + str(summary) + '&total_results=' + str(total_results) + '&apikey=' + str(api_key)}
+            - url: ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' + str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' + str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' + ignore_operators + '&indexes=' + str(index) + '&max_date=' + str(max_date) + '&max_page_results='+ str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ min_score + '&print='+ str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + promotion + '&query_profile=' + str(query_profile) +  '&sort=' + str(sort) + '&start=' + start + '&start_tag=' + str(start_tag) + '&summary=' + str(summary) + '&total_results=' + total_results + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

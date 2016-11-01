@@ -26,6 +26,8 @@
 #!                    optional
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#! @result SUCCESS: documents successfully categorized based on categories created
+#! @result FAILURE: there was an error while trying to categorize the documents
 #!!#
 ####################################################
 
@@ -47,7 +49,7 @@ flow:
     - reference
     - index
     - max_results:
-        default: 10
+        default: "10"
         required: false
     - print_value:
         default: "fields"
@@ -64,7 +66,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(document_categorization_api)+"?reference=" + str(reference) + "&index=" + str(index) + "&max_results=" + str(max_results) + "&print=" + str(print_value) + "&print_fields=" + str(print_fields) + "&apikey=" + str(api_key)}
+            - url: ${str(document_categorization_api)+"?reference=" + str(reference) + "&index=" + str(index) + "&max_results=" + max_results + "&print=" + str(print_value) + "&print_fields=" + str(print_fields) + "&apikey=" + str(api_key)}
             - proxy_host
             - proxy_port
         publish:
