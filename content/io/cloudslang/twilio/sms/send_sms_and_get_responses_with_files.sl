@@ -27,7 +27,7 @@
 #! @input proxy_username: optional - The username of the proxy to pass the HTTP call through
 #! @input proxy_password: optional - The password of the proxy username to pass the HTTP call through
 #!
-#! @output message: If the responses file was written successfully there will be a success message
+#! @output message_response: If the responses file was written successfully there will be a success message
 #!
 #! @result SUCCESS: Twilio SMS sent and successfully retrieved responses with files
 #! @result FAILURE: There was an error while trying to send SMS or retrieve the responses with files
@@ -104,13 +104,13 @@ flow:
             - file_path: ${responses_file}
             - text: ${responses.replace(",", "\n")}
         publish:
-          - message
+          - message_response: ${message}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - message
+    - message_response
 
   results:
     - SUCCESS

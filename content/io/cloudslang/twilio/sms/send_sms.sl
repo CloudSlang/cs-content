@@ -44,7 +44,7 @@
 
 namespace: io.cloudslang.twilio.sms
 
-import:
+imports:
   http: io.cloudslang.base.http
 
 flow:
