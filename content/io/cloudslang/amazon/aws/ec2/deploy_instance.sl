@@ -7,6 +7,7 @@
 #
 ####################################################
 #!!
+#! @description: TODO add me
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
@@ -56,6 +57,12 @@
 #! @result SUCCESS: the server (instance) was successfully deployed
 #!!#
 namespace: io.cloudslang.amazon.aws.ec2
+
+imports:
+  network: io.cloudslang.amazon.aws.ec2.network
+  instances: io.cloudslang.amazon.aws.ec2.instances
+  tags: io.cloudslang.amazon.aws.ec2.tags
+
 flow:
   name: deploy_instance
   inputs:
@@ -89,7 +96,7 @@ flow:
   workflow:
     - create_network_interface:
         do:
-          io.cloudslang.amazon.aws.ec2.network.create_network_interface:
+          network.create_network_interface:
             - identity: '${identity}'
             - subnet_id: '${subnet_id}'
             - credential: '${credential}'
@@ -109,7 +116,7 @@ flow:
           - SUCCESS: run_instances
     - run_instances:
         do:
-          io.cloudslang.amazon.aws.ec2.instances.run_instances:
+          instances.run_instances:
             - endpoint: 'https://ec2.amazonaws.com'
             - identity: '${identity}'
             - credential: '${credential}'
@@ -130,7 +137,7 @@ flow:
           - SUCCESS: check_instance_state
     - attach_network_interface:
         do:
-          io.cloudslang.amazon.aws.ec2.network.attach_network_interface:
+          network.attach_network_interface:
             - identity: '${identity}'
             - credential: '${credential}'
             - network_interface_id: '${network_interface_id}'
@@ -153,7 +160,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.network.delete_network_interface:
+            network.delete_network_interface:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
@@ -175,7 +182,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
+            instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
@@ -196,7 +203,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.terminate_instances:
+            instances.terminate_instances:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
@@ -218,7 +225,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
+            instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
@@ -237,7 +244,7 @@ flow:
           - SUCCESS: delete_network_interface
     - create_tags:
         do:
-          io.cloudslang.amazon.aws.ec2.tags.create_tags:
+          tags.create_tags:
             - identity: '${identity}'
             - credential: '${credential}'
             - proxy_host: '${proxy_host}'

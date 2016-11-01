@@ -20,10 +20,6 @@
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
 #!                 Default: ""
-
-
-
-
 #! @input query_params: optional - string containing query parameters that will be appended to
 #!                      the URL. The names and the values must not be URL encoded because if
 #!                      they are encoded then a double encoded will occur. The separator between
@@ -305,6 +301,7 @@ operation:
         default: ${get("user_data", "")}
         required: false
         private: true
+
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.3'
     class_name: io.cloudslang.content.amazon.actions.instances.ModifyInstanceAttributeAction

@@ -7,7 +7,8 @@
 #
 ####################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to reboot a server (instance). Requests to reboot terminated instances are ignored.
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to reboot a server (instance).
+#!               Requests to reboot terminated instances are ignored.
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services
@@ -27,6 +28,10 @@
 #! @result FAILURE: error rebooting instance
 #!!#
 namespace: io.cloudslang.amazon.aws.ec2
+
+imports:
+  instances: io.cloudslang.amazon.aws.ec2.instances
+
 flow:
   name: reboot_instance
   inputs:
@@ -57,7 +62,7 @@ flow:
   workflow:
     - reboot_instances:
         do:
-          io.cloudslang.amazon.aws.ec2.instances.reboot_instances:
+          instances.reboot_instances:
             - identity: '${identity}'
             - credential: '${credential}'
             - instance_id: '${instance_id}'
@@ -78,7 +83,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
+            instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - instance_id: '${instance_id}'

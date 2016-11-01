@@ -37,6 +37,10 @@
 #! @result FAILURE: error stopping instance
 #!!#
 namespace: io.cloudslang.amazon.aws.ec2
+
+imports:
+  instances: io.cloudslang.amazon.aws.ec2.instances
+
 flow:
   name: stop_instance
   inputs:
@@ -68,7 +72,7 @@ flow:
   workflow:
     - stop_instances:
         do:
-          io.cloudslang.amazon.aws.ec2.instances.stop_instances:
+          instances.stop_instances:
             - identity: '${identity}'
             - credential: '${credential}'
             - proxy_host: '${proxy_host}'
@@ -90,7 +94,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
+            instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - instance_id: '${instance_id}'

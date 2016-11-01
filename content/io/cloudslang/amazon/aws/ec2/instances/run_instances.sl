@@ -534,6 +534,7 @@ operation:
          default: ${get("secondary_private_ip_address_count", "")}
          required: false
          private: true
+
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.3'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
