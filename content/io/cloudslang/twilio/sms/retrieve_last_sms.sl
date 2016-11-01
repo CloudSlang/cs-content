@@ -38,7 +38,7 @@
 #! @output error_message: Exception in case something went wrong
 #!
 #! @result SUCCESS: This result indicated that there is at least one SMS sent from the To number to the From number
-#! @result NO_SNS: This result indicates that there is no SMS sent from the To number to the From number
+#! @result NO_SMS: This result indicates that there is no SMS sent from the To number to the From number
 #! @result FAILURE: Something went wrong
 #!!#
 ########################################################################################################################

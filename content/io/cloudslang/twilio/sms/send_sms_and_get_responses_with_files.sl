@@ -37,7 +37,7 @@
 namespace: io.cloudslang.twilio.sms
 
 imports:
-  files: io.cloudslang.base.file_system
+  files: io.cloudslang.base.filesystem
   twilio: io.cloudslang.twilio.sms
 
 flow:
