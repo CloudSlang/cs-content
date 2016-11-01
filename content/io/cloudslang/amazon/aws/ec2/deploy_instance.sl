@@ -175,7 +175,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.check_instance_state:
+            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
@@ -218,7 +218,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.check_instance_state:
+            io.cloudslang.amazon.aws.ec2.instances.check_instance_state:
               - identity: '${identity}'
               - credential: '${credential}'
               - proxy_host: '${proxy_host}'
