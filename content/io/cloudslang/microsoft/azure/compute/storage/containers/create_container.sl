@@ -11,7 +11,7 @@
 #!
 #! @input account_name: Azure account name
 #! @input key: Azure account key
-#! @input container_name: the name you want to give the new container
+#! @input container_name: the name you want to give to the new container
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -34,12 +34,14 @@ operation:
     - account_name
     - accountName:
         default: ${get("account_name", ""}
+        required: false
         private: true
     - key:
         sensitive: true
     - container_name
     - containerName:
         default: ${get("container_name", ""}
+        required: false
         private: true
     - proxy_host:
         required: false

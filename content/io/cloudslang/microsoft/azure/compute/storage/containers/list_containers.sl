@@ -33,6 +33,7 @@ operation:
     - account_name
     - accountName:
         default: ${get("account_name", ""}
+        required: false
         private: true
     - key:
         sensitive: true

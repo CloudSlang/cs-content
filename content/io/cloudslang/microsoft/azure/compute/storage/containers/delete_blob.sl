@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a container from the specified account
+#! @description: Delete a blob from the container that exists in the specified storage account.
 #!
 #! @input account_name: Azure account name
 #! @input key: Azure account key
@@ -35,16 +35,19 @@ operation:
     - account_name
     - accountName:
         default: ${get("account_name", ""}
+        required: false
         private: true
     - key:
         sensitive: true
     - container_name
     - containerName:
         default: ${get("container_name", ""}
+        required: false
         private: true
     - blob_name
     - blobName:
         default: ${get("blob_name", ""}
+        required: false
         private: true
     - proxy_host:
         required: false
