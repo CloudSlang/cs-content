@@ -43,6 +43,7 @@
 #!                 Default: "2014-06-15"
 #!                 Example: "2014-06-15"
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
+#! @output attachment_id_result: id of the attachment in case of success
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #! @result SUCCESS: success message
@@ -114,7 +115,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
     class_name: io.cloudslang.content.amazon.actions.network.AttachNetworkInterfaceAction
     method_name: execute
 
@@ -122,6 +123,7 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
+    - attachment_id_result: ${get("attachmentIdResult", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

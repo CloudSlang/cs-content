@@ -6,19 +6,19 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 ####################################################
-testAmazonEC2ClassicDeployLocal:
+testAmazonCreateTagsLocal:
   testSuites: [amazon-local]
-  description: "Test that successfully deployes an Amazon AWS instance EC2 classic style."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.samples.test_ec2_classic_deploy
+  description: "Test that successfully creates tags to specified Amazon AWS resources."
+  testFlowPath: io.cloudslang.amazon.aws.ec2.tags.test_create_tags
   inputs:
+    - endpoint: <endpoint>
     - identity: <identity>
     - credential: <credential>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - region: <region>
-    - availability_zone: <availability_zone>
-    - image_id: <image_id>
+    - delimiter: <delimiter>
     - debug_mode: <debug_mode>
-    - instance_name: <instance_name>
-    - platform: <platform>
+    - key_tags_string: <key_tags_string>
+    - value_tags_string: <value_tags_string>
+    - resource_ids_string: <resource_ids_string>
   result: SUCCESS
