@@ -14,10 +14,9 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: test_apply_to_resources
+  name: test_create_tags
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -37,9 +36,6 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
-    - region:
-        default: 'us-east-1'
-        required: false
     - key_tags_string
     - value_tags_string
     - resource_ids_string
@@ -47,8 +43,7 @@ flow:
   workflow:
     - apply_tag_to_resources:
         do:
-          tags.apply_to_resources:
-            - provider
+          tags.create_tags:
             - endpoint
             - identity
             - credential
@@ -56,7 +51,6 @@ flow:
             - proxy_port
             - delimiter
             - debug_mode
-            - region
             - key_tags_string
             - value_tags_string
             - resource_ids_string
