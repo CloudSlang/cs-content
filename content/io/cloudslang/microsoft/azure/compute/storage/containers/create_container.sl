@@ -9,7 +9,7 @@
 #!!
 #! @description: Create a container for the specified account
 #!
-#! @input account_name: Azure account name
+#! @input storage_account: Azure storage account name
 #! @input key: Azure account key
 #! @input container_name: the name you want to give to the new container
 #! @input proxy_host: optional - proxy server used to access the web site
@@ -31,9 +31,9 @@ namespace: io.cloudslang.microsoft.azure.compute.storage.containers
 operation:
   name: create_container
   inputs:
-    - account_name
-    - accountName:
-        default: ${get("account_name", ""}
+    - storage_account
+    - storageAccount:
+        default: ${get("storage_account", ""}
         required: false
         private: true
     - key:

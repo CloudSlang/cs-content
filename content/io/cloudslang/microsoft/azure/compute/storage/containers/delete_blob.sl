@@ -9,7 +9,7 @@
 #!!
 #! @description: Delete a blob from the container that exists in the specified storage account.
 #!
-#! @input account_name: Azure account name
+#! @input storage_account: Azure storage account name
 #! @input key: Azure account key
 #! @input container_name: the name of the container in which the blob is
 #! @input blob_name: the name of the blob you want to delete
@@ -32,9 +32,9 @@ namespace: io.cloudslang.microsoft.azure.compute.storage.containers
 operation:
   name: delete_blob
   inputs:
-    - account_name
-    - accountName:
-        default: ${get("account_name", ""}
+    - storage_account
+    - storageAccount:
+        default: ${get("storage_account", ""}
         required: false
         private: true
     - key:

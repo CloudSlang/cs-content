@@ -9,7 +9,7 @@
 #!!
 #! @description: Delete a container for the specified account
 #!
-#! @input account_name: Azure account name
+#! @input storage_account: Azure storage account name
 #! @input key: Azure account key
 #! @input container_name: the name of the container you want to delete
 #! @input proxy_host: optional - proxy server used to access the web site
@@ -31,9 +31,9 @@ namespace: io.cloudslang.microsoft.azure.compute.storage.containers
 operation:
   name: delete_container
   inputs:
-    - account_name
-    - accountName:
-        default: ${get("account_name", ""}
+    - storage_account
+    - storageAccount:
+        default: ${get("storage_account", ""}
         required: false
         private: true
     - key:
