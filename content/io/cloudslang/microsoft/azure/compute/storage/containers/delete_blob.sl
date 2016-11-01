@@ -7,176 +7,83 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a blob inside a container
+#! @description: Delete a container from the specified account
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
-#! @input list_cont_auth_header: Azure Storage authorization key
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-04-05'
-#! @input storage_account: Storage account name
-#! @input nic_name: network interface card name
-#! @input container_name: Name of the container from which to delete the blob
-#! @input blob_name: Name of the blob to be erased
+#! @input account_name: Azure account name
+#! @input key: Azure account key
+#! @input container_name: the name of the container in which the blob is
+#! @input blob_name: the name of the blob you want to delete
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
-#!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response with information of the deleted network interface card
-#! @output status_code: 202 if request completed successfully, 204 if resource does not exist,
-#!                      others in case something went wrong
-#! @output error_message: If a network interface card is not found the error message will be populated with a response,
-#!                        empty otherwise
+#! @output output: the container name of the blob that was deleted
+#! @output return_code: 0 if request completed successfully, -1 in case something went wrong
+#! @output exception: the stacktrace of the operation in case something went wrong
 #!
 #! @result SUCCESS: Blob deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the blob.
+#! @result FAILURE: there was an error while trying to delete the blob.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure.compute.storage.containers
 
-imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
-  storage_auth: io.cloudslang.microsoft.azure.compute.storage
-
-flow:
+operation:
   name: delete_blob
-
   inputs:
-    - subscription_id
-    - resource_group_name
-    - list_cont_auth_header
-    - api_version:
-        required: false
-        default: '2015-04-05'
-    - storage_account
+    - account_name
+    - accountName:
+        default: ${get("account_name", ""}
+        private: true
+    - key:
+        sensitive: true
     - container_name
+    - containerName:
+        default: ${get("container_name", ""}
+        private: true
     - blob_name
+    - blobName:
+        default: ${get("blob_name", ""}
+        private: true
     - proxy_host:
         required: false
-    - proxy_port:
-        default: "8080"
+    - proxyHost:
+        default: ${get("proxy_host", "")}
         required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get("proxy_port", "8080")}
+        required: false
+        private: true
     - proxy_username:
         required: false
+    - proxyUsername:
+        default: ${get("proxy_username", "")}
+        required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
-    - trust_all_roots:
-        default: "false"
+    - proxyPassword:
+        default: ${get("proxy_password", "")}
         required: false
-    - x_509_hostname_verifier:
-        default: "strict"
-        required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
+        private: true
         sensitive: true
 
-  workflow:
-    - get_storage_account:
-        do:
-          storage_auth.get_storage_account_keys:
-            - subscription_id
-            - resource_group_name
-            - auth_token
-            - storage_account
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
-        publish:
-          - key
-          - date
-          - error_message
-        navigate:
-          - SUCCESS: delete_blob
-          - FAILURE: FAILURE
-
-    - delete_blob:
-        do:
-          http.http_client_delete:
-            - url: ${'https://' + storage_account + '.blob.core.windows.net/' + container_name + '/' + blob_name}
-            - headers: >
-                ${'Authorization: SharedKey ' + storage_account + ':' + list_cont_auth_header + '\n' +
-                'x-ms-date:' + date + '\n' +
-                'x-ms-version:' + api_version}
-            - auth_type: 'anonymous'
-            - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
-        publish:
-          - output: ${return_result}
-          - status_code
-          - return_code
-        navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '204,400,401,404,411,412'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
-
-    - retrieve_error:
-        do:
-          json.get_value:
-            - json_input: ${output}
-            - json_path: 'error,message'
-        publish:
-          - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,201,202'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+  java_action:
+    gav: 'io.cloudslang.content:cs-azure:0.0.3'
+    class_name: io.cloudslang.content.azure.actions.storage.DeleteBlob
+    method_name: execute
 
   outputs:
-    - output
-    - status_code
-    - error_message
+    - output: ${returnResult}
+    - return_code: ${returnCode}
+    - exception
 
   results:
-    - SUCCESS
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE
 

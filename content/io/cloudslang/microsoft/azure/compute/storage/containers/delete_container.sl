@@ -7,148 +7,77 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a container
+#! @description: Create a container for the specified account
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure Storage
-#!                     Default: '2015-04-05'
-#! @input list_cont_auth_header: Storage authorization header
-#! @input date: Specifies the Coordinated Universal Time (UTC) for the request
-#! @input storage_account: Storage account name
-#! @input container_name: Container name
+#! @input account_name: Azure account name
+#! @input key: Azure account key
+#! @input container_name: the name of the container you want to delete
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
-#!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output status_code: 202 if request completed successfully, 204 (NoContent) is returned if the account does not
-#1                      exist in the subscription, other errors in case of exceptions
-#! @output error_message: If a resource group is not found the error message will be populated with a response,
-#!                        empty otherwise
+#! @output output: the container name that was deleted
+#! @output return_code: 0 if request completed successfully, -1 in case something went wrong
+#! @output exception: the stacktrace of the operation in case something went wrong
 #!
-#! @result SUCCESS: container deleted successfully.
+#! @result SUCCESS: Container deleted successfully.
 #! @result FAILURE: There was an error while trying to delete the container.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure.compute.storage.containers
 
-imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
-
-flow:
+operation:
   name: delete_container
-
   inputs:
-    - subscription_id
-    - auth_token
-    - api_version:
-        required: false
-        default: '2015-04-05'
-    - list_cont_auth_header
-    - date
-    - storage_account
+    - account_name
+    - accountName:
+        default: ${get("account_name", ""}
+        private: true
+    - key:
+        sensitive: true
     - container_name
+    - containerName:
+        default: ${get("container_name", ""}
+        private: true
     - proxy_host:
         required: false
-    - proxy_port:
-        default: "8080"
+    - proxyHost:
+        default: ${get("proxy_host", "")}
         required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get("proxy_port", "8080")}
+        required: false
+        private: true
     - proxy_username:
         required: false
+    - proxyUsername:
+        default: ${get("proxy_username", "")}
+        required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
-    - trust_all_roots:
-        default: "false"
+    - proxyPassword:
+        default: ${get("proxy_password", "")}
         required: false
-    - x_509_hostname_verifier:
-        default: "strict"
-        required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
+        private: true
         sensitive: true
 
-  workflow:
-    - delete_container:
-        do:
-          http.http_client_delete:
-            - url: ${'https://' + storage_account + '.blob.core.windows.net/' + container_name + '?restype=container'}
-            - headers: >
-                ${'Authorization: ' + list_cont_auth_header + '\n' +
-                'x-ms-date:' + date + '\n' +
-                'x-ms-version:' + api_version}
-            - auth_type: 'anonymous'
-            - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
-        publish:
-          - output: ${return_result}
-          - status_code
-        navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
-
-    - retrieve_error:
-        do:
-          json.get_value:
-            - json_input: ${output}
-            - json_path: 'error,message'
-        publish:
-          - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,202'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+  java_action:
+    gav: 'io.cloudslang.content:cs-azure:0.0.3'
+    class_name: io.cloudslang.content.azure.actions.storage.DeleteContainer
+    method_name: execute
 
   outputs:
-    - status_code
-    - error_message
+    - output: ${returnResult}
+    - return_code: ${returnCode}
+    - exception
 
   results:
-    - SUCCESS
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE
-
