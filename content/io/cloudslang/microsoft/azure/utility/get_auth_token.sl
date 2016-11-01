@@ -12,7 +12,7 @@
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input client_id: optional - Service Client ID
-#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                   Default: 'https://sts.windows.net/common'
 #! @input resource: optional - resource URl for which the Authentication Token is intended
 #!                  Default: 'https://management.azure.com/'
@@ -45,8 +45,11 @@ operation:
         default: ${get("client_id", "")}
         required: false
         private: true
-    - authority:
+    - login_authority:
         default: 'https://sts.windows.net/common'
+        required: false
+    - loginAuthority:
+        default: ${get("login_authority", "")}
         required: false
         private: true
     - resource:
@@ -81,7 +84,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.2'
+    gav: 'io.cloudslang.content:cs-azure:0.0.4'
     class_name: io.cloudslang.content.azure.actions.utils.GetAuthorizationToken
     method_name: execute
 
