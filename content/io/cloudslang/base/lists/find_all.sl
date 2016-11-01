@@ -25,11 +25,9 @@ operation:
   python_action:
     script: |
       if ignore_case.lower() == 'true':
-        indices = [i for i, x in enumerate(list.split(",")) if x.lower() == element.lower()]
+        indices = [str(i) for i, x in enumerate(list.split(",")) if x.lower() == element.lower()]
       else:
-        indices = [i for i, x in enumerate(list.split(",")) if x == element]
+        indices = [str(i) for i, x in enumerate(list.split(",")) if x == element]
 
   outputs:
-    - indices: ${str(indices)}
-  results:
-    - SUCCESS
+    - indices: ${ ",".join(indices) }

@@ -143,20 +143,8 @@ flow:
             - first_string: ${ image_name1 }
             - second_string: ${ image_list }
         navigate:
-          - SUCCESS: clear_host
-          - FAILURE: VERIFY_FAILURE
-
-    - clear_host:
-        do:
-          maintenance.clear_host:
-            - docker_host: ${ host }
-            - port
-            - docker_username: ${ username }
-            - docker_password: ${ password }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
-
+          - FAILURE: VERIFY_FAILURE
   results:
     - SUCCESS
     - PREREQUST_MACHINE_IS_NOT_CLEAN
@@ -168,4 +156,3 @@ flow:
     - AMOUNT_OF_IMAGES_DELETED_IS_WRONG
     - FAIL_GET_ALL_IMAGES
     - VERIFY_FAILURE
-    - MACHINE_IS_NOT_CLEAN

@@ -1,0 +1,17 @@
+#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testHerokuGetDomainDetails:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_id_or_name: <app_id_or_name>
+    - domain_id_or_hostname: <domain_id_or_hostname>
+  description: "Test that successfully gets the details of a specified domain"
+  testSuites: [heroku-local]
+  testFlowPath: io.cloudslang.heroku.domains.test_get_domain_details
+  result: SUCCESS
