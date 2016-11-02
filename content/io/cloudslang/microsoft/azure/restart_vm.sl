@@ -14,7 +14,7 @@
 #!                  This can be different from the location of the resource group.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input authority: the authority URL
+#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #! @input resource: the resource URL
 #! @input vm_name: virtual machine name
 #! @input resource_group_name: Azure resource group name
@@ -44,10 +44,6 @@
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #!
 #! @result SUCCESS: The flow completed successfully.
-#! @result GET_AUTH_TOKEN_FAILURE: There was an error while trying to get the authentication token
-#! @result RESTART_VM_FAILURE: There was an error while trying to restart the virtual machine
-#! @result GET_POWER_STATE_FAILURE: There was an error while trying to retrieve the power state of the VM.
-#! @result COMPARE_POWER_STATE_FAILURE: There was an error while trying to compare the power state excepted and received.
 #! @result FAILURE: There was an error while trying to run every step of the flow.
 #!!#
 ########################################################################################################################
@@ -115,7 +111,7 @@ flow:
           - error_message: ${exception}
         navigate:
           - SUCCESS: restart_vm
-          - FAILURE: GET_AUTH_TOKEN_FAILURE
+          - FAILURE: on_failure
 
     - restart_vm:
         do:
@@ -137,7 +133,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: get_power_state
-          - FAILURE: RESTART_VM_FAILURE
+          - FAILURE: on_failure
 
     - get_power_state:
          do:
@@ -159,7 +155,7 @@ flow:
            - error_message
          navigate:
            - SUCCESS: check_power_state
-           - FAILURE: GET_POWER_STATE_FAILURE
+           - FAILURE: on_failure
 
     - check_power_state:
         do:
@@ -170,7 +166,7 @@ flow:
           - expected_power_state: ${return_result}
         navigate:
           - SUCCESS: compare_power_state
-          - FAILURE: COMPARE_POWER_STATE_FAILURE
+          - FAILURE: on_failure
 
     - compare_power_state:
         do:
@@ -187,7 +183,7 @@ flow:
             - seconds: ${polling_interval}
         navigate:
           - SUCCESS: get_power_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output
@@ -197,9 +193,5 @@ flow:
 
   results:
     - SUCCESS
-    - GET_AUTH_TOKEN_FAILURE
-    - RESTART_VM_FAILURE
-    - GET_POWER_STATE_FAILURE
-    - COMPARE_POWER_STATE_FAILURE
     - FAILURE
 

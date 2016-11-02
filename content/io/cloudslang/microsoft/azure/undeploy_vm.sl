@@ -13,7 +13,7 @@
 #! @input resource_group_name: Azure resource group name
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input authority: the authority URL
+#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #! @input resource: the resource URL
 #! @input vm_name: virtual machine name
 #! @input public_ip_address_name: Name of the public address to be created
