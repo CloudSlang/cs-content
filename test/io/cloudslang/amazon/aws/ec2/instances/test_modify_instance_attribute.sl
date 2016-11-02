@@ -13,10 +13,9 @@ imports:
   lists: io.cloudslang.base.lists
 
 flow:
-  name: test_update_instance_type
+  name: test_modify_instance_attribute
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -30,39 +29,22 @@ flow:
     - proxy_port:
         default: '8080'
         required: false
-    - debug_mode:
-        default: 'false'
-        required: false
-    - region:
-        default: 'us-east-1'
+    - version:
+        default: '2016-09-15'
         required: false
     - instance_id
-    - server_type:
-        default: ''
-        required: false
-    - operation_timeout:
-        default: ''
-        required: false
-    - pooling_interval:
-        default: ''
-        required: false
 
   workflow:
-    - update_instance_type:
+    - modify_instance_attribute:
         do:
-          instances.update_instance_type:
-            - provider
+          instances.modify_instance_attribute:
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
-            - debug_mode
-            - region
+            - version
             - instance_id
-            - server_type
-            - operation_timeout
-            - pooling_interval
         publish:
           - return_result
           - return_code
@@ -74,8 +56,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${str(return_result) + "," + str(exception) + "," + return_code}
-            - list_2: "Server updated successfully.,,0"
+            - list_1: ${return_code}
+            - list_2: "0"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULTS_FAILURE
