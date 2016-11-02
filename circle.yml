@@ -108,9 +108,9 @@ test:
         else CHANGES_PARAM="";
         fi
         && case ${CIRCLE_NODE_INDEX} in
-        0) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_0.properties ${CHANGES_PARAM} ;;
-        1) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_1.properties ${CHANGES_PARAM} ;;
-        2) ./cslang-builder/bin/cslang-builder -des -rcf $(pwd)/configuration/runconfig/lane_2.properties ${CHANGES_PARAM} ;;
+        0) ./cslang-builder/bin/cslang-builder -des -ts default,consul,http,rest,zip ;;
+        1) ./cslang-builder/bin/cslang-builder -des -ts !default,coreos,cadvisor,docker-circleci,swarm_lane_1 ;;
+        2) ./cslang-builder/bin/cslang-builder -des -ts !default,swarm_lane_2 ;;
         esac
       : parallel: true
   post:
