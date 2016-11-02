@@ -32,6 +32,9 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
+    - key_filters_string
+    - value_filters_string
+    - regions_string
 
   workflow:
     - describe_regions:
@@ -45,6 +48,9 @@ flow:
             - proxy_port
             - delimiter
             - debug_mode
+            - key_filters_string
+            - value_filters_string
+            - regions_string
         publish:
           - return_result
           - return_code
