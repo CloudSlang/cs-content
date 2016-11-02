@@ -14,8 +14,7 @@
 #!                  This can be different from the location of the resource group.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#! @input resource: the resource URL
+#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #! @input vm_name: virtual machine name
 #! @input resource_group_name: Azure resource group name
 #! @input polling_interval: Time to wait between checks
@@ -65,8 +64,7 @@ flow:
     - username
     - password:
         sensitive: true
-    - authority
-    - resource
+    - login_authority
     - vm_name
     - subscription_id
     - resource_group_name
@@ -99,8 +97,7 @@ flow:
           auth.get_auth_token:
             - username
             - password
-            - authority
-            - resource
+            - login_authority
             - proxy_host
             - proxy_port
             - proxy_username
