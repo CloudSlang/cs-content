@@ -52,6 +52,7 @@ flow:
             - debug_mode
             - region
             - instance_id
+            - force_stop
         navigate:
           - SUCCESS: sleep
           - FAILURE: STOP_FAILURE
