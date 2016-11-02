@@ -93,8 +93,10 @@ flow:
                 '/providers/Microsoft.Compute/locations/' + location + '/publishers/' + publisher +
                 '/artifacttypes/vmimage/offers?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type
-            - content_type
+            - auth_type: 'anonymous'
+            - preemptive_auth: 'true'
+            - content_type: 'application/json'
+            - request_character_set: 'UTF-8'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -103,11 +105,6 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
-            - keystore
-            - keystore_password
-            - use_cookies
-            - keep_alive
-            - request_character_set
         publish:
           - output: ${return_result}
           - status_code
