@@ -55,7 +55,6 @@ operation:
     - resource:
         default: 'https://management.azure.com/'
         required: false
-        private: true
     - proxy_host:
         required: false
     - proxyHost:

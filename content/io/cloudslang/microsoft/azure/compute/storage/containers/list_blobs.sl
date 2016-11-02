@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List the blobs for the specified account
+#! @description: List the blobs for the specified storage account
 #!
 #! @input storage_account: Azure storage account name
 #! @input key: Azure account key
@@ -17,12 +17,12 @@
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
 #!
-#! @output output: the container name that was created
+#! @output output: a list of blob names separated by ','
 #! @output return_code: 0 if request completed successfully, -1 in case something went wrong
 #! @output exception: the stacktrace of the operation in case something went wrong
 #!
-#! @result SUCCESS: Container created successfully.
-#! @result FAILURE: There was an error while trying to create the container.
+#! @result SUCCESS: The list of the blobs under the specified container retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of blobs under the specified container
 #!!#
 ########################################################################################################################
 
