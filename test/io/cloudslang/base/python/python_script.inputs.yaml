@@ -15,7 +15,7 @@ testPythonScriptSuccess:
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "1\n2\n3\n4\n"
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - return_result: "1\n2\n3\n4\n"
     - return_code: "0"
@@ -29,7 +29,7 @@ testPythonScriptSuccess2:
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "10"
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - return_result: "10\n"
     - return_code: "0"
@@ -43,7 +43,7 @@ testPythonScriptExitCode:
     - timeout: 5
   description: Tests that python-script.sl operation finishes with exit code 123
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - return_result: ""
     - return_code: "123"
@@ -57,7 +57,7 @@ testPythonScriptArgvInput:
     - timeout: 5
   description: Tests that python-script.sl operation finishes with result = "script\n1\n2\n3\n4\n"
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - return_result: "script\n1\n2\n3\n4\n"
     - return_code: "0"
@@ -71,7 +71,7 @@ testPythonScriptTimeout:
     - timeout: "0.5"
   description: Tests that python-script.sl operation finishes with Timeout
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - error_message: "Timeout\n"
     - return_code: "-1"
@@ -85,7 +85,7 @@ testPythonScriptOnlyOneScript:
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that Either the script or the file_path must be provided
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - error_message: "Either the script or the file_path must be provided\n"
     - return_code: "-1"
@@ -99,7 +99,7 @@ testPythonScriptInvalidScript:
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that the script is invalid
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - error_message: "no viable alternative at input 'time' (<string>, line 1)\n"
     - return_code: "-1"
@@ -113,7 +113,7 @@ testPythonScriptWrongIndent:
     - timeout: "0"
   description: Tests that python-script.sl operation finishes with an error that missing indent
   testSuites: [python-script]
-  testFlowPath: io.cloudslang.base.scripts.python_script
+  testFlowPath: io.cloudslang.base.python.python_script
   outputs:
     - error_message: "mismatched input 'print' expecting INDENT (<string>, line 2)\n"
     - return_code: "-1"

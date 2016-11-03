@@ -4,14 +4,14 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_stop_instances

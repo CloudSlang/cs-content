@@ -5,13 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.jenkins
 
 imports:
   jenkins: io.cloudslang.jenkins
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_clone_job_for_branch

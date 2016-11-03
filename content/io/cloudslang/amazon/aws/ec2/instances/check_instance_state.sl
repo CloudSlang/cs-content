@@ -1,5 +1,14 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: It checks if an instance has a specific state.
+#!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services
@@ -8,15 +17,26 @@
 #! @input instance_state: The state that you would like the instance to have.
 #! @input region: Region where the server (instance) is. Default: 'us-east-1'
 #! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
+#!
 #! @output output: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the server (instance) has the expected state
 #! @result FAILURE: error checking the instance state, or the actual state is not the expected one
 #!!#
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
+
+imports:
+  instances: io.cloudslang.amazon.aws.ec2.instances
+  strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
+
 flow:
   name: check_instance_state
+
   inputs:
     - identity
     - credential:
@@ -31,10 +51,11 @@ flow:
         required: false
     - polling_interval:
         required: false
+
   workflow:
     - describe_instances:
         do:
-          io.cloudslang.amazon.aws.ec2.instances.describe_instances:
+          instances.describe_instances:
             - identity: '${identity}'
             - credential: '${credential}'
             - proxy_host: '${proxy_host}'
@@ -46,31 +67,36 @@ flow:
           - return_code: '${return_code}'
           - exception: '${exception}'
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: string_occurrence_counter
+          - FAILURE: FAILURE
+
     - string_occurrence_counter:
         do:
-          io.cloudslang.base.strings.string_occurrence_counter:
+          strings.string_occurrence_counter:
             - string_in_which_to_search: '${return_result}'
             - string_to_find: "${'state=' + instance_state}"
         publish: []
         navigate:
-          - FAILURE: sleep
           - SUCCESS: SUCCESS
+          - FAILURE: sleep
+
     - sleep:
         do:
-          io.cloudslang.base.flow_control.sleep:
+          utils.sleep:
             - seconds: "${get('polling_interval', '10')}"
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: FAILURE
+          - FAILURE: FAILURE
+
   outputs:
     - output: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${exception}'
+
   results:
     - SUCCESS
     - FAILURE
+
 extensions:
   graph:
     steps:
