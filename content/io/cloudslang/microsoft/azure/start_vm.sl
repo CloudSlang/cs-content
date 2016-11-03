@@ -53,7 +53,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   auth: io.cloudslang.microsoft.azure.utility
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
 

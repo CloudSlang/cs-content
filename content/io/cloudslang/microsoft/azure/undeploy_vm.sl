@@ -56,7 +56,7 @@ namespace: io.cloudslang.microsoft.azure
 imports:
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   auth: io.cloudslang.microsoft.azure.utility
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses

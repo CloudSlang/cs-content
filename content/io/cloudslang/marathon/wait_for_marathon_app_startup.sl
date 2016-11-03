@@ -5,18 +5,20 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Wait for Marathon app startup.
+#!
 #! @input marathon_host: Marathon host
 #! @input marathon_port: optional - Marathon port
 #! @input created_app_id: Marathon app id
 #! @input attempts: optional - attempts to reach host - Default: 1
 #! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 1
+#!
 #! @result SUCCESS: waiting for the Maranthon app to start up completed successfully
 #! @result FAILURE: there was an error while waiting for the Marathon app to start
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
@@ -24,7 +26,7 @@ imports:
   marathon: io.cloudslang.marathon
   strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 flow:
   name: wait_for_marathon_app_startup

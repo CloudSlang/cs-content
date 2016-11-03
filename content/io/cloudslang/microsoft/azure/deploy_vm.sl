@@ -84,7 +84,7 @@ imports:
   json: io.cloudslang.base.json
   auth: io.cloudslang.microsoft.azure.utility
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
 

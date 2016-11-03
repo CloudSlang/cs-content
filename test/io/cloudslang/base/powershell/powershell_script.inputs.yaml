@@ -34,7 +34,7 @@ testExecute:
     -  operation_timeout: ""
   description: Tests a basic execution of the opperation
   testSuites: [powershell_script_locale]
-  testFlowPath: io.cloudslang.base.scripts.powershell_script
+  testFlowPath: io.cloudslang.base.powershell.powershell_script
   outputs:
     -  return_code: "0"
     -  return_result: "ConsoleHost"
@@ -68,7 +68,7 @@ testExecuteFailureInvalidScript:
     -  operation_timeout: ""
   description: Tests a basic execution of the opperation
   testSuites: [powershell_script_locale]
-  testFlowPath: io.cloudslang.base.scripts.powershell_script
+  testFlowPath: io.cloudslang.base.powershell.powershell_script
   outputs:
     -  return_code: "-1"
     -  script_exit_code: "1"

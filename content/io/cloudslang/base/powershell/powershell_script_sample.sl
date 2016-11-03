@@ -78,10 +78,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.scripts
+namespace: io.cloudslang.base.powershell
 
 imports:
-  scripts: io.cloudslang.base.scripts
+  scripts: io.cloudslang.base.powershell
 flow:
      name: powershell_script_sample
      inputs:
