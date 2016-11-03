@@ -26,7 +26,7 @@ imports:
   marathon: io.cloudslang.marathon
   strings: io.cloudslang.base.strings
   math: io.cloudslang.base.math
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
 flow:

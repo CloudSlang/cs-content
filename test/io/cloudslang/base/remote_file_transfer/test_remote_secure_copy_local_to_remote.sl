@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.remote_file_transfer
 
@@ -14,7 +14,7 @@ imports:
   rft: io.cloudslang.base.remote_file_transfer
   files: io.cloudslang.base.filesystem
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_remote_secure_copy_local_to_remote

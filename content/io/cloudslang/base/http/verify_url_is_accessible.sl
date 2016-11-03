@@ -47,8 +47,7 @@ namespace: io.cloudslang.base.http
 imports:
   math: io.cloudslang.base.math
   rest: io.cloudslang.base.http
-  utils: io.cloudslang.base.flow_control
-
+  utils: io.cloudslang.base.utils
 flow:
   name: verify_url_is_accessible
 

@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Waits for a droplet to change its status.
+#!
 #! @input droplet_id: id of the droplet
 #! @input status: status to wait upon; will wait until the droplet status is changed or timeout is reached
 #!                Valid: "new", "active", "off", "archive"
@@ -20,6 +21,7 @@
 #! @input connect_timeout: optional - time to wait for a connection to be established, in seconds
 #!                         (0 represents infinite value)
 #! @input socket_timeout: optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
+#!
 #! @result SUCCESS: droplet changed its status
 #! @result DROPLET_NOT_FOUND: underlying GET request returned NOT_FOUND status code for droplet
 #! @result FAILURE: error occurred
@@ -32,7 +34,7 @@ namespace: io.cloudslang.digital_ocean.v2.utils
 imports:
   droplets: io.cloudslang.digital_ocean.v2.droplets
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   math: io.cloudslang.base.math
 
 flow:

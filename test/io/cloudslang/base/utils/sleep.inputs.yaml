@@ -5,12 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testSleepSuccess:
   inputs:
     - seconds: '0.1'
   description: Tests that sleep.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - message: 'sleep completed successfully'
   result: SUCCESS
@@ -19,21 +19,21 @@ testSleepConversionException:
   inputs:
     - seconds: 'sd'
   description: Tests that sleep.sl operation throws an exception when seconds cannot be converted to float
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
 
 testSleepNoRequiredInputException:
   description: Tests that sleep.sl operation throws an exception when required inputs is not given
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   throwsException: true
 
 testSleepTwoSecondsSuccess:
   inputs:
     - seconds: '2'
   description: Tests that sleep.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - message: 'sleep completed successfully'
   result: SUCCESS
@@ -42,7 +42,7 @@ testSleep100SecondsSuccess:
   inputs:
     - seconds: '10'
   description: Tests that sleep.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - message: 'sleep completed successfully'
   result: SUCCESS
@@ -51,7 +51,7 @@ testSleepNegativeNumbers:
   inputs:
     - seconds: '-3'
   description: Tests that sleep.sl operation throws an exception when input contains negative values
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'timeout value is negative'
   result: FAILURE
@@ -60,7 +60,7 @@ testSleepInvalidInput:
   inputs:
     - seconds: '1abc4'
   description: Tests that sleep.sl operation throws an exception when an invalid input is given
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
@@ -69,7 +69,7 @@ testSleepEmptyStringInput:
   inputs:
     - seconds: ''
   description: Tests that sleep.sl operation throws an exception when input contains empty value
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   throwsException: true
@@ -78,7 +78,7 @@ testSleepWhiteSpaceInput:
   inputs:
     - seconds: ' '
   description: Tests that sleep.sl operation throws an exception when input contains white spaces
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
@@ -87,14 +87,14 @@ testSleepWhiteSpaceBetweenNumbers:
   inputs:
     - seconds: '1 1'
   description: Tests that sleep.sl operation throws an exception when digits are separated by white space
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   result: FAILURE
 
 testSleepSpecialCharacters:
   inputs:
     - seconds: '!@#$$%^'
   description: Tests that sleep.sl operation throws an exception when input contains special characters
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
@@ -103,7 +103,7 @@ testSleepUsingTwoDots:
   inputs:
     - seconds: '1..55'
   description: Tests that sleep.sl operation throws an exception when input contains two dots
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
@@ -112,7 +112,7 @@ testSleepUsingOneDot:
   inputs:
     - seconds: '.'
   description: Tests that sleep.sl operation throws an exception when '.' is given as input
-  testFlowPath: io.cloudslang.base.flow_control.sleep
+  testFlowPath: io.cloudslang.base.utils.sleep
   outputs:
     - error_message: 'invalid input value'
   result: FAILURE
