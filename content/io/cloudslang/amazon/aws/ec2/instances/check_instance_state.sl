@@ -39,8 +39,9 @@ flow:
             - credential: '${credential}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_port}'
+            - proxy_password: '${proxy_port}'
             - instance_id: '${instance_id}'
-            - region: '${region}'
         publish:
           - return_result
           - return_code: '${return_code}'

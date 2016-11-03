@@ -16,7 +16,6 @@ flow:
   name: test_describe_instances
 
   inputs:
-    - provider: 'amazon'
     - endpoint: 'https://ec2.amazonaws.com'
     - identity:
         default: ''
@@ -30,14 +29,38 @@ flow:
     - proxy_port:
         default: '8080'
         required: false
-    - debug_mode:
-        default: 'false'
+    - proxy_username:
+        default: ''
         required: false
-    - region:
-        default: 'us-east-1'
+    - proxy_password:
+        default: ''
         required: false
-    - instance_id
+        sensitive: true
+    - headers:
+        default: ''
+        required: false
+    - query_params:
+        default: ''
+        required: false
+    - version:
+        default: '2016-09-15'
+        required: false
     - delimiter:
+        default: ','
+        required: false
+    - filter_names_string:
+        default: ''
+        required: false
+    - filter_values_string:
+        default: ''
+        required: false
+    - instance_ids_string:
+        default: ''
+        required: false
+    - max_results:
+        default: ''
+        required: false
+    - next_token:
         default: ''
         required: false
 
@@ -45,15 +68,22 @@ flow:
     - describe_instances:
         do:
           instances.describe_instances:
-            - provider
             - endpoint
             - identity
             - credential
             - proxy_host
             - proxy_port
-            - debug_mode
-            - region
-            - instance_id
+            - proxy_username
+            - proxy_password
+            - headers
+            - query_params
+            - version
+            - delimiter
+            - filter_names_string
+            - filter_values_string
+            - instance_ids_string
+            - max_results
+            - next_token
         publish:
           - return_result
           - return_code
