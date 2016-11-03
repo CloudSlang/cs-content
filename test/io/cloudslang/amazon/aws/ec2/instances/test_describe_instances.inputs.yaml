@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testDescribeInstancesAmazonLocal:
   testSuites: [amazon-local]
   description: "Test successfully retrieved a list with advanced filters Amazon AWS EC2 instances within a specified zone."

@@ -5,10 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list the instances within a cloud
 #!               region with advance filtering support. If value for input filter is not supplied than that filter is ignored.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -58,9 +59,11 @@
 #! @input next_token: optional - The token to use to retrieve the next page of results. This value is null when
 #!                    there are no more results to return.
 #!                    Default: ""
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the list with existing servers (instances) was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve servers (instances) list
 #!!#

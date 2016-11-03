@@ -4,7 +4,8 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+#
+########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
@@ -17,12 +18,8 @@ flow:
 
   inputs:
     - endpoint: 'https://ec2.amazonaws.com'
-    - identity:
-        default: ''
-        required: false
-    - credential:
-        default: ''
-        required: false
+    - identity
+    - credential
     - proxy_host:
         default: ''
         required: false
