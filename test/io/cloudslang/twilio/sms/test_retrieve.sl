@@ -3,17 +3,17 @@ flow:
   name: test_retrieve
   inputs:
     - from_num:
-        default: ${get_sp('io.cloudslang.twilio.sms.recipient-phone-number')}
+        default: ${get_sp('io.cloudslang.twilio.sms.recipient_phone_number')}
   workflow:
     - retrieve_last_sms:
         do:
           io.cloudslang.twilio.sms.retrieve_last_sms:
-            - account_sid: ${get_sp('io.cloudslang.twilio.sms.account-sid')}
-            - auth_token: ${get_sp('io.cloudslang.twilio.sms.auth-token')}
-            - from_num: ${from_num}
-            - to_num: ${get_sp('io.cloudslang.twilio.sms.twilio-phone-number')}
-            - proxy_host: ${get_sp('io.cloudslang.twilio.sms.proxy-host')}
-            - proxy_port: ${get_sp('io.cloudslang.twilio.sms.proxy-port')}
+            - account_sid: ${get_sp('io.cloudslang.twilio.sms.account_sid')}
+            - auth_token: ${get_sp('io.cloudslang.twilio.sms.auth_token')}
+            - to_num: ${from_num}
+            - from_num: ${get_sp('io.cloudslang.twilio.sms.twilio_phone_number')}
+            - proxy_host: ${get_sp('io.cloudslang.twilio.sms.proxy_host')}
+            - proxy_port: ${get_sp('io.cloudslang.twilio.sms.proxy_port')}
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS

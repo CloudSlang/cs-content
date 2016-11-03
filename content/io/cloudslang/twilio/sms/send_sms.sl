@@ -73,12 +73,12 @@ flow:
     - send_message:
         do:
           http.http_client_post:
-            - url: ${"https://api.twilio.com/' + api_version + '/Accounts/' + account_sid + '/SMS/Messages'}
+            - url: ${'https://api.twilio.com/' + api_version + '/Accounts/' + account_sid + '/SMS/Messages'}
             - auth_type: 'basic'
             - username: ${account_sid}
             - password: ${auth_token}
             - content_type: 'application/x-www-form-urlencoded'
-            - body: ${'To=' + to_num + '&From=' + from_num + '&Body=' + message}
+            - body: ${'To=' + to_num.replace("+","%2B") + '&From=' + from_num.replace("+","%2B") + '&Body=' + message}
             - proxy_host
             - proxy_port
             - proxy_username

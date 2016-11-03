@@ -22,13 +22,11 @@
 namespace: io.cloudslang.twilio.sms
 
 properties:
-  - account_sid: <account_sid>
+  - account_sid: '<account_sid>'
   - auth_token:
-      value: <auth_token>
+      value: '<auth_token>'
       sensitive: true
-  - twilio_phone_number: <+twilio_number>
-  - recipient_phone_number: <+approved_number>
-  - proxy_host: <host>
-  - proxy_port: <port>
-  - proxy_username: <proxy_username>
-  - proxy_password: <proxy_password>
+  - twilio_phone_number: '<+twilio_phone_number>'
+  - recipient_phone_number: '<+recipient_phone_number>'
+  - proxy_host: '<proxy_host>'
+  - proxy_port: '<proxy_port>'

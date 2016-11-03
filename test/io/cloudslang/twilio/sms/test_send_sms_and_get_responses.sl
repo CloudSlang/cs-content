@@ -13,11 +13,11 @@ flow:
           io.cloudslang.twilio.sms.send_sms_and_get_responses:
             - recipients: ${recipients}
             - message: 'How many will attend?'
-            - account_sid: ${get_sp('io.cloudslang.twilio.sms.account-sid')}
-            - auth_token: ${get_sp('io.cloudslang.twilio.sms.auth-token')}
-            - twilio_num: ${get_sp('io.cloudslang.twilio.sms.twilio-phone-number')}
-            - proxy_host: ${get_sp('io.cloudslang.twilio.sms.proxy-host')}
-            - proxy_port: ${get_sp('io.cloudslang.twilio.sms.proxy-port')}
+            - account_sid: ${get_sp('io.cloudslang.twilio.sms.account_sid')}
+            - auth_token: ${get_sp('io.cloudslang.twilio.sms.auth_token')}
+            - twilio_num: ${get_sp('io.cloudslang.twilio.sms.twilio_phone_number')}
+            - proxy_host: ${get_sp('io.cloudslang.twilio.sms.proxy_host')}
+            - proxy_port: ${get_sp('io.cloudslang.twilio.sms.proxy_port')}
         publish:
           - actual_responses: '${responses}'
         navigate:

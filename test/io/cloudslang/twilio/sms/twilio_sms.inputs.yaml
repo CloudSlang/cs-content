@@ -35,8 +35,8 @@ test_send_sms_and_get_responses:
   testFlowPath: io.cloudslang.twilio.sms.test_send_sms_and_get_responses
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
   inputs:
-    - recipients: '<+phone-number1,+phone-number2>'
-    - expected_responses: '<+phone-number1: num1,+phone-number2: num2,>'
+    - recipients: '<+phone-number1, +phone-number2>'
+    - expected_responses: '<+phone-number1: num1, +phone-number2: num2,>'
   result: SUCCESS
 
 test_send_sms_and_get_responses_with_files:
