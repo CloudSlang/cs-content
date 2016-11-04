@@ -22,7 +22,6 @@
 #! @result RESTORE_DUMP_FAILURE: There was an error while trying to create the dump for t6he runc containe
 #! @result RESTORE_PRE_DUMP_FAILURE: There was an error while pre-dumnping the runc container
 #!!#
-#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.runc

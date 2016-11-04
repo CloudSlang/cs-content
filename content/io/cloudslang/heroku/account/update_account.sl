@@ -1,31 +1,38 @@
-###################################################################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call in order to update the Heroku account.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku <username> account password
 #!                  optional
 #!                  default: None
-#! @input allow_tracking: whether to allow third party web activity tracking
-#!                        optional
+#! @input allow_tracking: optional - whether to allow third party web activity tracking
 #!                        default: True
-#! @input beta: whether allowed to utilize beta Heroku features
-#!              optional
+#! @input beta: optional - whether allowed to utilize beta Heroku features
 #!              default: False
-#! @input account_owner_name: full name of account owner
-#!                            optional
+#! @input account_owner_name: optional - full name of account owner
 #!                            default: None
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: update Heroku account was successfully executed
 #! @result ADD_ALLOW_TRACKING_FAILURE: insert 'allow_tracking' key:value pair in JSON body failed
 #! @result ADD_BETA_FAILURE: insert 'beta' key:value pair in JSON body failed
 #! @result ADD_ACCOUNT_OWNER_NAME_FAILURE: insert 'name' key:value pair in JSON body failed
 #! @result UPDATE_ACCOUNT_FAILURE: update Heroku account REST API call failed
 #!!#
-###################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.account
 
@@ -36,6 +43,7 @@ imports:
 
 flow:
   name: update_account
+
   inputs:
     - username
     - password:
@@ -113,7 +121,6 @@ flow:
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

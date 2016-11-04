@@ -1,13 +1,14 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Main flow to create a server instance with floating IP in HP Cloud.
+#!
 #! @input username: HP Cloud account username
 #! @input password: HP Cloud account password
 #! @input tenant_name: name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
@@ -23,13 +24,15 @@
 #! @input polling_attempts: optional - number of attempts to check that the created server became ACTIVE - Default: 60
 #! @input polling_wait_time: optional - time in seconds to wait between polling of the new server's state
 #!                           Default: 10 seconds
+#!
 #! @output ip_address: IP address (if allocated)
 #! @output server_id: Id of new server
 #! @output return_result: JSON response
+#!
 #! @result SUCCESS: flow succeeded, server and/or IP created
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.hp_cloud
 
@@ -42,6 +45,7 @@ imports:
 
 flow:
   name: create_server_flow
+
   inputs:
     - username
     - password:
@@ -179,6 +183,7 @@ flow:
             - text: ${'### New server (' + server_name + ') is ready'}
         navigate:
           - SUCCESS: SUCCESS
+
     - on_failure:
       - create_server_error:
           do:
@@ -186,6 +191,7 @@ flow:
               - text: "${'! Create Server Flow Error: ' + return_result}"
         navigate:
           - SUCCESS: SUCCESS
+
   outputs:
     - return_result
     - ip_address

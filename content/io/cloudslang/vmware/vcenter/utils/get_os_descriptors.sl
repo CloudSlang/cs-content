@@ -12,25 +12,23 @@
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!        and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
 #! @input host: VMware host or IP
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
+#! @input port: optional - port to connect through
 #!              examples: '443', '80'
 #!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
+#! @input protocol: optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input username: VMware username to connect with
 #! @input password: password associated with <username> input
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: optional - if 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
 #!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
@@ -42,9 +40,11 @@
 #!                  example: 'host123.subdomain.example.com'
 #! @input delimiter: delimiter that will be used in response list
 #!                   default: ','
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: list with all supported guest OSs was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve a list with all supported guest OSs
 #!!#
@@ -54,6 +54,7 @@ namespace: io.cloudslang.vmware.vcenter.utils
 
 operation:
   name: get_os_descriptors
+
   inputs:
     - host
     - port:

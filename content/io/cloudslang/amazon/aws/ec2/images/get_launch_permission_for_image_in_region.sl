@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets the launch permission of the specified AMI.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
@@ -29,13 +30,16 @@
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
 #! @input image_id: ID of the specified image to retrieve launch permission for
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the image was successfully created
 #! @result FAILURE: an error occurred when trying to create image
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.images
 
 operation:

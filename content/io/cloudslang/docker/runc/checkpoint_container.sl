@@ -22,7 +22,6 @@
 #! @result PRE_DUMP_FAILURE: There was an error while trying to create a dump for the checkpoint
 #! @result DUMP_FAILURE: There was an error while trying to create the dump for checkpoint
 #!!#
-#
 ########################################################################################################################
 
 namespace: io.cloudslang.docker.runc

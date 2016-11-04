@@ -5,14 +5,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#######################################################################################################################
+########################################################################################################################
 #!!
 #! @description: Sets up a simple Marathon infrastructure on one CoreOS host.
+#!
 #! @input host: Docker host
 #! @input username: username for Docker host
 #! @input private_key_file: private key file for host
 #! @input marathon_port: optional - Marathon agent port - Default: 8080
 #! @input timeout: optional - time in milliseconds to wait for one ssh command to complete - Default: 3000000 ms (50 min)
+#!
 #! @result SUCCESS: setup succeeded
 #! @result CLEAR_CONTAINERS_ON_HOST_PROBLEM: setup failed due to problem clearing containers
 #! @result START_ZOOKEEPER_PROBLEM: setup failed due to problem starting ZooKeeper
@@ -20,15 +22,17 @@
 #! @result START_MESOS_SLAVE_PROBLEM: setup failed due to problem starting Mesos slave
 #! @result START_MARATHON_PROBLEM: setup failed due to problem starting Marathon
 #!!#
-#######################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
 imports:
   containers: io.cloudslang.docker.containers
   print: io.cloudslang.base.print
+
 flow:
   name: setup_marathon_core_os
+
   inputs:
     - host
     - username
@@ -36,6 +40,7 @@ flow:
     - marathon_port:
         default: "8080"
     - timeout: "3000000"
+
   workflow:
     - clear_containers_on_host:
        do:
@@ -158,6 +163,7 @@ flow:
        navigate:
          - SUCCESS: SUCCESS
          - FAILURE: START_MARATHON_PROBLEM
+
   results:
     - SUCCESS
     - CLEAR_CONTAINERS_ON_HOST_PROBLEM

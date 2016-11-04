@@ -5,6 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
+#!!
+#! @description: This flow checks the Dockerr host's cpu utilization, and migrates a live runc container to a nother
+#!               Docker host wityhout losing real time data..
+#!               In order to run this flow you will need to install CRIU from https://criu.org
+#!
 #!                       How to Prapare your infrastructure for this example
 #! @prerequisites:
 #! (The following  instructions may changed for future versions of Docker, RUNC or CRIU)
@@ -46,13 +51,6 @@
 #!     docker-runc exec redis redis-cli get cloudslang
 #!
 #! A demo if this example is availeable at https://youtu.be/OrbrMlZiRTY
-#!
-#!                                          Flow Parameters
-#!
-#!
-#! @description: This flow checks the Dockerr host's cpu utilization, and migrates a live runc container to a nother
-#!               Docker host wityhout losing real time data..
-#!               In order to run this flow you will need to install CRIU from https://criu.org
 #!
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). pre dumps should be used in normal state in order to
 #!                  decrease the migration time of dumps. Thus, in this scenario predump should be false.

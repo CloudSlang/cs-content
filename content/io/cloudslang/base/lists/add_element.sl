@@ -11,7 +11,7 @@
 #!
 #! @input list: list in which to add the element - Example: '1,2,3,4,5,6'
 #! @input element: element to add to the list - Example: '7'
-#! input delimiter: the list delimiter
+#! @input delimiter: the list delimiter
 #!
 #! @output response: 'success' or 'failure'
 #! @output return_result: the new list or an error message otherwise

@@ -12,7 +12,8 @@
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!        and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
@@ -38,31 +39,28 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #! @input virtual_machine_name: name of linux OS based virtual machine that will be customized
 #! @input computer_name: the network host name of the (Linux) virtual machine
-#! @input domain: the fully qualified domain name
-#!                optional
+#! @input domain: optional - the fully qualified domain name
 #!                default: ''
-#! @input ip_address: the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs should be
-#!                    specified as well
-#!                    optional
+#! @input ip_address: optional - the static ip address. If specified then the <subnet_mask> and <default_gateway>
+#!                    inputs should be specified as well
 #!                    default: ''
-#! @input subnet_mask: the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#! @input subnet_mask: optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
 #!                     <default_gateway> inputs should be specified as well
-#!                     optional
 #!                     default: ''
-#! @input default_gateway: the default gateway for network adapter with a static IP address. If specified then the
+#! @input default_gateway: optional - the default gateway for network adapter with a static IP address. If specified then the
 #!                         <ip_address> and <subnet_mask> inputs should be specified as well
-#!                         optional
 #!                         default: ''
-#! @input hw_clock_utc: specifies whether the hardware clock is in UTC or local time. True when the hardware clock is in UTC
-#!                      optional
+#! @input hw_clock_utc: optional - specifies whether the hardware clock is in UTC or local time.
+#!                      True when the hardware clock is in UTC
 #!                      default: 'true'
-#! @input time_zone: the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
-#!                   optional
+#! @input time_zone: optional - the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
 #!                   valid: 'Europe/Bucharest'
 #!                   default: ''
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: virtual machine was successfully cloned
 #! @result FAILURE: an error occurred when trying to clone an existing virtual machine
 #!!#
@@ -72,6 +70,7 @@ namespace: io.cloudslang.vmware.vcenter.guest
 
 operation:
   name: customize_linux_guest
+
   inputs:
     - host
     - port:

@@ -20,31 +20,39 @@
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trustAllRoots is 'true' this input is ignored.
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
-#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input keystore: optional - the pathname of the Java KeyStore file.
+#!                  You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
+#!                  this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
-#!                           is empty, keystorePassword default will be supplied.
-#!                           Default value: changeit
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#!                           keystore is empty, keystore_password default will be supplied.
+#!                           Default value: ''
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
+#! @input request_character_set: optional - character encoding to be used for the HTTP request body; should not
+#!                               be provided for method=GET, HEAD, TRACE - Default: 'ISO-8859-1'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
-#!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
-#!                 headers (RFC 2616) - Example: 'Accept:text/plain'
+#!                 header name - value pair will be separated by ":"
+#!                 Format: According to HTTP standard for headers (RFC 2616)
+#!                 Example: 'Accept:text/plain'
 #! @input query_params: optional - list containing query parameters to append to the URL
-#!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'text/plain'
+#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input body: optional - string to include in body for HTTP PATCH operation
+#! @input content_type: optional - content type that should be set in the request header, representing the
+#!                      MIME-type of the data in the message body
+#!                      Default: 'text/plain'
 #! @input method: HTTP method used - Default: 'TRACE'
 #!
 #! @output return_result: the response of the operation in case of success or the error message otherwise

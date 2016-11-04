@@ -16,23 +16,17 @@
 #! @input check_spelling: optional - whether to check the spelling of the input text
 #!                        valid: none, suggest, autocorrect
 #!                        default: none
-#! @input end_tag: closing HTML tag to use to highlight a match
-#!                 optional
-#! @input field_text: fields that result documents must contain, and the
+#! @input end_tag: optional - closing HTML tag to use to highlight a match
+#! @input field_text: optional - fields that result documents must contain, and the
 #!                    conditions that these fields must meet for the documents
 #!                    to return as results
-#!                    optional
-#! @input highlight: highlighting option to use for the result text
-#!                   optional
-#! @input ignore_operators: disables wildcards, phrase queries, field
+#! @input highlight: optional - highlighting option to use for the result text
+#! @input ignore_operators: optional - disables wildcards, phrase queries, field
 #!                          restriction, and boolean operations
-#!                          optional
 #!                          default: false
 #! @input index: text index to search in
 #!               default: "wiki_eng"
-#! @input max_date: latest creation date or time that a document can have to
-#!                  return as a result
-#!                  optional
+#! @input max_date: optional - latest creation date or time that a document can have to return as a result
 #! @input max_page_results: maximum number of results to return for this query
 #!                          from the absolute number of results returned. You
 #!                          can use this option with the start parameter to page
@@ -41,51 +35,40 @@
 #!                          while absolute_max_results sets the total maximum
 #!                          number of results the query can return.
 #!                          optional
-#! @input min_date: earliest creation date or time that a document can have to
+#! @input min_date: optional - earliest creation date or time that a document can have to
 #!                  return as a result
-#!                  optional
-#! @input min_score: minimum percentage relevance that results must have to the
+#! @input min_score: optional - minimum percentage relevance that results must have to the
 #!                   query to return
-#!                   optional
 #!                   default: 0
-#! @input print_value: types of fields and content to display in the results
-#!                     optional
+#! @input print_value: optional - types of fields and content to display in the results
 #!                     default: fields
-#! @input print_fields: names of fields to print in the results
-#!                      optional
-#! @input promotion: set to true to return only promotion documents that return
+#! @input print_fields: optional - names of fields to print in the results
+#! @input promotion: optional - set to true to return only promotion documents that return
 #!                   from query manipulation. Available only when you set the
 #!                   query_profile parameter.
-#!                   optional
 #!                   default: false
-#! @input query_profile: name of the query profile that you want to apply
-#!                       optional
-#! @input sort: criteria to use for the result display order.
-#!              optional
+#! @input query_profile: optional - name of the query profile that you want to apply
+#! @input sort: optional - criteria to use for the result display order.
 #!              default: relevance.
-#! @input start: number of the first result to display from the total list.
+#! @input start: optional - number of the first result to display from the total list.
 #!               Must be greater than 1, and smaller than the value of
 #!               absolute_max_results
-#!               optional
 #!               default: 1
-#! @input start_tag: opening HTML tag to use to highlight a match
-#!                   optional
+#! @input start_tag: optional - opening HTML tag to use to highlight a match
 #!                   default value: <span style="background-color: yellow">
-#! @input summary: type of summary to create for result documents
-#!                 optional
+#! @input summary: optional - type of summary to create for result documents
 #!                 valid: concept, context, quick, off
 #!                 default: off
-#! @input total_results: set to true to return an estimate of the total number
+#! @input total_results: optional - set to true to return an estimate of the total number
 #!                       of result documents, and the total number of documents
 #!                       and document sections in the query text indexes
-#!                       optional
 #!                       default: false.
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: optional - proxy server
+#! @input proxy_port: optional - proxy server port
+#!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#!
 #! @result SUCCESS: HoD database content retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve HoD database content
 #!!#

@@ -5,17 +5,18 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Evaluates status
 #!
 #! @input status: status to evaluate
+#!
 #! @result FINISHED
 #! @result IN_PROGRESS
 #! @result QUEUED
 #! @result FAILURE
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.utils
 

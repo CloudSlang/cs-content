@@ -8,15 +8,14 @@
 ########################################################################################################################
 #!!
 #! @description: Performs a VMware vSphere command to update a specified virtual machine.
-#!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!       and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! Inputs:
 #! @input host: VMware host or IP
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: port to connect through
@@ -56,9 +55,11 @@
 #!                      optional
 #!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: virtual machine was successfully created
 #! @result FAILURE: an error occurred when trying to create a new virtual machine
 #!!#
@@ -68,6 +69,7 @@ namespace: io.cloudslang.vmware.vcenter.virtual_machines
 
 operation:
   name: update_virtual_machine
+
   inputs:
     - host
     - port:
@@ -87,16 +89,16 @@ operation:
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", None)}
-        private: true
         required: false
+        private: true
     - operation
     - device
     - update_value:
         required: false
     - updateValue:
         default: ${get("update_value", "")}
-        private: true
         required: false
+        private: true
     - vm_disk_size:
         required: false
     - vmDiskSize:
@@ -106,8 +108,8 @@ operation:
         required: false
     - vmDiskMode:
         default: ${get("vm_disk_mode", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:score-vmware:0.0.4'
