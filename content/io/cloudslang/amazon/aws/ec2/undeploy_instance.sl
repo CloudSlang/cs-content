@@ -7,8 +7,7 @@
 #
 ####################################################
 #!!
-#! @description: This flow terminates an instance. In oder to do this, it detaches the network interface attached to
-#!               the instance, terminates the instance, and after that it deletes the network interface.
+#! @description: This flow terminates an instance. If the resources attached to the instance were created with the attribute delete_on_termination = true, they would be deleted when the instance is terminated, otherwise they would be only detached.
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
@@ -19,8 +18,6 @@
 #!                 name-value pair will be separated by ":". Format: Conforming with HTTP standard for headers (RFC 2616).
 #!                 Examples: "Accept:text/plain"
 #! @input instance_id: The ID of the instance to be terminated.
-#! @input attachment_id: The attachment ID generated when the network interface was attached to the instance.
-#! @input force_detach: Specifies whether to force a detachment or not. Valid values: "true", "false". Default: "false"
 #! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
 #! @input polling_retries: The number of retries to check if the instance is stopped. Deafult: 50
 #! @output output: contains the success message or the exception in case of failure
@@ -29,14 +26,12 @@
 #! @result FAILURE: error terminating instance
 #! @result SUCCESS: the server (instance) was successfully terminated
 #!!#
-namespace: io.cloudslang.amazon.aws.ec2
-
+namespace: io.cloudslang.amazon
 imports:
   network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
-
 flow:
-  name: undeploy
+  name: undeploy_instance
   inputs:
     - identity
     - credential
@@ -51,32 +46,11 @@ flow:
     - headers:
         required: false
     - instance_id
-    - attachment_id
-    - force_detach:
-        required: false
     - polling_interval:
         required: false
     - polling_retries:
         required: false
   workflow:
-    - detach_network_interface:
-        do:
-          network.detach_network_interface:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - attachment_id: '${attachment_id}'
-            - force_detach: '${force_detach}'
-        publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
-        navigate:
-          - FAILURE: FAILURE
-          - SUCCESS: terminate_instances
     - terminate_instances:
         do:
           instances.terminate_instances:
@@ -115,24 +89,6 @@ flow:
             - exception: '${exception}'
         navigate:
           - FAILURE: FAILURE
-          - SUCCESS: delete_network_interface
-    - delete_network_interface:
-        do:
-          network.delete_network_interface:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
-            - network_interface_id: '${network_interface_query_params}'
-        publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
-        navigate:
-          - FAILURE: FAILURE
           - SUCCESS: SUCCESS
   outputs:
     - output: '${return_result}'
@@ -146,16 +102,9 @@ extensions:
     steps:
       terminate_instances:
         x: 286
-        y: 75
+        y: 74
         navigate:
           1ef74747-b11f-1306-de18-f2321d46e5b3:
-            targetId: e7e52e5e-c856-c253-0b31-ba3c203fc09c
-            port: FAILURE
-      detach_network_interface:
-        x: 108
-        y: 73
-        navigate:
-          59a1a349-51ac-e525-7d0b-0e60237a161b:
             targetId: e7e52e5e-c856-c253-0b31-ba3c203fc09c
             port: FAILURE
       check_instance_state:
@@ -165,22 +114,15 @@ extensions:
           4fd4daaf-1439-17f4-6af8-80a97d551e2a:
             targetId: e7e52e5e-c856-c253-0b31-ba3c203fc09c
             port: FAILURE
-      delete_network_interface:
-        x: 528
-        y: 279
-        navigate:
-          71dc9147-e034-df5d-e070-5fd81e00d152:
-            targetId: e7e52e5e-c856-c253-0b31-ba3c203fc09c
-            port: FAILURE
-          0b21c11e-b292-66ef-04a7-322c27a43742:
+          1a88182d-afb7-f20a-d543-f2e5678ac42f:
             targetId: fe398880-3566-1a85-745a-1e92972bf3f7
             port: SUCCESS
     results:
       FAILURE:
         e7e52e5e-c856-c253-0b31-ba3c203fc09c:
-          x: 286
-          y: 292
+          x: 276
+          y: 277
       SUCCESS:
         fe398880-3566-1a85-745a-1e92972bf3f7:
-          x: 754
-          y: 286
+          x: 767
+          y: 71
