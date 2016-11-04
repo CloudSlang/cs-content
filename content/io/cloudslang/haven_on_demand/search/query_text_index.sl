@@ -5,17 +5,15 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Searches for content in the Haven OnDemand databases.
+#!
 #! @input api_key: API key
 #! @input text: query text.
-#! @input absolute_max_results: absolute maximum number of results to return for
-#!                              this query
-#!                              optional
+#! @input absolute_max_results: optional - absolute maximum number of results to return for this query
 #!                              default: 6
-#! @input check_spelling: whether to check the spelling of the input text
-#!                        optional
+#! @input check_spelling: optional - whether to check the spelling of the input text
 #!                        valid: none, suggest, autocorrect
 #!                        default: none
 #! @input end_tag: closing HTML tag to use to highlight a match
@@ -91,7 +89,7 @@
 #! @result SUCCESS: HoD database content retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve HoD database content
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.search
 
@@ -178,17 +176,27 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' + str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' + str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' + ignore_operators + '&indexes=' + str(index) + '&max_date=' + str(max_date) + '&max_page_results='+ str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ min_score + '&print='+ str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + promotion + '&query_profile=' + str(query_profile) +  '&sort=' + str(sort) + '&start=' + start + '&start_tag=' + str(start_tag) + '&summary=' + str(summary) + '&total_results=' + total_results + '&apikey=' + str(api_key)}
+            - url: >
+                ${str(query_text_index_api) + '?text=' + str(text) + '&absolute_max_results=' +
+                str(absolute_max_results) + '&check_spelling=' + str(check_spelling) + '&end_tag=' +
+                str(end_tag) + '&field_text='+ str(field_text) + '&highlight='+ str(highlight) + '&ignore_operators=' +
+                ignore_operators + '&indexes=' + str(index) + '&max_date=' + str(max_date) + '&max_page_results='+
+                str(max_page_results) + '&min_date='+ str(min_date) + '&min_score='+ min_score + '&print=' +
+                str(print_value) + '&print_fields='+ str(print_fields) + '&promotion=' + promotion + '&query_profile=' +
+                str(query_profile) +  '&sort=' + str(sort) + '&start=' + start + '&start_tag=' + str(start_tag) +
+                '&summary=' + str(summary) + '&total_results=' + total_results + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:
             - error_message
             - return_result
+
     - on_failure:
         - print_fail:
               do:
                 print.print_text:
                   - text: ${"Error - " + error_message}
+
   outputs:
     - error_message
     - return_result

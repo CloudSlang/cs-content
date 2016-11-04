@@ -5,18 +5,22 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if operating system is Linux or Windows.
+#!
 #! @output message: error message if error occurred
+#!
 #! @result LINUX: OS is Linux
 #! @result WINDOWS: OS is Windows
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os
 
 operation:
   name: get_os
+
   python_action:
     script: |
         try:

@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Inspects Docker image.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input image_name: name of image to be inspected
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,12 +24,15 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output standard_out: STDOUT of the machine in case of successful request
 #! @output standard_err: STDERR of the machine in case of unsuccessful request
+#!
 #! @result SUCCESS:
 #! @result FAILURE:
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.images
 
 imports:
@@ -35,6 +40,7 @@ imports:
 
 flow:
   name: inspect_image
+
   inputs:
     - docker_options:
         required: false
@@ -84,6 +90,7 @@ flow:
         publish:
             - standard_out
             - standard_err
+
   outputs:
      - standard_out
      - standard_err

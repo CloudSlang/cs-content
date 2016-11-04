@@ -7,8 +7,9 @@
 
 ########################################################################################################################
 #!!
-#! @description: Retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible
-#!               errors.
+#! @description: Retrieves the MySQL server status and notifies the user by sending an email that contains the
+#!               status or the possible errors.
+#!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input docker_host: Docker machine host
 #! @input docker_port: optional - Docker machine port
@@ -23,6 +24,7 @@
 #! @input email_password: optional - email password
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#

@@ -5,12 +5,14 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves parsed key data.
+#!
 #! @input host: Consul agent host
 #! @input consul_port: optional - Consul agent port - Default: '8500'
 #! @input key_name: name of key to retrieve
+#1
 #! @output decoded: parsed response
 #! @output key: key name
 #! @output flags: key flags
@@ -19,10 +21,11 @@
 #! @output modify_index: key modify index
 #! @output lock_index: key lock index
 #! @output error_message: return_result if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.consul
 
@@ -31,12 +34,14 @@ imports:
 
 flow:
   name: report_kv
+
   inputs:
     - host
     - consul_port:
         default: "8500"
         required: false
     - key_name
+
   workflow:
     - retrieve_key:
         do:
@@ -46,6 +51,7 @@ flow:
             - consul_port
         publish:
           - return_result
+
     - parse_key:
         do:
           consul.parse_key:
@@ -59,6 +65,7 @@ flow:
           - modify_index
           - lock_index
           - error_message
+
   outputs:
     - decoded
     - key
@@ -68,6 +75,7 @@ flow:
     - modify_index
     - lock_index
     - error_message
+
   results:
     - SUCCESS
     - FAILURE

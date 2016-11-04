@@ -5,20 +5,23 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Low level mechanism for directly removing entries in the catalog.
+#!
 #! @input host: Consul agent host
 #! @input consul_port: optional - Consul agent host port - Default: '8500'
 #! @input node: node name
 #! @input datacenter: optional - Default: ''; matches that of the agent
 #! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
 #! @input check: optional - if Check key is provided, then a health check will also be registered- Default: ''
+#!
 #! @output error_message: return_result if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.consul
 
@@ -27,6 +30,7 @@ imports:
 
 flow:
   name: deregister_endpoint
+
   inputs:
     - host
     - consul_port:
@@ -42,6 +46,7 @@ flow:
     - check:
         default: ''
         required: false
+
   workflow:
     - parse_register_endpoint_request:
         do:

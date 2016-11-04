@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Evaluates if a Docker container's resource usages (memory, cpu, network) exceeds the given maximum usage.
+#!
 #! @input rule: optional - Python query to determine if the resource usages is high
 #!              Default: memory_usage < 0.8 and cpu_usage < 0.8 and throughput_rx < 0.8 and throughput_tx < 0.8
 #!              and error_rx < 0.5 and error_tx < 0.5
@@ -18,12 +19,14 @@
 #! @input throughput_tx: calculated network Throughput Rx bytes
 #! @input error_rx: calculated network error Tx
 #! @input error_tx: calculated network error Rx
+#!
 #! @output error_message: error message if error occurred
 #! @output result: result if all resource usage did not exceed the maximum
+#!
 #! @result LESS: all resource usage did not exceed the maximum
 #! @result MORE: one or more resources' usage exceeded the maximum
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
@@ -42,6 +45,7 @@ operation:
     - throughput_tx
     - error_rx
     - error_tx
+
   python_action:
     script: |
       error_message = ""
@@ -52,9 +56,11 @@ operation:
           result = error_message == "" and eval(rule)
       except ValueError:
           error_message = "inputs have to be float"
+
   outputs:
     - error_message
     - result: ${str(result)}
+
   results:
     - LESS: ${result}
     - MORE

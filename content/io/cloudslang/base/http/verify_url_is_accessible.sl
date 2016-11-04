@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if a url is accessible.
+#!
 #! @input url: the url
 #! @input attempts: attempts to reach host
 #! @input time_to_sleep: time in seconds to wait between attempts
@@ -19,8 +20,8 @@
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
-#!                        trustPassword default will be supplied.
+#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and
+#!                        trustKeystore is empty, trustPassword default will be supplied.
 #!                        Default value: changeit
 #! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
@@ -31,12 +32,14 @@
 #!                           Default value: changeit
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
+#!
 #! @output output_message: timeout exceeded and url was not accessible
 #! @output return_code: '0' if success, '-1' otherwise
+#!
 #! @result SUCCESS: url is accessible
 #! @result FAILURE: url is not accessible
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -44,8 +47,10 @@ imports:
   math: io.cloudslang.base.math
   rest: io.cloudslang.base.http
   utils: io.cloudslang.base.flow_control
+
 flow:
   name: verify_url_is_accessible
+
   inputs:
     - url
     - attempts: "1"
@@ -72,6 +77,7 @@ flow:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - http_get:
         do:
@@ -113,6 +119,7 @@ flow:
         navigate:
           - SUCCESS: http_get
           - FAILURE: FAILURE
+
   outputs:
     - return_code
     - output_message: ${"Url is accessible" if return_code == '0' else "Url is not accessible"}

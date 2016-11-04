@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Executes a PUT REST call.
+#!
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
@@ -48,15 +49,17 @@
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'text/plain'
 #! @input method: HTTP method used - Default: 'PUT'
+#!
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: returnResult if statusCode is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#!
 #! @result SUCCESS: PUT REST call executed successfully
 #! @result FAILURE: something went wrong
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -65,6 +68,7 @@ imports:
 
 flow:
   name: http_client_put
+
   inputs:
     - url
     - auth_type:
@@ -118,6 +122,7 @@ flow:
     - method:
         default: "PUT"
         private: true
+
   workflow:
     - http_client_action_put:
         do:
@@ -150,6 +155,7 @@ flow:
           - return_code
           - status_code
           - response_headers
+
   outputs:
     - return_result
     - error_message

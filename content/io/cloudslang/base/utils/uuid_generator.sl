@@ -5,22 +5,28 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Generates a new uuid.
+#!
 #! @output new_uuid: generated uuid
+#!
 #! @result SUCCESS: always
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.utils
 
 operation:
   name: uuid_generator
+
   python_action:
     script: |
       import uuid
       new_uuid = str(uuid.uuid1())
+
   outputs:
     - new_uuid
+
   results:
     - SUCCESS

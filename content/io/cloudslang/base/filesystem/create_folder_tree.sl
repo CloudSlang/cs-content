@@ -5,19 +5,22 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a folder.
+#!
 #! @input folder_name: name of folder to be created
 #!                     Example:
 #!                     'c:/path1/path2/folder_name' will create the folder in the full path provided
 #!                     '%AppData%/folder_name' will create the folder in the environment variable provided
 #!                     'folder_name' will create the folder in %CENTRAL_HOME%/bin, %CLI_HOME%/bin
+#!
 #! @output message: error message in case of error
+#!
 #! @result SUCCESS: folder was successfully created
 #! @result FAILURE: folder was not created due to error
 #!!#
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.base.filesystem
 
 operation:

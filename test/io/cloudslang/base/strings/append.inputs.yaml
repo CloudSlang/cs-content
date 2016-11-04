@@ -18,7 +18,7 @@ testAppendSuccess:
 
 testAppendSpecialCharacters:
   inputs:
-    - origin_string: error
+    - origin_string: "error"
     - text: 't%&e$\"'
   description: Tests that append.sl operation finishes with result = errort%&e$\"
   testFlowPath: io.cloudslang.base.strings.append

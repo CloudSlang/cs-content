@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Returns the name of a container
+#!
 #! @input container_id: container id
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
@@ -23,12 +24,15 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#!
 #! @output container_name: container name
 #! @output standard_err: error message
+#!
 #! @result SUCCESS: name of the container retrieved successfully
 #! @result FAILURE: there was an error in retrieving the name of the container
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -36,10 +40,14 @@ imports:
 
 flow:
   name: get_container_name
+
   inputs:
     - container_id
     - command:
-        default: ${"CHARS_TO_DELETE=$(docker ps -af id=" + container_id + " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id="+ container_id +" | sed "+'"s/^.\{$CHARS_TO_DELETE\}//"'+" | awk 'NR==2'"}
+        default: >
+            ${"CHARS_TO_DELETE=$(docker ps -af id=" + container_id +
+            " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id=" + container_id +
+            " | sed "+'"s/^.\{$CHARS_TO_DELETE\}//"'+" | awk 'NR==2'"}
         private: true
     - host
     - port:
@@ -88,11 +96,9 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
-
         publish:
           - container_name: ${return_result[:-1]}
           - standard_err
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

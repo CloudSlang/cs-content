@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Executes a PATCH REST call.
+#!
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: basic, form, springForm, digest, ntlm, kerberos, anonymous (no authentication)
@@ -46,15 +47,17 @@
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body - Default: text/plain
 #! @input method: HTTP method used - Default: 'PATCH'
+#!
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: returnResult if statusCode different than "200"
 #! @output return_code: "0" if success, "-1" otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#!
 #! @result SUCCESS: PATCH REST call executed successfully
 #! @result FAILURE: something went wrong
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -116,6 +119,7 @@ flow:
     - method:
         default: "PATCH"
         private: true
+
   workflow:
     - http_client_action_patch:
         do:
@@ -148,6 +152,7 @@ flow:
           - return_code
           - status_code
           - response_headers
+
   outputs:
     - return_result
     - error_message

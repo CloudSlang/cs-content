@@ -5,11 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Parses the response of the cAdvisor container information.
+#!
 #! @input json_response: response of cAdvisor container information
 #! @input machine_memory_limit: optional - container machine memory limit - Default: -1
+#!
 #! @output decoded: parsed response
 #! @output spec: parsed cAdvisor spec
 #! @output stats: parsed cAdvisor stats
@@ -27,10 +29,11 @@
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
 #! @output return_result: notification string; was parsing was successful or not
 #! @output error_message: return_result if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
@@ -41,6 +44,7 @@ operation:
     - machine_memory_limit:
         default: '-1'
         required: false
+
   python_action:
     script: |
       try:
@@ -83,6 +87,7 @@ operation:
       except Exception as ex:
         return_code = '-1'
         return_result = 'Parsing error: ' + str(ex)
+
   outputs:
     - decoded: ${str(decoded)}
     - spec: ${str(spec)}
@@ -100,6 +105,7 @@ operation:
     - return_code: ${str(return_code)}
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Runs the docker_images_maintenance flow against all the machines in the cluster.
+#!
 #! @input coreos_host: CoreOS machine host;
 #!                     Can be any machine from the cluster
 #! @input coreos_username: CoreOS machine username
@@ -18,12 +19,14 @@
 #! @input percentage: if disk space is greater than this value then unused images will be deleted
 #!                    Default: 0%
 #!                    Example: 50%
+#1
 #! @output number_of_deleted_images_per_host: how many images were deleted for every host
 #!                                            Format: "ip1: number1, ip2: number2"
+#!
 #! @result SUCCESS: maintenance check performed successfully against all machines in the cluster
 #! @result FAILURE: there was an error while trying to run the maintenance check
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.coreos
 

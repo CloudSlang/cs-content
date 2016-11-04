@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the list of branches from a Github project.
+#!
 #! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
@@ -43,15 +44,17 @@
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
+#!
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #! @output branches: a list of branches
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.ci.circleci
 
@@ -112,13 +115,11 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-
         publish:
           - return_result
           - return_code
           - status_code
           - error_message
-
         navigate:
           - SUCCESS: get_branches
           - FAILURE: FAILURE
@@ -128,7 +129,6 @@ flow:
           json.get_keys:
             - json_input: ${return_result}
             - json_path: "0,'branches'"
-
         publish:
           - branches: ${return_result}
           - error_message

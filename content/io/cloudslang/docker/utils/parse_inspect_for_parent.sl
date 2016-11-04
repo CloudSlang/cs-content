@@ -5,25 +5,30 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets parent from the response of inspect_image.sl.
+#!
 #! @input json_response: response of inspect_container operation
+#!
 #! @output parent_image: parent image parsed from the response
 #! @output return_result: was parsing was successful or not
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
 #! @output error_message: returnResult if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.utils
 
 operation:
   name: parse_inspect_for_parent
+
   inputs:
     - json_response
+
   python_action:
     script: |
       try:
@@ -36,11 +41,13 @@ operation:
       except:
         return_code = '-1'
         return_result = 'Parsing error.'
+
   outputs:
     - parent_image
     - return_result
     - return_code
     - error_message: ${return_result if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

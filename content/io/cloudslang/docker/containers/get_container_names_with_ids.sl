@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of all the Docker container names.
+#!
 #! @input container_id: container id
 #! @input containers_with_process: the string where the container id will be appended - Default: ''
 #! @input host: Docker machine host
@@ -23,13 +24,17 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!                          Default: ''
+#!
 #! @output containers_with_process_found: container names
 #! @output standard_err: error message
+#!
 #! @result SUCCESS: running containers found
 #! @result FAILURE: something went wrong
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -39,6 +44,7 @@ imports:
 
 flow:
   name: get_container_names_with_ids
+
   inputs:
     - container_id
     - host
@@ -91,10 +97,8 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
-
         publish:
           - container_name
-
         navigate:
           - SUCCESS: append_to_list
           - FAILURE: FAILURE
@@ -104,10 +108,8 @@ flow:
           strings.append:
             - origin_string: ${containers_with_process}
             - text: ${container_name + ' '}
-
         publish:
           - containers_with_process_found: ${new_string}
-
         navigate:
           - SUCCESS: SUCCESS
 

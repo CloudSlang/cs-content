@@ -5,16 +5,20 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Reads a file from the given path and returns its content.
+#!
 #! @input file_path: the path of the file to read
+#!
 #! @output read_text: content of the file
 #! @output message: error message if error occurred
+#!
 #! @result SUCCESS: file was read successfully
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.filesystem
 
 operation:
@@ -37,9 +41,11 @@ operation:
       except Exception as e:
         message = e
         res = False
+
   outputs:
     - read_text
     - message: ${ str(message) }
+
   results:
     - SUCCESS: ${res}
     - FAILURE

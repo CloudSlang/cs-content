@@ -5,24 +5,30 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-##################################################
+########################################################################################################################
 #!!
 #! @description: Generates a random number.
+#!
 #! @input max: maximum number that can be returned
 #! @input min: minimum number that can be returned
+#!
 #! @output random_number: random number between max and min (inclusive)
 #! @output error_message: error message if error occurred
+#!
 #! @result SUCCESS: a number was generated
 #! @result FAILURE: otherwise
 #!!#
-##################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.math
 
 operation:
   name: random_number_generator
+
   inputs:
     - min
     - max
+
   python_action:
     script: |
       import random
@@ -53,9 +59,11 @@ operation:
           random_number = random.randint(minInteger,maxInteger)
       else:
           error_message = "%s or %s are not integers" %(min,max)
+
   outputs:
     - random_number: ${ str(random_number) }
     - error_message
+
   results:
     - SUCCESS: ${ random_number is not None }
     - FAILURE

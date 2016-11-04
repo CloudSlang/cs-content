@@ -5,17 +5,19 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Poll host repeatedly until TCP port is open.
+#!
 #! @input host: hostname or IP to check
 #! @input port: TCP port number to check
 #! @input timeout: optional - timeout, in seconds, for each check, throttles the polling - Default: 10 sec
 #! @input tries: optional - total number of tries: total wait time = timeout x tries - Default: 30
+#!
 #! @result SUCCESS: connection successful, host is active and listening on port
 #! @result FAILURE: host is not listening, port is closed or host down
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.network
 

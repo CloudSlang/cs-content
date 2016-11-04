@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Run Chef knife command and return filtered result.
+#!
 #! @input knife_cmd: knife command to run - Example: 'cookbook list'
 #! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
 #! @input knife_username: SSH username to access server with knife
@@ -15,13 +16,15 @@
 #! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
 #! @input knife_timeout: optional - timeout in milliseconds - Default: '300000'
 #! @input knife_config: optional - location of knife.rb config file - Default: ~/.chef/knife.rb
+#!
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
 #! @output standard_err: any STDERR
+#!
 #! @result SUCCESS: filtered result returned successfully
 #! @result FAILURE: something went wrong while running knife command
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.chef
 
@@ -30,6 +33,7 @@ imports:
 
 flow:
   name: knife_command
+
   inputs:
     - knife_cmd
     - knife_host
@@ -60,7 +64,6 @@ flow:
           - return_result
           - standard_err
           - return_code
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

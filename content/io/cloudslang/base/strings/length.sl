@@ -4,25 +4,32 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Appends text to string.
+#!
 #! @input origin_string: optional - string - Example: "good"
+#!
 #! @output length: length of string
+#1
 #! @result SUCCESS: always
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.strings
 
 operation:
   name: length
+
   inputs:
     - origin_string
+
   python_action:
     script: |
       length = len(origin_string)
+
   outputs:
     - length: ${ str(length) }
+
   results:
     - SUCCESS

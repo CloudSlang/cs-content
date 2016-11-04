@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Deletes a DigitalOcean droplet based on its ID.
 #! @input token: personal access token for DigitalOcean API
@@ -14,13 +14,14 @@
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #! @output response: raw response of the API call
 #! @result SUCCESS: droplet deleted successfully
 #! @result FAILURE: something went wrong while trying to delete droplet
 #!!#
-########################################################################################################
+########################################################################################################################
 namespace: io.cloudslang.digital_ocean.v2.droplets
 
 imports:
@@ -71,5 +72,6 @@ flow:
           strings.string_equals:
             - first_string: '204'
             - second_string: ${str(status_code)}
+
   outputs:
     - response

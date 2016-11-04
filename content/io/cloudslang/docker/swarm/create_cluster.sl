@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a Swarm cluster.
+#!
 #! @input swarm_image: optional - Docker image used by the Swarm container - Default: swarm (latest)
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,11 +23,13 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output cluster_id: ID of the created cluster
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -35,6 +38,7 @@ imports:
 
 flow:
   name: create_cluster
+
   inputs:
     - swarm_image: 'swarm'
     - host
@@ -77,5 +81,6 @@ flow:
             - agent_forwarding
         publish:
           - cluster_id: ${container_id}
+
   outputs:
     - cluster_id

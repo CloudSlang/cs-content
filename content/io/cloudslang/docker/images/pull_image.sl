@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pulls a Docker image.
+#!
 #! @input image_name: image name to be pulled
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,12 +23,14 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#
 #! @output return_result: response of the operation
 #! @output error_message: error message
+#!
 #! @result SUCCESS:
 #! @result FAILURE:
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
@@ -36,6 +39,7 @@ imports:
 
 flow:
   name: pull_image
+
   inputs:
     - image_name
     - host
@@ -83,6 +87,7 @@ flow:
         publish:
             - return_result
             - error_message: ${ standard_err if return_code == '0' else return_result }
+
   outputs:
     - return_result
     - error_message

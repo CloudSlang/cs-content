@@ -5,13 +5,15 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Generates a UUID.
+#!
 #! @output result: new uuid
+#!
 #! @result SUCCESS: uuid generated successfully
 #!!#
-########################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.math
 
@@ -22,7 +24,9 @@ operation:
     script: |
       import uuid
       new_uuid = str(uuid.uuid1())
+
   outputs:
     - result: ${new_uuid}
+
   results:
     - SUCCESS

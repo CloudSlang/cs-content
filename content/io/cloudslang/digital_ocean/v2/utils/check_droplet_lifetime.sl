@@ -5,27 +5,32 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Checks if a droplet's lifetime exceeds a given threshold.
+#!
 #! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
 #!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #! @input threshold: threshold in minutes to compare the droplet's lifetime to
+#!
 #! @output return_result: elapsed time in minutes in case of success, cause of the error in case of failure
 #! @output return_code: 0 if parsing was successful, -1 otherwise
+#!
 #! @result FAILURE: an error occurred
 #! @result ABOVE_THRESHOLD: lifetime of droplet reached the threshold
 #! @result BELOW_THRESHOLD: lifetime of droplet did not reach the threshold
 #!!#
-########################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.digital_ocean.v2.utils
 
 operation:
   name: check_droplet_lifetime
+
   inputs:
     - creation_time_as_string
     - threshold
+
   python_action:
     script: |
       try:
@@ -45,9 +50,11 @@ operation:
       except Exception as ex:
         return_code = '-1'
         return_result = ex
+
   outputs:
     - return_result
     - return_code
+
   results:
     - FAILURE: ${return_code != '0'}
     - ABOVE_THRESHOLD: ${above_threshold}

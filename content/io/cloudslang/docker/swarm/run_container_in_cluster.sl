@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pulls and runs a Docker container in a Swarm cluster.
+#!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
 #! @input swarm_manager_port: port used by the Swarm manager container
 #! @input container_name: optional - container name
@@ -27,11 +28,13 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output container_id: ID of the container
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -40,6 +43,7 @@ imports:
 
 flow:
   name: run_container_in_cluster
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -94,5 +98,6 @@ flow:
             - agent_forwarding
         publish:
           - container_id
+
   outputs:
     - container_id

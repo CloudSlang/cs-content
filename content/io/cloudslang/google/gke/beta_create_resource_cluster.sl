@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a Google Container Engine resource cluster.
 #!               More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
@@ -16,38 +16,41 @@
 #! @input initial_node_count: The number of nodes to create in this cluster. You must ensure that your Compute Engine
 #!                            resource quota is sufficient for this number of instances. You must also have available
 #!                            firewall and routes quota
-#! @input machine_type:
-#! @input disk_size_gb:
-#! @input oauth_scopes:
-#! @input masterauth_username:
-#! @input masterauth_password:
-#! @input logging_service:
-#! @input monitoring_service:
-#! @input network:
-#! @input cluster_ipv4_cidr:
-#! @input self_link:
-#! @input endpoint:
-#! @input initial_cluster_version:
-#! @input current_master_version:
-#! @input current_node_version:
-#! @input create_time:
-#! @input status:
-#! @input status_message:
-#! @input node_ipv4_cidr_size:
-#! @input services_ipv4_cidr:
+#! @input machine_type: Type of machine to create
+#! @input disk_size_gb: Size of the disk to be created
+#! @input oauth_scopes: Authentication scopes
+#! @input masterauth_username: Master authorization username
+#! @input masterauth_password: Master authorization password
+#! @input logging_service: Logging service name
+#! @input monitoring_service: Monitoring service name
+#! @input network: Type of network
+#! @input cluster_ipv4_cidr: IPV4 Classless Inter Domain Routing cluster
+#! @input self_link: Self link address
+#! @input endpoint: Endpoint name
+#! @input initial_cluster_version: Version of the initial cluster
+#! @input current_master_version: Version of the current master
+#! @input current_node_version: Version of the current node
+#! @input create_time: Time of creation
+#! @input status: Status code
+#! @input status_message: Status message
+#! @input node_ipv4_cidr_size: IPV4 Classless Inter Domani Routing node size
+#! @input services_ipv4_cidr: Classless Inter Domain Routing for ipv4
+#!
 #! @output return_result: the response of the operation in case of success, the error message otherwise
 #! @output error_message: return_result if return_code is '-1'
 #! @output response: JSON response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise
+#!
 #! @result SUCCESS: resource cluster was created successfully
 #! @result FAILURE: something went wrong while trying to create resource cluster
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.google.gke
 
 operation:
   name: beta_create_resource_cluster
+
   inputs:
     - zone:
         required: false

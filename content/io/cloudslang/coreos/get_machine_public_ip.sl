@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the public IP address of a machine (based on its ID) deployed in a CoreOS cluster.
+#!
 #! @input machine_id: ID of the machine
 #! @input host: CoreOS machine host;
 #!              Can be any machine from the cluster
@@ -25,11 +26,13 @@
 #! @input close_session: optional - if false SSH session will be cached for future calls of this operation during life
 #!                       of the flow, if true SSH session used by this operation will be closed
 #!                       Valid: true, false
+#1
 #! @output public_ip: public IP address of the machine based on its ID
+#1
 #! @result SUCCESS: the action was executed successfully and no error message is found in the STDERR
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.coreos
 
@@ -39,6 +42,7 @@ imports:
 
 flow:
   name: get_machine_public_ip
+
   inputs:
     - machine_id
     - host
@@ -104,5 +108,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: SUCCESS
+
   outputs:
     - public_ip

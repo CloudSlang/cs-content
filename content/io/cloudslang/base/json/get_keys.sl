@@ -5,25 +5,30 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves keys from a JSON object at a given JSON path.
+#!
 #! @input json_input: JSON from which to retrieve keys - Example: '{"k1": {"k2": {"k3":"v3"}}}'
 #! @input json_path: path from which to retrieve key represented as a list of keys and/or indices.
 #!                   Passing an empty list ([]) will retrieve top level keys. - Example: ["k1", "k2"]
+#!
 #! @output return_result: if any keys were found, list of keys found
-#!               A JSON object is an unordered set of key/value pairs, therefore the order of the keys returned is arbitrary.
+#!                        A JSON object is an unordered set of key/value pairs,
+#!                        therefore the order of the keys returned is arbitrary.
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.json
 
 operation:
   name: get_keys
+
   inputs:
     - json_input
     - json_path:

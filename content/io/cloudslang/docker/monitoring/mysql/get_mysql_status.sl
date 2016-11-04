@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Retrieves the MySQL server status.
+#!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,6 +23,7 @@
 #! @input timeout: optional - time in milliseconds to wait for command to complete
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
+#!
 #! @output uptime: number of seconds MySQL server has been running
 #! @output threads: number of active threads (clients)
 #! @output questions: number of questions (queries) from clients since server was started
@@ -31,8 +33,9 @@
 #! @output open_tables: number of tables that are currently open
 #! @output queries_per_second_AVG: average value of number of queries per second
 #! @output error_message: STDERR of the machine if the SSH action was executed successfully, cause of exception otherwise
+#!
 #! @result SUCCESS: action was executed successfully and STDERR of the machine contains no errors
-#! @result FAILURE:
+#! @result FAILURE: Something went wrong
 #!!#
 ########################################################################################################################
 
@@ -43,6 +46,7 @@ imports:
 
 flow:
   name: get_mysql_status
+
   inputs:
     - container
     - host
@@ -70,6 +74,7 @@ flow:
         required: false
     - close_session:
         required: false
+
   workflow:
     - get_mysql_status:
         do:
@@ -88,6 +93,7 @@ flow:
           - return_result
           - standard_err
           - return_code
+
   outputs:
     - uptime: "${ return_result.replace(':', ' ').split('  ')[1] }"
     - threads: "${ return_result.replace(':', ' ').split('  ')[3] }"
@@ -98,6 +104,7 @@ flow:
     - open_tables: "${ return_result.replace(':', ' ').split('  ')[13] }"
     - queries_per_second_AVG: "${ return_result.replace(':', ' ').split('  ')[15] }"
     - error_message: ${ standard_err if return_code == '0' else return_result }
+
   results:
     - SUCCESS
     - FAILURE

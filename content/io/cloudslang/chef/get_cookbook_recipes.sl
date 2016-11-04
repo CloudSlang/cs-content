@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets a JSON STDOUT of the cookbook's recipes.
+#!
 #! @input cookbook_name: cookbook name
 #! @input cookbook_version: cookbook version
 #! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
@@ -15,13 +16,15 @@
 #! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
 #! @input knife_password: optional - password to access server with knife
 #! @input knife_config: optional - location of knife.rb config file
+#!
 #! @output knife_result: filtered output of knife command
 #! @output raw_result: full STDOUT
 #! @output standard_err: any STDERR
+#!
 #! @result SUCCESS: command executed successfully
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.chef
 
@@ -30,6 +33,7 @@ imports:
 
 flow:
   name: get_cookbook_recipes
+
   inputs:
     - cookbook_name
     - cookbook_version

@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes all Docker images and containers from a Docker Swarm cluster.
+#!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
 #! @input swarm_manager_port: port used by the Swarm manager container
 #! @input excluded_images: optional - containers based on these images will not be deleted
@@ -26,13 +27,15 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output amount_of_images_deleted: how many images (not including dangling) were deleted
 #! @output amount_of_dangling_images_deleted: how many dangling images were deleted
 #! @output total_amount_of_images_deleted: how many images (including dangling) were deleted
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -42,6 +45,7 @@ imports:
 
 flow:
   name: clear_cluster
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port
@@ -115,6 +119,7 @@ flow:
           - amount_of_images_deleted
           - amount_of_dangling_images_deleted
           - total_amount_of_images_deleted: ${str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted))}
+
   outputs:
     - amount_of_images_deleted
     - amount_of_dangling_images_deleted

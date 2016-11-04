@@ -5,10 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Prints information about the Swarm cluster - for now only the total number of containers in the cluster
 #!               (including agent containers).
+#!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
 #! @input swarm_manager_port: port used by the Swarm manager container
 #! @input host: Docker machine host
@@ -24,10 +25,11 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm.examples
 
@@ -37,6 +39,7 @@ imports:
 
 flow:
   name: print_cluster_info
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port

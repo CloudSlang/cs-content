@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pulls and runs a Docker container.
-#! @input docker_options: optional - options for the Docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the Docker environment
+#!                        - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input detach: optional - run container in background (detached / daemon mode) - Default: true
 #! @input container_name: optional - container name
 #! @input container_params: optional - command parameters
@@ -27,12 +29,14 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output container_id: ID of the container
 #! @output error_message: STDERR of the machine in case of successful request, null otherwise
+#!
 #! @result SUCCESS: Docker container pulled and executed successfully
 #! @result FAILURE: there was an error while trying to pull and run the Docker container
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -41,6 +45,7 @@ imports:
 
 flow:
   name: run_container
+
   inputs:
     - docker_options:
         required: false
@@ -119,6 +124,7 @@ flow:
         publish:
           - container_id: ${standard_out.strip()}
           - standard_err
+
   outputs:
     - container_id
     - error_message: ${standard_err}

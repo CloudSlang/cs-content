@@ -5,21 +5,26 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets keys from a map.
+#!
 #! @input map: map - Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
+#!
 #! @output result: keys from map
+#!
 #! @result SUCCESS: keys retrieved successfully
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.maps
 
 operation:
   name: get_keys
+
   inputs:
     - map
+
   python_action:
     script: |
       import ast
@@ -27,7 +32,9 @@ operation:
       keys=[]
       for key, item in map.items():
         keys.append(str(key))
+
   outputs:
     - result: ${str(keys)}
+
   results:
     - SUCCESS

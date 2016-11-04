@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves information about an existing droplet.
+#!
 #! @input droplet_id: id of the droplet as string or number
 #! @input token: personal access token for DigitalOcean API
 #! @input proxy_host: optional - proxy server used to access the web site
@@ -16,16 +17,18 @@
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#1
 #! @output response: raw response of the API call
 #! @output status_code: status code of the underlying GET request
 #! @output droplet: droplet object in case of SUCCESS - JSON types (object, array) are represented as Python objects
 #!                  information can be retrieved in Python style - Example: droplet['name']
 #!                  None in case of FAILURE
 #! @output droplet_status: status of the droplet is case of SUCCESS, empty in case of FAILURE
+#!
 #! @result SUCCESS: existing droplet retrieved successfully
 #! @result FAILURE: something went wrong while trying to retrieve droplet by ID
 #!!#
-########################################################################################################
+########################################################################################################################
 namespace: io.cloudslang.digital_ocean.v2.droplets
 
 imports:
@@ -85,6 +88,7 @@ flow:
             - json_path: "droplet"
         publish:
           - droplet: ${return_result}
+
   outputs:
     - response
     - status_code

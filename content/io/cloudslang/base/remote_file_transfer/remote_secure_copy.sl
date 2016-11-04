@@ -8,6 +8,7 @@
 #!!
 #! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different
 #!               remote machine using the SCP protocol.
+#!
 #! @input source_host: optional - host of the source machine (only if remote to remote)
 #! @input source_path: absolute or relative path of the file about to be copied
 #! @input source_port: optional - port number for the source machine (only if remote to remote) - Default: '22'
@@ -24,9 +25,11 @@
 #!                            Default: 'allow'
 #! @input known_hosts_path: path to the known_hosts file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#!
 #! @output return_result: confirmation message
 #! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise
 #! @output exception: exception description
+#!
 #! @result SUCCESS: file copied successfully
 #! @result FAILURE: copy failed
 #!!#
@@ -36,6 +39,7 @@ namespace: io.cloudslang.base.remote_file_transfer
 
 operation:
   name: remote_secure_copy
+
   inputs:
     - source_host:
         required: false
@@ -122,14 +126,17 @@ operation:
     - timeout:
         default: '90000'
         required: false
+
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.3'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
+
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception
+
   results:
     - SUCCESS: ${returnCode == '0'}
     - FAILURE

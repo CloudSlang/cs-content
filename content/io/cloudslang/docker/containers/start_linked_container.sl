@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Starts a linked container.
+#!
 #! @input image_name: image name
 #! @input container_name: linked container name
 #! @input link_params: link parameters
@@ -26,12 +27,14 @@
 #! @input close_session: optional - if false SSH session will be cached for future calls during the life of the flow,
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
+#!
 #! @output container_id: ID of the container that was started
 #! @output error_message: error message
+#!
 #! @result SUCCESS: linked Docker container started successfully
 #! @result FAILURE: there was an error while trying to start the linked container
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -40,6 +43,7 @@ imports:
 
 flow:
   name: start_linked_container
+
   inputs:
     - image_name
     - container_name
@@ -96,6 +100,7 @@ flow:
           - return_result
           - standard_err
           - return_code
+
   outputs:
     - container_id: ${return_result}
     - error_message: ${standard_err if(return_code == '0' and standard_err != '') else return_result}

@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Wrapper over `images_maintenance`. Calls the flow and sends an email.
+#!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine password
@@ -21,11 +22,14 @@
 #! @input email_username: optional
 #! @input email_password: optional
 #! @input enable_TLS: optional - enable startTLS
+#!
 #! @output total_amount_of_images_deleted: number of deleted images
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.examples
 
 imports:
@@ -57,6 +61,7 @@ flow:
         sensitive: true
     - enable_TLS:
         required: false
+
   workflow:
     - run_maintenance_task:
         do:

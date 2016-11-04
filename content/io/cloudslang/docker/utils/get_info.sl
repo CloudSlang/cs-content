@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Displays system-wide Docker information.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
@@ -21,11 +23,13 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output docker_info: information returned by Docker
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.utils
 
@@ -35,6 +39,7 @@ imports:
 
 flow:
   name: get_info
+
   inputs:
     - docker_options:
         required: false
@@ -84,5 +89,6 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${docker_info}
             - string_to_find: 'Containers'
+
   outputs:
     - docker_info

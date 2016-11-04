@@ -5,11 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Stops the specified Docker container.
 #! @input container_id: ID of the container to be deleted
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input cmd_params: optional - command parameters
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -29,7 +30,7 @@
 #! @result SUCCESS: Docker container stopped successfully
 #! @result FAILURE: there was an error while trying to stop the Docker container
 #!!#
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.docker.containers
 
 imports:

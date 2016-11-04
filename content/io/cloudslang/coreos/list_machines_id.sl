@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the ID list of machines deployed in a CoreOS cluster.
+#1
 #! @input host: CoreOS machine host;
 #!              Can be any machine from the cluster
 #! @input port: optional - SSH port
@@ -25,11 +26,13 @@
 #!                       of the flow, if true SSH session used by this operation will be closed
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output machines_id_list: space delimited list of IDs of machines deployed in the CoreOS cluster
+#!
 #! @result SUCCESS: action was executed successfully and no error message is found in the STDERR
 #! @result FAILURE: otherwise
 #!!#
-#####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.coreos
 
@@ -96,5 +99,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: SUCCESS
+
   outputs:
     - machines_id_list

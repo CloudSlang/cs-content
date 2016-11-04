@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves build failure from CircieCI - Github project - branches.
 #!               If the latest build has failed, it will send an email,
@@ -18,6 +18,7 @@
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from a branch has not failed, it will send an email to reflect that.
+#!
 #! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
@@ -64,14 +65,16 @@
 #! @input from: email sender
 #! @input to: email recipient
 #! @input cc: optional - comma-delimited list of cc recipients - Default: Supervisor email.
+#!
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.ci.circleci
 
@@ -83,6 +86,7 @@ imports:
 
 flow:
   name: get_branches_build_failure
+
   inputs:
     - token:
         sensitive: true
@@ -151,12 +155,10 @@ flow:
             - keystore_password
             - content_type
             - headers
-
         publish:
           - branches
           - error_message
           - return_result
-
         navigate:
           - SUCCESS: get_branches_build_failure
           - FAILURE: FAILURE
@@ -189,13 +191,11 @@ flow:
               - from
               - to
               - cc: ${supervisor}
-
           publish:
             - return_result
             - return_code
             - status_code
             - error_message
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

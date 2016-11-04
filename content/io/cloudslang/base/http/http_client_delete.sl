@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Executes a DELETE REST call.
 #! @input url: URL to which the call is made
@@ -55,7 +55,7 @@
 #! @result SUCCESS: DELETE REST call executed successfully
 #! @result FAILURE: something went wrong
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -64,6 +64,7 @@ imports:
 
 flow:
   name: http_client_delete
+
   inputs:
     - url
     - auth_type:
@@ -115,6 +116,7 @@ flow:
     - method:
         default: "DELETE"
         private: true
+
   workflow:
     - http_client_action_delete:
         do:
@@ -146,6 +148,7 @@ flow:
           - return_code
           - status_code
           - response_headers
+
   outputs:
     - return_result
     - error_message

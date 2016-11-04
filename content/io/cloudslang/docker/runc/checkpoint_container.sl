@@ -4,9 +4,10 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a checkpoint for a running runc container.
+#!
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). - Example: "false"
 #! @input docker_host: the address of the Docker host to checkpoint . - Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker host.
@@ -16,19 +17,23 @@
 #! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
 #! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
-#! @result SUCCESS:
-#! @result PRE_DUMP_FAILURE:
-#! @result DUMP_FAILURE:
+#!
+#! @result SUCCESS: Checkpoint created successfully
+#! @result PRE_DUMP_FAILURE: There was an error while trying to create a dump for the checkpoint
+#! @result DUMP_FAILURE: There was an error while trying to create the dump for checkpoint
 #!!#
 #
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.runc
 
 imports:
   ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.comparisons
+
 flow:
   name: checkpoint_container
+
   inputs:
     - docker_host
     - port: "22"
@@ -48,6 +53,7 @@ flow:
       navigate:
           - 'TRUE': pre_dump
           - 'FALSE': dump
+
   - pre_dump:
       do:
         ssh.ssh_flow:
@@ -68,6 +74,7 @@ flow:
       navigate:
           - SUCCESS: SUCCESS
           - FAILURE: PRE_DUMP_FAILURE
+
   - dump:
       do:
         ssh.ssh_flow:
@@ -76,7 +83,9 @@ flow:
           - username
           - password
           - private_key_file
-          - command: ${"docker-runc checkpoint --tcp-established --image-path " + dump_image_location + "  --ext-unix-sk --file-locks " +  runc_container}
+          - command: >
+              ${"docker-runc checkpoint --tcp-established --image-path " + dump_image_location +
+              "  --ext-unix-sk --file-locks " +  runc_container}
           - arguments
           - character_set
           - pty
@@ -88,6 +97,7 @@ flow:
       navigate:
           - SUCCESS: SUCCESS
           - FAILURE: DUMP_FAILURE
+
   results:
     - SUCCESS
     - PRE_DUMP_FAILURE

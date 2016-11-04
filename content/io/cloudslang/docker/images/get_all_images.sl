@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of all the Docker images.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
@@ -22,11 +24,14 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output image_list: list containing REPOSITORY and TAG for all the Docker images
+#!
 #! @result SUCCESS: SSH command succeeded
 #! @result FAILURE: SSH command failed
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.images
 
 imports:
@@ -35,6 +40,7 @@ imports:
 
 flow:
   name: get_all_images
+
   inputs:
     - docker_options:
         required: false
@@ -116,6 +122,7 @@ flow:
           .replace("REPOSITORY:TAG ","")
           .strip()
           }
+
   results:
     - SUCCESS
     - FAILURE

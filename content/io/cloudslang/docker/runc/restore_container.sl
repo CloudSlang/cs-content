@@ -4,9 +4,10 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a checkpoint for a running runc container.
+#!
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). - Example: "false"
 #! @input docker_host: the address of the Docker host to checkpoint . - Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker host.
@@ -16,19 +17,23 @@
 #! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
 #! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
-#! @result SUCCESS:
-#! @result RESTORE_DUMP_FAILURE:
-#! @result RESTORE_PRE_DUMP_FAILURE:
+#!
+#! @result SUCCESS: Checkpoint created successfully for the runc container
+#! @result RESTORE_DUMP_FAILURE: There was an error while trying to create the dump for t6he runc containe
+#! @result RESTORE_PRE_DUMP_FAILURE: There was an error while pre-dumnping the runc container
 #!!#
 #
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.runc
 
 imports:
   ssh: io.cloudslang.base.ssh
   comparisons: io.cloudslang.base.comparisons
+
 flow:
   name: restore_container
+
   inputs:
     - docker_host
     - port: "22"
@@ -48,6 +53,7 @@ flow:
       navigate:
           - 'TRUE': restore_pre_dump
           - 'FALSE': restore_dump
+
   - restore_pre_dump:
       do:
         ssh.ssh_flow:
@@ -56,7 +62,9 @@ flow:
           - username
           - password
           - private_key_file
-          - command: ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " + runc_container + " --image-path ./dump --prev-images-dir ./predump &"}
+          - command: >
+              ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " +
+              runc_container + " --image-path ./dump --prev-images-dir ./predump &"}
           - arguments
           - character_set
           - pty
@@ -68,6 +76,7 @@ flow:
       navigate:
           - SUCCESS: SUCCESS
           - FAILURE: RESTORE_PRE_DUMP_FAILURE
+
   - restore_dump:
       do:
         ssh.ssh_flow:
@@ -76,7 +85,9 @@ flow:
           - username
           - password
           - private_key_file
-          - command: ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " + runc_container + " --image-path ./dump &"}
+          - command: >
+              ${"cd " + root_path + "/" + runc_container + "; nohup docker-runc restore " +
+              runc_container + " --image-path ./dump &"}
           - arguments
           - character_set
           - pty
@@ -88,6 +99,7 @@ flow:
       navigate:
           - SUCCESS: SUCCESS
           - FAILURE: RESTORE_DUMP_FAILURE
+
   results:
     - SUCCESS
     - RESTORE_DUMP_FAILURE

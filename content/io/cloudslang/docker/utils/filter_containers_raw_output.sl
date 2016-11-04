@@ -5,28 +5,33 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Filters and extracts the Docker container names from the raw output returned by 'docker ps' command.
 #!               Containers can be filtered based on the images they are created from.
+#!
 #! @input raw_output: raw output from 'docker ps' command
 #! @input excluded_images: comma separated list of Docker images
 #!                         the containers based on these images will not be included in the result list
 #!                         Example: swarm:latest,tomcat:7
+#!
 #! @output container_names: comma separated list of container names
 #! @output container_ids: comma separated list of container IDs
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.utils
 
 operation:
   name: filter_containers_raw_output
+
   inputs:
     - raw_output
     - excluded_images
+
   python_action:
     script: |
       def extract_container_name_from_line(line):
@@ -69,9 +74,11 @@ operation:
           container_ids = container_ids[:-1]
       except:
         return_code = '-1'
+
   outputs:
     - container_names
     - container_ids
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

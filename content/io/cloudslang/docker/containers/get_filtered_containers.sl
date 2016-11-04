@@ -5,12 +5,17 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: Retrieves a list of Docker container names. Containers can be filtered based on the images they are created from.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#! @input all_containers: optional - show all containers (both running and stopped) - Default: false, only running containers
-#!                        any input that is different than empty string or false (as boolean type) changes its value to True
+#! @description: Retrieves a list of Docker container names. Containers can be filtered based on
+#!               the images they are created from.
+#!
+#! @input docker_options: optional - options for the docker environment
+#!                                 - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input all_containers: optional - show all containers (both running and stopped)
+#!                        Default: false, only running containers
+#!                        any input that is different than empty string or false
+#!                        (as boolean type) changes its value to True
 #! @input excluded_images: comma separated list of Docker images
 #!                         the containers based on these images will not be included in the result list
 #!                         Example: swarm:latest,tomcat:7
@@ -27,12 +32,14 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
+#!
 #! @output container_names: comma separated list of container names
 #! @output container_ids: comma separated list of container IDs
+#!
 #! @result SUCCESS: Docker container names retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve the Docker container names
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -42,6 +49,7 @@ imports:
 
 flow:
   name: get_filtered_containers
+
   inputs:
     - docker_options:
         required: false
@@ -95,6 +103,7 @@ flow:
         publish:
           - container_names
           - container_ids
+
   outputs:
     - container_names
     - container_ids

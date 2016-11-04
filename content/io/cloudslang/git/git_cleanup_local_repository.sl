@@ -5,9 +5,10 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a git command to cleanup and reinitialize a local repository.
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command
 #! @input username: username to connect as
@@ -17,6 +18,7 @@
 #! @input git_repository_localdir: target local directory where the repository to be cleaned up is located - Default: /tmp/repo.git
 #! @input change_path: optional - true or false, whether the command should execute in local path or not - Default: false
 #! @input new_path: optional - new path to directory where the repository to be cleaned up is located
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -27,10 +29,12 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#!
 #! @result SUCCESS: local repository cleaned up and reinitialized successfully
 #! @result FAILURE: there was an error while trying to clean up and/or reinitialize local repository
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.git
 
 imports:

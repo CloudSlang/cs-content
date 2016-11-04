@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of used Docker images.
+#!
 #! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,11 +23,13 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output image_list: "\n" delimited list of IDs of used Docker images
+#!
 #! @result SUCCESS: command succeeded
 #! @result FAILURE: command failed
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
@@ -35,6 +38,7 @@ imports:
 
 flow:
   name: get_used_images
+
   inputs:
     - docker_options:
         required: false
@@ -91,6 +95,7 @@ flow:
 
   outputs:
     - image_list
+
   results:
     - SUCCESS
     - FAILURE

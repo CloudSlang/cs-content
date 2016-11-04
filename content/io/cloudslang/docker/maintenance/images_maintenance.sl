@@ -5,20 +5,23 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes unused Docker images if disk space usage is greater than a given value.
+#!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine password
 #! @input private_key_file: optional - absolute path to private key file
 #! @input percentage: if disk space is greater than this value then unused images will be deleted - Example: 50%
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 6000000
+#!
 #! @output total_amount_of_images_deleted: number of deleted images
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.maintenance
 
@@ -28,6 +31,7 @@ imports:
 
 flow:
   name: images_maintenance
+
   inputs:
     - docker_host
     - docker_username
@@ -38,6 +42,7 @@ flow:
         required: false
     - percentage
     - timeout: "6000000"
+
   workflow:
     - check_diskspace:
         do:
@@ -52,6 +57,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
           - NOT_ENOUGH_DISKSPACE: clear_unused_images
+
     - clear_unused_images:
         do:
           images.clear_unused_and_dangling_images:
@@ -67,5 +73,6 @@ flow:
           - dangling_images_list_safe_to_delete
           - images_list_safe_to_delete
           - total_amount: ${ str(int(amount_of_images_deleted) + int(amount_of_dangling_images_deleted)) }
+
   outputs:
     - total_amount_of_images_deleted: ${ '' if 'total_amount' not in locals() else total_amount }

@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the unique values that occur in a particular field.
 #! @input api_key: API key
@@ -46,7 +46,7 @@
 #! @result SUCCESS: unique values from a particular field retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve the unique values
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.search
 

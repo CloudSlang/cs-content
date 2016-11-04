@@ -5,22 +5,26 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Check if the list contains ints or strings.
+#!
 #! @input list: list to check - e.g. "el1,el2"
 #! @input delimiter: the list delimiter
+#!
 #! @output result: message indicating whether the list contains int or string elements
 #! @output error_message: list contains int and strings
+#!
 #! @result SUCCESS: all elements in the list are ints or strings.
 #! @result FAILURE: list contains both ints and string elements.
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.lists
 
 operation:
   name: check_list_type
+
   inputs:
     - list
     - delimiter:

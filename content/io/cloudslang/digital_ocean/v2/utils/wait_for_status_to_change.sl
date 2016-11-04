@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Waits for a droplet to change its status.
 #! @input droplet_id: id of the droplet
@@ -17,14 +17,16 @@
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time to wait for a connection to be established, in seconds (0 represents infinite value)
+#! @input connect_timeout: optional - time to wait for a connection to be established, in seconds
+#!                         (0 represents infinite value)
 #! @input socket_timeout: optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
 #! @result SUCCESS: droplet changed its status
 #! @result DROPLET_NOT_FOUND: underlying GET request returned NOT_FOUND status code for droplet
 #! @result FAILURE: error occurred
 #! @result TIMEOUT: droplet did not change its status until the time limit
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.digital_ocean.v2.utils
 
 imports:
@@ -116,6 +118,7 @@ flow:
         navigate:
           - SUCCESS: get_droplet_status
           - FAILURE: FAILURE
+
   results:
     - SUCCESS
     - DROPLET_NOT_FOUND

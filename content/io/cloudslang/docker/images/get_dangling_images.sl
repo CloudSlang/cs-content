@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of all the dangling Docker images.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
@@ -22,11 +24,13 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output dangling_image_list: list of names of dangling Docker images
-#! @result SUCCESS:
-#! @result FAILURE:
+#!
+#! @result SUCCESS: List of all the dangling processes retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of dangling processes.
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
@@ -35,6 +39,7 @@ imports:
 
 flow:
   name: get_dangling_images
+
   inputs:
     - docker_options:
         required: false
@@ -88,7 +93,8 @@ flow:
             - agent_forwarding
         publish:
           - dangling_image_list: >
-              ${ ' '.join(map(lambda line : line.split()[0] + ':' + line.split()[1], filter(lambda line : line != '', return_result.split('\n')[1:]))).replace(":latest", "") }
+              ${ ' '.join(map(lambda line : line.split()[0] + ':' +
+              line.split()[1], filter(lambda line : line != '', return_result.split('\n')[1:]))).replace(":latest", "") }
 
   outputs:
     - dangling_image_list

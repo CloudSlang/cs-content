@@ -5,24 +5,30 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Adds two numbers as floating point values.
+#!
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
+#!
 #! @output result: operation result or reason for failure
 #! @output return_code: operation return code ('0' or '-1')
+#!
 #! @result SUCCESS: The operation completed successfully
 #! @result FAILURE: The operation failed
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.math
 
 operation:
   name: add_numbers
+
   inputs:
     - value1
     - value2
+
   python_action:
     script: |
       try:

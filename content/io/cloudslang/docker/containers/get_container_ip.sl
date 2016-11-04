@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets the IP of the specified Docker container.
+#!
 #! @input container_name: container name
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -23,12 +24,15 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!
 #! @output container_ip: IP of the specified container
 #! @output error_message: error message
+#!
 #! @result SUCCESS: Docker container IP retrieved sucessfully
 #! @result FAILURE: there was an error while trying to retrieve the Docker container IP address
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -36,6 +40,7 @@ imports:
 
 flow:
   name: get_container_ip
+
   inputs:
     - container_name
     - command:

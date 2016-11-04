@@ -5,30 +5,35 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Adds or replaces a value to the given JSON at the keys or indices represented by the json_path.
 #!               If the last key in the path does not exist, the key is added as well.
+#!
 #! @input json_input: JSON data input - Example: '{"k1": {"k2": ["v1", "v2"]}}'
 #! @input json_path: path at which to add value represented as a list of keys and/or indices - Example: ["k1","k2",1]
 #! @input value: value to associate with key - Example: "v3"
+#!
 #! @output return_result: JSON with key:value added
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0') and value was added
 #! @result FAILURE: parsing was unsuccessful or the path does not exist
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.json
 
 operation:
   name: add_value
+
   inputs:
     - json_input
     - json_path
     - value:
         required: false
+
   python_action:
     script: |
       def representsInt(s):
@@ -86,10 +91,12 @@ operation:
       except Exception as ex:
         error_message = ex
         return_code = '-1'
+
   outputs:
     - return_result: ${ str(encoded) if return_code == '0' else ''}
     - return_code
     - error_message: ${ str(error_message) if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${ return_code == '0' }
     - FAILURE

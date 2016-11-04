@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: List all clusters owned by a project in either the specified zone or all zones in Google Container Engine platform
 #!               Note: Google authentication JSON key file downloaded from the Google APIs console is required. This referred to in
@@ -19,24 +19,28 @@
 #!                  'refresh_token': '...,                  'private_key_id': '...',
 #!               }                                          'private_key': '...',
 #!                                                       }
+#!
 #! @input project_id: The Google Developers Console project ID or project number
 #! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
 #!              Default: none
 #! @input json_google_auth_path: FileSystem path to Google authentication JSON key file
 #!                               System Property: io.cloudslang.cloud_provider.json_google_auth_path
+#!
 #! @output return_result: the response of the operation in case of success, the error message otherwise
 #! @output error_message: return_result if return_code is '-1'
 #! @output response: JSON response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise
+#!
 #! @result SUCCESS: clusters retrieved successfully
 #! @result FAILURE: something went wrong while retrieving clusters
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.google.gke
 
 operation:
   name: beta_list_clusters
+
   inputs:
     - project_id
     - zone:

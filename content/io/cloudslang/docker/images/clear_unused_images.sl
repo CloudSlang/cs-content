@@ -4,10 +4,12 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes unused Docker images.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the docker environment
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine password
@@ -15,14 +17,17 @@
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
 #! @input all_parent_images_input: list of parent images
+#!
 #! @output images_list_safe_to_delete: unused Docker images
 #! @output amount_of_images_deleted: how many images where deleted
 #! @output used_images_list: list of used Docker images
 #! @output updated_all_parent_images: list of parent images - will not be deleted
+#!
 #! @result SUCCESS: flow ends with SUCCESS:
 #! @result FAILURE: some step ended with FAILURE:
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.images
 
 imports:
@@ -33,6 +38,7 @@ imports:
 
 flow:
   name: clear_unused_images
+
   inputs:
     - docker_options:
         required: false
@@ -63,6 +69,7 @@ flow:
             - timeout
         publish:
           - all_images_list: ${ image_list }
+
     - get_used_images:
         do:
           images.get_used_images:
@@ -89,6 +96,7 @@ flow:
           - amount_of_images: ${ str(len(result_set.split())) }
         navigate:
           - SUCCESS: verify_all_images_list_not_empty
+
     - verify_all_images_list_not_empty:
         do:
           strings.string_equals:
@@ -97,6 +105,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: verify_used_images_list_not_empty
+
     - verify_used_images_list_not_empty:
         do:
           strings.string_equals:
@@ -105,6 +114,7 @@ flow:
         navigate:
           - SUCCESS: delete_images
           - FAILURE: get_parent_images
+
     - get_parent_images:
         loop:
             for: image in used_images_list.split()
@@ -122,6 +132,7 @@ flow:
             publish:
                 - all_parent_images: >
                     ${ all_parent_images_input if all_parent_images_input is not None else "" + parent_image_name + " " }
+
     - substract_parent_images:
         do:
           lists.subtract_sets:
@@ -135,6 +146,7 @@ flow:
           - amount_of_images: ${ str(len(result_set.split())) }
         navigate:
           - SUCCESS: delete_images
+
     - delete_images:
         do:
           images.clear_images:
@@ -154,6 +166,7 @@ flow:
     - amount_of_images_deleted: ${ '0' if 'images_list_safe_to_delete' in locals() and images_list_safe_to_delete == '' else amount_of_images }
     - used_images_list
     - updated_all_parent_images: ${ get('all_parent_images', '0') }
+
   results:
     - SUCCESS
     - FAILURE

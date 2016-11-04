@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a Docker DB container.
+#!
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
@@ -17,19 +18,24 @@
 #! @input private_key_file: optional - path to private key file
 #! @input container_name: optional - name of the DB container - Default: 'mysqldb'
 #! @input timeout: optional - time in milliseconds to wait for command to complete
+#1
 #! @output db_IP: IP of newly created container
 #! @output error_message: error message of failed operation
+#!
 #! @result SUCCESS: Docker container DB created successfully
 #! @result FAILURE: there was an error while trying to create Docker container DB
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
  images: io.cloudslang.docker.images
  containers: io.cloudslang.docker.containers
+
 flow:
   name: create_db_container
+
   inputs:
     - host
     - port:
@@ -43,6 +49,7 @@ flow:
     - container_name: 'mysqldb'
     - timeout:
         required: false
+
   workflow:
     - pull_mysql_image:
         do:

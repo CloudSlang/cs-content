@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Retrieves a MySQL server status from a Docker container.
+#!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input host: Docker machine host
 #! @input port: optional - Docker machine port
@@ -16,6 +17,7 @@
 #! @input private_key_file: optional - path to private key file
 #! @input mysql_username: MySQL instance username
 #! @input mysql_password: MySQL instance password
+#!
 #! @output uptime: number of seconds MySQL server has been running
 #! @output threads: number of active threads (clients)
 #! @output questions: number of questions (queries) from clients since server was started
@@ -25,6 +27,7 @@
 #! @output open_tables: number of tables that are currently open
 #! @output queries_per_second_AVG: average value of number of queries per second
 #! @output error_message: possible error message, may contain the STDERR of the machine or the cause of an exception
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#

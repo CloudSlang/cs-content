@@ -5,23 +5,27 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Compares two inputs for Python equality (==).
+#!
 #! @input first: first Python object to compare
 #! @input second: second Python object to compare
+#!
 #! @result TRUE: object are equal
 #! @result FALSE: objects are not equal
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.comparisons
 
 decision:
   name: equals
+
   inputs:
     - first
     - second
+
   results:
     - 'TRUE': ${ first == second }
     - 'FALSE'

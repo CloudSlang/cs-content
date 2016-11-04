@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Starts the Swarm manager.
+#!
 #! @input swarm_port: port of the host used by the Swarm manager
 #! @input cluster_id: ID of the Swarm cluster
 #! @input swarm_image: optional - Docker image the Swarm agent container is created from - Default: swarm (latest)
@@ -24,11 +25,13 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output manager_container_id: ID of the created manager container
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-########################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -37,6 +40,7 @@ imports:
 
 flow:
   name: start_manager
+
   inputs:
     - swarm_port
     - cluster_id
@@ -80,5 +84,6 @@ flow:
             - agent_forwarding
         publish:
           - manager_container_id: ${container_id}
+
   outputs:
     - manager_container_id

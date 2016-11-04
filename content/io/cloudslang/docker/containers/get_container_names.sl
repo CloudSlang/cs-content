@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of all the Docker container names.
+#!
 #! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input all_containers: optional - show all containers (both running and stopped) - Default: false, only running containers
 #!                        any input that is different than empty string or false (as boolean type) changes its value to True
@@ -24,12 +25,14 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - enables or disables the forwarding of the authentication agent connection
+#!
 #! @output container_names: list of container names separated by space
 #! @output raw_output: unparsed return result from the machine
+#!
 #! @result SUCCESS: the list of the running Docker container names retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve the list of all the running Docker container names
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -38,6 +41,7 @@ imports:
 
 flow:
   name: get_container_names
+
   inputs:
     - docker_options:
         required: false
@@ -84,6 +88,7 @@ flow:
           - container_names: >
               ${' '.join(map(lambda line : line.split()[-1], filter(lambda line : line != '', return_result.split('\n')[1:])))}
           - raw_output: ${return_result}
+
   outputs:
     - container_names
     - raw_output

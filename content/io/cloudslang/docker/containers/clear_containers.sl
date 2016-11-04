@@ -5,19 +5,21 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes all Docker images and containers from a Docker Host.
+#!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: Docker machine password
 #! @input private_key_file: optional - path to private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: '6000000'
 #! @input port: optional - SSH port
+#!
 #! @result SUCCESS: Docker images deleted successfully
 #! @result FAILURE: there was an error while trying to delete Docker containers
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -26,6 +28,7 @@ imports:
 
 flow:
   name: clear_containers
+
   inputs:
     - docker_host
     - docker_username
@@ -37,6 +40,7 @@ flow:
     - timeout: '6000000'
     - port:
         required: false
+
   workflow:
     - get_all_containers:
         do:

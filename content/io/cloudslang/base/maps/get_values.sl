@@ -5,21 +5,26 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets values from a map.
+#!
 #! @input map: map - Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
+#!
 #! @output result: values from map
+#!
 #! @result SUCCESS: values retrieved successfully
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.maps
 
 operation:
   name: get_values
+
   inputs:
     - map
+
   python_action:
     script: |
       import ast
@@ -30,7 +35,9 @@ operation:
             values.append(str(value))
          else:
             values.append(value)
+
   outputs:
     - result: ${str(values)}
+
   results:
     - SUCCESS

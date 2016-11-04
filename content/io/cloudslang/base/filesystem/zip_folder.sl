@@ -5,20 +5,25 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a zip archive
+#!
 #! @input archive_name: name of archive to be created (without the .zip extension)
 #! @input folder_path: path to folder to be zipped (zipped file will be created in this folder)
+#!
 #! @output message: error message in case of error
+#!
 #! @result SUCCESS: archive was successfully created
 #! @result FAILURE: archive was not created due to error
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.filesystem
 
 operation:
   name: zip_folder
+
   inputs:
     - archive_name
     - folder_path

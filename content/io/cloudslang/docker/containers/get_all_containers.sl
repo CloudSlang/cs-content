@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves a list of all the Docker container IDs.
+#!
 #! @input all_containers: adds all_container option to docker command. False by default, any input changes it to True
 #! @input ps_params: option trigger to add all_containers option to Docker command
 #! @input host: Docker machine host
@@ -24,11 +25,13 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!
 #! @output container_list: list containing container IDs for all the Docker containers, separated by space
+#!
 #! @result SUCCESS: SSH command succeeded
 #! @result FAILURE: SSH command failed
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -37,6 +40,7 @@ imports:
 
 flow:
   name: get_all_containers
+
   inputs:
     - all_containers: 'false'
     - ps_params:

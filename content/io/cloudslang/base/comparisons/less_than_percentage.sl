@@ -5,17 +5,20 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if one percentage is less than another.
+#!
 #! @input first_percentage: string which represents a percentage - Example: "50%"
 #! @input second_percentage: string which represents a percentage - Example: "50%"
+#!
 #! @output error_message: error message if error occurred
+#!
 #! @result LESS: first_percentage < second_percentage
 #! @result MORE: first_percentage >= second_percentage
 #! @result FAILURE: input was not in correct format
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.comparisons
 
@@ -24,6 +27,7 @@ operation:
   inputs:
     - first_percentage
     - second_percentage
+
   python_action:
     script: |
       error_message = ""
@@ -36,8 +40,10 @@ operation:
           result = int_value1 < int_value2
       except ValueError:
           error_message = "Both inputs have to be integers"
+
   outputs:
     - error_message
+
   results:
     - LESS: ${error_message == "" and result}
     - MORE: ${error_message == "" and not result}
