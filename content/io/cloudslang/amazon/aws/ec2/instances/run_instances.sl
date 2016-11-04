@@ -7,7 +7,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new
+#!               instance/instances
 #!
 #! @input endpoint: optional - Endpoint to which request will be sent
 #!                  Default: "https://ec2.amazonaws.com"
@@ -34,9 +35,9 @@
 #!                      name-value pairs is "&" symbol. The query name will be separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
-#! @input version: version of the web service to make the call against it.
+#! @input version: optional - version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
-#!                 Default: ""
+#!                 Default: "2016-04-01"
 #! @input delimiter: optional - delimiter that will be used.
 #!                   Default: ","
 #! @input availability_zone: optional - Specifies the placement constraints for launching instance. Amazon automatically
@@ -270,7 +271,8 @@
 #! @result SUCCESS: the server (instance) was successfully launched/created
 #! @result FAILURE: an error occurred when trying to launch/create a server (instance)
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:
