@@ -5,14 +5,14 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
   cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 
 flow:

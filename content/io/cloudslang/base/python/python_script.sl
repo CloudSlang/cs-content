@@ -30,7 +30,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.scripts
+namespace: io.cloudslang.base.python
 
 operation:
   name: python_script

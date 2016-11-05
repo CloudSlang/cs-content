@@ -8,6 +8,7 @@
 ####################################################
 #!!
 #! @description: Checks if a url is accessible.
+#!
 #! @input url: the url
 #! @input attempts: attempts to reach host
 #! @input time_to_sleep: time in seconds to wait between attempts
@@ -31,8 +32,10 @@
 #!                           Default value: changeit
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
+#!
 #! @output output_message: timeout exceeded and url was not accessible
 #! @output return_code: '0' if success, '-1' otherwise
+#!
 #! @result SUCCESS: url is accessible
 #! @result FAILURE: url is not accessible
 #!!#
@@ -43,7 +46,7 @@ namespace: io.cloudslang.base.http
 imports:
   math: io.cloudslang.base.math
   rest: io.cloudslang.base.http
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 flow:
   name: verify_url_is_accessible
   inputs:

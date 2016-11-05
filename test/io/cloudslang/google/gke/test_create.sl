@@ -5,13 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.google.gke
 
 imports:
   gke: io.cloudslang.google.gke
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
 
 flow:

@@ -7,7 +7,12 @@
 #
 ########################################################################################################################
 #!!
+<<<<<<< HEAD
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
+=======
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new
+#!               instance/instances
+>>>>>>> origin/WS_1_0
 #!
 #! @input endpoint: optional - Endpoint to which request will be sent
 #!                  Default: "https://ec2.amazonaws.com"
@@ -34,9 +39,9 @@
 #!                      name-value pairs is "&" symbol. The query name will be separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
-#! @input version: version of the web service to make the call against it.
+#! @input version: optional - version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
-#!                 Default: ""
+#!                 Default: "2016-04-01"
 #! @input delimiter: optional - delimiter that will be used.
 #!                   Default: ","
 #! @input availability_zone: optional - Specifies the placement constraints for launching instance. Amazon automatically
@@ -98,9 +103,9 @@
 #!                                                   Default: ""
 #! @input delete_on_terminations_string: optional - String that contains one or more values that indicates
 #!                                       whether a specific EBS volume will be deleted on instance termination.
-#!                                       Example: For a third EBS device (from existing 5 devices), that should
-#!                                       not be terminated when the attached instance will be, the string will
-#!                                       value of "true" will be considered for all EBS specified devices.
+#!                                       Example: For a second EBS device (from existing 4 devices), that
+#!                                       should be deleted, the string will be: "false,true,false,false".
+#!                                       Valid values: "true", "false"
 #!                                       Default: ""
 #! @input ebs_optimized: optional - Indicates whether the instance is optimized for EBS I/O.
 #!                       This optimization provides dedicated throughput to Amazon EBS and an
@@ -322,6 +327,7 @@ operation:
          default: "2016-04-01"
          required: false
    -  delimiter:
+         default: ","
          required: false
    -  availability_zone:
          required: false

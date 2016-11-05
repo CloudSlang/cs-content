@@ -16,10 +16,15 @@
 #!                    Default: '8080'
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input instance_state: The state that you would like the instance to have.
+<<<<<<< HEAD
 #! @input region: Region where the server (instance) is.
 #!                Default: 'us-east-1'
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
+=======
+#! @input region: Region where the server (instance) is. Default: 'us-east-1'
+#! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
+>>>>>>> origin/WS_1_0
 #!
 #! @output output: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
@@ -59,12 +64,21 @@ flow:
     - describe_instances:
         do:
           instances.describe_instances:
+<<<<<<< HEAD
             - identity
             - credential
             - proxy_host
             - proxy_port
             - instance_id
             - region
+=======
+            - identity: '${identity}'
+            - credential: '${credential}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - instance_id: '${instance_id}'
+            - region: '${region}'
+>>>>>>> origin/WS_1_0
         publish:
           - return_result
           - return_code
@@ -93,8 +107,13 @@ flow:
 
   outputs:
     - output: '${return_result}'
+<<<<<<< HEAD
     - return_code
     - exception
+=======
+    - return_code: '${return_code}'
+    - exception: '${exception}'
+>>>>>>> origin/WS_1_0
 
   results:
     - SUCCESS

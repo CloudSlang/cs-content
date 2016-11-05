@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Flow to poll HP Cloud API until server is ready and in ACTIVE state.
-#!               Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
+#!               Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED,
+#!                                        SUSPENDED, RESCUE, ERROR, DELETED
+#!
 #! @input server_id: ID of server
 #! @input tenant: tenant ID obtained by get_authenication_flow
 #! @input token: auth token obtained by get_authenication_flow
@@ -16,12 +18,14 @@
 #! @input delay: optional - pause in seconds before checking (when called in loop to throttle API calls) - Default: 0
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
+#!
 #! @output server_status: status value string of the server
+#!
 #! @result FAILURE: failure for some reason
 #! @result ACTIVE: server is ACTIVE
 #! @result NOT_ACTIVE: server is state other than ACTIVE
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.hp_cloud
 
@@ -29,11 +33,12 @@ imports:
   hp_cloud: io.cloudslang.hp_cloud
   print: io.cloudslang.base.print
   json: io.cloudslang.base.json
-  base_utils: io.cloudslang.base.flow_control
+  base_utils: io.cloudslang.base.utils
   strings: io.cloudslang.base.strings
 
 flow:
   name: get_server_state_flow
+
   inputs:
     - server_id
     - tenant
