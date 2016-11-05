@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
+#!
 #! @input endpoint: optional - Endpoint to which request will be sent
 #!                  Default: "https://ec2.amazonaws.com"
 #! @input identity: Amazon Access Key ID
@@ -260,14 +261,17 @@
 #!                                            specify this option and specify more than one private IP address
 #!                                            using the private IP addresses option. Minimum valid number is 2.
 #!                                            Default: ""
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output instance_id_result: id of the instance in case of success
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the server (instance) was successfully launched/created
 #! @result FAILURE: an error occurred when trying to launch/create a server (instance)
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:

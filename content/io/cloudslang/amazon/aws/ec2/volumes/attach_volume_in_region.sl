@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified
 #!               device name.
@@ -19,6 +19,7 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+#!
 #! @input endpoint: optional - Endpoint to which the request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
@@ -28,7 +29,7 @@
 #! @input proxy_host: optional - Proxy server used to access the provider services
 #!                    Default: ''
 #! @input proxy_port: optional - Proxy server port used to access the provider services.
-#!                               Default: '8080'
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -47,13 +48,16 @@
 #! @input instance_id: ID of the instance
 #! @input device_name: Device name
 #!                     Example: '/dev/sdh'
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the list with existing regions was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve the regions list
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.volumes
 
 operation:

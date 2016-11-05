@@ -5,14 +5,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - the proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF). The 
@@ -119,8 +121,8 @@
 #!                       d2.4xlarge | d2.8xlarge"
 #!                       Default: "m1.small"
 #! @input kernel: optional - Changes the instance's kernel to the specified value. We
-#!                recommend that you use PV-GRUB instead of kernels and RAM disks. For
-#!                more information, see PV-GRUB: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html
+#!                recommend that you use PV-GRUB instead of kernels and RAM disks.
+#!                For more information, see PV-GRUB: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html
 #!                Default: ""
 #! @input source_destination_check: optional - Specifies whether source/destination checking is enabled.
 #!                                  A value of "true" means that checking is enabled, and "false" means
@@ -139,13 +141,16 @@
 #!                   performed for you, and you can load the text from a file. Otherwise,
 #!                   you must provide Base64-encoded text.
 #!                   Default: ""
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the server (instance) was successfully updated
 #! @result FAILURE: an error occurred when trying to update a server (instance)
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:

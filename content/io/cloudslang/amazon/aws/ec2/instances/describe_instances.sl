@@ -14,7 +14,8 @@
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - proxy server used to access the provider services
-#! @input proxy_port: optional - proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #!                        Default: ""
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername>
@@ -67,7 +68,8 @@
 #! @result SUCCESS: the list with existing servers (instances) was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve servers (instances) list
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:

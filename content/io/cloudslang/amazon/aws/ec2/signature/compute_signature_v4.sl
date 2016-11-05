@@ -1,17 +1,18 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Computes the AWS Signature Version 4 used to authenticate requests by using the authorization header.
 #!               For this signature type the checksum of the entire payload is computed.
 #!               Note: This operation uses Signature V4 mechanism. The 'authorizationHeader' output's value should be added
 #!                     in the 'Authorization' header. For more information see:
 #!                     http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html#sigv4-add-signature-auth-header
+#!
 #! @input endpoint: optional - Service endpoint used to compute the signature.
 #!                  Example: 'ec2.amazonaws.com', 's3.amazonaws.com'
 #!                  Default: 'ec2.amazonaws.com'
@@ -45,15 +46,18 @@
 #!                      query value by '=' (equal).
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
+#!
 #! @output signature: Signature result using Amazon Signature V4 mechanism
 #! @output authorization_header: Value that should be added as a pair for 'Authorization' header in the request
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to attach network interface to specified instance
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.signature
 
 operation:

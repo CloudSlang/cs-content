@@ -5,14 +5,16 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
 #!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
+#!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services
-#! @input proxy_port: Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
@@ -24,18 +26,26 @@
 #!                      value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input instance_id: The ID of the server (instance) you want to stop.
-#! @input region: Region where the server (instance) is. Default: 'us-east-1'
+#! @input region: Region where the server (instance) is.
+#!                Default: 'us-east-1'
 #! @input force_stop: Forces the instances to stop. The instances do not have an opportunity to flush file system caches
 #!                    or file system metadata. If you use this option, you must perform file system check and repair
-#!                    procedures. This option is not recommended for Windows instances. Default: ""
-#! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
-#! @input polling_retries: The number of retries to check if the instance is stopped. Deafult: 50
+#!                    procedures. This option is not recommended for Windows instances.
+#!                    Default: ""
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: 10
+#! @input polling_retries: The number of retries to check if the instance is stopped.
+#!                         Deafult: 50
+#!
 #! @output output: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the server (instance) was successfully stopped
 #! @result FAILURE: error stopping instance
 #!!#
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
@@ -69,20 +79,21 @@ flow:
         required: false
     - polling_retries:
         required: false
+
   workflow:
     - stop_instances:
         do:
           instances.stop_instances:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
-            - query_params: '${query_params}'
-            - instance_id: '${instance_id}'
-            - force_stop: '${force_stop}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers
+            - query_params
+            - instance_id
+            - force_stop
         publish:
           - return_result
           - return_code
@@ -90,35 +101,39 @@ flow:
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: check_instance_state
+
     - check_instance_state:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.check_instance_state:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - instance_id
               - instance_state: stopped
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - region: '${region}'
-              - polling_interval: '${polling_interval}'
+              - proxy_host
+              - proxy_port
+              - region
+              - polling_interval
           break:
             - SUCCESS
           publish:
             - return_result: '${output}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_code
+            - exception
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
   outputs:
     - output: '${return_result}'
-    - return_code: '${return_code}'
-    - exception: '${exception}'
+    - return_code
+    - exception
+
   results:
     - SUCCESS
     - FAILURE
+
 extensions:
   graph:
     steps:
