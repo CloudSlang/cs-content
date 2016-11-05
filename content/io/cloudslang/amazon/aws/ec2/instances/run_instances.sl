@@ -7,12 +7,7 @@
 #
 ########################################################################################################################
 #!!
-<<<<<<< HEAD
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new instance/instances
-=======
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to launch one ore more new
-#!               instance/instances
->>>>>>> origin/WS_1_0
 #!
 #! @input endpoint: optional - Endpoint to which request will be sent
 #!                  Default: "https://ec2.amazonaws.com"
