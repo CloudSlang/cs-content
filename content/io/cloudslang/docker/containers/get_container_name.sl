@@ -53,10 +53,7 @@ flow:
   inputs:
     - container_id
     - command:
-        default: >
-            ${'CHARS_TO_DELETE=$(docker ps -af id=' + container_id +
-            ' | grep -b -o NAMES | awk 'BEGIN {FS=:}{print $1}) && docker ps -af id=' + container_id +
-            ' | sed s/^.\{$CHARS_TO_DELETE\}// | awk NR==2'}
+        default: ${"CHARS_TO_DELETE=$(docker ps -af id=" + container_id + " | grep -b -o NAMES | awk 'BEGIN {FS="+ '":"'+"}{print $1}') && docker ps -af id="+ container_id +" | sed "+'"s/^.\{$CHARS_TO_DELETE\}//"'+" | awk 'NR==2'"}
         private: true
     - host
     - port:
