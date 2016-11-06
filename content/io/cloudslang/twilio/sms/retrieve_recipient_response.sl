@@ -44,7 +44,7 @@
 namespace: io.cloudslang.twilio.sms
 
 imports:
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   twilio: io.cloudslang.twilio.sms
 
 flow:
