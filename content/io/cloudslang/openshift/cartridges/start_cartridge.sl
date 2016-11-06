@@ -9,31 +9,27 @@
 #!!
 #! @description: Performs a REST API call to start an embedded cartridge that is not running.
 #! @input host: RedHat OpenShift Online host
-#! @input username: RedHat OpenShift Online username
-#!                  optional
+#! @input username: optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: RedHat OpenShift Online password used for authentication
-#!                  optional
-#! @input proxy_host: proxy server used to access RedHat OpenShift Online web site
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input password: optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: user name used when connecting to proxy
-#!                        optional
-#! @input proxy_password: proxy server password associated with <proxy_username> input value
-#!                        optional
+#! @input proxy_username: optional - user name used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain in which the application that contains specified cartridge resides
 #! @input application_name: RedHat OpenShift Online application name
 #! @input cartridge: name of framework to be started
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: embedded cartridge started successfully
 #! @result FAILURE: there was an error while trying to start the embedded cartridge
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openshift.cartridges
 
@@ -42,6 +38,7 @@ imports:
 
 flow:
   name: start_cartridge
+
   inputs:
     - host
     - username:
@@ -67,7 +64,9 @@ flow:
     - start_cartridge:
         do:
           rest.http_client_post:
-            - url: ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' + application_name + '/cartridges/' + cartridge + '/events'}
+            - url: >
+                ${'https://' + host + '/broker/rest/domains/' + domain + '/applications/' +
+                application_name + '/cartridges/' + cartridge + '/events'}
             - username
             - password
             - proxy_host

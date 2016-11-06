@@ -95,11 +95,9 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
-
         publish:
           - return_result
           - standard_err
-
         navigate:
           - SUCCESS: check_if_is_running
           - FAILURE: FAILURE
@@ -109,7 +107,6 @@ flow:
           regex.match_regex:
             - regex: ${process_name}
             - text: ${return_result}
-
         navigate:
           - MATCH: append_to_list
           - NO_MATCH: NOT_RUNNING
@@ -119,10 +116,8 @@ flow:
           strings.append:
             - origin_string: ${container_id_list}
             - text: ${container_id + ' '}
-
         publish:
           - container_id_result: ${new_string}
-
         navigate:
           - SUCCESS: RUNNING
 

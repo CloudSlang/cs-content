@@ -5,27 +5,32 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the flavor ID from the response of the list_flavors operation of a given flavor by name.
+#!
 #! @input flavor_body: response of list_flavors operation
 #! @input flavor_name: flavor name
+#!
 #! @output flavor_id: ID of specified flavor
 #! @output return_result: was parsing was successful or not
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
 #! @output error_message: error message
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openstack.flavors
 
 operation:
   name: get_flavor_id
+
   inputs:
     - flavor_body
     - flavor_name
+
   python_action:
     script: |
       try:
@@ -47,6 +52,7 @@ operation:
     - return_result
     - return_code
     - error_message: ${return_result if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

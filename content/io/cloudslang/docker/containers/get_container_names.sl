@@ -9,9 +9,12 @@
 #!!
 #! @description: Retrieves a list of all the Docker container names.
 #!
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
-#! @input all_containers: optional - show all containers (both running and stopped) - Default: false, only running containers
-#!                        any input that is different than empty string or false (as boolean type) changes its value to True
+#! @input docker_options: optional - options for the docker environment
+#~                        from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input all_containers: optional - show all containers (both running and stopped)
+#!                        Default: false, only running containers
+#!                        any input that is different than empty string or false
+#!                        (as boolean type) changes its value to True
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
 #! @input username: Docker machine username
