@@ -90,7 +90,6 @@ operation:
         required: false
     - characterSet:
         default: ${get("character_set", "UTF-8")}
-        required: false
         private: true
     - known_hosts_policy:
         default: 'allow'
@@ -127,7 +126,6 @@ operation:
         required: false
     - closeSession:
         default: ${get("close_session", "false")}
-        required: false
         private: true
     - agent_forwarding:
         required: false

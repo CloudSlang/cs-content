@@ -128,13 +128,11 @@ operation:
           required: false
       - characterSet:
           default: ${get("character_set", "UTF-8")}
-          required: false
           private: true
       - close_session:
           required: false
       - closeSession:
           default: ${get("close_session", "false")}
-          required: false
           private: true
       - agent_forwarding:
           required: false
