@@ -60,7 +60,7 @@ imports:
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
   tags: io.cloudslang.amazon.aws.ec2.tags
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 flow:
   name: ec2_classic_deploy
