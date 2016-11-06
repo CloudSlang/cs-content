@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -14,7 +14,8 @@
 #! @input source_port: optional - port number for the source machine (only if remote to remote) - Default: '22'
 #! @input source_username: optional - username of the source machine (only if remote to remote)
 #! @input source_password: optional -  password of the source machine (only if remote to remote)
-#! @input source_private_key_file: optional - path to the private key file on the source machine (only if remote to remote)
+#! @input source_private_key_file: optional - path to the private key file on the source machine
+#!                                 (only if remote to remote)
 #! @input destination_host: host of the destination machine
 #! @input destination_path: absolute or relative path where the file will be copied
 #! @input destination_port: optional - port number for the destination machine - Default: '22'

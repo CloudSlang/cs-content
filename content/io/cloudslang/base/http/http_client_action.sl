@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -38,9 +38,10 @@
 #! @input keystore: optional - location of the KeyStore file - Format: a URL or the local path to it.
 #!                  This input is empty if no HTTPS client authentication is used
 #! @input keystore_password: optional - password associated with the KeyStore file
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite timeout)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (maximum period inactivity between two consecutive
-#!                        data packets) - Default: '0' (infinite timeout)
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite timeout)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (maximum period inactivity
+#!                        between two consecutive data packets) - Default: '0' (infinite timeout)
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
 #!                    Default: true
@@ -87,7 +88,8 @@
 #! @input http_client_cookie_session: optional - session object that holds the cookies if the <use_cookies> input is true
 #! @input http_client_pooling_connection_manager: optional - GlobalSessionObject that holds the http client pooling
 #!                                                connection manager
-#! @input valid_http_status_codes: optional - list/array of HTTP status codes considered to be successful - Example: [202, 204]
+#! @input valid_http_status_codes: optional - list/array of HTTP status codes considered to be successful
+#!                                 Example: [202, 204]
 #!                                 Default: 'range(200, 300)'
 #!
 #! @output return_result: response of the operation

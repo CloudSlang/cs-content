@@ -7,8 +7,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation takes a reference to JSON (in the form of a string) and runs a specified JSON Path query on it.
-#!               It returns the results as a JSON Object.
+#! @description: This operation takes a reference to JSON (in the form of a string)
+#!               and runs a specified JSON Path query on it. It returns the results as a JSON Object.
 #!
 #! Notes:
 #!  1.Query syntax:

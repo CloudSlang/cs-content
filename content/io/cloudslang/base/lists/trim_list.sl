@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################################
+############################################################################################################################################################################################
 #!!
 #! @description: This operation trims values from a list. The values trimmed are equally distributed from the high and
 #!               low ends of the list. The list is sorted before trimming. The number of elements trimmed is dictated
