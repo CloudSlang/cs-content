@@ -23,7 +23,8 @@ namespace: io.cloudslang.base.strings
 operation:
   name: append
   inputs:
-    - origin_string
+    - origin_string:
+        required: false
     - text:
         required: false
   python_action:
