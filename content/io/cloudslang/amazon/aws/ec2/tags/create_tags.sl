@@ -13,11 +13,13 @@
 #!               Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control
 #!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
 #!               Actions in the Amazon Elastic Compute Cloud User Guide.
+#!
 #! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -39,13 +41,16 @@
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter.
 #! @input resource_ids_string: String that contains Id's of one or more resources to tag.
 #!                             Ex: "ami-1a2b3c4d"
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to apply tags to resources
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.tags
 
 operation:
@@ -113,7 +118,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.tags.CreateTagsAction
     method_name: execute
 

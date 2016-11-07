@@ -12,6 +12,7 @@
 #!               Note: This operation uses Signature V4 mechanism. The 'authorizationHeader' output's value should be added
 #!                     in the 'Authorization' header. For more information see:
 #!                     http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html#sigv4-add-signature-auth-header
+#!
 #! @input endpoint: optional - Service endpoint used to compute the signature.
 #!                  Example: 'ec2.amazonaws.com', 's3.amazonaws.com'
 #!                  Default: 'ec2.amazonaws.com'
@@ -45,15 +46,18 @@
 #!                      query value by '=' (equal).
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
+#!
 #! @output signature: Signature result using Amazon Signature V4 mechanism
 #! @output authorization_header: Value that should be added as a pair for 'Authorization' header in the request
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to attach network interface to specified instance
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.signature
 
 operation:
@@ -104,7 +108,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.signature.ComputeSignatureV4
     method_name: execute
 

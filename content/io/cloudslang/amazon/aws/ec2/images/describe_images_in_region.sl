@@ -18,7 +18,8 @@
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -35,9 +36,10 @@
 #!                 Default: "2016-04-01"
 #! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
-#! @input identity_id: - Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
-#!                       (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
-#!                       'self', 'all' or AWS account ID - Default: ''
+#! @input identity_id: Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
+#!                     (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
+#!                     'self', 'all' or AWS account ID
+#!                     Default: ''
 #! @input architecture: optional - Instance architecture - Valid values: '' (no architecture filtering), 'i386', 'x86_64'
 #!                      Default: ''
 #! @input delete_on_termination: optional - a Boolean that indicates whether the EBS volume is deleted on instance termination.
@@ -86,7 +88,6 @@
 #! @input key_tags_string: optional - A string that contains: none, one or more key tags separated by delimiter
 #!                         Default: ''
 #! @input value_tags_string: optional - A string that contains: none, one or more tag values separated by delimiter
-#!                           Default: ''
 #! @input virtualization_type: optional - virtualization type of the instance
 #!                             Valid values: '' (no virtualization_type filtering), 'paravirtual', 'hvm'
 #!                             Default: ''
@@ -145,6 +146,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -340,7 +342,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.images.DescribeImagesAction
     method_name: execute
 

@@ -19,6 +19,7 @@
 #!               system of the instance must support the product. For example, you can't detach a volume from a Windows
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+#!
 #! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
@@ -69,13 +70,16 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
 #!                 Default: "2014-06-15"
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the list with existing regions was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve the regions list
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.volumes
 
 operation:
@@ -155,7 +159,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.volumes.CreateVolumeAction
     method_name: execute
 

@@ -12,11 +12,14 @@
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services
-#! @input proxy_port: Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input instance_state: The state that you would like the instance to have.
-#! @input region: Region where the server (instance) is. Default: 'us-east-1'
-#! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
+#! @input region: Region where the server (instance) is.
+#!                Default: 'us-east-1'
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: 10
 #!
 #! @output output: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
@@ -56,16 +59,16 @@ flow:
     - describe_instances:
         do:
           instances.describe_instances:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - instance_id: '${instance_id}'
-            - region: '${region}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - instance_id
+            - region
         publish:
           - return_result
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_code
+          - exception
         navigate:
           - SUCCESS: string_occurrence_counter
           - FAILURE: FAILURE
@@ -90,8 +93,8 @@ flow:
 
   outputs:
     - output: '${return_result}'
-    - return_code: '${return_code}'
-    - exception: '${exception}'
+    - return_code
+    - exception
 
   results:
     - SUCCESS

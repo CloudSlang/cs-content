@@ -5,15 +5,17 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: This flow creates an instance. A new network interface in created and attached to the instance.
 #!               After this, a tag is added to the instance. If there is something wrong during the execution,
 #!               the resources created will be deleted.
+#!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
-#! @input proxy_port: Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
@@ -39,7 +41,8 @@
 #!                         case-sensitive and accept a maximum of 127 Unicode characters. May not begin with "aws:";
 #!                         Each resource can have a maximum of 50 tags. Note: if you want to overwrite the existing tag
 #!                         and replace it with empty value then specify the parameter with "Not relevant" string.
-#!                         Example: "Name,webserver,stack,scope" Default: ""
+#!                         Example: "Name,webserver,stack,scope"
+#!                         Default: ""
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter. The value parameter is
 #!                           required, but if you don't want the tag to have a value, specify the parameter with
 #!                           "Not relevant" string, and we set the value to an empty string. Constraints: Tag values are
@@ -48,16 +51,22 @@
 #!                           Example of values string for tagging resources with values corresponding to the keys from above example:
 #!                           "Tagged from API call,Not relevant,Testing,For testing purposes"
 #!                           Default: ""
-#! @input polling_interval: The number of seconds to wait until performing another check. Default: 10
-#! @input polling_retries: The number of retries to check if the instance is stopped. Deafult: 50
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: 10
+#! @input polling_retries: The number of retries to check if the instance is stopped.
+#!                         Default: 50
+#!
 #! @output instance_id: The ID of the newly created instance
 #! @output network_interface_id: The ID of the newly created network interface attached to the instance
 #! @output attachment_id: The ID resulted after the network interface is attached to the instance
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
+#!
 #! @result FAILURE: error deploying instance
 #! @result SUCCESS: the server (instance) was successfully deployed
 #!!#
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
@@ -95,183 +104,194 @@ flow:
         required: false
     - polling_retries:
         required: false
+
   workflow:
     - create_network_interface:
         do:
           network.create_network_interface:
-            - identity: '${identity}'
-            - subnet_id: '${subnet_id}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
-            - query_params: '${query_params}'
+            - identity
+            - subnet_id
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers
+            - query_params
         publish:
           - return_result
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_code
+          - exception
           - network_interface_id: '${network_interface_id_result}'
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: run_instances
+
     - run_instances:
         do:
           instances.run_instances:
             - endpoint: 'https://ec2.amazonaws.com'
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers
             - query_params: '${instance_query_params}'
-            - image_id: '${image_id}'
+            - image_id
         publish:
           - return_result
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_code
+          - exception
           - instance_id: '${instance_id_result}'
         navigate:
           - FAILURE: delete_network_interface
           - SUCCESS: check_instance_state
+
     - attach_network_interface:
         do:
           network.attach_network_interface:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - network_interface_id: '${network_interface_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - instance_id: '${instance_id}'
-            - headers: '${headers}'
-            - device_index: '${device_index}'
+            - identity
+            - credential
+            - network_interface_id
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - instance_id
+            - headers
+            - device_index
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_result
+          - return_code
+          - exception
           - attachement_id: '${attachement_id_result}'
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: create_tags
+
     - delete_network_interface:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             network.delete_network_interface:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - proxy_username: '${proxy_username}'
-              - proxy_password: '${proxy_password}'
-              - headers: '${headers}'
-              - network_interface_id: '${network_interface_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - headers
+              - network_interface_id
           break:
             - SUCCESS
           publish:
-            - return_result: '${return_result}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_result
+            - return_code
+            - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: FAILURE
+
     - check_instance_state:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.check_instance_state:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - instance_id
               - instance_state: running
-              - polling_interval: '${polling_interval}'
+              - polling_interval
           break:
             - SUCCESS
           publish:
             - return_result: '${output}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_code
+            - exception
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: attach_network_interface
+
     - terminate_instances:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.terminate_instances:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - proxy_username: '${proxy_username}'
-              - proxy_password: '${proxy_password}'
-              - headers: '${headers}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - headers
+              - instance_id
           break:
             - SUCCESS
           publish:
-            - return_result: '${return_result}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_result
+            - return_code
+            - exception
         navigate:
           - FAILURE: delete_network_interface
           - SUCCESS: check_instance_state_1
+
     - check_instance_state_1:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.check_instance_state:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - instance_id
               - instance_state: terminated
-              - polling_interval: '${polling_interval}'
+              - polling_interval
           break:
             - SUCCESS
           publish:
             - return_result: '${output}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_code
+            - exception
         navigate:
           - FAILURE: delete_network_interface
           - SUCCESS: delete_network_interface
+
     - create_tags:
         do:
           tags.create_tags:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - resource_ids_string: '${instance_id}'
-            - key_tags_string: '${key_tags_string}'
-            - value_tags_string: '${value_tags_string}'
+            - key_tags_string
+            - value_tags_string
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: SUCCESS
+
   outputs:
-    - instance_id: '${instance_id}'
-    - network_interface_id: '${network_interface_id}'
-    - attachment_id: '${attachement_id}'
-    - return_code: '${return_code}'
-    - exception: '${exception}'
+    - instance_id
+    - network_interface_id
+    - attachment_id
+    - return_code
+    - exception
+
   results:
     - FAILURE
     - SUCCESS
+
 extensions:
   graph:
     steps:
