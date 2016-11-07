@@ -232,7 +232,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon
+namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
   network: io.cloudslang.amazon.aws.ec2.network
