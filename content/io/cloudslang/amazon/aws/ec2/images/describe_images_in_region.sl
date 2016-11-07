@@ -51,13 +51,6 @@
 #!                                          Default: ''
 #! @input volume_size: optional - Volume size of the Amazon EBS volume, in GiB
 #!                     Default: ''
-<<<<<<< HEAD
-#! @input volume_type: optional - Volume type of the Amazon EBS volume - Valid values: '' (no delete_on_termination filtering),
-#!                     'gp2' (for General Purpose SSD volumes), 'io1' (for Provisioned IOPS SSD volumes),
-#!                     and 'standard' (for Magnetic volumes)
-#!                     Default: ''
-#! @input hypervisor: optional - Hypervisor type of the instance. Valid values: '' (no hypervisor filtering), 'ovm', 'xen'
-=======
 #! @input volume_type: optional - Volume type of the Amazon EBS volume
 #!                     Valid values: '' (no delete_on_termination filtering),
 #!                                   'gp2' (for General Purpose SSD volumes), 'io1' (for Provisioned IOPS SSD volumes),
@@ -65,7 +58,6 @@
 #!                     Default: ''
 #! @input hypervisor: optional - Hypervisor type of the instance.
 #!                    Valid values: '' (no hypervisor filtering), 'ovm', 'xen'
->>>>>>> origin/WS_1_0
 #!                    Default: ''
 #! @input image_id: optional - ID of the specified image to search for
 #!                  Default: ''
@@ -75,20 +67,6 @@
 #!                     Default: ''
 #! @input owner_id: optional - AWS account ID of the instance owner
 #!                  Default: ''
-<<<<<<< HEAD
-#! @input platform: optional - platform used. Use 'windows' if you have Windows instances; otherwise use 'others'.
-#!                  Valid values: 'others', 'windows'
-#!                  Default: ''
-#! @input product_code: optional - product code associated with the AMI used to launch the instance
-#!                      Default: ''
-#! @input product_code_type: optional - type of product code. Valid values: '' (no hypervisor filtering), 'devpay',
-#!                           'marketplace'
-#!                           Default: ''
-#! @input ramdisk_id: optional - RAM disk ID - Default: ''
-#! @input root_device_name: optional - name of the root device for the instance. Ex: '/dev/sda1' - Default: ''
-#! @input root_device_type: optional - type of root device that the instance uses - Valid values: '' (no root_device_type filtering),
-#!                          'ebs', 'instance-store'
-=======
 #! @input platform: optional - platform used. Use 'windows' if you have Windows instances; otherwise leave blank.
 #!                  Valid values: '', 'windows' - Default: ''
 #! @input product_code: optional - product code associated with the AMI used to launch the instance
@@ -102,7 +80,6 @@
 #!                          Default: ''
 #! @input root_device_type: optional - type of root device that the instance uses
 #!                          Valid values: '' (no root_device_type filtering), 'ebs', 'instance-store'
->>>>>>> origin/WS_1_0
 #!                          Default: ''
 #! @input state_reason_code: optional - reason code for the state change
 #!                           Default: ''
@@ -111,18 +88,6 @@
 #! @input key_tags_string: optional - A string that contains: none, one or more key tags separated by delimiter
 #!                         Default: ''
 #! @input value_tags_string: optional - A string that contains: none, one or more tag values separated by delimiter
-#!                           Default: ''
-<<<<<<< HEAD
-#! @input virtualization_type: optional - virtualization type of the instance - Valid values: '' (no virtualization_type filtering),
-#!                             'paravirtual', 'hvm'
-#!                             Default: '
-#! @input ids_string: optional - A string that contains: none, one or more image IDs separated by delimiter
-#!                    Default: ''
-#! @input owners_string: optional - Filters the images by the owner. Specify an AWS account ID, a'mazon' (owner is Amazon),
-#!                       'aws-marketplace' (owner is AWS Marketplace), 'self' (owner is the sender of the request).
-#!                       Omitting this option returns all images for which you have launch permissions, regardless
-#!                       of ownership
-=======
 #! @input virtualization_type: optional - virtualization type of the instance
 #!                             Valid values: '' (no virtualization_type filtering), 'paravirtual', 'hvm'
 #!                             Default: ''
@@ -132,7 +97,6 @@
 #!                       (owner is Amazon), 'aws-marketplace' (owner is AWS Marketplace),
 #!                       'self' (owner is the sender of the request). Omitting this option returns all images for which
 #!                       you have launch permissions, regardless of ownership
->>>>>>> origin/WS_1_0
 #!                       Valid values: '' (no owners_string filtering), 'amazon', 'aws-marketplace', or 'self'
 #!                       Default: ''
 #! @input description: optional - Description of the image (provided during image creation)
