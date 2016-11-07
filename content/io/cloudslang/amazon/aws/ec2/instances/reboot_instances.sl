@@ -1,21 +1,23 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: requests a reboot of one or more instances. This operation is asynchronous; it only queues a request to
 #!               reboot the specified instances. The operation succeeds if the instances are valid and belong to you.
 #!               Requests to reboot terminated instances are ignored.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy saerver port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - the proxy saerver port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -33,13 +35,16 @@
 #! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
 #! @input instance_id: the ID of the server (instance) you want to reboot
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the server (instance) was successfully suspended
 #! @result FAILURE: an error occurred when trying to suspend a server (instance)
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:
@@ -62,6 +67,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -97,7 +103,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.instances.RebootInstancesAction
     method_name: execute
 

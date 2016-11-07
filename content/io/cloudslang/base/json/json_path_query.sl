@@ -5,10 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: This operation takes a reference to JSON (in the form of a string) and runs a specified JSON Path query on it.
-#!               It returns the results as a JSON Object.
+#! @description: This operation takes a reference to JSON (in the form of a string)
+#!               and runs a specified JSON Path query on it. It returns the results as a JSON Object.
 #!
 #! Notes:
 #!  1.Query syntax:
@@ -33,17 +33,21 @@
 #!                     Example: {'key1': 'value1', 'key2': 'value2'}
 #! @input json_path: The JSON path to be executed.
 #!                   Example: '$.key1'
+#!
 #! @output return_result: The resulted JSON from the query execution.
 #! @output return_code: 0 the query succeeded, -1 otherwise.
 #! @output exception: The error's stacktrace.
+#!
 #! @result SUCCESS: The query succeeded
 #! @result FAILURE: The query failed.
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.json
+
 operation: 
    name: json_path_query
+
    inputs: 
    -  json_object
    -  jsonObject: 
@@ -55,14 +59,17 @@ operation:
          private: true
          default: ${get('json_path', '')}
          required: false
+
    java_action:
       gav: 'io.cloudslang.content:cs-json:0.0.7'
       method_name: execute
       class_name: io.cloudslang.content.json.actions.JsonPathQuery
+
    outputs: 
    -  return_result: ${returnResult}
    -  return_code: ${returnCode}
    -  exception
+
    results: 
    -  SUCCESS: ${ returnCode == '0'}
    -  FAILURE

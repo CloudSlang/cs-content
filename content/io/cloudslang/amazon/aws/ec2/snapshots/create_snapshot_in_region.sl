@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a snapshot of an Amazon EBS volume and stores it in Amazon S3.
 #!               Note: You can use snapshots for backups, to make copies of instance store volumes, and to save data before
@@ -22,12 +22,14 @@
 #!               that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and
 #!               any associated snapshots always remain protected. For more information, see Amazon Elastic Block Store
 #!               and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'#!
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -43,13 +45,16 @@
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
 #! @input volume_id: ID of the EBS volume
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the image was successfully created
 #! @result FAILURE: an error occurred when trying to create image
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.snapshots
 
 operation:
@@ -72,6 +77,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -104,7 +110,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.snapshots.CreateSnapshotAction
     method_name: execute
 

@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a Haven OnDemand text index and indexes the given video files.
 #!
@@ -16,14 +16,13 @@
 #!               default: video_library
 #! @input description: description of the index
 #!                     default: Video+library+transcripts
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: optional - proxy server
+#! @input proxy_port: optional - proxy server port
+#!
 #! @result SUCCESS: text index and video files index created successfully
 #! @result FAILURE: there was an error while trying to create text index
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
@@ -66,6 +65,7 @@ flow:
         publish:
           - error_message
           - return_result
+
     - add_files:
         loop:
           for: video in eval(files_info)
@@ -81,6 +81,7 @@ flow:
           publish:
             - error_message
             - return_result
+
     - on_failure:
         - print_fail:
             do:

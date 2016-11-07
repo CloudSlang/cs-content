@@ -5,12 +5,13 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Converts a JSON array or a JSON object to a XML document.
 #!
 #! @input xml: The XML document (in the form of a String).
-#! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that have attributes and text content.
+#! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that
+#!                            have attributes and text content.
 #!                             Default value: _text
 #! @input include_root_element: The flag for including the xml root in the resulted JSON.
 #!                       Default value: true
@@ -49,8 +50,7 @@
 #! @result SUCCESS: The operation completed as stated in the description.
 #! @result FAILURE: The operation completed unsuccessfully.
 #!!#
-####################################################
-
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 

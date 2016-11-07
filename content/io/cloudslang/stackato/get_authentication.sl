@@ -1,33 +1,33 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Authenticates on Helion Development Platform / Stackato machine and retrieves the authentication token.
+#!
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input proxy_host: proxy server used to access Helion Development Platform / Stackato services
-#!                    optional
-#! @input proxy_port: proxy server port used to access Helion Development Platform / Stackato services
-#!                    optional
+#! @input proxy_host: optional - proxy server used to access Helion Development Platform / Stackato services
+#! @input proxy_port: optional - proxy server port used to access Helion Development Platform / Stackato services
 #!                    default: '8080'
-#! @input proxy_username: user name used when connecting to proxy
-#!                        optional
-#! @input proxy_password: proxy server password associated with <proxy_username> input value
-#!                        optional
+#! @input proxy_username: optional - user name used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#!
 #! @output return_result: response of last operation that was executed
 #! @output error_message: error message of operation that failed
 #! @output token: authentication token
+#!
 #! @result SUCCESS: authentication on Helion Development Platform / Stackato host was successful
 #! @result GET_AUTHENTICATION_FAILURE: authentication call failsed
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.stackato
 
 imports:
@@ -36,6 +36,7 @@ imports:
 
 flow:
   name: get_authentication
+
   inputs:
     - host
     - username

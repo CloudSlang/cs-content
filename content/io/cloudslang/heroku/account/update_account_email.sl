@@ -1,22 +1,31 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to update the Heroku account email address.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: Heroku <username> account password
-#!                  optional
+#! @input password: optional - Heroku <username> account password
 #!                  default: None
 #! @input email: new unique email address of account which will replace old email address
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: update Heroku account email was successfully executed
 #! @result ADD_EMAIL_FAILURE: insert 'email' key:value pair in JSON body failed
 #! @result ADD_PASSWORD_FAILURE: insert 'password' key:value pair in JSON body failed
 #! @result UPDATE_ACCOUNT_EMAIL_FAILURE: update Heroku account email REST API call failed
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.account
 
@@ -82,7 +91,6 @@ flow:
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

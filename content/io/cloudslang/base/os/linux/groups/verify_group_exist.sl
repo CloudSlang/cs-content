@@ -5,12 +5,14 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Perform a SSH command to verify if a specified <group_name> exist
+#!
 #! @input host: hostname or IP address
 #! @input root_password: the root password
 #! @input group_name: the name of the group to verify if exist
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
@@ -22,10 +24,12 @@
 #!                              channel type has no command), 126 if the command cannot execute.
 #! @output message: returns 'The "<group_name>" group exist.' if the group exist or 'The "<group_name>" group does not exist.'
 #!                  otherwise
+#!
 #! @result SUCCESS: verify group exist SSH command was successfully executed
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.groups
 
 imports:
@@ -65,6 +69,7 @@ flow:
         navigate:
           - 'TRUE': SUCCESS
           - 'FALSE': FAILURE
+
   outputs:
     - return_result
     - standard_err

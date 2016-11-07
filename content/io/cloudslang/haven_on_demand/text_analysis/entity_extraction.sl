@@ -5,29 +5,28 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Finds useful snippets of information from a larger body of text.
+#!
 #! @input api_key: API key
 #! @input reference: Haven OnDemand reference
-#! @input entity_type: type of entity to extract from the specified text
-#!                     optional
+#! @input entity_type: optional - type of entity to extract from the specified text
 #!                     valid: Haven OnDemand entity type
 #!                     default: people_eng
-#! @input show_alternatives: set to true to return multiple entries when there
+#! @input show_alternatives: optional - set to true to return multiple entries when there
 #!                           are multiple matches for a particular string
-#!                           optional
 #!                           default: false
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: optional - proxy server
+#! @input proxy_port: optional - proxy server port
+#!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#!
 #! @result SUCCESS: information snippets successfully found in text
 #! @result FAILURE: there was an error while trying to find information snippets
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.text_analysis
 
@@ -60,17 +59,21 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) + '&show_alternatives=' + show_alternatives + '&apikey=' + str(api_key)}
+            - url: >
+                ${str(extract_entities_api) + '?reference=' + str(reference) + '&entity_type=' + str(entity_type) +
+                '&show_alternatives=' + show_alternatives + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:
           - error_message
           - return_result
+
     - on_failure:
         - print_fail:
             do:
               print.print_text:
                 - text: ${"Error - " + error_message}
+
   outputs:
     - error_message
     - return_result

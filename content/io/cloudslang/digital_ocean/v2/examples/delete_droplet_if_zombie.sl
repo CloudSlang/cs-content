@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Deletes a DigitalOcean droplet if it is considered a zombie.
+#!
 #! @input droplet_id: id of the droplet as a string value
 #! @input droplet_name: name of the droplet
 #! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
@@ -21,11 +22,13 @@
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#!
 #! @result DELETED: droplet is deleted
 #! @result NOT_DELETED: droplet is not deleted
 #! @result FAILURE: an error occurred
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.digital_ocean.v2.examples
 
 imports:
@@ -56,6 +59,7 @@ flow:
         required: false
     - socket_timeout:
         required: false
+
   workflow:
     - check_droplet_is_zombie:
         do:
@@ -83,6 +87,7 @@ flow:
         navigate:
           - SUCCESS: DELETED
           - FAILURE: FAILURE
+
   results:
     - DELETED
     - NOT_DELETED

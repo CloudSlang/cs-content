@@ -1,15 +1,24 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Builds a Haven OnDemand index item from the result of the process_video flow.
 #!
 #! @input json_input: result of speech recognition API call
 #! @input title: title for video to be added to the index
 #! @input url: YouTube url for the video
+#!
 #! @output json_index_item: JSON representation of item to add to the index
+#!
 #! @result SUCCESS: index item created successfully from the result
 #! @result FAILURE: there was an error while trying to create item index
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
@@ -46,6 +55,7 @@ flow:
         publish:
           - doc_list: ${return_result}
           - error_message
+
     - append_content:
         loop:
           for: item in eval(doc_list)
@@ -58,6 +68,7 @@ flow:
           break: []
           navigate:
             - SUCCESS: append_offsets
+
     - append_offsets:
         loop:
           for: item in eval(doc_list)
@@ -70,6 +81,7 @@ flow:
           break: []
           navigate:
             - SUCCESS: add_title
+
     - add_title:
         do:
           json.add_value:
@@ -79,6 +91,7 @@ flow:
         publish:
           - json_item: ${return_result}
           - error_message
+
     - add_link:
         do:
           json.add_value:
@@ -88,6 +101,7 @@ flow:
         publish:
           - json_item: ${return_result}
           - error_message
+
     - add_content:
         do:
           json.add_value:
@@ -97,6 +111,7 @@ flow:
         publish:
           - json_item: ${return_result}
           - error_message
+
     - add_text:
         loop:
           for: i in range(0,len(all_content.split()))
@@ -108,6 +123,7 @@ flow:
           publish:
             - json_item: ${return_result}
             - error_message
+
     - add_offset:
         loop:
           for: i in range(0,len(all_offsets.split()))
@@ -119,6 +135,7 @@ flow:
           publish:
             - json_item: ${return_result}
             - error_message
+
     - on_failure:
         - print_fail:
             do:
