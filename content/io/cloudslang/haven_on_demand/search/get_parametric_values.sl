@@ -5,48 +5,42 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the unique values that occur in a particular field.
+#!
 #! @input api_key: API key
 #! @input field_name: comma-separated list of field names to return values for
-#! @input document_count: set to true to show the number of documents that
+#! @input document_count: optional - set to true to show the number of documents that
 #!                        contain a parametric tag value
-#!                        optional
 #!                        default: true
-#! @input field_text: fields that result documents must contain, and the
+#! @input field_text: optional - fields that result documents must contain, and the
 #!                    conditions that these fields must meet for the documents
 #!                    to return as results
-#!                    optional
-#! @input indexes: text indexes to use to perform the parametric search
-#!                 optional
-#! @input max_values: maximum number of values to return for each matched field name
-#!                    optional
+#! @input indexes: optional - text indexes to use to perform the parametric search
+#! @input max_values: optional - maximum number of values to return for each matched field name
 #!                    valid: between 1 and 10000
 #!                    default: 100
-#! @input min_score: minimum percentage relevance that results must have for the
+#! @input min_score: optional - minimum percentage relevance that results must have for the
 #!                   query to return
-#!                   optional
 #!                   default: 0
-#! @input sort: criteria to use for the result display order
-#!              optional
+#! @input sort: optional - criteria to use for the result display order
 #!              valid: off, document_count, alphabetical, reverse_alphabetical
 #!                     number_increasing, number_decreasing
 #!              default: off
-#! @input text: query text
-#!              optional
+#! @input text: optional - query text
 #!              default: *
 #! @input query_profile: name of the query profile to apply
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: optional - proxy server
+#! @input proxy_port: optional - proxy server port
+#!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#!
 #! @result SUCCESS: unique values from a particular field retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve the unique values
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.search
 

@@ -1,15 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Demo flow for creating containers in a Swarm cluster.
-#!               Creates two containers and displays the total number of containers (including agent containers) in the cluster
-#!               after each creation.
+#!               Creates two containers and displays the total number of containers
+#!               (including agent containers) in the cluster after each creation.
+#!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
 #! @input swarm_manager_port: port used by the Swarm manager container
 #! @input host: Docker machine host
@@ -29,10 +30,11 @@
 #! @input image_name_1: Docker image for the first container - Default: 'tomcat'
 #! @input container_name_2: name of the second container - Default: 'tomcat2'
 #! @input image_name_2: Docker image for the second container - Default: same as image_name_1
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm.examples
 
@@ -42,6 +44,7 @@ imports:
 
 flow:
   name: demo_containers
+
   inputs:
     - swarm_manager_ip
     - swarm_manager_port

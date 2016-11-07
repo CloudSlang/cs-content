@@ -52,6 +52,7 @@ imports:
 
 flow:
   name: retrieve_last_sms
+
   inputs:
     - account_sid
     - from_num
@@ -118,5 +119,5 @@ flow:
 
   results:
     - SUCCESS
-    - FAILURE
     - NO_SMS
+    - FAILURE

@@ -1,11 +1,20 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to get the details of a specified Heroku collaborator.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
 #! @input app_id_or_name: ID or name of Heroku application that collaborator is associated with
 #! @input collaborator_email_or_id: email or ID of collaborator
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -15,13 +24,14 @@
 #!                     example: '2016-01-04T14:49:53Z'
 #! @output updated_at: time when collaborator was last updated
 #!                     example: '2016-01-04T14:49:53Z'
+#!
 #! @result SUCCESS: Heroku collaborator details were successfully retrieved
 #! @result GET_COLLABORATOR_DETAILS_FAILURE: Heroku collaborator details could not be retrieved
 #! @result GET_COLLABORATOR_ID_FAILURE: ID of collaborator could not be retrieved from GET REST API call response
 #! @result GET_CREATED_AT_FAILURE: created_at collaborator time could not be retrieved from GET REST API call response
 #! @result GET_UPDATED_AT_FAILURE: updated_at collaborator time could not be retrieved from GET REST API call response
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.collaborators
 
@@ -31,6 +41,7 @@ imports:
 
 flow:
   name: get_collaborator_details
+
   inputs:
     - username
     - password:
@@ -47,7 +58,6 @@ flow:
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

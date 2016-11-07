@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Adds or overwrites one or more tags for the specified Amazon EC2 resource/resources.
 #!               Note: Each resource can have a maximum of 10 tags. Each tag consists of a key and optional value. Tag

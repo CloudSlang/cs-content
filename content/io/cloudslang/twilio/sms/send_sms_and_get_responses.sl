@@ -47,6 +47,7 @@ imports:
 
 flow:
   name: send_sms_and_get_responses
+
   inputs:
     - recipients
     - message

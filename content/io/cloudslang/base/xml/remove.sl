@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Removes an element or attribute from an XML document.
 #!
@@ -28,13 +28,15 @@
 #!                           denial of service attacks)
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
+#!
 #! @output result_xml: given XML with element inserted
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
+#!
 #! @result SUCCESS: element was inserted
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 

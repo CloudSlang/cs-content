@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Returns all container names where a certain process runs.
+#!
 #! @input process_name: name of the process running in the container(s)
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
@@ -30,12 +31,15 @@
 #! @input container_id_list: a list of all the servers found
 #! @input container_ids: optional - a list containing the ID`s all the containers running
 #!                       Default: ''
+#!
 #! @output containers_found: the names of the containers with runing processes
 #! @output standard_err: error message
+#!
 #! @result SUCCESS: names of running containers retrieved successfully
 #! @result FAILURE: something went wrong
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -44,6 +48,7 @@ imports:
 
 flow:
   name: find_containers_with_process
+
   inputs:
     - process_name
     - host
@@ -106,10 +111,8 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
-
         publish:
           - container_list
-
         navigate:
           - SUCCESS: check_container_list_not_empty
           - FAILURE: FAILURE
@@ -119,7 +122,6 @@ flow:
           strings.string_equals:
             - first_string: ${container_list}
             - second_string: ''
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: loop_runs_on_this_container
@@ -143,11 +145,8 @@ flow:
               - timeout
               - close_session
               - agent_forwarding
-
           publish:
             - container_ids: ${container_id_result}
-
-
           navigate:
             - RUNNING: check_container_ids_not_empty
             - NOT_RUNNING: check_container_ids_not_empty
@@ -158,7 +157,6 @@ flow:
           strings.string_equals:
             - first_string: ${container_ids}
             - second_string: ''
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: loop_get_name
@@ -181,7 +179,6 @@ flow:
               - timeout
               - close_session
               - agent_forwarding
-
           publish:
             - containers_with_processes: ${containers_with_process_found}
           navigate:

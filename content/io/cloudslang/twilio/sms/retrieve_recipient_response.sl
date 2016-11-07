@@ -1,5 +1,22 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
-#! @description:
+#! @description: This flow retrieves the recipient's response using twilio (www.twilio.com).
+#!               The returned value is the response from the recipient that the SMS has been sent to.
+#!               The user should have an account created in twilio and a verified number to retrieve the messages from.
+#!               See the settings in: https://www.twilio.com/console/account/settings
+#!               If you are using a Twilio Trial account for this example, you will only be able to retrieve the
+#!               recipient's response messages from phone numbers that you have verified with Twilio.
+#!               Phone numbers can be verified via your Twilio Console's Verified Caller IDs
+#!               (https://www.twilio.com/console/phone-numbers/verified).
+#!               The 'To' parameter will also need to be a phone number you acquired from Twilio
+#!               (https://www.twilio.com/console/phone-numbers/incoming).
 #!
 #! @input account_sid: The Account SID on behalf the message is sent
 #!                     If you are using a Twilio Trial account for this example, you will only be able to send SMS
@@ -27,11 +44,12 @@
 namespace: io.cloudslang.twilio.sms
 
 imports:
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   twilio: io.cloudslang.twilio.sms
 
 flow:
   name: retrieve_recipient_response
+
   inputs:
     - account_sid
     - auth_token:

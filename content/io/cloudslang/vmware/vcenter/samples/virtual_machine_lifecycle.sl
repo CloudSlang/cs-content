@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,26 +12,24 @@
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!        and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
 #!
 #! @input host: VMware host or IP
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
+#! @input port: optional - port to connect through
 #!              examples: '443', '80'
 #!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
+#! @input protocol: optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input username: VMware username to connect with
 #! @input password: password associated with <username>
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: optional - if 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
 #!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
@@ -39,8 +37,7 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #! @input data_center_name: virtual machine's data center name
 #!                          example: 'DataCenter2'
-#! @input hostname: name of host where newly created virtual machine will reside
-#!                  optional
+#! @input hostname: optional - name of host where newly created virtual machine will reside
 #!                  example: 'host123.subdomain.example.com'
 #!                  default: ''
 #! @input virtual_machine_name: name of virtual machine that will be created
@@ -49,25 +46,19 @@
 #! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
 #!                     be obtained by running utils/get_os_descriptors operation
 #!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
-#! @input folder_name: name of the folder where the virtual machine will be created. If not provided then the top parent
-#!                     folder will be used
-#!                     optional
+#! @input folder_name: optional - name of the folder where the virtual machine will be created.
+#!                     If not provided then the top parent folder will be used
 #!                     default: ''
-#! @input resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource pool
-#!                       will be used
-#!                       optional
+#! @input resource_pool: optional - the resource pool for the cloned virtual machine.
+#!                       If not provided then the parent resource pool will be used
 #!                       default: ''
-#! @input description: description of virtual machine that will be created
-#!                     optional
+#! @input description: optional - description of virtual machine that will be created
 #!                     default: ''
-#! @input num_cpus: number that indicates how many processors the newly created virtual machine will have
-#!                  optional
+#! @input num_cpus: optional - number that indicates how many processors the newly created virtual machine will have
 #!                  default: '1'
-#! @input vm_disk_size: disk capacity (in Mb) attached to virtual machine that will be created
-#!                      optional
+#! @input vm_disk_size: optional - disk capacity (in Mb) attached to virtual machine that will be created
 #!                      default: '1024'
-#! @input vm_memory_size: amount of memory (in Mb) attached to virtual machine that will be created
-#!                        optional
+#! @input vm_memory_size: optional - amount of memory (in Mb) attached to virtual machine that will be created
 #!                        default: '1024'
 #! @input operation: possible operations that can be applied to update a specified attached device ("update" operation
 #!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
@@ -76,8 +67,7 @@
 #!                valid values: "cpu", "memory", "disk", "cd", "nic"
 #! @input update_value: value applied on specified device during virtual machine update
 #!                      valid: "high", "low", "normal", numeric value, label of device when removing
-#! @input vm_disk_mode: property that specifies how disk will be attached to the virtual machine
-#!                      optional
+#! @input vm_disk_mode: optional - property that specifies how disk will be attached to the virtual machine
 #!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
 #! @input delimiter: delimiter that will be used in response list
@@ -88,11 +78,13 @@
 #! @input email_password: email password
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #! @output before_update_value: value of specific machine attribute before update
 #! @output after_update_value: value of specific machine attribute after update
+#!
 #! @result SUCCESS: virtual machine was successfully created
 #! @result GET_OS_DESCRIPTORS_FAILURE: there was an error while trying to get OS information
 #! @result SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE: there was an error while sending an email with the OSes list
@@ -132,6 +124,7 @@ imports:
 
 flow:
   name: virtual_machine_lifecycle
+
   inputs:
     - host
     - port:

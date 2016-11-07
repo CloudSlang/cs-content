@@ -1,17 +1,18 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+#
+########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
 
 flow:
   name: test_stop_instances

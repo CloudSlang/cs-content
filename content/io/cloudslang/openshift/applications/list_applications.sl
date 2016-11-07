@@ -1,37 +1,34 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to list the RedHat OpenShift Online applications from a specified domain.
+#!
 #! @input host: RedHat OpenShift Online host
-#! @input username: RedHat OpenShift Online username
-#!                  optional
+#! @input username: optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: RedHat OpenShift Online password used for authentication
-#!                  optional
-#! @input proxy_host: proxy server used to access RedHat OpenShift Online web site
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input password: optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: user name used when connecting to proxy
-#!                        optional
-#! @input proxy_password: proxy server password associated with <proxy_username> input value
-#!                        optional
+#! @input proxy_username: optional - user name used when connecting to proxy
+#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain from where the applications will be listed
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: Openshift applications from the specific domain retrieved successfully
 #! @result FAILURE: there was an error while trying to retrieve Openshift applications from a specified domain
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openshift.applications
 
@@ -40,6 +37,7 @@ imports:
 
 flow:
   name: list_applications
+
   inputs:
     - host
     - username:

@@ -5,10 +5,12 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list the instances within a cloud
-#!               region with advance filtering support. If value for input filter is not supplied than that filter is ignored.
+#!               region with advance filtering support. If value for input filter is not
+#!               supplied than that filter is ignored.
+#!
 #! @input provider: cloud provider on which the instance is - Default: 'amazon'
 #! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
@@ -100,8 +102,8 @@
 #! @input private_ip_address: optional - private IP address of the instance - Default: ''
 #! @input reason: optional - reason for the current state of the instance. For e.g.: shows 'User Initiated [date]' when
 #!                user stops or terminates the instance. Similar to the state-reason-code filter - Default: ''
-#! @input requester_id: optional - ID of the entity that launched the instance on your behalf (for e.g.: 'AWS Management Console',
-#!                      'Auto Scaling', and so on) - Default: ''
+#! @input requester_id: optional - ID of the entity that launched the instance on your behalf
+#!                      (for e.g.: 'AWS Management Console', 'Auto Scaling', and so on) - Default: ''
 #! @input source_destination_check: optional - indicates whether the instance performs source/destination checking.
 #!                                  A value of 'true' means that checking is enabled, and 'false' means checking
 #!                                  is disabled. The value must be 'false' for the instance to perform network

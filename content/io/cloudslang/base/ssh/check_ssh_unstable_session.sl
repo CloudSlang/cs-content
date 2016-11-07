@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,9 +12,12 @@
 #!               - session is down: return code = -1, exception is 'Session is down'
 #!               - failure with no message: exit status = -1
 #!               - socket is not established: return result contains 'socket is not established'
-#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#!
+#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause
+#!                       of the error in case of exception
 #! @input return_code: from SSH: return code of SSH operation
 #! @input exit_status: from SSH: return code of remote command
+#!
 #! @result SESSION_IS_DOWN: pattern detected
 #! @result FAILURE_WITH_NO_MESSAGE: pattern detected
 #! @result CUSTOM_FAILURE: general accumulator for new types of patterns
