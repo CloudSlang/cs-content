@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,8 @@
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!        and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
@@ -45,23 +46,18 @@
 #!                           order to remove the existing computer password.
 #! @input owner_name: the user's full name
 #! @input owner_organization: the user's organization
-#! @input product_key: a valid serial number to be included in the answer file
-#!                     optional
+#! @input product_key: optional - a valid serial number to be included in the answer file
 #!                     default: ''
-#! @input domain_username: the domain user account used for authentication if the virtual machine is joining a domain.
+#! @input domain_username: optional - the domain user account used for authentication if the virtual machine is joining a domain.
 #!                        The user must have the privileges required to add computers to the domain
-#!                        optional
 #!                        default: ''
-#! @input domain_password: the password for the domain user account used for authentication if the virtual machine is
+#! @input domain_password: optional - the password for the domain user account used for authentication if the virtual machine is
 #!                         joining a domain
-#!                         optional
 #!                         default: ''
-#! @input domain: the fully qualified domain name
-#!                optional
+#! @input domain: optional - the fully qualified domain name
 #!                default: ''
-#! @input workgroup: the workgroup that the virtual machine should join. If this is supplied, then the domain name and
-#!                   authentication fields should not be supplied (mutually exclusive)
-#!                   optional
+#! @input workgroup: optional - the workgroup that the virtual machine should join. If this is supplied,
+#!                   then the domain name and authentication fields should not be supplied (mutually exclusive)
 #!                   default: ''
 #! @input license_data_mode: the type of the windows license. 'perServer' indicates that a client access license has been
 #!                           purchased for each computer that accesses the VirtualCenter server. 'perSeat' indicates that
@@ -69,55 +65,48 @@
 #!                           connections to the VirtualCenter server.
 #!                           valid: '', ''perServer', 'perSeat'
 #!                           default: ''
-#! @input dns_server: the server IP address to use for DNS lookup in a Windows guest operating system
-#!                    optional
+#! @input dns_server: optional - the server IP address to use for DNS lookup in a Windows guest operating system
 #!                    default: ''
-#! @input ip_address: the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs should be
-#!                    specified as well
-#!                    optional
+#! @input ip_address: optional - the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs
+#!                    should be specified as well
 #!                    default: ''
-#! @input subnet_mask: the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#! @input subnet_mask: optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
 #!                     <default_gateway> inputs should be specified as well
-#!                     optional
 #!                     default: ''
-#! @input default_gateway: the default gateway for network adapter with a static IP address. If specified then the
+#! @input default_gateway: optional - the default gateway for network adapter with a static IP address. If specified then the
 #!                         <ip_address> and <subnet_mask> inputs should be specified as well
-#!                         optional
 #!                         default: ''
-#! @input mac_address: the MAC address for network adapter with a static IP address
-#!                     optional
+#! @input mac_address: optional - the MAC address for network adapter with a static IP address
 #!                     default: ''
-#! @input auto_logon: specifies whether or not the machine automatically logs on as Administrator
-#!                    optional
+#! @input auto_logon: optional - specifies whether or not the machine automatically logs on as Administrator
 #!                    valid: '', ''true', 'false'
 #!                    default: ''
-#! @input delete_accounts: specifies whether if all user accounts will be removed from the system as part of the customization
+#! @input delete_accounts: optional - specifies whether if all user accounts will be removed from the system as part of the customization
 #!                         or not. This input can be use only for older than API 2.5 versions. Since API 2.5 this value
 #!                         is ignored and removing user accounts during customization is no longer supported. For older
 #!                         API versions: if deleteAccounts is true, then all user accounts are removed from the system
 #!                         as part of the customization. Mini-setup creates a new Administrator account with a blank password
-#!                         optional
 #!                         default: ''
 #! @input change_sid: Specifies whether the customization process should modify or not the machine's security identifier
 #!                    (SID). For Vista OS, SID will always be modified
 #!                    valid: 'true', 'false'
 #!                    default: 'true'
-#! @input auto_logon_count: if the AutoLogon flag is set, then the AutoLogonCount property specifies the number of times
+#! @input auto_logon_count: optional - if the AutoLogon flag is set, then the AutoLogonCount property specifies the number of times
 #!                          the machine should automatically log on as Administrator. Generally it should be 1, but if
 #!                          your setup requires a number of reboots, you may want to increase it
-#!                          optional
 #!                          default: ''
-#! @input auto_users: this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
+#! @input auto_users: optional - this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
 #!                   integer value indicates the number of client licenses purchased for the VirtualCenter server being
 #!                   installed
-#!                   optional
 #!                   default: ''
-#! @input time_zone: the time zone for the new virtual machine according with https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
-#!                   optional
+#! @input time_zone: optional - the time zone for the new virtual machine according with
+#!                   https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
 #!                   default: '0'
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: virtual machine was successfully cloned
 #! @result FAILURE: an error occurred when trying to clone an existing virtual machine
 #!!#
@@ -127,6 +116,7 @@ namespace: io.cloudslang.vmware.vcenter.guest
 
 operation:
   name: customize_windows_guest
+
   inputs:
     - host
     - port:

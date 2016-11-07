@@ -1,24 +1,32 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to update the HEROKU password.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: Heroku <username> account password
-#!                  optional
+#! @input password: optional - Heroku <username> account password
 #!                  default: None
-#! @input new_password: new password for <username> account
-#!                      optional
+#! @input new_password: optional - new password for <username> account
 #!                      default: None
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: update Heroku account password was successfully executed
 #! @result ADD_PASSWORD_FAILURE: insert 'password' key:value pair in JSON body failed
 #! @result ADD_NEW_PASSWORD_FAILURE: insert 'new_password' key:value pair in JSON body failed
 #! @result UPDATE_ACCOUNT_PASSWORD_FAILURE: update Heroku password account REST API call failed
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.account
 
@@ -29,6 +37,7 @@ imports:
 
 flow:
   name: update_account_password
+
   inputs:
     - username
     - password:
@@ -96,7 +105,6 @@ flow:
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

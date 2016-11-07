@@ -71,9 +71,11 @@
 #!                          http://apache.org/xml/features/disallow-doctype-decl true
 #!                          http://xml.org/sax/features/external-general-entities false
 #!                          http://xml.org/sax/features/external-parameter-entities false
+#!
 #! @output return_result: this is the primary output. The edited XML.
 #! @output return_code: 0 for success; -1 for failure.
 #! @output exception: the exception message in case one occured.
+#!
 #! @result SUCCESS: The operation completed as stated in the description.
 #! @result FAILURE: The operation completed unsuccessfully.
 #!!#

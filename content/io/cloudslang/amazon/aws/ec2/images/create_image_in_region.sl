@@ -11,6 +11,7 @@
 #!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
+#!
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services

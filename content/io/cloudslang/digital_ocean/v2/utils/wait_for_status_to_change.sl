@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -18,7 +18,8 @@
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time to wait for a connection to be established, in seconds (0 represents infinite value)
+#! @input connect_timeout: optional - time to wait for a connection to be established, in seconds
+#!                         (0 represents infinite value)
 #! @input socket_timeout: optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
 #!
 #! @result SUCCESS: droplet changed its status
@@ -27,6 +28,7 @@
 #! @result TIMEOUT: droplet did not change its status until the time limit
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.digital_ocean.v2.utils
 
 imports:
@@ -118,6 +120,7 @@ flow:
         navigate:
           - SUCCESS: get_droplet_status
           - FAILURE: FAILURE
+
   results:
     - SUCCESS
     - DROPLET_NOT_FOUND

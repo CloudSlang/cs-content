@@ -7,7 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running Ubuntu based linux
+#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running
+#!               Ubuntu based linux
+#!
 #! @prerequisites: Java package
 #! @input host: hostname or IP address
 #! @input root_password: the root password
@@ -23,6 +25,7 @@
 #! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
 #!                     the permissions will granted only to the folder itself - Default: True
 #! @input script_file_name: the name of the script file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
@@ -33,6 +36,7 @@
 #!                              (more exactly, just before the channel is closed).
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
+#!
 #! @result SUCCESS: SSH access was successful
 #! @result INSTALL_JAVA_FAILURE: there was an error installing java on the machine
 #! @result SSH_VERIFY_GROUP_EXIST_FAILURE: error verifying group
@@ -51,7 +55,8 @@
 #! @result CHANGE_PERMISSIONS_FAILURE: error changing permissions
 #! @result START_TOMCAT_APPLICATION_FAILURE: error starting tomcat application
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.samples
 
 imports:

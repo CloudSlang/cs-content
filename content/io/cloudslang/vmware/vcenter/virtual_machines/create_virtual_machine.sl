@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,8 @@
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
-#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600 and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
+#!     2. Go to https://my.vmware.com/group/vmware/get-download?downloadGroup=MNGMTSDK600
+#!        and download the VMware-vSphere-SDK-6.0.0-2561048.zip.
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
@@ -46,29 +47,25 @@
 #! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
 #!                     be obtained by running utils/get_os_descriptors operation
 #!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
-#! @input folder_name: name of the folder where the virtual machine will be created. If not provided then the top parent
-#!                     folder will be used
-#!                     optional
+#! @input folder_name: optional - name of the folder where the virtual machine will be created.
+#!                     If not provided then the top parent folder will be used
 #!                     default: ''
-#! @input resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource pool
-#!                       will be used
-#!                       optional
+#! @input resource_pool: optional - the resource pool for the cloned virtual machine.
+#!                       If not provided then the parent resource pool will be used
 #!                       default: ''
-#! @input description: description of virtual machine that will be created
-#!                     optional
+#! @input description: optional - description of virtual machine that will be created
 #!                     default: ''
-#! @input num_cpus: number that indicates how many processors the newly created virtual machine will have
-#!                  optional
+#! @input num_cpus: optional - number that indicates how many processors the newly created virtual machine will have
 #!                  default: '1'
-#! @input vm_disk_size: disk capacity (in Mb) attached to virtual machine that will be created
-#!                      optional
+#! @input vm_disk_size: optional - disk capacity (in Mb) attached to virtual machine that will be created
 #!                      default: '1024'
-#! @input vm_memory_size: amount of memory (in Mb) attached to virtual machine that will be created
-#!                        optional
+#! @input vm_memory_size: optional - amount of memory (in Mb) attached to virtual machine that will be created
 #!                        default: '1024'
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: virtual machine was successfully created
 #! @result FAILURE: an error occurred when trying to create a new virtual machine
 #!!#
@@ -78,6 +75,7 @@ namespace: io.cloudslang.vmware.vcenter.virtual_machines
 
 operation:
   name: create_virtual_machine
+
   inputs:
     - host
     - port:

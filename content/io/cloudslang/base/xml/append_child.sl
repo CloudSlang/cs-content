@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Appends a child to an XML element.
 #!
@@ -19,18 +19,20 @@
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
-#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
-#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
-#!                           denial of service attacks)
+#!                           and (false instructs the implementation to process XML in accordance with the XML
+#!                           specifications ignoring security issues such as limits on XML constructs to avoid conditions
+#!                           such as denial of service attacks)
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
+#!
 #! @output result_xml: given XML with child appended
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
+#!
 #! @result SUCCESS: child was appended
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 

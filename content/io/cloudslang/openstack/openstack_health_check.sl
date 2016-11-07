@@ -1,15 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a health check on an OpenStack machine.
 #!               Creates a server, checks it is up and then deletes it.
 #!               If any steps fail it will send an email with an error report.
+#!
 #! @input host: OpenStack machine host
 #! @input identity_port: optional - port used for OpenStack authentication
 #! @input compute_port: optional - port used for OpenStack computations
@@ -26,6 +27,7 @@
 #! @input to: email recipient
 #! @input from: email sender
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
+#!
 #! @result SUCCESS: server created, checked and deleted successfully
 #! @result CREATE_SERVER_FAILURE: there was an error while trying to create the server
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: there was an error while trying to get authentication token
@@ -54,7 +56,7 @@
 #! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: there was an error while trying to add block device mapping
 #! @result ADD_PERSONALITY_FAILURE: there was an error while trying to set up personality
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openstack
 
@@ -65,6 +67,7 @@ imports:
 
 flow:
   name: openstack_health_check
+
   inputs:
     - host
     - identity_port:

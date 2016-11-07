@@ -5,7 +5,7 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: parse the given date/time and convert it to an output format
 #!
@@ -31,7 +31,7 @@
 #! @result SUCCESS: the date/time was parsed properly
 #! @result FAILURE: failed to parse the date/time
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.datetime
 
