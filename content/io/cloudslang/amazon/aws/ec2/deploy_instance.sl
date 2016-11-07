@@ -401,7 +401,7 @@ flow:
           do:
             instances.check_instance_state:
               - identity
-              - - credential
+              - credential
               - proxy_host
               - proxy_port
               - instance_id
@@ -421,7 +421,7 @@ flow:
         do:
           tags.create_tags:
             - identity
-            - - credential
+            - credential
             - proxy_host
             - proxy_port
             - proxy_username
@@ -444,7 +444,7 @@ flow:
           do:
             io.cloudslang.amazon.aws.ec2.instances.terminate_instances:
               - identity
-              - - credential
+              - credential
               - proxy_host
               - proxy_port
               - proxy_username
@@ -465,7 +465,7 @@ flow:
         do:
           io.cloudslang.amazon.aws.ec2.instances.describe_instances:
             - identity
-            - - credential
+            - credential
             - proxy_host
             - proxy_port
             - availability_zone
