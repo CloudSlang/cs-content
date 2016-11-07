@@ -93,21 +93,21 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
-        private: true
         required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
         default: ${get("proxy_username", "")}
-        private: true
         required: false
+        private: true
     - proxy_password:
         required: false
         sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
-        private: true
         required: false
+        private: true
         sensitive: true
     - headers:
         required: false
@@ -115,8 +115,8 @@ operation:
         required: false
     - queryParams:
         default: ${get("query_params", "")}
-        private: true
         required: false
+        private: true
     - version:
         default: '2016-09-15'
         required: false
@@ -127,32 +127,32 @@ operation:
         required: false
     - filterNamesString:
         default: ${get("filter_names_string", "")}
-        private: true
         required: false
+        private: true
     - filter_values_string:
         required: false
     - filterValuesString:
         default: ${get("filter_values_string", "")}
-        private: true
         required: false
+        private: true
     - instance_ids_string:
         required: false
     - instanceIdsString:
         default: ${get("instance_ids_string", "")}
-        private: true
         required: false
+        private: true
     - max_results:
         required: false
     - maxResults:
         default: ${get("max_results", "")}
-        private: true
         required: false
+        private: true
     - next_token:
         required: false
     - nextToken:
         default: ${get("next_token", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.4'

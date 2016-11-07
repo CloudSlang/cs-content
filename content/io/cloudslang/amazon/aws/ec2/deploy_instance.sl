@@ -54,7 +54,7 @@
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Deafult: 50
+#!                         Default: 50
 #!
 #! @output instance_id: The ID of the newly created instance
 #! @output network_interface_id: The ID of the newly created network interface attached to the instance

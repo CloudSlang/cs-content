@@ -63,6 +63,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -92,6 +93,7 @@ operation:
     - image_id
     - imageId:
         default: ${get("image_id", "")}
+        required: false
         private: true
 
   java_action:

@@ -30,7 +30,7 @@
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Deafult: 50
+#!                         Default: 50
 #!
 #! @output output: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
