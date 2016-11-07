@@ -1,4 +1,4 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,8 +8,8 @@
 ########################################################################################################################
 #!!
 #! @description: Flow to poll HP Cloud API until server is ready and in ACTIVE state.
-#!               Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING, PAUSED,
-#!                                        SUSPENDED, RESCUE, ERROR, DELETED
+#!               Possible server states = ACTIVE, BUILD, REBUILD, STOPPED, MIGRATING, RESIZING,
+#!                                        PAUSED, SUSPENDED, RESCUE, ERROR, DELETED
 #!
 #! @input server_id: ID of server
 #! @input tenant: tenant ID obtained by get_authenication_flow

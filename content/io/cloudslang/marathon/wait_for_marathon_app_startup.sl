@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -28,8 +28,10 @@ imports:
   math: io.cloudslang.base.math
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
+
 flow:
   name: wait_for_marathon_app_startup
+
   inputs:
     - marathon_host
     - marathon_port:
@@ -40,8 +42,8 @@ flow:
     - time_to_sleep:
         default: "1"
         required: false
-  workflow:
 
+  workflow:
     - list_marathon_apps:
         do:
           marathon.get_apps_list:

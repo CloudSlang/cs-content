@@ -1,20 +1,26 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to create a Heroku application.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
-#! @input name: name of application; if not provided, name will be generate by Heroku
-#!              optional
+#! @input name: optional - name of application; if not provided, name will be generate by Heroku
 #!              default: None
-#! @input region: unique identifier or name of region
-#!                optional
+#! @input region: optional - unique identifier or name of region
 #!                default: None
 #!                example: 'us'
-#! @input stack: optional unique identifier or name of stack
-#!               optional
+#! @input stack: optional - optional unique identifier or name of stack
 #!               default: None
 #!               example: 'cedar-14'
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -22,9 +28,10 @@
 #! @output id: ID of the newly created application
 #!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
 #! @output new_name: name of the new created application; useful when <name> input is not provided
-#!               example: 'arcane-fortress-9257'
+#!                   example: 'arcane-fortress-9257'
 #! @output created_at: exact time when application was created
 #!                     example: '2016-01-04T14:49:53Z'
+#!
 #! @result SUCCESS: application was created successfully
 #! @result CREATE_EMPTY_JSON_FAILURE: create empty JSON step failed
 #! @result ADD_NAME_FAILURE: insert 'name' key:value pair in JSON body failed
@@ -33,9 +40,10 @@
 #! @result CREATE_APPLICATION_FAILURE: create Heroku application REST API call failed
 #! @result GET_ID_FAILURE: ID of newly created application could not be retrieved from create REST API call response
 #! @result GET_NAME_FAILURE: name of newly created application could not be retrieved from create REST API call response
-#! @result GET_CREATED_AT_FAILURE: time when newly created application was created could not be retrieved from the create REST API call response
+#! @result GET_CREATED_AT_FAILURE: time when newly created application was created could not be retrieved
+#!                                 from the create REST API call response
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.applications
 
@@ -46,6 +54,7 @@ imports:
 
 flow:
   name: create_application
+
   inputs:
     - username:
         sensitive: true
@@ -140,7 +149,6 @@ flow:
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

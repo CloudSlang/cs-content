@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates an OpenStack server.
+#!
 #! @input host: OpenStack machine host
 #! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
 #! @input token: OpenStack token obtained after authentication
@@ -17,18 +18,21 @@
 #! @input proxy_port: optional - proxy server port
 #! @input img_ref: image reference for server to be created
 #! @input network_id: optional - ID of network to connect to
+#!
 #! @output return_result: response of the operation
 #! @output status_code: normal status code is 202
 #! @output error_message: returnResult if statusCode != '202'
+#!
 #! @result SUCCESS: operation succeeded (statusCode == '202')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openstack.servers
 
 operation:
   name: create_server
+
   inputs:
     - host
     - compute_port: '8774'
@@ -73,10 +77,12 @@ operation:
     - method:
         default: 'post'
         private: true
+
   java_action:
     gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
+
   outputs:
     - return_result: ${returnResult}
     - status_code: ${'' if 'statusCode' not in locals() else statusCode}

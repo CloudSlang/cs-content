@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Checks if the MySQL server is up, meaning its state is alive.
+#!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -25,8 +26,10 @@
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
 #! @output return_result: the return result of the command
+#!
 #! @output error_message: contains the STDERR of the machine if the SSH action was executed successfully, the cause of the
 #!                        exception otherwise
+#!
 #! @result SUCCESS: action was executed successfully and MySQL server state is alive
 #! @result FAILURE: some problem occurred, more information in errorMessage output
 #!!#
@@ -40,6 +43,7 @@ imports:
 
 flow:
   name: check_mysql_is_up
+
   inputs:
     - container
     - host

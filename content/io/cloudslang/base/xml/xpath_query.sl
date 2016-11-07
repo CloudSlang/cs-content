@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Selects from an XML document using an XPATH query.
 #!
@@ -32,14 +32,16 @@
 #!                           denial of service attacks)
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
+#!
 #! @output selected_value: value selected, no match found or empty if an error occurs
 #! @output return_result: xpath queried successfully or empty otherwise
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: an exception in case of failure
+#!
 #! @result SUCCESS: if return_code = 0
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 

@@ -1,12 +1,21 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to create/add a new domain on a specified application.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
 #! @input app_id_or_name: ID or name of the Heroku application
 #! @input hostname: full hostname of new domain to be created
 #!                  example: 'subdomain.example.com'
+#1
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -15,13 +24,16 @@
 #!             example: '4517af43-3564-4c74-b0d0-da9344ee32c1'
 #! @output created_at: exact time when domain was created
 #!                     example: '2016-01-04T14:49:53Z'
+#!
 #! @result SUCCESS: new domain was successfully created/added
 #! @result INSERT_HOSTNAME_VALUE_FAILURE: insert 'hostname' key:value pair in a empty JSON step failed
 #! @result CREATE_DOMAIN_FAILURE: create Heroku application domain REST API call failed
 #! @result GET_ID_FAILURE: ID of newly created domain could not be retrieved from create REST API call response
-#! @result GET_CREATED_AT_FAILURE: time when newly created domain was created could not be retrieved from create REST API call response
+#! @result GET_CREATED_AT_FAILURE: time when newly created domain was created could not
+#!                                 be retrieved from create REST API call response
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.heroku.domains
 
 imports:
@@ -30,6 +42,7 @@ imports:
 
 flow:
   name: create_domain
+
   inputs:
     - username
     - password:
@@ -61,7 +74,6 @@ flow:
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - body: ${body_json}
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

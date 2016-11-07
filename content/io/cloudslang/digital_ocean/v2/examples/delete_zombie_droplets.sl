@@ -1,14 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Deletes all droplets considered as zombies.
-#!               A droplet is considered zombie if its name matches a given pattern and its lifetime exceeds a given value.
+#!               A droplet is considered zombie if its name matches a given pattern and its
+#!               lifetime exceeds a given value.
+#!
 #! @input time_to_live: optional - threshold in minutes to compare the droplet's lifetime to as number or string
 #!                      Default: 150 minutes (2.5 hours)
 #! @input name_pattern: optional - regex pattern for zombie droplet names
@@ -18,12 +20,15 @@
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - user name used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                        (0 represents infinite value)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#!
 #! @result SUCCESS: zombie droplets deleted successfully
 #! @result FAILURE: something went wrong while trying to delete zombie droplets
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.digital_ocean.v2.examples
 
 imports:
@@ -87,6 +92,7 @@ flow:
             - DELETED: SUCCESS
             - NOT_DELETED: SUCCESS
             - FAILURE: FAILURE
+
   results:
     - SUCCESS
     - FAILURE

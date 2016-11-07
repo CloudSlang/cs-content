@@ -5,7 +5,7 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: offsets the given date/time by a number of seconds
 #!
@@ -27,7 +27,7 @@
 #! @result SUCCESS: the date/time was shifted properly
 #! @result FAILURE: failed to offset the date/time
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.datetime
 

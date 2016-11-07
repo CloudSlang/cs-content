@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if the latest build of a project's branch from CircieCI has failed.
 #!               If the latest build from the branch has failed, it will send an email,
@@ -18,6 +18,7 @@
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from the branch has not failed, it will send an email to reflect that.
+#!
 #! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
@@ -76,14 +77,16 @@
 #! @input from: email sender
 #! @input to: email recipient
 #! @input cc: optional - comma-delimited list of cc recipients - Default: Supervisor email.
+#!
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.ci.circleci
 
@@ -95,6 +98,7 @@ imports:
 
 flow:
   name: get_failed_build
+
   inputs:
     - token:
         sensitive: true
@@ -156,13 +160,11 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-
         publish:
           - return_result
           - return_code
           - status_code
           - error_message
-
         navigate:
           - SUCCESS: match_if_failed
           - FAILURE: FAILURE
@@ -172,7 +174,6 @@ flow:
           lists.compare_lists:
             - list_1: ${return_result}
             - list_2: '[]'
-
         navigate:
           - SUCCESS: mail_success_build
           - FAILURE: get_username
@@ -182,11 +183,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'username'"
-
         publish:
           - username: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_committer_email
           - FAILURE: FAILURE
@@ -196,11 +195,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'committer_email'"
-
         publish:
           - committer_email: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_branch
           - FAILURE: FAILURE
@@ -210,11 +207,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'branch'"
-
         publish:
           - branch: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_subject
           - FAILURE: FAILURE
@@ -224,11 +219,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'subject'"
-
         publish:
           - ci_subject: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_build_num
           - FAILURE: FAILURE
@@ -238,11 +231,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'build_num'"
-
         publish:
           - build_num: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_commit
           - FAILURE: FAILURE
@@ -252,11 +243,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'vcs_revision'"
-
         publish:
           - commit: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_outcome
           - FAILURE: FAILURE
@@ -266,11 +255,9 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "0,'outcome'"
-
         publish:
           - outcome: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: mail_failed_build
           - FAILURE: FAILURE
@@ -286,7 +273,6 @@ flow:
              - body: ${'Latest build finished successfully.'}
              - username
              - password
-
          navigate:
                 - SUCCESS: SUCCESS
                 - FAILURE: FAILURE

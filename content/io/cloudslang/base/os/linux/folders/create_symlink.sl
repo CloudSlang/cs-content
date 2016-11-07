@@ -5,13 +5,15 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs SSH command to create a symbolic link between <source_folder> and <linked_folder>
+#!
 #! @input host: hostname or IP address
 #! @input root_password: the root password
 #! @input source_folder: the name of the folder to be linked
 #! @input linked_folder: the name of the linked folder
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
@@ -21,10 +23,12 @@
 #!                              (more exactly, just before the channel is closed).
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
+#!
 #! @result SUCCESS: SSH access was successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.folders
 
 imports:
@@ -64,6 +68,7 @@ flow:
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE
+
   outputs:
     - return_result
     - standard_err

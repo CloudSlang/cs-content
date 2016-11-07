@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if a url is accessible.
 #!
@@ -14,22 +14,23 @@
 #! @input time_to_sleep: time in seconds to wait between attempts
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body - Default: 'application/json'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trustAllRoots is 'true' this input is ignored.
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
-#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input keystore: optional - the pathname of the Java KeyStore file.
+#!                  You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
+#!                  this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
-#!                           is empty, keystorePassword default will be supplied.
-#!                           Default value: changeit
+#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#!                           keystore is empty, keystore_password default will be supplied.
+#!                           Default value: ''
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
 #!
@@ -39,7 +40,7 @@
 #! @result SUCCESS: url is accessible
 #! @result FAILURE: url is not accessible
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -49,6 +50,7 @@ imports:
   utils: io.cloudslang.base.utils
 flow:
   name: verify_url_is_accessible
+
   inputs:
     - url
     - attempts: "1"
@@ -75,6 +77,7 @@ flow:
         required: false
     - proxy_port:
         required: false
+
   workflow:
     - http_get:
         do:
@@ -116,6 +119,7 @@ flow:
         navigate:
           - SUCCESS: http_get
           - FAILURE: FAILURE
+
   outputs:
     - return_code
     - output_message: ${"Url is accessible" if return_code == '0' else "Url is not accessible"}

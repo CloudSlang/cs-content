@@ -4,7 +4,8 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+#
+########################################################################################################################
 namespace: io.cloudslang.operations_orchestration.samples
 
 imports:

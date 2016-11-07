@@ -1,17 +1,24 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Encodes data for usage in a url.
 #!
 #! @input data: data to encode
-#! @input safe: characters that should not be encoded
-#!              optional
-#! @input quote_plus: if true, will replace spaces with plus signs
-#!                    optional
+#! @input safe: optional - characters that should not be encoded
+#! @input quote_plus: optional - if true, will replace spaces with plus signs
+#!
 #! @output result: encoded string
+#!
 #! @result SUCCESS: data was encoded successfully
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
@@ -25,6 +32,7 @@ operation:
     - quote_plus:
         required: false
         default: "false"
+
   python_action:
     script: |
       import urllib
@@ -32,6 +40,7 @@ operation:
         encoded = urllib.quote_plus(data, safe)
       else:
         encoded = urllib.quote(data, safe)
+
   outputs:
     - result: ${encoded}
 

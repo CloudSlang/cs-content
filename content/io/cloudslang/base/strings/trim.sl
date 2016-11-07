@@ -4,24 +4,32 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Trims string.
+#!
 #! @input origin_string: string - Example: " good "
+#!
 #! @output new_string: string in which all whitespace characters have been stripped of both sides of the string
+#!
 #! @result SUCCESS: string trimmed successfully
 #!!#
-####################################################
+########################################################################################################################
+
  namespace: io.cloudslang.base.strings
 
  operation:
    name: trim
+
    inputs:
      - origin_string
+
    python_action:
      script: |
        new_string=origin_string.strip()
+
    outputs:
      - new_string
+
    results:
      - SUCCESS

@@ -1,19 +1,30 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: performs a REST API call to delete an existing application domain.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
 #! @input app_id_or_name: ID or name of the Heroku application
 #! @input domain_id_or_hostname: ID or hostname of the domain that will be deleted
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by the operation
+#!
 #! @result SUCCESS: application domain deleted successfully
 #! @result FAILURE: there was an error while trying to delete application domain
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.heroku.domains
 
 imports:
@@ -21,6 +32,7 @@ imports:
 
 flow:
   name: delete_domain
+
   inputs:
     - username
     - password:

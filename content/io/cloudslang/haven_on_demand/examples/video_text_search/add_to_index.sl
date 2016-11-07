@@ -1,4 +1,11 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Extracts text from a video and adds it to a Haven OnDemand index.
 #!
@@ -11,12 +18,14 @@
 #!                    optional
 #! @input proxy_port: proxy server port
 #!                    optional
+#!
 #! @output error_message: error message if one exists, empty otherwise
 #! @output return_result: result retured by Haven OnDemand upon adding item to the index
+#!
 #! @result SUCCESS: video text extracted successfully
 #! @result FAILURE: there was an error while trying to extract the text from a video
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
@@ -51,6 +60,7 @@ flow:
         publish:
           - return_result
           - error_message
+
     - build_index_item:
         do:
           hod.examples.video_text_search.build_index_item:
@@ -59,6 +69,7 @@ flow:
             - url
         publish:
           - json_index_item
+
     - encode_json:
         do:
           utils.url_encoder:
@@ -66,6 +77,7 @@ flow:
             - quote_plus: "true"
         publish:
           - encoded_json: ${result}
+
     - add_to_index:
         do:
           hod.unstructured_text_indexing.add_to_text_index:
@@ -77,6 +89,7 @@ flow:
         publish:
           - error_message
           - return_result
+
   outputs:
     - error_message
     - return_result

@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes the specified Docker container.
+#!
 #! @input container_id: ID of the container to be deleted
 #! @input docker_options: optional - options for the docker environment
 #!                        from the construct: docker [OPTIONS] COMMAND [arg...]
@@ -27,12 +28,14 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!
 #! @output result: ID of the container that was deleted
 #! @output error_message: something went wrong while trying to delete the container
+#!
 #! @result SUCCESS: specified Docker container deleted successfully
 #! @result FAILURE: there was an error while trying to delete the specified Docker container
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -41,6 +44,7 @@ imports:
 
 flow:
   name: delete_container
+
   inputs:
     - container_id:
         required: false
@@ -106,6 +110,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
   outputs:
     - result
     - error_message: ${standard_err}

@@ -1,28 +1,32 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the image ID from the response of the list_images operation of a given image by name.
+#!
 #! @input image_body: response of list_images operation
 #! @input image_name: image name
+#!
 #! @output image_id: ID of specified image
 #! @output return_result: was parsing was successful or not
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output error_message: error message
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openstack.images
 
 operation:
   name: get_image_id
+
   inputs:
     - image_body
     - image_name
