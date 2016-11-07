@@ -31,8 +31,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result FAILURE: error terminating instance
 #! @result SUCCESS: the server (instance) was successfully terminated
+#! @result FAILURE: error terminating instance
 #!!#
 ########################################################################################################################
 
@@ -67,18 +67,18 @@ flow:
     - terminate_instances:
         do:
           instances.terminate_instances:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
-            - instance_id: '${instance_id}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers
+            - instance_id
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: check_instance_state
@@ -88,27 +88,27 @@ flow:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.check_instance_state:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - instance_id
               - instance_state: terminated
-              - polling_interval: '${polling_interval}'
+              - polling_interval
           break:
             - SUCCESS
           publish:
             - return_result: '${output}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_code
+            - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
 
   outputs:
     - output: '${return_result}'
-    - return_code: '${return_code}'
-    - exception: '${exception}'
+    - return_code
+    - exception
 
   results:
     - FAILURE
