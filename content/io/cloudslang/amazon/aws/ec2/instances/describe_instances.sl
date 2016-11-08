@@ -38,7 +38,6 @@
 #! @input version: Version of the web service to made the call against it.
 #!                 Example: "2016-09-15"
 #!                 Default: "2016-09-15"
-#! @input delimiter: optional - Delimiter that will be used.
 #! @input filter_names_string: optional - String that contains one or more values that represents filters for the search.
 #!                             For a complete list of valid filters see: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
 #!                             Example: "instance-type,block-device-mapping.status,block-device-mapping.delete-on-termination"

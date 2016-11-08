@@ -14,10 +14,13 @@
 #! @input proxy_host: Proxy server used to access the provider services
 #! @input proxy_port: Proxy server port used to access the provider services
 #!                    Default: '8080'
+#! @input proxy_username: optional - proxy server user name.
+#!                        Default: ""
+#! @input proxy_password: optional - proxy server password associated with the <proxyUsername>
+#!                        input value.
+#!                        Default: ""
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input instance_state: The state that you would like the instance to have.
-#! @input region: Region where the server (instance) is.
-#!                Default: 'us-east-1'
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
 #!
@@ -48,10 +51,13 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+        sensitive: true
     - instance_id
     - instance_state
-    - region:
-        required: false
     - polling_interval:
         required: false
 
@@ -63,8 +69,9 @@ flow:
             - credential
             - proxy_host
             - proxy_port
-            - instance_id
-            - region
+            - proxy_username
+            - proxy_password
+            - instance_ids_string: ${instance_id}
         publish:
           - return_result
           - return_code

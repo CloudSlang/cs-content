@@ -47,7 +47,8 @@
 #!                                    c1.medium | c1.xlarge | c3.large | c3.xlarge | c3.2xlarge | c3.4xlarge | c3.8xlarge |
 #!                                    c4.large | c4.xlarge | c4.2xlarge | c4.4xlarge | c4.8xlarge | cc1.4xlarge |
 #!                                    cc2.8xlarge | g2.2xlarge | g2.8xlarge | cg1.4xlarge | d2.xlarge | d2.2xlarge |
-#!                                    d2.4xlarge | d2.8xlarge Default: "m1.small"
+#!                                    d2.4xlarge | d2.8xlarge
+#!                                    Default: "m1.small"
 #! @input kernel_id: ID of the kernel. Important: We recommend that you use PV-GRUB instead of kernels and RAM disks.
 #!                   For more information, see PV-GRUB in the Amazon Elastic Compute Cloud User Guide.
 #!                   Default: ""
