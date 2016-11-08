@@ -227,8 +227,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result FAILURE: error deploying instance
 #! @result SUCCESS: the server (instance) was successfully deployed
+#! @result FAILURE: error deploying instance
 #!!#
 ########################################################################################################################
 
@@ -341,55 +341,55 @@ flow:
         do:
           instances.run_instances:
             - endpoint: 'https://ec2.amazonaws.com'
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - headers: '${headers}'
-            - query_params: '${query_params}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - headers
+            - query_params
             - delimiter: ','
-            - image_id: '${image_id}'
-            - availability_zone: '${availability_zone}'
-            - host_id: '${host_id}'
-            - instance_type: '${instance_type}'
-            - kernel_id: '${kernel_id}'
-            - ramdisk_id: '${ramdisk_id}'
-            - subnet_id: '${subnet_id}'
-            - block_device_mapping_device_names_string: '${block_device_mapping_device_names_string}'
-            - block_device_mapping_virtual_names_string: '${block_device_mapping_virtual_names_string}'
-            - delete_on_terminations_string: '${delete_on_terminations_string}'
-            - ebs_optimized: '${ebs_optimized}'
-            - encrypted_string: '${encrypted_string}'
-            - iops_string: '${iops_string}'
-            - snapshot_ids_string: '${snapshot_ids_string}'
-            - volume_sizes_string: '${volume_sizes_string}'
-            - volume_types_string: '${volume_types_string}'
-            - iam_instance_profile_arn: '${iam_instance_profile_arn}'
-            - private_ip_address: '${private_ip_address}'
-            - private_ip_addresses_string: '${private_ip_addresses_string}'
-            - iam_instance_profile_name: '${iam_instance_profile_name}'
-            - key_pair_name: '${key_pair_name}'
-            - security_group_ids_string: '${security_group_ids_string}'
-            - affinity: '${affinity}'
-            - client_token: '${client_token}'
-            - disable_api_termination: '${disable_api_termination}'
-            - instance_initiated_shutdown_behavior: '${instance_initiated_shutdown_behavior}'
-            - monitoring: '${monitoring}'
-            - placement_group_name: '${placement_group_name}'
-            - tenancy: '${tenancy}'
-            - user_data: '${user_data}'
-            - network_interface_associate_public_ip_address: '${network_interface_associate_public_ip_address}'
-            - network_interface_delete_on_termination: '${network_interface_delete_on_termination}'
-            - network_interface_description: '${network_interface_description}'
-            - network_interface_device_index: '${network_interface_device_index}'
-            - network_interface_id: '${network_interface_id}'
-            - secondary_private_ip_address_count: '${secondary_private_ip_address_count}'
+            - image_id
+            - availability_zone
+            - host_id
+            - instance_type
+            - kernel_id
+            - ramdisk_id
+            - subnet_id
+            - block_device_mapping_device_names_string
+            - block_device_mapping_virtual_names_string
+            - delete_on_terminations_string
+            - ebs_optimized
+            - encrypted_string
+            - iops_string
+            - snapshot_ids_string
+            - volume_sizes_string
+            - volume_types_string
+            - iam_instance_profile_arn
+            - private_ip_address
+            - private_ip_addresses_string
+            - iam_instance_profile_name
+            - key_pair_name
+            - security_group_ids_string
+            - affinity
+            - client_token
+            - disable_api_termination
+            - instance_initiated_shutdown_behavior
+            - monitoring
+            - placement_group_name
+            - tenancy
+            - user_data
+            - network_interface_associate_public_ip_address
+            - network_interface_delete_on_termination
+            - network_interface_description
+            - network_interface_device_index
+            - network_interface_id
+            - secondary_private_ip_address_count
         publish:
           - return_result
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_code
+          - exception
           - instance_id: '${instance_id_result}'
         navigate:
           - FAILURE: FAILURE
@@ -400,19 +400,19 @@ flow:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             instances.check_instance_state:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - instance_id
               - instance_state: running
-              - polling_interval: '${polling_interval}'
+              - polling_interval
           break:
             - SUCCESS
           publish:
             - return_result: '${output}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_code
+            - exception
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: create_tags
@@ -420,20 +420,20 @@ flow:
     - create_tags:
         do:
           tags.create_tags:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - resource_ids_string: '${instance_id}'
-            - headers: '${headers}'
-            - key_tags_string: '${key_tags_string}'
-            - value_tags_string: '${value_tags_string}'
+            - headers
+            - key_tags_string
+            - value_tags_string
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: describe_instances
@@ -443,20 +443,20 @@ flow:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
             io.cloudslang.amazon.aws.ec2.instances.terminate_instances:
-              - identity: '${identity}'
-              - credential: '${credential}'
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - proxy_username: '${proxy_username}'
-              - proxy_password: '${proxy_password}'
-              - headers: '${headers}'
-              - instance_id: '${instance_id}'
+              - identity
+              - credential
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - headers
+              - instance_id
           break:
             - SUCCESS
           publish:
-            - return_result: '${return_result}'
-            - return_code: '${return_code}'
-            - exception: '${exception}'
+            - return_result
+            - return_code
+            - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: FAILURE
@@ -464,25 +464,25 @@ flow:
     - describe_instances:
         do:
           io.cloudslang.amazon.aws.ec2.instances.describe_instances:
-            - identity: '${identity}'
-            - credential: '${credential}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - availability_zone: '${availability_zone}'
-            - instance_id: '${instance_id}'
+            - identity
+            - credential
+            - proxy_host
+            - proxy_port
+            - availability_zone
+            - instance_id
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - exception: '${exception}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: SUCCESS
 
   outputs:
-    - instance_id: '${instance_id}'
-    - return_result: '${return_result}'
-    - return_code: '${return_code}'
-    - exception: '${exception}'
+    - instance_id
+    - return_result
+    - return_code
+    - exception
 
   results:
     - FAILURE
