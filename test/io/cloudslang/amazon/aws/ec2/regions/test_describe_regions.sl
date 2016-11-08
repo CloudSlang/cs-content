@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -32,6 +32,9 @@ flow:
     - debug_mode:
         default: 'false'
         required: false
+    - key_filters_string
+    - value_filters_string
+    - regions_string
 
   workflow:
     - describe_regions:
@@ -45,6 +48,9 @@ flow:
             - proxy_port
             - delimiter
             - debug_mode
+            - key_filters_string
+            - value_filters_string
+            - regions_string
         publish:
           - return_result
           - return_code

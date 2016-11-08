@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Returns the list of the running processes on a container.
+#!
 #! @input container_id: container id
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
@@ -23,13 +24,15 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!                          Default: ''
 #! @output standard_err: error message
 #! @output return_result: list of running processes on the container
 #! @result SUCCESS: the list of running processes on that specific container retrieved sucessfully
 #! @result FAILURE: there was an error while trying to retrieve the list of running processes from the container
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -37,6 +40,7 @@ imports:
 
 flow:
   name: get_running_processes
+
   inputs:
     - container_id
     - command:
@@ -95,6 +99,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
   outputs:
     - return_result
     - standard_err

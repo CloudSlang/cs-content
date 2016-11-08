@@ -5,22 +5,24 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Converts a JSON array or a JSON object to a XML document.
 #!
 #! @input json: The JSON array or object (in the form of a String).
-#! @input pretty_print: The flag for formatting the resulted XML. If it is true the result will contain tabs and newline ('\n') chars.
-#!                       Default value: true
-#!                       Accepted values: true, false
-#! @input show_xml_declaration: The flag for showing the xml declaration (<?xml version="1.0" encoding="UTF-8" standalone="yes"?>).
-#!                               If this is true then rootTagName can't be empty.
-#!                               Default value: false
-#!                               Accepted values: true, false
+#! @input pretty_print: The flag for formatting the resulted XML. If it is true the result
+#!                      will contain tabs and newline ('\n') chars.
+#!                      Default value: true
+#!                      Accepted values: true, false
+#! @input show_xml_declaration: The flag for showing the xml declaration
+#!                              (<?xml version="1.0" encoding="UTF-8" standalone="yes"?>).
+#!                              If this is true then rootTagName can't be empty.
+#!                              Default value: false
+#!                              Accepted values: true, false
 #! @input root_tag_name: The XML tag name. If this input is empty you will get a list of XML elements.
 #! @input default_json_array_item_name: Default XML tag name for items in a JSON array if there isn't a pair
-#!                                       (array name, array item name) defined in jsonArraysNames and jsonArraysItemNames.
-#!                                       Default value: 'item'
+#!                                      (array name, array item name) defined in jsonArraysNames and jsonArraysItemNames.
+#!                                      Default value: 'item'
 #! @input json_arrays_names: The list of array names separated by delimiter.
 #! @input json_arrays_item_names: The coresponding list of array item names separated by delimiter.
 #! @input namespaces_prefixes: The list of tag prefixes separated by delimiter.
@@ -34,8 +36,7 @@
 #! @result SUCCESS: The operation completed as stated in the description.
 #! @result FAILURE: The operation completed unsuccessfully.
 #!!#
-####################################################
-
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 

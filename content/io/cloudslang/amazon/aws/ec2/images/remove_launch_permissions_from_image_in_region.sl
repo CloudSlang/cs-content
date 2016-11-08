@@ -5,19 +5,21 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Removes launch permission of the specified AMI.
 #!               Note: The 'user_ids' and 'user_groups' inputs cannot be left both empty in order to remove permission
 #!                     launch on specified image.
 #!                     AWS Marketplace product codes cannot be modified. Images with an AWS Marketplace product code
 #!                     cannot be made public.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - Proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -39,13 +41,16 @@
 #!                         Default: ''
 #! @input user_groups_string: optional - A string that contains: none, one or more user groups separated by delimiter
 #!                            Default: ''
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the image was successfully created
 #! @result FAILURE: an error occurred when trying to create image
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.images
 
 operation:
@@ -68,6 +73,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -100,6 +106,7 @@ operation:
     - image_id
     - imageId:
         default: ${get("image_id", "")}
+        required: false
         private: true
     - user_ids_string:
         required: false
@@ -115,7 +122,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.images.RemoveLaunchPermissionsFromImageAction
     method_name: execute
 

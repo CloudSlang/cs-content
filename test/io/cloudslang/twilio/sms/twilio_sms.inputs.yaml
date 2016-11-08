@@ -1,0 +1,50 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+test_send_sms:
+  testSuites: [twilio-sms-local]
+  description: Tests sending an SMS through twilio
+  testFlowPath: io.cloudslang.twilio.sms.test_send
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
+  result: SUCCESS
+
+test_retrieve_sms_success:
+  testSuites: [twilio-sms-local]
+  description: Tests retrieving an SMS through twilio
+  testFlowPath: io.cloudslang.twilio.sms.test_retrieve
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
+  result: SUCCESS
+
+test_retrieve_sms_failure:
+  testSuites: [twilio-sms-local]
+  description: Tests retrieving an SMS through twilio from wrong numbers
+  testFlowPath: io.cloudslang.twilio.sms.test_retrieve
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
+  inputs:
+    - from_num: '+123121231234'
+  result: NO_SMS
+
+test_send_sms_and_get_responses:
+  testSuites: [twilio-sms-local]
+  description: Tests sending a few sms messages and waiting for responses
+  testFlowPath: io.cloudslang.twilio.sms.test_send_sms_and_get_responses
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
+  inputs:
+    - recipients: '<+phone-number1, +phone-number2>'
+    - expected_responses: '<+phone-number1: num1, +phone-number2: num2,>'
+  result: SUCCESS
+
+test_send_sms_and_get_responses_with_files:
+  testSuites: [twilio-sms-local]
+  description: Tests sending a few sms messages and waiting for responses when reading and writing from files
+  testFlowPath: io.cloudslang.twilio.sms.test_send_sms_and_get_responses_with_files
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/twilio/sms/twilio.prop.sl
+  inputs:
+    - recipients_file: 'c:\\temp\\invitations\\invitees.txt'
+    - responses_file: 'c:\\temp\\invitations\\responses.txt'
+  result: SUCCESS

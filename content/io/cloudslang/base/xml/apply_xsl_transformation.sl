@@ -35,9 +35,11 @@
 #!                          'http://apache.org/xml/features/disallow-doctype-decl true
 #!                          http://xml.org/sax/features/external-general-entities false
 #!                          http://xml.org/sax/features/external-parameter-entities false'
+#!
 #! @output return_result: the output of the transformation, if no output file is specified.
 #! @output return_code: 0 if success, -1 if failure
 #! @output exception: exception in case of failure, empty otherwise
+#!
 #! @result SUCCESS: XSL transformation applied successfully
 #! @result FAILURE: there was an error while trying to apply the XSL transformation to the XML string or file
 #!!#

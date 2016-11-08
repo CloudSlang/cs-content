@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,8 +7,9 @@
 
 ########################################################################################################################
 #!!
-#! @description: Retrieves the MySQL server status and notifies the user by sending an email that contains the status or the possible
-#!               errors.
+#! @description: Retrieves the MySQL server status and notifies the user by sending an email that contains the
+#!               status or the possible errors.
+#!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input docker_host: Docker machine host
 #! @input docker_port: optional - Docker machine port
@@ -23,6 +24,7 @@
 #! @input email_password: optional - email password
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#

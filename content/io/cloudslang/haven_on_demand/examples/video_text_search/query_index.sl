@@ -1,4 +1,11 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Queries a Haven OnDemand text index setup by the setup_index flow
 #!               and sends the results as an email.
@@ -14,10 +21,11 @@
 #!                    optional
 #! @input proxy_port: proxy server port
 #!                    optional
+#!
 #! @result SUCCESS: text index setup queried successfully
 #! @result FAILURE: there was an error while trying to query the text index setup
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
@@ -73,6 +81,7 @@ flow:
         publish:
           - doc_list: ${return_result}
           - error_message
+
     - process_results:
         loop:
           for: item in eval(doc_list)
@@ -86,6 +95,7 @@ flow:
             - email_text: ${result_text + built_results}
           navigate:
             - SUCCESS: send_results
+
     - send_results:
         do:
           mail.send_mail:

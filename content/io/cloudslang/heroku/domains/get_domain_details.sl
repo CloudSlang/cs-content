@@ -1,11 +1,20 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to get the details of a specified domain.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
 #! @input app_id_or_name: ID or name of the Heroku application on which domain resides
 #! @input domain_id_or_hostname: ID or hostname of domain to retrieve the details for
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -15,13 +24,15 @@
 #!                     example: '2016-01-04T14:49:53Z'
 #! @output updated_at: time when the domain was last time updated
 #!                     example: '2016-01-04T14:49:53Z'
+#!
 #! @result SUCCESS: domain details were successfully retrieved
 #! @result GET_DOMAIN_DETAILS_FAILURE: domain details could not be retrieved
 #! @result GET_ID_FAILURE: domain ID could not be retrieved from GET REST API call response
 #! @result GET_CREATED_AT_FAILURE: created_at domain time could not be retrieved from GET REST API call response
 #! @result GET_UPDATED_AT_FAILURE: updated_at domain time could not be retrieved from GET REST API call response
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.heroku.domains
 
 imports:
@@ -30,6 +41,7 @@ imports:
 
 flow:
   name: get_domain_details
+
   inputs:
     - username
     - password:
@@ -46,7 +58,6 @@ flow:
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

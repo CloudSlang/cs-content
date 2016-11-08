@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Validates SSH access to the host and then runs an SSH command on the host.
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command - Default: '22'
 #! @input command: command to execute
@@ -47,6 +48,7 @@
 #! @input proxy_port: optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
 #! @input proxy_username: optional - The user name used when connecting to the proxy.
 #! @input proxy_password: optional - The proxy server password associated with the proxy_username input value.
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -57,6 +59,7 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute.
 #! @output return_code: return code of the command
+#!
 #! @result SUCCESS: SSH access was successful and returned with code '0'
 #! @result FAILURE: otherwise
 #!!#
@@ -71,6 +74,7 @@ imports:
 
 flow:
     name: ssh_flow
+
     inputs:
       - host
       - port: '22'
@@ -120,6 +124,7 @@ flow:
       - proxy_password:
           sensitive: true
           required: false
+
     workflow:
       - validate_ssh_access:
           do:
@@ -144,7 +149,6 @@ flow:
               - proxy_port
               - proxy_username
               - proxy_password
-
           publish:
             - return_result
             - return_code
@@ -208,6 +212,7 @@ flow:
             - FAILURE_WITH_NO_MESSAGE: validate_ssh_access
             - CUSTOM_FAILURE: validate_ssh_access
             - NO_ISSUE_FOUND: FAILURE
+
     outputs:
       - return_result
       - standard_out
@@ -215,6 +220,7 @@ flow:
       - exception
       - command_return_code: ${ exit_status }
       - return_code
+
     results:
       - SUCCESS
       - FAILURE
