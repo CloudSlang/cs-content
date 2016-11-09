@@ -15,6 +15,10 @@
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
 #! @input public_ip_address_name: public IP address name
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -60,6 +64,12 @@ flow:
     - api_version:
         required: false
         default: '2016-03-30'
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - public_ip_address_name
     - proxy_host:
         required: false
@@ -96,6 +106,8 @@ flow:
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username

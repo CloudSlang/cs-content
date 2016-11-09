@@ -10,11 +10,15 @@
 #! @description: Performs an HTTP request to start a virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input resource_group_name: resource group name
 #! @input auth_token: authentication token
 #! @input api_version: the API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input vm_name: virtual machine name
-#! @input resource_group_name: resource group name
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
 #!                    Default: '8080'
@@ -62,6 +66,12 @@ flow:
     - api_version:
         default: '2015-06-15'
         required: false
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -101,6 +111,8 @@ flow:
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username

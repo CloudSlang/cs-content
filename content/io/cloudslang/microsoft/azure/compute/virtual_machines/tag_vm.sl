@@ -10,18 +10,19 @@
 #! @description: Performs an HTTP request to add a custom tag to a virtual machine
 #!
 #! @input subscription_id: Azure subscription ID
+#! @input resource_group_name: Azure resource group name
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: the API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.
-#! @input resource_group_name: Azure resource group name
 #! @input tag_name: Name of custom tag to add to the VM
 #! @input tag_value: Value of tag to add to the VM
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
-#! @input resource_group_name: Azure resource group name
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -71,6 +72,12 @@ flow:
     - api_version:
         required: false
         default: '2015-06-15'
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -110,6 +117,8 @@ flow:
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username

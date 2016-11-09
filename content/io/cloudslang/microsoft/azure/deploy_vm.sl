@@ -14,7 +14,7 @@
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#!                   Default: 'https://sts.windows.net/common'
+#!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
 #! @input vm_name: virtual machine name
@@ -45,6 +45,10 @@
 #! @input disk_size: Size of the disk to attach to the virtual machine
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -78,18 +82,19 @@
 namespace: io.cloudslang.microsoft.azure
 
 imports:
-  strings: io.cloudslang.base.strings
-  ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  auth: io.cloudslang.microsoft.azure.utility
-  nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
+  strings: io.cloudslang.base.strings
+  auth: io.cloudslang.microsoft.azure.utility
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
+  ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
+  nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
 
 flow:
   name: deploy_vm
+
   inputs:
     - subscription_id
     - resource_group_name
@@ -118,6 +123,12 @@ flow:
     - tag_value
     - disk_name
     - disk_size
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -165,6 +176,8 @@ flow:
             - resource_group_name
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -193,6 +206,8 @@ flow:
             - virtual_network_name
             - subnet_name
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -246,6 +261,8 @@ flow:
             - availability_set_name
             - storage_account
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -268,10 +285,6 @@ flow:
             - subscription_id
             - publisher
             - auth_token
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
             - vm_template
             - sku
             - offer
@@ -284,6 +297,12 @@ flow:
             - vm_size
             - availability_set_name
             - storage_account
+            - connect_timeout
+            - socket_timeout
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
         publish:
           - vm_state: ${output}
           - status_code: ${status_code}
@@ -299,6 +318,8 @@ flow:
             - resource_group_name
             - vm_name
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -366,6 +387,8 @@ flow:
             - subscription_id
             - resource_group_name
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -437,6 +460,8 @@ flow:
             - storage_account
             - disk_name
             - disk_size
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -462,6 +487,8 @@ flow:
             - auth_token
             - tag_name
             - tag_value
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -486,6 +513,8 @@ flow:
             - resource_group_name
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -507,6 +536,8 @@ flow:
             - resource_group_name
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username

@@ -20,6 +20,10 @@
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: Name of the network subnet
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -70,6 +74,12 @@ flow:
     - virtual_network_name
     - subnet_name
     - location
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -112,6 +122,8 @@ flow:
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
