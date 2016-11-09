@@ -35,5 +35,10 @@ decision:
          required: false
 
   results:
-    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case in [True, true, 'True', 'true'] and first_string.lower() == second_string.lower()) or (first_string == second_string))}
+    - SUCCESS: >
+        ${
+        first_string is not None and second_string is not None and
+        ((ignore_case in [True, true, 'True', 'true'] and first_string.lower()
+        == second_string.lower()) or (first_string == second_string))
+        }
     - FAILURE
