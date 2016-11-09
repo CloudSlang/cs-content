@@ -9,14 +9,15 @@
 #!!
 #! @description: Stop virtual machine flow.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

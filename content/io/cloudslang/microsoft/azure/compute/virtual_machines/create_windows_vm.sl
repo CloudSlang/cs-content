@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to create a Windows virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
@@ -68,8 +68,9 @@
 #!                                 Default: 'strict'
 #!
 #! @output output: json response with information about the virtual machine instance
-#! @output status_code: 201 if request completed successfully, others in case something went wrong
-#! @output error_message: Error message in case something went wrong
+#! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
+#! @output error_message: If an error occurs while running the flow it will be populated in this output,
+#!                        otherwise the output will be empty
 #!
 #! @result SUCCESS: Windows virtual machine created successfully.
 #! @result FAILURE: There was an error while trying to create the virtual machine.

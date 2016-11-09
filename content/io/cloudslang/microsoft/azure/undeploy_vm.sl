@@ -7,20 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: VM deprovison flow.
+#! @description: VM deprovision flow.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#! @input vm_name: virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input public_ip_address_name: Name of the public address to be created
-#! @input virtual_network_name: Name of the virtual network to use
+#! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
-#! @input storage_account: Name of the storage account to use
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input nic_name: Name of the network interface card
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
@@ -205,7 +206,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${deleted_vm}'
-            - json_path: 'value.*.vm_name'
+            - json_path: 'value.*.name'
         publish:
           - return_deleted: ${return_result}
         navigate:
@@ -293,7 +294,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${nics_result}
-            - string_to_find: ${nic_name}
+            - string_to_find: ${vm_name + '-nic'}
         navigate:
           - SUCCESS: wait_nic_check
           - FAILURE: delete_public_ip_address
@@ -370,7 +371,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ips_response}
-            - string_to_find: ${public_ip_address_name}
+            - string_to_find: ${vm_name + '-ip'}
         navigate:
           - SUCCESS: wait_ip_check
           - FAILURE: SUCCESS
@@ -382,6 +383,7 @@ flow:
         navigate:
           - SUCCESS: list_public_ip_addresses_within_resource_group
           - FAILURE: on_failure
+
   outputs:
     - return_code
     - status_code

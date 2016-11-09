@@ -9,7 +9,7 @@
 #!!
 #! @description: Delete a blob from the container that exists in the specified storage account.
 #!
-#! @input storage_account: Azure storage account name
+#! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
 #! @input container_name: the name of the container in which the blob is
 #! @input blob_name: the name of the blob you want to delete

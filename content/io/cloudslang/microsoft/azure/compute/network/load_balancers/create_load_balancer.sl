@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to create a load balancer
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
-#! @input resource_group_name: resource group name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input nic_name: network interface card name
 #! @input location: Specifies the supported Azure location where the load balancer should be created.
 #!                  This can be different from the location of the resource group.
@@ -25,7 +25,7 @@
 #! @input url: url to the Azure resource
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
+#! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy

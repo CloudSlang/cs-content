@@ -9,12 +9,13 @@
 #!!
 #! @description: Performs an HTTP request to retrieve informations about the power state of a virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: authentication token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
@@ -41,7 +42,8 @@
 #! @output output: json response with information about the virtual machine instance
 #! @output power_state: power state json response
 #! @output status_code: If a VM is not found the error message will be populated with a response, empty otherwise
-#! @output error_message: Error message in case something went wrong
+#! @output error_message: If an error occurs while running the flow it will be populated in this output,
+#!                        otherwise the output will be empty
 #!
 #! @result SUCCESS: Virtual machine power state retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the power state of the virtual machine.

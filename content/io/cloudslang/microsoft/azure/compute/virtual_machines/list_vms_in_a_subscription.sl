@@ -9,7 +9,7 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a list of all the virtual machines in the specified subscription
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'

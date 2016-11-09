@@ -9,9 +9,10 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a list of all  available virtual machine sizes for a subscription in a given region.
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
-#! @input vm_name: virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input location: A supported Azure region
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"

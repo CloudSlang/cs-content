@@ -9,13 +9,13 @@
 #!!
 #! @description: Performs an HTTP request to retrieve information about a container
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure Storage
 #!                     Default: '2015-04-05'
 #! @input list_cont_auth_header: Storage authorization header
 #! @input date: Specifies the Coordinated Universal Time (UTC) for the request
-#! @input storage_account: Storage account name
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input container_name: Container name
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'

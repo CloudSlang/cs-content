@@ -9,7 +9,7 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a list of operations supported by the storage resource provider
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
 #! @input list_cont_auth_header: Storage authorization header
 #! @input api_version: The API version used to create calls to Azure

@@ -9,7 +9,7 @@
 #!!
 #! @description: Performs an HTTP request to save an image that is associated with a generalized virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
 #! @input auth_type: optional - authentication type
 #!                   Default: "anonymous"
@@ -18,7 +18,7 @@
 #! @input destination_container_name: Specifies the name of the container inside which the vhds constituting the image will reside
 #! @input override_vhds: Specifies if an existing vhd with same prefix inside the destination container is overwritten
 #!                       Default: 'true'
-#! @input resource_group_name: resource group name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input virtual_machine_name: virtual machine name
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body

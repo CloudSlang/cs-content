@@ -9,10 +9,11 @@
 #!!
 #! @description: Performs an HTTP request to delete a virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: authentication token
-#! @input resource_group_name: resource group name
-#! @input vm_name: virtual machine name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established

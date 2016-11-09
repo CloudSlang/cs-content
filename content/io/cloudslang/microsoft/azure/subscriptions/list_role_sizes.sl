@@ -10,7 +10,7 @@
 #! @description: Performs an HTTP request to return a list with the role sizes that are available
 #!               under the specified subscription.
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                    Default: '2016-09-01'

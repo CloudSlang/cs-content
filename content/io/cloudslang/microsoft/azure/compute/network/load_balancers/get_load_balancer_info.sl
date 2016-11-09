@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to get information about a specified network interface card
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
-#! @input resource_group_name: resource group name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input load_balancer_name: load balancer name
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request

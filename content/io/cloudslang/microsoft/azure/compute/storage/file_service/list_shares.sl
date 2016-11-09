@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a list of the shares under the specified account
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
-#! @input storage_account: Storage account name
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy

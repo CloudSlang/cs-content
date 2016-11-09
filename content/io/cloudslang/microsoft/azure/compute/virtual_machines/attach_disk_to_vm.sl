@@ -9,13 +9,14 @@
 #!!
 #! @description: Performs an HTTP request to add a virtual disk to a virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: virtual machine name
-#! @input storage_account: Storage account name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input disk_name: Name of the virtual disk to be attached
 #! @input disk_size: Size of the virtual disk to be attached
 #! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.\
@@ -45,7 +46,8 @@
 #!
 #! @output output: json response with information about the added virtual disk to the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: Error message in case something went wrong
+#! @output error_message: If an error occurs while running the flow it will be populated in this output,
+#!                        otherwise the output will be empty
 #!
 #! @result SUCCESS: virtual machine updated with the added virtual disk successfully.
 #! @result FAILURE: There was an error while trying to add a virtual disk to the virtual machine.

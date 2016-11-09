@@ -9,7 +9,7 @@
 #!!
 #! @description: Delete a container for the specified account
 #!
-#! @input storage_account: Azure storage account name
+#! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
 #! @input container_name: the name of the container you want to delete
 #! @input proxy_host: optional - proxy server used to access the web site

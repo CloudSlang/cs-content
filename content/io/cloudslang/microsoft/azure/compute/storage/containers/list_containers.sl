@@ -9,7 +9,7 @@
 #!!
 #! @description: List the containers for the specified storage account
 #!
-#! @input storage_account: Azure storage account name
+#! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'

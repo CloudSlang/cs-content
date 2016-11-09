@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to add a custom tag to a virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: the API version used to create calls to Azure
 #!                     Default: '2015-06-15'
@@ -44,7 +44,8 @@
 #!
 #! @output output: json response with information about the custom tag added to the virtual machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: Error message in case something went wrong
+#! @output error_message: If an error occurs while running the flow it will be populated in this output,
+#!                        otherwise the output will be empty
 #!
 #! @result SUCCESS: Virtual machine updated with the added custom tag successfully.
 #! @result FAILURE: There was an error while trying to add a custom tag to the virtual machine.

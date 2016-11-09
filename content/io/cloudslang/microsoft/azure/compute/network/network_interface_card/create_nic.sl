@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to create a network interface card
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
@@ -19,7 +19,7 @@
 #!                  This can be different from the location of the resource group.
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
+#! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
@@ -167,8 +167,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-           
-    
+
   outputs: 
     - output
     - status_code

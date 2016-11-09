@@ -7,18 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: VM provison flow.
+#! @description: VM provision flow.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: virtual machine name
-#! @input vm_size: Virtual machine size given by Azure
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #!                 Default: 'Standard_DS1_v2'
 #! @input offer: Virtual machine offer
@@ -28,21 +29,38 @@
 #!                      '16.04.0-LTS','14.04.0-LTS','12.04.0-LTS','15.04.0-LTS' - for Ubuntu
 #! @input publisher: Name of the publisher for the operating system offer and sku
 #!                   Examople: 'MicrosoftWindowsServer','Canonical'
-#! @input virtual_network_name: Name of the virtual network to use
+#! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
-#! @input storage_account: Name of the storage account to use
-#! @input subnet_name: Name of the subnet
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
+#! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
 #!                     The VM template is based on what distribution you want to install (e.g. Windows or Linux)
 #! @input os_platform: Name of the operating system that will be installed
 #!                     Valid values: 'Windows,'Linux'
-#! @input vm_username: Name of the virtual machine username
-#! @input vm_password: Password of the virtual machine username
+#! @input vm_username: Specifies the name of the administrator account.
+#!                        The username can't contain the \/'[]":\<>+=;,?*@ characters or end with "."
+#!                        Windows-only restriction: Cannot end in "."
+#!                        Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1",
+#!                        "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
+#!                        "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
+#!                        "sys", "test2", "test3", "user4", "user5".
+#! @input vm_password: Specifies the password of the administrator account.
+#!                        Minimum-length (Windows): 8 characters
+#!                        Minimum-length (Linux): 6 characters
+#!                        Max-length (Windows): 123 characters
+#!                        Max-length (Linux): 72 characters
+#!                        Complexity requirements: 3 out of 4 conditions below need to be fulfilled
+#!                        Has lower characters
+#!                        Has upper characters
+#!                        Has a digit
+#!                        Has a special character (Regex match [\W_])
+#!                        Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
+#!                        "Password!", "Password1", "Password22", "iloveyou!"
 #! @input tag_name: Name of the tag to be added to the virtual machine
 #! @input tag_value: Value of the tag to be added to the vrtual machine
-#! @input disk_size: Size of the disk to attach to the virtual machine
+#! @input disk_size: The size of the storage disk to be attach to the virtual machine.
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
@@ -68,9 +86,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
 #!
-#! @output output: Information about the virtual machine that has been created
-#! @output ip_address: the IP address of the virtual machine
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output output: This output returns a JSON that contains the details of the created VM.
+#! @output ip_address: The IP address of the virtual machine
+#! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #!
