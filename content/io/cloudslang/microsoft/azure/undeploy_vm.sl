@@ -204,7 +204,7 @@ flow:
     - retrieve_vm:
         do:
           json.json_path_query:
-            - json_object: ${deleted_vm}
+            - json_object: '${deleted_vm}'
             - json_path: 'value.*.vm_name'
         publish:
           - return_deleted: ${return_result}
@@ -215,7 +215,7 @@ flow:
     - check_empty_vm:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_deleted}
+            - string_in_which_to_search: '${return_deleted}'
             - string_to_find: ${vm_name}
         navigate:
           - SUCCESS: wait_vm_check

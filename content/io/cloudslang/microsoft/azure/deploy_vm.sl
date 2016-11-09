@@ -412,19 +412,8 @@ flow:
         publish:
           - nics: ${return_result}
         navigate:
-          - SUCCESS: get_nic_location
-          - FAILURE: on_failure
-
-    - get_nic_location:
-        do:
-          lists.find_all:
-            - list: ${nics}
-            - element: "${'\"' + vm_name + '-ip' + '\"'}"
-            - ignore_case: 'true'
-        publish:
-          - indices
-        navigate:
           - SUCCESS: strip_result
+          - FAILURE: on_failure
 
     - strip_result:
         do:
@@ -433,7 +422,18 @@ flow:
             - regex: '(\[|\])'
             - replacement: ""
         publish:
-          - result_text
+          - stripped_nic: ${result_text}
+        navigate:
+          - SUCCESS: get_nic_location
+
+    - get_nic_location:
+        do:
+          lists.find_all:
+            - list: ${stripped_nic}
+            - element: "${'\"' + vm_name + '-ip' + '\"'}"
+            - ignore_case: 'true'
+        publish:
+          - indices
         navigate:
           - SUCCESS: get_ip_address
 
