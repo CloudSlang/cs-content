@@ -32,7 +32,7 @@ operation:
   inputs:
     - storage_account
     - storageAccount:
-        default: ${get("storage_account", ""}
+        default: ${get("storage_account", "")}
         required: false
         private: true
     - key:

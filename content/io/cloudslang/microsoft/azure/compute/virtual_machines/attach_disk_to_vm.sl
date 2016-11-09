@@ -117,7 +117,7 @@ flow:
                 ${'{"name":"' + vm_name + '","location":"' + location +
                 '","properties":{"storageProfile":{"dataDisks":[{"name":"' + disk_name + '","diskSizeGB":"' +
                 disk_size + '","lun":0,"vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
-                disk_name + '.vhd"},"createOption":"empty"}]}}}'}
+                disk_name + 'storageDisk.vhd"},"createOption":"empty"}]}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'

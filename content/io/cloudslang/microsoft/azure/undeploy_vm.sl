@@ -22,6 +22,8 @@
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
 #! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
+#! @input container_name: The name of the container that contains the storage blob to be deleted.
+#!                        Default: 'vhds'
 #! @input nic_name: Name of the network interface card
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
@@ -66,6 +68,8 @@ imports:
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
+  storage: io.cloudslang.microsoft.azure.compute.storage.containers
+  auth_storage: io.cloudslang.microsoft.azure.compute.storage
 
 flow:
   name: undeploy_vm
@@ -76,6 +80,10 @@ flow:
     - username
     - login_authority
     - vm_name
+    - container_name:
+        default: 'vhds'
+        required: false
+    - storage_account
     - password:
         sensitive: true
     - connect_timeout:
@@ -105,7 +113,6 @@ flow:
         default: ''
         required: false
         sensitive: true
-
 
   workflow:
 
@@ -374,7 +381,7 @@ flow:
             - string_to_find: ${vm_name + '-ip'}
         navigate:
           - SUCCESS: wait_ip_check
-          - FAILURE: SUCCESS
+          - FAILURE: get_storage_auth
 
     - wait_ip_check:
         do:
@@ -383,6 +390,65 @@ flow:
         navigate:
           - SUCCESS: list_public_ip_addresses_within_resource_group
           - FAILURE: on_failure
+
+    - get_storage_auth:
+        do:
+          auth_storage.get_storage_account_keys:
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - storage_account
+            - connect_timeout
+            - socket_timeout
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
+        publish:
+          - key
+          - status_code
+          - error_message
+        navigate:
+          - SUCCESS: delete_osdisk
+          - FAILURE: on_failure
+
+    - delete_osdisk:
+        do:
+          storage.delete_blob:
+            - storage_account
+            - key: ${key}
+            - container_name
+            - blob_name: ${vm_name + 'osDisk.vhd'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - status_code
+        navigate:
+          - SUCCESS: get_deleted_blob
+          - FAILURE: on_failure
+
+    - get_deleted_blob:
+        do:
+          storage.delete_blob:
+            - storage_account
+            - key
+            - container_name
+            - blob_name: ${vm_name + 'storageDisk.vhd'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - status_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_code

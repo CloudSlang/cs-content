@@ -33,14 +33,14 @@ operation:
   inputs:
     - storage_account
     - storageAccount:
-        default: ${get("storage_account", ""}
+        default: ${get("storage_account", "")}
         required: false
         private: true
     - key:
         sensitive: true
     - container_name
     - containerName:
-        default: ${get("container_name", ""}
+        default: ${get("container_name", "")}
         required: false
         private: true
     - proxy_host:
