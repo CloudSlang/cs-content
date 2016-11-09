@@ -37,11 +37,11 @@
 #! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
 #!                     The VM template is based on what distribution you want to install (e.g. Windows or Linux)
 #! @input os_platform: Name of the operating system that will be installed
+#!                     Valid values: 'Windows,'Linux'
 #! @input vm_username: Name of the virtual machine username
 #! @input vm_password: Password of the virtual machine username
 #! @input tag_name: Name of the tag to be added to the virtual machine
 #! @input tag_value: Value of the tag to be added to the vrtual machine
-#! @input disk_name: Name of the disk to attach to the virtual machine
 #! @input disk_size: Size of the disk to attach to the virtual machine
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
@@ -121,7 +121,6 @@ flow:
     - vm_password
     - tag_name
     - tag_value
-    - disk_name
     - disk_size
     - connect_timeout:
         default: "0"
@@ -458,7 +457,7 @@ flow:
             - auth_token
             - vm_name
             - storage_account
-            - disk_name
+            - disk_name: ${vm_name}
             - disk_size
             - connect_timeout
             - socket_timeout

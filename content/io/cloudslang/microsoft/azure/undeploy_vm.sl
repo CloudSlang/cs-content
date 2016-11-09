@@ -75,8 +75,6 @@ flow:
     - username
     - login_authority
     - vm_name
-    - public_ip_address_name
-    - nic_name
     - password:
         sensitive: true
     - connect_timeout:
@@ -92,11 +90,6 @@ flow:
     - proxy_username:
         required: false
     - proxy_password:
-        sensitive: true
-    - trust_keystore:
-        required: false
-    - trust_password:
-        default: ''
         required: false
         sensitive: true
     - trust_all_roots:
@@ -105,6 +98,12 @@ flow:
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
+    - trust_keystore:
+        required: false
+    - trust_password:
+        default: ''
+        required: false
+        sensitive: true
 
 
   workflow:
@@ -127,10 +126,10 @@ flow:
           - return_code
           - error_message: ${exception}
         navigate:
-          - SUCCESS: stop_and_deallocate_vm
+          - SUCCESS: stop_vm
           - FAILURE: on_failure
 
-    - stop_and_deallocate_vm:
+    - stop_vm:
         do:
           vm.stop_vm:
             - subscription_id
@@ -206,7 +205,7 @@ flow:
         do:
           json.json_path_query:
             - json_object: ${deleted_vm}
-            - json_path: 'value.vm_name'
+            - json_path: 'value.*.vm_name'
         publish:
           - return_deleted: ${return_result}
         navigate:
@@ -236,7 +235,7 @@ flow:
             - subscription_id
             - resource_group_name
             - auth_token
-            - nic_name
+            - nic_name: ${vm_name + '-nic'}
             - connect_timeout
             - socket_timeout
             - proxy_host
@@ -313,7 +312,7 @@ flow:
             - subscription_id
             - resource_group_name
             - auth_token
-            - public_ip_address_name
+            - public_ip_address_name: ${vm_name + '-ip'}
             - connect_timeout
             - socket_timeout
             - proxy_host
@@ -322,6 +321,8 @@ flow:
             - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
