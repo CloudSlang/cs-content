@@ -65,8 +65,6 @@
 #!                   Example: '1'
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
-#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -143,9 +141,6 @@ flow:
     - connect_timeout:
         default: "0"
         required: false
-    - socket_timeout:
-        default: "0"
-        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -194,7 +189,7 @@ flow:
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -224,7 +219,7 @@ flow:
             - subnet_name
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -279,7 +274,7 @@ flow:
             - storage_account
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -315,7 +310,7 @@ flow:
             - availability_set_name
             - storage_account
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -336,7 +331,7 @@ flow:
             - vm_name
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -405,7 +400,7 @@ flow:
             - resource_group_name
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -478,7 +473,7 @@ flow:
             - disk_name: ${vm_name}
             - disk_size
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -505,7 +500,7 @@ flow:
             - tag_name
             - tag_value
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -531,7 +526,7 @@ flow:
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -554,7 +549,7 @@ flow:
             - public_ip_address_name: ${vm_name + '-ip'}
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username

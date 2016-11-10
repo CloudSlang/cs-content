@@ -76,10 +76,8 @@ flow:
     - connect_timeout:
         default: "0"
         required: false
-    - socket_timeout:
-        default: "0"
-        required: false
     - polling_interval:
+        required: false
         default: '30'
     - proxy_host:
         required: false
@@ -129,7 +127,7 @@ flow:
             - resource_group_name
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -153,7 +151,7 @@ flow:
             - resource_group_name
             - auth_token
             - connect_timeout
-            - socket_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
