@@ -34,7 +34,8 @@
 #!                 Default: "2016-04-01"
 #! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
-#! @input instance_id: the ID of the server (instance) you want to terminate
+#! @input instance_ids_string: String that contains one or more values that represents instance IDs.
+#!                             Example: "i-12345678,i-abcdef12,i-12ab34cd"
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise

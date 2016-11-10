@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to retrieve information about the specified network security group
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'

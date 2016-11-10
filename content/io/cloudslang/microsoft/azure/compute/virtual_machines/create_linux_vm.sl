@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to create a Linux virtual machine
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
@@ -20,6 +20,12 @@
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
 #! @input storage_account: Azure storage account
+#! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
+#!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
+#!                 Default: 'Standard_DS1_v2'
+#! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
+#!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
+#!                 Default: 'Standard_DS1_v2'
 #! @input publisher: Specifies the publisher of the image.
 #! @input offer: Specifies the offer of the image used to create the virtual machine.
 #! @input sku: Specifies the SKU of the image used to create the virtual machine.
@@ -44,6 +50,10 @@
 #!                        "Password!", "Password1", "Password22", "iloveyou!"
 #! @input nic_name: Name of the network interface card
 #! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -64,8 +74,9 @@
 #!                                 Default: 'strict'
 #!
 #! @output output: json response with information about the Linux virtual machine instance
-#! @output status_code: 201 if request completed successfully, others in case something went wrong
-#! @output error_message: Error message in case something went wrong
+#! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
+#! @output error_message: If an error occurs while running the flow it will be populated in this output,
+#!                        otherwise the output will be empty
 #!
 #! @result SUCCESS: Linux virtual machine created successfully.
 #! @result FAILURE: There was an error while trying to create the virtual machine.
@@ -92,6 +103,7 @@ flow:
     - location
     - availability_set_name
     - storage_account
+    - vm_size
     - publisher
     - offer
     - sku
@@ -115,6 +127,12 @@ flow:
              '"},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
              '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
              nic_name + '"}]}}}'}
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -152,6 +170,8 @@ flow:
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
+            - connect_timeout
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username

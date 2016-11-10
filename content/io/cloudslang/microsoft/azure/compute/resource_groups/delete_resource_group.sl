@@ -11,8 +11,8 @@
 #!               WARNING: When you delete a resource group, all of its dependent resources are also deleted.
 #!               Deleting a resource group also deletes all of its template deployments and currently stored operations.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-01-01'

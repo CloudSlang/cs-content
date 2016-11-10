@@ -9,14 +9,15 @@
 #!!
 #! @description: Performs an HTTP request to create or update a virtual machine extension
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input location: Specifies the supported Azure location where the extension will be added to the virtual machine
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: Virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input publisher: Specifies name of the extension’s publisher
 #! @input file_url: Specifies the script file path
 #!                  Example: 'https://raw.githubusercontent.com/Something/do_something.sh'

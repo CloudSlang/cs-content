@@ -8,7 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Performs an HTTP request to delete a network security group from the specified subscription
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: resource_group_name
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure

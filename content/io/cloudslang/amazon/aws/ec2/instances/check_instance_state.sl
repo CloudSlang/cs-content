@@ -84,7 +84,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: '${return_result}'
-            - string_to_find: "${'state=' + instance_state}"
+            - string_to_find: "${instance_state}"
         publish: []
         navigate:
           - SUCCESS: SUCCESS

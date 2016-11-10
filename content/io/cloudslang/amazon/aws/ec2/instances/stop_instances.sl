@@ -33,7 +33,8 @@
 #!                 Default: "2016-04-01"
 #! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
-#! @input instance_id: the ID of the server (instance) you want to stop
+#! @input instance_ids_string: String that contains one or more values that represents instance IDs.
+#!                             Example: "i-12345678,i-abcdef12,i-12ab34cd"
 #! @input force_stop: optional - Forces the instances to stop. The instances do not have an opportunity to flush
 #!                    file system caches or file system metadata. If you use this option, you must perform file
 #!                    system check and repair procedures. This option is not recommended for Windows instances.

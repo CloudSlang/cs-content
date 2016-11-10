@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a List of load balancers within a resource group
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
-#! @input resource_group_name: resource group name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header

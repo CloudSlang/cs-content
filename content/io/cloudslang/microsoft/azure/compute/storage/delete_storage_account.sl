@@ -9,12 +9,12 @@
 #!!
 #! @description: Performs an HTTP request to delete a storage account
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input storage_account: Storage account name
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy

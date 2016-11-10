@@ -9,9 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to create a resource group
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
-#! @input resource_group_name: resource group name
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-01-01'
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -34,7 +34,7 @@
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response with information about the resource group name
+#! @output output: json response with information about the The name of the Azure Resource Group that should be used to create the VM.
 #! @output status_code: 201 if request completed successfully, others in case something went wrong
 #! @output error_message: If the resource group could not be created the error message will be populated with a response,
 #!                        empty otherwise

@@ -7,21 +7,28 @@
 #
 ########################################################################################################################
 #!!
-#! @description: VM deprovison flow.
+#! @description: VM deprovision flow.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: Azure resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#! @input vm_name: virtual machine name
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input public_ip_address_name: Name of the public address to be created
-#! @input virtual_network_name: Name of the virtual network to use
+#! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
-#! @input storage_account: Name of the storage account to use
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
+#! @input container_name: The name of the container that contains the storage blob to be deleted.
+#!                        Default: 'vhds'
 #! @input nic_name: Name of the network interface card
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -61,19 +68,27 @@ imports:
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
+  storage: io.cloudslang.microsoft.azure.compute.storage.containers
+  auth_storage: io.cloudslang.microsoft.azure.compute.storage
 
 flow:
   name: undeploy_vm
+
   inputs:
     - subscription_id
     - resource_group_name
     - username
     - login_authority
     - vm_name
-    - public_ip_address_name
-    - nic_name
+    - container_name:
+        default: 'vhds'
+        required: false
+    - storage_account
     - password:
         sensitive: true
+    - connect_timeout:
+        default: "0"
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -81,11 +96,6 @@ flow:
     - proxy_username:
         required: false
     - proxy_password:
-        sensitive: true
-    - trust_keystore:
-        required: false
-    - trust_password:
-        default: ''
         required: false
         sensitive: true
     - trust_all_roots:
@@ -94,19 +104,24 @@ flow:
     - x_509_hostname_verifier:
         required: false
         default: 'strict'
-
+    - trust_keystore:
+        required: false
+    - trust_password:
+        default: ''
+        required: false
+        sensitive: true
 
   workflow:
 
     - get_auth_token:
         do:
           auth.get_auth_token:
-            - username: '${username}'
-            - password: '${password}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
             - trust_keystore
@@ -116,23 +131,26 @@ flow:
           - return_code
           - error_message: ${exception}
         navigate:
-          - SUCCESS: stop_and_deallocate_vm
+          - SUCCESS: stop_vm
           - FAILURE: on_failure
 
-    - stop_and_deallocate_vm:
+    - stop_vm:
         do:
-          vm.stop_and_deallocate_vm:
-            - subscription_id: '${subscription_id}'
-            - auth_token: '${auth_token}'
-            - vm_name: '${vm_name}'
-            - resource_group_name: '${resource_grouo_name}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - proxy_host: '${proxy_host}'
+          vm.stop_vm:
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - vm_name
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - x_509_hostname_verifier
             - trust_all_roots
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
@@ -143,17 +161,20 @@ flow:
     - delete_vm:
         do:
           vm.delete_vm:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - vm_name: '${vm_name}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_port}'
-            - proxy_host: '${proxy_port}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - vm_name
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
@@ -164,18 +185,21 @@ flow:
     - list_vms_in_a_resource_group:
         do:
           vm.list_vms_in_a_resource_group:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - proxy_host: '${proxy_host}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
-          - deleted_vm: '${output}'
+          - deleted_vm: ${output}
           - status_code
           - error_message
         navigate:
@@ -186,9 +210,9 @@ flow:
         do:
           json.json_path_query:
             - json_object: '${deleted_vm}'
-            - json_path: value.vm_name
+            - json_path: 'value.*.name'
         publish:
-          - return_deleted: '${return_result}'
+          - return_deleted: ${return_result}
         navigate:
           - SUCCESS: check_empty_vm
           - FAILURE: on_failure
@@ -197,7 +221,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: '${return_deleted}'
-            - string_to_find: '${vm_name}'
+            - string_to_find: ${vm_name}
         navigate:
           - SUCCESS: wait_vm_check
           - FAILURE: delete_nic
@@ -213,17 +237,20 @@ flow:
     - delete_nic:
         do:
           nic.delete_nic:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - nic_name: '${nic_name}'
-            - proxy_username: '${proxy_username}'
-            - proxy_host: '${proxy_host}'
-            - proxy_password: '${proxy_password}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - nic_name: ${vm_name + '-nic'}
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
@@ -234,21 +261,24 @@ flow:
     - list_nics_within_resource_group:
         do:
           nic.list_nics_within_resource_group:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - proxy_host: '${proxy_host}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
         publish:
-          - nics: '${output}'
+          - nics: ${output}
         navigate:
           - SUCCESS: retrieve_nics
           - FAILURE: on_failure
@@ -256,10 +286,10 @@ flow:
     - retrieve_nics:
         do:
           json.json_path_query:
-            - json_object: '${nics}'
+            - json_object: ${nics}
             - json_path: 'value.*.name'
         publish:
-          - nics_result: '${return_result}'
+          - nics_result: ${return_result}
         navigate:
           - SUCCESS: check_empty_nic
           - FAILURE: on_failure
@@ -267,8 +297,8 @@ flow:
     - check_empty_nic:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '${nics_result}'
-            - string_to_find: '${nic_name}'
+            - string_in_which_to_search: ${nics_result}
+            - string_to_find: ${vm_name + '-nic'}
         navigate:
           - SUCCESS: wait_nic_check
           - FAILURE: delete_public_ip_address
@@ -284,15 +314,20 @@ flow:
     - delete_public_ip_address:
         do:
           ip.delete_public_ip_address:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - public_ip_address_name: '${public_ip_address_name}'
-            - proxy_host: '${proxy_host}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - public_ip_address_name: ${vm_name + '-ip'}
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
@@ -303,21 +338,24 @@ flow:
     - list_public_ip_addresses_within_resource_group:
         do:
           ip.list_public_ip_addresses_within_resource_group:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_grouo_name}'
-            - auth_token: '${auth_token}'
-            - proxy_host: '${proxy_host}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
-            - trust_keystore: '${trust_keystore}'
-            - trust_password: '${trust_password}'
+            - trust_keystore
+            - trust_password
         publish:
           - status_code
           - error_message
         publish:
-          - ips_result: '${output}'
+          - ips_result: ${output}
         navigate:
           - SUCCESS: retrieve_ips
           - FAILURE: on_failure
@@ -325,10 +363,10 @@ flow:
     - retrieve_ips:
         do:
           json.json_path_query:
-            - json_object: '${ips_result}'
+            - json_object: ${ips_result}
             - json_path: 'value.*.name'
         publish:
-          - ips_response: '${return_result}'
+          - ips_response: ${return_result}
         navigate:
           - SUCCESS: check_empty_ip
           - FAILURE: on_failure
@@ -336,11 +374,11 @@ flow:
     - check_empty_ip:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '${ips_response}'
-            - string_to_find: '${public_ip_address_name}'
+            - string_in_which_to_search: ${ips_response}
+            - string_to_find: ${vm_name + '-ip'}
         navigate:
           - SUCCESS: wait_ip_check
-          - FAILURE: SUCCESS
+          - FAILURE: get_storage_auth
 
     - wait_ip_check:
         do:
@@ -349,6 +387,66 @@ flow:
         navigate:
           - SUCCESS: list_public_ip_addresses_within_resource_group
           - FAILURE: on_failure
+
+    - get_storage_auth:
+        do:
+          auth_storage.get_storage_account_keys:
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - storage_account
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
+        publish:
+          - key
+          - status_code
+          - error_message
+        navigate:
+          - SUCCESS: delete_osdisk
+          - FAILURE: on_failure
+
+    - delete_osdisk:
+        do:
+          storage.delete_blob:
+            - storage_account
+            - key: ${key}
+            - container_name
+            - blob_name: ${vm_name + 'osDisk.vhd'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - status_code
+        navigate:
+          - SUCCESS: get_deleted_blob
+          - FAILURE: on_failure
+
+    - get_deleted_blob:
+        do:
+          storage.delete_blob:
+            - storage_account
+            - key
+            - container_name
+            - blob_name: ${vm_name + 'storageDisk.vhd'}
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - status_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+
   outputs:
     - return_code
     - status_code

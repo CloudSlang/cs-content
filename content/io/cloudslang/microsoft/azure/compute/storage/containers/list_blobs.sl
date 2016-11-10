@@ -9,7 +9,7 @@
 #!!
 #! @description: List the blobs for the specified storage account
 #!
-#! @input storage_account: Azure storage account name
+#! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
 #! @input container_name: the name you want to give to the new container
 #! @input proxy_host: optional - proxy server used to access the web site
@@ -33,14 +33,14 @@ operation:
   inputs:
     - storage_account
     - storageAccount:
-        default: ${get("storage_account", ""}
+        default: ${get("storage_account", "")}
         required: false
         private: true
     - key:
         sensitive: true
     - container_name
     - containerName:
-        default: ${get("container_name", ""}
+        default: ${get("container_name", "")}
         required: false
         private: true
     - proxy_host:

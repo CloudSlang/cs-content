@@ -9,15 +9,20 @@
 #!!
 #! @description: Stop virtual machine flow.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
-#!                  This can be different from the location of the resource group.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#! @input vm_name: virtual machine name
-#! @input resource_group_name: Azure resource group name
+#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#!                  This can be different from the location of the resource group.
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input polling_interval: Time to wait between checks
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
@@ -68,7 +73,14 @@ flow:
     - vm_name
     - subscription_id
     - resource_group_name
+    - connect_timeout:
+        default: "0"
+        required: false
+    - socket_timeout:
+        default: "0"
+        required: false
     - polling_interval:
+        required: false
         default: '30'
     - proxy_host:
         required: false
@@ -117,6 +129,8 @@ flow:
             - subscription_id
             - resource_group_name
             - auth_token
+            - connect_timeout
+            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -141,6 +155,8 @@ flow:
             - auth_token
             - proxy_host
             - proxy_port
+            - connect_timeout
+            - socket_timeout: '0'
             - proxy_username
             - proxy_password
             - trust_all_roots

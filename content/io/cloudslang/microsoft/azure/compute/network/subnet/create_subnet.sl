@@ -9,13 +9,13 @@
 #!!
 #! @description: Performs an HTTP request to create a subnet
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: Name of the network subnet
+#! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input network_security_group_name: Reference to NSG that will be applied to all NICs in the subnet by default
 #! @input network_routing_table_name: Reference to route table that will be applied to this subnet.
 #! @input proxy_host: optional - proxy server used to access the web site

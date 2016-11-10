@@ -10,7 +10,7 @@
 #! @description: Performs an HTTP request to retrieve a list of all available virtual machine sizes that can be used to
 #!               create a new virtual machine in an existing availability set
 #!
-#! @input subscription_id: Azure subscription ID
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
 #! @input availability_set_name: virtual machine name
 #! @input auth_type: optional - authentication type

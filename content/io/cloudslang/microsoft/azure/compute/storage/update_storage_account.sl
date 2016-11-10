@@ -13,14 +13,14 @@
 #!               use the regenerate_storage_account_keys operation.
 #!               The location and name of the storage account cannot be changed after creation.
 #!
-#! @input subscription_id: Azure subscription ID
-#! @input resource_group_name: resource group name
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input location: Specifies the supported Azure location where the storage account will be updated.
 #!                  This can be different from the location of the resource group.
-#! @input storage_account: Storage account name
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input encryption: Provides the encryption settings on the account. If left unspecified, the account will be unencrypted.
 #!                    Currently the only service is "blob" and the only property is "enabled".
 #! @input account_type: Type of account to be created
