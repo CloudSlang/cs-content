@@ -125,7 +125,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.5'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.6'
     class_name: io.cloudslang.content.amazon.actions.volumes.DetachVolumeAction
     method_name: execute
 
