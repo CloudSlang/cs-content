@@ -100,13 +100,15 @@ operation:
     - delimiter:
         required: false
         default: ','
-    - instance_id
-    - instanceId:
-        default: ${get("instance_id", "")}
+    - instance_ids_string
+    - instanceIdsString:
+        default: ${get("instance_ids_string", "")}
+        required: false
         private: true
     - force_stop
     - forceStop:
         default: ${get("force_stop", "")}
+        required: false
         private: true
 
   java_action:
