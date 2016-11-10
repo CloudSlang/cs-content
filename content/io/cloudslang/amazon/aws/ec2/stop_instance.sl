@@ -92,7 +92,7 @@ flow:
             - proxy_password
             - headers
             - query_params
-            - instance_id
+            - instance_ids_string: '${instance_id}'
             - force_stop
         publish:
           - return_result

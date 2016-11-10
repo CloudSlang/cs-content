@@ -80,7 +80,7 @@ flow:
           instances.reboot_instances:
             - identity
             - credential
-            - instance_id
+            - instance_ids_string: '${instance_id}'
             - proxy_host
             - proxy_port
             - proxy_username
