@@ -141,6 +141,7 @@ flow:
             - trust_password
         publish:
           - output
+          - status_code
           - error_message
         navigate:
           - SUCCESS: get_power_state
@@ -165,6 +166,7 @@ flow:
             - trust_password
          publish:
            - power_state: ${output}
+           - status_code
            - error_message
          navigate:
            - SUCCESS: check_power_state
