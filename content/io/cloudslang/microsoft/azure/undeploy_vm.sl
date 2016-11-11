@@ -115,7 +115,6 @@ flow:
         sensitive: true
 
   workflow:
-
     - get_auth_token:
         do:
           auth.get_auth_token:
@@ -212,7 +211,7 @@ flow:
     - retrieve_vm:
         do:
           json.json_path_query:
-            - json_object: '${deleted_vm}'
+            - json_object: ${deleted_vm}
             - json_path: 'value.*.name'
         publish:
           - return_deleted: ${return_result}
@@ -223,7 +222,7 @@ flow:
     - check_empty_vm:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '${return_deleted}'
+            - string_in_which_to_search: ${return_deleted}
             - string_to_find: ${vm_name}
         navigate:
           - SUCCESS: wait_vm_check
@@ -258,8 +257,8 @@ flow:
           - status_code
           - error_message
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: list_nics_within_resource_group
+          - FAILURE: on_failure
 
     - list_nics_within_resource_group:
         do:
@@ -356,7 +355,6 @@ flow:
         publish:
           - status_code
           - error_message
-        publish:
           - ips_result: ${output}
         navigate:
           - SUCCESS: retrieve_ips
