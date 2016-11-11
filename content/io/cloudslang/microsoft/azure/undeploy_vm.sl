@@ -47,7 +47,6 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
 #!
 #! @output output: Information about the virtual machine that has been deprovisioned
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -110,7 +109,6 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
         required: false
         sensitive: true
 
@@ -455,3 +453,82 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      check_empty_vm:
+        x: 905
+        y: 311
+      list_public_ip_addresses_within_resource_group:
+        x: 1536
+        y: 521
+      list_vms_in_a_resource_group:
+        x: 693
+        y: 102
+      wait_nic_check:
+        x: 1328
+        y: 311
+      retrieve_ips:
+        x: 1536
+        y: 731
+      wait_vm_check:
+        x: 695
+        y: 309
+      get_auth_token:
+        x: 67
+        y: 104
+      delete_vm:
+        x: 485
+        y: 99
+      get_deleted_blob:
+        x: 700
+        y: 519
+        navigate:
+          c4b4581a-5e24-3410-5487-22137f556ae0:
+            targetId: c00e7719-f536-c71a-e984-1d2b65f093f2
+            port: SUCCESS
+          62237d04-a245-85d4-18cf-2b55b5e16975:
+            targetId: 0547dcd4-dd53-1ceb-bb98-8e7ca07908bd
+            port: FAILURE
+      retrieve_nics:
+        x: 1325
+        y: 100
+      list_nics_within_resource_group:
+        x: 1113
+        y: 99
+      check_empty_ip:
+        x: 1326
+        y: 733
+      stop_vm:
+        x: 277
+        y: 102
+      delete_nic:
+        x: 1122
+        y: 311
+      delete_osdisk:
+        x: 906
+        y: 524
+      get_storage_auth:
+        x: 1119
+        y: 522
+      retrieve_vm:
+        x: 911
+        y: 98
+      wait_ip_check:
+        x: 1328
+        y: 524
+      delete_public_ip_address:
+        x: 1536
+        y: 310
+      check_empty_nic:
+        x: 1532
+        y: 104
+    results:
+      SUCCESS:
+        c00e7719-f536-c71a-e984-1d2b65f093f2:
+          x: 487
+          y: 523
+      FAILURE:
+        0547dcd4-dd53-1ceb-bb98-8e7ca07908bd:
+          x: 698
+          y: 737

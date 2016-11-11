@@ -36,7 +36,6 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
 #! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
@@ -103,7 +102,6 @@ flow:
         required: false
     - trust_password:
         required: false
-        default: ''
         sensitive: true
 
   workflow:

@@ -82,7 +82,6 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
