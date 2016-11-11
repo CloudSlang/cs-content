@@ -443,7 +443,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.aws.ec2.instances.terminate_instances:
+            instances.terminate_instances:
               - identity
               - credential
               - proxy_host
@@ -451,7 +451,7 @@ flow:
               - proxy_username
               - proxy_password
               - headers
-              - instance_id
+              - instance_ids_string: ${instance_id}
           break:
             - SUCCESS
           publish:
@@ -464,7 +464,7 @@ flow:
 
     - describe_instances:
         do:
-          io.cloudslang.amazon.aws.ec2.instances.describe_instances:
+          instances.describe_instances:
             - identity
             - credential
             - proxy_host

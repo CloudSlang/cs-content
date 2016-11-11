@@ -52,7 +52,7 @@ flow:
             - proxy_port
             - debug_mode
             - region
-            - instance_id
+            - instance_ids_string: ${instance_id}
         navigate:
           - SUCCESS: sleep
           - FAILURE: START_FAILURE

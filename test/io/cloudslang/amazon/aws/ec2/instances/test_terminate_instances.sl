@@ -47,7 +47,7 @@ flow:
             - proxy_port
             - debug_mode
             - region
-            - instance_id
+            - instance_ids_string: ${instance_id}
         publish:
           - return_result
           - return_code

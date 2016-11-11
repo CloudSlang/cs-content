@@ -14,6 +14,7 @@
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#!                         Default: 'https://sts.windows.net/common'
 #! @input vm_name: The name of the virtual machine to be created.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
@@ -69,7 +70,9 @@ flow:
     - username
     - password:
         sensitive: true
-    - login_authority
+    - login_authority:
+        default: 'https://sts.windows.net/common'
+        required: false
     - vm_name
     - subscription_id
     - resource_group_name

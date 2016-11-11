@@ -69,7 +69,9 @@ flow:
     - username
     - password:
         sensitive: true
-    - login_authority
+    - login_authority:
+        default: 'https://sts.windows.net/common'
+        required: false
     - vm_name
     - subscription_id
     - resource_group_name
