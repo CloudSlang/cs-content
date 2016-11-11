@@ -280,7 +280,6 @@ flow:
         publish:
           - status_code
           - error_message
-        publish:
           - nics: ${output}
         navigate:
           - SUCCESS: retrieve_nics
