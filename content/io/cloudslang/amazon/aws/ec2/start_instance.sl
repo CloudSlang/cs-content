@@ -87,7 +87,7 @@ flow:
             - proxy_password
             - headers
             - query_params
-            - instance_id
+            - instance_ids_string: '${instance_id}'
         publish:
           - return_result
           - return_code

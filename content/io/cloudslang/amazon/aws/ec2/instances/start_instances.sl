@@ -33,7 +33,8 @@
 #!                 Default: "2016-04-01"
 #! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
-#! @input instance_id: the ID of the server (instance) you want to start
+#! @input instance_ids_string: String that contains one or more values that represents instance IDs.
+#!                             Example: "i-12345678,i-abcdef12,i-12ab34cd"
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -96,13 +97,14 @@ operation:
     - delimiter:
         required: false
         default: ','
-    - instance_id
-    - instanceId:
-        default: ${get("instance_id", "")}
+    - instance_ids_string
+    - instanceIdsString:
+        default: ${get("instance_ids_string", "")}
+        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.5'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.6'
     class_name: io.cloudslang.content.amazon.actions.instances.StartInstancesAction
     method_name: execute
 
