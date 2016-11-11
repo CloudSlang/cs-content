@@ -209,4 +209,33 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-
+extensions:
+  graph:
+    steps:
+      get_auth_token:
+        x: 64
+        y: 101
+      start_vm:
+        x: 276
+        y: 101
+      get_power_state:
+        x: 486
+        y: 101
+      check_power_state:
+        x: 695
+        y: 103
+      compare_power_state:
+        x: 946
+        y: 85
+        navigate:
+          86ce4185-f04e-4365-356f-c3537d2cec9f:
+            targetId: 6d46f258-cc01-5305-4b30-dc78f7c63afd
+            port: SUCCESS
+      sleep:
+        x: 696
+        y: 311
+    results:
+      SUCCESS:
+        6d46f258-cc01-5305-4b30-dc78f7c63afd:
+          x: 1120
+          y: 104

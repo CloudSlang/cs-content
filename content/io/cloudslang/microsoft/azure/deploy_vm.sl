@@ -586,3 +586,87 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      check_vm_state:
+        x: 1328
+        y: 69
+      wait_for_response:
+        x: 1748
+        y: 485
+      linux_vm:
+        x: 733
+        y: 260
+      strip_result:
+        x: 1543
+        y: 695
+      get_ip_address:
+        x: 1116
+        y: 695
+      create_linux_vm:
+        x: 1116
+        y: 278
+      create_network_interface:
+        x: 488
+        y: 67
+      get_auth_token:
+        x: 66
+        y: 66
+      check_failed_power_state:
+        x: 1575
+        y: 470
+      wait_between_checks:
+        x: 1332
+        y: 272
+      get_vm_info:
+        x: 1114
+        y: 66
+      tag_virtual_machine:
+        x: 698
+        y: 694
+        navigate:
+          54d21aae-6fcf-49c4-fb32-9269a4ee3e1a:
+            targetId: 2298ed00-6a9b-35f1-75b2-1e50bf86be9d
+            port: SUCCESS
+      wait_before_nic:
+        x: 699
+        y: 489
+      wait_before_check:
+        x: 1749
+        y: 66
+      windows_vm:
+        x: 738
+        y: 47
+      get_vm_public_ip_address:
+        x: 1747
+        y: 275
+      delete_nic:
+        x: 908
+        y: 489
+      get_nic_location:
+        x: 1328
+        y: 695
+      create_windows_vm:
+        x: 908
+        y: 64
+      attach_disk:
+        x: 905
+        y: 699
+      create_public_ip:
+        x: 273
+        y: 65
+      compare_power_state:
+        x: 1574
+        y: 52
+      delete_public_ip_address:
+        x: 489
+        y: 483
+      get_nic_list:
+        x: 1747
+        y: 694
+    results:
+      SUCCESS:
+        2298ed00-6a9b-35f1-75b2-1e50bf86be9d:
+          x: 492
+          y: 700
