@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes two Docker containers.
+#!
 #! @input db_container_id: ID of the DB container
 #! @input linked_container_id: ID of the linked container
 #! @input docker_host: Docker machine host
@@ -15,11 +16,13 @@
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine host password
 #! @input private_key_file: optional - path to private key file
+#!
 #! @output error_message: error message
+#!
 #! @result SUCCESS: both Docker containers deleted successfully
 #! @result FAILURE: there was an error while trying to delete one or both Docker containers
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers.examples
 
@@ -53,6 +56,7 @@ flow:
             - private_key_file
         publish:
           - error_message
+
     - clear_linked_container:
         do:
           containers.clear_container:
@@ -64,5 +68,6 @@ flow:
             - private_key_file
         publish:
           - error_message
+
   outputs:
     - error_message

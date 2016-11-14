@@ -5,7 +5,7 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: retrieves the current date and time according to the given locale
 #!
@@ -26,7 +26,7 @@
 #! @result SUCCESS: the current date/time was obtained successfully
 #! @result FAILURE: failed to obtain the current date/time
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.datetime
 

@@ -1,13 +1,14 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Call to HP Cloud API to create a server instance.
+#!
 #! @input server_name: name for the new server
 #! @input img_ref: image id to use for the new server (operating system)
 #! @input flavor_ref: flavor id to set the new server size
@@ -18,13 +19,15 @@
 #! @input network_id: optional - ID of private network to add server to, can be omitted
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port
+#!
 #! @output return_result: JSON response with server details, id etc
 #! @output error_message: message returned when HTTP call fails
 #! @output status_code: normal status code is 202
+#!
 #! @result SUCCESS: operation succeeded, server created
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.hp_cloud
 
@@ -33,6 +36,7 @@ imports:
 
 flow:
   name: create_server
+
   inputs:
     - server_name
     - img_ref

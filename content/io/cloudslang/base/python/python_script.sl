@@ -9,6 +9,7 @@
 #!!
 #! @description: Runs a python script provided through a inline script or the canonical path to the python file.
 #!               Note: The 'script' and 'file_path' are mutually exclusive
+#!
 #! @input script: The inline script to run.
 #! @input file_path: The canonical path to the script file.
 #!                   Note: The file should not be a symbolink link
@@ -17,23 +18,24 @@
 #!              as the first element otherwise the word 'script'
 #!              Note: if you pass in the 'script' and the 'argv' "1 2 3 'the red fox'", in the script it will be as:
 #!                    argv = ['script', '1', '2', '3', 'the red fox']
-#!
 #! @input timeout: How many seconds to wait for the command to finish (in seconds).
 #!                 Default value: 0 (waits indefinitely).
 #!                 Note: It's recommended to have a non-zero value
+#!
 #! @output return_result: STDOUT of the script that was ran
 #! @output return_code: The exit code or errno of the script if present, 0 if the script succeeded or -1 otherwise.
 #! @output error_message: The error message of the script.
-#! @output return_code: The return code of the script
+#!
 #! @result SUCCESS: If the script ran successfully with no error messages
 #! @result FAILURE: If the script was invalid, the timeout was suppressed  or an error occurred
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.scripts
+namespace: io.cloudslang.base.python
 
 operation:
   name: python_script
+
   inputs:
     - script:
         default: ""
@@ -47,6 +49,7 @@ operation:
     - timeout:
         default: "0"
         required: false
+
   python_action:
     script: |
       from cStringIO import StringIO
@@ -130,10 +133,12 @@ operation:
           error_message += str(redirected_error.getvalue())
           exit_code = str(result_list.pop())
         del thread
+
   outputs:
     - return_result: ${script_result}
     - return_code: ${exit_code}
     - error_message
+
   results:
     - SUCCESS: ${not error_message}
     - FAILURE

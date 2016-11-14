@@ -5,9 +5,10 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a git branch
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command
 #! @input username: username to connect as
@@ -16,6 +17,7 @@
 #! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo_folder
 #! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: optional - path to private key file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -23,13 +25,15 @@
 #! @output command_return_code: return code of remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
 #!                              (more exactly, just before the channel is closed).
-#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
-#!                              channel type has no command), '126' if the command cannot execute
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated
+#!                              (or this channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#!
 #! @result SUCCESS: GIT branch created successfully
 #! @result FAILURE: there was an error while trying to create the GIT branch
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.git
 
 imports:
@@ -64,7 +68,9 @@ flow:
             - host
             - port
             - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
-            - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git branch ' + git_branch + ' && echo GIT_SUCCESS' }
+            - command: >
+                ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + ' git branch ' +
+                git_branch + ' && echo GIT_SUCCESS' }
             - username
             - password
             - private_key_file

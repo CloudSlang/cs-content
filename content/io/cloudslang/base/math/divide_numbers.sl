@@ -5,23 +5,29 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Divides two numbers as floating point values.
+#!
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
+#1
 #! @output result: value1 divided by value2
+#!
 #! @result ILLEGAL: value2 == 0
 #! @result SUCCESS: values divided
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.math
 
 operation:
   name: divide_numbers
+
   inputs:
     - value1
     - value2
+
   python_action:
     script: |
       from java.math import BigDecimal,MathContext
@@ -31,8 +37,10 @@ operation:
         result = 'Cannot divide by zero'
       else:
         result = value1.divide(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
+
   outputs:
     - result: ${ str(result) }
+
   results:
      - ILLEGAL: ${result == 'Cannot divide by zero'}
      - SUCCESS

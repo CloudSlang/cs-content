@@ -1,13 +1,14 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Wrapper over `images_maintenance`. Calls the flow and sends an email.
+#!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
 #! @input docker_password: optional - Docker machine password
@@ -21,11 +22,14 @@
 #! @input email_username: optional
 #! @input email_password: optional
 #! @input enable_TLS: optional - enable startTLS
+#!
 #! @output total_amount_of_images_deleted: number of deleted images
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.examples
 
 imports:
@@ -57,6 +61,7 @@ flow:
         sensitive: true
     - enable_TLS:
         required: false
+
   workflow:
     - run_maintenance_task:
         do:

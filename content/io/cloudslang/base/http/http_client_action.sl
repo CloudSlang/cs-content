@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Executes a REST call based on the method provided.
+#!
 #! @input url: URL to which the call is made
 #! @input auth_type: optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
@@ -19,7 +20,8 @@
 #! @input username: optional - username used for URL authentication; for NTLM authentication - Format: 'domain\user'
 #! @input password: optional - password used for URL authentication
 #! @input kerberos_conf_file: optional - path to the Kerberos configuration file - Default: '0'
-#! @input kerberos_login_conf_file: optional - login.conf file needed by the JAAS framework with the content similar to the one in examples
+#! @input kerberos_login_conf_file: optional - login.conf file needed by the JAAS framework with the content similar to
+#!                                  the one in examples
 #!                                  Format: 'http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html'
 #! @input kerberos_skip_port_for_lookup: optional - do not include port in the key distribution center database lookup
 #!                                       Default: true
@@ -36,9 +38,10 @@
 #! @input keystore: optional - location of the KeyStore file - Format: a URL or the local path to it.
 #!                  This input is empty if no HTTPS client authentication is used
 #! @input keystore_password: optional - password associated with the KeyStore file
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite timeout)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (maximum period inactivity between two consecutive
-#!                        data packets) - Default: '0' (infinite timeout)
+#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite timeout)
+#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (maximum period inactivity
+#!                        between two consecutive data packets) - Default: '0' (infinite timeout)
 #! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
 #! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
 #!                    Default: true
@@ -85,22 +88,26 @@
 #! @input http_client_cookie_session: optional - session object that holds the cookies if the <use_cookies> input is true
 #! @input http_client_pooling_connection_manager: optional - GlobalSessionObject that holds the http client pooling
 #!                                                connection manager
-#! @input valid_http_status_codes: optional - list/array of HTTP status codes considered to be successful - Example: [202, 204]
+#! @input valid_http_status_codes: optional - list/array of HTTP status codes considered to be successful
+#!                                 Example: [202, 204]
 #!                                 Default: 'range(200, 300)'
+#!
 #! @output return_result: response of the operation
 #! @output error_message: return_result when the return_code is non-zero (e.g. network or other failure)
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #! @output response_headers: response headers string from the HTTP Client REST call
+#!
 #! @result SUCCESS: operation succeeded (statusCode is contained in valid_http_status_codes list)
 #! @result FAILURE: otherwise
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.http
 
 operation:
   name: http_client_action
+
   inputs:
     - url
     - auth_type:
@@ -197,6 +204,7 @@ operation:
         required: false
     - connectTimeout:
         default: ${get("connect_timeout", "0")}
+        required: false
         private: true
     - socket_timeout:
         required: false
@@ -339,12 +347,14 @@ operation:
     gav: 'io.cloudslang.content:cs-http-client:0.1.68'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
+
   outputs:
     - return_result: ${get('returnResult', '')}
     - error_message: ${returnResult if returnCode != '0' else ''}
     - return_code: ${returnCode}
     - status_code: ${get('statusCode', '')}
     - response_headers: ${get('responseHeaders', '')}
+
   results:
     - SUCCESS: ${returnCode == '0' and str(statusCode) in valid_http_status_codes}
     - FAILURE

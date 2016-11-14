@@ -1,14 +1,15 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Creates a new Swarm cluster, clears the machines, starts a Swarm manager, registers the Swarm agents
 #!               and validates the agents were added.
+#!
 #! @input manager_machine_ip: IP address of the machine with the Swarm manager container
 #! @input manager_machine_username: username of the machine with the Swarm manager
 #! @input manager_machine_password: optional - password of the machine with the Swarm manager
@@ -26,6 +27,7 @@
 #! @input time_to_sleep: time in seconds to sleep between successive checks of whether nodes were added to the cluster
 #!                       total waiting time ~ attempt * time_to_sleep
 #!                       Default: 1
+#!
 #! @result SUCCESS: nodes were successfully added
 #! @result CREATE_SWARM_CLUSTER_PROBLEM: problem occurred while creating the swarm cluster
 #! @result PRE_CLEAR_MANAGER_MACHINE_PROBLEM: problem occurred while clearing the manager machine
@@ -35,7 +37,7 @@
 #! @result GET_NUMBER_OF_NODES_IN_CLUSTER_PROBLEM: problem occurred while retrieving the number of nodes
 #! @result NODES_NOT_ADDED: nodes were not added
 #!!#
-########################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -43,11 +45,12 @@ imports:
   swarm: io.cloudslang.docker.swarm
   containers: io.cloudslang.docker.containers
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   math: io.cloudslang.base.math
 
 flow:
   name: create_cluster_with_nodes
+
   inputs:
     - manager_machine_ip
     - manager_machine_username
@@ -68,6 +71,7 @@ flow:
         default: '300'
     - time_to_sleep:
         default: '1'
+
   workflow:
     - create_swarm_cluster:
         do:
@@ -175,6 +179,7 @@ flow:
         navigate:
           - SUCCESS: get_number_of_nodes_in_cluster
           - FAILURE: NODES_NOT_ADDED
+
   results:
     - SUCCESS
     - CREATE_SWARM_CLUSTER_PROBLEM

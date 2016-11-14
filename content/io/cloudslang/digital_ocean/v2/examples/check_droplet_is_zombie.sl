@@ -1,23 +1,26 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Checks whether a droplet is considered a zombie.
+#!
 #! @input droplet_name: name of the droplet
 #! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
 #!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #! @input time_to_live: threshold in minutes to compare the droplet's lifetime to
 #! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
+#1
 #! @result ZOMBIE: droplet is considered zombie
 #! @result NOT_ZOMBIE: droplet is not considered zombie
 #! @result FAILURE: error occurred
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.digital_ocean.v2.examples
 
 imports:
@@ -52,6 +55,7 @@ flow:
           - FAILURE: FAILURE
           - ABOVE_THRESHOLD: ZOMBIE
           - BELOW_THRESHOLD: NOT_ZOMBIE
+
   results:
     - ZOMBIE
     - NOT_ZOMBIE

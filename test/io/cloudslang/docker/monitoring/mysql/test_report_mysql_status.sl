@@ -1,10 +1,19 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+############################################################################################################################################################################################
+
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
   mysql: io.cloudslang.docker.monitoring.mysql
   containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   cmd: io.cloudslang.base.cmd
 
 flow:

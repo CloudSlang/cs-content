@@ -8,10 +8,11 @@
 ########################################################################################################################
 #!!
 #! @description: VM deprovison flow.
+#!
 #! @input subscription_id: Azure subscription ID
 #! @input resource_group_name: Azure resource group name
-#! @input username: Azure username
-#! @input password: Azure password
+#! @input username: The username to be used to authenticate to the Azure Management Service.
+#! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input authority: the authority URL
 #! @input resource: the resource URL
 #! @input vm_name: virtual machine name
@@ -56,7 +57,7 @@ namespace: io.cloudslang.microsoft.azure
 imports:
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   auth: io.cloudslang.microsoft.azure.utility
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses

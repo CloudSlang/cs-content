@@ -10,13 +10,15 @@
 #! @description: Performs an HTTP request to export an sql database
 #!
 #! @input subscription_id: Azure subscription ID
-#! @input api_version: The API version used to create calls to Azure
 #! @input resource_group_name: resource group name
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input auth_token: Azure authorization Bearer token
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2014-04-01-preview'
+#! @input location: Specifies the supported Azure location where the database should be exported.
 #!                  This can be different from the location of the resource group.
-#! @input database_name: Azure database name to be created
+#! @input database_name: Azure database name to be exported
 #! @input sql_server_name: Sql Database server name
-#! @inputstorage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
+#! @input storage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
 #!                          - StorageAccessKey (using storage account key)
 #!                          - SharedAccessKey (using SAS key)
 #! @input storage_key: Specifies the access key for the storage account.
@@ -30,47 +32,23 @@
 #!                                               to the SQL admin username and password.
 #!                      ADPassword (Azure Active Directory authentication) – set the 'administratorLogin' and
 #!                      'administratorLoginPassword' to the Azure AD admin username and password.
-#! @input auth_token: Azure authorization Bearer token
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
-#!                      of the data in the message body
-#!                      Default: "application/json; charset=utf-8"
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
-#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
-#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
-#!                           is empty, keystore_password default will be supplied.
-#!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
 #! @input proxy_host: optional - proxy server used to access the web site
 #! @input proxy_port: optional - proxy server port - Default: '8080'
 #! @input proxy_username: optional - username used when connecting to the proxy
 #! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connections_max_per_root: optional - maximum limit of connections on a per route basis - Default: '50'
-#! @input connections_max_total: optional - maximum limit of connections in total - Default: '500'
-#! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
-#! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
-#!                    Default: true
-#! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
-#! @input chunked_request_entity: optional - data is sent in a series of 'chunks' - Valid: true/false
-#!                                Default: "false"
+#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: response with information about the exported sql database
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -93,9 +71,13 @@ flow:
   name: export_sql_database
 
   inputs:
-    - auth_token
-    - location
     - subscription_id
+    - resource_group_name
+    - auth_token
+    - api_version:
+        required: false
+        default: '2014-04-01-preview'
+    - location
     - database_name
     - sql_server_name
     - storage_key_type
@@ -103,26 +85,17 @@ flow:
     - uri_of_the_bacpac_file
     - sql_admin_name
     - sql_admin_password
-    - api_version:
-        required: false
-        default: '2014-04-01-preview'
     - sql_auth_type:
         required: false
         default: 'SQL'
-    - content_type:
-        default: 'application/json'
-        required: false
-    - auth_type:
-        default: "anonymous"
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
     - proxy_port:
-        required: false
         default: "8080"
+        required: false
     - proxy_host:
         required: false
     - trust_all_roots:
@@ -133,39 +106,23 @@ flow:
         required: false
     - trust_keystore:
         required: false
-        default: ''
     - trust_password:
         default: ''
+        required: false
         sensitive: true
-        required: false
-    - keystore:
-        required: false
-        default: ''
-    - keystore_password:
-        default: ''
-        sensitive: true
-        required: false
-    - use_cookies:
-        default: "true"
-        required: false
-    - keep_alive:
-        default: "true"
-        required: false
-    - connections_max_per_root:
-        default: "50"
-        required: false
-    - connections_max_total:
-        default: "500"
-        required: false
-    - request_character_set:
-        default: 'UTF-8'
 
   workflow:
     - export_sql_database:
         do:
           http.http_client_post:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '/databases/' + database_name + '/export?api-version=' + api_version}
-            - body: ${'{"storageKeyType":"' + storage_key_type + '","storageKey":"' + storage_key + '","storageUri":"' + uri_of_the_bacpac_file + '","administratorLogin":"' sql_admin_name + '","administratorLoginPassword":"' + sql_admin_password + '","authenticationType":"' + sql_auth_type + '"}'}
+            - url: >
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
+                resource_group_name + '/providers/Microsoft.Sql/servers/' + sql_server_name + '/databases/' +
+                database_name + '/export?api-version=' + api_version}
+            - body: >
+                ${'{"storageKeyType":"' + storage_key_type + '","storageKey":"' + storage_key + '","storageUri":"' +
+                uri_of_the_bacpac_file + '","administratorLogin":"' sql_admin_name + '","administratorLoginPassword":"' +
+                sql_admin_password + '","authenticationType":"' + sql_auth_type + '"}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - preemptive_auth

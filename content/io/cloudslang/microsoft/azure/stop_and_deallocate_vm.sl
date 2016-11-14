@@ -12,8 +12,8 @@
 #! @input subscription_id: Azure subscription ID
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
-#! @input username: Azure username
-#! @input password: Azure password
+#! @input username: The username to be used to authenticate to the Azure Management Service.
+#! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input authority: the authority URL
 #! @input resource: the resource URL
 #! @input vm_name: virtual machine name
@@ -58,7 +58,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
-  flow: io.cloudslang.base.flow_control
+  flow: io.cloudslang.base.utils
   auth: io.cloudslang.microsoft.azure.utility
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
 

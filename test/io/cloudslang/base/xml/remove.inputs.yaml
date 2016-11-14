@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testRemoveElementSuccess:
   inputs:
     - xml_document: <root><remove_this/></root>

@@ -1,10 +1,19 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Performs a REST API call to get the Heroku application details.
+#!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
 #! @input app_id_or_name: name or ID of the Heroku application
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
@@ -15,6 +24,7 @@
 #! @output stack: name of stack were application belongs
 #! @output created_at: time when application was created
 #!                     example: '2016-01-04T14:49:53Z'
+#!
 #! @result SUCCESS: Heroku application details were successfully retrieved
 #! @result GET_APPLICATION_DETAILS_FAILURE: Heroku application details could not be retrieved
 #! @result GET_ID_FAILURE: ID of application could not be retrieved from the GET REST API call response
@@ -23,7 +33,7 @@
 #! @result GET_STACK_FAILURE: stack name of application could not be retrieved from the GET REST API call response
 #! @result GET_CREATED_AT_FAILURE: created_at application time could not be retrieved from the GET REST API call response
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.applications
 
@@ -33,6 +43,7 @@ imports:
 
 flow:
   name: get_application_details
+
   inputs:
     - username:
         sensitive: true
@@ -49,7 +60,6 @@ flow:
             - password
             - headers: "Accept:application/vnd.heroku+json; version=3"
             - content_type: "application/json"
-
         publish:
           - return_result
           - error_message

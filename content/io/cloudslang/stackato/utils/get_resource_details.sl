@@ -1,15 +1,17 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Parses a JSON input and retrieves the specific details of the resource identified by <key_name>.
+#!
 #! @input json_input: response of get resources operation (get_applications, get_services, get_spaces, get_users)
 #! @input key_name: name of resource to get details on
+#!
 #! @output return_result: was parsing was successful or not
 #! @output error_message: return_result if there was an error
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
@@ -17,17 +19,21 @@
 #! @output resource_url: URL of resource identified by <key_name>
 #! @output resource_created_at: creation date of the resource identified by <key_name>
 #! @output resource_updated_at: last updated date of the resource identified by <key_name>
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.stackato.utils
 
 operation:
   name: get_resource_details
+
   inputs:
     - json_input
     - key_name
+
   python_action:
     script: |
       try:
@@ -48,6 +54,7 @@ operation:
       except Exception as ex:
         return_code = '-1'
         return_result = ex
+
   outputs:
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
@@ -56,6 +63,7 @@ operation:
     - resource_url
     - resource_created_at
     - resource_updated_at
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

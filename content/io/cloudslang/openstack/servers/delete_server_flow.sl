@@ -1,33 +1,40 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Authenticates and deletes an OpenStack server.
+#!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
-#! @input username: username used for URL authentication; for NTLM authentication - Format: 'domain\user'
+#! @input identity_port: optional - port used for OpenStack authentication
+#!                       Default: '5000'
+#! @input compute_port: optional - port used for OpenStack computations
+#!                      Default: '8774'
+#! @input username: username used for URL authentication; for NTLM authentication
+#!                  Format: 'domain\user'
 #! @input password: password used for URL authentication
 #! @input tenant_name: name of OpenStack project that contains server (instance) to be deleted
 #! @input server_name: name of server to delete
 #! @input proxy_host: optional - proxy server used to access OpenStack services
 #! @input proxy_port: optional - proxy server port used to access OpenStack services
+#!
 #! @output return_result: response of operation in case of success, error message otherwise
 #! @output error_message: return_result if status code is not '202'
+#!
 #! @result SUCCESS: OpenStack server (instance) was successfully deleted
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
-#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
+#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name
+#!                                cannot be obtained from authentication call response
 #! @result GET_AUTHENTICATION_FAILURE: authentication call failed
 #! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) fails
 #! @result GET_SERVER_ID_FAILURE: server ID cannot be obtained
 #! @result DELETE_SERVER_FAILURE: OpenStack server (instance) could not be deleted
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.openstack.servers
 
@@ -38,6 +45,7 @@ imports:
 
 flow:
   name: delete_server_flow
+
   inputs:
     - host
     - identity_port: '5000'
