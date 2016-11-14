@@ -12,39 +12,38 @@ beta content.
 The following is an overview of what is included in the ready-made content:
 
 + **cloudslang**
+  + **amazon:**
+    + **aws:** [Amazon Web Services (AWS)](https://aws.amazon.com/) is a collection of remote computing services that make up a cloud-computing platform. This folder contains content for starting, stopping and listing servers.
   + **base:** This folder contains general purpose content.
     + **cmd:** Local shell command content, such as: run command.
     + **comparisons:** Comparison content, such as: equals and less than percentage.
-    + **datetime:** Date/Time content, such as: get, parse and offset time.
+    + **datetime:** This folder contains a variety of helper operations that are useful for manipulating dates and times.
     + **filesystem:** File management and manipulations, such as: read/write, copy/move/delete, and zip/unzip.
-    + **flow_control:** Flow control content, such as: sleep.
     + **http:** Http REST calls, such as: GET, POST, DELETE, PUT, TRACE, PATCH.
-    + **json:** JSON related content.
-    + **lists:** List manipulation.
-    + **mail:** Email related content.
+    + **json:** This folder contains operations for manipulating Javascript objects, or more precisely, string values that are contain objects in the JSON format (JavaScript Object Notation).  JSON is a simple format that can represent simple values, arrays, and objects in a human-readable format that is very similar to what is used elsewhere in Operations Orchestration, with the added benefit that Javascript scriptlets can handle them as true structured objects.
+    + **lists:** This folder contains a set of operations for list manipulation.
+    + **mail:** The operations allow email to be sent using the sendmail protocol. It also allows emails to be retrieved via either POP3 or IMAP.
     + **maps:** Maps related content, such as: get keys and values.
     + **math:** Numeric operations, such as: add, divide, multiply, round and subtract numbers.
     + **network:** Network related actions, such as: ping and wait port open.
     + **os:** Content for working with operating systems, such as: determining the OS, checking disk space and validating SSH access.
+    + **powershell:** The operation in this folder executes a PowerShell script on a remote host (in order to use this operation, there are some prerequisites (see powershell_script)).
     + **print:** Printing text.
-    + **remote_file_transfer:** Remote file transfer related content.
-    + **scripts:** Various scripts, such as: Python and PowerShell.
-    + **ssh:** SSH command related content.
+    + **python:** The operation in this folder runs a python script provided through an inline script or the canonical path to the python file.
+    + **remote_file_transfer:** The operations in this folder can be used to transfer files from one machine to another.
+    + **ssh:** The operations interact with SSH Servers in a variety of ways.
     + **strings:** String actions and manipulations, such as: match, replace, occurrence counter.
-    + **utils:** Utility actions, such as: base64 encoder and decoder, is true, uuid generator.
-    + **xml:** XML related actions, such as: edit and validate XML.
+    + **utils:** Utility actions, such as: base64 encoder and decoder, is true, uuid generator and sleep.
+    + **xml:** Utility Operations for the manipulation of XML data.
   + **chef:** [Chef](https://www.chef.io/) is a systems and cloud infrastructure automation framework for deploying servers and applications to any physical, virtual, or cloud location. This folder contains content for bootstrapping nodes, adding/removing rules and/or recipes, and deleting nodes.
-  + **ci:** CircleCI related content.
-  + **cloud:**
-    + **amazon_aws:** [Amazon Web Services (AWS)](https://aws.amazon.com/) is a collection of remote computing services that make up a cloud-computing platform. This folder contains content for starting, stopping and listing servers.
-    + **digital_ocean/v2:** [DigitalOcean](https://www.digitalocean.com/) is a cloud infrastructure provider focused on simplifying web infrastructure for software developers. This folder contains content for dealing with droplets, such as: create, list and delete.
-    + **google:**
-      + **gke:** Note: this folder contains **beta** content. [Google Container Engine](https://cloud.google.com/container-engine/) is a cluster manager and orchestration system for running Docker containers. This folder contains content for dealing with clusters, such as: create, list and delete.
-    + **heroku:** [Heroku](https://www.heroku.com/) is a cloud platform based on a managed container system for deploying and running modern apps. This folder contains content for dealing with accounts, applications, domains, regions and more.
-    + **hp_cloud:** [HPE Helion Public Cloud](http://www.hpcloud.com/) is a transparent, enterprise-grade public cloud based on OpenStack technology. This folder contains content for dealing with servers, such as: creating, retrieving details and deleting.
-    + **openshift:** [OpenShift](https://www.openshift.com/) is a cloud application development and hosting platform that automates the provisioning, management and scaling of applications. This folder contains content for dealing with applications and cartridges.
-    + **openstack:** [OpenStack](https://www.openstack.org/) is a cloud operating system that controls large pools of compute, storage, and networking resources throughout a datacenter.This folder contains content for working with servers, such as: create, delete, authenticate and check.  
-    + **stackato:** [Stackato](http://docs.stackato.com) is Platform-as-a-Service that can run on your own data center using the hypervisor of your choice, or on a cloud hosting provider. This folder contains content for dealing with Stackato, such as: applications, services and spaces.  
+  + **ci:**
+    + **circleci:** [CircleCI] (http://www.circleci.com) related content.
+  + **digital_ocean:**
+    + **v2:** [DigitalOcean](https://www.digitalocean.com/) is a cloud infrastructure provider focused on simplifying web infrastructure for software developers. This folder contains content for dealing with droplets, such as: create, list and delete.
+  + **google:**
+    + **gke:** Note: this folder contains **beta** content. [Google Container Engine](https://cloud.google.com/container-engine/) is a cluster manager and orchestration system for running Docker containers. This folder contains content for dealing with clusters, such as: create, list and delete.
+  + **heroku:** [Heroku](https://www.heroku.com/) is a cloud platform based on a managed container system for deploying and running modern apps. This folder contains content for dealing with accounts, applications, domains, regions and more.
+  + **hp_cloud:** [HPE Helion Public Cloud](http://www.hpcloud.com/) is a transparent, enterprise-grade public cloud based on OpenStack technology. This folder contains content for dealing with servers, such as: creating, retrieving details and deleting.
   + **consul:** [Consul](https://consul.io/) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. This folder contains content for interacting with Consul, such as dealing with endpoints and the key/value store.
   + **coreos:** [CoreOS](https://coreos.com/) is a Linux distribution that has been rearchitected to provide features needed to run modern infrastructure stacks. This folder contains content for interacting with a CoreOS cluster.
   + **docker:** [Docker](https://www.docker.com/) is an open platform for developers and sysadmins to build, ship, and run distributed applications.
@@ -58,6 +57,15 @@ The following is an overview of what is included in the ready-made content:
   + **git:** [Git](https://git-scm.com/) is a distributed version control system. This folder contains content for interacting with Git.
   + **jenkins:** [Jenkins](http://jenkins-ci.org/) is an application that monitors executions of repeated jobs, such as building a software project or jobs run by cron. This folder contains content for working with Jenkins jobs, such as: enable,  disable, copy and delete.
   + **marathon:** [Marathon](https://mesosphere.github.io/marathon/) is cluster-wide init and control system for services in cgroups or Docker containers. This folder contains content for working with apps, such as: creating, deleting, updating and listing.
+  + **microsoft:**
+    + **azure:** [Microsoft Azure] (https://azure.microsoft.com/en-us/) is a growing collection of integrated cloud services—analytics, computing, database, mobile, networking, storage, and web—for moving faster, achieving more, and saving money.
+  + **new_relic:**
+    + **servers:** [New Relic] (https://newrelic.com/) Infrastructure delivers real-time health metrics correlated with recent configuration changes, so you can quickly resolve issues, scale rapidly, and deploy intelligently.
+  + **openshift:** [OpenShift](https://www.openshift.com/) is a cloud application development and hosting platform that automates the provisioning, management and scaling of applications. This folder contains content for dealing with applications and cartridges.
+  + **openstack:** [OpenStack](https://www.openstack.org/) is a cloud operating system that controls large pools of compute, storage, and networking resources throughout a datacenter.This folder contains content for working with servers, such as: create, delete, authenticate and check.
   + **operations_orchestration:** [Operations Orchestration](http://www.hp.com/go/oo) is an IT process automation solution designed to increase automation adoption in a traditional data center and hybrid cloud environment. This folder contains content for packaging CloudSlang flows as Operations Orchestration content packs.
-  + **virtualization:**
-    + **vmware**: [VMware vSphere](http://www.vmware.com/products/vsphere/) is a virtualization platform which simplifies IT by separating applications and operating systems (OSs) from the underlying hardware. This folder contains content for dealing with virtual machines, such as create, power on/off, update and delete.
+  + **stackato:** [Stackato](http://docs.stackato.com) is Platform-as-a-Service that can run on your own data center using the hypervisor of your choice, or on a cloud hosting provider. This folder contains content for dealing with Stackato, such as: applications, services and spaces.
+  + **twilio:**
+    + **sms:** [Twilio SMS] (http://www.twilio.com) is an SMS sending and receiving online service.
+  + **vmware:**
+    + **vcenter**: [VMware vCenter Server](http://www.vmware.com/products/vcenter-server/) is a virtualization platform which simplifies IT by separating applications and operating systems (OSs) from the underlying hardware. This folder contains content for dealing with virtual machines, such as create, power on/off, update and delete.

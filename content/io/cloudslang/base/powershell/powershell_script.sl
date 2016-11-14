@@ -9,6 +9,79 @@
 #!!
 #! @description: Executes a PowerShell script on a remote host.
 #!
+#! @prerequisites:
+#!  Part 1. On PS host:
+#!  Enable-PSRemoting -Force -Confirm
+#!  Set-ExecutionPolicy RemoteSigned -Force -Confirm
+#!  Set-Item WSMan:\localhost\Service\AllowUnencrypted -value true
+#!  Set-Item WSMan:\localhost\Client\AllowUnencrypted -value true
+#!  Set-Item WSMan:\localhost\Client\TrustedHosts -value * -force
+#!  Set-Item WSMan:\localhost\Shell\MaxMemoryPerShellMB -value 3000
+#!  Set-Item WSMan:\localhost\Shell\MaxShellsPerUser -value 30
+#!  Set-Item WSMan:\localhost\Plugin\microsoft.powershell\Quotas\MaxMemoryPerShellMB -value 3000
+#!  Restart-Service winrm
+#!
+#!  Part 2. On PS host and client:
+#!  1b) Set-executionpolicy RemoteSigned on RAS and server
+#!  1c) Set-item wsman:\localhost\client\TrustedHosts -value <server_IP> on RAS (* for all IPs)
+#!  1d) Set-item wsman:\localhost\client\TrustedHosts -value <RAS_IP> on server (* for all IPs)
+#!  1e) set-item WSMan:\localhost\Client\AllowUnencrypted true on RAS and server
+#!  2) run RSJRAS service as an administrator instead of local system account
+#!  3) if some authentication method is used other than Default :
+#!  set-item wsman:\localhost\client\Auth\<authMethod> true on RAS
+#!  set-item wsman:\localhost\client\Auth\<authMethod> true on server
+#!  4) Allow Delegate Fresh Credentials :
+#!
+#!  Part 3. On PS client:
+#!  - open Local Group Policy Editor.
+#!  - go to : Computer Configuration -> Administrative Templates -> System -> Credentials Delegation
+#!  - enable "allow fresh credential delegation"
+#!   
+#!  5) if Kerberos is used, RAS and target must be in the same domain
+#!  ====================================================================================================================
+#!  NON-MANDATORY :
+#!  6) Quota management : http://msdn.microsoft.com/en-us/library/windows/desktop/ee309367%28v=vs.85%29.aspx
+#!  7) Raise # of shells per user :
+#!  - open Local Group Policy Editor
+#!  - go to : Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Shell ->
+#!    Specify maximum number of remote shells per user
+#!  - Enable the feature and set a value for it
+#!
+#!  Check this also.
+#!
+#!  Powershell remoting with HTTPS - https://4sysops.com/archives/powershell-remoting-over-https-with-a-self-signed-ssl-certificate/
+#!  Powershell remoting with HTTPS (cross platform operation - PowerShell Script Action) -
+#!                                  https://www.jayway.com/2011/11/21/winrm-w-self-signed-certificate-in-4-steps/
+#!
+#!  HTTPS Prerequisites: Perform the HTTP configuration and then continue with this tutorial.
+#!  	1. Install Windows 7.1 SDK in default location, on the PowerShell server.
+#!  	2. [CMD] CD to : C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin
+#!  	3. [CMD] Customize and run command: makecert -sk "nameofhost.hpswlabs.adapps.hp.com" -ss My -sr localMachine -r -n
+#!               "CN=nameofhost.hpswlabs.adapps.hp.com, O=HPE AB, L=Cluj" -a sha1 -eku "1.3.6.1.5.5.7.3.1"
+#!  	4. [PS] Run command : ls cert:LocalMachine/my
+#!  	This is an example, you should have only 1 entry after running the above steps. In my case, only entry 4 is relevant.
+#!  	5. [PS] Copy the thumbprint of the certificate created at Step 3. (ex: 87B1C1818F1828958524A598B4131757EBAF4D35)
+#!  	6. [PS] Open a HTTPS listener on port 5986 using the following command: winrm create
+#!              winrm/config/listener?Address=IP:8.8.8.8+Transport=HTTPS @{Hostname="nameofhost.hpswlabs.adapps.hp.com";
+#!              CertificateThumbprint="87B1C1818F1828958524A598B4131757EBAF4D35";Port="5986"}
+#!
+#!  	After performing all the steps, the winrm get winrm/config command should return something similar:
+#!
+#!  	After performing all the steps, the winrm e winrm/config/listener command should return something similar:
+#!  	Look the 3rd listener. It contains the address of the PS host, the HTTPS transport, the PS host hostname,
+#1      it is enabled, it listens to the PS host IP and the thumbprint matches the thumbprint of the certificate created at Step 3.
+#!
+#!  	Since the PowerShell Script Action uses https to make the connection,
+#!      we don't have to do the client side PS configuration steps.
+#!
+#!  	7. Open MMC using Run, on the PS host.
+#!  	8. Go to File-> Snap-ins and add the Certificate snap-in for Local Computer.
+#!  	9. Browse the Personal/Certificates folder. Right click on the certificate generated at Step 3 and export it.
+#!
+#!  	10. Copy the certificate un the same computer as studio.
+#!  	11. Import the certificate in a truststore using Keystore explorer(download from internet).
+#!  	12. Provide the truststore in the "trustKeystore" input of the PowerShell Script Action operation.
+#!
 #! @input host: The hostname or ip address of the remote host.
 #! @input port: optional - The port to use when connecting to the remote WinRM server.
 #! @input protocol: optional - The protocol to use when connecting to the remote server.
