@@ -9,7 +9,7 @@
 testAmazonComputeV4SignatureLocal:
   testSuites: [amazon]
   description: "Test that successfully computes a Amazon AWS signature based on V4 mechanism."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.signature.compute_signature_v4
+  testFlowPath: io.cloudslang.amazon.aws.ec2.authentication.compute_signature_v4
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

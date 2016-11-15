@@ -6,11 +6,11 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 ####################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.signature
+namespace: io.cloudslang.amazon.aws.ec2.authentication
 
 imports:
   lists: io.cloudslang.base.lists
-  signature: io.cloudslang.amazon.aws.ec2.signature
+  authentication: io.cloudslang.amazon.aws.ec2.authentication
   strings: io.cloudslang.base.strings
 
 flow:
@@ -35,7 +35,7 @@ flow:
   workflow:
     - compute_signature:
         do:
-          signature.compute_signature_v4:
+          authentication.compute_signature_v4:
             - endpoint
             - identity
             - credential

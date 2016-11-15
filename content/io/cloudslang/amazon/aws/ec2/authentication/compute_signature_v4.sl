@@ -58,7 +58,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.signature
+namespace: io.cloudslang.amazon.aws.ec2.authentication
 
 operation:
   name: compute_signature_v4
