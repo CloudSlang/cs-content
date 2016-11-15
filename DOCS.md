@@ -13,7 +13,7 @@ The following is an overview of what is included in the ready-made content:
 
 + **cloudslang**
   + **amazon:**
-    + **aws:** [Amazon Web Services (AWS)](https://aws.amazon.com/) is a collection of remote computing services that make up a cloud-computing platform. This folder contains content for starting, stopping and listing servers.
+    + **aws:** [Amazon Web Services (AWS)](https://aws.amazon.com/) is a collection of remote computing services that make up a cloud-computing platform. This folder contains content for images, instances, network, regions, snapshots, tags and volumes.
   + **base:** This folder contains general purpose content.
     + **cmd:** Local shell command content, such as: run command.
     + **comparisons:** Comparison content, such as: equals and less than percentage.
