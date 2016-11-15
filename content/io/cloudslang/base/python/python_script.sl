@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Runs a python script provided through a inline script or the canonical path to the python file.
+#! @description: Runs a python script provided through an inline script or the canonical path to the python file.
 #!               Note: The 'script' and 'file_path' are mutually exclusive
 #!
 #! @input script: The inline script to run.
