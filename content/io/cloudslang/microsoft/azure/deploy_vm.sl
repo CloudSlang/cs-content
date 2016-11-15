@@ -13,7 +13,7 @@
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.
 #!                  This can be different from the location of the resource group.
@@ -28,7 +28,7 @@
 #!             Example: '2008-R2-SP1','2008-R2-SP1-BYOL','2012-R2-Datacenter','Windows-Server-Technical-Preview'
 #!                      '16.04.0-LTS','14.04.0-LTS','12.04.0-LTS','15.04.0-LTS' - for Ubuntu
 #! @input publisher: Name of the publisher for the operating system offer and sku
-#!                   Examople: 'MicrosoftWindowsServer','Canonical'
+#!                   Example: 'MicrosoftWindowsServer','Canonical'
 #! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
@@ -63,24 +63,24 @@
 #! @input disk_size: The size of the storage disk to be attach to the virtual machine.
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
@@ -102,7 +102,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
-  auth: io.cloudslang.microsoft.azure.utility
+  auth: io.cloudslang.microsoft.azure.authorization
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
@@ -133,7 +133,8 @@ flow:
     - subnet_name
     - os_platform
     - vm_username
-    - vm_password
+    - vm_password:
+        sensitive: true
     - tag_name
     - tag_value
     - disk_size

@@ -30,11 +30,11 @@
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output status_code: 202 if request completed successfully, 204 (NoContent) is returned if the account does not
-#1                      exist in the subscription, other errors in case of exceptions
+#!                      exist in the subscription, other errors in case of exceptions
 #! @output error_message: If a storage account could not be deleted the error message will be populated with a response,
 #!                        empty otherwise
 #!

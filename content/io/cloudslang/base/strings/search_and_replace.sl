@@ -9,10 +9,10 @@
 #!!
 #! @description: Replaces a substring within a string.
 #!
-#! @input origin_string: optional - original string
+#! @input origin_string: Optional - original string
 #! @input text_to_replace: text to replace
-#! @input replace_with: optional - text to replace with
-#1
+#! @input replace_with: Optional - text to replace with
+#!
 #! @output replaced_string: string with the text replaced
 #! @output error_message: substring not found
 #!

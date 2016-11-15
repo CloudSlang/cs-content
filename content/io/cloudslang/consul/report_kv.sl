@@ -10,9 +10,9 @@
 #! @description: Retrieves parsed key data.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent port - Default: '8500'
+#! @input consul_port: Optional - Consul agent port - Default: '8500'
 #! @input key_name: name of key to retrieve
-#1
+#!
 #! @output decoded: parsed response
 #! @output key: key name
 #! @output flags: key flags

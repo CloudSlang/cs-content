@@ -9,13 +9,13 @@
 #!!
 #! @description: Deletes unused and dangling Docker images.
 #!
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_options: Optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - path to the private key file
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input port: optional - SSH port
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to the private key file
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input port: Optional - SSH port
 #!
 #! @output amount_of_images_deleted: number of images deleted
 #! @output amount_of_dangling_images_deleted: number of dangling images deleted

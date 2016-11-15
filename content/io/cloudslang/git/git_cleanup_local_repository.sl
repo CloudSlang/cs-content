@@ -10,14 +10,14 @@
 #! @description: Performs a git command to cleanup and reinitialize a local repository.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input sudo_user: optional- true or false, whether the command should execute using sudo - Default: false
-#! @input private_key_file: optional - path to private key file
+#! @input password: Optional - password of user
+#! @input sudo_user: Optional- true or false, whether the command should execute using sudo - Default: false
+#! @input private_key_file: Optional - path to private key file
 #! @input git_repository_localdir: target local directory where the repository to be cleaned up is located - Default: /tmp/repo.git
-#! @input change_path: optional - true or false, whether the command should execute in local path or not - Default: false
-#! @input new_path: optional - new path to directory where the repository to be cleaned up is located
+#! @input change_path: Optional - true or false, whether the command should execute in local path or not - Default: false
+#! @input new_path: Optional - new path to directory where the repository to be cleaned up is located
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

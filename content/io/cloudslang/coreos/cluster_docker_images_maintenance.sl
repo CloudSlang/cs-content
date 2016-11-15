@@ -19,7 +19,7 @@
 #! @input percentage: if disk space is greater than this value then unused images will be deleted
 #!                    Default: 0%
 #!                    Example: 50%
-#1
+#!
 #! @output number_of_deleted_images_per_host: how many images were deleted for every host
 #!                                            Format: "ip1: number1, ip2: number2"
 #!

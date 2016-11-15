@@ -9,20 +9,20 @@
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
 #!
-#! @input endpoint: optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy server port used to access the provider services
+#! @input proxy_host: Optional - the proxy server used to access the provider services
+#! @input proxy_port: Optional - the proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF). The 
+#! @input proxy_username: Optional - proxy server user name.
+#! @input proxy_password: Optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
 #!                 Default: ""
-#! @input query_params: optional - string containing query parameters that will be appended to
+#! @input query_params: Optional - string containing query parameters that will be appended to
 #!                      the URL. The names and the values must not be URL encoded because if
 #!                      they are encoded then a double encoded will occur. The separator between
 #!                      name-value pairs is "&" symbol. The query name will be separated from
@@ -32,22 +32,22 @@
 #! @input version: Version of the web service to made the call against it.
 #!                 Example: "2016-09-15"
 #!                 Default: "2016-09-15"
-#! @input delimiter: optional - Delimiter that will be used.
+#! @input delimiter: Optional - Delimiter that will be used.
 #!                   Default: ","
-#! @input attribute: optional - name of the attribute.
+#! @input attribute: Optional - name of the attribute.
 #!                   Valid values: "instanceType | kernel | ramdisk | userData | disableApiTermination |
 #!                   instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping |
 #!                   productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport |
 #!                   enaSupport"
-#! @input attribute_value: optional - A new value for the attribute. Use only with: "kernel", "ramdisk",
+#! @input attribute_value: Optional - A new value for the attribute. Use only with: "kernel", "ramdisk",
 #!                         "userData", "disableApiTermination", or "instanceInitiatedShutdownBehavior"
 #!                         attributes.
 #!                         Default: ""
-#! @input block_device_mapping_device_names_string: optional - String that contains one or more device names, exposed to
+#! @input block_device_mapping_device_names_string: Optional - String that contains one or more device names, exposed to
 #!                                                  the instance, separated by <delimiter>.
 #!                                                  Examples: "/dev/sdh,xvdh"
 #!                                                  Default: ""
-#! @input block_device_mapping_virtual_names_string: optional - String that contains one or more virtual names separated
+#! @input block_device_mapping_virtual_names_string: Optional - String that contains one or more virtual names separated
 #!                                                   by <delimiter>. Virtual device name is "ephemeralN". Instance store
 #!                                                   volumes are numbered starting from 0. An instance type with 2 available
 #!                                                   instance store volumes can specify mappings for ephemeral0 and ephemeral1.
@@ -59,51 +59,51 @@
 #!                                                   device mapping for the AMI.
 #!                                                   Example: "ephemeral0,ephemeral1,Not relevant"
 #!                                                   Default: ""
-#! @input delete_on_terminations_string: optional - String that contains one or more values that indicates
+#! @input delete_on_terminations_string: Optional - String that contains one or more values that indicates
 #!                                       whether a specific EBS volume will be deleted on instance termination.
 #!                                       Example: For a third EBS device (from existing 4 devices), that
 #!                                       should be deleted, the string will be: "false,false,true,false".
 #!                                       Valid values: "true", "false"
 #!                                       Default: ""
-#! @input volume_ids_string: optional - String that contains one or more values that indicates
+#! @input volume_ids_string: Optional - String that contains one or more values that indicates
 #!                           volume Ids.
 #!                           Default: ""
-#! @input no_devices_string: optional - String that contains one or more values that indicates
+#! @input no_devices_string: Optional - String that contains one or more values that indicates
 #!                           if a certain specified device included in the block device mapping
 #!                           will be suppressed.
 #!                           Example: For a second EBS device (from existing 4 devices), that
 #!                           should be suppressed, the string will be: ",No device,,".
 #!                           Default: ""
-#! @input disable_api_termination: optional - If the value is "true", you can't terminate the instance
+#! @input disable_api_termination: Optional - If the value is "true", you can't terminate the instance
 #!                                 using the Amazon EC2 console, CLI, or API; otherwise, you can. You
 #!                                 cannot use this paramater for Spot Instances.
 #!                                 Valid values: "true", "false"
 #!                                 Default: "false"
-#! @input ebs_optimized: optional - Specifies whether the instance is optimized for EBS I/O. This
+#! @input ebs_optimized: Optional - Specifies whether the instance is optimized for EBS I/O. This
 #!                       optimization provides dedicated throughput to Amazon EBS and an optimized
 #!                       configuration stack to provide optimal EBS I/O performance. This optimization
 #!                       isn't available with all instance types. Additional usage charges apply
 #!                       when using an EBS Optimized instance.
 #!                       Valid values: "true", "false"
 #!                       Default: "false"
-#! @input ena_support: optional - Set to "true" to enable enhanced networking with ENA for the
+#! @input ena_support: Optional - Set to "true" to enable enhanced networking with ENA for the
 #!                     instance. This option is supported only for HVM instances. Specifying
 #!                     this option with a PV instance can make it unreachable.
 #!                     Valid values: "true", "false"
 #!                     Default: "false"
-#! @input security_group_ids_string: optional - [EC2-VPC] Changes the security groups of the instance. You
+#! @input security_group_ids_string: Optional - [EC2-VPC] Changes the security groups of the instance. You
 #!                                   must specify at least one security group, even if it's just the default
 #!                                   security group for the VPC. You must specify the security group IDs,
 #!                                   not the security group names.
 #!                                   Default: ""
 #! @input instance_id: ID of the instance.
 #!                     Example: "i-12345678"
-#! @input instance_initiated_shutdown_behavior: optional - Specifies whether an instance stops or terminates when you
+#! @input instance_initiated_shutdown_behavior: Optional - Specifies whether an instance stops or terminates when you
 #!                                              initiate shutdown from the instance (using the operating system command
 #!                                              for system shutdown).
 #!                                              Valid values: "stop", "terminate"
 #!                                              Default: "stop"
-#! @input instance_type: optional - Changes the instance type to the specified value. If the
+#! @input instance_type: Optional - Changes the instance type to the specified value. If the
 #!                       instance type is not valid, the error returned is InvalidInstanceAttributeValue.
 #!                       For more information, see Instance Types in the Amazon Elastic Compute
 #!                       Cloud User Guide.
@@ -120,23 +120,23 @@
 #!                       g2.2xlarge | g2.8xlarge | cg1.4xlarge | d2.xlarge | d2.2xlarge |
 #!                       d2.4xlarge | d2.8xlarge"
 #!                       Default: "m1.small"
-#! @input kernel: optional - Changes the instance's kernel to the specified value. We
+#! @input kernel: Optional - Changes the instance's kernel to the specified value. We
 #!                recommend that you use PV-GRUB instead of kernels and RAM disks.
 #!                For more information, see PV-GRUB: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html
 #!                Default: ""
-#! @input source_destination_check: optional - Specifies whether source/destination checking is enabled.
+#! @input source_destination_check: Optional - Specifies whether source/destination checking is enabled.
 #!                                  A value of "true" means that checking is enabled, and "false" means
 #!                                  checking is disabled. This value must be "false" for a NAT instance to
 #!                                  perform NAT.
 #!                                  Valid values: "true", "false"
 #!                                  Default: "false"
-#! @input sriov_net_support: optional - Set to "simple" to enable enhanced networking with the Intel
+#! @input sriov_net_support: Optional - Set to "simple" to enable enhanced networking with the Intel
 #!                           82599 Virtual Function interface for the instance. There is no way to
 #!                           disable enhanced networking with the Intel 82599 Virtual Function interface
 #!                           at this time. This option is supported only for HVM instances. Specifying
 #!                           this option with a PV instance can make it unreachable.
 #!                           Default: ""
-#! @input user_data: optional - Changes the instance's user data to the specified value.
+#! @input user_data: Optional - Changes the instance's user data to the specified value.
 #!                   If you are using an AWS SDK or command line tool, Base64-encoding is
 #!                   performed for you, and you can load the text from a file. Otherwise,
 #!                   you must provide Base64-encoded text.

@@ -13,9 +13,9 @@
 #! @input character_set: The character decoding used for the data string. If you do not specify a value for this input,
 #!                       it uses the system's default character decoding.
 #!                       Examples: UTF-8, ISO-8859-1, US-ASCII or Shift_JIS.
-#1
+#!
 #! @output result: decoded string
-#1
+#!
 #! @result SUCCESS: operation completed successfully
 #! @result FAILURE: operation failed
 #!!#

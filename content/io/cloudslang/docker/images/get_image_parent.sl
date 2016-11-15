@@ -8,14 +8,14 @@
 #!!
 #! @description: Inspects specified image and gets parent.
 #!
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#! @input docker_options: Optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
+#! @input docker_password: Optional - Docker machine password
 #! @input image_name: image for which to check parents - Example: <repository>:<tag>
-#! @input private_key_file: optional - path to the private key file
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input port: optional - port number for running the command
+#! @input private_key_file: Optional - path to the private key file
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input port: Optional - port number for running the command
 #!
 #! @output parent_image_name: name of the parent image
 #!

@@ -11,10 +11,10 @@
 #!
 #! @input container: name or ID of the Docker container that runs MySQL
 #! @input host: Docker machine host
-#! @input port: optional - Docker machine port
+#! @input port: Optional - Docker machine port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
 #! @input mysql_username: MySQL instance username
 #! @input mysql_password: MySQL instance password
 #!

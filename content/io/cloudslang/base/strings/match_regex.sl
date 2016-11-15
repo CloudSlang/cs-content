@@ -10,7 +10,7 @@
 #! @description: Tests whether a Python regex expression matches a string.
 #!
 #! @input regex: Python regex expresssion - Example: "f\\w*r"
-#! @input text: optional - string to match
+#! @input text: Optional - string to match
 #!
 #! @output match_text: matched text
 #!

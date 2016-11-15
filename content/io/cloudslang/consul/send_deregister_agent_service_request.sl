@@ -10,7 +10,7 @@
 #! @description: Sends a request to delete an agent service.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input consul_port: Optional - Consul agent host port - Default: '8500'
 #! @input service_id: ID of the service to be deregistered
 #!
 #! @output return_result: response of the operation

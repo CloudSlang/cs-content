@@ -11,28 +11,28 @@
 #!
 #! @input api_key: API key
 #! @input field_name: comma-separated list of field names to return values for
-#! @input document_count: optional - set to true to show the number of documents that
+#! @input document_count: Optional - set to true to show the number of documents that
 #!                        contain a parametric tag value
 #!                        default: true
-#! @input field_text: optional - fields that result documents must contain, and the
+#! @input field_text: Optional - fields that result documents must contain, and the
 #!                    conditions that these fields must meet for the documents
 #!                    to return as results
-#! @input indexes: optional - text indexes to use to perform the parametric search
-#! @input max_values: optional - maximum number of values to return for each matched field name
+#! @input indexes: Optional - text indexes to use to perform the parametric search
+#! @input max_values: Optional - maximum number of values to return for each matched field name
 #!                    valid: between 1 and 10000
 #!                    default: 100
-#! @input min_score: optional - minimum percentage relevance that results must have for the
+#! @input min_score: Optional - minimum percentage relevance that results must have for the
 #!                   query to return
 #!                   default: 0
-#! @input sort: optional - criteria to use for the result display order
+#! @input sort: Optional - criteria to use for the result display order
 #!              valid: off, document_count, alphabetical, reverse_alphabetical
 #!                     number_increasing, number_decreasing
 #!              default: off
-#! @input text: optional - query text
+#! @input text: Optional - query text
 #!              default: *
 #! @input query_profile: name of the query profile to apply
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise

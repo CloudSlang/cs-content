@@ -9,14 +9,14 @@
 #!!
 #! @description: This operation performs a XSL Transformation to transform a XML document into HTML.
 #!
-#! @input xml_document: optional - the location of the XML document to transform. Can be a local file path, an HTTP URL,
-#!                      or the actual xml to transform, as string. This is optional as some stylesheets do not need
+#! @input xml_document: Optional - the location of the XML document to transform. Can be a local file path, an HTTP URL,
+#!                      or the actual xml to transform, as string. This is Optional as some stylesheets do not need
 #!                      an XML document and can create output based on runtime parameters.
 #! @input xsl_template: the location of the XSL stylesheet to use. Can be a local file path,
 #!                       an HTTP URL or the actual template as string.
-#! @input output_file: optional - the local file to write the output of the transformation. If an output file is not
+#! @input output_file: Optional - the local file to write the output of the transformation. If an output file is not
 #!                     specified the output of the transformation will be returned as returnResult.
-#! @input parsing_features: optional - The list of XML parsing features separated by new line (CRLF).
+#! @input parsing_features: Optional - The list of XML parsing features separated by new line (CRLF).
 #!                          The feature name - value must be separated by empty space.
 #!                          Setting specific features this field could be used to avoid XML security issues like
 #!                          "XML Entity Expansion injection" and "XML External Entity injection".

@@ -11,7 +11,7 @@
 #!
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
-#1
+#!
 #! @output result: value1 divided by value2
 #!
 #! @result ILLEGAL: value2 == 0

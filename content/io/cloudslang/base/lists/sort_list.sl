@@ -14,7 +14,7 @@
 #!              Example: '4,3,5,2,1'
 #! @input delimiter: the list delimiter - Example: ','
 #!                   For special delimiters, they must be escaped. e.g. '\\.'
-#! @input reverse: optional - a boolean value for sorting the list in reverse order
+#! @input reverse: Optional - a boolean value for sorting the list in reverse order
 #!                 default: 'false'
 #!
 #! @output response: 'success' or 'failure'

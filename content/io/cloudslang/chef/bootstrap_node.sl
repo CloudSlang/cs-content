@@ -12,14 +12,14 @@
 #! @input node_name: new node name in Chef
 #! @input node_host: hostname or IP of server to boostrap
 #! @input node_username: SSH username to boostrap the new node
-#! @input node_password: optional - password to access node
-#! @input node_privkey: optional - path on <knife_host> to keyfile for accessing node
+#! @input node_password: Optional - password to access node
+#! @input node_privkey: Optional - path on <knife_host> to keyfile for accessing node
 #! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
 #! @input knife_username: SSH username to access server with knife
-#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
-#! @input knife_password: optional - password to access server with knife
-#! @input knife_timeout: optional - timeout in milliseconds - Default: '600000'
-#! @input knife_config: optional - location of knife.rb config file
+#! @input knife_privkey: Optional - path to local SSH keyfile for accessing server with knife
+#! @input knife_password: Optional - password to access server with knife
+#! @input knife_timeout: Optional - timeout in milliseconds - Default: '600000'
+#! @input knife_config: Optional - location of knife.rb config file
 #!
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command

@@ -18,9 +18,9 @@
 #! @input from: sender email address
 #! @input to: recipient email address
 #! @input proxy_host: proxy server
-#!                    optional
+#!                    Optional
 #! @input proxy_port: proxy server port
-#!                    optional
+#!                    Optional
 #!
 #! @result SUCCESS: text index setup queried successfully
 #! @result FAILURE: there was an error while trying to query the text index setup

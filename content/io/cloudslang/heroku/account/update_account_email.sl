@@ -11,7 +11,7 @@
 #!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - Heroku <username> account password
+#! @input password: Optional - Heroku <username> account password
 #!                  default: None
 #! @input email: new unique email address of account which will replace old email address
 #!

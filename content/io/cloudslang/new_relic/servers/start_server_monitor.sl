@@ -10,23 +10,23 @@
 #! @description: Starts the Server Monitor daemon on a remote Linux host.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #!              Default: '22'
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input arguments: optional - arguments to pass to the command
-#! @input private_key_file: optional - absolute path to private key file
+#! @input password: Optional - password of user
+#! @input arguments: Optional - arguments to pass to the command
+#! @input private_key_file: Optional - absolute path to private key file
 #!                          Default: none
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
 #!                 Default: 90000
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
 #!                       Default: 'UTF-8'
-#! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during
+#! @input close_session: Optional - if 'false' the SSH session will be cached for future calls of this operation during
 #!                       the life of the flow, if 'true' the SSH session used by this operation will be closed
 #!                       Valid: true, false
 #!                       Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: return code of the command

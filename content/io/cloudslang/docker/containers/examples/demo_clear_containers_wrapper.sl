@@ -12,10 +12,10 @@
 #! @input db_container_id: ID of the DB container
 #! @input linked_container_id: ID of the linked container
 #! @input docker_host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine host password
-#! @input private_key_file: optional - path to private key file
+#! @input docker_password: Optional - Docker machine host password
+#! @input private_key_file: Optional - path to private key file
 #!
 #! @output error_message: error message
 #!

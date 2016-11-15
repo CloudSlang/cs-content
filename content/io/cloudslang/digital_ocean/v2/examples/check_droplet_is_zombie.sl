@@ -14,7 +14,7 @@
 #!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
 #! @input time_to_live: threshold in minutes to compare the droplet's lifetime to
 #! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
-#1
+#!
 #! @result ZOMBIE: droplet is considered zombie
 #! @result NOT_ZOMBIE: droplet is not considered zombie
 #! @result FAILURE: error occurred

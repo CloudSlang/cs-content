@@ -10,10 +10,10 @@
 #! @description: Wait for Marathon app startup.
 #!
 #! @input marathon_host: Marathon host
-#! @input marathon_port: optional - Marathon port
+#! @input marathon_port: Optional - Marathon port
 #! @input created_app_id: Marathon app id
-#! @input attempts: optional - attempts to reach host - Default: 1
-#! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 1
+#! @input attempts: Optional - attempts to reach host - Default: 1
+#! @input time_to_sleep: Optional - time in seconds to wait between attempts - Default: 1
 #!
 #! @result SUCCESS: waiting for the Maranthon app to start up completed successfully
 #! @result FAILURE: there was an error while waiting for the Marathon app to start

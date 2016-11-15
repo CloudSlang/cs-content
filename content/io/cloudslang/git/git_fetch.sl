@@ -10,14 +10,14 @@
 #! @description: Fetches a git branch.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input git_repository_localdir: optional - target directory where a git repository exists
+#! @input password: Optional - password of user
+#! @input git_repository_localdir: Optional - target directory where a git repository exists
 #!                                 Default: /tmp/repo.git
-#! @input git_fetch_remote: optional - remote repository to fetch from - Default: origin
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
-#! @input private_key_file: optional - relative or absolute path to private key file
+#! @input git_fetch_remote: Optional - remote repository to fetch from - Default: origin
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo - Default: false
+#! @input private_key_file: Optional - relative or absolute path to private key file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

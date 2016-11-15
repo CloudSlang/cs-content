@@ -10,7 +10,7 @@
 #! @description: Sends a request to register a new end point.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input consul_port: Optional - Consul agent host port - Default: '8500'
 #! @input json_request: the request JSON
 #!
 #! @output return_result: response of the operation

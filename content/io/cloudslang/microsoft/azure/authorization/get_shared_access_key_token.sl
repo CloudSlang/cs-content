@@ -19,9 +19,9 @@
 #! @result SUCCESS: operation succeeded and returned the value for the authorization header
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.utility
+namespace: io.cloudslang.microsoft.azure.authorization
 
 operation:
   name: get_shared_access_key_token

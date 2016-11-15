@@ -8,26 +8,26 @@
 ########################################################################################################################
 #!!
 #! @description: Adds or overwrites one or more tags for the specified Amazon EC2 resource/resources.
-#!               Note: Each resource can have a maximum of 10 tags. Each tag consists of a key and optional value. Tag
+#!               Note: Each resource can have a maximum of 10 tags. Each tag consists of a key and Optional value. Tag
 #!               keys must be unique per resource. For more information about tags, see Tagging Your Resources in the
 #!               Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control
 #!               users access to resources based on tags, see Supported Resource-Level Permissions for Amazon EC2 API
 #!               Actions in the Amazon Elastic Compute Cloud User Guide.
 #!
-#! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services
+#! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - proxy server user name.
+#! @input proxy_password: Optional - proxy server password associated with the <proxyUsername> input value.
+#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
 #!                 Default: ""
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - string containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
@@ -36,7 +36,7 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: optional - Delimiter that will be used - Default: ','
+#! @input delimiter: Optional - Delimiter that will be used - Default: ','
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter.
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter.
 #! @input resource_ids_string: String that contains Id's of one or more resources to tag.

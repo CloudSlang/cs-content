@@ -10,13 +10,13 @@
 #! @description: Retrieves a list of Marathon apps.
 #!
 #! @input marathon_host: Marathon agent host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
-#! @input cmd: optional - filter apps to only those whose commands contain cmd
-#! @input embed: optional - embeds nested resources that match supplied path - Default: none
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
+#! @input cmd: Optional - filter apps to only those whose commands contain cmd
+#! @input embed: Optional - embeds nested resources that match supplied path - Default: none
 #!               Valid: "apps.tasks" App's tasks are not embedded in response by default "apps.failures".
 #!               App's last failures are not embedded in response by default
-#! @input proxy_host: optional - proxy host
-#! @input proxy_port: optional - proxy port
+#! @input proxy_host: Optional - proxy host
+#! @input proxy_port: Optional - proxy port
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code == -1 or status_code != 200

@@ -11,10 +11,10 @@
 #!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - path to the private key file
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to the private key file
 #! @input percentage: Example: 50%
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
 #!
 #! @result SUCCESS: disk space less than percentage
 #! @result FAILURE: error occurred

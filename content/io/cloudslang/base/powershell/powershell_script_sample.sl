@@ -51,7 +51,7 @@
 #! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples
 #!                                  Example: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html
 #!                                  Examples: com.sun.security.jgss.initiate {com.sun.security.auth.module.Krb5LoginModule
-#1                                            required principal=Administrator doNotPrompt=true useKeyTab=true
+#!                                            required principal=Administrator doNotPrompt=true useKeyTab=true
 #!                                            keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";};
 #! @input kerberos_skip_port_for_lookup: Do not include port in the key distribution center database lookup.
 #!                                       Default value: true
@@ -62,7 +62,7 @@
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input keystore: optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.

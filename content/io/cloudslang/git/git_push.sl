@@ -10,12 +10,12 @@
 #! @description: Performs a git push command to send a branch to a remote git repository.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo.git
-#! @input git_push_branch: optional - branch to push - Default: master
-#! @input git_push_remote: optional - remote to push to - Default: origin
+#! @input password: Optional - password of user
+#! @input git_repository_localdir: Optional - target directory where a git repository exists - Default: /tmp/repo.git
+#! @input git_push_branch: Optional - branch to push - Default: master
+#! @input git_push_remote: Optional - remote to push to - Default: origin
 #! @input sudo_user: true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: absolute path to the private key file
 #!

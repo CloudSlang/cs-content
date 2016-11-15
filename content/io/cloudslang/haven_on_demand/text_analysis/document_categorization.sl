@@ -12,13 +12,13 @@
 #! @input api_key: API key
 #! @input reference: Haven OnDemand reference
 #! @input index: text index to search for matching categories. Must be of the categorization flavor.
-#! @input max_results: optional - maximum number of categories to return
+#! @input max_results: Optional - maximum number of categories to return
 #!                     default: 10
-#! @input print_value: optional - types of fields and content to display in the results
+#! @input print_value: Optional - types of fields and content to display in the results
 #!                     default: fields
 #! @input print_fields: names of fields to print in the results
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise

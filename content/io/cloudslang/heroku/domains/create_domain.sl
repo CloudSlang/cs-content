@@ -15,7 +15,7 @@
 #! @input app_id_or_name: ID or name of the Heroku application
 #! @input hostname: full hostname of new domain to be created
 #!                  example: 'subdomain.example.com'
-#1
+#!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '201'
 #! @output return_code: '0' if success, '-1' otherwise

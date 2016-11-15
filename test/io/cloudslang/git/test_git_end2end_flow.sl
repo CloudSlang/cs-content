@@ -20,20 +20,20 @@
 #!               - cleanup repositories;
 #! @prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input private_key_file: optional - the path to the private key file
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input password: Optional - password of user
+#! @input private_key_file: Optional - the path to the private key file
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo - Default: false
 #! @input git_repository: the URL for cloning a git repository from
-#! @input git_pull_remote: optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#! @input git_pull_remote: Optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #! @input git_branch: the git branch to checkout to
 #! @input git_repository_localdir: target directory the git repository will be cloned to - Default: /tmp/repo.git
 #! @input file_name: the name of the file - if the file doesn't exist then will be created
-#! @input text: optional - text to write to the file
-#! @input git_add_files: optional - the files that has to be added/staged - Default: "*"
-#! @input git_commit_files: optional - the files that has to be committed - Default: "-a"
-#! @input git_commit_message: optional - the message for the commit
+#! @input text: Optional - text to write to the file
+#! @input git_add_files: Optional - the files that has to be added/staged - Default: "*"
+#! @input git_commit_files: Optional - the files that has to be committed - Default: "-a"
+#! @input git_commit_message: Optional - the message for the commit
 #! @input git_push_branch: the branch you want to push - Default: master
 #! @input git_push_remote: the remote you want to push to - Default: origin
 #! @input user: the user to be added to sudoers group

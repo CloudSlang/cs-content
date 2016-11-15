@@ -11,10 +11,10 @@
 #!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - absolute path to private key file
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - absolute path to private key file
 #! @input percentage: if disk space is greater than this value then unused images will be deleted - Example: 50%
-#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 6000000
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete - Default: 6000000
 #!
 #! @output total_amount_of_images_deleted: number of deleted images
 #!

@@ -7,11 +7,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
+#! @description: Insert an object into a JSON array, Optionally specifying the position at which to insert the new object.
 #!
 #! @input json_array: JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
 #! @input json_object: JSON object to insert into array - Example: '{"b": "1"}'
-#! @input index: optional - position at which to insert the new object - Example: 1
+#! @input index: Optional - position at which to insert the new object - Example: 1
 #! @output return_result: JSON array with object inserted
 #! @output return_code: "0" if inserting was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise

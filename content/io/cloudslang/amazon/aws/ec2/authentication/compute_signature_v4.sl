@@ -13,20 +13,20 @@
 #!                     in the 'Authorization' header. For more information see:
 #!                     http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html#sigv4-add-signature-auth-header
 #!
-#! @input endpoint: optional - Service endpoint used to compute the signature.
+#! @input endpoint: Optional - Service endpoint used to compute the signature.
 #!                  Example: 'ec2.amazonaws.com', 's3.amazonaws.com'
 #!                  Default: 'ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #! @input amazon_api: Corresponding Amazon API micro service where the request is send.
 #!                   Examples: 'ec2', 's3'
-#! @input uri: optional - Request's relative URI. The URI should be from the service endpoint to the query params.
+#! @input uri: Optional - Request's relative URI. The URI should be from the service endpoint to the query params.
 #!             Default: '/' (slash)
 #! @input http_verb: Method used for the request. You need to specify this with upper case. Because the integration is
 #!                   Query API based then 'GET' method should be used.
 #!                   Valid values: GET, PUT
 #!                   Default: 'GET'
-#! @input payload_hash: optional - Payload's hash that will be included in the signature. The hashing should be computed
+#! @input payload_hash: Optional - Payload's hash that will be included in the signature. The hashing should be computed
 #!                      using the 'SHA-256' hashing algorithm and then hex encoded.
 #!                      Default: ''
 #! @input security_token: URI-encoded session token. The string you received from AWS STS when you obtained temporary
@@ -35,12 +35,12 @@
 #!              the YYYYMMDD'T'HHMMSS'Z' format form UTC time zone.
 #!              Example: 20150416T112043Z for April 16, 2015 11:20:43 AM UTC
 #!              Default: The current date and time in UTC time zone
-#! @input headers: optional - String containing the headers to use for the request separated by new line (CRLF). The header name-value
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF). The header name-value
 #!                 pair will be separated by ':' (colon).
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Example: 'Accept:text/plain'
 #!                 Default: ''
-#! @input query_params: optional - String containing query parameters that will be appended to the URL. The names and the
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names and the
 #!                      values must not be URL encoded because if they are encoded then a double encoded will occur. The
 #!                      separator between name-value pairs is '&' (ampersand) symbol. The query name will be separated from
 #!                      query value by '=' (equal).

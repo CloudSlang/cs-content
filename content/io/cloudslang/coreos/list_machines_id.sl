@@ -8,24 +8,24 @@
 ########################################################################################################################
 #!!
 #! @description: Retrieves the ID list of machines deployed in a CoreOS cluster.
-#1
+#!
 #! @input host: CoreOS machine host;
 #!              Can be any machine from the cluster
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: CoreOS machine username
-#! @input password: optional - CoreOS machine password;
+#! @input password: Optional - CoreOS machine password;
 #!                  Can be empty since CoreOS machines use private key file authentication
-#! @input private_key_file: optional - path to the private key file
-#! @input arguments: optional - arguments to pass to the command
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input private_key_file: Optional - path to the private key file
+#! @input arguments: Optional - arguments to pass to the command
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: SJIS, EUC-JP, UTF-8
-#! @input pty: optional - whether to use PTY
+#! @input pty: Optional - whether to use PTY
 #!             Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input close_session: optional - if false SSH session will be cached for future calls of this operation during life
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - if false SSH session will be cached for future calls of this operation during life
 #!                       of the flow, if true SSH session used by this operation will be closed
 #!                       Valid: true, false
-#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @input agent_forwarding: Optional - whether to forward the user authentication agent
 #!
 #! @output machines_id_list: space delimited list of IDs of machines deployed in the CoreOS cluster
 #!

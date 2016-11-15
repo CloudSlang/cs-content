@@ -10,20 +10,20 @@
 #! @description: Starts a specified Docker container.
 #!
 #! @input start_container_id: ID of the container to be started
-#! @input container_params: optional - command parameters - Default: none
+#! @input container_params: Optional - command parameters - Default: none
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - absolute path to private key file
-#! @input arguments: optional - arguments to pass to command
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - absolute path to private key file
+#! @input arguments: Optional - arguments to pass to command
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: optional - whether to use PTY - Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY - Valid: true, false
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#1
+#!
 #! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
 #!

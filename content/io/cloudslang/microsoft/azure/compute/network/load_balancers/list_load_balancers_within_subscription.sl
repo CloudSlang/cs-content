@@ -27,7 +27,7 @@
 #!                        trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false and trust_keystore is empty,
+#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: ''
 #! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.

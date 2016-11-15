@@ -10,13 +10,13 @@
 #! @description: Deletes a Docker container.
 #!
 #! @input container_id: ID of the container to be deleted
-#! @input docker_options: optional - options for the Docker environment
+#! @input docker_options: Optional - options for the Docker environment
 #!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
-#! @input port: optional - SSH port
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
+#! @input port: Optional - SSH port
 #!
 #! @output error_message: error message of the operation that failed
 #!

@@ -9,26 +9,26 @@
 #!!
 #! @description: Pulls and runs a Docker container.
 #!
-#! @input docker_options: optional - options for the Docker environment
+#! @input docker_options: Optional - options for the Docker environment
 #!                        - from the construct: docker [OPTIONS] COMMAND [arg...]
-#! @input detach: optional - run container in background (detached / daemon mode) - Default: true
-#! @input container_name: optional - container name
-#! @input container_params: optional - command parameters
-#! @input container_command: optional - container command
+#! @input detach: Optional - run container in background (detached / daemon mode) - Default: true
+#! @input container_name: Optional - container name
+#! @input container_params: Optional - command parameters
+#! @input container_command: Optional - container command
 #! @input image_name: Docker image that will be assigned to the container
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
-#! @input arguments: optional - arguments to pass to command
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
+#! @input arguments: Optional - arguments to pass to command
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: optional - whether to use PTY - Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY - Valid: true, false
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @input agent_forwarding: Optional - whether to forward the user authentication agent
 #!
 #! @output container_id: ID of the container
 #! @output error_message: STDERR of the machine in case of successful request, null otherwise

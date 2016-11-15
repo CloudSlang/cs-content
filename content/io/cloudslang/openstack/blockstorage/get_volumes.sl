@@ -35,7 +35,7 @@
 #!                        trustPassword default will be supplied.
 #!                        Default value: changeit
 #! @input keystore: optional - the pathname of the Java KeyStore file.
-#1                  You only need this if the server requires client authentication.
+#!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if
 #!                  trust_all_roots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts

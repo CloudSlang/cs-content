@@ -12,7 +12,7 @@
 #!
 #! @input url: URL to Jenkins
 #! @input job_name: name of job to check
-#1
+#!
 #! @output last_buildnumber: number of last build for the specified job
 #! @output result_message: operation results
 #!

@@ -10,12 +10,12 @@
 #! @description: Restarts a remote Linux service using SSH.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command - Default: '22'
+#! @input port: Optional - port number for running the command - Default: '22'
 #! @input username: username to connect as
-#! @input password: optional - password of user
+#! @input password: Optional - password of user
 #! @input service_name: Linux service name to be restarted
-#! @input sudo_user: optional - whether to execute the command on behalf of username with sudo. Default: false
-#! @input private_key_file: optional - absolute path to the private key file
+#! @input sudo_user: Optional - whether to execute the command on behalf of username with sudo. Default: false
+#! @input private_key_file: Optional - absolute path to the private key file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

@@ -10,21 +10,21 @@
 #! @description: Builds a Docker image based on a Dockerfile.
 #!
 #! @input docker_image: Docker image specifier - Example: 'docker_user/image_name:tag'
-#! @input workdir: optional - path to the directory that contains the Dockerfile - Default: current directory
-#! @input dockerfile_name: optional - name of the Dockerfile - Default: Dockerfile
+#! @input workdir: Optional - path to the directory that contains the Dockerfile - Default: current directory
+#! @input dockerfile_name: Optional - name of the Dockerfile - Default: Dockerfile
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to the private key file
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to the private key file
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: optional - whether to use PTY - Valid: true, false
+#! @input pty: Optional - whether to use PTY - Valid: true, false
 #! @input timeout: time in milliseconds to wait for command to complete - Default: 3000000 ms (50 min)
-#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#! @input agent_forwarding: optional - whether to forward the user authentication agent
-#1
+#! @input agent_forwarding: Optional - whether to forward the user authentication agent
+#!
 #! @output image_id: ID of the created Docker image
 #!
 #! @result SUCCESS: Docker image successfully built

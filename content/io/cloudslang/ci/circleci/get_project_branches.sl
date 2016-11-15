@@ -14,34 +14,34 @@
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
 #!                Go to : https://circleci.com/account/api and copy the API token.
 #!                If you don`t have any token generated, enter a new token name and then click on
-#! @input protocol: optional - connection protocol
+#! @input protocol: Optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input host: circleci address
 #!              Default: "circleci.com"
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#! @input trust_password: Optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
 #! @input username: circleCi username.
 #! @input project: github project name.
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
-#! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
+#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
 #!

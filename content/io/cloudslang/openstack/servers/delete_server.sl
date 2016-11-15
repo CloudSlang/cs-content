@@ -10,13 +10,13 @@
 #! @description: Deletes an OpenStack server.
 #!
 #! @input host: OpenStack machine host
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: '8774'
 #! @input token: OpenStack token obtained after authentication
 #! @input tenant_id: OpenStack tenantID obtained after authentication
 #! @input server_id: ID of server to be deleted
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: response of the operation
 #! @output status_code: normal status code is '204'

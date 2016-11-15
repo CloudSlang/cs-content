@@ -9,10 +9,10 @@
 #!!
 #! @description: Creates JSON for request to register new agent service.
 #!
-#! @input address: optional - will default to that of the agent - Default: ''
+#! @input address: Optional - will default to that of the agent - Default: ''
 #! @input service_name: name of the service to be registered
-#! @input service_id: optional - service_name will be used if not specified
-#! @input check: optional - if the Check key is provided, then a health check will also be registered
+#! @input service_id: Optional - service_name will be used if not specified
+#! @input check: Optional - if the Check key is provided, then a health check will also be registered
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if there was an error

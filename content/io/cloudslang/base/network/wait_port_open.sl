@@ -11,8 +11,8 @@
 #!
 #! @input host: hostname or IP to check
 #! @input port: TCP port number to check
-#! @input timeout: optional - timeout, in seconds, for each check, throttles the polling - Default: 10 sec
-#! @input tries: optional - total number of tries: total wait time = timeout x tries - Default: 30
+#! @input timeout: Optional - timeout, in seconds, for each check, throttles the polling - Default: 10 sec
+#! @input tries: Optional - total number of tries: total wait time = timeout x tries - Default: 30
 #!
 #! @result SUCCESS: connection successful, host is active and listening on port
 #! @result FAILURE: host is not listening, port is closed or host down

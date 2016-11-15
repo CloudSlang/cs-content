@@ -11,17 +11,17 @@
 #!
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - absolute path to private key file
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - absolute path to private key file
 #! @input percentage: if disk space is greater than this value then unused images will be deleted - Example: 50%
-#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 6000000
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete - Default: 6000000
 #! @input email_hostname: email host
 #! @input email_port: email port
 #! @input email_from: email sender
 #! @input email_to: email recipient
-#! @input email_username: optional
-#! @input email_password: optional
-#! @input enable_TLS: optional - enable startTLS
+#! @input email_username: Optional
+#! @input email_password: Optional
+#! @input enable_TLS: Optional - enable startTLS
 #!
 #! @output total_amount_of_images_deleted: number of deleted images
 #!

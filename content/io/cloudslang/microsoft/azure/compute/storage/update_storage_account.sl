@@ -24,8 +24,8 @@
 #! @input encryption: Provides the encryption settings on the account. If left unspecified, the account will be unencrypted.
 #!                    Currently the only service is "blob" and the only property is "enabled".
 #! @input account_type: Type of account to be created
-#1                     One of the following account types (case-sensitive):
-#1                     Standard_LRS (Standard Locally-redundant storage)
+#!                     One of the following account types (case-sensitive):
+#!                     Standard_LRS (Standard Locally-redundant storage)
 #!                     Standard_ZRS (Standard Zone-redundant storage)
 #!                     Standard_GRS (Standard Geo-redundant storage)
 #!                     Standard_RAGRS (Standard Read access geo-redundant storage)
@@ -49,7 +49,7 @@
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the Trusttore file. If trust_all_roots is false
+#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: json response with information about the updated storage account

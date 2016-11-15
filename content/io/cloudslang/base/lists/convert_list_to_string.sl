@@ -10,10 +10,10 @@
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
 #! @input list: list of items that will be converted to string and concatenated - Example: [123, 'xyz']
-#! @input double_quotes: optional - if true, list items will be double quoted - Default: False
-#! @input result_delimiter: optional - if true, will be appended after every list item (except the last one)
+#! @input double_quotes: Optional - if true, list items will be double quoted - Default: False
+#! @input result_delimiter: Optional - if true, will be appended after every list item (except the last one)
 #!                          Default: "''"
-#! @input result_to_lowercase: optional - if true, list items will be lowercased - Default: False
+#! @input result_to_lowercase: Optional - if true, list items will be lowercased - Default: False
 #!
 #! @output result: string that results from concatenation of list elements
 #!

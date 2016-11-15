@@ -11,8 +11,8 @@
 #!               from array or the position from which to remove the existing object.
 #!
 #! @input json_array: JSON array to remove object from - Example: '[{"a": "0"}, {"b": "1"}, {"c": "2"}]'
-#! @input json_object: optional - JSON object to remove from array - Example: '{"b": "1"}'
-#! @input index: optional - position from which to remove the existing object - Example: 1
+#! @input json_object: Optional - JSON object to remove from array - Example: '{"b": "1"}'
+#! @input index: Optional - position from which to remove the existing object - Example: 1
 #!
 #! @output return_result: JSON array with object removed
 #! @output return_code: "0" if removing was successful, "-1" otherwise

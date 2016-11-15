@@ -11,14 +11,14 @@
 #!
 #! @input api_key: API key
 #! @input reference: Haven OnDemand reference
-#! @input entity_type: optional - type of entity to extract from the specified text
+#! @input entity_type: Optional - type of entity to extract from the specified text
 #!                     valid: Haven OnDemand entity type
 #!                     default: people_eng
-#! @input show_alternatives: optional - set to true to return multiple entries when there
+#! @input show_alternatives: Optional - set to true to return multiple entries when there
 #!                           are multiple matches for a particular string
 #!                           default: false
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise

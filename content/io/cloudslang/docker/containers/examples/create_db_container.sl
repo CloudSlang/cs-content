@@ -10,15 +10,15 @@
 #! @description: Creates a Docker DB container.
 #!
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
 #! @input password: Docker machine password
-#! @input port: optional - SSH port
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
-#! @input container_name: optional - name of the DB container - Default: 'mysqldb'
-#! @input timeout: optional - time in milliseconds to wait for command to complete
-#1
+#! @input port: Optional - SSH port
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
+#! @input container_name: Optional - name of the DB container - Default: 'mysqldb'
+#! @input timeout: Optional - time in milliseconds to wait for command to complete
+#!
 #! @output db_IP: IP of newly created container
 #! @output error_message: error message of failed operation
 #!

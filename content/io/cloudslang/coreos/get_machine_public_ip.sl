@@ -26,9 +26,9 @@
 #! @input close_session: optional - if false SSH session will be cached for future calls of this operation during life
 #!                       of the flow, if true SSH session used by this operation will be closed
 #!                       Valid: true, false
-#1
+#!
 #! @output public_ip: public IP address of the machine based on its ID
-#1
+#!
 #! @result SUCCESS: the action was executed successfully and no error message is found in the STDERR
 #! @result FAILURE: otherwise
 #!!#

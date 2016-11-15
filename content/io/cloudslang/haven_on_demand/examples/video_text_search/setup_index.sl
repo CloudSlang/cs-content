@@ -16,8 +16,8 @@
 #!               default: video_library
 #! @input description: description of the index
 #!                     default: Video+library+transcripts
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @result SUCCESS: text index and video files index created successfully
 #! @result FAILURE: there was an error while trying to create text index

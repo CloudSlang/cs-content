@@ -14,9 +14,9 @@
 #! @input node_name: name of the node to assign cookbooks to
 #! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
 #! @input knife_username: SSH username to access server with knife
-#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
-#! @input knife_password: optional - password to access server with knife
-#! @input knife_config: optional - location of knife.rb config file
+#! @input knife_privkey: Optional - path to local SSH keyfile for accessing server with knife
+#! @input knife_password: Optional - password to access server with knife
+#! @input knife_config: Optional - location of knife.rb config file
 #!
 #! @output knife_result: filtered output of knife command
 #! @output raw_result: full STDOUT

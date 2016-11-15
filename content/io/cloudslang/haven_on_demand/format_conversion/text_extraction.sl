@@ -12,22 +12,22 @@
 #! @input api_key: API Key
 #! @input text_extraction_api: URL to the HoD APi
 #! @input reference: Haven OnDemand reference
-#! @input additional_metadata: optional - JSON object containing additional metadata to add
+#! @input additional_metadata: Optional - JSON object containing additional metadata to add
 #!                             to the extracted documents.
-#! @input extract_metadata: optional - whether to extract metadata from the file.
+#! @input extract_metadata: Optional - whether to extract metadata from the file.
 #!                          default: true
-#! @input extract_text: optional - whether to extract text from the file
+#! @input extract_text: Optional - whether to extract text from the file
 #!                      default: true
-#! @input extract_xmlattributes: optional - whether to extract XML attributes from the file.
+#! @input extract_xmlattributes: Optional - whether to extract XML attributes from the file.
 #!                               default: false
-#! @input password: optional - password to use to extract the files
+#! @input password: Optional - password to use to extract the files
 #! @input reference_prefix: string to add to the start of the reference of
 #!                          documents that are extracted from a file. To add a
 #!                          prefix for multiple files, specify prefixes in order,
 #!                          separated by a space.
-#!                          optional
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#!                          Optional
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise

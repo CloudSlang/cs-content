@@ -9,9 +9,9 @@
 #!!
 #! @description: Perform a SSH command to add a specified user to sudoers group.
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command - Default: '22'
+#! @input port: Optional - port number for running the command - Default: '22'
 #! @input password: password of user
-#! @input private_key_file: optional - the path to the private key file
+#! @input private_key_file: Optional - the path to the private key file
 #! @input user: the user to be added in sudoers group
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

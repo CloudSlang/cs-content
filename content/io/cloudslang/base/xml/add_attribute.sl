@@ -16,7 +16,7 @@
 #! @input xpath_element_query: XPATH query that results in an element or element list, not an attribute
 #! @input attribute_name: name of attribute to add or replace
 #! @input value: value of attribute to add or replace with
-#! @input secure_processing: optional -  sets the secure processing feature
+#! @input secure_processing: Optional -  sets the secure processing feature
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)

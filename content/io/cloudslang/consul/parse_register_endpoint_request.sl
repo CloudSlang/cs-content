@@ -11,9 +11,9 @@
 #!
 #! @input node: node name
 #! @input address: node host - Default: ''
-#! @input datacenter: optional - Default: ''; matched to that of agent
-#! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
-#! @input check: optional - if the Check key is provided, then a health check will also be registered - Default: ''
+#! @input datacenter: Optional - Default: ''; matched to that of agent
+#! @input service: Optional - if Service key is provided, then service will also be registered - Default: ''
+#! @input check: Optional - if the Check key is provided, then a health check will also be registered - Default: ''
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if there was an error

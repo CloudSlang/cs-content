@@ -20,18 +20,18 @@
 #! @input host: VMware host or IP
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: port to connect through
-#!              optional
+#!              Optional
 #!              examples: '443', '80'
 #!              default: '443'
 #! @input protocol: connection protocol
-#!                  optional
+#!                  Optional
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input username: VMware username to connect with
 #! @input password: password associated with <username> input
 #! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
+#!                        Optional
 #!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and

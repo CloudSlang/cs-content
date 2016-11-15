@@ -13,7 +13,7 @@
 #! @input marathon_host: Marathon host
 #! @input username: username for host
 #! @input private_key_file: private key file used for host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
 #! @input is_core_os: true if the host is CoreOS - Default: false
 #!
 #! @result SUCCESS:

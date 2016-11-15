@@ -10,9 +10,9 @@
 #! @description: Gets a list of services in a given data center.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent port - Default: '8500'
-#! @input datacenter: optional - Default: ''; matched to that of agent
-#1
+#! @input consul_port: Optional - Consul agent port - Default: '8500'
+#! @input datacenter: Optional - Default: ''; matched to that of agent
+#!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code is equal to ': 1' or status_code different than '200'
 #! @output return_code: if return_code is equal to '-1' then there was an error

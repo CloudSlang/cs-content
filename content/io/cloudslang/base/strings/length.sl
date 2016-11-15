@@ -9,10 +9,10 @@
 #!!
 #! @description: Appends text to string.
 #!
-#! @input origin_string: optional - string - Example: "good"
+#! @input origin_string: Optional - string - Example: "good"
 #!
 #! @output length: length of string
-#1
+#!
 #! @result SUCCESS: always
 #!!#
 ########################################################################################################################

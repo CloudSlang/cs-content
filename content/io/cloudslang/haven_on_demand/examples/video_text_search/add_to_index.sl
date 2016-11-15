@@ -15,9 +15,9 @@
 #! @input url: YouTube url for the video
 #! @input index: index to add the extracted text to
 #! @input proxy_host: proxy server
-#!                    optional
+#!                    Optional
 #! @input proxy_port: proxy server port
-#!                    optional
+#!                    Optional
 #!
 #! @output error_message: error message if one exists, empty otherwise
 #! @output return_result: result retured by Haven OnDemand upon adding item to the index

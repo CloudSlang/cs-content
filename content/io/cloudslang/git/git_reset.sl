@@ -10,12 +10,12 @@
 #! @description: Performs a git reset on a git directory to clean it up.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
+#! @input password: Optional - password of user
 #! @input git_repository_localdir: target directory where a git repository exists - Default: /tmp/repo.git
-#! @input git_reset_target: optional - SHA you want to reset the branch to - Default: HEAD
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo
+#! @input git_reset_target: Optional - SHA you want to reset the branch to - Default: HEAD
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo
 #! @input private_key_file: absolute path to the private key file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception

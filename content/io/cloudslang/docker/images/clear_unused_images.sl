@@ -8,14 +8,14 @@
 #!!
 #! @description: Deletes unused Docker images.
 #!
-#! @input docker_options: optional - options for the docker environment
+#! @input docker_options: Optional - options for the docker environment
 #!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input port: optional - SSH port
-#! @input private_key_file: optional - path to the private key file
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
+#! @input docker_password: Optional - Docker machine password
+#! @input port: Optional - SSH port
+#! @input private_key_file: Optional - path to the private key file
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
 #! @input all_parent_images_input: list of parent images
 #!
 #! @output images_list_safe_to_delete: unused Docker images

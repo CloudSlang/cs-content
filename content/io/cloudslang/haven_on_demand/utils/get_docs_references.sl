@@ -11,7 +11,7 @@
 #!
 #! @input json_input: JSON containing references
 #! @input key: references key
-#1 @input reference_list: references list
+#! @input reference_list: references list
 #!
 #! @output references: list of references
 #! @output error_message: error message if there was an error when executing, empty otherwise

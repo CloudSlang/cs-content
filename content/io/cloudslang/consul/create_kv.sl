@@ -10,10 +10,10 @@
 #! @description: Creates a Consul key name; if the key exists updates the key.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent port - Default: '8500'
+#! @input consul_port: Optional - Consul agent port - Default: '8500'
 #! @input key_name: name for new key
-#! @input key_value: optional - value for new key - Default: ''
-#! @input flags: optional - flags for new key - Default: '0'
+#! @input key_value: Optional - value for new key - Default: ''
+#! @input flags: Optional - flags for new key - Default: '0'
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code is equal to ': 1' or status_code different than '200'

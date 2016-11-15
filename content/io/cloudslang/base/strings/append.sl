@@ -10,7 +10,7 @@
 #! @description: Appends text to string.
 #!
 #! @input origin_string: string - Example: "good"
-#! @input text: optional - text which need to be appended - Example: " morning"
+#! @input text: Optional - text which need to be appended - Example: " morning"
 #!
 #! @output new_string: string after appending - Example: "good morning"
 #!

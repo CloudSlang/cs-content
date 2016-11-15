@@ -17,9 +17,9 @@
 #! @input email_username: email username
 #! @input email_password: email password
 #! @input marathon_host: Marathon agent host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
-#! @input proxy_host: optional - proxy host
-#! @input proxy_port: optional - proxy port
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
+#! @input proxy_host: Optional - proxy host
+#! @input proxy_port: Optional - proxy port
 #! @input json_file: path to JSON of new app
 #!
 #! @output return_result: operation response

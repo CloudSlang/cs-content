@@ -10,10 +10,10 @@
 #! @description: Deletes a Marathon app.
 #!
 #! @input marathon_host: Marathon agent host
-#! @input marathon_port: optional - Marathon agent port - Default: '8080'
+#! @input marathon_port: Optional - Marathon agent port - Default: '8080'
 #! @input app_id: app ID to delete
-#! @input proxy_host: optional - proxy host
-#! @input proxy_port: optional - proxy port
+#! @input proxy_host: Optional - proxy host
+#! @input proxy_port: Optional - proxy port
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code == '-1' or status_code != '200'

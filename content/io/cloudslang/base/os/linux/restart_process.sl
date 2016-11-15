@@ -10,12 +10,12 @@
 #! @description: Restarts a remote Linux process using SSH.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: username to connect as
-#! @input password: optional - password of user
+#! @input password: Optional - password of user
 #! @input process_name: Linux process name to be restarted
 #!                      NOTE: if Linux has several processes with the same name all of them will be restarted
-#! @input sudo_user: optional - whether to use 'sudo' prefix before command - Default: false
+#! @input sudo_user: Optional - whether to use 'sudo' prefix before command - Default: false
 #! @input private_key_file: absolute path to the private key file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception

@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: This operation retrieves the authentication Bearer token for Azure
 #!
@@ -28,10 +28,9 @@
 #! @result SUCCESS: Bearer token generated successfully
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
-####################################################
+########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.utility
-
+namespace: io.cloudslang.microsoft.azure.authorization
 
 operation:
   name: get_auth_token

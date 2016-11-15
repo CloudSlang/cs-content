@@ -13,29 +13,29 @@
 #! @input port: email port
 #! @input from: email sender
 #! @input to: email recipient
-#! @input cc: optional - comma-delimited list of cc recipients
+#! @input cc: Optional - comma-delimited list of cc recipients
 #!            Default: none
-#! @input bcc: optional - comma-delimited list of bcc recipients
+#! @input bcc: Optional - comma-delimited list of bcc recipients
 #!             Default: none
 #! @input subject: email subject
 #! @input body: email text
-#! @input html_email: optional
+#! @input html_email: Optional
 #!                   Default: true
-#! @input read_receipt: optional
+#! @input read_receipt: Optional
 #!                      Default: false
-#! @input attachments: optional
+#! @input attachments: Optional
 #!                    Default: none
-#! @input username: optional
+#! @input username: Optional
 #!                  Default: none
-#! @input password: optional
+#! @input password: Optional
 #!                  Default: none
-#! @input character_set: optional
+#! @input character_set: Optional
 #!                       Default: UTF-8
-#! @input content_transfer_encoding: optional
+#! @input content_transfer_encoding: Optional
 #!                                   Default: base64
-#! @input delimiter: optional
+#! @input delimiter: Optional
 #!                   Default: none
-#! @input enable_TLS: optional - enable startTLS
+#! @input enable_TLS: Optional - enable startTLS
 #!                    Default : false
 #!
 #! @output return_code: '0' if success, '-1' otherwise

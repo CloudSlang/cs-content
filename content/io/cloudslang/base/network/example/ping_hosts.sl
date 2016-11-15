@@ -18,8 +18,8 @@
 #! @input from: email sender - System Property: io.cloudslang.base.from
 #! @input to: email recipient - System Property: io.cloudslang.base.to
 #! @input subject: email subject - Default: "Ping Result"
-#! @input username: optional - username to connect to email host
-#! @input password: optional - password for the username to connect to email host
+#! @input username: Optional - username to connect to email host
+#! @input password: Optional - password for the username to connect to email host
 #!
 #! @result SUCCESS: addressee will get an email with result
 #! @result FAILURE: addressee will get an email with exception of operation

@@ -10,13 +10,13 @@
 #! @description: Directly registers or updates entries in the catalog.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent host port - Default: '8500'
+#! @input consul_port: Optional - Consul agent host port - Default: '8500'
 #! @input node: node name
 #! @input address: node host
-#! @input datacenter: optional - Default: ''; matched to that of agent
-#! @input service: optional - if Service key is provided, then service will also be registered - Default: ''
-#! @input check: optional - if the Check key is provided, then a health check will also be registered - Default:''
-#1
+#! @input datacenter: Optional - Default: ''; matched to that of agent
+#! @input service: Optional - if Service key is provided, then service will also be registered - Default: ''
+#! @input check: Optional - if the Check key is provided, then a health check will also be registered - Default:''
+#!
 #! @output error_message: return_result if there was an error
 #!
 #! @result SUCCESS: parsing was successful (return_code == '0')

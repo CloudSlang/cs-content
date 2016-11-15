@@ -15,11 +15,11 @@
 #! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
 #! @input knife_password: optional - password to access server with knife
 #! @input knife_config: optional - location of knife.rb config file
-#1
+#!
 #! @output knife_result: filtered output of knife command
 #! @output raw_result: full STDOUT
 #! @output standard_err: any STDERR
-#1
+#!
 #! @result SUCCESS: command executed successfully
 #! @result FAILURE: otherwise
 #!!#

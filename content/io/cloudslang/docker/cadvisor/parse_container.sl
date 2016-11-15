@@ -10,7 +10,7 @@
 #! @description: Parses the response of the cAdvisor container information.
 #!
 #! @input json_response: response of cAdvisor container information
-#! @input machine_memory_limit: optional - container machine memory limit - Default: -1
+#! @input machine_memory_limit: Optional - container machine memory limit - Default: -1
 #!
 #! @output decoded: parsed response
 #! @output spec: parsed cAdvisor spec

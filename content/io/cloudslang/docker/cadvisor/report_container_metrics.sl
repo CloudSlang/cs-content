@@ -11,7 +11,7 @@
 #!
 #! @input container: name or ID of Docker container that runs MySQL
 #! @input host: Docker machine host
-#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
 #!
 #! @output decoded: parsed response
 #! @output timestamp: time used to calculate stat
