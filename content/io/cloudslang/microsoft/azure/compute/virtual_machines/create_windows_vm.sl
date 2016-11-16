@@ -43,7 +43,6 @@
 #!                        Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
 #!                        "Password!", "Password1", "Password22", "iloveyou!"
 #! @input nic_name: Name of the network interface card
-#! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
@@ -105,23 +104,6 @@ flow:
     - vm_password:
         sensitive: true
     - nic_name
-    - vm_template:
-        required: false
-        default: >
-             ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name +
-             '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name +
-             '","type":"Microsoft.Compute/virtualMachines","location":"' + location +
-             '","properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
-             resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
-             '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' +
-             publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' +
-             vm_name + 'osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
-             vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"}},"osProfile":{"computerName":"' +
-             vm_name + '","adminUsername":"' + vm_username + '","adminPassword":"' + vm_password +
-             '","windowsConfiguration":{"provisionVMAgent":true,"enableAutomaticUpdates":true}},' +
-             '"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
-             '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
-             nic_name + '"}]}}}'}
     - connect_timeout:
         default: "0"
         required: false
@@ -159,7 +141,21 @@ flow:
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
                 resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name +
                 '?validating=false&api-version=' + api_version}
-            - body: ${vm_template}
+            - body: >
+                 ${'{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name +
+                 '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '","name":"' + vm_name +
+                 '","type":"Microsoft.Compute/virtualMachines","location":"' + location +
+                 '","properties":{"availabilitySet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
+                 resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
+                 '"},"hardwareProfile":{"vmSize":"' + vm_size + '"},"storageProfile":{"imageReference":{"publisher":"' +
+                 publisher + '","offer":"' + offer + '","sku":"' + sku + '","version":"latest"},"osDisk":{"name":"' +
+                 vm_name + 'osDisk","vhd":{"uri":"http://' + storage_account + '.blob.core.windows.net/vhds/' +
+                 vm_name + 'osDisk.vhd"},"caching":"ReadWrite","createOption":"FromImage"}},"osProfile":{"computerName":"' +
+                 vm_name + '","adminUsername":"' + vm_username + '","adminPassword":"' + vm_password +
+                 '","windowsConfiguration":{"provisionVMAgent":true,"enableAutomaticUpdates":true}},' +
+                 '"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/' + subscription_id +
+                 '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' +
+                 nic_name + '"}]}}}'}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'

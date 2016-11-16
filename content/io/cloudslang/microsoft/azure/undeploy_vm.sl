@@ -425,10 +425,10 @@ flow:
         publish:
           - status_code
         navigate:
-          - SUCCESS: get_deleted_blob
+          - SUCCESS: delete_storage_disk
           - FAILURE: on_failure
 
-    - get_deleted_blob:
+    - delete_storage_disk:
         do:
           storage.delete_blob:
             - storage_account

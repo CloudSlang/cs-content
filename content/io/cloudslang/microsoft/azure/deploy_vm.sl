@@ -35,8 +35,6 @@
 #!                               are allocated to different nodes to maximize availability.
 #! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input subnet_name: The name of the Subnet in which the created VM should be added.
-#! @input vm_template: Virtual machine template. Either uses the default value or one given by the user in a json format.
-#!                     The VM template is based on what distribution you want to install (e.g. Windows or Linux)
 #! @input os_platform: Name of the operating system that will be installed
 #!                     Valid values: 'Windows,'Linux'
 #! @input vm_username: Specifies the name of the administrator account.
@@ -128,8 +126,6 @@ flow:
     - virtual_network_name
     - availability_set_name
     - storage_account
-    - vm_template:
-        required: false
     - subnet_name
     - os_platform
     - vm_username
@@ -265,7 +261,6 @@ flow:
             - location
             - vm_username
             - vm_password
-            - vm_template
             - vm_size
             - publisher
             - sku
@@ -297,7 +292,6 @@ flow:
             - subscription_id
             - publisher
             - auth_token
-            - vm_template
             - sku
             - offer
             - resource_group_name
