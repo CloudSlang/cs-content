@@ -68,7 +68,7 @@ imports:
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
-  storage: io.cloudslang.microsoft.azure.compute.storage.containers
+  storage: io.cloudslang.microsoft.azure.compute.storage.blobs
   auth_storage: io.cloudslang.microsoft.azure.compute.storage
 
 flow:

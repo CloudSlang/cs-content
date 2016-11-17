@@ -27,7 +27,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.storage.containers
+namespace: io.cloudslang.microsoft.azure.compute.storage.blobs
 
 operation:
   name: delete_blob
