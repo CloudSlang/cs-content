@@ -624,6 +624,9 @@ extensions:
       check_vm_state:
         x: 1328
         y: 69
+      unsupported_vm:
+        x: 561
+        y: 283
       wait_for_response:
         x: 1748
         y: 485
@@ -640,8 +643,15 @@ extensions:
         x: 1116
         y: 278
       create_network_interface:
-        x: 488
-        y: 67
+        x: 459
+        y: 71
+      check_tag_name:
+        x: 932
+        y: 848
+        navigate:
+          ba682b82-3df0-81d7-3e03-51c9c602cdfc:
+            targetId: 2298ed00-6a9b-35f1-75b2-1e50bf86be9d
+            port: SUCCESS
       get_auth_token:
         x: 66
         y: 66
@@ -655,8 +665,8 @@ extensions:
         x: 1114
         y: 66
       tag_virtual_machine:
-        x: 698
-        y: 694
+        x: 495
+        y: 866
         navigate:
           54d21aae-6fcf-49c4-fb32-9269a4ee3e1a:
             targetId: 2298ed00-6a9b-35f1-75b2-1e50bf86be9d
@@ -676,6 +686,13 @@ extensions:
       delete_nic:
         x: 908
         y: 489
+      check_tag_value:
+        x: 722
+        y: 693
+        navigate:
+          29f763a4-83ad-58eb-31fc-a62b290e40c8:
+            targetId: 2298ed00-6a9b-35f1-75b2-1e50bf86be9d
+            port: SUCCESS
       get_nic_location:
         x: 1328
         y: 695
@@ -692,13 +709,13 @@ extensions:
         x: 1574
         y: 52
       delete_public_ip_address:
-        x: 489
-        y: 483
+        x: 457
+        y: 492
       get_nic_list:
         x: 1747
         y: 694
     results:
       SUCCESS:
         2298ed00-6a9b-35f1-75b2-1e50bf86be9d:
-          x: 492
-          y: 700
+          x: 691
+          y: 880

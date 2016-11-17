@@ -453,3 +453,75 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      check_empty_vm:
+        x: 738
+        y: 248
+      list_public_ip_addresses_within_resource_group:
+        x: 1087
+        y: 423
+      list_vms_in_a_resource_group:
+        x: 564
+        y: 73
+      wait_nic_check:
+        x: 1273
+        y: 75
+      retrieve_ips:
+        x: 913
+        y: 423
+      wait_vm_check:
+        x: 739
+        y: 73
+      get_auth_token:
+        x: 36
+        y: 72
+      delete_vm:
+        x: 387
+        y: 72
+      retrieve_nics:
+        x: 1104
+        y: 247
+      list_nics_within_resource_group:
+        x: 913
+        y: 72
+      check_empty_ip:
+        x: 913
+        y: 595
+      stop_vm:
+        x: 213
+        y: 72
+      delete_nic:
+        x: 913
+        y: 247
+      delete_osdisk:
+        x: 563
+        y: 422
+      delete_storage_disk:
+        x: 388
+        y: 422
+        navigate:
+          366c66f3-ba8b-4019-f1d6-37556fdd7fd5:
+            targetId: b99bdd41-c1de-0767-5956-50510befcb0e
+            port: SUCCESS
+      get_storage_auth:
+        x: 737
+        y: 423
+      retrieve_vm:
+        x: 562
+        y: 248
+      wait_ip_check:
+        x: 1086
+        y: 597
+      delete_public_ip_address:
+        x: 1273
+        y: 424
+      check_empty_nic:
+        x: 1278
+        y: 247
+    results:
+      SUCCESS:
+        b99bdd41-c1de-0767-5956-50510befcb0e:
+          x: 181
+          y: 426
