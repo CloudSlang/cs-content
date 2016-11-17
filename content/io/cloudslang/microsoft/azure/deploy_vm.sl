@@ -56,8 +56,10 @@
 #!                        Has a special character (Regex match [\W_])
 #!                        Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
 #!                        "Password!", "Password1", "Password22", "iloveyou!"
-#! @input tag_name: Name of the tag to be added to the virtual machine
-#! @input tag_value: Value of the tag to be added to the vrtual machine
+#! @input tag_name: Optional - Name of the tag to be added to the virtual machine
+#!                  Default: ''
+#! @input tag_value: Optional - Value of the tag to be added to the vrtual machine
+#!                   Default: ''
 #! @input disk_size: The size of the storage disk to be attach to the virtual machine.
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
@@ -131,8 +133,12 @@ flow:
     - vm_username
     - vm_password:
         sensitive: true
-    - tag_name
-    - tag_value
+    - tag_name:
+        default: ''
+        required: false
+    - tag_value:
+        default: ''
+        required: false
     - disk_size
     - connect_timeout:
         default: "0"
@@ -228,6 +234,19 @@ flow:
           - nic_state: ${output}
           - status_code
           - error_message: ${error_message}
+        navigate:
+          - SUCCESS: unsupported_vm
+          - FAILURE: delete_public_ip_address
+
+    - unsupported_vm:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: 'Windows,Linux'
+            - string_to_find: ${os_platform}
+            - os_platform
+        publish:
+          - return_code
+          - error_message: ${'Cannot create virtual machine with ' + os_platform}
         navigate:
           - SUCCESS: windows_vm
           - FAILURE: delete_public_ip_address
@@ -480,8 +499,26 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: tag_virtual_machine
+          - SUCCESS: check_tag_name
           - FAILURE: on_failure
+
+    - check_tag_name:
+        do:
+          strings.string_equals:
+            - first_string: ${tag_name}
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: check_tag_value
+
+    - check_tag_value:
+        do:
+          strings.string_equals:
+            - first_string: ${tag_value}
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: tag_virtual_machine
 
     - tag_virtual_machine:
         do:
@@ -576,6 +613,7 @@ flow:
     - output
     - ip_address
     - status_code
+    - return_code
     - error_message: ${error_message}
   results:
     - SUCCESS
