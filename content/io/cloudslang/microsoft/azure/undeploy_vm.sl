@@ -443,7 +443,7 @@ flow:
           - status_code
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - return_code
