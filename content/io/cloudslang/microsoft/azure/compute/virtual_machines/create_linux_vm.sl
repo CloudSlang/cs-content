@@ -23,9 +23,6 @@
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #!                 Default: 'Standard_DS1_v2'
-#! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
-#!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
-#!                 Default: 'Standard_DS1_v2'
 #! @input publisher: Specifies the publisher of the image.
 #! @input offer: Specifies the offer of the image used to create the virtual machine.
 #! @input sku: Specifies the SKU of the image used to create the virtual machine.
