@@ -39,7 +39,7 @@
 #!
 #! @output output: json response with the access keys for the specified storage account
 #! @output key: the storage account key
-#! @output status_code: 202 if request completed successfully, others in case something went wrong
+#! @output status_code: 200,202 if request completed successfully, others in case something went wrong
 #! @output error_message: an error message in case there was an error while trying to retrieve the storage account key
 #!
 #! @result SUCCESS: returned the access keys for the specified storage account successfully

@@ -125,9 +125,6 @@ flow:
         publish:
           - output: ${return_result}
           - status_code
-        publish:
-          - output: ${return_result}
-          - status_code
         navigate:
           - SUCCESS: check_error_status
           - FAILURE: check_error_status
