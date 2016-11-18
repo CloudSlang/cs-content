@@ -127,7 +127,7 @@ flow:
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '204,400,401,404,411,412'
+            - string_in_which_to_search: '400,401,404,411,412'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -147,7 +147,7 @@ flow:
     - retrieve_success:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,201,202'
+            - string_in_which_to_search: '200,201,202,204'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
