@@ -249,7 +249,7 @@ flow:
           - error_message: ${'Cannot create virtual machine with ' + os_platform}
         navigate:
           - SUCCESS: windows_vm
-          - FAILURE: delete_public_ip_address
+          - FAILURE: delete_nic
 
     - windows_vm:
         do:
@@ -425,7 +425,7 @@ flow:
         publish:
           - ip_details: '${output}'
           - status_code
-          - error_message
+          - error_message: ${error_message}
         navigate:
           - SUCCESS: wait_for_response
           - FAILURE: on_failure
@@ -497,7 +497,7 @@ flow:
             - trust_password
         publish:
           - status_code
-          - error_message
+          - error_message: ${error_message}
         navigate:
           - SUCCESS: check_tag_name
           - FAILURE: on_failure
@@ -542,7 +542,7 @@ flow:
             - trust_password
         publish:
           - status_code
-          - error_message
+          - error_message: ${error_message}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -566,6 +566,9 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
+        publish:
+          - status_code
+          - error_message: ${error_message}
         navigate:
           - SUCCESS: on_failure
           - FAILURE: on_failure
@@ -589,6 +592,9 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
+        publish:
+         - status_code
+         - error_message: ${error_message}
         navigate:
           - SUCCESS: wait_before_nic
           - FAILURE: on_failure
