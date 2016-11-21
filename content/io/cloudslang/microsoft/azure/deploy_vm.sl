@@ -566,9 +566,6 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
-        publish:
-          - status_code
-          - error_message: ${error_message}
         navigate:
           - SUCCESS: on_failure
           - FAILURE: on_failure
@@ -592,9 +589,6 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
-        publish:
-         - status_code
-         - error_message: ${error_message}
         navigate:
           - SUCCESS: wait_before_nic
           - FAILURE: on_failure
