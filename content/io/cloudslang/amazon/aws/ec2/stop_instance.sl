@@ -26,8 +26,6 @@
 #!                      value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input instance_id: The ID of the server (instance) you want to stop.
-#! @input region: Region where the server (instance) is.
-#!                Default: 'us-east-1'
 #! @input force_stop: Forces the instances to stop. The instances do not have an opportunity to flush file system caches
 #!                    or file system metadata. If you use this option, you must perform file system check and repair
 #!                    procedures. This option is not recommended for Windows instances.
@@ -72,8 +70,6 @@ flow:
         required: false
     - instance_id:
         required: true
-    - region:
-        required: false
     - force_stop
     - polling_interval:
         required: false
@@ -113,7 +109,8 @@ flow:
               - instance_state: stopped
               - proxy_host
               - proxy_port
-              - region
+              - proxy_username
+              - proxy_password
               - polling_interval
           break:
             - SUCCESS
