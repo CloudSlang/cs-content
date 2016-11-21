@@ -64,8 +64,7 @@ flow:
         required: false
     - query_params:
         required: false
-    - instance_id:
-        required: true
+    - instance_id
     - polling_interval:
         required: false
     - polling_retries:
