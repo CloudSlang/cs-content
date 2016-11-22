@@ -92,6 +92,8 @@ flow:
               - credential
               - proxy_host
               - proxy_port
+              - proxy_username
+              - proxy_password
               - instance_id
               - instance_state: terminated
               - polling_interval

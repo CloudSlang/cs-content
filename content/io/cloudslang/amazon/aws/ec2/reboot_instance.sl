@@ -25,8 +25,6 @@
 #!                      between name-value pairs is "&" symbol. The query name will be separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #! @input instance_id: The ID of the server (instance) you want to reboot
-#! @input region: Region where the server (instance) is.
-#!                Default: 'us-east-1'
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
 #! @input polling_retries: The number of retries to check if the instance is stopped.
@@ -65,10 +63,7 @@ flow:
         required: false
     - query_params:
         required: false
-    - instance_id:
-        required: true
-    - region:
-        required: false
+    - instance_id
     - polling_interval:
         required: false
     - polling_retries:
@@ -106,7 +101,8 @@ flow:
               - instance_state: running
               - proxy_host
               - proxy_port
-              - region
+              - proxy_username
+              - proxy_password
               - polling_interval
           break:
             - SUCCESS
