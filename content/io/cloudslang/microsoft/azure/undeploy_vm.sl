@@ -118,14 +118,11 @@ flow:
           auth.get_auth_token:
             - username
             - password
+            - login_authority
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
         publish:
           - auth_token
           - return_code
