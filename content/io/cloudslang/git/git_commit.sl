@@ -1,13 +1,14 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a git command to commit staged files to a local repository.
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command
 #! @input username: username to connect as
@@ -17,6 +18,7 @@
 #! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo.git
 #! @input git_commit_files: optional - files to commit - Default: "-a"
 #! @input git_commit_message: optional - message for commit
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -27,8 +29,12 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#!
+#! @result SUCCESS: staged files committed successfully
+#! @result FAILURE: there was an error while trying to commit staged files
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.git
 
 imports:
@@ -70,8 +76,9 @@ flow:
               - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
               - git_files: ${ ' git commit ' + git_commit_files }
               - git_message: ${ ' -m ' + git_commit_message if git_commit_message else '' }
-              - command: ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files + git_message + ' && echo GIT_SUCCESS' }
-
+              - command: >
+                  ${ sudo_command + 'cd ' + git_repository_localdir + ' && ' + git_files +
+                  git_message + ' && echo GIT_SUCCESS' }
           publish:
             - return_result
             - standard_out

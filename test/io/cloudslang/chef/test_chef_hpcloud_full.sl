@@ -1,9 +1,11 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+#
+########################################################################################################################
 #!!
 #! @description: CHEF AND HP CLOUD FULL TEST DEPLOYMENT FLOW
 #!               This flow tests both HP Cloud and Chef content
@@ -14,12 +16,12 @@
 #!               - Run Chef client
 #!               - Check deployed app is installed and running (port 8080 or 80 test)
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.chef
 
 imports:
-  hpcloud: io.cloudslang.cloud.hp_cloud
+  hpcloud: io.cloudslang.hp_cloud
   print: io.cloudslang.base.print
   chef: io.cloudslang.chef
   ssh: io.cloudslang.base.ssh

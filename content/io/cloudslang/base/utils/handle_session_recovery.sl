@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,16 @@
 #!!
 #! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
 #!               and in such case checks whether the ssh session failed with a certain pattern.
+#!
 #! @input enabled: optional - whether session recovery is enabled - Default: true
 #! @input retries: limit of reconnect tries
 #! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception
-#! @input exception: from SSH: contains the stack trace in case of an exception
+#! @input return_code: from SSH: '0' if SSH session , different than '0' otherwise
 #! @input exit_status: from SSH: return code of the remote command
+#1
 #! @output updated_retries: updated input value (decreased by 1)
+#!
 #! @result RECOVERY_DISABLED: session recovery is disabled
 #! @result TIMEOUT: no more retries are available
 #! @result SESSION_IS_DOWN: session failure pattern detected
@@ -42,14 +45,15 @@ flow:
     - return_code
     - exit_status:
         required: false
+
   workflow:
     - check_enabled:
         do:
           utils.is_true:
             - bool_value: ${ enabled }
         navigate:
-          - SUCCESS: check_retries
-          - FAILURE: RECOVERY_DISABLED
+          - 'TRUE': check_retries
+          - 'FALSE': RECOVERY_DISABLED
 
     - check_retries:
         do:
@@ -75,8 +79,10 @@ flow:
           - FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
           - CUSTOM_FAILURE: CUSTOM_FAILURE
           - NO_ISSUE_FOUND: NO_ISSUE_FOUND
+
   outputs:
     - updated_retries: ${retries}
+
   results:
     - RECOVERY_DISABLED
     - TIMEOUT

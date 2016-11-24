@@ -1,10 +1,19 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+############################################################################################################################################################################################
+
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
   mysql: io.cloudslang.docker.monitoring.mysql
   containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
-  utils: io.cloudslang.base.flow_control
+  utils: io.cloudslang.base.utils
   cmd: io.cloudslang.base.cmd
 
 flow:
@@ -80,31 +89,11 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          - SUCCESS: post_test_cleanup
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-    - post_test_cleanup:
-        do:
-         maintenance.clear_host:
-           - docker_host
-           - port: ${ docker_port }
-           - docker_username
-           - docker_password
-        navigate:
-         - SUCCESS: postfix_cleanup
-         - FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - postfix_cleanup:
-        do:
-         cmd.run_command:
-           - command: "docker rm -f postfix && docker rmi catatnight/postfix"
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: FAIL_TO_CLEAN_POSTFIX
 
   results:
     - SUCCESS
-    - FAIL_TO_CLEAN_POSTFIX
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER
     - FAILURE

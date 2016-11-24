@@ -5,9 +5,10 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Clones a git repository.
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command
 #! @input username: username to connect as
@@ -16,6 +17,7 @@
 #! @input git_repository_localdir: optional - target directory the git repository will be cloned to
 #! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: optional - absolute path to private key file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -26,8 +28,12 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#!
+#! @result SUCCESS: GIT repository cloned successfully
+#! @result FAILURE: there was an error while trying to clone the GIT repository
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.git
 
 imports:
@@ -60,7 +66,9 @@ flow:
             - host
             - port
             - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if (sudo_user=="true") else '' }
-            - command: ${ sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir + ' && echo GIT_SUCCESS' }
+            - command: >
+                ${ sudo_command + 'git clone ' + git_repository + ' ' + git_repository_localdir +
+                ' && echo GIT_SUCCESS' }
             - username
             - password
             - private_key_file

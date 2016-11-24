@@ -5,50 +5,39 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: Creates a text index, which you can use to add your own content
-#!               to Haven OnDemand.
+#! @description: Creates a text index, which you can use to add your own content to Haven OnDemand.
+#!
 #! @input api_key: API key
 #! @input index: name of index to create
-#! @input flavor: configuration flavor of the text index
-#!                optional
+#! @input flavor: optional - configuration flavor of the text index
 #!                valid: explorer, standard, categorization, custom_fields,
 #!                       jumbo, querymanipulation
 #!                default: explorer
-#! @input description: description of the index
-#!                     optional
-#! @input index_fields: custom fields that you want to define with the Index
-#!                      field type. Relevant only for standard, custom_fields,
-#!                      explorer and jumbo flavors.
-#!                      optional
-#! @input parametric_fields: custom fields that you want to define with the
-#!                           Parametric field type. Relevant only for standard,
-#!                           categorization, custom_fields, explorer and jumbo
-#!                           flavors.
-#!                           optional
-#! @input expire_time: time in minutes until a document in the index becomes
-#!                     eligible for automatic expiry. Relevant only for
-#!                     standard, categorization, custom_fields, explorer and
-#!                     jumbo flavors.
-#!                     optional
+#! @input description: optional - description of the index
+#! @input index_fields: optional - custom fields that you want to define with the Index field type.
+#!                      Relevant only for standard, custom_fields, explorer and jumbo flavors.
+#! @input parametric_fields: optional - custom fields that you want to define with the Parametric field type.
+#!                           Relevant only for standard, categorization, custom_fields, explorer and jumbo flavors.
+#! @input expire_time: optional - time in minutes until a document in the index becomes eligible for automatic expiry.
+#!                     Relevant only for standard, categorization, custom_fields, explorer and jumbo flavors.
 #!                     default: 1
-#! @input expire_date_fields: custom fields that you want to define with the
-#!                            Expire Date field type. Relevant only for the
-#!                            custom_fields flavor.
-#!                            optional
-#! @input numeric_fields: custom fields that you want to define with the Numeric
-#!                        field type. Relevant only for the Custom_Fields flavor.
-#!                        optional
+#! @input expire_date_fields: optional - custom fields that you want to define with the Expire Date field type.
+#!                            Relevant only for the custom_fields flavor.
+#! @input numeric_fields: optional - custom fields that you want to define with the Numeric field type.
+#!                        Relevant only for the Custom_Fields flavor.
 #! @input display_name: display name for the index
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: optional - proxy server
+#! @input proxy_port: optional - proxy server port
+#!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#!
+#! @result SUCCESS: text index created successfully
+#! @result FAILURE: there was an error while trying to create text index
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.unstructured_text_indexing
 
@@ -99,17 +88,25 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(create_text_index_api) + '?index=' + str(index) + '&flavor=' + str(flavor) + '&description=' + str(description) + '&index_fields=' + '&index_fields'.join(index_fields.split(',')) + '&parametric_fields=' + str(parametric_fields) + '&expire_time=' + str(expire_time) + '&expire_date_fields=' + str(expire_date_fields) + '&numeric_fields=' + str(numeric_fields) + '&display_name=' + str(display_name) + '&apikey=' + str(api_key)}
+            - url: >
+                ${str(create_text_index_api) + '?index=' + str(index) + '&flavor=' + str(flavor) + '&description=' +
+                str(description) + '&index_fields=' + '&index_fields'.join(index_fields.split(',')) +
+                '&parametric_fields=' + str(parametric_fields) + '&expire_time=' + str(expire_time) +
+                '&expire_date_fields=' + str(expire_date_fields) + '&numeric_fields=' +
+                str(numeric_fields) + '&display_name=' +
+                str(display_name) + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:
             - error_message
             - return_result
+
     - on_failure:
           - print_fail:
               do:
                 print.print_text:
                   - text: ${"Error - " + error_message}
+
   outputs:
     - error_message
     - return_result

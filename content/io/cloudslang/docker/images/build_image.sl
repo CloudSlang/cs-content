@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Builds a Docker image based on a Dockerfile.
+#!
 #! @input docker_image: Docker image specifier - Example: 'docker_user/image_name:tag'
 #! @input workdir: optional - path to the directory that contains the Dockerfile - Default: current directory
 #! @input dockerfile_name: optional - name of the Dockerfile - Default: Dockerfile
@@ -23,11 +24,13 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#1
 #! @output image_id: ID of the created Docker image
+#!
 #! @result SUCCESS: Docker image successfully built
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
@@ -103,8 +106,10 @@ flow:
           strings.string_equals:
             - first_string: "1"
             - second_string: ${ number_of_occurrences }
+
   outputs:
     - image_id
+
   results:
     - SUCCESS
     - FAILURE

@@ -1,13 +1,13 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 test_run_container_in_cluster_success:
-  testSuites: [swarm]
+  testSuites: [swarm,swarm_lane_2]
   description: This flow clears the Swarm cluster, runs a contaniner in the cluster and verifies that it was created.
   testFlowPath: io.cloudslang.docker.swarm.test_run_container_in_cluster
   inputs:
@@ -17,6 +17,6 @@ test_run_container_in_cluster_success:
     - username: core
     - private_key_file: <private_key_file>
     - agent_ip_addresses: "<coreos_host_5>,<coreos_host_6>"
-    - attempts: "60"
-    - time_to_sleep: "5"
+    - attempts: "300"
+    - time_to_sleep: "1"
   result: SUCCESS

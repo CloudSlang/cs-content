@@ -5,9 +5,10 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a git push command to send a branch to a remote git repository.
+#!
 #! @input host: hostname or IP address
 #! @input port: optional - port number for running the command
 #! @input username: username to connect as
@@ -17,6 +18,7 @@
 #! @input git_push_remote: optional - remote to push to - Default: origin
 #! @input sudo_user: true or false, whether the command should execute using sudo - Default: false
 #! @input private_key_file: absolute path to the private key file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -27,8 +29,12 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute
 #! @output return_code: return code of the command
+#!
+#! @result SUCCESS: GIT branch successfully pushed to the remote repository
+#! @result FAILURE: there was an error while trying to push the branch to the remote repository
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.git
 
 imports:

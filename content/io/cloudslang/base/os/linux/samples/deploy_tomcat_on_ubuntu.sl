@@ -7,7 +7,9 @@
 #
 ####################################################
 #!!
-#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running Ubuntu based linux
+#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running
+#!               Ubuntu based linux
+#!
 #! @prerequisites: Java package
 #! @input host: hostname or IP address
 #! @input root_password: the root password
@@ -23,19 +25,38 @@
 #! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
 #!                     the permissions will granted only to the folder itself - Default: True
 #! @input script_file_name: the name of the script file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
 #!                              (more exactly, just before the channel is closed).
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
+#!
 #! @result SUCCESS: SSH access was successful
-#! @result FAILURE: otherwise
+#! @result INSTALL_JAVA_FAILURE: there was an error installing java on the machine
+#! @result SSH_VERIFY_GROUP_EXIST_FAILURE: error verifying group
+#! @result CHECK_GROUP_FAILURE: error checking for group
+#! @result ADD_GROUP_FAILURE: error adding group
+#! @result ADD_USER_FAILURE: error adding user
+#! @result CREATE_DOWNLOADING_FOLDER_FAILURE: error creating download folder
+#! @result DOWNLOAD_TOMCAT_APPLICATION_FAILURE: error downloading tomcat application
+#! @result UNTAR_TOMCAT_APPLICATION_FAILURE: error unpacking tomcat application
+#! @result CREATE_SYMLINK_FAILURE: error creating symlink
+#! @result INSTALL_TOMCAT_APPLICATION_FAILURE: error installing tomcat
+#! @result CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat folder ownership
+#! @result CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat download folder
+#! @result CREATE_INITIALIZATION_FOLDER_FAILURE: error creating initialization folder
+#! @result UPLOAD_INIT_CONFIG_FILE_FAILURE: error uploading config file
+#! @result CHANGE_PERMISSIONS_FAILURE: error changing permissions
+#! @result START_TOMCAT_APPLICATION_FAILURE: error starting tomcat application
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.samples
 
 imports:
@@ -365,6 +386,7 @@ flow:
     - standard_out
     - return_code
     - command_return_code
+    - exception
 
   results:
     - SUCCESS

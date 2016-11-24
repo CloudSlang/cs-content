@@ -1,14 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Clones an existing Jenkins job and changes it's SCM URL.
-#!               Use case: as a build manager, after creating a new SCM branch, you want to clone your Jenkins builds, and you want to set the SCM URL of these clones to point to the new SCM branch.
+#!               Use case: as a build manager, after creating a new SCM branch, you want to clone your Jenkins builds,
+#!               and you want to set the SCM URL of these clones to point to the new SCM branch.
+#!
 #! @input url: URL to Jenkins
 #! @input jnks_job_name: name of the origin job
 #! @input jnks_new_job_name: name of the new job
@@ -18,8 +20,11 @@
 #! @input email_port: email server port
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
+#!
+#! @result SUCCESS: Jenkins job cloned successfully
+#! @result FAILURE: there was an eror while trying to clone the Jenkins job
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.jenkins
 

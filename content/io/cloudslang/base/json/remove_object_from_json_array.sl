@@ -5,24 +5,29 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: Removes an object from a JSON array, specifying the JSON object to remove from array or the position from which to remove the existing object.
+#! @description: Removes an object from a JSON array, specifying the JSON object to remove
+#!               from array or the position from which to remove the existing object.
+#!
 #! @input json_array: JSON array to remove object from - Example: '[{"a": "0"}, {"b": "1"}, {"c": "2"}]'
 #! @input json_object: optional - JSON object to remove from array - Example: '{"b": "1"}'
 #! @input index: optional - position from which to remove the existing object - Example: 1
+#!
 #! @output return_result: JSON array with object removed
 #! @output return_code: "0" if removing was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: removing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.json
 
 operation:
   name: remove_object_from_json_array
+
   inputs:
     - json_array
     - json_object:

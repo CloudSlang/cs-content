@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a REST Post request to any ServiceNow table.
+#!
 #! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
 #! @input protocol: optional - protocol that is used to send the request
@@ -39,13 +40,18 @@
 #!              Example: {'short_description':'Example description','severity':'1','assigned_to':'46c1293aa9fe1981000dc753e75ebeee'}
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
+#!
 #! @output return_result: response of the operation in case of success or the error message otherwise
 #! @output system_id: system id of the record created
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
+#! @result SUCCESS: record created successfully
+#! @result REST_POST_API_CALL_FAILURE: there was an error while running a call on the REST API
+#! @result GET_SYSID_FAILURE: there was an error while trying to retrieve SYSID
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.itsm.service_now.commons
 
@@ -127,13 +133,11 @@ flow:
             - query_params
             - body
             - content_type
-
         publish:
           - return_result
           - error_message
           - return_code
           - status_code
-
         navigate:
           - SUCCESS: get_sys_id
           - FAILURE: REST_POST_API_CALL_FAILURE
@@ -143,10 +147,8 @@ flow:
           json.get_value:
             - json_input: ${return_result}
             - json_path: "result,sys_id"
-
         publish:
             - system_id: ${return_result}
-
         navigate:
             - SUCCESS: SUCCESS
             - FAILURE: GET_SYSID_FAILURE

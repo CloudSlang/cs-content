@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a REST Delete request to any ServiceNow table.
+#!
 #! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
 #! @input protocol: optional - protocol that is used to send the request
@@ -36,14 +37,18 @@
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'application/json'
+#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of
+#!                      the data in the message body - Default: 'application/json'
+#!
 #! @output return_result: response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
+#! @result SUCCESS: record deleted successfully
+#! @result FAILURE: there was an error while trying to delete the record
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.itsm.service_now.commons
 
@@ -121,7 +126,6 @@ flow:
             - headers
             - query_params
             - content_type
-
         publish:
           - return_result
           - error_message

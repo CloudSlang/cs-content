@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+############################################################################################################################################################################
 #!!
 #! @description: Wrapper test flow - checks whether the Swarm cluster is clean (in that case starts a container in the
 #!               cluster so the cluster will contain at least one container that is not Swarm agent), clears the cluster
@@ -35,8 +35,9 @@ flow:
         required: false
     - timeout:
         required: false
-    - container_name: 'tomi'
-    - image_name: 'tomcat'
+    - container_name: 'busybox_container'
+    - image_name: 'busybox'
+    - container_command: 'tail -f /dev/null'
     - number_of_agent_containers_in_cluster
     - agent_ip_addresses
     - attempts:
@@ -102,6 +103,7 @@ flow:
             - swarm_manager_port
             - container_name
             - image_name
+            - container_command
             - host
             - port
             - username

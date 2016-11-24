@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Extracts content from container files.
+#!
 #! @input api_key: API Keys
 #! @input file: container file to expand
 #! @input proxy_host: proxy server
@@ -15,10 +16,14 @@
 #! @input proxy_port: proxy server port
 #!                    optional
 #!                    default: '8080'
+#!
 #! @output references: references to content from the container file
 #! @output error_message: error message if one exists, empty otherwise
+#!
+#! @result SUCCESS: container files content extracted successfully
+#! @result FAILURE: there was an error while trying to extract content from the container files
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.format_conversion
 
@@ -55,6 +60,7 @@ flow:
         publish:
             - error_message
             - return_result
+
     - get_results:
         do:
           hod.utils.get_docs_references:
@@ -63,11 +69,13 @@ flow:
         publish:
            - references
            - error_message
+
     - on_failure:
           - print_fail:
                 do:
                   print.print_text:
                     - text: ${"Error - " + error_message}
+
   outputs:
       - references
       - error_message

@@ -5,23 +5,29 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Add text to a file.
+#!
 #! @input file_path: path of the file to write to
 #! @input text: text to write to the file
+#!
 #! @output message: error message if error occurred
+#!
 #! @result SUCCESS: text was written to the file
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.filesystem
 
 operation:
   name: add_text_to_file
+
   inputs:
     - file_path
     - text
+
   python_action:
     script: |
       try:

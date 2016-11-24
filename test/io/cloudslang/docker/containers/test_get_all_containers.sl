@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -110,24 +110,12 @@ flow:
                 ${str(len(list.rstrip().split(" ")))}
             - second_string: '2'
         navigate:
-          - SUCCESS: clear_docker_host
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-        navigate:
-         - SUCCESS: SUCCESS
-         - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS
     - PREREQUISITE_MACHINE_IS_NOT_CLEAN
-    - MACHINE_IS_NOT_CLEAN
     - FAIL_PULL_IMAGE
     - FAILURE
     - FAIL_RUN_IMAGE

@@ -1,14 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pulls and runs a Docker container.
-#! @input docker_options: optional - options for the Docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: optional - options for the Docker environment
+#!                        - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input detach: optional - run container in background (detached / daemon mode) - Default: true
 #! @input container_name: optional - container name
 #! @input container_params: optional - command parameters
@@ -27,10 +29,14 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#!
 #! @output container_id: ID of the container
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output error_message: STDERR of the machine in case of successful request, null otherwise
+#!
+#! @result SUCCESS: Docker container pulled and executed successfully
+#! @result FAILURE: there was an error while trying to pull and run the Docker container
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -39,6 +45,7 @@ imports:
 
 flow:
   name: run_container
+
   inputs:
     - docker_options:
         required: false
@@ -115,8 +122,9 @@ flow:
             - close_session
             - agent_forwarding
         publish:
-          - container_id: ${standard_out[:-1]}
+          - container_id: ${standard_out.strip()}
           - standard_err
+
   outputs:
     - container_id
     - error_message: ${standard_err}

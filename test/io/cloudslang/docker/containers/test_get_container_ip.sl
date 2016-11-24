@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -83,19 +83,8 @@ flow:
             - regex: ${'^\\d{1,3}.\\d{1,3}.\\d{1,3}.\\d{1,3}$'}
             - text: ${ip}
         navigate:
-          - MATCH: clear_docker_host
+          - MATCH: SUCCESS
           - NO_MATCH: VEFIFYFAILURE
-
-    - clear_docker_host:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - port
-            - docker_username: ${username}
-            - docker_password: ${password}
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: MACHINE_IS_NOT_CLEAN
 
   results:
     - SUCCESS

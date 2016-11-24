@@ -1,23 +1,24 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves build failure from CircieCI - Github project - branches.
 #!               If the latest build has failed, it will send an email,
-#!               to the supervisor and commiter with the following:
+#!               to the supervisor and committer with the following:
 #!               Example:
 #!                        Repository: repository name
 #!                        Branch: branch name
 #!                        Username: github username
-#!                        Commiter email: email of github username
+#!                        committer email: email of github username
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from a branch has not failed, it will send an email to reflect that.
+#!
 #! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
@@ -45,29 +46,35 @@
 #! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username: circleCi username.
-#! #input project: github project name.
-#! #input branches: github project branches.
+#! @input username: circleCi username.
+#! @input project: github project name.
+#! @input branches: github project branches.
 #! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! #input commiter_email: email address of the commiter.
-#! #input supervisor: github supervisor email.
+#! @input committer_email: email address of the committer.
+#! @input branch: github branch
+#!                Default: ''
+#! @input branches: a list of all the available branches on a certain project
+#!                  Default: ''
+#! @input supervisor: github supervisor email.
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
 #! @input to: email recipient
 #! @input cc: optional - comma-delimited list of cc recipients - Default: Supervisor email.
+#!
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.ci.circleci
 
@@ -79,6 +86,7 @@ imports:
 
 flow:
   name: get_branches_build_failure
+
   inputs:
     - token:
         sensitive: true
@@ -147,12 +155,10 @@ flow:
             - keystore_password
             - content_type
             - headers
-
         publish:
           - branches
           - error_message
           - return_result
-
         navigate:
           - SUCCESS: get_branches_build_failure
           - FAILURE: FAILURE
@@ -185,12 +191,14 @@ flow:
               - from
               - to
               - cc: ${supervisor}
-
           publish:
             - return_result
             - return_code
             - status_code
             - error_message
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - return_result

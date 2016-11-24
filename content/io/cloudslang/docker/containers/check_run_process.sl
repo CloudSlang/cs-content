@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if a certain process runs on a container and appends it to a list.
+#!
 #! @input container_id: container id
 #! @input host: Docker machine host
 #! @input port: optional - SSH port - Default: '22'
@@ -24,14 +25,18 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false - Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false - Default: ''
+#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!                          Default: ''
+#!
 #! @output container_id_result: a list of all the containers running a process
 #! @output standard_err: error message
+#!
 #! @result FAILURE: something went wrong
 #! @result RUNNING: process found running on the container
 #! @result NOT_RUNNING: process is not running on the container
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
@@ -41,6 +46,7 @@ imports:
 
 flow:
   name: check_run_process
+
   inputs:
     - container_id
     - process_name
@@ -89,11 +95,9 @@ flow:
             - timeout
             - close_session
             - agent_forwarding
-
         publish:
           - return_result
           - standard_err
-
         navigate:
           - SUCCESS: check_if_is_running
           - FAILURE: FAILURE
@@ -103,7 +107,6 @@ flow:
           regex.match_regex:
             - regex: ${process_name}
             - text: ${return_result}
-
         navigate:
           - MATCH: append_to_list
           - NO_MATCH: NOT_RUNNING
@@ -113,10 +116,8 @@ flow:
           strings.append:
             - origin_string: ${container_id_list}
             - text: ${container_id + ' '}
-
         publish:
           - container_id_result: ${new_string}
-
         navigate:
           - SUCCESS: RUNNING
 
