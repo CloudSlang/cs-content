@@ -20,7 +20,7 @@
 #! @input proxy_port: Proxy server port used to access the provider services
 #!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
-#! @input proxy_password: Proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
 #!                 name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
@@ -163,7 +163,7 @@
 #!                                              from the instance (using the operating system command for system shutdown).
 #!                                              Valid values: "stop", "terminate".
 #!                                              Default: "stop"
-#! @input monitoring: whether to enable or not monitoring for the instance.
+#! @input monitoring: Whether to enable or not monitoring for the instance.
 #!                    Default: "false"
 #! @input placement_group_name: Name of the placement group for the instance (as part of Placement).
 #!                              Default: ""
@@ -219,9 +219,9 @@
 #!                           above example: "Tagged from API call,Not relevant,Testing,For testing purposes"
 #!                           Default: ""
 #! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: 10
+#!                          Default: "10"
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Default: 50
+#!                         Default: "50"
 #!
 #! @output instance_id: The ID of the newly created instance
 #! @output return_result: Contains the instance details in case of success, error message otherwise
@@ -242,6 +242,7 @@ imports:
 
 flow:
   name: deploy_instance
+
   inputs:
     - identity
     - credential:
@@ -393,8 +394,8 @@ flow:
           - exception
           - instance_id: '${instance_id_result}'
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: check_instance_state
+          - FAILURE: FAILURE
 
     - check_instance_state:
         loop:
@@ -417,8 +418,8 @@ flow:
             - return_code
             - exception
         navigate:
-          - FAILURE: terminate_instances
           - SUCCESS: create_tags
+          - FAILURE: terminate_instances
 
     - create_tags:
         do:
@@ -438,8 +439,8 @@ flow:
           - return_code
           - exception
         navigate:
-          - FAILURE: terminate_instances
           - SUCCESS: describe_instances
+          - FAILURE: terminate_instances
 
     - terminate_instances:
         loop:
@@ -461,8 +462,8 @@ flow:
             - return_code
             - exception
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: FAILURE
+          - FAILURE: FAILURE
 
     - describe_instances:
         do:
@@ -471,15 +472,17 @@ flow:
             - credential
             - proxy_host
             - proxy_port
+            - proxy_username
+            - proxy_password
             - availability_zone
-            - instance_id
+            - instance_ids_string: ${instance_id}
         publish:
           - return_result
           - return_code
           - exception
         navigate:
-          - FAILURE: terminate_instances
           - SUCCESS: SUCCESS
+          - FAILURE: terminate_instances
 
   outputs:
     - instance_id
