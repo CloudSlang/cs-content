@@ -30,7 +30,7 @@ do
                   "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" | sed 's/"/\\"/g')"'"
                 }')
 
-  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "HTTP/1.1" | awk '{print $2}')
+  export local STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "HTTP/1.1" | awk '{print $2}')
 
   if [ "${STATUS_CODE}" = "202" ]
   then
@@ -50,7 +50,6 @@ do
     echo ${DROPLET_ID_ACC} > ${DROPLETS_FILE}
   else
     echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - status code: ${STATUS_CODE}"
-    echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - response: ${CURL_OUTPUT}"
     exit 1
   fi
 done
