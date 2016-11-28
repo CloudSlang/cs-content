@@ -50,6 +50,7 @@ do
     echo ${DROPLET_ID_ACC} > ${DROPLETS_FILE}
   else
     echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - status code: ${STATUS_CODE}"
+    echo "Problem occurred: ${COREOS_MACHINE} droplet creation request - response: ${CURL_OUTPUT}"
     exit 1
   fi
 done
