@@ -57,13 +57,6 @@ dependencies:
       : parallel: true
     - docker info
     - docker images
-    - ? > ### machine 0
-        if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
-        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
-        && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
-        fi
-      : parallel: true
     - ? > ### machine 1
         if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
         then chmod +x ci-env/circleci/create_droplets.sh
@@ -76,6 +69,13 @@ dependencies:
         then chmod +x ci-env/circleci/create_droplets.sh
         && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_2} DROPLETS_FILE=${DROPLETS_FILE_2}
         ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 0
+        if [ "${CIRCLE_NODE_INDEX}" = "0" ];
+        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
+        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
+        && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
         fi
       : parallel: true
     - ? > ### every machine
