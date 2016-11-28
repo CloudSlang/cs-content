@@ -28,7 +28,7 @@ do
     CURL_OUTPUT=$(curl -i -s -L -X GET -H 'Content-Type: application/json' -H "Authorization: Bearer ${DO_API_TOKEN}" \
     "https://api.digitalocean.com/v2/droplets/${DROPLET_ID}")
 
-    STATUS_CODE=$(echo "${CURL_OUTPUT}" | grep "Status" | awk '{print $2}')
+    STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "HTTP/1.1" | tail -1 | awk '{print $2}')
 
     if [ "${STATUS_CODE}" = "200" ]
     then
