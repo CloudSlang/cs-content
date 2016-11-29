@@ -80,8 +80,8 @@ flow:
           - return_code
           - exception
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: check_instance_state
+          - FAILURE: FAILURE
 
     - check_instance_state:
         loop:
@@ -104,8 +104,8 @@ flow:
             - return_code
             - exception
         navigate:
-          - FAILURE: FAILURE
           - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - output: '${return_result}'
@@ -113,8 +113,8 @@ flow:
     - exception
 
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 
 extensions:
   graph:
