@@ -8,7 +8,8 @@
 ########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
-#!
+#!               Notes: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type, source_destination_check
+#!                      are mutually exclusive
 #! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -141,8 +142,7 @@
 #!                   performed for you, and you can load the text from a file. Otherwise,
 #!                   you must provide Base64-encoded text.
 #!                   Default: ""
-#! @note: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type, source_destination_check
-#!        are mutually exclusive
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -305,7 +305,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.6'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.7'
     class_name: io.cloudslang.content.amazon.actions.instances.ModifyInstanceAttributeAction
     method_name: execute
 
