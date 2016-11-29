@@ -169,7 +169,8 @@
 #! @input private_ip_addresses_string: optional - String that contains one or more private IP addresses
 #!                                     to assign to the network interface. Only one private IP address
 #!                                     can be designated as primary. Use this if you want to launch instances
-#!                                     with many NICs attached.
+#!                                     with many NICs attached. Separate the NICs privateIps with "|"
+#!                                     Example: "10.0.0.1,20.0.0.1|30.0.0.1"
 #!                                     Default: ""
 #! @input iam_instance_profile_arn: optional - Amazon Resource Name (IAM_INSTANCE_PROFILE_ARN) of the
 #!                                  instance profile.
@@ -185,7 +186,8 @@
 #!                       Default: ""
 #! @input security_group_ids_string: optional - IDs of the security groups for the network interface.
 #!                                   Applies only if creating a network interface when launching an
-#!                                   instance.
+#!                                   instance. Separate the groupIds for each NIC with "|"
+#!                                   Example: "sg-01234567,sg-7654321|sg-abcdef01"
 #!                                   Default: ""
 #! @input security_group_names_string: optional - String that contains one or more IDs of the security
 #!                                     groups for the network interface. Applies only if creating a network
@@ -252,8 +254,7 @@
 #! @input network_interface_device_index: optional - String that contains one or more values that are indexes
 #!                                        of the device on the instance for the network interface attachment.
 #!                                        If you are specifying a network interface in a RunInstances request,
-#!                                        you should provide the device index. If not provided then we supply
-#!                                        the automatic index starting from 0.
+#!                                        you should provide the device index.
 #!                                        Default: ""
 #! @input network_interface_id: optional - String that contains one or more values that are IDs of the network interfaces.
 #!                              Default: ""
@@ -541,7 +542,7 @@ operation:
          private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.6'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.7'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
