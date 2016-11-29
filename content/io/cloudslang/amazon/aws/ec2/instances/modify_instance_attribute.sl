@@ -141,7 +141,8 @@
 #!                   performed for you, and you can load the text from a file. Otherwise,
 #!                   you must provide Base64-encoded text.
 #!                   Default: ""
-#!
+#! @note: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type, source_destination_check
+#!        are mutually exclusive
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
@@ -260,7 +261,6 @@ operation:
         required: false
         private: true
     - security_group_ids_string:
-        default: "false"
         required: false
     - securityGroupIdsString:
         default: ${get("security_group_ids_string", "")}
@@ -272,14 +272,12 @@ operation:
         required: false
         private: true
     - instance_initiated_shutdown_behavior:
-        default: "stop"
         required: false
     - instanceInitiatedShutdownBehavior:
         default: ${get("instance_initiated_shutdown_behavior", "")}
         required: false
         private: true
     - instance_type:
-        default: "m1.small"
         required: false
     - instanceType:
         default: ${get("instance_type", "")}
@@ -288,7 +286,6 @@ operation:
     - kernel:
         required: false
     - source_destination_check:
-        default: "false"
         required: false
     - sourceDestinationCheck:
         default: ${get("source_destination_check", "")}
