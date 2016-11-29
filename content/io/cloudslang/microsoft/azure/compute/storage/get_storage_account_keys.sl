@@ -9,12 +9,12 @@
 #!!
 #! @description: Performs an HTTP request to return the access keys for the specified storage account
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input auth_token: authentication token
+#! @input subscription_id: The ID of the Azure Subscription on which the storage account key will be retrieved.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used get the storage account key from.
+#! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created. from which the key will be retrieved
+#! @input storage_account: The name of the storage account from which the key will be retrieved.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: optional - time in seconds to wait for data to be retrieved

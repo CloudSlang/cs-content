@@ -13,7 +13,7 @@
 #! @input api_version: The API version used to create calls to Azure
 #! @input auth_type: Optional - authentication type
 #!                   Default: "anonymous"
-#! @input auth_token: authentication token
+#! @input auth_token: Azure authorization Bearer token
 #! @input vhd_prefix: Specifies the prefix in the name of the blobs that will constitute the storage profile of the image
 #! @input destination_container_name: Specifies the name of the container inside which the vhds constituting the image will reside
 #! @input override_vhds: Specifies if an existing vhd with same prefix inside the destination container is overwritten

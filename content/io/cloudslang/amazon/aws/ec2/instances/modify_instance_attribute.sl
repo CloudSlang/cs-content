@@ -8,7 +8,8 @@
 ########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
-#!
+#!               Notes: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type, source_destination_check
+#!                      are mutually exclusive
 #! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
@@ -260,7 +261,6 @@ operation:
         required: false
         private: true
     - security_group_ids_string:
-        default: "false"
         required: false
     - securityGroupIdsString:
         default: ${get("security_group_ids_string", "")}
@@ -272,14 +272,12 @@ operation:
         required: false
         private: true
     - instance_initiated_shutdown_behavior:
-        default: "stop"
         required: false
     - instanceInitiatedShutdownBehavior:
         default: ${get("instance_initiated_shutdown_behavior", "")}
         required: false
         private: true
     - instance_type:
-        default: "m1.small"
         required: false
     - instanceType:
         default: ${get("instance_type", "")}
@@ -288,7 +286,6 @@ operation:
     - kernel:
         required: false
     - source_destination_check:
-        default: "false"
         required: false
     - sourceDestinationCheck:
         default: ${get("source_destination_check", "")}

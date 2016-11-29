@@ -9,12 +9,12 @@
 #!!
 #! @description: Performs an HTTP request to add a virtual disk to a virtual machine
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the the disk will be attached to the VM.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to attach the disk to the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to which the disk will be attached.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input disk_name: Name of the virtual disk to be attached

@@ -9,8 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a List of public IP addresses within a resource group
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the public IP address list should be retrieved.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve
+#!                             the list of public IP addresses.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'

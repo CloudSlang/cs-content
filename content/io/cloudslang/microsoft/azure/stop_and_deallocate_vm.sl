@@ -9,15 +9,16 @@
 #!!
 #! @description: Stop and deallocate virtual machine flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be stopped and deallocate.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to stop and deallocate the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when
+#!                                    retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to be stopped and de-allocated.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input location: Specifies the supported Azure location where the virtual machine should be stopped and de-allocated.
 #!                  This can be different from the location of the resource group.
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
@@ -42,7 +43,7 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: Information about the virtual machine that has been stopped and deallocated
+#! @output output: Information about the virtual machine that has been stopped and de-allocated
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise

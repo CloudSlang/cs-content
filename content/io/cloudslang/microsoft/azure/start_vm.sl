@@ -9,15 +9,16 @@
 #!!
 #! @description: Start virtual machine flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be start.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to start the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when
+#!                                    retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to be started.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input location: Specifies the supported Azure location where the virtual machine should be started.
 #!                  This can be different from the location of the resource group.
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
