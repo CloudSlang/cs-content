@@ -7,9 +7,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a specified instance
-#!               Notes: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type, source_destination_check
-#!                      are mutually exclusive
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to update the type of a
+#!               specified instance
+#!               Notes: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type,
+#!                      source_destination_check are mutually exclusive
+#!
 #! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
