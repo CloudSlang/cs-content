@@ -13,9 +13,10 @@
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to deploy the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when
+#!                                    retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
 #! @input vm_name: The name of the virtual machine to be deployed.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
@@ -58,7 +59,7 @@
 #!                        "Password!", "Password1", "Password22", "iloveyou!"
 #! @input tag_name: Optional - Name of the tag to be added to the virtual machine
 #!                  Default: ''
-#! @input tag_value: Optional - Value of the tag to be added to the vrtual machine
+#! @input tag_value: Optional - Value of the tag to be added to the virtual machine
 #!                   Default: ''
 #! @input disk_size: The size of the storage disk to be attach to the virtual machine.
 #!                   Note: The value must be greater than '0'

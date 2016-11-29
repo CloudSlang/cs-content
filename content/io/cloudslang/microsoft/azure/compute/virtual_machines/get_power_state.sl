@@ -14,7 +14,7 @@
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to get the power state from.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

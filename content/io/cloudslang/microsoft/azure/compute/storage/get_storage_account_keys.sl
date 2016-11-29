@@ -9,7 +9,7 @@
 #!!
 #! @description: Performs an HTTP request to return the access keys for the specified storage account
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the storage accounr key will be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription on which the storage account key will be retrieved.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used get the storage account key from.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure

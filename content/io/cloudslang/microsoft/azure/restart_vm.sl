@@ -11,10 +11,12 @@
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be restarted.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to restart the VM.
-#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when
+#!                                    retrieving the Authentication Token.
+#!                         Default: 'https://sts.windows.net/common'
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input location: Specifies the supported Azure location where the virtual machine should be created.
+#! @input location: Specifies the supported Azure location where the virtual machine should be restarted.
 #!                  This can be different from the location of the resource group.
 #! @input vm_name: The name of the virtual machine to be restarted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.

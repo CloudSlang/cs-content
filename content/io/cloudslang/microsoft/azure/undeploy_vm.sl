@@ -13,7 +13,8 @@
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to undeploy the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input login_authority: Optional - URL of the login authority that should be used when
+#!                                    retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
 #! @input vm_name: The name of the virtual machine to be undeployed.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.

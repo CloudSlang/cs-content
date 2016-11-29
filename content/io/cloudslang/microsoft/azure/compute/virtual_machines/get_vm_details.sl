@@ -7,14 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve informations about a virtual machine
+#! @description: Performs an HTTP request to retrieve information about a virtual machine
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to get the VM details.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to retrieve information from.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
