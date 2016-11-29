@@ -20,7 +20,7 @@
 #! @input proxy_port: Proxy server port used to access the provider services
 #!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
-#! @input proxy_password: Proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
 #!                 name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
@@ -219,9 +219,9 @@
 #!                           above example: "Tagged from API call,Not relevant,Testing,For testing purposes"
 #!                           Default: ""
 #! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: 10
+#!                          Default: "10"
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Default: 50
+#!                         Default: "50"
 #!
 #! @output instance_id: The ID of the newly created instance
 #! @output ip_address: The public IP address of the new instance
@@ -237,9 +237,11 @@
 namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
+  xml: io.cloudslang.base.xml
+  strings: io.cloudslang.base.strings
+  tags: io.cloudslang.amazon.aws.ec2.tags
   network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
-  tags: io.cloudslang.amazon.aws.ec2.tags
 
 flow:
   name: deploy_instance
@@ -486,7 +488,7 @@ flow:
 
     - xpath_query:
         do:
-          io.cloudslang.base.xml.xpath_query:
+          xml.xpath_query:
             - xml_document: '${valid_xml}'
             - xml_document_source: xmlString
             - xpath_query: /DescribeInstancesResponse/reservationSet/item/instancesSet/item/ipAddress
@@ -502,7 +504,7 @@ flow:
 
     - search_and_replace:
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          strings.search_and_replace:
             - origin_string: '${instance_details}'
             - text_to_replace: xmlns
             - replace_with: xhtml
