@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Associates an Elastic IP address with an instance or a network interface.
 #!               Note: An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information,
@@ -19,6 +19,7 @@
 #!                          return an error, and you may be charged for each time the Elastic IP address is remapped to
 #!                          the same instance. For more information, see the Elastic IP Addresses section of Amazon EC2
 #!                          Pricing.
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -73,13 +74,16 @@
 #!                            IP address is associated with the primary private IP address.
 #!                            Default: ''
 #! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
+#!
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to associate the IP address with spacified network interface
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.network
 
 operation:
@@ -169,7 +173,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.network.AssociateAddressAction
     method_name: execute
 

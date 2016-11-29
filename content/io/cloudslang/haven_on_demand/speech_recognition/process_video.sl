@@ -17,6 +17,7 @@
 #! @input interval: optional - use to segment the speech in the output. -1 to turn off
 #!                  segmentation, 0 to segment on every word, and a positive
 #!                  number for a time interval (ms).
+#!                  optional:
 #!                  default: -1
 #! @input language: optional - language of the provided speech
 #!                  default value: en-US.

@@ -8,12 +8,14 @@
 ########################################################################################################################
 #!!
 #! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list all regions.
+#!
 #! @input provider: the cloud provider - Default: 'amazon'
 #! @input endpoint: optional - the endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: the Amazon Access Key ID
 #! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: optional - the proxy server used to access the provider services
-#! @input proxy_port: optional - the proxy server port used to access the provider services - Default: '8080'
+#! @input proxy_port: optional - the proxy server port used to access the provider services
+#!                    Default: '8080'
 #! @input proxy_username: optional - proxy server user name.
 #! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
 #! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
@@ -38,13 +40,16 @@
 #!                              Default: ""
 #! @input regions_string: String that contains one or more regions.
 #!                        Example: "us-east-1,eu-central-1"
+#!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: the list with existing regions was successfully retrieved
 #! @result FAILURE: an error occurred when trying to retrieve the regions list
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.regions
 
 operation:
@@ -67,6 +72,7 @@ operation:
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
+        required: false
         private: true
     - proxy_username:
         required: false
@@ -110,7 +116,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.regions.DescribeRegionsAction
     method_name: execute
 

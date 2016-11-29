@@ -5,10 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Deletes the specified network interface.
 #!               Note: You must detach the network interface before you can delete it.
+#!
 #! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -40,13 +41,16 @@
 #!                 Default: '2014-06-15'
 #! @input network_interface_id: ID of the network interface to delete.
 #!                              Example: 'eni-12345678'
+#!
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to delete the specified network interface
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.network
 
 operation:
@@ -104,7 +108,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.network.DeleteNetworkInterfaceAction
     method_name: execute
 

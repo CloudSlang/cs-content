@@ -14,6 +14,7 @@
 #!                     As with all Amazon EC2 operations, the results might not appear immediately.
 #!                     For Region-Endpoint correspondence information, check all the service endpoints available at:
 #!                     http://docs.amazonwebservices.com/general/latest/gr/rande.html#ec2_region
+#!
 #! @input endpoint: optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -42,13 +43,17 @@
 #! @input version: version of the web service to make the call against it.
 #!                 Default: "2014-06-15"
 #!                 Example: "2014-06-15"
+#!
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
+#! @output attachment_id_result: id of the attachment in case of success
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to attach network interface to specified instance
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.network
 
 operation:
@@ -114,7 +119,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.network.AttachNetworkInterfaceAction
     method_name: execute
 
@@ -122,6 +127,7 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
+    - attachment_id_result: ${get("attachmentIdResult", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}

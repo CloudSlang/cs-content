@@ -5,13 +5,14 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Disassociates an Elastic IP address from the instance or network interface it's associated with.
 #!               Note: An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information,
 #!                     see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
 #!               Important: This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't
 #!                          return an error.
+#!
 #! @input endpoint: optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -45,13 +46,16 @@
 #!                        Default: ''
 #! @input public_ip: optional - Elastic IP address. This is required for EC2-Classic.
 #!                   Default: ''
+#!
 #! @output return_result: outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
+#!
 #! @result SUCCESS: success message
 #! @result FAILURE: an error occurred when trying to disassociate specified IP address
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.ec2.network
 
 operation:
@@ -116,7 +120,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.4'
     class_name: io.cloudslang.content.amazon.actions.network.DisassociateAddressAction
     method_name: execute
 

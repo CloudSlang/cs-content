@@ -4,7 +4,6 @@
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2.instances
