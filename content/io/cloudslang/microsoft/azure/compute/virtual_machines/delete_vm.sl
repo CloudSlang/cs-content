@@ -9,10 +9,10 @@
 #!!
 #! @description: Performs an HTTP request to delete a virtual machine
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input auth_token: authentication token
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be deleted.
+#! @input auth_token: Azure authorization Bearer token
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the VM.
+#! @input vm_name: The name of the virtual machine to be deleted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
@@ -46,7 +46,7 @@
 #! @result SUCCESS: Virtual machine deleted successfully.
 #! @result FAILURE: There was an error while trying to delete the virtual machine.
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 

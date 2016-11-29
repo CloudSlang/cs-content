@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to delete a public IP address
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the public IP address should be deleted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the public IP address.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'

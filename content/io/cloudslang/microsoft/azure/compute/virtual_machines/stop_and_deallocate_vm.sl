@@ -7,14 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to stop and deallocata virtual machine
+#! @description: Performs an HTTP request to stop and deallocate virtual machine
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input auth_token: authentication token
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be stopped and deallocated.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to deallocated the VM.
+#! @input auth_token: Azure authorization Bearer token
 #! @input api_version: the API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to be stopped and deallocated.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input connect_timeout: optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

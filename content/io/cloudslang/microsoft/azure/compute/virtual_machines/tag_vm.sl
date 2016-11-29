@@ -9,12 +9,13 @@
 #!!
 #! @description: Performs an HTTP request to add a custom tag to a virtual machine
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be tagged.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to tag the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: the API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input vm_name: Specifies the name of the virtual machine. This name should be unique within the resource group.
+#! @input vm_name: Specifies the name of the virtual machine to be tagged.
+#!                 This name should be unique within the resource group.
 #! @input tag_name: Name of custom tag to add to the VM
 #! @input tag_value: Value of tag to add to the VM
 #! @input location: Specifies the supported Azure location where the virtual machine should be created.

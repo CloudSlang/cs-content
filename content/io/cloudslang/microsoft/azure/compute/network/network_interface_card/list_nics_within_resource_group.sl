@@ -9,8 +9,9 @@
 #!!
 #! @description: Performs an HTTP request to retrieve a List of network interface cards within a resource group
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the network interface card list should be retrieved.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to
+#!                             retrieve the list of network interface cards.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
@@ -36,7 +37,7 @@
 #! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: information about the network interface card
+#! @output output: information about the list of network interface cards
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If no network interface card is found the error message will be populated with a response,
 #!                        empty otherwise

@@ -9,8 +9,8 @@
 #!!
 #! @description: Performs an HTTP request to delete a network interface card
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the network interface card should be deleted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the network interface card.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'

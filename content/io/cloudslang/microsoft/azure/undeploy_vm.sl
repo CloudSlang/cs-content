@@ -9,13 +9,13 @@
 #!!
 #! @description: VM deprovision flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be undeployed.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to undeploy the VM.
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
 #! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                         Default: 'https://sts.windows.net/common'
-#! @input vm_name: The name of the virtual machine to be created.
+#! @input vm_name: The name of the virtual machine to be undeployed.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input public_ip_address_name: Name of the public address to be created
 #! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
