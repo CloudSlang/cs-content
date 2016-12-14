@@ -18,7 +18,7 @@
 namespace: io.cloudslang.base.print
 
 operation:
-  name: print_text
+  name: print_text_Bonczidai
 
   inputs:
     - text
