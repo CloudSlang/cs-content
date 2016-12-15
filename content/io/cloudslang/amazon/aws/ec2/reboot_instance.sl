@@ -43,6 +43,8 @@ namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
+  xml: io.cloudslang.base.xml
+  strings: io.cloudslang.base.strings
 
 flow:
   name: reboot_instance
@@ -98,7 +100,7 @@ flow:
               - identity
               - credential
               - instance_id
-              - instance_state: running
+              - instance_state: 'running'
               - proxy_host
               - proxy_port
               - proxy_username
@@ -107,15 +109,39 @@ flow:
           break:
             - SUCCESS
           publish:
-            - return_result: '${output}'
+            - output
             - return_code
             - exception
+        navigate:
+          - SUCCESS: search_and_replace
+          - FAILURE: FAILURE
+
+    - search_and_replace:
+        do:
+          strings.search_and_replace:
+            - origin_string: '${output}'
+            - text_to_replace: xmlns
+            - replace_with: xhtml
+        publish:
+          - replaced_string
+        navigate:
+          - SUCCESS: parse_state
+          - FAILURE: FAILURE
+
+    - parse_state:
+        do:
+          xml.xpath_query:
+              - xml_document: ${replaced_string}
+              - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']"
+        publish:
+            - selected_value
+            - return_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - output: '${return_result}'
+    - output: ${selected_value}
     - return_code
     - exception
 
