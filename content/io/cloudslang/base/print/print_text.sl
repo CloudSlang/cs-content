@@ -20,6 +20,6 @@ operation:
   inputs:
     - text
   python_action:
-    script: print text
+    script: print 'Liviu'
   results:
     - SUCCESS
