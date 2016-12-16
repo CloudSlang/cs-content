@@ -1,11 +1,11 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testGetFailedBuildEmptySuccess:
   inputs:
     - protocol: 'https'
@@ -30,9 +30,9 @@ testGetFailedBuildEmptySuccess:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
-    - return_result: []
-    - status_code: 200
-    - return_code: 0
+    - return_result: ""
+    - status_code: "200"
+    - return_code: "0"
 
   result: SUCCESS
 
@@ -60,8 +60,8 @@ testGetFailedBuildResponseSuccess:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
-    - status_code: 200
-    - return_code: 0
+    - status_code: "200"
+    - return_code: "0"
 
   result: SUCCESS
 
@@ -94,8 +94,8 @@ testGetFailedBuildWrongAPIKeyFAILURE:
   testSuites: [circleci-local]
   testFlowPath: io.cloudslang.ci.circleci.get_failed_build
   outputs:
-    - return_result: []
-    - status_code: 200
-    - return_code: 0
+    - return_result: ""
+    - status_code: "200"
+    - return_code: "0"
 
   result: SUCCESS

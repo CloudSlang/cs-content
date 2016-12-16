@@ -1,11 +1,11 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: This flow performs a end to end scenario and will:
 #!               - clone an existing git repository;
@@ -20,20 +20,20 @@
 #!               - cleanup repositories;
 #! @prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input private_key_file: optional - the path to the private key file
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input password: Optional - password of user
+#! @input private_key_file: Optional - the path to the private key file
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo - Default: false
 #! @input git_repository: the URL for cloning a git repository from
-#! @input git_pull_remote: optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#! @input git_pull_remote: Optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #! @input git_branch: the git branch to checkout to
 #! @input git_repository_localdir: target directory the git repository will be cloned to - Default: /tmp/repo.git
 #! @input file_name: the name of the file - if the file doesn't exist then will be created
-#! @input text: optional - text to write to the file
-#! @input git_add_files: optional - the files that has to be added/staged - Default: "*"
-#! @input git_commit_files: optional - the files that has to be committed - Default: "-a"
-#! @input git_commit_message: optional - the message for the commit
+#! @input text: Optional - text to write to the file
+#! @input git_add_files: Optional - the files that has to be added/staged - Default: "*"
+#! @input git_commit_files: Optional - the files that has to be committed - Default: "-a"
+#! @input git_commit_message: Optional - the message for the commit
 #! @input git_push_branch: the branch you want to push - Default: master
 #! @input git_push_remote: the remote you want to push to - Default: origin
 #! @input user: the user to be added to sudoers group
@@ -60,7 +60,7 @@ imports:
   git: io.cloudslang.git
   ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   linux: io.cloudslang.base.os.linux.users
 
 flow:
@@ -76,7 +76,7 @@ flow:
     - private_key_file:
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - git_repository:
         required: true
@@ -197,7 +197,7 @@ flow:
             - port
             - username
             - password
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - git_repository_localdir
             - git_push_branch
@@ -213,7 +213,7 @@ flow:
             - port
             - username: "root"
             - password: ${ root_password }
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - user
         navigate:
@@ -287,7 +287,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir
-            - change_path: false
+            - change_path: "false"
             - new_path: ""
         navigate:
           - SUCCESS: git_cleanup_second_repository
@@ -304,7 +304,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir: ${ second_git_repository_localdir }
-            - change_path: true
+            - change_path: 'true'
             - new_path: ${ second_git_repository_localdir }
         publish:
           - standard_out

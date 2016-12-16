@@ -5,10 +5,11 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Renames a server
-#! @input endpoint: New Relic servers API endpoint
+#!
+#! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
 #! @input server_id: server id
 #! @input server_name: new server name
@@ -16,14 +17,16 @@
 #! @input proxy_port: optional - proxy server port
 #! @input proxy_username: optional - username used when connecting to proxy
 #! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#!
 #! @output return_result: response of operation
 #! @output status_code: normal status code is '200'
 #! @output return_code: if return_code == -1 then there was an error
 #! @output error_message: return_result if return_code == 1 or status_code != '200'
+#!
 #! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.new_relic.servers
 
@@ -33,6 +36,7 @@ imports:
 
 flow:
   name: update_server_name
+
   inputs:
     - servers_endpoint: "https://api.newrelic.com/v2/servers"
     - api_key:
@@ -58,11 +62,10 @@ flow:
         do:
           json.add_value:
             - json_input: '{"server":{"name":"default"}}'
-            - json_path: ['server', 'name']
+            - json_path: "server,name"
             - value: ${server_name}
         publish:
-          - body_json: ${json_output}
-          - return_result
+          - body_json: ${return_result}
           - error_message
           - return_code
 
@@ -77,7 +80,6 @@ flow:
             - headers: ${'X-Api-Key:' + api_key}
             - content_type: "application/json"
             - body: ${body_json}
-
         publish:
           - return_result
           - error_message

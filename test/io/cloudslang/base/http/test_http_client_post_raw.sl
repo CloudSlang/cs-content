@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.base.http
 
 imports:
@@ -44,6 +44,7 @@ flow:
         sensitive: true
     - body:
         default: ""
+        required: false
         private: true
 
   workflow:
@@ -75,8 +76,8 @@ flow:
     - check_results:
         do:
           lists.compare_lists:
-            - list_1: ${ [str(error_message), int(return_code), int(status_code)] }
-            - list_2: ["", 0, 200]
+            - list_1: ${str(error_message) + "," + return_code + "," + status_code}
+            - list_2: ",0,200"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: CHECK_RESULTS_FAILURE

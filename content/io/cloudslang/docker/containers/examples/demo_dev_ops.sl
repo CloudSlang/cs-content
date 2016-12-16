@@ -1,45 +1,51 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Example of how to link Docker containers. Pulls a DB Docker image container and starts it.
 #!               Then pulls a web application image container and starts it, linking it to the DB container.
 #!               The application is then tested to see that it is up and running.
 #!               If any of the steps fail, an error is sent notifying the error.
+#!
 #! @input docker_host: Docker machine host
-#! @input docker_ssh_port: optional - SSH port - Default: '22'
+#! @input docker_ssh_port: Optional - SSH port - Default: '22'
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
-#! @input db_container_name: optional - name of the DB container - Default: 'mysqldb'
-#! @input app_container_name: optional - name of the app container - Default: 'spring-boot-tomcat-mysql-app'
-#! @input app_port: optional - web server port for the application - Default: '8080'
+#! @input docker_password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
+#! @input db_container_name: Optional - name of the DB container - Default: 'mysqldb'
+#! @input app_container_name: Optional - name of the app container - Default: 'spring-boot-tomcat-mysql-app'
+#! @input app_port: Optional - web server port for the application - Default: '8080'
 #! @input email_host: email host
 #! @input email_port: email port
 #! @input email_sender: email sender
 #! @input email_recipient: email recipient
-#! @input email_username: optional - email username
-#! @input email_password: optional - email password
-#! @input email_enable_TLS: optional - enable startTLS
-#! @input timeout: optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
+#! @input email_username: Optional - email username
+#! @input email_password: Optional - email password
+#! @input email_enable_TLS: Optional - enable startTLS
+#! @input timeout: Optional - time in milliseconds to wait for command to complete - Default: 30000000 ms (8.33 h)
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#!
+#! @result SUCCESS: Docker containers linked successfully
+#! @result FAILURE: there was an error while trying to link Docker containers
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers.examples
 
 imports:
  containers: io.cloudslang.docker.containers
  images: io.cloudslang.docker.images
  mail: io.cloudslang.base.mail
- network: io.cloudslang.base.network
+ network: io.cloudslang.base.http
 
 flow:
   name: demo_dev_ops
+
   inputs:
     - docker_host
     - docker_ssh_port: '22'
@@ -68,8 +74,8 @@ flow:
         required: false
     - proxy_port:
         required: false
-  workflow:
 
+  workflow:
     - create_db_container:
         do:
           containers.examples.create_db_container:
@@ -118,8 +124,8 @@ flow:
         do:
           network.verify_url_is_accessible:
             - url: ${'http://' + docker_host + ':' + app_port}
-            - attempts: 20
-            - time_to_sleep: 10
+            - attempts: '20'
+            - time_to_sleep: '10'
             - proxy_host
             - proxy_port
         publish:

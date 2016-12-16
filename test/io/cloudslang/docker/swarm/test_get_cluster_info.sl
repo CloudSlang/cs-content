@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.swarm
 
@@ -46,9 +46,9 @@ flow:
             - manager_machine_private_key_file: ${private_key_file}
             - manager_machine_port: ${swarm_manager_port}
             - agent_ip_addresses
-            - agent_usernames: ${[username, username]}
-            - agent_passwords: ${[password, password]}
-            - agent_private_key_files: ${[private_key_file, private_key_file]}
+            - agent_usernames: ${username + "," + username}
+            - agent_passwords: ${get(password,"") + "," + get(password,"")}
+            - agent_private_key_files: ${private_key_file + "," + private_key_file}
             - attempts
             - time_to_sleep
         navigate:

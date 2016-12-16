@@ -5,21 +5,26 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: This operation sorts a list of strings. If the list contains only numerical strings,
 #!               it is sorted in numerical order. Otherwise it is sorted alphabetically.
-#! @input list: the list to be sorted - Example: '4,3,5,2,1'
+#!
+#! @input list: the list to be sorted
+#!              Example: '4,3,5,2,1'
 #! @input delimiter: the list delimiter - Example: ','
-#! @input reverse: optional - a boolean value for sorting the list in reverse order
-#!                 default: False
+#!                   For special delimiters, they must be escaped. e.g. '\\.'
+#! @input reverse: Optional - a boolean value for sorting the list in reverse order
+#!                 default: 'false'
+#!
 #! @output response: 'success' or 'failure'
 #! @output return_result: the sorted list or an error message otherwsie
 #! @output return_code: 0 if success, -1 if failure
+#!
 #! @result SUCCESS: sorting successfull
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.lists
 
@@ -31,10 +36,10 @@ operation:
     - delimiter
     - reverse:
         required: false
-        default: false
+        default: "false"
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.4'
+    gav: 'io.cloudslang.content:cs-lists:0.0.6'
     class_name: io.cloudslang.content.actions.ListSortAction
     method_name: sortList
 

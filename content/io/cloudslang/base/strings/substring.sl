@@ -4,27 +4,34 @@
  #
  #   The Apache License is available at
  #   http://www.apache.org/licenses/LICENSE-2.0
- ####################################################
+ #######################################################################################################################
  #!!
  #! @description: Substring of a string from begin_index to end_index.
+ #!
  #! @input origin_string: origin_string - Example: "good morning"
  #! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
  #! @input end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
+ #!
  #! @output new_string: new string - Example: "good"
+ #! @output error_message: something went wrong
+ #!
  #! @result SUCCESS: if error_message is empty and new_string returns a value
  #! @result FAILURE: otherwise
  #!!#
- ####################################################
+ #######################################################################################################################
+
  namespace: io.cloudslang.base.strings
 
  operation:
    name: substring
+
    inputs:
      - origin_string
      - begin_index:
-        default: 0
+        default: "0"
      - end_index:
-         default: 0
+         default: "0"
+
    python_action:
      script: |
         error_message = ""
@@ -48,6 +55,7 @@
    outputs:
       - new_string
       - error_message
+
    results:
       - SUCCESS: ${error_message=='' and new_string != ''}
       - FAILURE

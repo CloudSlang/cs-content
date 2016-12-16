@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+############################################################################################################################################################################
 #!!
 #! @description: Wrapper test flow - runs two Docker containers, retrieves and verifies their names and IDs
 #!               filtering out one of them based on the image it is created from.
@@ -111,7 +111,7 @@ flow:
     - execute_get_filtered_containers:
         do:
           containers.get_filtered_containers:
-            - all_containers: true
+            - all_containers: 'true'
             - excluded_images
             - host
             - port
@@ -141,21 +141,9 @@ flow:
             - string_in_which_to_search: ${expected_container_ids} # e.g. 086a88b556b61cc8e84a923f81ea077462f9e195136f48713d4dc021011b43ec
             - string_to_find: ${actual_container_ids} # e.g. 086a88b556b6
         navigate:
-          - SUCCESS: post_clear_machine
+          - SUCCESS: SUCCESS
           - FAILURE: CHECK_CONTAINER_IDS_PROBLEM
 
-    - post_clear_machine:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - docker_username: ${username}
-            - docker_password: ${password}
-            - private_key_file
-            - timeout
-            - port
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: POST_CLEAR_MACHINE_PROBLEM
   results:
     - SUCCESS
     - FAILURE
@@ -164,4 +152,3 @@ flow:
     - RUN_CONTAINER_PYTHON_PROBLEM
     - CHECK_CONTAINER_NAMES_PROBLEM
     - CHECK_CONTAINER_IDS_PROBLEM
-    - POST_CLEAR_MACHINE_PROBLEM

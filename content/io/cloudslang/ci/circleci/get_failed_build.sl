@@ -1,89 +1,92 @@
-#   (c) Copyright 2016 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Checks if the latest build of a project's branch from CircieCI has failed.
 #!               If the latest build from the branch has failed, it will send an email,
-#!               to the supervisor and commiter with the following:
+#!               to the supervisor and committer with the following:
 #!               Example:
 #!                        Repository: repository name
 #!                        Branch: branch name
 #!                        Username: github username
-#!                        Commiter email: email of github username
+#!                        committer email: email of github username
 #!                        Subject: Last commit subject
 #!                        Branch: failed
 #!               If the last build from the branch has not failed, it will send an email to reflect that.
+#!
 #! @input token: CircleCi user token.
 #!                To authenticate, add an API token using your account dashboard
 #!                Log in to CircleCi: https://circleci.com/vcs-authorize/
 #!                Go to : https://circleci.com/account/api and copy the API token.
 #!                If you don`t have any token generated, enter a new token name and then click on
-#! @input protocol: optional - connection protocol
+#! @input protocol: Optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input host: circleci address
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#! @input trust_password: Optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
+#! @input trust_password: Optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: changeit
-#! #input username - CircleCi username.
-#! #input project - Github project name.
-#! #input branch - Github project branch.
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
+#! @input username: CircleCi username.
+#! @input project: Github project name.
+#! @input branch: Github project branch.
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
-#! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
+#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:application/json'
-#! #input commiter_email: email address of the commiter.
-#! #input supervisor: github supervisor email.
+#! @input committer_email: email address of the committer.
+#! @input supervisor: github supervisor email.
 #! @input hostname: email host
 #! @input port: email port
 #! @input from: email sender
 #! @input to: email recipient
-#! @input cc: optional - comma-delimited list of cc recipients - Default: Supervisor email.
+#! @input cc: Optional - comma-delimited list of cc recipients - Default: Supervisor email.
+#!
 #! @output return_result: information returned
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.ci.circleci
 
@@ -95,6 +98,7 @@ imports:
 
 flow:
   name: get_failed_build
+
   inputs:
     - token:
         sensitive: true
@@ -156,13 +160,11 @@ flow:
             - trust_password
             - keystore
             - keystore_password
-
         publish:
           - return_result
           - return_code
           - status_code
           - error_message
-
         navigate:
           - SUCCESS: match_if_failed
           - FAILURE: FAILURE
@@ -172,7 +174,6 @@ flow:
           lists.compare_lists:
             - list_1: ${return_result}
             - list_2: '[]'
-
         navigate:
           - SUCCESS: mail_success_build
           - FAILURE: get_username
@@ -181,12 +182,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'username']
-
+            - json_path: "0,'username'"
         publish:
-          - username: ${value}
+          - username: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_committer_email
           - FAILURE: FAILURE
@@ -195,12 +194,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'committer_email']
-
+            - json_path: "0,'committer_email'"
         publish:
-          - committer_email: ${value}
+          - committer_email: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_branch
           - FAILURE: FAILURE
@@ -209,12 +206,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'branch']
-
+            - json_path: "0,'branch'"
         publish:
-          - branch: ${value}
+          - branch: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_subject
           - FAILURE: FAILURE
@@ -223,12 +218,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'subject']
-
+            - json_path: "0,'subject'"
         publish:
-          - ci_subject: ${value}
+          - ci_subject: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_build_num
           - FAILURE: FAILURE
@@ -237,12 +230,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'build_num']
-
+            - json_path: "0,'build_num'"
         publish:
-          - build_num: ${value}
+          - build_num: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_commit
           - FAILURE: FAILURE
@@ -251,12 +242,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'vcs_revision']
-
+            - json_path: "0,'vcs_revision'"
         publish:
-          - commit: ${value}
+          - commit: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: get_outcome
           - FAILURE: FAILURE
@@ -265,12 +254,10 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: [0,'outcome']
-
+            - json_path: "0,'outcome'"
         publish:
-          - outcome: ${value}
+          - outcome: ${return_result}
           - error_message
-
         navigate:
           - SUCCESS: mail_failed_build
           - FAILURE: FAILURE
@@ -286,7 +273,6 @@ flow:
              - body: ${'Latest build finished successfully.'}
              - username
              - password
-
          navigate:
                 - SUCCESS: SUCCESS
                 - FAILURE: FAILURE
@@ -300,7 +286,7 @@ flow:
              - to: ${committer_email}
              - cc: ${supervisor}
              - subject: ${'[Build' + '] ' + 'Failed:' + username + '/' + project + '/' + branch}
-             - htmlEmail: True
+             - htmlEmail: "True"
              - body: >
                   ${'<p align=center>' + 'Build failure on repository:' + project + '-' + 'branch:' + branch + '</p>'
                   '<table align="center" border="1" cellpadding="0" cellspacing="0" width="400">' +
@@ -330,7 +316,7 @@ flow:
                   '</tr>' +
                   '<tr>' +
                   '<td>' +
-                  'Commiter email:' +
+                  'committer email:' +
                   '</td>' +
                   '<td>' +
                   committer_email +

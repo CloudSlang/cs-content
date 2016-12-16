@@ -1,15 +1,17 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves cAdvisor status of a Docker container.
+#!
 #! @input host: Docker machine host
-#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
+#!
 #! @output decoded: parsed response
 #! @output num_cores: machine number of cores
 #! @output cpu_frequency_khz: machine CPU
@@ -19,10 +21,11 @@
 #! @output network_devices: parsed cAdvisor machine network devices
 #! @output topology: parsed cAdvisor machine topology
 #! @output error_message: error message
+#!
 #! @result SUCCESS: parsing was successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
@@ -31,6 +34,7 @@ imports:
 
 flow:
   name: report_machine_metrics
+
   inputs:
     - host
     - cadvisor_port:
@@ -47,6 +51,7 @@ flow:
           - response_body: ${return_result}
           - error_message
           - return_code
+
     - parse_machine_metrics:
         do:
           cadvisor.parse_machine:
@@ -61,6 +66,7 @@ flow:
           - network_devices
           - topology
           - error_message
+
   outputs:
     - decoded
     - num_cores
@@ -71,6 +77,7 @@ flow:
     - network_devices
     - topology
     - error_message
+
   results:
     - SUCCESS
     - FAILURE

@@ -5,46 +5,42 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the unique values that occur in a particular field.
+#!
 #! @input api_key: API key
 #! @input field_name: comma-separated list of field names to return values for
-#! @input document_count: set to true to show the number of documents that
+#! @input document_count: Optional - set to true to show the number of documents that
 #!                        contain a parametric tag value
-#!                        optional
 #!                        default: true
-#! @input field_text: fields that result documents must contain, and the
+#! @input field_text: Optional - fields that result documents must contain, and the
 #!                    conditions that these fields must meet for the documents
 #!                    to return as results
-#!                    optional
-#! @input indexes: text indexes to use to perform the parametric search
-#!                 optional
-#! @input max_values: maximum number of values to return for each matched field name
-#!                    optional
+#! @input indexes: Optional - text indexes to use to perform the parametric search
+#! @input max_values: Optional - maximum number of values to return for each matched field name
 #!                    valid: between 1 and 10000
 #!                    default: 100
-#! @input min_score: minimum percentage relevance that results must have for the
+#! @input min_score: Optional - minimum percentage relevance that results must have for the
 #!                   query to return
-#!                   optional
 #!                   default: 0
-#! @input sort: criteria to use for the result display order
-#!              optional
+#! @input sort: Optional - criteria to use for the result display order
 #!              valid: off, document_count, alphabetical, reverse_alphabetical
 #!                     number_increasing, number_decreasing
 #!              default: off
-#! @input text: query text
-#!              optional
+#! @input text: Optional - query text
 #!              default: *
 #! @input query_profile: name of the query profile to apply
-#! @input proxy_host: proxy server
-#!                    optional
-#! @input proxy_port: proxy server port
-#!                    optional
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
+#!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
+#!
+#! @result SUCCESS: unique values from a particular field retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the unique values
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.search
 
@@ -63,7 +59,7 @@ flow:
         private: true
     - field_name
     - document_count:
-        default: true
+        default: "true"
         required: false
     - field_text:
         default: ""
@@ -72,10 +68,10 @@ flow:
         default: ""
         required: false
     - max_values:
-        default: 100
+        default: "100"
         required: false
     - min_score:
-        default: 0
+        default: "0"
         required: false
     - sort:
         default: "off"
@@ -95,7 +91,7 @@ flow:
     - connect_to_server:
         do:
           http.http_client_post:
-            - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ str(document_count) + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + str(max_values) +'&min_score=' + str(min_score) + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
+            - url: ${str(get_parametric_values_api) + '?field_name=' + str(field_name) + '&document_count='+ document_count + '&field_text=' + str(field_text) + '&indexes=' + str(indexes) + '&max_values=' + max_values +'&min_score=' + min_score + '&sort=' + str(sort) + '&text=' + str(text) +'&query_profile=' + str(query_profile) + '&apikey=' + str(api_key)}
             - proxy_host
             - proxy_port
         publish:

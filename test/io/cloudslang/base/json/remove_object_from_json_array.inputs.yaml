@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 
 testRemoveObjectFromJsonArraySize2:
@@ -16,7 +16,7 @@ testRemoveObjectFromJsonArraySize2:
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
   result: SUCCESS
-  
+
 testRemoveObjectFromJsonArraySize3:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
@@ -36,22 +36,20 @@ testRemoveObjectFromJsonArraySize3ObjectNotFound:
   outputs:
     - return_result: "Object not found"
   result: CREATE_FAILURE
-  
+
 testRemoveObjectFromJsonArrayAtIndex0:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
-    - json_object: '{"firstName":"Obi-wan", "lastName":"Kenobi"}'
-    - index: 0
+    - index: '0'
     - json_after: '[{"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth","lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
   result: SUCCESS
 
-testRemoveObjectFromJsonArrayAtIndex1:
+testRemoveObjectFromJsonArrayAtIndex-2:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
-    - json_object: '{"firstName":"Luke", "lastName":"Skywalker"}'
-    - index: 1
+    - index: '-2'
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Darth", "lastName":"Vader"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
@@ -60,9 +58,294 @@ testRemoveObjectFromJsonArrayAtIndex1:
 testRemoveObjectFromJsonArrayAtIndex2:
   inputs:
     - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
-    - json_object: '{"firstName":"Darth", "lastName":"Vader"}'
-    - index: 2
+    - index: '2'
     - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input
   testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
   result: SUCCESS
+
+testRemoveObjectFromJsonArrayInputsAreNotValid:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - json_object: '{firstName":"Darth", "lastName":"Vader"}'
+    - index: '2'
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with FAILURE for not valid inputs.
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  outputs:
+    - return_result: "Inputs are not valid"
+  result: CREATE_FAILURE
+
+testRemoveObjectFromJsonArrayIndexOutOfRange:
+  inputs:
+    - json_array: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}, {"firstName":"Darth", "lastName":"Vader"}]'
+    - index: '-5'
+    - json_after: '[{"firstName":"Obi-wan", "lastName":"Kenobi"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
+  description: Tests that remove_object_from_json_array.sl operation finishes with FAILURE when index is out of range.
+  testFlowPath: io.cloudslang.base.json.test_remove_object_from_json_array
+  result: CREATE_FAILURE
+
+testRemoveObjectFromJsonArraySize3SingleQuote:
+  inputs:
+    - json_array: "[{'firstName':'Obi-wan', 'lastName':'Kenobi'}, {'firstName':'Luke', 'lastName':'Skywalker'}, {'firstName':'Darth','lastName':'Vader'}]"
+    - json_object: "{'firstName':'Darth', 'lastName':'Vader'}"
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  outputs:
+    - return_result: "[{'lastName': 'Kenobi', 'firstName': 'Obi-wan'}, {'lastName': 'Skywalker', 'firstName': 'Luke'}]"
+  result: SUCCESS
+
+testRemoveObjectFromJsonArrayAtIndex-2SingleQuote:
+  inputs:
+    - json_array: "[{'firstName':'Obi-wan', 'lastName':'Kenobi'}, {'firstName':'Luke', 'lastName':'Skywalker'}, {'firstName':'Darth','lastName':'Vader'}]"
+    - index: '2'
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with index input and JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  outputs:
+    - return_result: "[{'lastName': 'Kenobi', 'firstName': 'Obi-wan'}, {'lastName': 'Skywalker', 'firstName': 'Luke'}]"
+  result: SUCCESS
+
+testRemoveObjectFromJsonArraySingleQuoteSuccess:
+  inputs:
+    - json_array: "[{
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_3',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }, {
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_1',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }, {
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_2',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }]"
+    - json_object: "{
+                                       	'server': {
+                                       		'availability_zone': 'nova',
+                                       		'metadata': {
+                                       			'My Server Name': 'Apache1',
+                                       			'min_ram': '2'
+                                       		},
+                                       		'block_device_mapping_v2': [{
+                                       			'source_type': 'image',
+                                       			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                       			'boot_index': '0',
+                                       			'delete_on_termination': true
+                                       		}],
+                                       		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                       		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                       		'networks': [],
+                                       		'key_name': 'default_key',
+                                       		'security_groups': [{
+                                       			'name': 'default'
+                                       		}],
+                                       		'personality': [{
+                                       			'path': '/etc/banner.txt',
+                                       			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                       		}],
+                                       		'name': 'server_3',
+                                       		'flavorRef': '42',
+                                       		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                                       	}
+                                       }"
+  description: Tests that remove_object_from_json_array.sl operation finishes with SUCCESS for a valid command with json_object and JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  outputs:
+    - return_code: "0"
+  result: SUCCESS
+
+testRemoveObjectFromJsonArraySingleQuoteFailure:
+  inputs:
+    - json_array: "[{
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_3',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }, {
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_1',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }, {
+                   	'server': {
+                   		'availability_zone': 'nova',
+                   		'metadata': {
+                   			'My Server Name': 'Apache1',
+                   			'min_ram': '2'
+                   		},
+                   		'block_device_mapping_v2': [{
+                   			'source_type': 'image',
+                   			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                   			'boot_index': '0',
+                   			'delete_on_termination': true
+                   		}],
+                   		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                   		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                   		'networks': [],
+                   		'key_name': 'default_key',
+                   		'security_groups': [{
+                   			'name': 'default'
+                   		}],
+                   		'personality': [{
+                   			'path': '/etc/banner.txt',
+                   			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                   		}],
+                   		'name': 'server_2',
+                   		'flavorRef': '42',
+                   		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                   	}
+                   }]"
+    - json_object: "{
+                                       	'server': {
+                                       		'availability_zone': 'nova',
+                                       		'metadata': {
+                                       			'My Server Name': 'Apache1',
+                                       			'min_ram': '2'
+                                       		},
+                                       		'block_device_mapping_v2': [{
+                                       			'source_type': 'image',
+                                       			'uuid': 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                       			'boot_index': '0',
+                                       			'delete_on_termination': true
+                                       		}],
+                                       		'adminPass': '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                       		'user_data': 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                       		'networks': [],
+                                       		'key_name': 'default_key',
+                                       		'security_groups': [{
+                                       			'name': 'default'
+                                       		}],
+                                       		'personality': [{
+                                       			'path': '/etc/banner.txt',
+                                       			'contents': 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                       		}],
+                                       		'name': 'server_5',
+                                       		'flavorRef': '42',
+                                       		'imageRef': 'b67f9da0-4a89-4588-b0f5-bf4d19401743'
+                                       	}
+                                       }"
+  description: Tests that remove_object_from_json_array.sl operation finishes with FAILURE for bad json_object and JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.remove_object_from_json_array
+  outputs:
+    - return_code: "-1"
+    - return_result: "Object not found"
+  result: FAILURE

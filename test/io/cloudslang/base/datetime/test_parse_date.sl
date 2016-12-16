@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.base.datetime
 
 imports:
@@ -49,7 +49,7 @@ flow:
             - out_locale_lang
             - out_locale_country
         publish:
-            - return_str: ${result}
+            - output
         navigate:
             - SUCCESS: verify_against_expected_result
             - FAILURE: PARSE_DATE_FAILURE
@@ -58,7 +58,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: 'mer, lug 4, ''01'
-            - second_string: ${return_str}
+            - second_string: ${output}
         navigate:
             - SUCCESS: SUCCESS
             - FAILURE: INCORRECT_OUTPUT

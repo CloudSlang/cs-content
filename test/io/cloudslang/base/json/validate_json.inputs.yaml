@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 testValidateJsonComplexSuccess:
   inputs:
@@ -46,7 +46,7 @@ testValidateJsonComplexSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: '0'
   result: SUCCESS
 
 testValidateJsonSimpleSuccess:
@@ -57,19 +57,8 @@ testValidateJsonSimpleSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: '0'
   result: SUCCESS
-
-testValidateJsonArrayFailure:
-  inputs:
-    - json_input:
-        value: [{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]
-  description: Tests that validate_json.sl ends with FAILURE
-  testFlowPath: io.cloudslang.base.json.validate_json
-  outputs:
-    - return_result: TypeError("expected string or buffer, but got <type 'java.util.ArrayList'>",)
-    - return_code: -1
-  result: FAILURE
 
 testValidateJsonExtraDataFailure:
   inputs:
@@ -78,19 +67,8 @@ testValidateJsonExtraDataFailure:
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
-    - return_result: "ValueError('Extra data: line 1 column 42 - line 1 column 88 (char 41 - 87)',)"
-    - return_code: -1
-  result: FAILURE
-
-testValidateJsonHashMapFailure:
-  inputs:
-    - json_input:
-        value: {'FirstName':Luke,'LastName':Skywalker,'MiddleName':Darth}
-  description: Tests that validate_json.sl ends with FAILURE
-  testFlowPath: io.cloudslang.base.json.validate_json
-  outputs:
-    - return_result: TypeError("expected string or buffer, but got <type 'java.util.LinkedHashMap'>",)
-    - return_code: -1
+    - return_result: "Extra data: line 1 column 42 - line 1 column 88 (char 41 - 87)"
+    - return_code: '-1'
   result: FAILURE
 
 testValidateJsonPrimitiveDataFailure:
@@ -100,8 +78,8 @@ testValidateJsonPrimitiveDataFailure:
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
-    - return_result: ValueError('No JSON object could be decoded',)
-    - return_code: -1
+    - return_result: "No JSON object could be decoded"
+    - return_code: "-1"
   result: FAILURE
 
 testValidateJsonDataTypesSuccess:
@@ -112,7 +90,7 @@ testValidateJsonDataTypesSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateEmptyJson:
@@ -123,7 +101,7 @@ testValidateEmptyJson:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateNestedJSON:
@@ -134,7 +112,7 @@ testValidateNestedJSON:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateSpecialCharactersJSON:
@@ -145,7 +123,7 @@ testValidateSpecialCharactersJSON:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
 
 testValidateJsonDataSuccess:
@@ -156,5 +134,99 @@ testValidateJsonDataSuccess:
   testFlowPath: io.cloudslang.base.json.validate_json
   outputs:
     - return_result: Valid JSON
-    - return_code: 0
+    - return_code: "0"
   result: SUCCESS
+
+testValidateJsonSingleQuote:
+  inputs:
+    - json_input:
+        value: "[{'firstName':'Darth', 'lastName':'Vader'}, {'firstName':'Luke', 'lastName':'Skywalker'}]"
+  description: Tests that validate_json.sl ends with SUCCESS for a single quotes JSON
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: "Valid JSON"
+    - return_code: "0"
+  result: SUCCESS
+
+testValidateJsonSingleQuoteSuccess:
+  inputs:
+    - json_input:
+        value: "{
+                                                                                                        'server' : {
+                                                                                                                       'name' : 'server_3',
+                                                                                                                       'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                       'flavorRef' : '42',
+                                                                                                                       'block_device_mapping_v2' : [{
+                                                                                                                                                     'source_type' : 'image',
+                                                                                                                                                     'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                                                     'boot_index' : '0',
+                                                                                                                                                     'delete_on_termination' : true
+                                                                                                                                      }
+                                                                                                                       ],
+                                                                                                                       'networks' : [],
+                                                                                                                       'availability_zone' : 'nova',
+                                                                                                                       'key_name' : 'default_key',
+                                                                                                                       'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                                                       'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                                                        'metadata' : {
+                                                                                                                       'My Server Name' : 'Apache1',
+                                                                                                                       'min_ram' : '2'
+                                                                                                        },
+                                                                                                                       'security_groups' : [{
+                                                                                                                                                     'name' : 'default'
+                                                                                                                                      }
+                                                                                                                       ],
+                                                                                                                       'personality' : [{
+                                                                                                                                                     'path' : '/etc/banner.txt',
+                                                                                                                                                     'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                                                      }
+                                                                                                                       ]
+                                                                                                        }
+                                                                                     }"
+  description: Tests that validate_json.sl ends with SUCCESS for a complex single quotes JSON
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_result: "Valid JSON"
+    - return_code: "0"
+  result: SUCCESS
+
+testValidateJsonSingleQuoteFailure:
+  inputs:
+    - json_input:
+        value: "{
+                                                                                                        'server' : {
+                                                                                                                       'name' : 'server_3',
+                                                                                                                       'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                       'flavorRef' : '42',
+                                                                                                                       'block_device_mapping_v2' : [{
+                                                                                                                                                     'source_type' : 'image',
+                                                                                                                                                     'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                                                     'boot_index' : '0',
+                                                                                                                                                     'delete_on_termination' : true
+                                                                                                                                      }
+                                                                                                                       ],
+                                                                                                                       'networks' : [],
+                                                                                                                       'availability_zone' : 'nova',
+                                                                                                                       'key_name' : 'default_key',
+                                                                                                                       'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                                                       'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                                                        'metadata' : {
+                                                                                                                       'My Server Name' : 'Apache1',
+                                                                                                                       'min_ram' : '2'
+                                                                                                        },
+                                                                                                                       'security_groups' : [{
+                                                                                                                                                     'name' : 'default'
+                                                                                                                                      }
+                                                                                                                       ],
+                                                                                                                       'personality'  [{
+                                                                                                                                                     'path' : '/etc/banner.txt',
+                                                                                                                                                     'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                                                      }
+                                                                                                                       ]
+                                                                                                        }
+                                                                                     }"
+  description: Tests that validate_json.sl ends with FAILURE for a invalid complex single quotes JSON
+  testFlowPath: io.cloudslang.base.json.validate_json
+  outputs:
+    - return_code: "-1"
+  result: FAILURE

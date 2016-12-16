@@ -5,21 +5,21 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testRemoveSuccess:
   inputs:
-    - list: element1,element2,element3,element4
+    - list: "element1,element2,element3,element4"
     - delimiter: ','
     - element: '1'
   description: Tests that remove_by_index.sl operation finishes with result = element1,element3,element4
   testFlowPath: io.cloudslang.base.lists.remove_by_index
   outputs:
-    - return_result: element1,element3,element4
+    - return_result: "element1,element3,element4"
   result: SUCCESS
 
 testRemoveStrFailure:
   inputs:
-    - list: element1,element2,element3,element4
+    - list: "element1,element2,element3,element4"
     - delimiter: ','
     - element: '-1'
   description: Tests that remove_by_index.sl operation finishes with FAILURE

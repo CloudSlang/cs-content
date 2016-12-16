@@ -1,4 +1,11 @@
-####################################################
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
 #! @description: Extracts text from a video and adds it to a Haven OnDemand index.
 #!
@@ -8,19 +15,23 @@
 #! @input url: YouTube url for the video
 #! @input index: index to add the extracted text to
 #! @input proxy_host: proxy server
-#!                    optional
+#!                    Optional
 #! @input proxy_port: proxy server port
-#!                    optional
+#!                    Optional
+#!
 #! @output error_message: error message if one exists, empty otherwise
-#! @result return_result: result retured by Haven OnDemand upon adding item to the index
+#! @output return_result: result retured by Haven OnDemand upon adding item to the index
+#!
+#! @result SUCCESS: video text extracted successfully
+#! @result FAILURE: there was an error while trying to extract the text from a video
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 
 imports:
   hod: io.cloudslang.haven_on_demand
-  utils: io.cloudslang.base.utils
+  utils: io.cloudslang.base.http
 
 flow:
   name: add_to_index
@@ -43,12 +54,13 @@ flow:
           hod.speech_recognition.process_video:
             - api_key
             - file
-            - interval: 0
+            - interval: "0"
             - proxy_host
             - proxy_port
         publish:
           - return_result
           - error_message
+
     - build_index_item:
         do:
           hod.examples.video_text_search.build_index_item:
@@ -57,13 +69,15 @@ flow:
             - url
         publish:
           - json_index_item
+
     - encode_json:
         do:
           utils.url_encoder:
             - data: ${json_index_item}
-            - quote_plus: true
+            - quote_plus: "true"
         publish:
           - encoded_json: ${result}
+
     - add_to_index:
         do:
           hod.unstructured_text_indexing.add_to_text_index:
@@ -75,6 +89,7 @@ flow:
         publish:
           - error_message
           - return_result
+
   outputs:
     - error_message
     - return_result

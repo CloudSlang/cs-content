@@ -1,24 +1,28 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pings an address.
+#!
 #! @input address: address to ping
 #! @input ttl: time to live ping parameter
 #! @input size: ping buffer size
 #! @input timeout: timeout in milliseconds to wait for reply
+#!
 #! @output message: error message if error occurred
 #! @output is_up: whether pinged address is up or not
+#!
 #! @result UP: address is up
 #! @result DOWN: address is down
 #! @result FAILURE: ping cannot be performed due to an error
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.network
 
 operation:
@@ -57,9 +61,9 @@ operation:
 
   outputs:
      - message
-     - is_up
+     - is_up: ${ str(is_up) }
 
   results:
     - FAILURE: ${ is_error }
     - UP: ${ is_up }
-    - DOWN: ${ not is_up }
+    - DOWN

@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Pulls a Docker image.
+#!
 #! @input image_name: image name to be pulled
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -22,12 +23,14 @@
 #! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: optional - whether to forward the user authentication agent
+#
 #! @output return_result: response of the operation
 #! @output error_message: error message
+#!
 #! @result SUCCESS:
 #! @result FAILURE:
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
@@ -36,6 +39,7 @@ imports:
 
 flow:
   name: pull_image
+
   inputs:
     - image_name
     - host
@@ -82,7 +86,8 @@ flow:
             - agent_forwarding
         publish:
             - return_result
-            - error_message: ${ standard_err if return_code == 0 else return_result }
+            - error_message: ${ standard_err if return_code == '0' else return_result }
+
   outputs:
     - return_result
     - error_message

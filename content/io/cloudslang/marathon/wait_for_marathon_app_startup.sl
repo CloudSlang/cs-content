@@ -1,20 +1,24 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Wait for Marathon app startup.
+#!
 #! @input marathon_host: Marathon host
-#! @input marathon_port: optional - Marathon port
+#! @input marathon_port: Optional - Marathon port
 #! @input created_app_id: Marathon app id
-#! @input attempts: optional - attempts to reach host - Default: 1
-#! @input time_to_sleep: optional - time in seconds to wait between attempts - Default: 1
+#! @input attempts: Optional - attempts to reach host - Default: 1
+#! @input time_to_sleep: Optional - time in seconds to wait between attempts - Default: 1
+#!
+#! @result SUCCESS: waiting for the Maranthon app to start up completed successfully
+#! @result FAILURE: there was an error while waiting for the Marathon app to start
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
@@ -24,20 +28,22 @@ imports:
   math: io.cloudslang.base.math
   utils: io.cloudslang.base.utils
   print: io.cloudslang.base.print
+
 flow:
   name: wait_for_marathon_app_startup
+
   inputs:
     - marathon_host
     - marathon_port:
         default: "8080"
         required: false
     - created_app_id
-    - attempts: 1
+    - attempts: "1"
     - time_to_sleep:
-        default: 1
+        default: "1"
         required: false
-  workflow:
 
+  workflow:
     - list_marathon_apps:
         do:
           marathon.get_apps_list:
@@ -108,7 +114,7 @@ flow:
          do:
             math.compare_numbers:
               - value1: ${attempts}
-              - value2: 0
+              - value2: "0"
          navigate:
            - GREATER_THAN: wait
            - EQUALS: FAILURE
@@ -120,11 +126,11 @@ flow:
               - seconds: ${time_to_sleep}
               - attempts
         publish:
-          - attempts: ${attempts - 1}
+          - attempts: ${str(int(attempts) - 1)}
         navigate:
           - SUCCESS: list_marathon_apps
           - FAILURE: FAILURE
 
-  outputs:
+  results:
     - SUCCESS
     - FAILURE

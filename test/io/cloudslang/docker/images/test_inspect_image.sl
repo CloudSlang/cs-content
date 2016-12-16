@@ -1,11 +1,11 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Workflow to test docker get_all_images operation.
 #! @input host: Docker machine host
@@ -17,7 +17,6 @@
 #! @result FAILURE: get_all_images finished with an error
 #! @result DOWNLOAD_FAILURE: prerequest error - could not download dockerimage
 #! @result VERIFY_FAILURE: fails ro verify downloaded images
-#! @result DELETE_FAILURE: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
 #!!#
 ####################################################
@@ -82,25 +81,12 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: "/hello"
         navigate:
-          - SUCCESS: clear_after
-          - FAILURE: VERIFY_FAILURE
-
-    - clear_after:
-        do:
-          images.clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: ${ image_name }
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: DELETE_FAILURE
+          - FAILURE: VERIFY_FAILURE
 
   results:
     - SUCCESS
     - FAILURE
     - DOWNLOAD_FAILURE
     - VERIFY_FAILURE
-    - DELETE_FAILURE
     - MACHINE_IS_NOT_CLEAN

@@ -1,18 +1,18 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.remote_file_transfer
 
 imports:
   cmd: io.cloudslang.base.cmd
   rft: io.cloudslang.base.remote_file_transfer
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
@@ -102,7 +102,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 30
+            - seconds: "30"
         navigate:
           - SUCCESS: create_file_and_copy_it_to_src_host
           - FAILURE: SLEEP_FAIL

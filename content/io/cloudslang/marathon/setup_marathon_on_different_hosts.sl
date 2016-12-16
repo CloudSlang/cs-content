@@ -1,48 +1,53 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#######################################################################################################################
+########################################################################################################################
 #!!
-#! @description: Sets up a simple Marathon infrastructure on one CoreOS host or on one Docker host based on the is_core_os input.
+#! @description: Sets up a simple Marathon infrastructure on one CoreOS host or on one Docker host based on the
+#!               is_core_os input.
+#!
 #! @input marathon_host: Marathon host
 #! @input username: username for host
 #! @input private_key_file: private key file used for host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
 #! @input is_core_os: true if the host is CoreOS - Default: false
+#!
 #! @result SUCCESS:
 #! @result SETUP_MARATHON_PROBLEM:
 #! @result WAIT_FOR_MARATHON_STARTUP_TIMED_OUT:
 #!!#
-#######################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
 imports:
   marathon: io.cloudslang.marathon
   utils: io.cloudslang.base.utils
-  network: io.cloudslang.base.network
+  network: io.cloudslang.base.http
   print: io.cloudslang.base.print
+
 flow:
   name: setup_marathon_on_different_hosts
+
   inputs:
     - marathon_host
     - username
     - private_key_file
     - marathon_port: "8080"
-    - is_core_os: false
+    - is_core_os: 'false'
 
   workflow:
     - check_is_core_os:
         do:
           utils.is_true:
-            - bool_value: ${bool(is_core_os)}
+            - bool_value: ${is_core_os}
         navigate:
-          - SUCCESS: setup_marathon_core_os
-          - FAILURE: setup_marathon_docker_host
+          - 'TRUE': setup_marathon_core_os
+          - 'FALSE': setup_marathon_docker_host
 
     - setup_marathon_core_os:
         do:
@@ -85,8 +90,8 @@ flow:
         do:
           network.verify_url_is_accessible:
               - url: ${'http://'+ marathon_host + ':' + marathon_port +'/v2/apps'}
-              - attempts: 30
-              - time_to_sleep: 10
+              - attempts: "30"
+              - time_to_sleep: "10"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT

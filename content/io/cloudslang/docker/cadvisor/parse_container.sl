@@ -1,15 +1,17 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Parses the response of the cAdvisor container information.
+#!
 #! @input json_response: response of cAdvisor container information
-#! @input machine_memory_limit: optional - container machine memory limit - Default: -1
+#! @input machine_memory_limit: Optional - container machine memory limit - Default: -1
+#!
 #! @output decoded: parsed response
 #! @output spec: parsed cAdvisor spec
 #! @output stats: parsed cAdvisor stats
@@ -27,10 +29,11 @@
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
 #! @output return_result: notification string; was parsing was successful or not
 #! @output error_message: return_result if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
@@ -39,8 +42,9 @@ operation:
   inputs:
     - json_response
     - machine_memory_limit:
-        default: -1
+        default: '-1'
         required: false
+
   python_action:
     script: |
       try:
@@ -83,23 +87,25 @@ operation:
       except Exception as ex:
         return_code = '-1'
         return_result = 'Parsing error: ' + str(ex)
+
   outputs:
-    - decoded
-    - spec
-    - stats
-    - timestamp
-    - cpu
-    - memory
-    - network
-    - cpu_usage
-    - memory_usage
-    - throughput_rx
-    - throughput_tx
-    - error_rx
-    - error_tx
-    - return_code
+    - decoded: ${str(decoded)}
+    - spec: ${str(spec)}
+    - stats: ${str(stats)}
+    - timestamp: ${str(timestamp)}
+    - cpu: ${str(cpu)}
+    - memory: ${str(memory)}
+    - network: ${str(network)}
+    - cpu_usage: ${str(cpu_usage)}
+    - memory_usage: ${str(memory_usage)}
+    - throughput_rx: ${str(throughput_rx)}
+    - throughput_tx: ${str(throughput_tx)}
+    - error_rx: ${str(error_rx)}
+    - error_tx: ${str(error_tx)}
+    - return_code: ${str(return_code)}
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

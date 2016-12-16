@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
@@ -64,7 +64,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
           - SUCCESS: call_restart_container_base_on_usage
           - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM

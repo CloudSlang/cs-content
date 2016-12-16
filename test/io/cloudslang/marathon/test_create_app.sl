@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
@@ -72,12 +72,12 @@ flow:
 
     - delete_initial_apps:
         loop:
-            for: ${'app in app_list.split(",")'}
+            for: app in app_list.split(",")
             do:
               marathon.delete_app:
                 - marathon_host
                 - marathon_port
-                - app_id: app
+                - app_id: ${app}
         navigate:
           - SUCCESS: create_marathon_app
           - FAILURE: FAIL_TO_DELETE
@@ -98,8 +98,8 @@ flow:
               - marathon_host
               - marathon_port
               - created_app_id
-              - attempts: 30
-              - time_to_sleep: 20
+              - attempts: '30'
+              - time_to_sleep: '20'
         navigate:
           - SUCCESS: list_marathon_apps
           - FAILURE: WAIT_FOR_MARATHON_APP_STARTUP_TIMED_OUT

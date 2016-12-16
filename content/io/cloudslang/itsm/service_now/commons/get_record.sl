@@ -5,9 +5,10 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs a REST Get request to any ServiceNow table.
+#!
 #! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
 #! @input protocol: optional - protocol that is used to send the request
@@ -19,7 +20,8 @@
 #! @input api_version: optional - servicenow api version to be used for the call
 #!                     Example: 'v1'
 #!                     Default: ''
-#! @input system_id: optional - System ID of the item for which details should be returned. When this input is left empty, the flow returns the details of multiple items.
+#! @input system_id: optional - System ID of the item for which details should be returned.
+#!                   When this input is left empty, the flow returns the details of multiple items.
 #!                   Example: 71c7ac460f811200ff7eb17ce1050e7a
 #! @input table_name: required - name of the servicenow table which should be used for the request.
 #!                    Example: 'incident', 'change', 'request'
@@ -36,14 +38,18 @@
 #!                 headers (RFC 2616) - Default: 'application/json'
 #! @input query_params: optional - list containing query parameters to append to the URL
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'text/plain'
+#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of
+#!                      the data in the message body - Default: 'text/plain'
+#!
 #! @output return_result: the response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
+#!
+#! @result SUCCESS: record retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the record
 #!!#
-################################################
+########################################################################################################################
 
 namespace: io.cloudslang.itsm.service_now.commons
 
@@ -110,7 +116,8 @@ flow:
         do:
           rest.http_client_get:
             - url: >
-                ${protocol + '://' + host + '/api/now/' + api_version + '/table/' + table_name + ('/' + system_id if system_id !='' else '')}
+                ${protocol + '://' + host + '/api/now/' + api_version + '/table/' + table_name +
+                ('/' + system_id if system_id !='' else '')}
             - auth_type
             - username
             - password

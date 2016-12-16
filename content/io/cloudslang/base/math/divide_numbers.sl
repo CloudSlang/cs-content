@@ -5,35 +5,42 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-########################################################################################################
+########################################################################################################################
 #!!
 #! @description: Divides two numbers as floating point values.
+#!
 #! @input value1: first value as number or string
 #! @input value2: second value as number or string
+#!
 #! @output result: value1 divided by value2
+#!
 #! @result ILLEGAL: value2 == 0
 #! @result SUCCESS: values divided
 #!!#
-########################################################################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.math
 
 operation:
   name: divide_numbers
+
   inputs:
     - value1
     - value2
+
   python_action:
     script: |
-      value1 = float(value1)
-      value2 = float(value2)
-      if (value2 == 0):
+      from java.math import BigDecimal,MathContext
+      value1 = BigDecimal(value1, MathContext.DECIMAL64)
+      value2 = BigDecimal(value2, MathContext.DECIMAL64).stripTrailingZeros()
+      if (value2.equals(BigDecimal.ZERO)):
         result = 'Cannot divide by zero'
-      elif bool(value2 != 0 and value1 == 0):
-        result = abs(value1/value2)
       else:
-        result = value1/value2
+        result = value1.divide(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
+
   outputs:
-    - result
+    - result: ${ str(result) }
+
   results:
      - ILLEGAL: ${result == 'Cannot divide by zero'}
      - SUCCESS

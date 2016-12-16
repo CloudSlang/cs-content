@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testMatchRegexMatch:
   inputs:
     - regex: 'a+b'
@@ -30,16 +30,6 @@ testMatchRegexMissingInputs:
   inputs:
     - text: HELLO WORLD
   description: Tests that match_regex.sl operation throws an exception when a required input is missing
-  testFlowPath: io.cloudslang.base.strings.match_regex
-  outputs:
-    - match_text: ''
-  throwsException: true
-
-testMatchRegexEmpty:
-  inputs:
-    - regex: ""
-    - text: HELLO WORLD
-  description: Tests that match_regex.sl operation throws an exception when regex is empty
   testFlowPath: io.cloudslang.base.strings.match_regex
   outputs:
     - match_text: ''

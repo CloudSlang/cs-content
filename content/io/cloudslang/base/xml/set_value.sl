@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Sets the value of an existing XML element or attribute.
 #!
@@ -30,13 +30,15 @@
 #!                           denial of service attacks)
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
+#!
 #! @output result_xml: given XML with value set
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
+#!
 #! @result SUCCESS: value was set
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 
@@ -74,7 +76,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.6'
+    gav: 'io.cloudslang.content:cs-xml:0.0.10'
     class_name: io.cloudslang.content.xml.actions.SetValue
     method_name: execute
 

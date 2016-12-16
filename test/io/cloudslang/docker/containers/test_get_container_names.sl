@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
@@ -96,6 +96,8 @@ flow:
             - result_set_delimiter: ' '
         publish:
           - result_set
+        navigate:
+          - SUCCESS: check_empty_set
 
     - check_empty_set:
         do:
@@ -103,26 +105,12 @@ flow:
             - first_string: ${result_set}
             - second_string: ''
         navigate:
-          - SUCCESS: clear_machine
-          - FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
-
-    - clear_machine:
-        do:
-          containers.clear_containers:
-            - docker_host: ${host}
-            - docker_username: ${username}
-            - docker_password: ${password}
-            - private_key_file
-            - timeout
-            - port
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - FAILURE: CONTAINER_NAMES_VERIFY_PROBLEM
 
   results:
     - SUCCESS
     - FAILURE
     - RUN_CONTAINER1_PROBLEM
     - RUN_CONTAINER2_PROBLEM
-    - CLEAR_DOCKER_HOST_PROBLEM
     - CONTAINER_NAMES_VERIFY_PROBLEM

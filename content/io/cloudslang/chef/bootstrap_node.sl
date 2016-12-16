@@ -1,32 +1,35 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Bootstrap a server so it can be managed by Chef as a new node.
+#!
 #! @input node_name: new node name in Chef
 #! @input node_host: hostname or IP of server to boostrap
 #! @input node_username: SSH username to boostrap the new node
-#! @input node_password: optional - password to access node
-#! @input node_privkey: optional - path on <knife_host> to keyfile for accessing node
+#! @input node_password: Optional - password to access node
+#! @input node_privkey: Optional - path on <knife_host> to keyfile for accessing node
 #! @input knife_host: IP of server with configured knife accessable via SSH, can be main Chef server
 #! @input knife_username: SSH username to access server with knife
-#! @input knife_privkey: optional - path to local SSH keyfile for accessing server with knife
-#! @input knife_password: optional - password to access server with knife
-#! @input knife_timeout: optional - timeout in milliseconds - Default: '600000'
-#! @input knife_config: optional - location of knife.rb config file
+#! @input knife_privkey: Optional - path to local SSH keyfile for accessing server with knife
+#! @input knife_password: Optional - password to access server with knife
+#! @input knife_timeout: Optional - timeout in milliseconds - Default: '600000'
+#! @input knife_config: Optional - location of knife.rb config file
+#!
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
 #! @output standard_err: any STDERR
 #! @output new_node_name: new node name in Chef
+#!
 #! @result SUCCESS: bootstrap process completed without errors
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.chef
 
@@ -36,6 +39,7 @@ imports:
 
 flow:
   name: bootstrap_node
+
   inputs:
     - node_name
     - node_host
@@ -64,6 +68,7 @@ flow:
     - node_privkey_expr:
         default: ${(' -i ' + node_privkey) if node_privkey else ''}
         private: true
+
   workflow:
     - run_bootstrap:
         do:
@@ -99,6 +104,8 @@ flow:
             - filter: ${node_host}
         publish:
           - filter_result
+        navigate:
+          - SUCCESS: SUCCESS
 
   outputs:
     - raw_result: ${raw_result}

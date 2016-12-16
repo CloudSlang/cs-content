@@ -5,7 +5,7 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 namespace: io.cloudslang.base.json
 
 imports:
@@ -16,7 +16,9 @@ flow:
 
   inputs:
     - json_array
-    - json_object
+    - json_object:
+        required: false
+        default: null
     - index:
         required: false
         default: null
@@ -31,7 +33,6 @@ flow:
             - index
 
         publish:
-          - json_output
           - return_result
 
         navigate:
@@ -41,7 +42,7 @@ flow:
     - test_equality:
         do:
           json.equals:
-            - json_input1: ${ json_output }
+            - json_input1: ${ return_result }
             - json_input2: ${ json_after }
 
         navigate:

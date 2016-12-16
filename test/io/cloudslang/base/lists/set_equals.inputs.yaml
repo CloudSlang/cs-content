@@ -1,0 +1,157 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+### EQUAL ###
+testEqualBasicLetters:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'a,b,c'
+    - raw_set_2: 'b,c,a'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testEqualBasicLettersDuplicates:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'a,b,c'
+    - raw_set_2: 'b,c,a,b'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testEqualSingleNumber:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: '1'
+    - raw_set_2: '1'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testEqualWords:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan,qui-gon,yoda'
+    - raw_set_2: 'qui-gon,yoda,obi-wan'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testEqualWordsExplicitCommaDelimiter:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan,qui-gon,yoda'
+    - delimiter_1: ','
+    - raw_set_2: 'qui-gon,yoda,obi-wan'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testEqualWordsExplicitSpaceDelimiter:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan qui-gon yoda'
+    - delimiter_1: ' '
+    - raw_set_2: 'qui-gon yoda obi-wan'
+    - delimiter_2: ' '
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+### NOT EQUAL ###
+testNotEqualBasicLetters:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'a,b,c'
+    - raw_set_2: 'b,c,a,d'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testNotEqualBasicLettersDuplicates:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'a,b,c'
+    - raw_set_2: 'b,c,a,b,d'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testNotEqualSingleNumber:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: '1'
+    - raw_set_2: '1,2'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testNotEqualWords:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan,qui-gon,yoda'
+    - raw_set_2: 'qui-gon,yoda,obi-wan,Anakin'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testNotEqualWordsExplicitCommaDelimiter:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan,qui-gon,yoda,Anakin'
+    - delimiter: ','
+    - raw_set_2: 'qui-gon,yoda,obi-wan'
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testNotEqualWordsExplicitSpaceDelimiter:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: 'obi-wan qui-gon yoda'
+    - delimiter_1: ' '
+    - raw_set_2: 'qui-gon yoda obi-wan Anakin'
+    - delimiter_2: ' '
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+### SPECIFIC ###
+testFirtsEmpty:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: ''
+    - delimiter_1: ','
+    - raw_set_2: 'qui-gon yoda obi-wan Anakin'
+    - delimiter_2: ' '
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: NOT_EQUAL
+
+testBothEmpty:
+  testSuites: [default,sets]
+  inputs:
+    - raw_set_1: ''
+    - delimiter_1: ','
+    - raw_set_2: ''
+    - delimiter_2: ' '
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  result: EQUAL
+
+testException:
+  testSuites: [default,sets]
+  inputs:
+    - delimiter_1: ','
+    - raw_set_2: ''
+    - delimiter_2: ' '
+  description: See test case name
+  testFlowPath: io.cloudslang.base.lists.set_equals
+  throwsException: true

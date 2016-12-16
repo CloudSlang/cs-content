@@ -1,0 +1,174 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+testConvertJsonEmptyStringToXmlElements:
+  inputs:
+    - json: ""
+    - pretty_print: "false"
+    - show_xml_declaration: "false"
+    - root_tag_name: ""
+    - default_json_array_item_name: "item"
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test empty JSON input
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: ""
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertJsonArrayWithoutRootTagNameToXmlElements:
+  inputs:
+    - json: "[{\"name1\":\"value1\"},{\"name2\":\"value2\"}]"
+    - pretty_print: "false"
+    - show_xml_declaration: "false"
+    - root_tag_name: ""
+    - default_json_array_item_name: "item"
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array without root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+      - return_result: "<item><name1>value1</name1></item>\n<item><name2>value2</name2></item>"
+      - return_code: "0"
+  result: SUCCESS
+
+testConvertJsonObjectWithoutRootTagNameToXmlDocument:
+  inputs:
+    - json: "{\"property\":{\"name1\":\"value1\"}}"
+    - pretty_print: "false"
+    - show_xml_declaration: "true"
+    - root_tag_name: ""
+    - default_json_array_item_name: "item"
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON object without root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<property><name1>value1</name1></property>\n"
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertComplexJsonObjectWithRootTagNameToXml:
+  inputs:
+    - json: "{\"@id\":\"Page1\", \"ui:position\": {\"x\":1,\"y\":2},
+            \"f:properties\": [{\"key1\":\"value1\"},{\"key2\":\"value2\"}],
+            \"details\":[{\"type\":\"size\", \"height\":10, \"width\":10},{\"type\":\"color\", \"name\":\"blue\"}
+            ]}"
+    - pretty_print: "false"
+    - show_xml_declaration: "false"
+    - root_tag_name: "root"
+    - default_json_array_item_name: "item"
+    - namespaces_prefixes: "f,ui"
+    - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
+    - json_arrays_names: "f:properties"
+    - json_arrays_item_names: "f:property"
+    - delimiter: ","
+  description: Test complex json object with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\"><ui:position><x>1</x><y>2</y></ui:position><f:properties><f:property><key1>value1</key1></f:property><f:property><key2>value2</key2></f:property></f:properties><details><item><type>size</type><height>10</height><width>10</width></item><item><type>color</type><name>blue</name></item></details></root>"
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertJsonArrayWithRootTagNameToXmlElements:
+  inputs:
+    - json: "[{\"name1\":\"value1\"},{\"name2\":\"value2\"}]"
+    - pretty_print: "false"
+    - show_xml_declaration: "false"
+    - root_tag_name: "items"
+    - default_json_array_item_name: "item"
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "<items><item><name1>value1</name1></item><item><name2>value2</name2></item></items>"
+    - return_code: "0"
+  result: SUCCESS
+
+testInvalidBooleanInput:
+  inputs:
+    - json: ""
+    - pretty_print: "invalid"
+    - show_xml_declaration: "invalid"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "invalid is not a valid value for Boolean"
+    - return_code: "-1"
+  result: FAILURE
+
+testMissingRootTagName:
+  inputs:
+    - json: "[{\"name1\":\"value1\"},{\"name2\":\"value2\"}]"
+    - pretty_print: "false"
+    - show_xml_declaration: "true"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "The root tag name is missing"
+    - return_code: "-1"
+  result: FAILURE
+
+
+testMalformedJson:
+  inputs:
+    - json: "{items: {\"name1\":\"value1\"},{\"name2\":\"value2\"}}"
+    - pretty_print: "false"
+    - show_xml_declaration: "true"
+    - root_tag_name: ""
+    - default_json_array_item_name: ""
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - json_arrays_names: ""
+    - json_arrays_item_names: ""
+    - delimiter: ","
+  description: Test JSON array with root tag
+  testSuites: [convert_json_xml]
+  testFlowPath: io.cloudslang.base.xml.convert_json_to_xml
+  outputs:
+    - return_result: "com.google.gson.stream.MalformedJsonException: Expected name at line 1 column 28 path $.items"
+    - return_code: "-1"
+  result: FAILURE
+
+

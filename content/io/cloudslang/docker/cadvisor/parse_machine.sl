@@ -1,14 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Parses the response of the cAdvisor container information.
+#!
 #! @input json_response: response of the cAdvisor container information
+#!
 #! @output decoded: parsed response
 #! @output num_cores: machine number of cores
 #! @output cpu_frequency_khz: machine CPU
@@ -20,17 +22,20 @@
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
 #! @output return_result: notification string; was parsing was successful or not
 #! @output error_message: return_result if there was an error
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
 operation:
   name: parse_machine
+
   inputs:
     - json_response
+
   python_action:
     script: |
       try:
@@ -48,18 +53,20 @@ operation:
       except:
         return_code = '-1'
         return_result = 'Parsing error.'
+
   outputs:
-    - decoded
-    - num_cores
-    - cpu_frequency_khz
-    - memory_capacity
-    - file_systems
-    - disk_map
-    - network_devices
-    - topology
+    - decoded: ${ str(decoded) }
+    - num_cores: ${str(num_cores)}
+    - cpu_frequency_khz: ${str(cpu_frequency_khz)}
+    - memory_capacity: ${ str(memory_capacity) }
+    - file_systems: ${ str(file_systems) }
+    - disk_map: ${ str(disk_map) }
+    - network_devices: ${ str(network_devices) }
+    - topology: ${ str(topology) }
     - return_code
     - return_result
     - error_message: ${return_result if return_code == '-1' else ''}
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

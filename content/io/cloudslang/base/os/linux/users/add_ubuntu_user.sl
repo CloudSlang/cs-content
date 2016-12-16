@@ -12,13 +12,14 @@
 #! @input root_password: the root password
 #! @input user_name: the name of the user to verify if exist
 #! @input user_password: the password to be set for the <user_name>
-#! @input group_name: optional - the group name where the <user_name> will be added - Default: ''
-#! @input create_home: optional - if True then a <user_name> folder with be created in <home_path> path
+#! @input group_name: Optional - the group name where the <user_name> will be added - Default: ''
+#! @input create_home: Optional - if True then a <user_name> folder with be created in <home_path> path
 #!                     if False then no folder will be created - Default: True
-#! @input home_path: optional - the path of the home folder - Default: '/home'
+#! @input home_path: Optional - the path of the home folder - Default: '/home'
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
@@ -51,7 +52,7 @@ flow:
         default: ''
         required: false
     - create_home:
-        default: True
+        default: "True"
         required: false
     - home_path:
         default: '/home'
@@ -66,9 +67,9 @@ flow:
             - username: 'root'
             - password: ${root_password}
             - group_name_string: ${'' if group_name == '' else ' --ingroup ' + group_name}
-            - create_home_string: ${'' if create_home in [True, true, 'True', 'true'] else ' --no-create-home '}
+            - create_home_string: ${'' if create_home.lower() in [True, true, 'True', 'true'] else ' --no-create-home '}
             - home_path_string: >
-                ${'/home' if (home_path == '' and create_home in [True, true, 'True', 'true']) else ' --home ' +
+                ${'/home' if (home_path == '' and create_home.lower() in [True, true, 'True', 'true']) else ' --home ' +
                 home_path}
             - command: >
                 ${'adduser ' + user_name + ' --disabled-password --gecos \"\"' + create_home_string +
@@ -79,17 +80,22 @@ flow:
           - standard_err
           - standard_out
           - return_code
+          - exception
           - command_return_code
 
     - evaluate_result:
         do:
           utils.is_true:
             - bool_value: ${return_code == '0' and command_return_code == '0'}
+        navigate:
+            - 'TRUE': SUCCESS
+            - 'FALSE': FAILURE
   outputs:
     - return_result
     - standard_err
     - standard_out
     - return_code
+    - exception
     - command_return_code
 
   results:

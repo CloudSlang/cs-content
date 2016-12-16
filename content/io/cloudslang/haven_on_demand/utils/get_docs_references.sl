@@ -5,15 +5,21 @@
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: Retrives a list of document references from a JSON.
+#! @description: Retrieves a list of document references from a JSON.
+#!
 #! @input json_input: JSON containing references
-#! @output key: references key
+#! @input key: references key
+#! @input reference_list: references list
+#!
 #! @output references: list of references
 #! @output error_message: error message if there was an error when executing, empty otherwise
+#!
+#! @result SUCCESS: document list retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the document list
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.utils
 
@@ -39,14 +45,16 @@ flow:
             - json_input
             - json_path: ${[key]}
         publish:
-          - value
+          - value: ${return_result}
           - error_message
+
     - get_list_size:
         do:
           lists.length:
             - list: ${value}
         publish:
           - list_size: ${result}
+
     - get_references:
         loop:
           for: index in range(list_size)
@@ -56,7 +64,7 @@ flow:
               - json_path: ${[key, index, 'reference']}
               - list: ${reference_list}
           publish:
-            - reference_list: ${list + value + " "}
+            - reference_list: ${list + return_result + " "}
             - error_message
 
   outputs:

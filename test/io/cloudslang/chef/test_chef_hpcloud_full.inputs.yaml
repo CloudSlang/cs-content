@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 test_chef_hpcloud_full_success:
   testSuites: [chef-local]
   description: Tests that HP Cloud and Chef works
@@ -19,7 +19,7 @@ test_chef_hpcloud_full_success:
     - flavor_ref:          "100"  # xsmall server size 
     - keypair:             # Your keypair name
     - region:              "a"    # HP Cloud region; 'a' or 'b'  (US West or US East) 
-    - assign_floating:     True    
+    - assign_floating:     "True"
     - run_list_items:      "recipe[apt], recipe[apache2]" # Chef cookbooks, should deploy some app server e.g. tomcat, apache, nginx etc
     - app_port:            "80"           # Port of app server deployed by Chef, e.g. 8080 or 80
     - knife_host:          # Linux server where Chef knife has been configured
