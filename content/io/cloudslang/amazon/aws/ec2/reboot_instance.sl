@@ -30,7 +30,8 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 50
 #!
-#! @output output: contains the success message or the exception in case of failure
+#! @output output: contains the state of the instance or the exception in case of failure
+#! @output ip_address: The public IP address of the instance
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
@@ -85,7 +86,7 @@ flow:
             - headers
             - query_params
         publish:
-          - return_result
+          - output: '${return_result}'
           - return_code
           - exception
         navigate:
@@ -132,16 +133,33 @@ flow:
         do:
           xml.xpath_query:
               - xml_document: ${replaced_string}
-              - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']"
+              - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
+              - query_type: 'value'
         publish:
-            - selected_value
+            - output: ${selected_value}
             - return_code
+        navigate:
+          - SUCCESS: parse_ip_address
+          - FAILURE: FAILURE
+
+    - parse_ip_address:
+        do:
+          xml.xpath_query:
+            - xml_document: '${replaced_string}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
+            - query_type: 'value'
+        publish:
+          - ip_address: '${selected_value}'
+          - return_result: '${return_result}'
+          - error_message: '${error_message}'
+          - return_code: '${return_code}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - output: ${selected_value}
+    - output
+    - ip_address
     - return_code
     - exception
 

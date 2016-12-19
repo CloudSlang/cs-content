@@ -486,22 +486,6 @@ flow:
           - SUCCESS: search_and_replace
           - FAILURE: terminate_instances
 
-    - xpath_query:
-        do:
-          xml.xpath_query:
-            - xml_document: '${valid_xml}'
-            - xml_document_source: xmlString
-            - xpath_query: /DescribeInstancesResponse/reservationSet/item/instancesSet/item/ipAddress
-            - query_type: value
-        publish:
-          - ip_address: '${selected_value}'
-          - return_result: '${return_result}'
-          - error_message: '${error_message}'
-          - return_code: '${return_code}'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
-
     - search_and_replace:
         do:
           strings.search_and_replace:
@@ -509,9 +493,24 @@ flow:
             - text_to_replace: xmlns
             - replace_with: xhtml
         publish:
-          - valid_xml: '${replaced_string}'
+          - replaced_string
         navigate:
-          - SUCCESS: xpath_query
+          - SUCCESS: parse_ip_address
+          - FAILURE: FAILURE
+
+    - parse_ip_address:
+        do:
+          xml.xpath_query:
+            - xml_document: '${replaced_string}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
+            - query_type: 'value'
+        publish:
+          - ip_address: '${selected_value}'
+          - return_result: '${return_result}'
+          - error_message: '${error_message}'
+          - return_code: '${return_code}'
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
