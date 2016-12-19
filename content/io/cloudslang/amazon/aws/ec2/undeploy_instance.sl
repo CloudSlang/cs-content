@@ -76,7 +76,7 @@ flow:
             - headers
             - instance_ids_string: '${instance_id}'
         publish:
-          - return_result
+          - output: '${return_result}'
           - return_code
           - exception
         navigate:
@@ -100,7 +100,7 @@ flow:
           break:
             - SUCCESS
           publish:
-            - return_result: '${output}'
+            - output
             - return_code
             - exception
         navigate:
@@ -108,7 +108,7 @@ flow:
           - FAILURE: FAILURE
 
   outputs:
-    - output: '${return_result}'
+    - output
     - return_code
     - exception
 
