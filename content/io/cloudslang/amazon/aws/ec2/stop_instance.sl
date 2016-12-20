@@ -171,21 +171,35 @@ extensions:
             targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
             port: FAILURE
       check_instance_state:
-        x: 318
-        y: 106
+        x: 341
+        y: 105
         navigate:
-          3654941e-a894-e960-e463-1b2b8315697d:
+          a02653a1-e178-0acf-2196-4fbc24b18f42:
+            targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
+            port: FAILURE
+      search_and_replace:
+        x: 605
+        y: 107
+        navigate:
+          f224eff4-5011-1b75-b0fe-cffc894296e6:
+            targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
+            port: FAILURE
+      parse_state:
+        x: 604
+        y: 311
+        navigate:
+          dc2ad3b6-dd3e-6857-3733-aa7c57bd54a0:
             targetId: 6912f217-4cd7-11c7-8f89-428022b6558c
             port: SUCCESS
-          a02653a1-e178-0acf-2196-4fbc24b18f42:
+          01376a99-a1a5-2eac-76f2-3abb93d050a7:
             targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
             port: FAILURE
     results:
       SUCCESS:
         6912f217-4cd7-11c7-8f89-428022b6558c:
-          x: 566
-          y: 111
+          x: 826
+          y: 316
       FAILURE:
         cc5c6637-013f-0f35-b3bb-fb4c6a90902b:
-          x: 184
-          y: 254
+          x: 336
+          y: 311

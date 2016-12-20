@@ -527,8 +527,8 @@ extensions:
   graph:
     steps:
       run_instances:
-        x: 108
-        y: 108
+        x: 109
+        y: 109
         navigate:
           a18f11b3-54ff-3b40-3e9a-4e8458f8c740:
             targetId: ec31434a-1b02-4c0f-72c2-ee53bdf9744f
@@ -552,32 +552,32 @@ extensions:
       describe_instances:
         x: 524
         y: 319
-      xpath_query:
-        x: 874
-        y: 321
-        navigate:
-          e15da7b8-3d11-cde8-55f4-62dfc7e446c8:
-            targetId: 3daeaee4-40c0-5e5e-b244-7c7bed391de6
-            port: SUCCESS
-          6dee385a-df38-9697-536d-c855abbe39bb:
-            targetId: f709be24-7bdb-1d20-eb02-878d688c46d9
-            port: FAILURE
       search_and_replace:
-        x: 692
-        y: 321
+        x: 732
+        y: 320
         navigate:
           7c21a250-626f-0e2b-c8ad-36ca4e1eaf42:
             targetId: f709be24-7bdb-1d20-eb02-878d688c46d9
             port: FAILURE
+      parse_ip_address:
+        x: 728
+        y: 523
+        navigate:
+          2656e137-2e41-8a16-d4c5-800a05fec8a3:
+            targetId: 3daeaee4-40c0-5e5e-b244-7c7bed391de6
+            port: SUCCESS
+          c9d85ffa-fb02-b712-aa5d-217d87876004:
+            targetId: ec31434a-1b02-4c0f-72c2-ee53bdf9744f
+            port: FAILURE
     results:
-      FAILURE:
-        ec31434a-1b02-4c0f-72c2-ee53bdf9744f:
-          x: 103
-          y: 320
-        f709be24-7bdb-1d20-eb02-878d688c46d9:
-          x: 774
-          y: 172
       SUCCESS:
         3daeaee4-40c0-5e5e-b244-7c7bed391de6:
-          x: 1044
-          y: 318
+          x: 953
+          y: 530
+      FAILURE:
+        ec31434a-1b02-4c0f-72c2-ee53bdf9744f:
+          x: 109
+          y: 518
+        f709be24-7bdb-1d20-eb02-878d688c46d9:
+          x: 941
+          y: 325

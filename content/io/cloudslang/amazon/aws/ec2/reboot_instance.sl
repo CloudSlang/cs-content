@@ -178,21 +178,42 @@ extensions:
             targetId: 48574ded-e846-247a-6c11-2497265849aa
             port: FAILURE
       check_instance_state:
-        x: 317
-        y: 70
+        x: 309
+        y: 72
         navigate:
-          3654941e-a894-e960-e463-1b2b8315697d:
+          4342a1f4-3721-15c1-d70a-586df655fa47:
+            targetId: 48574ded-e846-247a-6c11-2497265849aa
+            port: FAILURE
+      search_and_replace:
+        x: 565
+        y: 72
+        navigate:
+          bbe20218-a19d-aec2-6207-aec2c2cb9c9c:
+            targetId: 48574ded-e846-247a-6c11-2497265849aa
+            port: FAILURE
+      parse_state:
+        x: 564
+        y: 271
+        navigate:
+          f1de1106-b9a4-3c1a-4f5b-da6a6045e394:
+            targetId: 48574ded-e846-247a-6c11-2497265849aa
+            port: FAILURE
+      parse_ip_address:
+        x: 571
+        y: 457
+        navigate:
+          269fabb2-cf62-3f91-9c77-3a7729588ed2:
             targetId: 6912f217-4cd7-11c7-8f89-428022b6558c
             port: SUCCESS
-          4342a1f4-3721-15c1-d70a-586df655fa47:
+          bfaeff61-f5c6-2f6b-e653-8c6304506266:
             targetId: 48574ded-e846-247a-6c11-2497265849aa
             port: FAILURE
     results:
       SUCCESS:
         6912f217-4cd7-11c7-8f89-428022b6558c:
-          x: 560
-          y: 74
+          x: 818
+          y: 443
       FAILURE:
         48574ded-e846-247a-6c11-2497265849aa:
-          x: 206
-          y: 218
+          x: 317
+          y: 286
