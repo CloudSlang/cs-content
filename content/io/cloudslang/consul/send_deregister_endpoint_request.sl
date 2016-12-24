@@ -11,7 +11,7 @@
 #!
 #! @input host: Consul agent host
 #! @input consul_port: Optional - Consul agent host port - Default: '8500'
-#! @input json_request: the request JSON
+#! @input json_request: The request JSON
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code is equal to '-1' or status_code different than '200'

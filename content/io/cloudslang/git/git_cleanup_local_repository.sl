@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: local repository cleaned up and reinitialized successfully
-#! @result FAILURE: there was an error while trying to clean up and/or reinitialize local repository
+#! @result FAILURE: There was an error while trying to clean up and/or reinitialize local repository
 #!!#
 ########################################################################################################################
 

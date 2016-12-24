@@ -9,30 +9,30 @@
 #!!
 #! @description: Checks if a url is accessible.
 #!
-#! @input url: the url
+#! @input url: The url
 #! @input attempts: attempts to reach host
 #! @input time_to_sleep: time in seconds to wait between attempts
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body - Default: 'application/json'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output output_message: timeout exceeded and url was not accessible
 #! @output return_code: '0' if success, '-1' otherwise

@@ -44,7 +44,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: specified virtual machine was successfully powered off
-#! @result FAILURE: an error occurred when trying to power off the specified virtual machine
+#! @result FAILURE: An error occurred when trying to power off the specified virtual machine
 #!!#
 ########################################################################################################################
 

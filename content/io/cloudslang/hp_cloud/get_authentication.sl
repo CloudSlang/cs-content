@@ -13,8 +13,8 @@
 #! @input password: HP Cloud account password
 #! @input tenant_name: name of HP Cloud tenant - Example: 'bob.smith@hp.com-tenant1'
 #! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: JSON response
 #! @output error_message: message returned when HTTP call fails

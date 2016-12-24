@@ -19,7 +19,7 @@
 #! @input attribute_name: name of attribute to remove if removing an attribute;
 #!                        leave empty if removing an element
 #!                        optional
-#! @input secure_processing: optional -  sets the secure processing feature
+#! @input secure_processing: Optional -  sets the secure processing feature
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)

@@ -9,7 +9,7 @@
 #!!
 #! @description: Reads a file from the given path and returns its content.
 #!
-#! @input file_path: the path of the file to read
+#! @input file_path: The path of the file to read
 #!
 #! @output read_text: content of the file
 #! @output message: error message if error occurred

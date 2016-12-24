@@ -40,7 +40,7 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully stopped
+#! @result SUCCESS: The server (instance) was successfully stopped
 #! @result FAILURE: error stopping instance
 #!!#
 ########################################################################################################################
@@ -140,7 +140,10 @@ flow:
         do:
           xml.xpath_query:
               - xml_document: ${replaced_string}
-              - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
+              - xpath_query: >
+                  ${'"/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']' + '
+                  /*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']' + '
+                  /*[local-name()='instanceState']/*[local-name()='name']"')
               - query_type: 'value'
         publish:
             - output: ${selected_value}

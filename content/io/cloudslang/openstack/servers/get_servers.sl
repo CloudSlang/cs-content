@@ -8,18 +8,18 @@
 ########################################################################################################################
 #!!
 #! @description: Retrieves a list of OpenStack servers.
-#~
+#!
 #! @input host: OpenStack machine host
-#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
+#! @input compute_port: Optional - port used for OpenStack computations - Default: '8774'
 #! @input token: OpenStack token obtained after authentication
 #! @input tenant_id: OpenStack tenantID obtained after authentication
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
-#~
+#! @input proxy_host: Optional - proxy server used to access web site
+#! @input proxy_port: Optional - proxy server port
+#!
 #! @output return_result: response of operation
 #! @output status_code: normal status_code is 202
 #! @output error_message: error message
-#~
+#!
 #! @result SUCCESS: operation succeeded (status_code == '200')
 #! @result FAILURE: otherwise
 #!!#

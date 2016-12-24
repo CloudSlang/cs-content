@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Checks if a job exists in Jenkins.
+#!
 #! @prerequisites: jenkinsapi Python module
 #!
 #! @input url: URL to Jenkins
@@ -38,12 +39,9 @@ operation:
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')
-
         exists = j.has_job(job_name)
         expected_status2 = expected_status in ['true', 'True', 'TRUE']
-
         result_message = 'Success'
-
         result = ''
         if (exists == True) and (expected_status2 == True):
           result = 'EXISTS_EXPECTED'
@@ -51,7 +49,6 @@ operation:
           result = 'EXISTS_UNEXPECTED'
         else:
           result = 'NOT_EXISTS'
-
       except:
         result_message = 'Error checking job\'s existence: ' + job_name
         result = 'FAILURE'

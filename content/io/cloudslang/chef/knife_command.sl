@@ -19,7 +19,7 @@
 #!
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
-#! @output standard_err: any STDERR
+#! @output standard_err: Any STDERR
 #!
 #! @result SUCCESS: filtered result returned successfully
 #! @result FAILURE: something went wrong while running knife command

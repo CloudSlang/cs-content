@@ -16,16 +16,16 @@
 #! @input time_to_live: threshold to compare the droplet's lifetime to (in minutes)
 #! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
 #! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established (0 represents infinite value)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #!
 #! @result DELETED: droplet is deleted
 #! @result NOT_DELETED: droplet is not deleted
-#! @result FAILURE: an error occurred
+#! @result FAILURE: An error occurred
 #!!#
 ########################################################################################################################
 

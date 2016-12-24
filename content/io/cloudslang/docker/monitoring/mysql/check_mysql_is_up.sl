@@ -25,10 +25,10 @@
 #! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
 #! @input agent_forwarding: Optional - whether to forward the user authentication agent
-#! @output return_result: the return result of the command
 #!
-#! @output error_message: contains the STDERR of the machine if the SSH action was executed successfully, the cause of the
-#!                        exception otherwise
+#! @output return_result: The return result of the command
+#! @output error_message: contains the STDERR of the machine if the SSH action was executed successfully,
+#!                        the cause of the exception otherwise
 #!
 #! @result SUCCESS: action was executed successfully and MySQL server state is alive
 #! @result FAILURE: some problem occurred, more information in errorMessage output

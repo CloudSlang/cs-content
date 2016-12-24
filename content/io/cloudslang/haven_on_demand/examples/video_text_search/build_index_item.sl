@@ -16,7 +16,7 @@
 #! @output json_index_item: JSON representation of item to add to the index
 #!
 #! @result SUCCESS: index item created successfully from the result
-#! @result FAILURE: there was an error while trying to create item index
+#! @result FAILURE: There was an error while trying to create item index
 #!!#
 ########################################################################################################################
 

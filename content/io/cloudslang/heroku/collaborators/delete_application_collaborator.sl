@@ -21,9 +21,9 @@
 #! @output status_code: code returned by operation
 #!
 #! @result SUCCESS: Heroku application collaborator deleted successfully
-#! @result FAILURE: there was an error while trying to delete Heroku application collaborator
+#! @result FAILURE: There was an error while trying to delete Heroku application collaborator
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.heroku.collaborators
 

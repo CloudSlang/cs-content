@@ -9,16 +9,16 @@
 #! @description: Archives and tranfers the image to the destination host.
 #!
 #! @input pre_dump: Indicates if a predump image should be tranfered. - Example: "false"
-#! @input docker_host: the address of the source Docker host.
-#! @input destination_host: the address of the target Docker host.
+#! @input docker_host: The address of the source Docker host.
+#! @input destination_host: The address of the target Docker host.
 #! @input port: The ssh port used by the Docker hosts
 #! @input username: Docker username
 #! @input password: Docker password
-#! @input runc_container: the name of the containerb to checkpoint . - Example: "petclinic"
+#! @input runc_container: The name of the containerb to checkpoint . - Example: "petclinic"
 #! @input target_container: destination container where the image will be transferred
-#! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
-#! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
-#! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
+#! @input root_path: The full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
+#! @input predump_image_location: The full path to the folder which will contain the container's pre_dump image.
+#! @input dump_image_location: The full path  to the folder which will contain the container's dump image.
 #!
 #! @result SUCCESS: image archived and transferred successfully
 #! @result PACK_DUMP_FAILURE: DUMP packing failure

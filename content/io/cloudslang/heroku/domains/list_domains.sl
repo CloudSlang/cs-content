@@ -20,7 +20,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: domains associated to a specific application retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the application's domains
+#! @result FAILURE: There was an error while trying to retrieve the application's domains
 #!!#
 ########################################################################################################################
 

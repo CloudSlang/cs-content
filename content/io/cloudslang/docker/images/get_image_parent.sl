@@ -20,7 +20,7 @@
 #! @output parent_image_name: name of the parent image
 #!
 #! @result SUCCESS: image's parent inspected successfully
-#! @result FAILURE: there was an error while trying to inspect the image and/or getting the parent
+#! @result FAILURE: There was an error while trying to inspect the image and/or getting the parent
 #!!#
 ########################################################################################################################
 

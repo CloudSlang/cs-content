@@ -16,7 +16,7 @@
 #! @input time_to_sleep: Optional - time in seconds to wait between attempts - Default: 1
 #!
 #! @result SUCCESS: waiting for the Maranthon app to start up completed successfully
-#! @result FAILURE: there was an error while waiting for the Marathon app to start
+#! @result FAILURE: There was an error while waiting for the Marathon app to start
 #!!#
 ########################################################################################################################
 

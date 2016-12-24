@@ -26,13 +26,13 @@
 #!                  number should be verified in https://www.twilio.com/console/phone-numbers/verified
 #! @input to_num: The number that the message was sent to. Notice it should start with +. The number should be verified
 #!                registered in https://www.twilio.com/console/phone-numbers/incoming
-#! @input api_version: optional - Twilio api version
+#! @input api_version: Optional - Twilio api version
 #!                     Default: '2010-04-01'
 #! @input auth_token: The Auth Token for this Account SID
-#! @input proxy_host: optional - The proxy to pass the HTTP call through
-#! @input proxy_port: optional - The port of the proxy to pass the HTTP call through
-#! @input proxy_username: optional - The username of the proxy to pass the HTTP call through
-#! @input proxy_password: optional - The password of the proxy username to pass the HTTP call through
+#! @input proxy_host: Optional - The proxy to pass the HTTP call through
+#! @input proxy_port: Optional - The port of the proxy to pass the HTTP call through
+#! @input proxy_username: Optional - The username of the proxy to pass the HTTP call through
+#! @input proxy_password: Optional - The password of the proxy username to pass the HTTP call through
 #!
 #! @output sms_message: In case a relevant SMS was found, this field holds the text of that last SMS
 #! @output error_message: Exception in case something went wrong

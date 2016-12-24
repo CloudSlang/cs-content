@@ -9,6 +9,7 @@
 #!!
 #! @description: Executes a TRACE REST call. It will echoes back the received request, so that a client can see what
 #!               (if any) changes or additions have been made by intermediate servers.
+#!
 #! @input url: URL to which the call is made
 #! @input auth_type: Optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
@@ -55,7 +56,7 @@
 #!                      Default: 'text/plain'
 #! @input method: HTTP method used - Default: 'TRACE'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output return_result: The response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call

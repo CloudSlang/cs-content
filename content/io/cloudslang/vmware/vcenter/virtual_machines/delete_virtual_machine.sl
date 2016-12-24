@@ -44,7 +44,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: specified virtual machine was successfully deleted
-#! @result FAILURE: an error occurred when trying to delete the specified virtual machine
+#! @result FAILURE: An error occurred when trying to delete the specified virtual machine
 #!!#
 ########################################################################################################################
 

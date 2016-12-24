@@ -32,7 +32,7 @@
 #! @input container_ids: Optional - a list containing the ID`s all the containers running
 #!                       Default: ''
 #!
-#! @output containers_found: the names of the containers with runing processes
+#! @output containers_found: The names of the containers with runing processes
 #! @output standard_err: error message
 #!
 #! @result SUCCESS: names of running containers retrieved successfully

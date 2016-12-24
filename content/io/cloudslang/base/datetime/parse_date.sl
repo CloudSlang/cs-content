@@ -9,26 +9,26 @@
 #!!
 #! @description: parse the given date/time and convert it to an output format
 #!
-#! @input date: the date/time to parse
+#! @input date: The date/time to parse
 #!              Example:  "2001-07-04T12:08:56.235+0700"
-#! @input date_format: optional - the format of the date/time
+#! @input date_format: Optional - the format of the date/time
 #!                     Example: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-#! @input date_locale_lang: optional - the locale language
+#! @input date_locale_lang: Optional - the locale language
 #!                        Example: 'en'
-#! @input date_locale_country: optional - the locale country
+#! @input date_locale_country: Optional - the locale country
 #!                           Example: 'US'
-#! @input out_format: optional - the output format
+#! @input out_format: Optional - the output format
 #!                    Example: "yyyy-MM-dd"
-#! @input out_locale_lang: optional - the output locale language
+#! @input out_locale_lang: Optional - the output locale language
 #!                         Example: 'fr'
-#! @input out_locale_country: optional - the output locale country
+#! @input out_locale_country: Optional - the output locale country
 #!                            Example: 'FR'
 #!
-#! @output output: the new date/time after if parsing was successful, exception otherwise
+#! @output output: The new date/time after if parsing was successful, exception otherwise
 #! @output return_code: 0 if success, -1 if failure
-#! @output exception: an exception in case of failure
+#! @output exception: An exception in case of failure
 #!
-#! @result SUCCESS: the date/time was parsed properly
+#! @result SUCCESS: The date/time was parsed properly
 #! @result FAILURE: failed to parse the date/time
 #!!#
 ########################################################################################################################

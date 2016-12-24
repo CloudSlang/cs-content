@@ -19,7 +19,7 @@
 #! @output item_added: <item_text> with new list item added
 #!
 #! @result SUCCESS: HTML list item built successfully
-#! @result FAILURE: there was an error while trying to build the HTML list item
+#! @result FAILURE: There was an error while trying to build the HTML list item
 #!!#
 ########################################################################################################################
 

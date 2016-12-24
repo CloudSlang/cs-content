@@ -41,47 +41,47 @@
 #! @input reboot_option: specifies whether to shutdown, reboot or not the machine in the customization process
 #!                       valid: 'noreboot', 'reboot', 'shutdown'
 #!                       default: 'reboot'
-#! @input computer_name: the network host name of the (Windows) virtual machine
-#! @input computer_password: the new password for the (Windows) virtual machine. This cannot be set to empty string in
+#! @input computer_name: The network host name of the (Windows) virtual machine
+#! @input computer_password: The new password for the (Windows) virtual machine. This cannot be set to empty string in
 #!                           order to remove the existing computer password.
-#! @input owner_name: the user's full name
-#! @input owner_organization: the user's organization
-#! @input product_key: optional - a valid serial number to be included in the answer file
+#! @input owner_name: The user's full name
+#! @input owner_organization: The user's organization
+#! @input product_key: Optional - a valid serial number to be included in the answer file
 #!                     default: ''
-#! @input domain_username: optional - the domain user account used for authentication if the virtual machine is joining a domain.
+#! @input domain_username: Optional - the domain user account used for authentication if the virtual machine is joining a domain.
 #!                        The user must have the privileges required to add computers to the domain
 #!                        default: ''
-#! @input domain_password: optional - the password for the domain user account used for authentication if the virtual machine is
+#! @input domain_password: Optional - the password for the domain user account used for authentication if the virtual machine is
 #!                         joining a domain
 #!                         default: ''
-#! @input domain: optional - the fully qualified domain name
+#! @input domain: Optional - the fully qualified domain name
 #!                default: ''
-#! @input workgroup: optional - the workgroup that the virtual machine should join. If this is supplied,
+#! @input workgroup: Optional - the workgroup that the virtual machine should join. If this is supplied,
 #!                   then the domain name and authentication fields should not be supplied (mutually exclusive)
 #!                   default: ''
-#! @input license_data_mode: the type of the windows license. 'perServer' indicates that a client access license has been
+#! @input license_data_mode: The type of the windows license. 'perServer' indicates that a client access license has been
 #!                           purchased for each computer that accesses the VirtualCenter server. 'perSeat' indicates that
 #!                           client access licenses have been purchased for the server, allowing a certain number of concurrent
 #!                           connections to the VirtualCenter server.
 #!                           valid: '', ''perServer', 'perSeat'
 #!                           default: ''
-#! @input dns_server: optional - the server IP address to use for DNS lookup in a Windows guest operating system
+#! @input dns_server: Optional - the server IP address to use for DNS lookup in a Windows guest operating system
 #!                    default: ''
-#! @input ip_address: optional - the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs
+#! @input ip_address: Optional - the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs
 #!                    should be specified as well
 #!                    default: ''
-#! @input subnet_mask: optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#! @input subnet_mask: Optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
 #!                     <default_gateway> inputs should be specified as well
 #!                     default: ''
-#! @input default_gateway: optional - the default gateway for network adapter with a static IP address. If specified then the
+#! @input default_gateway: Optional - the default gateway for network adapter with a static IP address. If specified then the
 #!                         <ip_address> and <subnet_mask> inputs should be specified as well
 #!                         default: ''
-#! @input mac_address: optional - the MAC address for network adapter with a static IP address
+#! @input mac_address: Optional - the MAC address for network adapter with a static IP address
 #!                     default: ''
-#! @input auto_logon: optional - specifies whether or not the machine automatically logs on as Administrator
+#! @input auto_logon: Optional - specifies whether or not the machine automatically logs on as Administrator
 #!                    valid: '', ''true', 'false'
 #!                    default: ''
-#! @input delete_accounts: optional - specifies whether if all user accounts will be removed from the system as part of the customization
+#! @input delete_accounts: Optional - specifies whether if all user accounts will be removed from the system as part of the customization
 #!                         or not. This input can be use only for older than API 2.5 versions. Since API 2.5 this value
 #!                         is ignored and removing user accounts during customization is no longer supported. For older
 #!                         API versions: if deleteAccounts is true, then all user accounts are removed from the system
@@ -91,15 +91,15 @@
 #!                    (SID). For Vista OS, SID will always be modified
 #!                    valid: 'true', 'false'
 #!                    default: 'true'
-#! @input auto_logon_count: optional - if the AutoLogon flag is set, then the AutoLogonCount property specifies the number of times
+#! @input auto_logon_count: Optional - if the AutoLogon flag is set, then the AutoLogonCount property specifies the number of times
 #!                          the machine should automatically log on as Administrator. Generally it should be 1, but if
 #!                          your setup requires a number of reboots, you may want to increase it
 #!                          default: ''
-#! @input auto_users: optional - this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
+#! @input auto_users: Optional - this key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
 #!                   integer value indicates the number of client licenses purchased for the VirtualCenter server being
 #!                   installed
 #!                   default: ''
-#! @input time_zone: optional - the time zone for the new virtual machine according with
+#! @input time_zone: Optional - the time zone for the new virtual machine according with
 #!                   https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
 #!                   default: '0'
 #!
@@ -108,7 +108,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully cloned
-#! @result FAILURE: an error occurred when trying to clone an existing virtual machine
+#! @result FAILURE: An error occurred when trying to clone an existing virtual machine
 #!!#
 ########################################################################################################################
 

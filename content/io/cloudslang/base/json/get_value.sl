@@ -13,7 +13,7 @@
 #! @input json_path: path from which to retrieve value represented as a list of keys and/or indices.
 #!                   Passing an empty list ([]) will retrieve the entire json_input. - Example: ["k1", "k2", 1]
 #!
-#! @output return_result: the corresponding value of the key referred to by json_path
+#! @output return_result: The corresponding value of the key referred to by json_path
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!

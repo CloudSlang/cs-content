@@ -11,19 +11,19 @@
 #!
 #! @input storage_account: Azure The name of the storage account in which the blob will be deleted.
 #! @input key: Azure account key
-#! @input container_name: the name of the container in which the blob is
-#! @input blob_name: the name of the blob you want to delete
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input container_name: The name of the container in which the blob is
+#! @input blob_name: The name of the blob you want to delete
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #!
-#! @output output: the container name of the blob that was deleted
+#! @output output: The container name of the blob that was deleted
 #! @output return_code: 0 if request completed successfully, -1 in case something went wrong
-#! @output exception: the stacktrace of the operation in case something went wrong
+#! @output exception: The stacktrace of the operation in case something went wrong
 #!
 #! @result SUCCESS: Blob deleted successfully.
-#! @result FAILURE: there was an error while trying to delete the blob.
+#! @result FAILURE: There was an error while trying to delete the blob.
 #!!#
 ########################################################################################################################
 

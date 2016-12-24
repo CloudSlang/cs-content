@@ -12,8 +12,8 @@
 #! @input host: Docker host
 #! @input username: username for Docker host
 #! @input private_key_file: private key file used for host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
-#! @input timeout: optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
+#! @input timeout: Optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
 #!
 #! @result SUCCESS: setup succeeded
 #! @result CLEAR_CONTAINERS_ON_HOST_PROBLEM: setup failed due to problem clearing containers

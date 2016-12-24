@@ -10,14 +10,14 @@
 #! @description: Performs a REST API call to delete an embedded cartridge.
 #!
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - RedHat OpenShift Online username
+#! @input username: Optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port
+#! @input password: Optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: Optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: Optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain in which the application resides
 #! @input application_name: RedHat OpenShift Online application name to delete cartridge from
 #! @input cartridge: name of embedded cartridge to be deleted
@@ -28,7 +28,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: embedded cartridge deleted successfully
-#! @result FAILURE: there was an error while trying to delete the embedded cartridge
+#! @result FAILURE: There was an error while trying to delete the embedded cartridge
 #!!#
 ########################################################################################################################
 

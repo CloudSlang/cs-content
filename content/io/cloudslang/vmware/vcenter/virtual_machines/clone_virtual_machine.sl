@@ -29,7 +29,7 @@
 #!                  default: 'https'
 #! @input username: VMware username to connect with
 #! @input password: password associated with <username> input
-#! @input trust_everyone: optional - if 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: Optional - if 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
 #!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
@@ -42,31 +42,31 @@
 #!                  example: 'host123.subdomain.example.com'
 #! @input virtual_machine_name: name of virtual machine that will be cloned
 #! @input clone_name: name that will be assigned to the cloned virtual machine
-#! @input folder_name: optional - name of the folder where the cloned virtual machine will reside.
+#! @input folder_name: Optional - name of the folder where the cloned virtual machine will reside.
 #!                     If not provided then the top parent folder will be used
 #!                     default: ''
-#! @input clone_host: optional - the host for the cloned virtual machine.
+#! @input clone_host: Optional - the host for the cloned virtual machine.
 #!                    If not provided then the same host of the virtual machine that will be cloned will be used
 #!                    default: ''
 #!                    example: 'host123.subdomain.example.com'
-#! @input clone_resource_pool: optional - the resource pool for the cloned virtual machine.
+#! @input clone_resource_pool: Optional - the resource pool for the cloned virtual machine.
 #!                             If not provided then the parent resource pool will be used
 #!                             default: ''
-#! @input clone_data_store: optional - datastore where disk of newly cloned virtual machine will reside.
+#! @input clone_data_store: Optional - datastore where disk of newly cloned virtual machine will reside.
 #!                          If not provided then the datastore of the cloned virtual machine will be used
 #!                          default: ''
 #!                          example: 'datastore2-vc6-1'
-#! @input thick_provision: optional - whether the provisioning of the cloned virtual machine will be thick or not
+#! @input thick_provision: Optional - whether the provisioning of the cloned virtual machine will be thick or not
 #!                         default: False
-#! @input is_template: optional - whether the cloned virtual machine will be a template or not
+#! @input is_template: Optional - whether the cloned virtual machine will be a template or not
 #!                     default: False
-#! @input num_cpus: optional - number that indicates how many processors the newly cloned virtual machine will have
+#! @input num_cpus: Optional - number that indicates how many processors the newly cloned virtual machine will have
 #!                  default: '1'
-#! @input cores_per_socket: optional - number that indicates how many cores per socket the newly cloned virtual machine will have
+#! @input cores_per_socket: Optional - number that indicates how many cores per socket the newly cloned virtual machine will have
 #!                          default: '1'
-#! @input memory: optional - amount of memory (in Mb) attached to cloned virtual machined
+#! @input memory: Optional - amount of memory (in Mb) attached to cloned virtual machined
 #!                default: '1024'
-#! @input clone_description: optional - description of virtual machine that will be cloned
+#! @input clone_description: Optional - description of virtual machine that will be cloned
 #!                           default: ''
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
@@ -74,7 +74,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully cloned
-#! @result FAILURE: an error occurred when trying to clone an existing virtual machine
+#! @result FAILURE: An error occurred when trying to clone an existing virtual machine
 #!!#
 ########################################################################################################################
 

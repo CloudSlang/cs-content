@@ -12,32 +12,33 @@
 #!               Notes: security_group_ids_string, instance_initiated_shutdown_behavior, instance_type,
 #!                      source_destination_check are mutually exclusive
 #!
-#! @input endpoint: Optional - Endpoint to which first request will be sent - Default: 'https://ec2.amazonaws.com'
-#! @input identity: the Amazon Access Key ID
-#! @input credential: the Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: Optional - the proxy server used to access the provider services
-#! @input proxy_port: Optional - the proxy server port used to access the provider services
+#! @input endpoint: Optional - Endpoint to which first request will be sent
+#!                  Default: 'https://ec2.amazonaws.com'
+#! @input identity: The Amazon Access Key ID
+#! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID
+#! @input proxy_host: Optional - The proxy server used to access the provider services
+#! @input proxy_port: Optional - The proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: Optional - proxy server user name.
-#! @input proxy_password: Optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF). The
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - A string containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
-#!                 Examples: "Accept:text/plain"
-#!                 Default: ""
-#! @input query_params: Optional - string containing query parameters that will be appended to
+#!                 Examples: 'Accept:text/plain'
+#!                 Default: ''
+#! @input query_params: Optional - A string containing query parameters that will be appended to
 #!                      the URL. The names and the values must not be URL encoded because if
 #!                      they are encoded then a double encoded will occur. The separator between
 #!                      name-value pairs is "&" symbol. The query name will be separated from
 #!                      query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#!                      Default: ""
+#!                      Default: ''
 #! @input version: Version of the web service to made the call against it.
-#!                 Example: "2016-09-15"
-#!                 Default: "2016-09-15"
+#!                 Example: '2016-09-15'
+#!                 Default: '2016-09-15'
 #! @input delimiter: Optional - Delimiter that will be used.
-#!                   Default: ","
-#! @input attribute: Optional - name of the attribute.
+#!                   Default: ','
+#! @input attribute: Optional - Name of the attribute.
 #!                   Valid values: "instanceType | kernel | ramdisk | userData | disableApiTermination |
 #!                   instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping |
 #!                   productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport |
@@ -45,7 +46,7 @@
 #! @input attribute_value: Optional - A new value for the attribute. Use only with: "kernel", "ramdisk",
 #!                         "userData", "disableApiTermination", or "instanceInitiatedShutdownBehavior"
 #!                         attributes.
-#!                         Default: ""
+#!                         Default: ''
 #! @input block_device_mapping_device_names_string: Optional - String that contains one or more device names, exposed to
 #!                                                  the instance, separated by <delimiter>.
 #!                                                  Examples: "/dev/sdh,xvdh"
@@ -60,47 +61,47 @@
 #!                                                   in the block device mapping for the instance. When you launch an M3
 #!                                                   instance, we ignore any instance store volumes specified in the block
 #!                                                   device mapping for the AMI.
-#!                                                   Example: "ephemeral0,ephemeral1,Not relevant"
-#!                                                   Default: ""
+#!                                                   Example: 'ephemeral0,ephemeral1,Not relevant'
+#!                                                   Default: ''
 #! @input delete_on_terminations_string: Optional - String that contains one or more values that indicates
 #!                                       whether a specific EBS volume will be deleted on instance termination.
 #!                                       Example: For a third EBS device (from existing 4 devices), that
 #!                                       should be deleted, the string will be: "false,false,true,false".
-#!                                       Valid values: "true", "false"
-#!                                       Default: ""
+#!                                       Valid values: 'true', 'false'
+#!                                       Default: ''
 #! @input volume_ids_string: Optional - String that contains one or more values that indicates
 #!                           volume Ids.
-#!                           Default: ""
+#!                           Default: ''
 #! @input no_devices_string: Optional - String that contains one or more values that indicates
 #!                           if a certain specified device included in the block device mapping
 #!                           will be suppressed.
 #!                           Example: For a second EBS device (from existing 4 devices), that
 #!                           should be suppressed, the string will be: ",No device,,".
-#!                           Default: ""
+#!                           Default: ''
 #! @input disable_api_termination: Optional - If the value is "true", you can't terminate the instance
 #!                                 using the Amazon EC2 console, CLI, or API; otherwise, you can. You
 #!                                 cannot use this paramater for Spot Instances.
-#!                                 Valid values: "true", "false"
-#!                                 Default: "false"
+#!                                 Valid values: 'true', 'false'
+#!                                 Default: 'false'
 #! @input ebs_optimized: Optional - Specifies whether the instance is optimized for EBS I/O. This
 #!                       optimization provides dedicated throughput to Amazon EBS and an optimized
 #!                       configuration stack to provide optimal EBS I/O performance. This optimization
 #!                       isn't available with all instance types. Additional usage charges apply
 #!                       when using an EBS Optimized instance.
-#!                       Valid values: "true", "false"
-#!                       Default: "false"
+#!                       Valid values: 'true', 'false'
+#!                       Default: 'false'
 #! @input ena_support: Optional - Set to "true" to enable enhanced networking with ENA for the
 #!                     instance. This option is supported only for HVM instances. Specifying
 #!                     this option with a PV instance can make it unreachable.
-#!                     Valid values: "true", "false"
-#!                     Default: "false"
+#!                     Valid values: 'true', 'false'
+#!                     Default: 'false'
 #! @input security_group_ids_string: Optional - [EC2-VPC] Changes the security groups of the instance. You
 #!                                   must specify at least one security group, even if it's just the default
 #!                                   security group for the VPC. You must specify the security group IDs,
 #!                                   not the security group names.
-#!                                   Default: ""
+#!                                   Default: ''
 #! @input instance_id: ID of the instance.
-#!                     Example: "i-12345678"
+#!                     Example: 'i-12345678'
 #! @input instance_initiated_shutdown_behavior: Optional - Specifies whether an instance stops or terminates when you
 #!                                              initiate shutdown from the instance (using the operating system command
 #!                                              for system shutdown).
@@ -149,8 +150,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully updated
-#! @result FAILURE: an error occurred when trying to update a server (instance)
+#! @result SUCCESS: The server (instance) was successfully updated
+#! @result FAILURE: An error occurred when trying to update a server (instance)
 #!!#
 ########################################################################################################################
 

@@ -28,10 +28,10 @@
 #! @input twilio_num: The approved number that sends the message. Notice it should start with +. The number should be
 #!                    registered in https://www.twilio.com/console/phone-numbers/incoming
 #! @input auth_token: The Auth Token for this Account SID
-#! @input proxy_host: optional - The proxy to pass the HTTP call through
-#! @input proxy_port: optional - The port of the proxy to pass the HTTP call through
-#! @input proxy_username: optional - The username of the proxy to pass the HTTP call through
-#! @input proxy_password: optional - The password of the proxy username to pass the HTTP call through
+#! @input proxy_host: Optional - The proxy to pass the HTTP call through
+#! @input proxy_port: Optional - The port of the proxy to pass the HTTP call through
+#! @input proxy_username: Optional - The username of the proxy to pass the HTTP call through
+#! @input proxy_password: Optional - The password of the proxy username to pass the HTTP call through
 #!
 #! @output responses: Responses from the recipients that received the Twilio SMS successfully
 #!

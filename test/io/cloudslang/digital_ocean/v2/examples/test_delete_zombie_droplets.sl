@@ -18,10 +18,10 @@
 #! @input image: image the droplet is created from
 #! @input ssh_keys: array containing the IDs of the SSH keys
 #! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value
 #!!#
 ########################################################################################################
 

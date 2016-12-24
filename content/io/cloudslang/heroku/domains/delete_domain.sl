@@ -21,7 +21,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: application domain deleted successfully
-#! @result FAILURE: there was an error while trying to delete application domain
+#! @result FAILURE: There was an error while trying to delete application domain
 #!!#
 ########################################################################################################################
 

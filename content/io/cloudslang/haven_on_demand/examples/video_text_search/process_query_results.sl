@@ -15,7 +15,7 @@
 #! @output built_results: HTML text containing query results with links
 #!
 #! @result SUCCESS: query result processed successfully
-#! @result FAILURE: there was an error while trying to process the query result
+#! @result FAILURE: There was an error while trying to process the query result
 #!!#
 ########################################################################################################################
 

@@ -37,7 +37,7 @@
 #! @output container_ids: comma separated list of container IDs
 #!
 #! @result SUCCESS: Docker container names retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the Docker container names
+#! @result FAILURE: There was an error while trying to retrieve the Docker container names
 #!!#
 ########################################################################################################################
 

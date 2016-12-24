@@ -10,27 +10,27 @@
 #! @description: Creates a DigitalOcean droplet.
 #!
 #! @input name: human-readable string you wish to use when displaying the Droplet name
-#! @input region: optional - unique slug identifier for the region that you wish to deploy in - Default: ams3
+#! @input region: Optional - unique slug identifier for the region that you wish to deploy in - Default: ams3
 #! @input size: unique slug identifier for the size that you wish to select for this Droplet - Default: 512mb
 #! @input image: ID or slug identifier of the base image for your droplet
-#! @input ssh_keys: optional - array containing the IDs of the SSH keys
+#! @input ssh_keys: Optional - array containing the IDs of the SSH keys
 #!                  that you wish to embed in the Droplet's root account upon creation
-#! @input backups: optional - boolean indicating whether automated backups should be enabled for the Droplet.
+#! @input backups: Optional - boolean indicating whether automated backups should be enabled for the Droplet.
 #!                 Automated backups can only be enabled when the Droplet is created
 #!                 Default: false
-#! @input ipv6: optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
-#! @input private_networking: optional - boolean indicating whether private networking is enabled for the Droplet
+#! @input ipv6: Optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
+#! @input private_networking: Optional - boolean indicating whether private networking is enabled for the Droplet
 #!                            Default: false
-#! @input user_data: optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped
+#! @input user_data: Optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped
 #!                    with a backslash (\).
 #! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                        (0 represents infinite value)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
 #!
 #! @output response: raw response of the API call
 #! @output droplet_id: ID of the created droplet in case of success, empty in case of failure

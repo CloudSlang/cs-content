@@ -20,7 +20,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Heroku application variables retrieved successfully
-#! @result FAILURE: there was an error while trying to get the specified application's variables
+#! @result FAILURE: There was an error while trying to get the specified application's variables
 #!!#
 ########################################################################################################################
 

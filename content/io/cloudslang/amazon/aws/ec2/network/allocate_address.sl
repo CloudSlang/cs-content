@@ -11,46 +11,46 @@
 #!               Note: An Elastic IP address is for use either in the EC2-Classic platform or in a VPC.
 #!                     For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
 #!
-#! @input endpoint: optional - Endpoint to which the request will be sent
+#! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-#! @input proxy_host: optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
+#! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Default: ''
-#! @input proxy_port: optional - Proxy server port. You must either specify values for both <proxy_host> and <proxy_port>
+#! @input proxy_port: Optional - Proxy server port. You must either specify values for both <proxy_host> and <proxy_port>
 #!                    inputs or leave them both empty.
 #!                    Default: ''
-#! @input proxy_username: optional - Proxy server user name.
+#! @input proxy_username: Optional - Proxy server user name.
 #!                        Default: ''
-#! @input proxy_password: optional - Proxy server password associated with the <proxy_username> input value.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #!                        Default: ''
-#! @input version: version of the web service to make the call against it.
-#!                 Example: "2014-06-15"
-#!                 Default: "2014-06-15"
-#! @input headers: optional - String containing the headers to use for the request separated by new line (CRLF). The
+#! @input version: Version of the web service to make the call against it.
+#!                 Example: '2014-06-15'
+#!                 Default: '2014-06-15'
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
 #!                 Examples: Accept:text/plain
 #!                 Default: ''
-#! @input query_params: optional - String containing query parameters that will be appended to the URL. The names and the
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names and the
 #!                      values must not be URL encoded because if they are encoded then a double encoded will occur. The
 #!                      separator between name-value pairs is "&" symbol. The query name will be separated from query
 #!                      value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ''
-#! @input domain: optional - If set to "vpc" then allocates the address for use with instances in a VPC, otherwise for
+#! @input domain: Optional - If set to "vpc" then allocates the address for use with instances in a VPC, otherwise for
 #!                use with with instances in EC2 Classic way.
-#!                Valid values: "standard", "vpc"
-#!                Default: "standard"
+#!                Valid values: 'standard', 'vpc'
+#!                Default: 'standard'
 #!
-#! @output return_result: outcome of the action in case of success, exception occurred otherwise
+#! @output return_result: Outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: error message if there was an error when executing, empty otherwise
+#! @output exception: Error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: success message
-#! @result FAILURE: an error occurred when trying to allocate new IP address
+#! @result SUCCESS: Success message
+#! @result FAILURE: An error occurred when trying to allocate new IP address
 #!!#
 ########################################################################################################################
 
@@ -94,7 +94,7 @@ operation:
         sensitive: true
         required: false
     - version:
-        default: "2014-06-15"
+        default: '2014-06-15'
         required: false
     - headers:
         default: ''

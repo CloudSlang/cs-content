@@ -24,7 +24,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: information snippets successfully found in text
-#! @result FAILURE: there was an error while trying to find information snippets
+#! @result FAILURE: There was an error while trying to find information snippets
 #!!#
 ########################################################################################################################
 

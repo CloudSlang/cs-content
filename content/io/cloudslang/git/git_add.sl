@@ -30,7 +30,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: files added and staged successfully
-#! @result FAILURE: there was an error while trying to add the files to GIT
+#! @result FAILURE: There was an error while trying to add the files to GIT
 #!!#
 ########################################################################################################################
 

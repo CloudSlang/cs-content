@@ -10,23 +10,23 @@
 #! @description: Creates a transcript of the text in an audio or video file.
 #!
 #! @input api_key: API key
-#! @input reference: optional - Haven OnDemand reference
+#! @input reference: Optional - Haven OnDemand reference
 #!                   exactly one of <reference>, <file> is required
-#! @input file: optional - path to video file
+#! @input file: Optional - path to video file
 #!              exactly one of <reference>, <file> is required
-#! @input interval: optional - use to segment the speech in the output. -1 to turn off
+#! @input interval: Optional - use to segment the speech in the output. -1 to turn off
 #!                  segmentation, 0 to segment on every word, and a positive
 #!                  number for a time interval (ms).
 #!                  default: -1
-#! @input language: optional - language of the provided speech
+#! @input language: Optional - language of the provided speech
 #!                  default value: en-US.
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output job_id: id of request returned by Haven OnDemand
 #!
 #! @result SUCCESS: audio or video file created successfully based on the transcript
-#! @result FAILURE: there was an error while trying to create the audio or video file from the transcript
+#! @result FAILURE: There was an error while trying to create the audio or video file from the transcript
 #!!#
 ########################################################################################################################
 

@@ -37,11 +37,11 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: the list of all virtual machines in the specified resource group
+#! @output output: The list of all virtual machines in the specified resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If no VM is found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: the list of all virtual machines in the specified resource group retrieved successfully
+#! @result SUCCESS: The list of all virtual machines in the specified resource group retrieved successfully
 #! @result FAILURE: There was an error while trying to retrieve the list of all VMs in the specified resource group
 #!!#
 ########################################################################################################################

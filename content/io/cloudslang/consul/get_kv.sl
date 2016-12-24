@@ -10,7 +10,7 @@
 #! @description: Gets a Consul key.
 #!
 #! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent port - Default: '8500'
+#! @input consul_port: Optional - Consul agent port - Default: '8500'
 #! @input key_name: name of key to get
 #!
 #! @output return_result: response of the operation

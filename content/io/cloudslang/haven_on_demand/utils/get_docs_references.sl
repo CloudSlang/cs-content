@@ -17,7 +17,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: document list retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the document list
+#! @result FAILURE: There was an error while trying to retrieve the document list
 #!!#
 ########################################################################################################################
 

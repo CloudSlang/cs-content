@@ -24,7 +24,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: documents successfully categorized based on categories created
-#! @result FAILURE: there was an error while trying to categorize the documents
+#! @result FAILURE: There was an error while trying to categorize the documents
 #!!#
 ########################################################################################################################
 

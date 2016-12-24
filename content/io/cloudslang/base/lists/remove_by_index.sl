@@ -9,12 +9,12 @@
 #!!
 #! @description: Remove an element from a list of strings
 #!
-#! @input list: the list to remove from - Example: '1,2,3,4,5'
-#! @input element: the index of the element to remove from the list - Example: '1'
-#! @input delimiter: the list delimiter - Example: ','
+#! @input list: The list to remove from - Example: '1,2,3,4,5'
+#! @input element: The index of the element to remove from the list - Example: '1'
+#! @input delimiter: The list delimiter - Example: ','
 #!
 #! @output response: index of the element to remove
-#! @output return_result: the new list or an error message otherwise
+#! @output return_result: The new list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
 #! @result SUCCESS: element removed with success

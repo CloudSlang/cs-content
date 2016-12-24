@@ -53,8 +53,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: success message
-#! @result FAILURE: an error occurred when trying to attach network interface to specified instance
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

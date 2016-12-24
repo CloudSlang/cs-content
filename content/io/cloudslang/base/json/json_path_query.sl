@@ -46,30 +46,30 @@
 namespace: io.cloudslang.base.json
 
 operation: 
-   name: json_path_query
+  name: json_path_query
 
-   inputs: 
-   -  json_object
-   -  jsonObject: 
-         private: true
+  inputs:
+    - json_object
+    - jsonObject:
          default: ${get('json_object', '')}
          required: false
-   -  json_path
-   -  jsonPath: 
          private: true
+    - json_path
+    - jsonPath:
          default: ${get('json_path', '')}
          required: false
+         private: true
 
-   java_action:
-      gav: 'io.cloudslang.content:cs-json:0.0.7'
-      method_name: execute
-      class_name: io.cloudslang.content.json.actions.JsonPathQuery
+  java_action:
+     gav: 'io.cloudslang.content:cs-json:0.0.7'
+     method_name: execute
+     class_name: io.cloudslang.content.json.actions.JsonPathQuery
 
-   outputs: 
-   -  return_result: ${returnResult}
-   -  return_code: ${returnCode}
-   -  exception
+  outputs:
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - exception
 
-   results: 
-   -  SUCCESS: ${ returnCode == '0'}
-   -  FAILURE
+  results:
+    - SUCCESS: ${ returnCode == '0'}
+    - FAILURE

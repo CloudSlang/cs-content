@@ -53,7 +53,7 @@
 #!                     folder will be used
 #!                     optional
 #!                     default: ''
-#! @input resource_pool: the resource pool for the cloned virtual machine. If not provided then the parent resource pool
+#! @input resource_pool: The resource pool for the cloned virtual machine. If not provided then the parent resource pool
 #!                       will be used
 #!                       optional
 #!                       default: ''
@@ -95,7 +95,7 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: an error occurred when trying to create a new virtual machine
+#! @result FAILURE: An error occurred when trying to create a new virtual machine
 #!!#
 ########################################################################################################################
 

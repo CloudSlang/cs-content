@@ -14,11 +14,11 @@
 #! @input password: Helion Development Platform / Stackato password
 #! @input application_name: name of the application to create
 #! @input space_guid: GUID of Helion Development Platform / Stackato space to deploy to
-#! @input proxy_host: optional - proxy server used to access Helion Development Platform / Stackato services
-#! @input proxy_port: optional - proxy server port used to access Helion Development Platform / Stackato services
+#! @input proxy_host: Optional - proxy server used to access Helion Development Platform / Stackato services
+#! @input proxy_port: Optional - proxy server port used to access Helion Development Platform / Stackato services
 #!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '201'

@@ -31,7 +31,7 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully terminated
+#! @result SUCCESS: The server (instance) was successfully terminated
 #! @result FAILURE: error terminating instance
 #!!#
 ########################################################################################################################

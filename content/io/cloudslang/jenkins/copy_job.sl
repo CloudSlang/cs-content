@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Copies a Jenkins job into a new Jenkins job.
+#!
 #! @prerequisites: jenkinsapi Python module
 #!
 #! @input url: URL to Jenkins
@@ -36,10 +37,8 @@ operation:
       try:
         from jenkinsapi.jenkins import Jenkins
         j = Jenkins(url, '', '')
-
         jobs = j.jobs
         jobs.copy(job_name, new_job_name)
-
         return_code = '0'
         result_message = 'Success'
       except:

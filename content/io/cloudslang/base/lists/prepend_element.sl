@@ -11,14 +11,14 @@
 #!
 #! @input list: list in which to pre-pend the element - Example: '1,2,3,4,5,6'
 #! @input element: element to pre-pend to the list - Example: '7'
-#! @input delimiter: optional - the list delimiter. delimiter can be empty string
+#! @input delimiter: Optional - the list delimiter. delimiter can be empty string
 #!                   Default: ','
 #!
 #! @output response: 'success' or 'failure'
-#! @output return_result: the new list or an error message otherwise
+#! @output return_result: The new list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: the new list was retrieved with success
+#! @result SUCCESS: The new list was retrieved with success
 #! @result FAILURE: otherwise
 #!!#
 ########################################################################################################################

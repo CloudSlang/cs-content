@@ -30,7 +30,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT directory was reset successfully
-#! @result FAILURE: there was an error while trying to reset GIT directory and/or while trying to clean it
+#! @result FAILURE: There was an error while trying to reset GIT directory and/or while trying to clean it
 #!!#
 ########################################################################################################################
 

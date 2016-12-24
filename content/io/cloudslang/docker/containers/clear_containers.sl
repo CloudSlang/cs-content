@@ -17,7 +17,7 @@
 #! @input port: Optional - SSH port
 #!
 #! @result SUCCESS: Docker images deleted successfully
-#! @result FAILURE: there was an error while trying to delete Docker containers
+#! @result FAILURE: There was an error while trying to delete Docker containers
 #!!#
 ########################################################################################################################
 

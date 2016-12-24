@@ -30,7 +30,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT repository cloned successfully
-#! @result FAILURE: there was an error while trying to clone the GIT repository
+#! @result FAILURE: There was an error while trying to clone the GIT repository
 #!!#
 ########################################################################################################################
 

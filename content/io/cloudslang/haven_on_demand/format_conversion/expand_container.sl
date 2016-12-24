@@ -21,7 +21,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: container files content extracted successfully
-#! @result FAILURE: there was an error while trying to extract content from the container files
+#! @result FAILURE: There was an error while trying to extract content from the container files
 #!!#
 ########################################################################################################################
 

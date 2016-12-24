@@ -22,7 +22,7 @@
 #! @input email_recipient: email recipient
 #!
 #! @result SUCCESS: Jenkins job cloned successfully
-#! @result FAILURE: there was an eror while trying to clone the Jenkins job
+#! @result FAILURE: There was an error while trying to clone the Jenkins job
 #!!#
 ########################################################################################################################
 

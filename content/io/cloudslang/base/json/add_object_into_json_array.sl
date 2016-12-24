@@ -11,13 +11,14 @@
 #!
 #! @input json_array: JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
 #! @input json_object: JSON object to insert into array - Example: '{"b": "1"}'
-#! @input index: Optional - position at which to insert the new object - Example: 1
+#! @input index: Optional - Position at which to insert the new object - Example: 1
+#!
 #! @output return_result: JSON array with object inserted
 #! @output return_code: "0" if inserting was successful, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output error_message: Error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: inserting was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

@@ -43,16 +43,16 @@
 #!
 #! @input xml: The XML (in the form of a String).
 #! @input file_path: absolute or remote path of the XML file.
-#! @input action: the edit action to take place.
+#! @input action: The edit action to take place.
 #!                Valid values: delete, insert, append, subnode, move, rename, update.
-#! @input xpath_1: the XPath Query to be run. The changes take place at the resulting elements.
-#! @input xpath_2: the XPath Query to be run. For the move action the results of xpath1 are moved to the results of xpath2.
-#! @input value: the new value.
+#! @input xpath_1: The XPath Query to be run. The changes take place at the resulting elements.
+#! @input xpath_2: The XPath Query to be run. For the move action the results of xpath1 are moved to the results of xpath2.
+#! @input value: The new value.
 #!               Examples: <newNode>newNodeValue</newNode> , <newNode newAttribute="newAttributeValue">newNodeValue</newNode>, new value.
-#! @input type: Defines on what should the changes take effect : the element, the value of the element or the attributes of the element.
+#! @input type: Defines on what should the changes take effect : The element, the value of the element or the attributes of the element.
 #!              Valid values: elem, text, attr
-#! @input name: the name of the attribute in case the selected type is 'attr' .
-#! @input parsing_features: the list of XML parsing features separated by new line (CRLF).
+#! @input name: The name of the attribute in case the selected type is 'attr' .
+#! @input parsing_features: The list of XML parsing features separated by new line (CRLF).
 #!                          The feature name - value must be separated by empty space.
 #!                          Setting specific features this field could be used to avoid XML security issues like
 #!                          "XML Entity Expansion injection" and "XML External Entity injection".
@@ -74,7 +74,7 @@
 #!
 #! @output return_result: this is the primary output. The edited XML.
 #! @output return_code: 0 for success; -1 for failure.
-#! @output exception: the exception message in case one occured.
+#! @output exception: The exception message in case one occured.
 #!
 #! @result SUCCESS: The operation completed as stated in the description.
 #! @result FAILURE: The operation completed unsuccessfully.

@@ -10,7 +10,7 @@
 #! @description: Performs a REST call to cAdvisor running in a Docker container.
 #!
 #! @input host: Docker machine host
-#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code == ': 1' or status_code != '200'

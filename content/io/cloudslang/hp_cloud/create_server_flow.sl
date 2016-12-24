@@ -18,11 +18,11 @@
 #! @input keypair: keypair used to access the new server
 #! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
 #! @input assign_floating: allocate and assign a floating IP to server? (True/False)
-#! @input network_id: optional - id of private network to add server to
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input polling_attempts: optional - number of attempts to check that the created server became ACTIVE - Default: 60
-#! @input polling_wait_time: optional - time in seconds to wait between polling of the new server's state
+#! @input network_id: Optional - id of private network to add server to
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#! @input polling_attempts: Optional - number of attempts to check that the created server became ACTIVE - Default: 60
+#! @input polling_wait_time: Optional - time in seconds to wait between polling of the new server's state
 #!                           Default: 10 seconds
 #!
 #! @output ip_address: IP address (if allocated)

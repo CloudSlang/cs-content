@@ -21,7 +21,7 @@
 #! @output error_message: error message of the operation that failed
 #!
 #! @result SUCCESS: Docker container deleted successfully
-#! @result FAILURE: there was an error while trying to delete the Docker container
+#! @result FAILURE: There was an error while trying to delete the Docker container
 #!!#
 ########################################################################################################################
 

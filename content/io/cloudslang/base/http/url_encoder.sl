@@ -10,8 +10,8 @@
 #! @description: Encodes data for usage in a url.
 #!
 #! @input data: data to encode
-#! @input safe: optional - characters that should not be encoded
-#! @input quote_plus: optional - if true, will replace spaces with plus signs
+#! @input safe: Optional - characters that should not be encoded
+#! @input quote_plus: Optional - if true, will replace spaces with plus signs
 #!
 #! @output result: encoded string
 #!

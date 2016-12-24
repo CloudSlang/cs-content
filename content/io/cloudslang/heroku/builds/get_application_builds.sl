@@ -20,7 +20,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Heroku application builds retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve Heroku application builds
+#! @result FAILURE: There was an error while trying to retrieve Heroku application builds
 #!!#
 ########################################################################################################################
 

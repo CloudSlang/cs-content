@@ -19,7 +19,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Heroku applications listed successfully
-#! @result FAILURE: there was an error while trying to list Heroku applications
+#! @result FAILURE: There was an error while trying to list Heroku applications
 #!!#
 ########################################################################################################################
 

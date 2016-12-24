@@ -11,34 +11,34 @@
 #!
 #! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
-#! @input protocol: optional - protocol that is used to send the request
+#! @input protocol: Optional - protocol that is used to send the request
 #!                  Valid: https. Obs: ServiceNow uses only this protocol
 #!                  Default: https
-#! @input auth_type: optional - type of authentication used to execute the request on the target server
+#! @input auth_type: Optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'anonymous' (When OAuth token is provided). Obs: ServiceNow uses only these
 #!                   Default: 'basic'
-#! @input api_version: optional - servicenow api version to be used for the call
+#! @input api_version: Optional - servicenow api version to be used for the call
 #!                   Valid: 'v1'
 #!                   Default: ''
 #! @input table_name: required - name of the servicenow table which should be used for the request.
 #!                    Example: incident, problem , change
-#! @input username: optional - username used for URL authentication; for NTLM authentication, required format is
+#! @input username: Optional - username used for URL authentication; for NTLM authentication, required format is
 #!                  'domain\user'
-#! @input password: optional - password used for URL authentication
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
-#! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
+#! @input password: Optional - password used for URL authentication
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
+#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Example: 'Accept:text/plain'
-#! @input query_params: optional - list containing query parameters to append to the URL
+#! @input query_params: Optional - list containing query parameters to append to the URL
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input body: optional - string to include in the body of the request, in the format accepted by ServiceNow
+#! @input body: Optional - string to include in the body of the request, in the format accepted by ServiceNow
 #!              Example: {'short_description':'Example description','severity':'1','assigned_to':'46c1293aa9fe1981000dc753e75ebeee'}
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of the
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type of the
 #!                      data in the message body - Default: 'application/json'
 #!
 #! @output return_result: response of the operation in case of success or the error message otherwise
@@ -48,8 +48,8 @@
 #! @output status_code: status code of the HTTP call
 #!
 #! @result SUCCESS: record created successfully
-#! @result REST_POST_API_CALL_FAILURE: there was an error while running a call on the REST API
-#! @result GET_SYSID_FAILURE: there was an error while trying to retrieve SYSID
+#! @result REST_POST_API_CALL_FAILURE: There was an error while running a call on the REST API
+#! @result GET_SYSID_FAILURE: There was an error while trying to retrieve SYSID
 #!!#
 ########################################################################################################################
 

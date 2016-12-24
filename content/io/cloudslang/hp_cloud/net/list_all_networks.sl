@@ -11,8 +11,8 @@
 #!
 #! @input token: auth token obtained by get_authenication_flow
 #! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: JSON listing all networks configured
 #! @output error_message: return_result if statusCode != 200

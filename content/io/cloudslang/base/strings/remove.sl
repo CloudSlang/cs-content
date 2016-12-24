@@ -8,8 +8,8 @@
 #!!
 #! @description: Removes text from a string.
 #!
-#! @input origin_string: optional - original string - Example: "SPAMgood morning"
-#! @input text: optional - text to be removed - Example: "SPAM"
+#! @input origin_string: Optional - original string - Example: "SPAMgood morning"
+#! @input text: Optional - text to be removed - Example: "SPAM"
 #!
 #! @output new_string: string after removing - Example: "good morning"
 #!

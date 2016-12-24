@@ -11,8 +11,8 @@
 #!
 #! @input api_key: user's API Keys
 #! @input job_id: id of request returned by Haven OnDemand
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output status: status of request
 #! @output return_result: JSON result of from API call

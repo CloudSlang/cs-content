@@ -11,19 +11,19 @@
 #!
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input client_id: optional - Service Client ID
-#! @input login_authority: optional - URL of the login authority that should be used when retrieving the Authentication Token.
+#! @input client_id: Optional - Service Client ID
+#! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
 #!                   Default: 'https://sts.windows.net/common'
-#! @input resource: optional - resource URl for which the Authentication Token is intended
+#! @input resource: Optional - resource URl for which the Authentication Token is intended
 #!                  Default: 'https://management.azure.com/'
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #!
-#! @output auth_token: the authorization Bearer token for Azure
+#! @output auth_token: The authorization Bearer token for Azure
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output exception: an error message in case there was an error while generating the Bearer token
+#! @output exception: An error message in case there was an error while generating the Bearer token
 #!
 #! @result SUCCESS: Bearer token generated successfully
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.

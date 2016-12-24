@@ -43,8 +43,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the Install Tools process on specified virtual machine was successfully started
-#! @result FAILURE: an error occurred when trying to start Install Tools process on specified virtual machine
+#! @result SUCCESS: The Install Tools process on specified virtual machine was successfully started
+#! @result FAILURE: An error occurred when trying to start Install Tools process on specified virtual machine
 #!!#
 ########################################################################################################################
 

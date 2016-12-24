@@ -31,7 +31,7 @@
 #! @input proxy_port: Optional - proxy server port
 #!
 #! @result SUCCESS: Docker containers linked successfully
-#! @result FAILURE: there was an error while trying to link Docker containers
+#! @result FAILURE: There was an error while trying to link Docker containers
 #!!#
 ########################################################################################################################
 

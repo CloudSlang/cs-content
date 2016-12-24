@@ -9,7 +9,8 @@
 #!!
 #! @description: Creates a Google Container Engine resource cluster.
 #!               More information on https://cloud.google.com/container-engine/reference/rest/v1/projects.zones.clusters#Cluster
-#! @input zone: optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
+#!
+#! @input zone: Optional - The name of the Google Compute Engine zone in which the cluster resides, or none for all zones
 #!              Default: none
 #! @input name: The name of the cluster to delete
 #! @input description: An optional description of this cluster
@@ -36,7 +37,7 @@
 #! @input node_ipv4_cidr_size: IPV4 Classless Inter Domani Routing node size
 #! @input services_ipv4_cidr: Classless Inter Domain Routing for ipv4
 #!
-#! @output return_result: the response of the operation in case of success, the error message otherwise
+#! @output return_result: The response of the operation in case of success, the error message otherwise
 #! @output error_message: return_result if return_code is '-1'
 #! @output response: JSON response body containing an instance of Operation
 #! @output return_code: '0' if success, '-1' otherwise

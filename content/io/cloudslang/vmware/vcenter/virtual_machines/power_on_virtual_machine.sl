@@ -43,8 +43,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the specified virtual machine was successfully powered on
-#! @result FAILURE: an error occurred when trying to power on the specified virtual machine
+#! @result SUCCESS: The specified virtual machine was successfully powered on
+#! @result FAILURE: An error occurred when trying to power on the specified virtual machine
 #!!#
 ########################################################################################################################
 

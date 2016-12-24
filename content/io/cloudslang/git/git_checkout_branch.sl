@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Checks out a git branch.
+#!
 #! @input host: hostname or IP address
 #! @input port: Optional - port number for running the command
 #! @input username: username to connect as
@@ -32,7 +33,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: git checkout completed successfully
-#! @result FAILURE: there was an error during GIT checkout
+#! @result FAILURE: There was an error during GIT checkout
 #!!#
 ########################################################################################################################
 

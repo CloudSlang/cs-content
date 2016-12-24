@@ -14,19 +14,19 @@
 #! @input cslang_folder: CloudSlang content folder to pack - Example: "C:/cslang-cli/cslang/content/io/cloudslang/base"
 #! @input cp_publisher: content pack publisher - Example: "Customer"
 #! @input cp_location: location for the content pack jar file - Example: "c:/content_packs"
-#! @input cp_folder: optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
+#! @input cp_folder: Optional - temporary folder for the package - Default: <cp_location>/<cp_name>-cp-<cp_version>
 #!
 #! @result SUCCESS: Content pack created successfully
-#! @result CREATE_LIB_FOLDER_FAILURE: there was an error while creting the LIB folder
-#! @result POPULATE_LIB_FOLDER_FAILURE: there was an error while trying to populate the LIB folder
-#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: there was an error while trying to create the system properties file
-#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: there was an error while trying to create the library structure
-#! @result COPY_CONTENT_FAILURE: there was an error while trying to copy content
-#! @result MOVE_CONFIG_ITEMS_FAILURE: there was en error while trying to move the configuration items
-#! @result CREATE_CP_PROPERTIES_FAILURE: there was an error while trying to create CP properties
-#! @result CREATE_ARCHIVE_FAILURE: there was an error while trying to create the archive
-#! @result CREATE_JAR_FAILURE: there was an error while trying to create the JAR file
-#! @result CLEAN_FOLDER_FAILURE: there was an error while cleaning up the folder
+#! @result CREATE_LIB_FOLDER_FAILURE: There was an error while creting the LIB folder
+#! @result POPULATE_LIB_FOLDER_FAILURE: There was an error while trying to populate the LIB folder
+#! @result CREATE_SYSTEM_PROPERTIES_FAILURE: There was an error while trying to create the system properties file
+#! @result CREATE_LIBRARY_STRUCTURE_FAILURE: There was an error while trying to create the library structure
+#! @result COPY_CONTENT_FAILURE: There was an error while trying to copy content
+#! @result MOVE_CONFIG_ITEMS_FAILURE: There was en error while trying to move the configuration items
+#! @result CREATE_CP_PROPERTIES_FAILURE: There was an error while trying to create CP properties
+#! @result CREATE_ARCHIVE_FAILURE: There was an error while trying to create the archive
+#! @result CREATE_JAR_FAILURE: There was an error while trying to create the JAR file
+#! @result CLEAN_FOLDER_FAILURE: There was an error while cleaning up the folder
 #!!#
 ########################################################################################################################
 

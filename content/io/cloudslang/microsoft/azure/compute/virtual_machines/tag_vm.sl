@@ -12,7 +12,7 @@
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be tagged.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to tag the VM.
 #! @input auth_token: Azure authorization Bearer token
-#! @input api_version: the API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input vm_name: Specifies the name of the virtual machine to be tagged.
 #!                 This name should be unique within the resource group.

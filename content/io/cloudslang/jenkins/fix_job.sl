@@ -11,11 +11,11 @@
 #!               After copying a job, the job cannot be directly triggered from the Jenkins UI because the "Build now"
 #!               link is missing.
 #!
-#! @input url: the URL to Jenkins
-#! @input job_name: the name of the job to fix
+#! @input url: The URL to Jenkins
+#! @input job_name: The name of the job to fix
 #!
 #! @result SUCCESS: Jenkins job successfully enabled/disabled and fixed
-#! @result FAILURE: there was an error while trying to enable/disable the Jenkins job in an attempt to fix it
+#! @result FAILURE: There was an error while trying to enable/disable the Jenkins job in an attempt to fix it
 #!!#
 ########################################################################################################################
 

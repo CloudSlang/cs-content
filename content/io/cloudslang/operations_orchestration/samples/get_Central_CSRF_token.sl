@@ -10,28 +10,28 @@
 #! @description: Performs a REST API call in order to get the Central CSRF Token using a REST API GET call.
 #!
 #! @input host: host where Central is installed and running
-#! @input port: optional - port where Central GUI is exposed - Default: '8080'
-#! @input protocol: optional - protocol used to connect to Central - Valid: 'http', 'https' - Default: 'http'
-#! @input username: optional - username needed to connect to Central; for NTLM authentication - Format: 'domain\user'
+#! @input port: Optional - port where Central GUI is exposed - Default: '8080'
+#! @input protocol: Optional - protocol used to connect to Central - Valid: 'http', 'https' - Default: 'http'
+#! @input username: Optional - username needed to connect to Central; for NTLM authentication - Format: 'domain\user'
 #!                  Default: ''
-#! @input password: optional - password associated with <username> input used for authentication
+#! @input password: Optional - password associated with <username> input used for authentication
 #!                  Default: ''
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other
 #!                        parties that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file.
+#! @input trust_password: Optional - the password associated with the TrustStore file.
 #!                        If trust_all_roots is false and trustKeystore is empty, trust_password default will be supplied.
 #!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is
 #!                  'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file.
+#! @input keystore_password: Optional - the password associated with the KeyStore file.
 #!                           If trust_all_roots is false and keystore is empty, keystorePassword default will be supplied.
 #!                           Default value: ''
 #!
@@ -43,7 +43,7 @@
 #! @output token: Central CSRF token
 #!
 #! @result SUCCESS: Central CSRF token retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the Central CSRF token
+#! @result FAILURE: There was an error while trying to retrieve the Central CSRF token
 #!!#
 ########################################################################################################################
 

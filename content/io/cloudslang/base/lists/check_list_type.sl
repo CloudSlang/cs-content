@@ -10,7 +10,7 @@
 #! @description: Check if the list contains ints or strings.
 #!
 #! @input list: list to check - e.g. "el1,el2"
-#! @input delimiter: the list delimiter
+#! @input delimiter: The list delimiter
 #!
 #! @output result: message indicating whether the list contains int or string elements
 #! @output error_message: list contains int and strings

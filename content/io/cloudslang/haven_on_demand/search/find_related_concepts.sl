@@ -35,7 +35,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: best phrases and terms retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve best phrases and terms
+#! @result FAILURE: There was an error while trying to retrieve best phrases and terms
 #!!#
 ########################################################################################################################
 

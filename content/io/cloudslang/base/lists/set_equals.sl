@@ -15,8 +15,8 @@
 #! @input raw_set_2: Optional - second set
 #! @input delimiter_2: delimiter of second set - Default: `,` (comma)
 #!
-#! @result EQUAL: the sets are equal
-#! @result NOT_EQUAL: the sets are not equal
+#! @result EQUAL: The sets are equal
+#! @result NOT_EQUAL: The sets are not equal
 #!!#
 ########################################################################################################################
 

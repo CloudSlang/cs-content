@@ -9,24 +9,24 @@
 #!!
 #! @description: Creates a boot specific JSON object to be used when an OpenStack server is created
 #!
-#! @input boot_index: the order in which a hyper-visor tries devices when it attempts to boot the guest from storage.
+#! @input boot_index: The order in which a hyper-visor tries devices when it attempts to boot the guest from storage.
 #!                    To disable a device from booting, the boot index of the device should be a negative value
 #!                    - Default: '0'
 #! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @input source_type: the source type of the volume - Valid: "", "image", "snapshot" or "volume" - Default: ''
+#! @input source_type: The source type of the volume - Valid: "", "image", "snapshot" or "volume" - Default: ''
 #! @input delete_on_termination: if True then the boot volume will be deleted when the server is destroyed, If false the
 #!                               boot volume will be deleted when the server is destroyed.
 #!
-#! @output boot_json: the boot specific JSON object
+#! @output boot_json: The boot specific JSON object
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: "0" if success, "-1" otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: successfully created a boot specific JSON object (return_code == '0')
-#! @result ADD_BOOT_INDEX_FAILURE: there was an error while trying to add the boot index
-#! @result ADD_UUID_FAILURE: there was an error while trying to add the UUID
-#! @result ADD_SOURCE_TYPE_FAILURE: there was an error while trying to add the source type
-#! @result ADD_DELETE_ON_TERMINATION_FAILURE: there was an error while trying to add delete on termination
+#! @result ADD_BOOT_INDEX_FAILURE: There was an error while trying to add the boot index
+#! @result ADD_UUID_FAILURE: There was an error while trying to add the UUID
+#! @result ADD_SOURCE_TYPE_FAILURE: There was an error while trying to add the source type
+#! @result ADD_DELETE_ON_TERMINATION_FAILURE: There was an error while trying to add delete on termination
 #!!#
 ########################################################################################################################
 

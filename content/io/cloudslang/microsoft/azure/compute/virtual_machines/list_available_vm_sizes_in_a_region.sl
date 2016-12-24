@@ -14,47 +14,47 @@
 #! @input vm_name: The name of the virtual machine to be created.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input location: A supported Azure region
-#! @input auth_type: optional - authentication type
+#! @input auth_type: Optional - authentication type
 #!                   Default: "anonymous"
 #! @input auth_token: Azure authorization Bearer token
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type
 #!                      of the data in the message body
 #!                      Default: "application/json; charset=utf-8"
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty,
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
 #!                           is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
+#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
-#! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input use_cookies: Optional - specifies whether to enable cookie tracking or not - Default: true
+#! @input keep_alive: Optional - specifies whether to create a shared connection that will be used in subsequent calls
 #!                    Default: true
-#! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
+#! @input request_character_set: Optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
 #!
-#! @output output: the list of all  available virtual machine sizes for a subscription in a given region
+#! @output output: The list of all  available virtual machine sizes for a subscription in a given region
 #! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
 #! @output error_message: If no available virtual machine size is found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: the list of all available virtual machine sizes for a subscription in a given region
+#! @result SUCCESS: The list of all available virtual machine sizes for a subscription in a given region
 #! @result FAILURE: There was an error while trying to retrieve the list of all available virtual machine sizes for a subscription in a given region
 #!!#
 ########################################################################################################################

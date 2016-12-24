@@ -12,7 +12,7 @@
 #!               this operation can be used to get the element.
 #!
 #! @input list: list from which we want to get the element  - Example: '1,2,3,4,5,6'
-#! @input delimiter: the list delimiter
+#! @input delimiter: The list delimiter
 #! @input index: index of the value (starting with 0) to retrieve from the list
 #!
 #! @output response: 'success' or 'failure'

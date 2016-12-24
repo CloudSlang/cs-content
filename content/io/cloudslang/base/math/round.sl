@@ -14,7 +14,7 @@
 #! @output error_message: error message if error occurred
 #! @output rounded: rounded value of the float as a string
 #!
-#! @result SUCCESS: the value was rounded successfully
+#! @result SUCCESS: The value was rounded successfully
 #! @result FAILURE: input was not in correct format
 #!!#
 ########################################################################################################################

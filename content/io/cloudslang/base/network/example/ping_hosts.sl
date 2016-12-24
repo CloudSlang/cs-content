@@ -8,10 +8,11 @@
 ########################################################################################################################
 #!!
 #! @description: Pings addresses from input list and sends an email with results.
+#!
 #! @prerequisites: system property file with email properties
 #!
 #! @input ip_list: list of IPs to be checked
-#! @input message_body: the message to be sent in emails
+#! @input message_body: The message to be sent in emails
 #! @input all_nodes_are_up: whether the nodes are up or not - Default: True
 #! @input hostname: email host - System Property: io.cloudslang.base.hostname
 #! @input port: email port - System Property: io.cloudslang.base.port

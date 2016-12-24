@@ -9,35 +9,35 @@
 #!!
 #! @description: Gets the launch permission of the specified AMI.
 #!
-#! @input endpoint: optional - Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services
+#! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#! @input version: version of the web service to make the call against it.
-#!                 Example: "2016-04-01"
-#!                 Default: "2016-04-01"
+#! @input version: Version of the web service to make the call against it.
+#!                 Example: '2016-04-01'
+#!                 Default: '2016-04-01'
 #! @input image_id: ID of the specified image to retrieve launch permission for
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the image was successfully created
-#! @result FAILURE: an error occurred when trying to create image
+#! @result SUCCESS: The image was successfully created
+#! @result FAILURE: An error occurred when trying to create image
 #!!#
 ########################################################################################################################
 
@@ -88,7 +88,7 @@ operation:
         required: false
         private: true
     - version:
-        default: "2016-04-01"
+        default: '2016-04-01'
         required: false
     - image_id
     - imageId:

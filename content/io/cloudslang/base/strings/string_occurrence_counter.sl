@@ -11,7 +11,7 @@
 #!
 #! @input string_in_which_to_search: string where to search
 #! @input string_to_find: string to be found
-#! @input ignore_case: optional - ignores case if set to true - Default: true
+#! @input ignore_case: Optional - ignores case if set to true - Default: true
 #!
 #! @output return_result: number of times string_to_find was found in container
 #! @output return_code: 0 if everything went ok, -1 if an error was thrown

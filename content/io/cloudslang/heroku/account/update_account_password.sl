@@ -11,9 +11,9 @@
 #!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - Heroku <username> account password
+#! @input password: Optional - Heroku <username> account password
 #!                  default: None
-#! @input new_password: optional - new password for <username> account
+#! @input new_password: Optional - new password for <username> account
 #!                      default: None
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise

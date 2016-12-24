@@ -55,7 +55,7 @@
 #!                      Default: 'text/plain'
 #! @input method: HTTP method used - Default: 'GET'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output return_result: The response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call

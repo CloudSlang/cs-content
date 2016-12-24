@@ -9,8 +9,8 @@
 #!!
 #! @description: This operation checks to see if a list contains every element from another list
 #!
-#! @input container: the containing list  - Example: Luke,Vader,Kenobi
-#! @input sublist: the contained list - Example: Kenobi
+#! @input container: The containing list  - Example: Luke,Vader,Kenobi
+#! @input sublist: The contained list - Example: Kenobi
 #! @input delimiter: a delimiter separating elements in the two lists
 #!                   default: ','
 #! @input ignore_case: If set to 'true' then the compare is not case sensitive.

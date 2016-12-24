@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT branch fetched successfully
-#! @result FAILURE: there was an error while trying to fetch GIT branch
+#! @result FAILURE: There was an error while trying to fetch GIT branch
 #!!#
 ########################################################################################################################
 

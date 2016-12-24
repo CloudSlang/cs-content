@@ -23,7 +23,7 @@
 #! @output error_message: error message of failed operation
 #!
 #! @result SUCCESS: Docker container DB created successfully
-#! @result FAILURE: there was an error while trying to create Docker container DB
+#! @result FAILURE: There was an error while trying to create Docker container DB
 #!!#
 ########################################################################################################################
 

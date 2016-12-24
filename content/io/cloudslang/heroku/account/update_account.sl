@@ -14,11 +14,11 @@
 #! @input password: Heroku <username> account password
 #!                  optional
 #!                  default: None
-#! @input allow_tracking: optional - whether to allow third party web activity tracking
+#! @input allow_tracking: Optional - whether to allow third party web activity tracking
 #!                        default: True
-#! @input beta: optional - whether allowed to utilize beta Heroku features
+#! @input beta: Optional - whether allowed to utilize beta Heroku features
 #!              default: False
-#! @input account_owner_name: optional - full name of account owner
+#! @input account_owner_name: Optional - full name of account owner
 #!                            default: None
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise

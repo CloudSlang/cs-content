@@ -23,7 +23,7 @@
 #!                    Optional
 #!
 #! @result SUCCESS: text index setup queried successfully
-#! @result FAILURE: there was an error while trying to query the text index setup
+#! @result FAILURE: There was an error while trying to query the text index setup
 #!!#
 ########################################################################################################################
 

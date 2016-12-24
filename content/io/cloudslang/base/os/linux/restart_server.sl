@@ -15,7 +15,7 @@
 #! @input password: password of user
 #! @input timeout: time in minutes to postpone restart
 #! @input sudo_user: Optional - whether to use 'sudo' prefix before command - Default: false
-#! @input private_key_file: the absolute path to the private key file
+#! @input private_key_file: The absolute path to the private key file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

@@ -33,7 +33,7 @@
 #! @output error_message: something went wrong while trying to delete the container
 #!
 #! @result SUCCESS: specified Docker container deleted successfully
-#! @result FAILURE: there was an error while trying to delete the specified Docker container
+#! @result FAILURE: There was an error while trying to delete the specified Docker container
 #!!#
 ########################################################################################################################
 

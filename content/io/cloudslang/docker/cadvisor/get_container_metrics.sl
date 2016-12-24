@@ -13,7 +13,7 @@
 #! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
 #! @input container: name or ID of the Docker container that runs cAdvisor
 #!
-#! @output return_result: the raw response of the operation
+#! @output return_result: The raw response of the operation
 #! @output error_message: return_result if return_code == ': 1' or status_code != '200'
 #! @output return_code: if return_code == '-1' then there was an error
 #! @output status_code: normal status code is '200'

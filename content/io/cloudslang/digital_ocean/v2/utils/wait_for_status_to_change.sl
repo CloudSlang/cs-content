@@ -14,13 +14,13 @@
 #!                Valid: "new", "active", "off", "archive"
 #! @input timeout: time limit to wait for droplet to change its status as number or string - in seconds
 #! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time to wait for a connection to be established, in seconds
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: Optional - time to wait for a connection to be established, in seconds
 #!                         (0 represents infinite value)
-#! @input socket_timeout: optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
+#! @input socket_timeout: Optional - time to wait for data to be retrieved, in seconds (0 represents infinite value)
 #!
 #! @result SUCCESS: droplet changed its status
 #! @result DROPLET_NOT_FOUND: underlying GET request returned NOT_FOUND status code for droplet

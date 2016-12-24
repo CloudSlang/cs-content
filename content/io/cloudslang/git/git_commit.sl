@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: staged files committed successfully
-#! @result FAILURE: there was an error while trying to commit staged files
+#! @result FAILURE: There was an error while trying to commit staged files
 #!!#
 ########################################################################################################################
 

@@ -10,8 +10,8 @@
 #! @description: Get the id of a specified IP address.
 #!
 #! @input json_ip_list: output of the list_all_floating_ips operation
-#!
 #! @input ip_address: IP address to get the ID for
+#!
 #! @output ip_id: ID of IP address provided
 #!
 #! @result SUCCESS: found the IP address ID and returned it

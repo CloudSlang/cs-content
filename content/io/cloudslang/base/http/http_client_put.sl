@@ -55,7 +55,7 @@
 #!                      Default: 'text/plain'
 #! @input method: HTTP method used - Default: 'PUT'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output return_result: The response of the operation in case of success or the error message otherwise
 #! @output error_message: returnResult if statusCode is not contained in interval between '200' and '299'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call

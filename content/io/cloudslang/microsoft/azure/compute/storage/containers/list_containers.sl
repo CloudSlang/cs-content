@@ -11,14 +11,14 @@
 #!
 #! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #!
 #! @output output: a list of container names separated by ','
 #! @output return_code: 0 if request completed successfully, -1 in case something went wrong
-#! @output exception: the stacktrace of the operation in case something went wrong
+#! @output exception: The stacktrace of the operation in case something went wrong
 #!
 #! @result SUCCESS: The list of the containers under the specified account retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the list of containers under the specified account

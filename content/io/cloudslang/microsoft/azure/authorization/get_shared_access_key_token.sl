@@ -8,14 +8,17 @@
 ########################################################################################################################
 #!!
 #! @description: Generates the authorization token for external Azure API calls.
-#! @input identifier: the Identifier text box in the Credentials section of the Service Management API tab of System Settings
-#! @input primary_or_secondary_key: the Primary Key or the Secondary Key in the Credentials section of the Service
+#!
+#! @input identifier: The Identifier text box in the Credentials section of the Service Management API tab of System Settings
+#! @input primary_or_secondary_key: The Primary Key or the Secondary Key in the Credentials section of the Service
 #!                                  Management API tab of System Settings
-#! @input expiry: the expiration date and time for the access token, the value must be in the format MM/DD/YYYY H:MM PM|AM
-#!               Example: 08/04/2014 10:03 PM
-#! @output return_result: the shared access authorization token for Azure
-#! @output exception: the error message of the operation, if any
+#! @input expiry: The expiration date and time for the access token, the value must be in the format MM/DD/YYYY H:MM PM|AM
+#!               Example: '08/04/2014 10:03 PM'
+#!
+#! @output return_result: The shared access authorization token for Azure
+#! @output exception: The error message of the operation, if any
 #! @output return_code: '0' if success, '-1' otherwise
+#!
 #! @result SUCCESS: operation succeeded and returned the value for the authorization header
 #! @result FAILURE: otherwise
 #!!#

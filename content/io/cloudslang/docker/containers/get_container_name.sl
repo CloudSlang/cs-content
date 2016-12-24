@@ -38,7 +38,7 @@
 #! @output standard_err: error message
 #!
 #! @result SUCCESS: name of the container retrieved successfully
-#! @result FAILURE: there was an error in retrieving the name of the container
+#! @result FAILURE: There was an error in retrieving the name of the container
 #!!#
 ########################################################################################################################
 

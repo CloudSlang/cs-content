@@ -10,15 +10,15 @@
 #! @description: Authenticates an OpenStack machine.
 #!
 #! @input host: OpenStack host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: '5000'
 #! @input username: OpenStack username
 #! @input password: OpenStack password
 #! @input tenant_name: name of the project on OpenStack
-#! @input proxy_host: optional - proxy server used to access OpenStack services
-#! @input proxy_port: optional - proxy server port used to access OpenStack services
-#! @input proxy_username: optional - username used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_host: Optional - proxy server used to access OpenStack services
+#! @input proxy_port: Optional - proxy server port used to access OpenStack services
+#! @input proxy_username: Optional - username used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #!
 #! @output return_result: response of last operation that was executed
 #! @output error_message: error message of operation that failed

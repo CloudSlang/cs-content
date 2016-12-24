@@ -13,7 +13,7 @@
 #! @input target_dir: path of target directory
 #!
 #! @result SUCCESS: configuration files successfully copied to the system properties folder
-#! @result FAILURE: there was an error while trying to copy the configuration files
+#! @result FAILURE: There was an error while trying to copy the configuration files
 #!!#
 ########################################################################################################################
 

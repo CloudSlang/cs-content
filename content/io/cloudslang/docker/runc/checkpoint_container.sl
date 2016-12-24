@@ -9,14 +9,14 @@
 #! @description: Creates a checkpoint for a running runc container.
 #!
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). - Example: "false"
-#! @input docker_host: the address of the Docker host to checkpoint . - Example: "192.168.0.1"
+#! @input docker_host: The address of the Docker host to checkpoint . - Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker host.
 #! @input username: A user with sufficient privileges to checkpoint the container.
 #! @input password: The user's password.
-#! @input runc_container: the name of the container to checkpoint . - Example: "redis"
-#! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
-#! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
-#! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
+#! @input runc_container: The name of the container to checkpoint . - Example: "redis"
+#! @input root_path: The full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
+#! @input predump_image_location: The full path to the folder which will contain the container's pre_dump image.
+#! @input dump_image_location: The full path  to the folder which will contain the container's dump image.
 #!
 #! @result SUCCESS: Checkpoint created successfully
 #! @result PRE_DUMP_FAILURE: There was an error while trying to create a dump for the checkpoint

@@ -18,7 +18,7 @@
 #! @input proxy_host: Optional - proxy server used to access the web site
 #! @input proxy_port: Optional - proxy server port - Default: "8080"
 #! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxyUsername> input value
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -55,7 +55,7 @@
 #!                      Examples: parameterName1=parameterValue1&parameterName2=parameterValue2;
 #! @input method: HTTP method used - Default: 'PATCH'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output return_result: The response of the operation in case of success or the error message otherwise
 #! @output error_message: returnResult if statusCode different than "200"
 #! @output return_code: "0" if success, "-1" otherwise
 #! @output status_code: status code of the HTTP call

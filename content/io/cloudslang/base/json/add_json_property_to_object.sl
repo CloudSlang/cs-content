@@ -13,7 +13,7 @@
 #!                     Example: '{"server": {"security_groups": [{"name": "default"}], "networks": []}}'
 #! @input key: key where the new JSON object will be added
 #!             Example: 'block_device_mapping_v2'
-#! @input value: the JSON object to add
+#! @input value: The JSON object to add
 #!               Example: '{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0"}'
 #!
 #! @output return_result: JSON object updated

@@ -19,7 +19,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: existing user's SSH keys retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the user's SSH keys
+#! @result FAILURE: There was an error while trying to retrieve the user's SSH keys
 #!!#
 ########################################################################################################################
 

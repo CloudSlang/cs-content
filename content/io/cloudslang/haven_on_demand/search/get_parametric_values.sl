@@ -38,7 +38,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: unique values from a particular field retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the unique values
+#! @result FAILURE: There was an error while trying to retrieve the unique values
 #!!#
 ########################################################################################################################
 

@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT branch merged successfully to another branch
-#! @result FAILURE: there was an error while trying to merge a GIT branch to another
+#! @result FAILURE: There was an error while trying to merge a GIT branch to another
 #!!#
 ########################################################################################################################
 

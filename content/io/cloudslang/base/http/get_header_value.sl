@@ -16,7 +16,7 @@
 #! @output error_message: exception if occurs
 #!
 #! @result SUCCESS: retrieved specified header value
-#! @result FAILURE: there was an error retrieving header value
+#! @result FAILURE: There was an error retrieving header value
 #!!#
 ########################################################################################################################
 

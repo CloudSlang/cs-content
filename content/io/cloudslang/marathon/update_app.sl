@@ -10,11 +10,11 @@
 #! @description: Updates an app.
 #!
 #! @input marathon_host: Marathon agent host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
 #! @input app_id: app ID to update
 #! @input json_file: path to JSON of the app
-#! @input proxy_host: optional - proxy host
-#! @input proxy_port: optional - proxy port
+#! @input proxy_host: Optional - proxy host
+#! @input proxy_port: Optional - proxy port
 #!
 #! @output return_result: response of the operation
 #! @output status_code: normal status code is 200

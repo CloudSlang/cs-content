@@ -10,15 +10,15 @@
 #! @description: This operation sorts a list of strings. If the list contains only numerical strings,
 #!               it is sorted in numerical order. Otherwise it is sorted alphabetically.
 #!
-#! @input list: the list to be sorted
+#! @input list: The list to be sorted
 #!              Example: '4,3,5,2,1'
-#! @input delimiter: the list delimiter - Example: ','
+#! @input delimiter: The list delimiter - Example: ','
 #!                   For special delimiters, they must be escaped. e.g. '\\.'
 #! @input reverse: Optional - a boolean value for sorting the list in reverse order
 #!                 default: 'false'
 #!
 #! @output response: 'success' or 'failure'
-#! @output return_result: the sorted list or an error message otherwsie
+#! @output return_result: The sorted list or an error message otherwsie
 #! @output return_code: 0 if success, -1 if failure
 #!
 #! @result SUCCESS: sorting successfull

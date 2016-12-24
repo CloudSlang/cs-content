@@ -10,7 +10,7 @@
 #! @description: Retrieves a list of all the Docker container names.
 #!
 #! @input container_id: container id
-#! @input containers_with_process: the string where the container id will be appended
+#! @input containers_with_process: The string where the container id will be appended
 #!                                 Default: ''
 #! @input host: Docker machine host
 #! @input port: Optional - SSH port

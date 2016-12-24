@@ -12,12 +12,12 @@
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
-#! @input name: optional - name of application; if not provided, name will be generate by Heroku
+#! @input name: Optional - name of application; if not provided, name will be generate by Heroku
 #!              default: None
-#! @input region: optional - unique identifier or name of region
+#! @input region: Optional - unique identifier or name of region
 #!                default: None
 #!                example: 'us'
-#! @input stack: optional - optional unique identifier or name of stack
+#! @input stack: Optional - optional unique identifier or name of stack
 #!               default: None
 #!               example: 'cedar-14'
 #!

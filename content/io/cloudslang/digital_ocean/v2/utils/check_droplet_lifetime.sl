@@ -16,7 +16,7 @@
 #! @output return_result: elapsed time in minutes in case of success, cause of the error in case of failure
 #! @output return_code: 0 if parsing was successful, -1 otherwise
 #!
-#! @result FAILURE: an error occurred
+#! @result FAILURE: An error occurred
 #! @result ABOVE_THRESHOLD: lifetime of droplet reached the threshold
 #! @result BELOW_THRESHOLD: lifetime of droplet did not reach the threshold
 #!!#

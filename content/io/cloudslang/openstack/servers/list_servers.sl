@@ -10,15 +10,15 @@
 #! @description: Retrieves a list of servers on an OpenStack machine.
 #!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: 5000
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: 8774
 #! @input username: OpenStack username
 #! @input password: OpenStack password
 #! @input tenant_name: name of project on OpenStack
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server used to access web site
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output server_list: list of server names
 #! @output return_result: response of last operation executed

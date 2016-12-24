@@ -18,7 +18,7 @@
 #!
 #! @output knife_result: filtered output of knife command
 #! @output raw_result: full STDOUT
-#! @output standard_err: any STDERR
+#! @output standard_err: Any STDERR
 #!
 #! @result SUCCESS: node deleted OK
 #! @result FAILURE: otherwise

@@ -12,19 +12,19 @@
 #! @input host: Helion Development Platform / Stackato host
 #! @input username: Helion Development Platform / Stackato username
 #! @input password: Helion Development Platform / Stackato password
-#! @input proxy_host: optional - proxy server used to access Helion Development Platform / Stackato services
-#! @input proxy_port: optional - proxy server port used to access Helion Development Platform / Stackato services
-#!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_host: Optional - Proxy server used to access Helion Development Platform / Stackato services
+#! @input proxy_port: Optional - Proxy server port used to access Helion Development Platform / Stackato services
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to proxy
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value
 #!
-#! @output return_result: response of last operation that was executed
-#! @output error_message: error message of operation that failed
-#! @output token: authentication token
+#! @output return_result: Response of last operation that was executed
+#! @output error_message: Error message of operation that failed
+#! @output token: Authentication token
 #!
-#! @result SUCCESS: authentication on Helion Development Platform / Stackato host was successful
-#! @result GET_AUTHENTICATION_FAILURE: authentication call failsed
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
+#! @result SUCCESS: Authentication on Helion Development Platform / Stackato host was successful
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call failsed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token could not be obtained from authentication call response
 #!!#
 ########################################################################################################################
 

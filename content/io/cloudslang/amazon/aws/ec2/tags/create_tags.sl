@@ -20,34 +20,34 @@
 #! @input proxy_host: Optional - Proxy server used to access the provider services
 #! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: Optional - proxy server user name.
-#! @input proxy_password: Optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
-#!                 Examples: "Accept:text/plain"
-#!                 Default: ""
-#! @input query_params: Optional - string containing query parameters that will be appended to the URL. The names
+#!                 Examples: 'Accept:text/plain'
+#!                 Default: ''
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
-#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#!                      Default: ""
-#! @input version: version of the web service to make the call against it.
-#!                 Example: "2016-04-01"
-#!                 Default: "2016-04-01"
+#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
+#!                      Default: ''
+#! @input version: Version of the web service to make the call against it.
+#!                 Example: '2016-04-01'
+#!                 Default: '2016-04-01'
 #! @input delimiter: Optional - Delimiter that will be used - Default: ','
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter.
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter.
 #! @input resource_ids_string: String that contains Id's of one or more resources to tag.
-#!                             Ex: "ami-1a2b3c4d"
+#!                             Ex: 'ami-1a2b3c4d'
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: success message
-#! @result FAILURE: an error occurred when trying to apply tags to resources
+#! @result SUCCESS: Success message
+#! @result FAILURE: An error occurred when trying to apply tags to resources
 #!!#
 ########################################################################################################################
 
@@ -70,7 +70,7 @@ operation:
         required: false
         private: true
     - proxy_port:
-        default: "8080"
+        default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "8080")}
@@ -99,7 +99,7 @@ operation:
         required: false
         private: true
     - version:
-        default: "2016-04-01"
+        default: '2016-04-01'
         required: false
     - delimiter:
         default: ','

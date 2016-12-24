@@ -10,14 +10,14 @@
 #! @description: Performs a REST API call to add an embedded cartridge to a specified RedHat OpenShift Online application.
 #!
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - RedHat OpenShift Online username
+#! @input username: Optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port
+#! @input password: Optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: Optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: Optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain in which the application resides
 #! @input application_name: RedHat OpenShift Online application name to add cartridge to
 #! @input cartridge: name of embedded cartridge to be added
@@ -30,7 +30,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: embedded cartridge successfully added to the Openshift application
-#! @result FAILURE: there was an error while trying to add the embedded cartridge to the Openshift application
+#! @result FAILURE: There was an error while trying to add the embedded cartridge to the Openshift application
 #!!#
 ########################################################################################################################
 

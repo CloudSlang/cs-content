@@ -38,22 +38,22 @@
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
 #! @input virtual_machine_name: name of linux OS based virtual machine that will be customized
-#! @input computer_name: the network host name of the (Linux) virtual machine
-#! @input domain: optional - the fully qualified domain name
+#! @input computer_name: The network host name of the (Linux) virtual machine
+#! @input domain: Optional - the fully qualified domain name
 #!                default: ''
-#! @input ip_address: optional - the static ip address. If specified then the <subnet_mask> and <default_gateway>
+#! @input ip_address: Optional - the static ip address. If specified then the <subnet_mask> and <default_gateway>
 #!                    inputs should be specified as well
 #!                    default: ''
-#! @input subnet_mask: optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#! @input subnet_mask: Optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
 #!                     <default_gateway> inputs should be specified as well
 #!                     default: ''
-#! @input default_gateway: optional - the default gateway for network adapter with a static IP address. If specified then the
+#! @input default_gateway: Optional - the default gateway for network adapter with a static IP address. If specified then the
 #!                         <ip_address> and <subnet_mask> inputs should be specified as well
 #!                         default: ''
-#! @input hw_clock_utc: optional - specifies whether the hardware clock is in UTC or local time.
+#! @input hw_clock_utc: Optional - specifies whether the hardware clock is in UTC or local time.
 #!                      True when the hardware clock is in UTC
 #!                      default: 'true'
-#! @input time_zone: optional - the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
+#! @input time_zone: Optional - the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
 #!                   valid: 'Europe/Bucharest'
 #!                   default: ''
 #!
@@ -62,7 +62,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully cloned
-#! @result FAILURE: an error occurred when trying to clone an existing virtual machine
+#! @result FAILURE: An error occurred when trying to clone an existing virtual machine
 #!!#
 ########################################################################################################################
 

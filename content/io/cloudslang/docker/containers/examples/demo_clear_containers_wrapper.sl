@@ -20,7 +20,7 @@
 #! @output error_message: error message
 #!
 #! @result SUCCESS: both Docker containers deleted successfully
-#! @result FAILURE: there was an error while trying to delete one or both Docker containers
+#! @result FAILURE: There was an error while trying to delete one or both Docker containers
 #!!#
 ########################################################################################################################
 

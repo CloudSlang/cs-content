@@ -33,7 +33,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: metadata and content successfully extracted from the file
-#! @result FAILURE: there was an error while trying to extract metadata and/or context from the file
+#! @result FAILURE: There was an error while trying to extract metadata and/or context from the file
 #!!#
 ########################################################################################################################
 

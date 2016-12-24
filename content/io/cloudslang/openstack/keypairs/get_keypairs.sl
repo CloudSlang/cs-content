@@ -10,37 +10,37 @@
 #! @description: Retrieves a list of OpenStack keypairs.
 #!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: '8774'
 #! @input tenant_name: name of OpenStack project where keypairs to be retrieved are
-#! @input username: optional - username used for URL authentication; for NTLM authentication
+#! @input username: Optional - username used for URL authentication; for NTLM authentication
 #!                  Format: 'domain\user'
-#! @input password: optional - password used for URL authentication
-#! @input proxy_host: optional - proxy server used to access OpenStack services
-#! @input proxy_port: optional - proxy server port used to access OpenStack services
+#! @input password: Optional - password used for URL authentication
+#! @input proxy_host: Optional - proxy server used to access OpenStack services
+#! @input proxy_port: Optional - proxy server port used to access OpenStack services
 #!                    Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file.
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file.
 #!                        This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file.
+#! @input trust_password: Optional - the password associated with the TrustStore file.
 #!                        If trust_all_roots is false and trustKeystore is empty,
 #!                        trustPassword default will be supplied.
 #!                        Default value: changeit
-#! @input keystore: optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if
 #!                  trust_all_roots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file.
+#! @input keystore_password: Optional - the password associated with the KeyStore file.
 #!                           If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: ''

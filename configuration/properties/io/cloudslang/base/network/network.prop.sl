@@ -8,10 +8,10 @@
 ####################################################
 # System property file for network operations
 #
-# io.cloudslang.base.network.trust_keystore: the pathname of the Java TrustStore file
-# io.cloudslang.base.network.trust_password: the password associated with the TrustStore file
-# io.cloudslang.base.network.keystore: the pathname of the Java KeyStore file
-# io.cloudslang.base.network.keystore_password: the password associated with the KeyStore file
+# io.cloudslang.base.network.trust_keystore: The pathname of the Java TrustStore file
+# io.cloudslang.base.network.trust_password: The password associated with the TrustStore file
+# io.cloudslang.base.network.keystore: The pathname of the Java KeyStore file
+# io.cloudslang.base.network.keystore_password: The password associated with the KeyStore file
 #
 ####################################################
 

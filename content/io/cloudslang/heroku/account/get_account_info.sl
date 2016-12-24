@@ -19,7 +19,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Heroku account details retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve Heroku account details
+#! @result FAILURE: There was an error while trying to retrieve Heroku account details
 #!!#
 ########################################################################################################################
 

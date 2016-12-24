@@ -649,7 +649,7 @@ testSelectElementValueSuccess:
   description: 'Tests that xpath_query.sl operation finishes with SUCCESS and selects the proper element'
   testFlowPath: io.cloudslang.base.xml.xpath_query
   outputs:
-    - selected_value: the value
+    - selected_value: The value
     - return_result: "XPath queried successfully."
   result: SUCCESS
 

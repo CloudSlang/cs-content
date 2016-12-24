@@ -15,35 +15,35 @@
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input storage_account: The name of the storage account from which the key will be retrieved.
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in
+#! @input proxy_host: Optional - proxy server used to access the web site
+#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: json response with the access keys for the specified storage account
-#! @output key: the storage account key
+#! @output key: The storage account key
 #! @output status_code: 200,202 if request completed successfully, others in case something went wrong
-#! @output error_message: an error message in case there was an error while trying to retrieve the storage account key
+#! @output error_message: An error message in case there was an error while trying to retrieve the storage account key
 #!
 #! @result SUCCESS: returned the access keys for the specified storage account successfully
-#! @result FAILURE: there was an error while trying to return the access keys for the specified storage account.
+#! @result FAILURE: There was an error while trying to return the access keys for the specified storage account.
 #!!#
 ########################################################################################################################
 

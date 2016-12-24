@@ -10,20 +10,20 @@
 #! @description: Retrieves the ID of a specified flavor within an OpenStack project.
 #!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: '8774'
 #! @input tenant_name: name of OpenStack project that contains images to be queried for ID
 #! @input flavor_name: name of flavor to queried for ID
-#! @input username: optional - username used for URL authentication; for NTLM authentication
+#! @input username: Optional - username used for URL authentication; for NTLM authentication
 #!                  Format: 'domain\user'
-#! @input password: optional - password used for URL authentication
-#! @input proxy_host: optional - proxy server used to access OpenStack services
-#! @input proxy_port: optional - proxy server port used to access OpenStack services
+#! @input password: Optional - password used for URL authentication
+#! @input proxy_host: Optional - proxy server used to access OpenStack services
+#! @input proxy_port: Optional - proxy server port used to access OpenStack services
 #!                    Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #!
 #! @output flavor_id: ID of the flavor
 #! @output return_result: response of operation in case of success, error message otherwise

@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Performs a VMware vSphere command to update a specified virtual machine.
+#!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
@@ -61,7 +62,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: an error occurred when trying to create a new virtual machine
+#! @result FAILURE: An error occurred when trying to create a new virtual machine
 #!!#
 ########################################################################################################################
 

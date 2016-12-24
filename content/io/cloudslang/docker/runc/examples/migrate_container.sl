@@ -11,7 +11,9 @@
 #!               In order to run this flow you will need to install CRIU from https://criu.org
 #!
 #!                       How to Prapare your infrastructure for this example
+#!
 #! @prerequisites:
+#!
 #! (The following  instructions may changed for future versions of Docker, RUNC or CRIU)
 #! 1. Install Docker
 #! 2. Install CRIU
@@ -55,21 +57,21 @@
 #! @input pre_dump: perform a pre-dump checkpoint (true/false). pre dumps should be used in normal state in order to
 #!                  decrease the migration time of dumps. Thus, in this scenario predump should be false.
 #!                  Example: "false"
-#! @input docker_host: the address of the Docker host to checkpoint the container on. - Example: "192.168.0.1"
-#! @input destination_host: the address of the Docker host to rerstore the container on . - Example: "192.168.0.1"
+#! @input docker_host: The address of the Docker host to checkpoint the container on. - Example: "192.168.0.1"
+#! @input destination_host: The address of the Docker host to rerstore the container on . - Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker hosts
 #! @input username: A user with sufficient privileges on both hosts.
 #! @input password: The user's password.
-#! @input runc_container: the name of the container to checkpoint . - Example: "redis"
-#! @input target_container: the name of the container to restore (usually identical to the runc_container input).
-#! @input root_path: the full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
-#! @input predump_image_location: the full path to the folder which will contain the container's pre_dump image.
-#! @input dump_image_location: the full path  to the folder which will contain the container's dump image.
-#! @input cpu_threshold: the threshold for determinig high CPU utilization.
-#! @input mail_hostname: the SMTP server address
-#! @input mail_port: the SMTP port (usually "25").
-#! @input mail_from: the sender's email address
-#! @input mail_to: the recieving user/group email address
+#! @input runc_container: The name of the container to checkpoint . - Example: "redis"
+#! @input target_container: The name of the container to restore (usually identical to the runc_container input).
+#! @input root_path: The full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
+#! @input predump_image_location: The full path to the folder which will contain the container's pre_dump image.
+#! @input dump_image_location: The full path  to the folder which will contain the container's dump image.
+#! @input cpu_threshold: The threshold for determinig high CPU utilization.
+#! @input mail_hostname: The SMTP server address
+#! @input mail_port: The SMTP port (usually "25").
+#! @input mail_from: The sender's email address
+#! @input mail_to: The recieving user/group email address
 #!
 #! @result SUCCESS: Operation completed successfully
 #! @result CHECKPOINT_FAILURE: There was an error while trying to create checkpoint

@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT branch successfully pushed to the remote repository
-#! @result FAILURE: there was an error while trying to push the branch to the remote repository
+#! @result FAILURE: There was an error while trying to push the branch to the remote repository
 #!!#
 ########################################################################################################################
 

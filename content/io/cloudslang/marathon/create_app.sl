@@ -21,7 +21,7 @@
 #! @output error_message: return_result if return_code == -1 or status_code != 200
 #!
 #! @result SUCCESS: new Marathon app created successfully
-#! @result FAILURE: there was an error while trying to create a new Marathon app
+#! @result FAILURE: There was an error while trying to create a new Marathon app
 #!!#
 ########################################################################################################################
 

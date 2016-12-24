@@ -12,8 +12,10 @@
 #! @input list: list in which to find elements
 #! @input element: element to find
 #! @input ignore_case: whether to ignore case when finding matches
-#!                     default: false
+#!                     default: 'false'
+#!
 #! @output indices: list of indices where <element> was found in <list>
+#!
 #! @result SUCCESS: element(s) found in list
 #!!#
 ########################################################################################################################
@@ -27,7 +29,7 @@ operation:
     - list
     - element
     - ignore_case:
-        default: "false"
+        default: 'false'
 
   python_action:
     script: |

@@ -28,7 +28,7 @@
 #! @output error_message: error message
 #!
 #! @result SUCCESS: Docker container sucessfully started
-#! @result FAILURE: there was an error while trying to start the Docker container
+#! @result FAILURE: There was an error while trying to start the Docker container
 #!!#
 ########################################################################################################################
 

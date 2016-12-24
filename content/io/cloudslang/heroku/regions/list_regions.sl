@@ -19,7 +19,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Heroku servers' existing regions retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the servers' domains
+#! @result FAILURE: There was an error while trying to retrieve the servers' domains
 #!!#
 ########################################################################################################################
 

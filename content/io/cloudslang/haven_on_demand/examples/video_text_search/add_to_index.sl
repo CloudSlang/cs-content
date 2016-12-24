@@ -23,7 +23,7 @@
 #! @output return_result: result retured by Haven OnDemand upon adding item to the index
 #!
 #! @result SUCCESS: video text extracted successfully
-#! @result FAILURE: there was an error while trying to extract the text from a video
+#! @result FAILURE: There was an error while trying to extract the text from a video
 #!!#
 ########################################################################################################################
 

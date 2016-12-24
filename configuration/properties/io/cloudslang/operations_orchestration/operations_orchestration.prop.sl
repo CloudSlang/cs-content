@@ -8,10 +8,10 @@
 ####################################################
 # System property file for operations orchestration operations
 #
-# io.cloudslang.operations_orchestration.trust_keystore: the pathname of the Java TrustStore file
-# io.cloudslang.operations_orchestration.trust_password: the password associated with the TrustStore file
-# io.cloudslang.operations_orchestration.keystore: the pathname of the Java KeyStore file
-# io.cloudslang.operations_orchestration.keystore_password: the password associated with the KeyStore file
+# io.cloudslang.operations_orchestration.trust_keystore: The pathname of the Java TrustStore file
+# io.cloudslang.operations_orchestration.trust_password: The password associated with the TrustStore file
+# io.cloudslang.operations_orchestration.keystore: The pathname of the Java KeyStore file
+# io.cloudslang.operations_orchestration.keystore_password: The password associated with the KeyStore file
 #
 ####################################################
 

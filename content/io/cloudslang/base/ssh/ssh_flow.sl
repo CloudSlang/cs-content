@@ -10,44 +10,44 @@
 #! @description: Validates SSH access to the host and then runs an SSH command on the host.
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command - Default: '22'
+#! @input port: Optional - port number for running the command - Default: '22'
 #! @input command: command to execute
-#! @input pty: optional - whether to use PTY - Valid: true, false - Default: false
+#! @input pty: Optional - whether to use PTY - Valid: true, false - Default: false
 #!             When pty is true, the desired command must be appended with an exit command in order to close the channel,
 #!             e.g. "echo something\n exit\n", otherwise the operation will time out
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input arguments: optional - arguments to pass to the command
-#! @input private_key_file: optional - path to the private key file
-#! @input private_key_data: optional - A string representing the private key (OpenSSH type) used for authenticating the user.
+#! @input password: Optional - password of user
+#! @input arguments: Optional - arguments to pass to the command
+#! @input private_key_file: Optional - path to the private key file
+#! @input private_key_data: Optional - A string representing the private key (OpenSSH type) used for authenticating the user.
 #!                          This string is usually the content of a private key file. The 'privateKeyData' and the
 #!                          'privateKeyFile' inputs are mutually exclusive. For security reasons it is recommend
 #!                          that the private key be protected by a passphrase that should be provided through the
 #!                          'password' input. - Default: none
-#! @input known_hosts_policy: optional - The policy used for managing known_hosts file.
+#! @input known_hosts_policy: Optional - The policy used for managing known_hosts file.
 #!                            - Valid values: allow, strict, add. - Default value: allow
-#! @input known_hosts_path: optional - The path to the known hosts file. - Default: {user.home}/.ssh/known_hosts
-#! @input allowed_ciphers: optional - A comma separated list of ciphers that will be used in the client-server handshake
+#! @input known_hosts_path: Optional - The path to the known hosts file. - Default: {user.home}/.ssh/known_hosts
+#! @input allowed_ciphers: Optional - A comma separated list of ciphers that will be used in the client-server handshake
 #!                         mechanism when the connection is created. Check the notes section for security concerns
 #!                         regarding your choice of ciphers. The default value will be used even if the input is not
 #!                         added to the operation.
 #!                         Default value: aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc
-#! @input connect_timeout: optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
-#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete - Default: 90000
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input close_session: optional - if 'false' the SSH session will be cached for future calls of this operation during the
+#! @input close_session: Optional - if 'false' the SSH session will be cached for future calls of this operation during the
 #!                       life of the flow, if 'true' the SSH session used by this operation will be closed
 #!                       Valid: true, false - Default: false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false
 #! @input smart_recovery: whether the flow should try to recover in case of SSH session failure
 #!                        such failure may happen because of unstable ssh connection - e.g. 'Session is down' exception
 #!                        Default: true
 #! @input retries: limit of reconnect tries - Default: 5
-#! @input proxy_host: optional - The proxy server used to access the remote machine.
-#! @input proxy_port: optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
-#! @input proxy_username: optional - The user name used when connecting to the proxy.
-#! @input proxy_password: optional - The proxy server password associated with the proxy_username input value.
+#! @input proxy_host: Optional - The proxy server used to access the remote machine.
+#! @input proxy_port: Optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
+#! @input proxy_username: Optional - The user name used when connecting to the proxy.
+#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
