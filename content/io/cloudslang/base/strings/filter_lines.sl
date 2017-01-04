@@ -9,12 +9,13 @@
 #!!
 #! @description: Filters input text by string/regex, removing all lines that do not contain a match to the filter.
 #!
-#! @input text: multiline text to be filtered
-#! @input filter: string or Python regex expression - Example: "f\\w*r"
+#! @input text: Multiline text to be filtered.
+#! @input filter: String or Python regex expression.
+#!                Example: "f\\w*r"
 #!
-#! @output filter_result: filtered text
+#! @output filter_result: Filtered text.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 
@@ -22,6 +23,7 @@ namespace: io.cloudslang.base.strings
 
 operation:
   name: filter_lines
+
   inputs:
     - text
     - filter

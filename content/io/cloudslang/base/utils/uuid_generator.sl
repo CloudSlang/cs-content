@@ -9,9 +9,9 @@
 #!!
 #! @description: Generates a new uuid.
 #!
-#! @output new_uuid: generated uuid
+#! @output new_uuid: Generated uuid.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 

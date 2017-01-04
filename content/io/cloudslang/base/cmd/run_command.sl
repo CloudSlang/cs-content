@@ -19,8 +19,8 @@
 #! @output error_message: error in case something went wrong
 #! @output return_code: 0 if command runs with success, -1 in case of failure
 #!
-#! @result SUCCESS: if return_code is 0
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

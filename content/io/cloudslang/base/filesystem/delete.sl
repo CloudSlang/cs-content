@@ -9,12 +9,12 @@
 #!!
 #! @description: Deletes a file or folder.
 #!
-#! @input source: path of source file or folder to be deleted
+#! @input source: Path of source file or folder to be deleted.
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: file or folder was successfully deleted
-#! @result FAILURE: file or folder was not deleted due to error
+#! @result SUCCESS: File or folder was successfully deleted.
+#! @result FAILURE: File or folder was not deleted due to error.
 #!!#
 ########################################################################################################################
 

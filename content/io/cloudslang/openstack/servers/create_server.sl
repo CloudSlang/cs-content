@@ -9,21 +9,22 @@
 #!!
 #! @description: Creates an OpenStack server.
 #!
-#! @input host: OpenStack machine host
-#! @input compute_port: Optional - port used for OpenStack computations - Default: '8774'
-#! @input token: OpenStack token obtained after authentication
-#! @input tenant_id: OpenStack tenantID obtained after authentication
-#! @input server_name: server name
-#! @input proxy_host: Optional - proxy server used to access web site
-#! @input proxy_port: Optional - proxy server port
-#! @input img_ref: image reference for server to be created
-#! @input network_id: Optional - ID of network to connect to
+#! @input host: OpenStack machine host.
+#! @input compute_port: Optional - Port used for OpenStack computations.
+#!                      Default: '8774'
+#! @input token: OpenStack token obtained after authentication.
+#! @input tenant_id: OpenStack tenantID obtained after authentication.
+#! @input server_name: Server name.
+#! @input proxy_host: Optional - Proxy server used to access web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input img_ref: Image reference for server to be created.
+#! @input network_id: Optional - ID of network to connect to.
 #!
-#! @output return_result: response of the operation
-#! @output status_code: normal status code is 202
-#! @output error_message: returnResult if statusCode != '202'
+#! @output return_result: Response of the operation.
+#! @output status_code: Normal status code is '202'.
+#! @output error_message: return_result if status_code != '202'.
 #!
-#! @result SUCCESS: operation succeeded (statusCode == '202')
+#! @result SUCCESS: operation succeeded (status_code == '202').
 #! @result FAILURE: otherwise
 #!!#
 ########################################################################################################################

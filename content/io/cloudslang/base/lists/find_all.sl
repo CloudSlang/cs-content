@@ -9,14 +9,14 @@
 #!!
 #! @description: Finds all the locations of a given element within a list.
 #!
-#! @input list: list in which to find elements
-#! @input element: element to find
-#! @input ignore_case: whether to ignore case when finding matches
-#!                     default: 'false'
+#! @input list: List in which to find elements.
+#! @input element: Element to find.
+#! @input ignore_case: Whether to ignore case when finding matches.
+#!                     Default: 'false'
 #!
-#! @output indices: list of indices where <element> was found in <list>
+#! @output indices: List of indices where <element> was found in <list>
 #!
-#! @result SUCCESS: element(s) found in list
+#! @result SUCCESS: Element(s) found in list.
 #!!#
 ########################################################################################################################
 

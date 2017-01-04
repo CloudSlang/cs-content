@@ -7,25 +7,25 @@
 #
 ########################################################################################################################
 #!!
-#! @description: offsets the given date/time by a number of seconds
+#! @description: Offsets the given date/time by a number of seconds.
 #!
-#! @input date: The date to offset
+#! @input date: The date to offset.
 #!              Valid value: 'July 1, 2016 2:32:09 PM EEST'
-#! @input offset: The number of seconds to offset the date/time with
-#!                Valid values: 'number_of_seconds'
+#! @input offset: The number of seconds to offset the date/time with.
+#!                Valid value: 'number_of_seconds'
 #!                Example: '20'
-#! @input locale_lang: Optional - the locale language
-#!                    Example: 'en'
-#! @input locale_country: Optional - the locale country
-#!                       Example: 'US'
+#! @input locale_lang: Optional - The locale language.
+#!                     Example: 'en'
+#! @input locale_country: Optional - The locale country.
+#!                        Example: 'US'
 #!
-#! @output output: offset date/time by the given number of seconds, exception otherwise
+#! @output output: Offset date/time by the given number of seconds, exception otherwise.
 #!                 Example: 'July 1, 2016 2:32:29 PM EEST'
-#! @output return_code: 0 if success, -1 if failure
-#! @output exception: An exception in case of failure
+#! @output return_code: 0 if success, -1 if failure.
+#! @output exception: An exception in case of failure.
 #!
-#! @result SUCCESS: The date/time was shifted properly
-#! @result FAILURE: failed to offset the date/time
+#! @result SUCCESS: The date/time was shifted properly.
+#! @result FAILURE: Failed to offset the date/time.
 #!!#
 ########################################################################################################################
 

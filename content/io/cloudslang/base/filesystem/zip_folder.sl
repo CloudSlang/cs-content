@@ -7,15 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a zip archive
+#! @description: Creates a zip archive.
 #!
-#! @input archive_name: name of archive to be created (without the .zip extension)
-#! @input folder_path: path to folder to be zipped (zipped file will be created in this folder)
+#! @input archive_name: Name of archive to be created (without the .zip extension).
+#! @input folder_path: Path to folder to be zipped (zipped file will be created in this folder).
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: archive was successfully created
-#! @result FAILURE: archive was not created due to error
+#! @result SUCCESS: Archive was successfully created.
+#! @result FAILURE: Archive was not created due to an error.
 #!!#
 ########################################################################################################################
 

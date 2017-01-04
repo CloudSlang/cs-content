@@ -9,9 +9,9 @@
 #!!
 #! @description: Prints text to the screen.
 #!
-#! @input text: text to print
+#! @input text: Text to print.
 #!
-#! @result SUCCESS: Text printed successfully
+#! @result SUCCESS: Text printed successfully.
 #!!#
 ########################################################################################################################
 

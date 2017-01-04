@@ -8,12 +8,14 @@
 ########################################################################################################################
 #!!
 #! @description: Determines whether two sets are equal.
-#!               Sets are represented as strings in the following format: '1 2 3 4'
+#!               Sets are represented as strings in the following format: '1 2 3 4'.
 #!
-#! @input raw_set_1: Optional - first set
-#! @input delimiter_1: delimiter of first set - Default: `,` (comma)
+#! @input raw_set_1: Optional - First set.
+#! @input delimiter_1: Delimiter of first set.
+#!                     Default: `,`
 #! @input raw_set_2: Optional - second set
-#! @input delimiter_2: delimiter of second set - Default: `,` (comma)
+#! @input delimiter_2: Delimiter of second set
+#!                     Default: `,`
 #!
 #! @result EQUAL: The sets are equal
 #! @result NOT_EQUAL: The sets are not equal

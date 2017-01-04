@@ -7,17 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Subtracts second set from the first - Example: set1 = 1 2 3 4 , set2 = 2 3 , set1 - set2 = 1 4.
+#! @description: Subtracts second set from the first.
+#!               Example: set1 = 1 2 3 4 , set2 = 2 3 , set1 - set2 = 1 4.
 #!
-#! @input set_1: first set - Example: "1 2 3 4"
-#! @input set_1_delimiter: delimiter of the first set - Example: " "
-#! @input set_2: second set - Example: "2 3"
-#! @input set_2_delimiter: delimiter of the second set - Example: " "
-#! @input result_set_delimiter: delimiter of the result set - Example: " "
+#! @input set_1: First set.
+#!               Example: "1 2 3 4"
+#! @input set_1_delimiter: Delimiter of the first set.
+#!                         Example: " "
+#! @input set_2: Second set.
+#!               Example: "2 3"
+#! @input set_2_delimiter: Delimiter of the second set.
+#!                         Example: " "
+#! @input result_set_delimiter: Delimiter of the result set.
+#!                              Example: " "
 #!
-#! @output result_set: elements from set_1 which are not in set_2
+#! @output result_set: Elements from set_1 which are not in set_2.
 #!
-#! @result SUCCESS: subtraction succeeded
+#! @result SUCCESS: Subtraction succeeded.
 #!!#
 ########################################################################################################################
 

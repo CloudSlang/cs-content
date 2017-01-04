@@ -10,16 +10,19 @@
 #! @description: Adds or replaces a value to the given JSON at the keys or indices represented by the json_path.
 #!               If the last key in the path does not exist, the key is added as well.
 #!
-#! @input json_input: JSON data input - Example: '{"k1": {"k2": ["v1", "v2"]}}'
-#! @input json_path: path at which to add value represented as a list of keys and/or indices - Example: ["k1","k2",1]
-#! @input value: value to associate with key - Example: "v3"
+#! @input json_input: JSON data input.
+#!                    Example: '{"k1": {"k2": ["v1", "v2"]}}'
+#! @input json_path: Path at which to add value represented as a list of keys and/or indices.
+#!                   Example: ["k1","k2",1]
+#! @input value: Value to associate with key.
+#!               Example: "v3"
 #!
-#! @output return_result: JSON with key:value added
-#! @output return_code: "0" if parsing was successful, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: JSON with key:value added.
+#! @output return_code: "0" if parsing was successful, "-1" otherwise.
+#! @output error_message: error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0') and value was added
-#! @result FAILURE: parsing was unsuccessful or the path does not exist
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

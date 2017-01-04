@@ -9,12 +9,12 @@
 #!!
 #! @description: Wrapper over the files/create_folder operation.
 #!
-#! @input directory_name: name of directory to be created
+#! @input directory_name: Name of directory to be created.
 #!
-#! @output error_msg: error message
+#! @output error_msg: An error message in case something went wrong.
 #!
-#! @result SUCCESS: directory created successfully
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Directory created successfully.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

@@ -7,13 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Compares two inputs for Python equality (==).
+#! @description: Compares two strings for Python equality (==).
 #!
-#! @input first: first Python object to compare
-#! @input second: second Python object to compare
+#! @input first: First string to compare.
+#! @input second: Second string to compare.
 #!
-#! @result TRUE: object are equal
-#! @result FALSE: objects are not equal
+#! @result TRUE: Strings are equal.
+#! @result FALSE: Strings are not equal.
 #!!#
 ########################################################################################################################
 

@@ -9,13 +9,13 @@
 #!!
 #! @description: Divides two numbers as floating point values.
 #!
-#! @input value1: first value as number or string
-#! @input value2: second value as number or string
+#! @input value1: First value as number or string.
+#! @input value2: Second value as number or string.
 #!
-#! @output result: value1 divided by value2
+#! @output result: Value1 divided by value2.
 #!
-#! @result ILLEGAL: value2 == 0
-#! @result SUCCESS: values divided
+#! @result ILLEGAL: Value2 == 0.
+#! @result SUCCESS: Values divided.
 #!!#
 ########################################################################################################################
 

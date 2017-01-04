@@ -10,11 +10,12 @@
 #! @description: Example of using a parallel loop.
 #!               The flow creates directories in a parallel loop.
 #!
-#! @input base_dir_name: path of base name of created directories
-#! @input num_of_directories: number of directories to create - Default: 10
+#! @input base_dir_name: Path of base name of created directories.
+#! @input num_of_directories: Number of directories to create
+#!                            Default: 10
 #!
-#! @result SUCCESS: directories created successfully
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Directories created successfully
+#! @result FAILURE: Something went wrong
 #!!#
 ########################################################################################################################
 
@@ -31,7 +32,7 @@ flow:
   inputs:
     - base_dir_name
     - num_of_directories:
-        default: "10"
+        default: '10'
 
   workflow:
     - print_start:

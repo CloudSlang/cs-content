@@ -13,15 +13,15 @@
 #!               - failure with no message: exit status = -1
 #!               - socket is not established: return result contains 'socket is not established'
 #!
-#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause
-#!                       of the error in case of exception
-#! @input return_code: from SSH: return code of SSH operation
-#! @input exit_status: from SSH: return code of remote command
+#! @input return_result: From SSH: STDOUT of the remote machine in case of success or the cause
+#!                       of the error in case of exception.
+#! @input return_code: From SSH: Return code of SSH operation.
+#! @input exit_status: From SSH: Return code of remote command.
 #!
-#! @result SESSION_IS_DOWN: pattern detected
-#! @result FAILURE_WITH_NO_MESSAGE: pattern detected
-#! @result CUSTOM_FAILURE: general accumulator for new types of patterns
-#! @result NO_ISSUE_FOUND: no pattern was detected
+#! @result SESSION_IS_DOWN: Pattern detected.
+#! @result FAILURE_WITH_NO_MESSAGE: Pattern detected.
+#! @result CUSTOM_FAILURE: General accumulator for new types of patterns.
+#! @result NO_ISSUE_FOUND: No pattern was detected.
 #!!#
 ########################################################################################################################
 
@@ -32,12 +32,14 @@ imports:
 
 flow:
   name: check_ssh_unstable_session
+
   inputs:
     - return_result:
         required: false
     - return_code
     - exit_status:
         required: false
+
   workflow:
     - check_return_code:
         do:
@@ -74,6 +76,7 @@ flow:
         navigate:
           - SUCCESS: CUSTOM_FAILURE
           - FAILURE: NO_ISSUE_FOUND
+
   results:
     - SESSION_IS_DOWN
     - FAILURE_WITH_NO_MESSAGE

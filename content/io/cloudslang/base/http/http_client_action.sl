@@ -9,97 +9,118 @@
 #!!
 #! @description: Executes a REST call based on the method provided.
 #!
-#! @input url: URL to which the call is made
-#! @input auth_type: Optional - type of authentication used to execute the request on the target server
+#! @input url: URL to which the call is made.
+#! @input auth_type: Optional - Type of authentication used to execute the request on the target server.
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
 #!                   Default: 'basic'
-#! @input preemptive_auth: Optional - if 'true' authentication info will be sent in the first request, otherwise a request
-#!                         with no authentication info will be made and if server responds with 401 and a header
+#! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request
+#!                         with no authentication info will be made and if server responds with 401 and a header.
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
-#!                         will be sent - Default: true
-#! @input username: Optional - username used for URL authentication; for NTLM authentication - Format: 'domain\user'
-#! @input password: Optional - password used for URL authentication
-#! @input kerberos_conf_file: Optional - path to the Kerberos configuration file - Default: '0'
+#!                         will be sent
+#!                         Default: 'true'
+#! @input username: Optional - Username used for URL authentication; for NTLM authentication.
+#!                  Format: 'domain\user'
+#! @input password: Optional - Password used for URL authentication.
+#! @input kerberos_conf_file: Optional - Path to the Kerberos configuration file.
+#!                            Default: '0'
 #! @input kerberos_login_conf_file: Optional - login.conf file needed by the JAAS framework with the content similar to
-#!                                  the one in examples
+#!                                  the one in examples.
 #!                                  Format: 'http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html'
-#! @input kerberos_skip_port_for_lookup: Optional - do not include port in the key distribution center database lookup
-#!                                       Default: true
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: true
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#! @input trust_keystore: Optional - location of the TrustStore file - Format: a URL or the local path to it
-#! @input trust_password: Optional -  password associated with the TrustStore file
-#! @input keystore: Optional - location of the KeyStore file - Format: a URL or the local path to it.
+#! @input kerberos_skip_port_for_lookup: Optional - Do not include port in the key distribution center database lookup
+#!                                       Default: 'true'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'true'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'allow_all'
+#! @input trust_keystore: Optional - Location of the TrustStore file.
+#!                        Format: a URL or the local path to it
+#! @input trust_password: Optional -  Password associated with the trust_keystore file.
+#! @input keystore: Optional - Location of the KeyStore file.
+#!                  Format: a URL or the local path to it.
 #!                  This input is empty if no HTTPS client authentication is used
-#! @input keystore_password: Optional - password associated with the KeyStore file
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input keystore_password: Optional - Password associated with the KeyStore file.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite timeout)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (maximum period inactivity
-#!                        between two consecutive data packets) - Default: '0' (infinite timeout)
-#! @input use_cookies: Optional - specifies whether to enable cookie tracking or not - Default: true
-#! @input keep_alive: Optional - specifies whether to create a shared connection that will be used in subsequent calls
-#!                    Default: true
-#! @input connections_max_per_root: Optional - maximum limit of connections on a per route basis - Default: '2'
-#! @input connections_max_total: Optional - maximum limit of connections in total - Default: '2'
-#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
-#!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
-#!                 headers (RFC 2616) - Examples: 'Accept:text/plain'
-#! @input response_character_set: Optional - character encoding to be used for the HTTP response - Default: 'ISO-8859-1'
-#! @input destination_file: Optional - absolute path of a file on disk where the entity returned by the response will be
-#!                          saved to
-#! @input follow_redirects: specifies whether the 'Get' command automatically follows redirects - Default: true
-#! @input query_params: Optional - list containing query parameters to append to the URL
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity.
+#!                        between two consecutive data packets)
+#!                        Default: '0' (infinite timeout)
+#! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not.
+#!                     Default: 'true'
+#! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
+#!                    Default: 'true'
+#! @input connections_max_per_root: Optional - Maximum limit of connections on a per route basis.
+#!                                  Default: '2'
+#! @input connections_max_total: Optional - Maximum limit of connections in total.
+#!                               Default: '2'
+#! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF);
+#!                 header name - value pair will be separated by ":".
+#!                 Format: According to HTTP standard for headers (RFC 2616)
+#!                 Example: 'Accept:text/plain'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response.
+#!                                Default: 'ISO-8859-1'
+#! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be
+#!                          saved to.
+#! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects.
+#!                          Default: 'true'
+#! @input query_params: Optional - List containing query parameters to append to the URL.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input query_params_are_URL_encoded: Optional - whether to encode (according to the url encoding standard) the <query_params>
-#!                                      Default: false
-#! @input query_params_are_form_encoded: Optional - whether to encode the <query_params> in the form request format
-#!                                       Default: true
-#! @input form_params: Optional - input needs to be given in form encoded format and will set the entity to be sent in the
-#!                     request - Examples: 'input1=value1&input2=value2'. (The client will send:
-#!                     'input1=value1&in+put+2=val+u%0A+e2')
-#! @input form_params_are_URL_encoded: Optional - if true <form_params> will be encoded (according to the url encoding standard)
-#!                                     Default: false
-#! @input source_file: Optional - absolute path of a file on disk from where to read the entity for the http request;
+#! @input query_params_are_URL_encoded: Optional - Whether to encode (according to the url encoding standard) the <query_params>.
+#!                                      Default: 'false'
+#! @input query_params_are_form_encoded: Optional - Whether to encode the <query_params> in the form request format.
+#!                                       Default: 'true'
+#! @input form_params: Optional - Input needs to be given in form encoded format and will set the entity to be sent in the
+#!                     request.
+#!                     Examples: 'input1=value1&input2=value2'. (The client will send: 'input1=value1&in+put+2=val+u%0A+e2')
+#! @input form_params_are_URL_encoded: Optional - If true <form_params> will be encoded (according to the url encoding standard).
+#!                                     Default: 'false'
+#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request;
 #!                     should not be provided for method=GET, HEAD, TRACE.
-#! @input body: Optional - string to include in body for HTTP POST operation. If both <source_file> and body will be provided,
-#!              the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE
-#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type of the
-#!                      data in the message body - Default: 'text/plain'
-#! @input request_character_set: Optional - character encoding to be used for the HTTP request body; should not be provided
-#!                               for method=GET, HEAD, TRACE - Default: 'ISO-8859-1'
-#! @input multipart_bodies: Optional - list of name=textValue pairs separated by "&"; will also take into account the
-#!                          <content_type> and 'charset' inputs
-#! @input multipart_bodies_content_type: Optional - each entity from the multipart entity has a content-type header; only
+#! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided,
+#!              the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the
+#!                      data in the message body.
+#!                      Default: 'text/plain'
+#! @input request_character_set: Optional - Character encoding to be used for the HTTP request body; should not be provided
+#!                               for method=GET, HEAD, TRACE.
+#!                               Default: 'ISO-8859-1'
+#! @input multipart_bodies: Optional - List of name=textValue pairs separated by "&"; will also take into account the
+#!                          <content_type> and 'charset' inputs.
+#! @input multipart_bodies_content_type: Optional - Each entity from the multipart entity has a content-type header; only
 #!                                       specify once for all the parts. It is the only way to change the characterSet of
-#!                                       the encoding - Default: 'text/plain; charset=ISO-8859-1'
-#! @input multipart_files: Optional - list of name=filePath pairs
-#! @input multipart_files_content_type: Optional - each entity from the multipart entity has a content-type header; only
-#!                                      specify once for all parts - Default: 'application/octet-stream'
+#!                                       the encoding.
+#!                                       Default: 'text/plain; charset=ISO-8859-1'
+#! @input multipart_files: Optional - List of name=filePath pairs.
+#! @input multipart_files_content_type: Optional - Each entity from the multipart entity has a content-type header; only
+#!                                      specify once for all parts.
 #!                                      Examples: 'image/png', 'text/plain'
-#! @input multipart_values_are_URL_encoded: Optional - set 'true' if the bodies may contain '&' and '=' - Default: false
-#! @input chunked_request_entity: Optional - data is sent in a series of 'chunks' - Valid: true/false
-#! @input method: HTTP method used
-#! @input http_client_cookie_session: Optional - session object that holds the cookies if the <use_cookies> input is true
+#!                                      Default: 'application/octet-stream'
+#! @input multipart_values_are_URL_encoded: Optional - Set 'true' if the bodies may contain '&' and '='.
+#!                                          Default: 'false'
+#! @input chunked_request_entity: Optional - Data is sent in a series of 'chunks'.
+#!                                Valid: 'true'/'false'
+#! @input method: HTTP method used.
+#! @input http_client_cookie_session: Optional - Session object that holds the cookies if the <use_cookies> input is true.
 #! @input http_client_pooling_connection_manager: Optional - GlobalSessionObject that holds the http client pooling
-#!                                                connection manager
-#! @input valid_http_status_codes: Optional - list/array of HTTP status codes considered to be successful
+#!                                                connection manager.
+#! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful.
 #!                                 Example: [202, 204]
 #!                                 Default: 'range(200, 300)'
 #!
-#! @output return_result: response of the operation
-#! @output error_message: return_result when the return_code is non-zero (e.g. network or other failure)
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: status code of the HTTP call
-#! @output response_headers: response headers string from the HTTP Client REST call
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result when the return_code is non-zero (e.g. network or other failure).
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Status code of the HTTP call.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: operation succeeded (statusCode is contained in valid_http_status_codes list)
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Operation succeeded (statusCode is contained in valid_http_status_codes list).
+#! @result FAILURE: Operation failed (statusCode is  not contained in valid_http_status_codes list).
 #!!#
 ########################################################################################################################
 

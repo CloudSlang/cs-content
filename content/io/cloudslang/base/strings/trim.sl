@@ -8,11 +8,12 @@
 #!!
 #! @description: Trims string.
 #!
-#! @input origin_string: string - Example: " good "
+#! @input origin_string: String.
+#!                       Example: " good "
 #!
-#! @output new_string: string in which all whitespace characters have been stripped of both sides of the string
+#! @output new_string: String in which all whitespace characters have been stripped of both sides of the string.
 #!
-#! @result SUCCESS: string trimmed successfully
+#! @result SUCCESS: String trimmed successfully.
 #!!#
 ########################################################################################################################
 

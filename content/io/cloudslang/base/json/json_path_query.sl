@@ -62,8 +62,8 @@ operation:
 
   java_action:
      gav: 'io.cloudslang.content:cs-json:0.0.7'
-     method_name: execute
      class_name: io.cloudslang.content.json.actions.JsonPathQuery
+     method_name: execute
 
   outputs:
     - return_result: ${returnResult}

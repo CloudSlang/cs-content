@@ -9,14 +9,14 @@
 #!!
 #! @description: Generates a random number.
 #!
-#! @input max: maximum number that can be returned
-#! @input min: minimum number that can be returned
+#! @input max: Maximum number that can be returned.
+#! @input min: Minimum number that can be returned.
 #!
-#! @output random_number: random number between max and min (inclusive)
-#! @output error_message: error message if error occurred
+#! @output random_number: Random number between max and min (inclusive).
+#! @output error_message: Error message if error occurred.
 #!
-#! @result SUCCESS: a number was generated
-#! @result FAILURE: otherwise
+#! @result SUCCESS: A number was generated.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

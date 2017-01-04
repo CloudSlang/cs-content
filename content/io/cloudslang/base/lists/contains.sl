@@ -7,24 +7,26 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation checks to see if a list contains every element from another list
+#! @description: This operation checks to see if a list contains every element from another list.
 #!
-#! @input container: The containing list  - Example: Luke,Vader,Kenobi
-#! @input sublist: The contained list - Example: Kenobi
-#! @input delimiter: a delimiter separating elements in the two lists
-#!                   default: ','
+#! @input container: The containing list.
+#!                   Example: 'Luke,Vader,Kenobi'
+#! @input sublist: The contained list.
+#!                 Example: 'Kenobi'
+#! @input delimiter: A delimiter separating elements in the two lists.
+#!                   Default: ','
 #! @input ignore_case: If set to 'true' then the compare is not case sensitive.
-#!                     default: 'true'
+#!                     Default: 'true'
 #!
-#! @output response: 'true' if found, 'false' if not found
-#! @output return_result: empty if sublist found in container
+#! @output response: 'True' if found, 'false' if not found.
+#! @output return_result: Empty if sublist found in container.
 #!                        If the sublist was not found in the container,
 #!                        it will show the elements that were not found.
 #! @output return_code: 0 if found, -1 if not found
-#! @output exception: something went wrong
+#! @output exception: Something went wrong.
 #!
-#! @result SUCCESS: sublist was found in container
-#! @result FAILURE: sublist was not found in container
+#! @result SUCCESS: Sublist was found in container.
+#! @result FAILURE: Sublist was not found in container.
 #!!#
 ########################################################################################################################
 

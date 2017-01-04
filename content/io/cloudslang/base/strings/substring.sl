@@ -8,17 +8,19 @@
 #!!
 #! @description: Substring of a string from begin_index to end_index.
 #!
-#! @input origin_string: origin_string
+#! @input origin_string: Origin string.
 #!                       Example: 'good morning'
-#! @input begin_index:  position in string from which we want to cut - Example: 0 (the first index = 0)
-#! @input end_index: position in string to which we want to cut - Example: 4 (new string will not include end_index)
+#! @input begin_index: Position in string from which we want to cut.
+#!                     Example: 0 (the first index = 0)
+#! @input end_index: Position in string to which we want to cut.
+#!                   Example: 4 (new string will not include end_index)
 #!
-#! @output new_string: New string
-#!                     Example: "good"
-#! @output error_message: something went wrong
+#! @output new_string: New string.
+#!                     Example: 'good'
+#! @output error_message: Something went wrong.
 #!
-#! @result SUCCESS: if error_message is empty and new_string returns a value
-#! @result FAILURE: otherwise
+#! @result SUCCESS: If error_message is empty and new_string returns a value.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -30,9 +32,9 @@
    inputs:
      - origin_string
      - begin_index:
-        default: "0"
+        default: '0'
      - end_index:
-         default: "0"
+         default: '0'
 
    python_action:
      script: |

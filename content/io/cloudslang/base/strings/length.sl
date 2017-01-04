@@ -9,11 +9,12 @@
 #!!
 #! @description: Appends text to string.
 #!
-#! @input origin_string: Optional - string - Example: "good"
+#! @input origin_string: Optional - String.
+#!                       Example: "good"
 #!
-#! @output length: length of string
+#! @output length: Length of string.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 

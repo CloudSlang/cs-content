@@ -9,21 +9,24 @@
 #!!
 #! @description: Pings addresses from input list and sends an email with results.
 #!
-#! @prerequisites: system property file with email properties
+#! @prerequisites: System property file with email properties
 #!
-#! @input ip_list: list of IPs to be checked
-#! @input message_body: The message to be sent in emails
-#! @input all_nodes_are_up: whether the nodes are up or not - Default: True
+#! @input ip_list: List of IPs to be checked.
+#! @input message_body: The message to be sent in emails.
+#!                      Default: ''
+#! @input all_nodes_are_up: Whether the nodes are up or not.
+#!                          Default: 'true'
 #! @input hostname: email host - System Property: io.cloudslang.base.hostname
 #! @input port: email port - System Property: io.cloudslang.base.port
 #! @input from: email sender - System Property: io.cloudslang.base.from
 #! @input to: email recipient - System Property: io.cloudslang.base.to
-#! @input subject: email subject - Default: "Ping Result"
-#! @input username: Optional - username to connect to email host
-#! @input password: Optional - password for the username to connect to email host
+#! @input subject: Email subject.
+#!                 Default: "Ping Result"
+#! @input username: Optional - Username to connect to email host.
+#! @input password: Optional - Password for the username to connect to email host.
 #!
-#! @result SUCCESS: addressee will get an email with result
-#! @result FAILURE: addressee will get an email with exception of operation
+#! @result SUCCESS: Addressee will get an email with result.
+#! @result FAILURE: Addressee will get an email with exception of operation.
 #!!#
 ########################################################################################################################
 
@@ -40,14 +43,16 @@ flow:
   inputs:
     - ip_list
     - message_body:
-        default: ""
+        default: ''
         required: false
-    - all_nodes_are_up: "True"
+    - all_nodes_are_up:
+        default: 'true'
     - hostname: ${get_sp('io.cloudslang.base.hostname')}
     - port: ${get_sp('io.cloudslang.base.port')}
     - from: ${get_sp('io.cloudslang.base.from')}
     - to: ${get_sp('io.cloudslang.base.to')}
-    - subject: "Ping Result"
+    - subject:
+        default: 'Ping Result'
     - username:
         default: ${get_sp('io.cloudslang.base.username')}
         required: false

@@ -9,17 +9,17 @@
 #!!
 #! @description: Pings an address.
 #!
-#! @input address: address to ping
-#! @input ttl: time to live ping parameter
-#! @input size: ping buffer size
-#! @input timeout: timeout in milliseconds to wait for reply
+#! @input address: Address to ping.
+#! @input ttl: Time to live ping parameter.
+#! @input size: Ping buffer size.
+#! @input timeout: Timeout in milliseconds to wait for reply.
 #!
-#! @output message: error message if error occurred
-#! @output is_up: whether pinged address is up or not
+#! @output message: Error message if error occurred.
+#! @output is_up: Whether pinged address is up or not.
 #!
-#! @result UP: address is up
-#! @result DOWN: address is down
-#! @result FAILURE: ping cannot be performed due to an error
+#! @result UP: Address is up.
+#! @result DOWN: Address is down.
+#! @result FAILURE: Ping cannot be performed due to an error.
 #!!#
 ########################################################################################################################
 

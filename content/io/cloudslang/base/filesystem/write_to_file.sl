@@ -9,13 +9,13 @@
 #!!
 #! @description: Writes text to a file.
 #!
-#! @input file_path: path of the file to write to
-#! @input text: text to write to the file
+#! @input file_path: Path of the file to write to.
+#! @input text: Text to write to the file.
 #!
-#! @output message: error message if error occurred
+#! @output message: Error message if error occurred.
 #!
-#! @result SUCCESS: text was written to the file
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Text was written to the file.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

@@ -9,11 +9,12 @@
 #!!
 #! @description: Gets keys from a map.
 #!
-#! @input map: map - Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
+#! @input map: Map.
+#!             Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
 #!
-#! @output result: keys from map
+#! @output result: Keys from map.
 #!
-#! @result SUCCESS: keys retrieved successfully
+#! @result SUCCESS: Keys retrieved successfully.
 #!!#
 ########################################################################################################################
 

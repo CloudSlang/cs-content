@@ -9,14 +9,14 @@
 #!!
 #! @description: Subtracts two numbers as floating point values.
 #!
-#! @input value1: first value as number or string
-#! @input value2: second value as number or string
+#! @input value1: First value as number or string.
+#! @input value2: Second value as number or string.
 #!
-#! @output result: operation result or reason for failure
-#! @output return_code: operation return code ('0' or '-1')
+#! @output result: Operation result or reason for failure.
+#! @output return_code: Operation return code ('0' or '-1').
 #!
-#! @result SUCCESS: The operation completed successfully
-#! @result FAILURE: The operation failed
+#! @result SUCCESS: The operation completed successfully.
+#! @result FAILURE: The operation failed.
 #!!#
 ########################################################################################################################
 

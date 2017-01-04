@@ -9,14 +9,14 @@
 #!!
 #! @description: Encodes data for usage in a url.
 #!
-#! @input data: data to encode
-#! @input safe: Optional - characters that should not be encoded
-#! @input quote_plus: Optional - if true, will replace spaces with plus signs
+#! @input data: URL string to encode.
+#! @input safe: Optional - Characters that should not be encoded.
+#! @input quote_plus: Optional - If true, will replace spaces with plus signs.
 #!
-#! @output result: encoded string
+#! @output result: Encoded URL string.
 #!
-#! @result SUCCESS: data was encoded successfully
-#! @result FAILURE: otherwise
+#! @result SUCCESS: URL was encoded successfully.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -24,6 +24,7 @@ namespace: io.cloudslang.base.http
 
 operation:
   name: url_encoder
+
   inputs:
     - data
     - safe:

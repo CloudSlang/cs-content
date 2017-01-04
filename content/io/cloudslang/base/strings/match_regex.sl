@@ -9,13 +9,14 @@
 #!!
 #! @description: Tests whether a Python regex expression matches a string.
 #!
-#! @input regex: Python regex expresssion - Example: "f\\w*r"
-#! @input text: Optional - string to match
+#! @input regex: Python regex expression.
+#!               Example: "f\\w*r"
+#! @input text: Optional - String to match.
 #!
-#! @output match_text: matched text
+#! @output match_text: Matched text.
 #!
-#! @result MATCH: a match was found
-#! @result NO_MATCH: no match found
+#! @result MATCH: A match was found.
+#! @result NO_MATCH: No match found.
 #!!#
 ########################################################################################################################
 
@@ -23,6 +24,7 @@ namespace: io.cloudslang.base.strings
 
 operation:
   name: match_regex
+
   inputs:
     - regex
     - text:

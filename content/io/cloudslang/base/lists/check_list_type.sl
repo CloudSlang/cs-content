@@ -9,14 +9,15 @@
 #!!
 #! @description: Check if the list contains ints or strings.
 #!
-#! @input list: list to check - e.g. "el1,el2"
-#! @input delimiter: The list delimiter
+#! @input list: List to check.
+#!              Example: "el1,el2"
+#! @input delimiter: The list delimiter.
 #!
-#! @output result: message indicating whether the list contains int or string elements
-#! @output error_message: list contains int and strings
+#! @output result: Message indicating whether the list contains int or string elements.
+#! @output error_message: List contains int and strings.
 #!
-#! @result SUCCESS: all elements in the list are ints or strings.
-#! @result FAILURE: list contains both ints and string elements.
+#! @result SUCCESS: All elements in the list are ints or strings.
+#! @result FAILURE: List contains both ints and string elements.
 #!!#
 ########################################################################################################################
 

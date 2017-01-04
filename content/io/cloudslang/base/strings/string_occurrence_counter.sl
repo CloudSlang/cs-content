@@ -9,16 +9,17 @@
 #!!
 #! @description: Counts the occurrences of a string in another string.
 #!
-#! @input string_in_which_to_search: string where to search
-#! @input string_to_find: string to be found
-#! @input ignore_case: Optional - ignores case if set to true - Default: true
+#! @input string_in_which_to_search: String where to search.
+#! @input string_to_find: String to be found.
+#! @input ignore_case: Optional - Ignores case if set to true.
+#!                     Default: ''true'
 #!
-#! @output return_result: number of times string_to_find was found in container
-#! @output return_code: 0 if everything went ok, -1 if an error was thrown
-#! @output error_message: return_result if occurrence == '0'  else ''
+#! @output return_result: Number of times string_to_find was found in container.
+#! @output return_code: 0 if everything went ok, -1 if an error was thrown.
+#! @output error_message: Return_result if occurrence == '0'  else ''.
 #!
-#! @result SUCCESS: string is found at least once
-#! @result FAILURE: otherwise
+#! @result SUCCESS: String is found at least once.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -26,6 +27,7 @@ namespace: io.cloudslang.base.strings
 
 operation:
   name: string_occurrence_counter
+
   inputs:
     - string_in_which_to_search:
         required: false

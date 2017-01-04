@@ -9,8 +9,10 @@
 #!!
 #! @description: Adds an element to a list of strings
 #!
-#! @input list: list in which to add the element - Example: '1,2,3,4,5,6'
-#! @input element: element to add to the list - Example: '7'
+#! @input list: List in which to add the element
+#!              Example: '1,2,3,4,5,6'
+#! @input element: Element to add to the list
+#!                 Example: '7'
 #! @input delimiter: The list delimiter
 #!
 #! @output response: 'success' or 'failure'
@@ -18,7 +20,7 @@
 #! @output return_code: 0 if success, -1 if failure
 #!
 #! @result SUCCESS: The new list was retrieved with success
-#! @result FAILURE: otherwise
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 
@@ -29,8 +31,8 @@ operation:
 
   inputs:
     - list
-    - delimiter
     - element
+    - delimiter
 
   java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.6'

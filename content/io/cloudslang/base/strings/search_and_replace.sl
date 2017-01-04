@@ -9,15 +9,15 @@
 #!!
 #! @description: Replaces a substring within a string.
 #!
-#! @input origin_string: Optional - original string
-#! @input text_to_replace: text to replace
-#! @input replace_with: Optional - text to replace with
+#! @input origin_string: Optional - Original string.
+#! @input text_to_replace: Text to replace.
+#! @input replace_with: Optional - Text to replace with.
 #!
-#! @output replaced_string: string with the text replaced
-#! @output error_message: substring not found
+#! @output replaced_string: String with the text replaced.
+#! @output error_message: Substring not found.
 #!
-#! @result SUCCESS: parsing successful
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Parsing successful.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

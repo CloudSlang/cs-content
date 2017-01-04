@@ -10,32 +10,32 @@
 #! @description: Authenticates and retrieves details about a specified Helion Development Platform / Stackato space
 #!               (filtered by space_name).
 #!
-#! @input host: Helion Development Platform / Stackato host
-#! @input username: Helion Development Platform / Stackato username
-#! @input password: Helion Development Platform / Stackato password
-#! @input space_name: name of the space to get details about
-#! @input proxy_host: Optional - proxy server used to access Helion Development Platform / Stackato services
-#! @input proxy_port: Optional - proxy server port used to access Helion Development Platform / Stackato services
-#!                    default: '8080'
-#! @input proxy_username: Optional - user name used when connecting to proxy
-#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
+#! @input host: Helion Development Platform / Stackato host.
+#! @input username: Helion Development Platform / Stackato username.
+#! @input password: Helion Development Platform / Stackato password.
+#! @input space_name: name of the space to get details about.
+#! @input proxy_host: Optional - Proxy server used to access Helion Development Platform / Stackato services.
+#! @input proxy_port: Optional - Proxy server port used to access Helion Development Platform / Stackato services.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to proxy.
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value.
 #!
-#! @output return_result: response of last operation that was executed
-#! @output error_message: error message of the operation that failed
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: normal status code is '200'
-#! @output resource_guid: GUID of specified space
-#! @output resource_url: URL of specified space
-#! @output resource_created_at: date when specified space was created
-#! @output resource_updated_at: last time when specified space was updated
+#! @output return_result: Response of last operation that was executed.
+#! @output error_message: Error message of the operation that failed.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Normal status code is '200'.
+#! @output resource_guid: GUID of specified space.
+#! @output resource_url: URL of specified space.
+#! @output resource_created_at: Date when specified space was created.
+#! @output resource_updated_at: Last time when specified space was updated.
 #!
-#! @result SUCCESS: details of specified space on Helion Development Platform / Stackato host was successfully retrieved
-#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
-#! @result GET_SPACES_FAILURE: get spaces call failed
-#! @result GET_SPACES_LIST_FAILURE: list with spaces on Helion Development Platform / Stackato could not be retrieved
-#! @result GET_SPACE_DETAILS_FAILURE: details about a specified Helion Development Platform / Stackato space
-#!                                    (filtered by space_name) could not be retrieved
+#! @result SUCCESS: Details of specified space on Helion Development Platform / Stackato host was successfully retrieved.
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call failed.
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token could not be obtained from authentication call response.
+#! @result GET_SPACES_FAILURE: Get spaces call failed.
+#! @result GET_SPACES_LIST_FAILURE: List with spaces on Helion Development Platform / Stackato could not be retrieved.
+#! @result GET_SPACE_DETAILS_FAILURE: Details about a specified Helion Development Platform / Stackato space
+#!                                    (filtered by space_name) could not be retrieved.
 #!!#
 ########################################################################################################################
 

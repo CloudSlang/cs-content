@@ -9,27 +9,27 @@
 #!!
 #! @description: Authenticates an OpenStack machine.
 #!
-#! @input host: OpenStack host
-#! @input identity_port: Optional - port used for OpenStack authentication
+#! @input host: OpenStack machine host.
+#! @input identity_port: Optional - Port used for OpenStack authentication.
 #!                       Default: '5000'
-#! @input username: OpenStack username
-#! @input password: OpenStack password
-#! @input tenant_name: name of the project on OpenStack
-#! @input proxy_host: Optional - proxy server used to access OpenStack services
-#! @input proxy_port: Optional - proxy server port used to access OpenStack services
-#! @input proxy_username: Optional - username used when connecting to proxy
-#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
+#! @input username: OpenStack username.
+#! @input password: OpenStack password.
+#! @input tenant_name: name of the project on OpenStack.
+#! @input proxy_host: Optional - Proxy server used to access OpenStack services.
+#! @input proxy_port: Optional - Proxy server port used to access OpenStack services.
+#! @input proxy_username: Optional - Username used when connecting to proxy.
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value.
 #!
-#! @output return_result: response of last operation that was executed
-#! @output error_message: error message of operation that failed
-#! @output token: authentication token
-#! @output tenant_id: tenant ID
+#! @output return_result: Response of last operation that was executed.
+#! @output error_message: Error message of operation that failed.
+#! @output token: Authentication token.
+#! @output tenant_id: Tenant ID.
 #!
-#! @result SUCCESS: authentication on OpenStack host was successful
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
-#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name
-#!                                cannot be obtained from authentication call response
-#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
+#! @result SUCCESS: Authentication on OpenStack host was successful.
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token cannot be obtained from authentication call response.
+#! @result GET_TENANT_ID_FAILURE: Tenant_id corresponding to tenant_name
+#!                                cannot be obtained from authentication call response.
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call failed.
 #!!#
 ########################################################################################################################
 
@@ -84,7 +84,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: "access,token,id"
+            - json_path: 'access,token,id'
         publish:
           - token: ${return_result}
           - error_message
@@ -96,7 +96,7 @@ flow:
         do:
           json.get_value:
             - json_input: ${return_result}
-            - json_path: "access,token,tenant,id"
+            - json_path: 'access,token,tenant,id'
         publish:
           - tenant_id: ${return_result}
           - error_message

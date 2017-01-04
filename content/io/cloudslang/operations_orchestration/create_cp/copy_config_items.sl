@@ -9,11 +9,11 @@
 #!!
 #! @description: Copies YAML configuration files to the system properties folder.
 #!
-#! @input source_dir: path of source directory
-#! @input target_dir: path of target directory
+#! @input source_dir: Path of source directory.
+#! @input target_dir: Path of target directory.
 #!
-#! @result SUCCESS: configuration files successfully copied to the system properties folder
-#! @result FAILURE: There was an error while trying to copy the configuration files
+#! @result SUCCESS: Configuration files successfully copied to the system properties folder.
+#! @result FAILURE: There was an error while trying to copy the configuration files.
 #!!#
 ########################################################################################################################
 

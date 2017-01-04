@@ -9,10 +9,10 @@
 #!!
 #! @description: Checks if boolean is true or false. Used for flow control.
 #!
-#! @input bool_value: Boolean value to check
+#! @input bool_value: Boolean value to check.
 #!
-#! @result TRUE: bool_value is true
-#! @result FALSE: bool_value is false
+#! @result TRUE: bool_value is true.
+#! @result FALSE: bool_value is false.
 #!!#
 ########################################################################################################################
 

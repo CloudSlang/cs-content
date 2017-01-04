@@ -18,23 +18,23 @@
 #!               The 'To' parameter will also need to be a phone number you acquired from Twilio
 #!               (https://www.twilio.com/console/phone-numbers/incoming).
 #!
-#! @input account_sid: The Account SID on behalf the message is sent
+#! @input account_sid: The Account SID on behalf the message is sent.
 #!                     If you are using a Twilio Trial account for this example, you will only be able to send SMS
 #!                     messages to phone numbers that you have verified with Twilio. Phone numbers can be verified via
 #!                     your Twilio Console's Verified Caller IDs (https://www.twilio.com/console/phone-numbers/verified).
 #!                     The 'From' parameter will also need to be a phone number you purchased from Twilio
 #!                     (https://www.twilio.com/console/phone-numbers/incoming).
 #! @input from_num: The approved number that sent the message. Notice it should start with +. For trial account the
-#!                  number should be verified in https://www.twilio.com/console/phone-numbers/verified
+#!                  number should be verified in https://www.twilio.com/console/phone-numbers/verified.
 #! @input to_num: The number that the message was sent to. Notice it should start with +. The number should be verified
-#!                registered in https://www.twilio.com/console/phone-numbers/incoming
-#! @input auth_token: The Auth Token for this Account SID
-#! @input proxy_host: Optional - The proxy to pass the HTTP call through
-#! @input proxy_port: Optional - The port of the proxy to pass the HTTP call through
-#! @input proxy_username: Optional - The username of the proxy to pass the HTTP call through
-#! @input proxy_password: Optional - The password of the proxy username to pass the HTTP call through
+#!                registered in https://www.twilio.com/console/phone-numbers/incoming.
+#! @input auth_token: The Auth Token for this Account SID.
+#! @input proxy_host: Optional - The proxy to pass the HTTP call through.
+#! @input proxy_port: Optional - The port of the proxy to pass the HTTP call through.
+#! @input proxy_username: Optional - The username of the proxy to pass the HTTP call through.
+#! @input proxy_password: Optional - The password of the proxy username to pass the HTTP call through.
 #!
-#! @output sms_message: The SMS message that was returned
+#! @output sms_message: The SMS message that was returned.
 #!
 #! @result SUCCESS: Recipient response retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the recipient response.

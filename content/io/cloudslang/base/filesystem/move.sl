@@ -9,13 +9,13 @@
 #!!
 #! @description: Moves a file or folder.
 #!
-#! @input source: path of source file or folder to be moved
-#! @input destination: path to move file or folder to
+#! @input source: Path of source file or folder to be moved.
+#! @input destination: Path to move file or folder to.
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: file or folder was successfully moved
-#! @result FAILURE: file or folder was not moved due to an error
+#! @result SUCCESS: File or folder was successfully moved.
+#! @result FAILURE: File or folder was not moved due to an error.
 #!!#
 ########################################################################################################################
 

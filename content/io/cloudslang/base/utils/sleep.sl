@@ -9,13 +9,13 @@
 #!!
 #! @description: Sleeps for a given number of seconds.
 #!
-#! @input seconds: time to sleep
+#! @input seconds: Time to sleep.
 #!
-#! @output message: sleep completed successfully
-#! @output error_message: if there is an exception or error message
+#! @output message: Sleep completed successfully.
+#! @output error_message: If there is an exception or error message.
 #!
-#! @result SUCCESS: sleep successfull
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Sleep successful.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

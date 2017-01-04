@@ -9,10 +9,10 @@
 #!!
 #! @description: Checks if operating system is Linux or Windows.
 #!
-#! @output message: error message if error occurred
+#! @output message: Error message if error occurred.
 #!
-#! @result LINUX: OS is Linux
-#! @result WINDOWS: OS is Windows
+#! @result LINUX: OS is Linux.
+#! @result WINDOWS: OS is Windows.
 #!!#
 ########################################################################################################################
 

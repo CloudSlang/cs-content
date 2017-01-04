@@ -7,15 +7,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Insert an object into a JSON array, Optionally specifying the position at which to insert the new object.
+#! @description: Insert an object into a JSON array, optionally specifying the position at which to insert the new object.
 #!
-#! @input json_array: JSON array to insert object into - Example: '[{"a": "0"}, {"c": "2"}]'
-#! @input json_object: JSON object to insert into array - Example: '{"b": "1"}'
-#! @input index: Optional - Position at which to insert the new object - Example: 1
+#! @input json_array: JSON array to insert object into.
+#!                    Example: '[{"a": "0"}, {"c": "2"}]'
+#! @input json_object: JSON object to insert into array.
+#!                     Example: '{"b": "1"}'
+#! @input index: Optional - Position at which to insert the new object.
+#!               Example: 1
 #!
-#! @output return_result: JSON array with object inserted
-#! @output return_code: "0" if inserting was successful, "-1" otherwise
-#! @output error_message: Error message if there was an error when executing, empty otherwise
+#! @output return_result: JSON array with object inserted.
+#! @output return_code: "0" if inserting was successful, "-1" otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.

@@ -132,8 +132,8 @@
 #! @input proxy_password: Optional - The password used when connecting to the proxy.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL/TSL.
 #!                         A certificate is trusted even if no trusted certification authority issued it.
-#!                         Valid values : 'true' and 'false'.
-#!                         Default value : 'false'.
+#!                         Valid values : 'true' and 'false'
+#!                         Default value : 'false'
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -193,11 +193,11 @@
 #! @output return_code: '0' if the script succeeded or '-1' otherwise.
 #! @output return_result: The scripts result.
 #! @output stderr: The standard error output if any error occurred.
-#! @output script_exit_code: The exitcode of the script.
-#! @output exception: The return code of the script
+#! @output script_exit_code: The exit code of the script.
+#! @output exception: The return code of the script.
 #!
-#! @result SUCCESS: If the script ran successfully with no error messages
-#! @result FAILURE: If the script was invalid, the timeout was suppressed or an error occurred
+#! @result SUCCESS: If the script ran successfully with no error messages.
+#! @result FAILURE: If the script was invalid, the timeout was suppressed or an error occurred.
 #!!#
 ########################################################################################################################
 

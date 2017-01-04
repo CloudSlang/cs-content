@@ -9,71 +9,72 @@
 #!!
 #! @description: Creates an OpenStack server.
 #!
-#! @input host: OpenStack host
-#! @input compute_port: Optional - port used for OpenStack computations
+#! @input host: OpenStack host.
+#! @input compute_port: Optional - Port used for OpenStack computations.
 #!                      Default: '8774'
-#! @input identity_port: Optional - port used for OpenStack authentication
+#! @input identity_port: Optional - Port used for OpenStack authentication.
 #!                       Default: '5000'
-#! @input username: Optional - username used for URL authentication; for NTLM authentication
+#! @input username: Optional - username used for URL authentication; for NTLM authentication.
 #!                  Format: 'domain\user'
-#! @input password: Optional - password used for URL authentication
-#! @input proxy_host: Optional - proxy server used to access OpenStack services
-#! @input proxy_port: Optional - proxy server port used to access OpenStack services
+#! @input password: Optional - Password used for URL authentication.
+#! @input proxy_host: Optional - Proxy server used to access OpenStack services.
+#! @input proxy_port: Optional - Proxy server port used to access OpenStack services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - user name used when connecting to proxy
-#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other
+#! @input proxy_username: Optional - User name used when connecting to proxy.
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from other
 #!                        parties that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the TrustStore file.
+#! @input trust_password: Optional - The password associated with the TrustStore file.
 #!                        If trust_all_roots is false and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default value: ''
-#! @input keystore: Optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - The pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or
 #!                  if trust_all_roots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: Optional - the password associated with the KeyStore file.
+#! @input keystore_password: Optional - The password associated with the KeyStore file.
 #!                           If trustAllRoots is false and keystore is empty, keystorePassword default will be supplied.
-#!                           Default value: changeit
-#! @input tenant_name: name of OpenStack project where the new server will be created
-#! @input version: The OpenStack API version
+#!                           Default value: ''
+#! @input tenant_name: name of OpenStack project where the new server will be created.
+#! @input version: The OpenStack API version.
 #!                 Examples: '2', '2.1'
 #!                 Default: '2'
-#! @input server_name: name of the new server
-#! @input img_ref: image reference for server to be created - Example: b67f9da0-4a89-4588-b0f5-bf4d19401743
+#! @input server_name: Name of the new server.
+#! @input img_ref: Image reference for server to be created.
+#!                 Example: b67f9da0-4a89-4588-b0f5-bf4d19401743
 #! @input flavor_ref: The flavor to use for the new server. You can specify this as a simple ID or a complete URI
 #!                    Examples: 1, 2, 3, 4, 5, 42, 84 - Default: '42'
 #! @input boot_index: The order in which a hyper-visor tries devices when it attempts to boot the guest from storage.
 #!                    To disable a device from booting, the boot index of the device should be a negative value
 #!                    Default: '0'
-#! @input uuid: uuid of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
-#! @input source_type: Optional - the source type of the volume
+#! @input uuid: UUID of the image to boot from - Example: 'b67f9da0-4a89-4588-b0f5-bf4d1940174'
+#! @input source_type: Optional - The source type of the volume.
 #!                     Valid: '', 'image', 'snapshot' or 'volume'
 #!                     Default: ''
-#! @input delete_on_termination: if True then the boot volume will be deleted when the server is destroyed, If false the
-#!                               boot volume will be deleted when the server is destroyed
-#!                               Default: True
-#! @input availability_zone: The availability zone from which to launch the server
+#! @input delete_on_termination: If 'true' then the boot volume will be deleted when the server is destroyed, If false the
+#!                               boot volume will be deleted when the server is destroyed.
+#!                               Default: 'true'
+#! @input availability_zone: The availability zone from which to launch the server.
 #!                           Example: 'nova', 'us-east1'
 #!                           Default: 'nova'
 #! @input admin_pass: Optional - The new created server administrator password. If this password does not meet the system
 #!                    security requirements, the server can enter an 'ERROR' state. If this password does not
 #!                    meet the requirements, it might be ignored and a new random password is generated.
 #!                    Default: ''
-#! @input key_name: Optional - The name of the security keypair used with the new created server
+#! @input key_name: Optional - The name of the security keypair used with the new created server.
 #!                  Example: 'MyKey'
 #!                  Default: ''
 #! @input user_data: Optional - A string that contains configuration information or scripts to use upon launch. Must be
-#!                   Base64 encoded. The first line in the script should be "#!/bin/sh"
+#!                   Base64 encoded. The first line in the script should be "#!/bin/sh".
 #!                   Example: 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk='
 #!                   Default: ''
 #! @input metadata: Optional - A JSON object which defines name:value metadata pairs for the new server. The maximum
-#!                  size of the metadata key and value is 255 bytes each
+#!                  size of the metadata key and value is 255 bytes each.
 #!                  Example: {"My Server Name": "Apache1", "min_ram": "2"}
 #!                  Default: ''
 #! @input security_groups: Optional - A JSON array of objects, each describing a security group. A server can be placed
@@ -90,39 +91,39 @@
 #!                     XR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB
 #!                     5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=="}
 #!                     Default: ''
-#! @input network_id: Optional - ID of network to connect to
+#! @input network_id: Optional - ID of network to connect to.
 #!                    Default: ''
 #!
-#! @output return_result: The output of the operation
-#! @output error_message: return_result if statusCode is not '202'
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: code returned by operation
+#! @output return_result: The output of the operation.
+#! @output error_message: Return_result if statusCode is not '202'.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Code returned by operation.
 #!
-#! @result SUCCESS: server created successfully
-#! @result GET_AUTHENTICATION_FAILURE: There was an error while retrieving authentication
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: There was an error while retrieving token authentication
-#! @result GET_TENANT_ID_FAILURE: There was an error while trying to get the tenant ID
-#! @result ADD_NAME_FAILURE: There was an error while trying to add server name
-#! @result ADD_IMG_REF_FAILURE: There was an error while trying to add image reference to the server
-#! @result ADD_FLAVOR_REF_FAILURE: There was an error while trying to add flavor reference to the server
-#! @result ADD_KEY_NAME_FAILURE: There was an error while trying to add key name to the server
-#! @result ADD_SECURITY_GROUPS_FAILURE: There was an error while trying to add the security group to the server
-#! @result ADD_ADMIN_PASS_FAILURE: There was an error while trying to add the admin password
-#! @result ADD_USER_DATA_FAILURE: There was an error while trying to add user data
-#! @result ADD_AVAILABILITY_ZONE_FAILURE: There was an error while trying to add availability zone
-#! @result ADD_DEFAULT_SECURITY_GROUP_FAILURE: There was an error while trying to add the default security group
-#! @result ADD_SECURITY_GROUPS_FAILURE: There was an error while trying to add the security groups
-#! @result ADD_BOOT_INDEX_FAILURE: There was an error while trying to add boot index
-#! @result ADD_DELETE_ON_TERMINATION_FAILURE: There was an error while trying to add delete on termination
-#! @result ADD_NETWORK_FAILURE: There was an error while trying to add network
-#! @result ADD_METADATA_FAILURE: There was an error while trying to add metadata
-#! @result ADD_PERSONALITY_FAILURE: There was an error while trying to add personality
-#! @result ADD_UUID_FAILURE: There was an error while trying to add the UUID
-#! @result ADD_SOURCE_TYPE_FAILURE: There was an error while trying to add source type
-#! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: There was an error while trying to add the device mapping
-#! @result ADD_INSTANCE_SOURCE_BOOT_FAILURE: There was an error while trying to add instance source boot
-#! @result ADD_SERVER_OBJECT_JSON_FAILURE: There was an error while trying to add server JSON object
-#! @result CREATE_SERVER_FAILURE: There was an error while trying to create server
+#! @result SUCCESS: Server created successfully.
+#! @result GET_AUTHENTICATION_FAILURE: There was an error while retrieving authentication.
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: There was an error while retrieving token authentication.
+#! @result GET_TENANT_ID_FAILURE: There was an error while trying to get the tenant ID.
+#! @result ADD_NAME_FAILURE: There was an error while trying to add server name.
+#! @result ADD_IMG_REF_FAILURE: There was an error while trying to add image reference to the server.
+#! @result ADD_FLAVOR_REF_FAILURE: There was an error while trying to add flavor reference to the server.
+#! @result ADD_KEY_NAME_FAILURE: There was an error while trying to add key name to the server.
+#! @result ADD_SECURITY_GROUPS_FAILURE: There was an error while trying to add the security group to the server.
+#! @result ADD_ADMIN_PASS_FAILURE: There was an error while trying to add the admin password.
+#! @result ADD_USER_DATA_FAILURE: There was an error while trying to add user data.
+#! @result ADD_AVAILABILITY_ZONE_FAILURE: There was an error while trying to add availability zone.
+#! @result ADD_DEFAULT_SECURITY_GROUP_FAILURE: There was an error while trying to add the default security group.
+#! @result ADD_SECURITY_GROUPS_FAILURE: There was an error while trying to add the security groups.
+#! @result ADD_BOOT_INDEX_FAILURE: There was an error while trying to add boot index.
+#! @result ADD_DELETE_ON_TERMINATION_FAILURE: There was an error while trying to add delete on termination.
+#! @result ADD_NETWORK_FAILURE: There was an error while trying to add network.
+#! @result ADD_METADATA_FAILURE: There was an error while trying to add metadata.
+#! @result ADD_PERSONALITY_FAILURE: There was an error while trying to add personality.
+#! @result ADD_UUID_FAILURE: There was an error while trying to add the UUID.
+#! @result ADD_SOURCE_TYPE_FAILURE: There was an error while trying to add source type.
+#! @result ADD_BLOCK_DEVICE_MAPPING_FAILURE: There was an error while trying to add the device mapping.
+#! @result ADD_INSTANCE_SOURCE_BOOT_FAILURE: There was an error while trying to add instance source boot.
+#! @result ADD_SERVER_OBJECT_JSON_FAILURE: There was an error while trying to add server JSON object.
+#! @result CREATE_SERVER_FAILURE: There was an error while trying to create server.
 #!!#
 ########################################################################################################################
 

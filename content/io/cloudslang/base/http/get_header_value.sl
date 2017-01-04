@@ -9,14 +9,14 @@
 #!!
 #! @description: Performs a search in the response_headers to get the specified header value.
 #!
-#! @input response_headers: response headers string from an HTTP Client REST call
-#! @input header_name: name of header to get value for
+#! @input response_headers: Response headers string from an HTTP Client REST call.
+#! @input header_name: Name of header to get value for.
 #!
-#! @output result: specified header value in case of success, error message otherwise
-#! @output error_message: exception if occurs
+#! @output result: Specified header value in case of success, error message otherwise.
+#! @output error_message: Exception if occurs.
 #!
-#! @result SUCCESS: retrieved specified header value
-#! @result FAILURE: There was an error retrieving header value
+#! @result SUCCESS: Retrieved specified header value.
+#! @result FAILURE: There was an error retrieving header value.
 #!!#
 ########################################################################################################################
 

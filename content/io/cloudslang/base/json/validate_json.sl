@@ -11,12 +11,12 @@
 #!
 #! @input json_input: JSON to validate
 #!
-#! @output return_result: message of validity or exception
+#! @output return_result: Message of validity or exception
 #! @output return_code: "0" if is a valid json, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output error_message: Error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: JSON is valid (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

@@ -14,22 +14,22 @@
 #! @input password: Helion Development Platform / Stackato password
 #! @input proxy_host: Optional - proxy server used to access Helion Development Platform / Stackato services
 #! @input proxy_port: Optional - proxy server port used to access Helion Development Platform / Stackato services
-#!                    default: '8080'
-#! @input proxy_username: Optional - user name used when connecting to proxy
-#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to proxy
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value
 #!
-#! @output return_result: response of the operation in case of success, error message otherwise
+#! @output return_result: Response of the operation in case of success, error message otherwise
 #! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: code returned by the operation
-#! @output error_message: return_result if status_code is not '200'
-#! @output users_list: list of all spaces on Helion Development Platform / Stackato instance
-#! @output usernames_list: list containing only the usernames of the users_list
+#! @output status_code: Code returned by the operation
+#! @output error_message: Return_result if status_code is not '200'
+#! @output users_list: List of all spaces on Helion Development Platform / Stackato instance
+#! @output usernames_list: List containing only the usernames of the users_list
 #!
-#! @result SUCCESS: list with existing users on Helion Development Platform / Stackato host was successfully retrieved
-#! @result GET_AUTHENTICATION_FAILURE: authentication call failed
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token could not be obtained from authentication call response
-#! @result GET_USERS_FAILURE: get users call failed
-#! @result GET_USERS_LIST_FAILURE: list with existing users on Helion Development Platform / Stackato could not be
+#! @result SUCCESS: List with existing users on Helion Development Platform / Stackato host was successfully retrieved
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call failed
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token could not be obtained from authentication call response
+#! @result GET_USERS_FAILURE: Get users call failed
+#! @result GET_USERS_LIST_FAILURE: List with existing users on Helion Development Platform / Stackato could not be
 #!                                 retrieved
 #! @result GET_USERNAMES_LIST_FAILURE: list with existing usernames on Helion Development Platform / Stackato could not
 #!                                     be retrieved

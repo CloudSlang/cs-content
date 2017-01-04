@@ -9,15 +9,18 @@
 #!!
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
-#! @input list: list of items that will be converted to string and concatenated - Example: [123, 'xyz']
-#! @input double_quotes: Optional - if true, list items will be double quoted - Default: False
-#! @input result_delimiter: Optional - if true, will be appended after every list item (except the last one)
-#!                          Default: "''"
-#! @input result_to_lowercase: Optional - if true, list items will be lowercased - Default: False
+#! @input list: List of items that will be converted to string and concatenated
+#!              Example: [123, 'xyz']
+#! @input double_quotes: Optional - If true, list items will be double quoted
+#!                       Default: False
+#! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one)
+#!                          Default: "'
+#! @input result_to_lowercase: Optional - If true, list items will be lower cased
+#!                             Default: False
 #!
-#! @output result: string that results from concatenation of list elements
+#! @output result: String that results from concatenation of list elements
 #!
-#! @result SUCCESS: list converted to string successfully
+#! @result SUCCESS: List converted to string successfully
 #!!#
 ########################################################################################################################
 
@@ -25,6 +28,7 @@ namespace: io.cloudslang.base.lists
 
 operation:
   name: convert_list_to_string
+
   inputs:
     - list
     - double_quotes:
@@ -36,6 +40,7 @@ operation:
     - result_to_lowercase:
         default: "False"
         required: false
+
   python_action:
     script: |
       result = ''
@@ -46,7 +51,9 @@ operation:
         if (list_length > 0 and result_delimiter != ''):
           result += str(result_delimiter)
       result = result.lower() if bool(result_to_lowercase) else result
+
   outputs:
     - result
+
   results:
     - SUCCESS

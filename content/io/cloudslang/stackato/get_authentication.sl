@@ -9,22 +9,22 @@
 #!!
 #! @description: Authenticates on Helion Development Platform / Stackato machine and retrieves the authentication token.
 #!
-#! @input host: Helion Development Platform / Stackato host
-#! @input username: Helion Development Platform / Stackato username
-#! @input password: Helion Development Platform / Stackato password
-#! @input proxy_host: Optional - Proxy server used to access Helion Development Platform / Stackato services
-#! @input proxy_port: Optional - Proxy server port used to access Helion Development Platform / Stackato services
+#! @input host: Helion Development Platform / Stackato host.
+#! @input username: Helion Development Platform / Stackato username.
+#! @input password: Helion Development Platform / Stackato password.
+#! @input proxy_host: Optional - Proxy server used to access Helion Development Platform / Stackato services.
+#! @input proxy_port: Optional - Proxy server port used to access Helion Development Platform / Stackato services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - User name used when connecting to proxy
-#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - User name used when connecting to proxy.
+#! @input proxy_password: Optional - Proxy server password associated with <proxy_username> input value.
 #!
-#! @output return_result: Response of last operation that was executed
-#! @output error_message: Error message of operation that failed
-#! @output token: Authentication token
+#! @output return_result: Response of last operation that was executed.
+#! @output error_message: Error message of operation that failed.
+#! @output token: Authentication token.
 #!
-#! @result SUCCESS: Authentication on Helion Development Platform / Stackato host was successful
-#! @result GET_AUTHENTICATION_FAILURE: Authentication call failsed
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token could not be obtained from authentication call response
+#! @result SUCCESS: Authentication on Helion Development Platform / Stackato host was successful.
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call failed.
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token could not be obtained from authentication call response.
 #!!#
 ########################################################################################################################
 

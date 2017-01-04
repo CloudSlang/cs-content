@@ -9,13 +9,14 @@
 #!!
 #! @description: Replaces a string in another string by a Python regex expression.
 #!
-#! @input regex: Python regex expresssion - "f\\w*r"
-#! @input text: Optional - string to replace in
-#! @input replacement: Optional - replacement string
+#! @input regex: Python regex expression.
+#!               Example: "f\\w*r"
+#! @input text: Optional - String to replace in.
+#! @input replacement: Optional - Replacement string.
 #!
-#! @output result_text: string after replacement
+#! @output result_text: String after replacement.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 
