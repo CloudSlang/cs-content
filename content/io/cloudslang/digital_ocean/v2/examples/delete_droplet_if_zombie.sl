@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,23 +9,26 @@
 #!!
 #! @description: Deletes a DigitalOcean droplet if it is considered a zombie.
 #!
-#! @input droplet_id: id of the droplet as a string value
-#! @input droplet_name: name of the droplet
-#! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
-#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#! @input time_to_live: threshold to compare the droplet's lifetime to (in minutes)
-#! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
-#! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port
-#! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input droplet_id: ID of the droplet as a string value.
+#! @input droplet_name: Name of the droplet.
+#! @input creation_time_as_string: Creation time (UTC timezone) of the droplet as a string value.
+#!                                 Format (used by DigitalOcean): '2015-09-27T18:47:19Z'
+#! @input time_to_live: Threshold to compare the droplet's lifetime to (in minutes).
+#! @input name_pattern: Regex pattern for zombie droplet names.
+#!                      Example: 'ci-([0-9]+)-coreos-([0-9]+)'
+#! @input token: Personal access token for DigitalOcean API.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                         (0 represents infinite value)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        (0 represents infinite value)
 #!
-#! @result DELETED: droplet is deleted
-#! @result NOT_DELETED: droplet is not deleted
-#! @result FAILURE: An error occurred
+#! @result DELETED: Droplet is deleted.
+#! @result NOT_DELETED: Droplet is not deleted.
+#! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
 

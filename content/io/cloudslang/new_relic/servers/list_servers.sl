@@ -11,8 +11,9 @@
 #!
 #! @input servers_endpoint: New Relic servers API endpoint
 #! @input api_key: New Relic REST API key
-#! @input proxy_host: Optional - proxy server used to access web site
-#! @input proxy_port: Optional - proxy server port
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - username used when connecting to proxy
 #! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #!
@@ -43,7 +44,7 @@ flow:
         default: ''
     - proxy_port:
         required: false
-        default: ''
+        default: '8080'
     - proxy_username:
         required: false
         default: ''

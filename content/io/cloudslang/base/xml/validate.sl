@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -39,8 +39,9 @@
 #!                                 possible Man-In-The-Middle attacks, we strongly recommend to use "strict" option.
 #!                                Valid values are 'strict', 'browser_compatible', 'allow_all'.
 #!                                Default value is 'strict'.
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - user name used when connecting to the proxy
 #! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
@@ -49,8 +50,8 @@
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
-#!                        trustPassword default will be supplied.
+#! @input trust_password: Optional - the password associated with the TrustStore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default value: ''
 #! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
@@ -69,9 +70,9 @@
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
 #!
-#! @output return_result: parsing was successfull or valid xml
+#! @output return_result: Parsing was successful or valid xml
 #! @output return_code: 0 if success, -1 if failure
-#! @output error_message: exception in case of failure
+#! @output error_message: Exception in case of failure
 #!
 #! @result SUCCESS: XML is well-formed and is valid based on XSD if given
 #! @result FAILURE: XML is not well-formed or is not valid based on given XSD

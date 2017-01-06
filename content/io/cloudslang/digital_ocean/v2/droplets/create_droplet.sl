@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,34 +9,37 @@
 #!!
 #! @description: Creates a DigitalOcean droplet.
 #!
-#! @input name: human-readable string you wish to use when displaying the Droplet name
-#! @input region: Optional - unique slug identifier for the region that you wish to deploy in - Default: ams3
-#! @input size: unique slug identifier for the size that you wish to select for this Droplet - Default: 512mb
-#! @input image: ID or slug identifier of the base image for your droplet
-#! @input ssh_keys: Optional - array containing the IDs of the SSH keys
-#!                  that you wish to embed in the Droplet's root account upon creation
-#! @input backups: Optional - boolean indicating whether automated backups should be enabled for the Droplet.
-#!                 Automated backups can only be enabled when the Droplet is created
-#!                 Default: false
-#! @input ipv6: Optional - boolean indicating whether IPv6 is enabled on the Droplet - Default: false
-#! @input private_networking: Optional - boolean indicating whether private networking is enabled for the Droplet
-#!                            Default: false
-#! @input user_data: Optional - string of the desired User Data for the Droplet. Double quotes (") need to be escaped
+#! @input name: Human-readable string you wish to use when displaying the Droplet name.
+#! @input region: Optional - Unique slug identifier for the region that you wish to deploy in.
+#!                Default: 'ams3'
+#! @input size: Unique slug identifier for the size that you wish to select for this Droplet.
+#!              Default: '512mb'
+#! @input image: ID or slug identifier of the base image for your droplet.
+#! @input ssh_keys: Optional - Array containing the IDs of the SSH keys
+#!                  that you wish to embed in the Droplet's root account upon creation.
+#! @input backups: Optional - Boolean indicating whether automated backups should be enabled for the Droplet.
+#!                 Automated backups can only be enabled when the Droplet is created.
+#!                 Default: 'false'
+#! @input ipv6: Optional - Boolean indicating whether IPv6 is enabled on the Droplet.
+#!              Default: 'false'
+#! @input private_networking: Optional - boolean indicating whether private networking is enabled for the Droplet.
+#!                            Default: 'false'
+#! @input user_data: Optional - String of the desired User Data for the Droplet. Double quotes (") need to be escaped
 #!                    with a backslash (\).
-#! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port
-#! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input token: Personal access token for DigitalOcean API.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
 #!                        (0 represents infinite value)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (0 represents infinite value).
 #!
-#! @output response: raw response of the API call
-#! @output droplet_id: ID of the created droplet in case of success, empty in case of failure
+#! @output response: Raw response of the API call.
+#! @output droplet_id: ID of the created droplet in case of success, empty in case of failure.
 #!
-#! @result SUCCESS: droplet created successfully
-#! @result FAILURE: something went wrong while trying to create droplet
+#! @result SUCCESS: Droplet created successfully.
+#! @result FAILURE: Something went wrong while trying to create droplet.
 #!!#
 ########################################################################################################################
 

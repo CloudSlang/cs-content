@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -25,8 +25,9 @@
 #! @input username: Optional - username used for URL authentication; for NTLM authentication, required format is
 #!                  'domain\user'
 #! @input password: Optional - password used for URL authentication
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - user name used when connecting to the proxy
 #! @input proxy_password: Optional - proxy server password associated with the proxy_username input value
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,25 +7,26 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the authentication Bearer token for Azure
+#! @description: This operation retrieves the authentication Bearer token for Azure.
 #!
 #! @input username: The username to be used to authenticate to the Azure Management Service.
 #! @input password: The password to be used to authenticate to the Azure Management Service.
-#! @input client_id: Optional - Service Client ID
+#! @input client_id: Optional - Service Client ID.
 #! @input login_authority: Optional - URL of the login authority that should be used when retrieving the Authentication Token.
-#!                   Default: 'https://sts.windows.net/common'
-#! @input resource: Optional - resource URl for which the Authentication Token is intended
+#!                         Default: 'https://sts.windows.net/common'
+#! @input resource: Optional - Resource URl for which the Authentication Token is intended.
 #!                  Default: 'https://management.azure.com/'
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
-#! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - user name used when connecting to the proxy.
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value.
 #!
-#! @output auth_token: The authorization Bearer token for Azure
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output exception: An error message in case there was an error while generating the Bearer token
+#! @output auth_token: The authorization Bearer token for Azure.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output exception: An error message in case there was an error while generating the Bearer token.
 #!
-#! @result SUCCESS: Bearer token generated successfully
+#! @result SUCCESS: Bearer token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
@@ -34,6 +35,7 @@ namespace: io.cloudslang.microsoft.azure.authorization
 
 operation:
   name: get_auth_token
+
   inputs:
     - username
     - password:

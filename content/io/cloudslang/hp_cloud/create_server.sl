@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,7 @@
 #! @input server_name: name for the new server
 #! @input img_ref: image id to use for the new server (operating system)
 #! @input flavor_ref: flavor id to set the new server size
-#! @input keypair: keypair used to access the new server
+#! @input keypair: Keypair used to access the new server
 #! @input tenant: tenant id obtained by get_authenication_flow
 #! @input token: auth token obtained by get_authenication_flow
 #! @input region: HP Cloud region; 'a' or 'b'  (US West or US East)

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,21 +11,22 @@
 #!               A droplet is considered zombie if its name matches a given pattern and its
 #!               lifetime exceeds a given value.
 #!
-#! @input time_to_live: Optional - threshold in minutes to compare the droplet's lifetime to as number or string
+#! @input time_to_live: Optional - Threshold in minutes to compare the droplet's lifetime to as number or string.
 #!                      Default: 150 minutes (2.5 hours)
-#! @input name_pattern: Optional - regex pattern for zombie droplet names
-#!                      Default: ci-([0-9]+)-coreos-([0-9]+)
-#! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port
-#! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input name_pattern: Optional - Regex pattern for zombie droplet names.
+#!                      Default: 'ci-([0-9]+)-coreos-([0-9]+)'
+#! @input token: Personal access token for DigitalOcean API.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
 #!                        (0 represents infinite value)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        (0 represents infinite value)
 #!
-#! @result SUCCESS: zombie droplets deleted successfully
-#! @result FAILURE: something went wrong while trying to delete zombie droplets
+#! @result SUCCESS: Zombie droplets deleted successfully.
+#! @result FAILURE: Something went wrong while trying to delete zombie droplets.
 #!!#
 ########################################################################################################################
 

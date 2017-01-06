@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,21 +9,21 @@
 #!!
 #! @description: Parses a JSON response holding Consul key information.
 #!
-#! @input json_response: response holding Consul key information
+#! @input json_response: Response holding Consul key information.
 #!
-#! @output decoded: parsed response
-#! @output key: key name
-#! @output flags: key flags
-#! @output create_index: key create index
-#! @output value: key value
-#! @output modify_index: key modify index
-#! @output lock_index: key lock index
-#! @output return_result: response of the operation
-#! @output error_message: return_result if there was an error
-#! @output return_code: '0' if parsing was successful, '-1' otherwise
+#! @output decoded: Parsed response.
+#! @output key: Key name.
+#! @output flags: Key flags.
+#! @output create_index: Key create index.
+#! @output value: Key value.
+#! @output modify_index: Key modify index.
+#! @output lock_index: Key lock index.
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result if there was an error.
+#! @output return_code: '0' if parsing was successful, '-1' otherwise.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Parsing was successful (return_code == '0').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,17 +9,18 @@
 #!!
 #! @description: Registers an endpoint to add a new agent service.
 #!
-#! @input host: Consul agent host
-#! @input consul_port: Optional - Consul agent host port - Default: '8500'
-#! @input address: Optional - will default to that of the agent
-#! @input service_name: The service name what will be registered
-#! @input service_id: Optional - if omitted, service_name will be used instead
-#! @input check: Optional - if the Check key is provided, then a health check will also be registered
+#! @input host: Consul agent host.
+#! @input consul_port: Optional - Consul agent host port.
+#!                     Default: '8500'
+#! @input address: Optional - Will default to that of the agent.
+#! @input service_name: The service name what will be registered.
+#! @input service_id: Optional - If omitted, service_name will be used instead.
+#! @input check: Optional - If the Check key is provided, then a health check will also be registered.
 #!
-#! @output error_message: return_result if there was an error
+#! @output error_message: Return_result if there was an error.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Parsing was successful (return_code == '0').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

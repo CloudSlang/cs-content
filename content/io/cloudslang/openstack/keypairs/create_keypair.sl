@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -52,11 +52,11 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: code returned by operation
 #!
-#! @result SUCCESS: keypair was successfully created
+#! @result SUCCESS: Keypair was successfully created
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
 #! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
 #! @result GET_AUTHENTICATION_FAILURE: authentication call fails
-#! @result CREATE_KEYPAIR_FAILURE: keypair could not be created
+#! @result CREATE_KEYPAIR_FAILURE: Keypair could not be created
 #!!#
 ########################################################################################################################
 

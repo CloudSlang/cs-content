@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -35,8 +35,9 @@
 #! @input sql_database_name: Sql database name
 #! @input blob_storage_uri: Specifies the blob URI of the bacpac file
 #!                          Example: 'https://myStorage.blob.core.windows.net/myContainer/MyDb.bacpac'
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - username used when connecting to the proxy
 #! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false

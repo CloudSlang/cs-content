@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,22 +9,22 @@
 #!!
 #! @description: Runs the docker_images_maintenance flow against all the machines in the cluster.
 #!
-#! @input coreos_host: CoreOS machine host;
-#!                     Can be any machine from the cluster
-#! @input coreos_username: CoreOS machine username
-#! @input coreos_password: Optional - CoreOS machine password;
-#!                         Can be empty since CoreOS machines uses private key file authentication
-#! @input private_key_file: Optional - path to the private key file
-#! @input timeout: Optional - time in milliseconds to wait for the command to complete
-#! @input percentage: if disk space is greater than this value then unused images will be deleted
-#!                    Default: 0%
-#!                    Example: 50%
+#! @input coreos_host: CoreOS machine host.
+#!                     Can be any machine from the cluster.
+#! @input coreos_username: CoreOS machine username.
+#! @input coreos_password: Optional - CoreOS machine password.
+#!                         Can be empty since CoreOS machines uses private key file authentication.
+#! @input private_key_file: Optional - Path to the private key file.
+#! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
+#! @input percentage: If disk space is greater than this value then unused images will be deleted.
+#!                    Example: '50%'
+#!                    Default: '0%'
 #!
-#! @output number_of_deleted_images_per_host: how many images were deleted for every host
-#!                                            Format: "ip1: number1, ip2: number2"
+#! @output number_of_deleted_images_per_host: How many images were deleted for every host.
+#!                                            Format: 'ip1: number1, ip2: number2'
 #!
-#! @result SUCCESS: maintenance check performed successfully against all machines in the cluster
-#! @result FAILURE: There was an error while trying to run the maintenance check
+#! @result SUCCESS: Maintenance check performed successfully against all machines in the cluster.
+#! @result FAILURE: There was an error while trying to run the maintenance check.
 #!!#
 ########################################################################################################################
 

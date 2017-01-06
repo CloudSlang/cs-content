@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -51,12 +51,12 @@
 #! @output status_code: code returned by operation
 #! @output keypairs_list: list of keypairs
 #!
-#! @result SUCCESS: keypairs list was successfully retrieved
+#! @result SUCCESS: Keypairs list was successfully retrieved
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
 #! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot be obtained from authentication call response
 #! @result GET_AUTHENTICATION_FAILURE: authentication call fails
 #! @result GET_KEYPAIRS_FAILURE: get keypairs list call fails
-#! @result EXTRACT_KEYPAIRS_FAILURE: keypairs list could not be retrieved
+#! @result EXTRACT_KEYPAIRS_FAILURE: Keypairs list could not be retrieved
 #!!#
 ########################################################################################################################
 

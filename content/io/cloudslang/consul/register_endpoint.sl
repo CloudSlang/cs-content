@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,18 +9,22 @@
 #!!
 #! @description: Directly registers or updates entries in the catalog.
 #!
-#! @input host: Consul agent host
-#! @input consul_port: Optional - Consul agent host port - Default: '8500'
-#! @input node: node name
-#! @input address: node host
-#! @input datacenter: Optional - Default: ''; matched to that of agent
-#! @input service: Optional - if Service key is provided, then service will also be registered - Default: ''
-#! @input check: Optional - if the Check key is provided, then a health check will also be registered - Default:''
+#! @input host: Consul agent host.
+#! @input consul_port: Optional - Consul agent host port.
+#!                     Default: '8500'
+#! @input node: Node name.
+#! @input address: Node host.
+#! @input datacenter: Optional - Matched to that of agent.
+#!                    Default: ''
+#! @input service: Optional - If Service key is provided, then service will also be registered.
+#!                 Default: ''
+#! @input check: Optional - If the Check key is provided, then a health check will also be registered.
+#!               Default: ''
 #!
-#! @output error_message: return_result if there was an error
+#! @output error_message: Return_result if there was an error.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Parsing was successful (return_code == '0').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

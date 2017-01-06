@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,17 +9,18 @@
 #!!
 #! @description: Gets a Consul key.
 #!
-#! @input host: Consul agent host
-#! @input consul_port: Optional - Consul agent port - Default: '8500'
-#! @input key_name: name of key to get
+#! @input host: Consul agent host.
+#! @input consul_port: Optional - Consul agent port.
+#!                     Default: '8500'
+#! @input key_name: Name of key to get.
 #!
-#! @output return_result: response of the operation
-#! @output error_message: return_result if return_code is equal to ': 1' or status_code different than '200'
-#! @output return_code: if return_code is equal to '-1' then there was an error
-#! @output status_code: normal status code is '200'
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result if return_code is equal to ': 1' or status_code different than '200'.
+#! @output return_code: If return_code is equal to '-1' then there was an error.
+#! @output status_code: Normal status code is '200'.
 #!
-#! @result SUCCESS: operation succeeded (returnCode != '-1' and statusCode == '200')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Operation succeeded (returnCode != '-1' and statusCode == '200').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -38,7 +39,7 @@ operation:
         default: ${'http://' + host + ':' + consul_port + '/v1/kv/' + key_name}
         private: true
     - method:
-        default: 'get'
+        default: 'GET'
         private: true
 
   java_action:
