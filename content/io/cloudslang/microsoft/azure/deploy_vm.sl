@@ -18,7 +18,8 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be deployed.
+#! @input vm_name: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
+#!                 identifier in order to avoid duplicate names.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
@@ -103,6 +104,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
+  math: io.cloudslang.base.math
   auth: io.cloudslang.microsoft.azure.authorization
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
@@ -179,8 +181,8 @@ flow:
           - auth_token
           - error_message: ${exception}
         navigate:
-          - SUCCESS: create_public_ip
           - FAILURE: on_failure
+          - SUCCESS: random_number_generator
 
     - create_public_ip:
         do:
@@ -610,6 +612,72 @@ flow:
           - SUCCESS: get_nic_list
           - FAILURE: on_failure
 
+    - random_number_generator:
+        do:
+          math.random_number_generator:
+            - min: '0'
+            - max: '99999'
+        publish:
+          - random_number: ${random_number}
+        navigate:
+          - SUCCESS: append
+          - FAILURE: random_number_generator
+
+
+    - get_vm_details_1:
+        do:
+          vm.get_vm_details:
+            - subscription_id: ${subscription_id}
+            - resource_group_name: ${resource_group_name}
+            - auth_token: ${auth_token}
+            - vm_name: ${vm_name}
+            - connect_timeout: ${connect_timeout}
+            - proxy_username: ${proxy_username}
+            - proxy_password: ${proxy_password}
+            - proxy_port: ${proxy_port}
+            - proxy_host: ${proxy_host}
+            - trust_all_roots: ${trust_all_roots}
+            - x_509_hostname_verifier: ${x_509_hostname_verifier}
+            - trust_keystore: ${trust_keystore}
+            - trust_password: ${trust_password}
+        publish:
+          - vm_details: ${output}
+        navigate:
+          - SUCCESS: remove
+          - FAILURE: string_occurrence_counter
+
+
+    - append:
+        do:
+          strings.append:
+            - origin_string: ${vm_name}
+            - text: ${random_number}
+        publish:
+          - vm_name: ${new_string}
+        navigate:
+          - SUCCESS: get_vm_details_1
+
+    - string_occurrence_counter:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${vm_details}
+            - string_to_find: 'ResourceNotFound'
+        publish: []
+        navigate:
+          - SUCCESS: create_public_ip
+          - FAILURE: get_vm_details_1
+
+
+    - remove:
+        do:
+          strings.remove:
+            - origin_string: ${vm_name}
+            - text: ${random_number}
+        publish:
+          - vm_name: ${new_string}
+        navigate:
+          - SUCCESS: random_number_generator
+
   outputs:
     - output
     - ip_address
@@ -620,6 +688,7 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
 extensions:
   graph:
     steps:
@@ -635,6 +704,9 @@ extensions:
       linux_vm:
         x: 733
         y: 260
+      remove:
+        x: 161
+        y: 218
       strip_result:
         x: 1543
         y: 695
@@ -655,8 +727,8 @@ extensions:
             targetId: 2298ed00-6a9b-35f1-75b2-1e50bf86be9d
             port: SUCCESS
       get_auth_token:
-        x: 66
-        y: 66
+        x: 39
+        y: 71
       check_failed_power_state:
         x: 1575
         y: 470
@@ -688,6 +760,9 @@ extensions:
       delete_nic:
         x: 908
         y: 489
+      get_vm_details_1:
+        x: 165
+        y: 376
       check_tag_value:
         x: 722
         y: 693
@@ -704,9 +779,18 @@ extensions:
       attach_disk:
         x: 905
         y: 699
+      random_number_generator:
+        x: 34
+        y: 217
+      append:
+        x: 27
+        y: 379
       create_public_ip:
-        x: 273
-        y: 65
+        x: 304
+        y: 71
+      string_occurrence_counter:
+        x: 315
+        y: 379
       compare_power_state:
         x: 1574
         y: 52
