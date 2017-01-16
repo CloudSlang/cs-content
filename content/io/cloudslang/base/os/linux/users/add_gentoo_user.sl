@@ -85,7 +85,7 @@ flow:
     - evaluate_result:
         do:
           utils.is_true:
-            - bool_value: ${return_code == '0' and command_return_code == '0'}
+            - bool_value: ${str(return_code == '0' and command_return_code == '0')}
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE
