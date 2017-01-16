@@ -18,9 +18,9 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
-#!                 identifier in order to avoid duplicate names.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
+#!                        identifier in order to avoid duplicate names.
+#!                        Virtual machine name cannot contain non-ASCII or special characters.
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #!                 Default: 'Standard_DS1_v2'
@@ -87,6 +87,7 @@
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
+#! @output vm_name: The final virtual machine name composed of vm_name_prefix and the 5 digits unique identifier.
 #! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -123,7 +124,7 @@ flow:
         default: 'https://sts.windows.net/common'
         required: false
     - location
-    - vm_name
+    - vm_name_prefix
     - vm_size
     - offer
     - sku
@@ -650,7 +651,7 @@ flow:
     - append:
         do:
           strings.append:
-            - origin_string: ${vm_name}
+            - origin_string: ${vm_name_prefix}
             - text: ${random_number}
         publish:
           - vm_name: ${new_string}
@@ -665,8 +666,7 @@ flow:
         publish: []
         navigate:
           - SUCCESS: create_public_ip
-          - FAILURE: get_vm_details_1
-
+          - FAILURE: FAILURE
 
     - remove:
         do:
@@ -681,6 +681,7 @@ flow:
   outputs:
     - output
     - ip_address
+    - vm_name: ${vm_name}
     - status_code
     - return_code
     - error_message: ${error_message}
@@ -791,6 +792,10 @@ extensions:
       string_occurrence_counter:
         x: 315
         y: 379
+        navigate:
+          4c878938-ac39-ad72-1c8c-02c088c8ac61:
+            targetId: 5b47a431-f5ef-44e3-df6c-f47b442029fa
+            port: FAILURE
       compare_power_state:
         x: 1574
         y: 52
@@ -805,3 +810,7 @@ extensions:
         2298ed00-6a9b-35f1-75b2-1e50bf86be9d:
           x: 691
           y: 880
+      FAILURE:
+        5b47a431-f5ef-44e3-df6c-f47b442029fa:
+          x: 165
+          y: 512
