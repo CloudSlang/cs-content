@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves the public IPs of machines in a CoreOS cluster.
+#!
 #! @input coreos_host: CoreOS machine host;
 #!                     Can be any machine from the cluster
 #! @input coreos_username: CoreOS machine username
@@ -15,11 +16,18 @@
 #!                         Can be empty since CoreOS machines use private key file authentication
 #! @input private_key_file: optional - path to the private key file
 #! @input timeout: optional - time in milliseconds to wait for the command to complete
+#!
 #! @output machines_public_ip_list: list of public IP addresses of the machines in the cluster (delimiter: space)
+#!
+#! @result SUCCESS: public IPs retrieved successfully
+#! @result FAILURE: there was an error while trying to retrieve the public IPs from the servers
 #!!#
-#####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.coreos
+
+imports:
+  coreos: io.cloudslang.coreos
 
 flow:
   name: list_machines_public_ip
@@ -29,18 +37,20 @@ flow:
     - coreos_username
     - coreos_password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - timeout:
         required: false
-    - machines_public_ip_list:
+    - machines_public_ip_list_var:
         default: ''
-        overridable: false
+        required: false
+        private: true
 
   workflow:
     - list_ids_of_the_machines:
         do:
-          list_machines_id:
+          coreos.list_machines_id:
             - host: ${coreos_host}
             - username: ${coreos_username}
             - password: ${coreos_password}
@@ -53,15 +63,16 @@ flow:
         loop:
           for: machine_id in machines_id_list.split()
           do:
-            get_machine_public_ip:
+            coreos.get_machine_public_ip:
               - machine_id
               - host: ${coreos_host}
               - username: ${coreos_username}
               - password: ${coreos_password}
               - private_key_file
               - timeout
+              - machines_public_ip_list_var
           publish:
-            - machines_public_ip_list: ${self['machines_public_ip_list'] + public_ip + ' '}
+            - machines_public_ip_list_var: ${machines_public_ip_list_var + public_ip + ' '}
 
   outputs:
-    - machines_public_ip_list: ${machines_public_ip_list.strip()}
+    - machines_public_ip_list: ${machines_public_ip_list_var.strip()}

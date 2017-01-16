@@ -1,0 +1,42 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+####################################################
+testVMwareCustomizeWindowsGuestLocal:
+  testSuites: [vmware-local]
+  description: "Test that successfully customizes an existing Windows based OS virtual machine."
+  testFlowPath: io.cloudslang.vmware.vcenter.guest.test_customize_windows_guest
+  inputs:
+    - host: <host>
+    - port: <port>
+    - protocol: <protocol>
+    - username: <username>
+    - password: <password>
+    - trust_everyone: <trust_everyone>
+    - virtual_machine_name: <virtual_machine_name>
+    - reboot_option: <reboot_option>
+    - computer_name: <computer_name>
+    - computer_password: <computer_password>
+    - owner_name: <owner_name>
+    - owner_organization: <owner_organization>
+    - product_key: <product_key>
+    - domain_username: <domain_username>
+    - domain_password: <domain_password>
+    - domain: <domain>
+    - workgroup: <workgroup>
+    - license_data_mode: <license_data_mode>
+    - dns_server: <dns_server>
+    - ip_address: <ip_address>
+    - subnet_mask: <subnet_mask>
+    - default_gateway: <default_gateway>
+    - mac_address: <mac_address>
+    - auto_logon: <auto_logon>
+    - delete_accounts: <delete_accounts>
+    - change_sid: <change_sid>
+    - auto_logon_count: <auto_logon_count>
+    - auto_users: <auto_users>
+    - time_zone: <time_zone>
+  result: SUCCESS

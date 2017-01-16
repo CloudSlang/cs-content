@@ -1,0 +1,70 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+testComplexJsonPathQuery:
+  inputs:
+    - json_object: '{
+                       "store": {
+                           "book": [
+                               {
+                                   "category": "reference",
+                                   "author": "Nigel Rees",
+                                   "title": "Sayings of the Century",
+                                   "price": 8.95
+                               },
+                               {
+                                   "category": "fiction",
+                                   "author": "Evelyn Waugh",
+                                   "title": "Sword of Honour",
+                                   "price": 12.99
+                               },
+                               {
+                                   "category": "fiction",
+                                   "author": "Herman Melville",
+                                   "title": "Moby Dick",
+                                   "isbn": "0-553-21311-3",
+                                   "price": 8.99
+                               },
+                               {
+                                   "category": "fiction",
+                                   "author": "J. R. R. Tolkien",
+                                   "title": "The Lord of the Rings",
+                                   "isbn": "0-395-19395-8",
+                                   "price": 22.99
+                               }
+                           ],
+                           "bicycle": {
+                               "color": "red",
+                               "price": 19.95
+                           }
+                       },
+                       "expensive": 10
+                   }'
+    - json_path: "$..book[?(@.author =~ /.*REES/i)]"
+  description: Test that json path query works with a complex path.
+  testFlowPath: io.cloudslang.base.json.json_path_query
+  outputs:
+    - return_result: '[{"category":"reference","author":"Nigel Rees","title":"Sayings of the Century","price":8.95}]'
+  result: SUCCESS
+
+testEmptyJsonObject:
+  inputs:
+    - json_object: ""
+    - json_path: "$..book[?(@.author =~ /.*REES/i)]"
+  description: Test that json path query fails if the json object is null.
+  testFlowPath: io.cloudslang.base.json.json_path_query
+  throwsException: true
+
+testEmptyJsonPath:
+  inputs:
+    - json_object: "{'a': 'b'}"
+    - json_path: ""
+  description: Test that json path query fails if the json path is null.
+  testFlowPath: io.cloudslang.base.json.json_path_query
+  throwsException: true

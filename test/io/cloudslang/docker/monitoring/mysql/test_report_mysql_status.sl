@@ -1,14 +1,24 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
 namespace: io.cloudslang.docker.monitoring.mysql
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
+  mysql: io.cloudslang.docker.monitoring.mysql
+  containers_examples: io.cloudslang.docker.containers.examples
   maintenance: io.cloudslang.docker.maintenance
   utils: io.cloudslang.base.utils
   cmd: io.cloudslang.base.cmd
-  network: io.cloudslang.base.network
 
 flow:
   name: test_report_mysql_status
+
   inputs:
     - docker_host
     - docker_port:
@@ -25,17 +35,16 @@ flow:
     - email_recipient
 
   workflow:
-
     - pre_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: ${ docker_port }
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: run_postfix
-           FAILURE: MACHINE_IS_NOT_CLEAN
+        do:
+         maintenance.clear_host:
+           - docker_host
+           - port: ${ docker_port }
+           - docker_username
+           - docker_password
+        navigate:
+         - SUCCESS: run_postfix
+         - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - run_postfix:
         do:
@@ -45,27 +54,27 @@ flow:
     - wait_for_postfix:
         do:
           utils.sleep:
-            - seconds: 10
+            - seconds: '10'
 
     - start_mysql_container:
         do:
-          docker_containers_examples.create_db_container:
+          containers_examples.create_db_container:
             - host: ${ docker_host }
             - port: ${ docker_port }
             - username: ${ docker_username }
             - password: ${ docker_password }
         navigate:
-          SUCCESS: wait_for_mysql
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: wait_for_mysql
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - wait_for_mysql:
         do:
           utils.sleep:
-            - seconds: 20
+            - seconds: '20'
 
     - report_mysql_status:
         do:
-          report_mysql_status:
+          mysql.report_mysql_status:
             - container: "mysqldb"
             - docker_host
             - docker_port
@@ -80,33 +89,11 @@ flow:
             - email_sender
             - email_recipient
         navigate:
-          SUCCESS: post_test_cleanup
-          FAILURE: FAILURE
-
-    - post_test_cleanup:
-         do:
-           maintenance.clear_host:
-             - docker_host
-             - port: ${ docker_port }
-             - docker_username
-             - docker_password
-         navigate:
-           SUCCESS: postfix_cleanup
-           FAILURE: MACHINE_IS_NOT_CLEAN
-
-    - postfix_cleanup:
-           do:
-             cmd.run_command:
-               - command: "docker rm -f postfix && docker rmi catatnight/postfix"
-           navigate:
-             SUCCESS: SUCCESS
-             FAILURE: FAIL_TO_CLEAN_POSTFIX
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
-    - FAIL_TO_PULL_POSTFIX
-    - FAIL_TO_START_POSTFIX
-    - FAIL_TO_CLEAN_POSTFIX
     - MACHINE_IS_NOT_CLEAN
     - FAIL_TO_START_MYSQL_CONTAINER
     - FAILURE

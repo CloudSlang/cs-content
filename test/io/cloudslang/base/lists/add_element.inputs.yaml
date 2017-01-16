@@ -1,0 +1,21 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+testAddElementSuccess:
+  inputs:
+    - list: 'element1,element2,element3,element4'
+    - element: 'element5'
+    - delimiter: ','
+
+  description: Tests that add_element.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.lists.add_element
+  outputs:
+    - return_result: 'element1,element2,element3,element4,element5'
+    - return_code: '0'
+  result: SUCCESS

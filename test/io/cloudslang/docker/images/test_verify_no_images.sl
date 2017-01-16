@@ -1,16 +1,17 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.images
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  images: io.cloudslang.docker.images
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -35,12 +36,12 @@ flow:
             - command: " "
             - timeout: "30000000"
         navigate:
-          SUCCESS: get_all_images_before
-          FAILURE: FAIL_VALIDATE_SSH
+          - SUCCESS: get_all_images_before
+          - FAILURE: FAIL_VALIDATE_SSH
 
     - get_all_images_before:
         do:
-          get_all_images:
+          images.get_all_images:
             - host
             - port
             - username
@@ -48,8 +49,8 @@ flow:
         publish:
           - image_list
         navigate:
-          SUCCESS: verify_no_images_before
-          FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
+          - SUCCESS: verify_no_images_before
+          - FAILURE: FAIL_GET_ALL_IMAGES_BEFORE
 
     - verify_no_images_before:
         do:

@@ -1,18 +1,20 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#######################################################################################################################
+########################################################################################################################
 #!!
 #! @description: Sets up a simple Marathon infrastructure on one host.
+#!
 #! @input host: Docker host
 #! @input username: username for Docker host
 #! @input private_key_file: private key file used for host
 #! @input marathon_port: optional - Marathon agent port - Default: 8080
 #! @input timeout: optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
+#!
 #! @result SUCCESS: setup succeeded
 #! @result CLEAR_CONTAINERS_ON_HOST_PROBLEM: setup failed due to problem clearing containers
 #! @result START_ZOOKEEPER_PROBLEM: setup failed due to problem starting zookeeper
@@ -20,12 +22,13 @@
 #! @result START_MESOS_SLAVE_PROBLEM: setup failed due to problem starting Mesos slave
 #! @result START_MARATHON_PROBLEM: setup failed due to problem starting Marathon
 #!!#
-#######################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
 imports:
   containers: io.cloudslang.docker.containers
+
 flow:
   name: setup_marathon_docker_host
   inputs:
@@ -34,16 +37,17 @@ flow:
     - private_key_file
     - marathon_port: "8080"
     - timeout: "3000000"
+
   workflow:
     - clear_containers_on_host:
        do:
          containers.clear_containers:
-           - docker_host: host
-           - docker_username: username
+           - docker_host: ${host}
+           - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: start_zookeeper
-         FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
+         - SUCCESS: start_zookeeper
+         - FAILURE: CLEAR_CONTAINERS_ON_HOST_PROBLEM
 
     - start_zookeeper:
        do:
@@ -59,8 +63,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_mesos_master
-         FAILURE: START_ZOOKEEPER_PROBLEM
+         - SUCCESS: start_mesos_master
+         - FAILURE: START_ZOOKEEPER_PROBLEM
 
     - start_mesos_master:
        do:
@@ -79,8 +83,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_mesos_slave
-         FAILURE: START_MESOS_MASTER_PROBLEM
+         - SUCCESS: start_mesos_slave
+         - FAILURE: START_MESOS_MASTER_PROBLEM
 
     - start_mesos_slave:
        do:
@@ -100,8 +104,8 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: start_marathon
-         FAILURE: START_MESOS_SLAVE_PROBLEM
+         - SUCCESS: start_marathon
+         - FAILURE: START_MESOS_SLAVE_PROBLEM
 
     - start_marathon:
        do:
@@ -120,8 +124,9 @@ flow:
            - private_key_file
            - timeout
        navigate:
-         SUCCESS: SUCCESS
-         FAILURE: START_MARATHON_PROBLEM
+         - SUCCESS: SUCCESS
+         - FAILURE: START_MARATHON_PROBLEM
+
   results:
     - SUCCESS
     - CLEAR_CONTAINERS_ON_HOST_PROBLEM

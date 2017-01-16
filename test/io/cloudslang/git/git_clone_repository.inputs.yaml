@@ -1,11 +1,11 @@
-#   (c) Copyright 2015 Liran Tal
+#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 testGitFlowsContent:
   inputs:
     - host: localhost
@@ -19,7 +19,7 @@ testGitFlowsContent:
     - git_pull_remote: "origin"
     - git_fetch_remote: "origin"
     - git_reset_target: "d4a770d3ffa6906f58e1f45a304fc285f635fa0a"
-    - sudo_user: False
+    - sudo_user: 'false'
   description: Test that git is successfully able to perform git flows operations such as clone, checkout, fetch, merge, and reset
   testFlowPath: io.cloudslang.git.test_git_flow
   testSuites: [git]

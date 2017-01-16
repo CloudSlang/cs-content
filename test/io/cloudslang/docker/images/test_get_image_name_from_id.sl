@@ -1,11 +1,11 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Workflow to test docker get_image_name_from_id.
 #! @input host: Docker machine host
@@ -17,21 +17,20 @@
 #! @result FAILURE: get_image_name_from_id finished with an error
 #! @result DOWNLOADFAIL: prerequest error - could not download dockerimage
 #! @result VEFIFYFAILURE: fails ro verify downloaded images
-#! @result DELETEFAIL: fails to delete downloaded image
 #! @result MACHINE_IS_NOT_CLEAN: prerequest fails - machine is not clean
-#! @result FAIL_VALIDATE_SSH: ssh connection fails
 #! @result FAIL_GET_ALL_IMAGES_BEFORE: fails to verify machine images
 #!!#
 ####################################################
 namespace: io.cloudslang.docker.images
 
 imports:
+  images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
-  linux: io.cloudslang.base.os.linux
 
 flow:
   name: test_get_image_name_from_id
+
   inputs:
     - host
     - port:
@@ -42,30 +41,30 @@ flow:
   workflow:
     - clear_docker_host_prereqeust:
         do:
-         maintenance.clear_host:
-           - docker_host: ${ host }
-           - port
-           - docker_username: ${ username }
-           - docker_password: ${ password }
+          maintenance.clear_host:
+            - docker_host: ${ host }
+            - port
+            - docker_username: ${ username }
+            - docker_password: ${ password }
         navigate:
-         SUCCESS: hello_world_image_download
-         FAILURE: MACHINE_IS_NOT_CLEAN
+          - SUCCESS: hello_world_image_download
+          - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - hello_world_image_download:
         do:
-          pull_image:
+          images.pull_image:
             - host
             - port
             - username
             - password
             - image_name: "raskin/hello-world"
         navigate:
-          SUCCESS: get_image_name_from_id
-          FAILURE: DOWNLOADFAIL
+          - SUCCESS: get_image_name_from_id
+          - FAILURE: DOWNLOADFAIL
 
     - get_image_name_from_id:
         do:
-          get_image_name_from_id:
+          images.get_image_name_from_id:
             - host
             - port
             - username
@@ -74,8 +73,8 @@ flow:
         publish:
             - image_name : ${ image_name }
         navigate:
-          SUCCESS: verify_output
-          FAILURE: FAILURE
+          - SUCCESS: verify_output
+          - FAILURE: FAILURE
 
     - verify_output:
         do:
@@ -83,27 +82,12 @@ flow:
             - first_string: "raskin/hello-world:latest "
             - second_string: ${ image_name }
         navigate:
-          SUCCESS: delete_downloaded_image
-          FAILURE: VEFIFYFAILURE
-
-    - delete_downloaded_image:
-        do:
-          clear_images:
-            - host
-            - port
-            - username
-            - password
-            - images: "raskin/hello-world"
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: DELETEFAIL
+          - SUCCESS: SUCCESS
+          - FAILURE: VEFIFYFAILURE
 
   results:
     - SUCCESS
     - FAILURE
     - DOWNLOADFAIL
     - VEFIFYFAILURE
-    - DELETEFAIL
     - MACHINE_IS_NOT_CLEAN
-    - FAIL_VALIDATE_SSH
-    - FAIL_GET_ALL_IMAGES_BEFORE

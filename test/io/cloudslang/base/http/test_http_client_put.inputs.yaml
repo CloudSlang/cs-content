@@ -1,0 +1,18 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+testHttpClientPut:
+  inputs:
+    - url: "http://localhost:3000/v2/pet"
+    - resource_id: "0"
+    - resource_name: "cloudslang_test_http_client"
+  description: "Test the Http Client Put against a REST API."
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+  testFlowPath: io.cloudslang.base.http.test_http_client_put
+  testSuites: [rest]
+  result: SUCCESS

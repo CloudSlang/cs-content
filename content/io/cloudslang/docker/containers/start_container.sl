@@ -1,41 +1,47 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Starts a specified Docker container.
-#! @input container_id: ID of the container to be started
-#! @input container_params: optional - command parameters - Default: none
+#!
+#! @input start_container_id: ID of the container to be started
+#! @input container_params: Optional - command parameters - Default: none
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - absolute path to private key file
-#! @input arguments: optional - arguments to pass to command
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - absolute path to private key file
+#! @input arguments: Optional - arguments to pass to command
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: optional - whether to use PTY - Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY - Valid: true, false
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed; Valid: true, false
-#! @output container_id: ID of the container that was started
+#!
+#! @output container_id_output: ID of the container that was started
 #! @output error_message: error message
+#!
+#! @result SUCCESS: Docker container sucessfully started
+#! @result FAILURE: there was an error while trying to start the Docker container
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: start_container
+
   inputs:
-    - container_id
+    - start_container_id
     - container_params:
         required: false
     - host
@@ -44,16 +50,18 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:
         required: false
     - container_params_cmd:
         default: ${container_params + ' ' if bool(container_params) else ''}
-        overridable: false
+        required: false
+        private: true
     - command:
-        default: ${'docker start ' + container_params_cmd + ' ' + container_id}
-        overridable: false
+        default: ${'docker start ' + container_params_cmd + ' ' + start_container_id}
+        private: true
     - character_set:
         required: false
     - pty:
@@ -82,10 +90,9 @@ flow:
         publish:
           - return_result
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
-    - container_id: return_result
+    - container_id_output: ${return_result}
     - error_message: ${'' if 'STDERR' not in locals() else STDERR if return_code == '0' else return_result}

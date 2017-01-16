@@ -1,11 +1,11 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: This flow performs a end to end scenario and will:
 #!               - clone an existing git repository;
@@ -20,20 +20,20 @@
 #!               - cleanup repositories;
 #! @prerequisites: install the "fhist" package on linux machine in order to use "fcomp" command.
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input private_key_file: optional - the path to the private key file
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
+#! @input password: Optional - password of user
+#! @input private_key_file: Optional - the path to the private key file
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo - Default: false
 #! @input git_repository: the URL for cloning a git repository from
-#! @input git_pull_remote: optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
+#! @input git_pull_remote: Optional - if git_pull is set to true then specify the remote branch to pull from - Default: origin
 #! @input git_branch: the git branch to checkout to
 #! @input git_repository_localdir: target directory the git repository will be cloned to - Default: /tmp/repo.git
 #! @input file_name: the name of the file - if the file doesn't exist then will be created
-#! @input text: optional - text to write to the file
-#! @input git_add_files: optional - the files that has to be added/staged - Default: "*"
-#! @input git_commit_files: optional - the files that has to be committed - Default: "-a"
-#! @input git_commit_message: optional - the message for the commit
+#! @input text: Optional - text to write to the file
+#! @input git_add_files: Optional - the files that has to be added/staged - Default: "*"
+#! @input git_commit_files: Optional - the files that has to be committed - Default: "-a"
+#! @input git_commit_message: Optional - the message for the commit
 #! @input git_push_branch: the branch you want to push - Default: master
 #! @input git_push_remote: the remote you want to push to - Default: origin
 #! @input user: the user to be added to sudoers group
@@ -58,13 +58,14 @@ namespace: io.cloudslang.git
 
 imports:
   git: io.cloudslang.git
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
-  files: io.cloudslang.base.files
+  files: io.cloudslang.base.filesystem
   linux: io.cloudslang.base.os.linux.users
 
 flow:
   name: test_git_end2end_flow
+
   inputs:
     - host
     - port:
@@ -75,7 +76,7 @@ flow:
     - private_key_file:
         required: false
     - sudo_user:
-        default: false
+        default: 'false'
         required: false
     - git_repository:
         required: true
@@ -125,8 +126,8 @@ flow:
             - git_repository
             - git_repository_localdir
         navigate:
-          SUCCESS: checkout_git_branch
-          FAILURE: CLONE_FAILURE
+          - SUCCESS: checkout_git_branch
+          - FAILURE: CLONE_FAILURE
 
     - checkout_git_branch:
         do:
@@ -140,8 +141,8 @@ flow:
             - git_branch
             - git_repository_localdir
         navigate:
-          SUCCESS: write_in_file_to_be_committed
-          FAILURE: CHECKOUT_FAILURE
+          - SUCCESS: write_in_file_to_be_committed
+          - FAILURE: CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -155,8 +156,8 @@ flow:
             - private_key_file
             - command: ${ 'cd ' + git_repository_localdir + ' && echo ' + text + ' >> ' + file_name }
         navigate:
-          SUCCESS: add_files_to_stage_area
-          FAILURE: WRITE_IO_ERROR
+          - SUCCESS: add_files_to_stage_area
+          - FAILURE: WRITE_IO_ERROR
 
     - add_files_to_stage_area:
         do:
@@ -170,8 +171,8 @@ flow:
             - git_repository_localdir
             - git_add_files
         navigate:
-          SUCCESS: commit_staged_files
-          FAILURE: ADD_FAILURE
+          - SUCCESS: commit_staged_files
+          - FAILURE: ADD_FAILURE
 
     - commit_staged_files:
         do:
@@ -186,8 +187,8 @@ flow:
             - git_commit_files
             - git_commit_message
         navigate:
-          SUCCESS: git_push
-          FAILURE: COMMIT_FAILURE
+          - SUCCESS: git_push
+          - FAILURE: COMMIT_FAILURE
 
     - git_push:
         do:
@@ -196,14 +197,14 @@ flow:
             - port
             - username
             - password
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - git_repository_localdir
             - git_push_branch
             - git_push_remote
         navigate:
-          SUCCESS: add_user_to_sudoers_list
-          FAILURE: PUSH_FAILURE
+          - SUCCESS: add_user_to_sudoers_list
+          - FAILURE: PUSH_FAILURE
 
     - add_user_to_sudoers_list:
         do:
@@ -212,12 +213,12 @@ flow:
             - port
             - username: "root"
             - password: ${ root_password }
-            - sudo_user: false
+            - sudo_user: 'false'
             - private_key_file
             - user
         navigate:
-          SUCCESS: second_clone_a_git_repository
-          FAILURE: ADD_TO_SUDOERS_FAILURE
+          - SUCCESS: second_clone_a_git_repository
+          - FAILURE: ADD_TO_SUDOERS_FAILURE
 
     - second_clone_a_git_repository:
         do:
@@ -230,8 +231,8 @@ flow:
             - git_repository
             - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
-          SUCCESS: second_checkout_git_branch
-          FAILURE: SECOND_CLONE_FAILURE
+          - SUCCESS: second_checkout_git_branch
+          - FAILURE: SECOND_CLONE_FAILURE
 
     - second_checkout_git_branch:
         do:
@@ -245,8 +246,8 @@ flow:
             - git_branch
             - git_repository_localdir: ${ second_git_repository_localdir }
         navigate:
-          SUCCESS: compare_files
-          FAILURE: SECOND_CHECKOUT_FAILURE
+          - SUCCESS: compare_files
+          - FAILURE: SECOND_CHECKOUT_FAILURE
         publish:
           - standard_out
 
@@ -261,8 +262,8 @@ flow:
             - sudo_command: ${ 'echo ' + password + ' | sudo -S ' if bool(sudo_user) else '' }
             - command: ${ sudo_command + 'cd ' + second_git_repository_localdir + ' && fcomp ' + file_name + ' ' + git_repository_localdir + '/' + file_name }
         navigate:
-          SUCCESS: check_result
-          FAILURE: COMPARE_IO_ERROR
+          - SUCCESS: check_result
+          - FAILURE: COMPARE_IO_ERROR
         publish:
           - standard_err
           - standard_out
@@ -274,8 +275,8 @@ flow:
             - string_in_which_to_search: ${ standard_out }
             - string_to_find: "are identical"
         navigate:
-          SUCCESS: git_cleanup_first_repository
-          FAILURE: COMPARE_FAILURE
+          - SUCCESS: git_cleanup_first_repository
+          - FAILURE: COMPARE_FAILURE
 
     - git_cleanup_first_repository:
         do:
@@ -286,11 +287,11 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir
-            - change_path: false
+            - change_path: "false"
             - new_path: ""
         navigate:
-          SUCCESS: git_cleanup_second_repository
-          FAILURE: FIRST_CLEANUP_FAILURE
+          - SUCCESS: git_cleanup_second_repository
+          - FAILURE: FIRST_CLEANUP_FAILURE
         publish:
           - standard_out
 
@@ -303,7 +304,7 @@ flow:
             - password
             - private_key_file
             - git_repository_localdir: ${ second_git_repository_localdir }
-            - change_path: true
+            - change_path: 'true'
             - new_path: ${ second_git_repository_localdir }
         publish:
           - standard_out

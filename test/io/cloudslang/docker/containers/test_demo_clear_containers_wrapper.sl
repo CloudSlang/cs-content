@@ -1,16 +1,17 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.containers
 
 imports:
-  docker_containers_examples: io.cloudslang.docker.containers.examples
+  containers: io.cloudslang.docker.containers
+  examples: io.cloudslang.docker.containers.examples
   images: io.cloudslang.docker.images
   maintenance: io.cloudslang.docker.maintenance
   strings: io.cloudslang.base.strings
@@ -42,12 +43,12 @@ flow:
              - docker_password: ${password}
              - private_key_file
          navigate:
-           SUCCESS: start_mysql_container
-           FAILURE: MACHINE_IS_NOT_CLEAN
+           - SUCCESS: start_mysql_container
+           - FAILURE: MACHINE_IS_NOT_CLEAN
 
     - start_mysql_container:
         do:
-          docker_containers_examples.create_db_container:
+          examples.create_db_container:
             - host
             - port
             - username
@@ -56,8 +57,8 @@ flow:
         publish:
           - db_IP
         navigate:
-          SUCCESS: pull_linked_image
-          FAILURE: FAIL_TO_START_MYSQL_CONTAINER
+          - SUCCESS: pull_linked_image
+          - FAILURE: FAIL_TO_START_MYSQL_CONTAINER
 
     - pull_linked_image:
         do:
@@ -71,19 +72,19 @@ flow:
         publish:
           - error_message
         navigate:
-          SUCCESS: start_linked_container
-          FAILURE: print_pull_linked_image_error
+          - SUCCESS: start_linked_container
+          - FAILURE: print_pull_linked_image_error
 
     - print_pull_linked_image_error:
         do:
           print.print_text:
             - text: error_message
         navigate:
-          SUCCESS: FAIL_TO_PULL_LINKED_CONTAINER
+          - SUCCESS: FAIL_TO_PULL_LINKED_CONTAINER
 
     - start_linked_container:
         do:
-          start_linked_container:
+          containers.start_linked_container:
             - image_name: ${linked_image}
             - container_name: ${linked_container_name}
             - link_params: 'mysqldb:mysql'
@@ -101,7 +102,7 @@ flow:
 
     - demo_clear_containers_wrapper:
         do:
-          docker_containers_examples.demo_clear_containers_wrapper:
+          examples.demo_clear_containers_wrapper:
             - db_container_id: 'mysqldb'
             - linked_container_id: ${linked_container_name}
             - docker_host: ${host}
@@ -110,18 +111,18 @@ flow:
             - docker_password: ${password}
             - private_key_file
         navigate:
-          SUCCESS: verify
-          FAILURE: FAILURE
+          - SUCCESS: verify
+          - FAILURE: FAILURE
 
     - verify:
         do:
-          get_all_containers:
+          containers.get_all_containers:
             - host
             - port
             - username
             - password
             - private_key_file
-            - all_containers: true
+            - all_containers: 'true'
         publish:
           - all_containers: ${container_list}
 
@@ -131,20 +132,8 @@ flow:
             - first_string: ${all_containers}
             - second_string: ''
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: FAILURE
-
-    - clear_docker_host:
-        do:
-         clear_containers:
-           - docker_host: ${host}
-           - port
-           - docker_username: ${username}
-           - docker_password: ${password}
-           - private_key_file
-        navigate:
-         SUCCESS: SUCCESS
-         FAILURE: MACHINE_IS_NOT_CLEAN
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS

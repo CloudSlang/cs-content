@@ -1,31 +1,38 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+########################################################################################################################
 #!!
 #! @description: Inspects specified image and gets parent.
-#! @input docker_options: optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
+#!
+#! @input docker_options: Optional - options for the docker environment - from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input docker_host: Docker machine host
 #! @input docker_username: Docker machine username
-#! @input docker_password: optional - Docker machine password
+#! @input docker_password: Optional - Docker machine password
 #! @input image_name: image for which to check parents - Example: <repository>:<tag>
-#! @input private_key_file: optional - path to the private key file
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input port: optional - port number for running the command
+#! @input private_key_file: Optional - path to the private key file
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input port: Optional - port number for running the command
+#!
 #! @output parent_image_name: name of the parent image
+#!
+#! @result SUCCESS: image's parent inspected successfully
+#! @result FAILURE: there was an error while trying to inspect the image and/or getting the parent
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.images
 
 imports:
- docker_utils: io.cloudslang.docker.utils
- base_os_linux: io.cloudslang.base.os.linux
+  images: io.cloudslang.docker.images
+  utils: io.cloudslang.docker.utils
 
 flow:
   name: get_image_parent
+
   inputs:
     - docker_options:
         required: false
@@ -33,6 +40,7 @@ flow:
     - docker_username
     - docker_password:
         required: false
+        sensitive: true
     - image_name
     - private_key_file:
         required: false
@@ -44,7 +52,7 @@ flow:
   workflow:
     - inspect_image:
         do:
-          inspect_image:
+          images.inspect_image:
             - docker_options
             - host: ${ docker_host }
             - username: ${ docker_username }
@@ -58,14 +66,14 @@ flow:
 
     - get_parent:
         do:
-           docker_utils.parse_inspect_for_parent:
+           utils.parse_inspect_for_parent:
              - json_response: ${ image_inspect_json }
         publish:
           - parent_image
 
     - get_parent_name:
         do:
-           get_image_name_from_id:
+           images.get_image_name_from_id:
              - docker_options
              - host: ${ docker_host }
              - username: ${ docker_username }
@@ -76,5 +84,6 @@ flow:
              - image_id: ${ parent_image[:10] }
         publish:
           - image_name
+
   outputs:
     - parent_image_name: ${ image_name }

@@ -1,20 +1,21 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.marathon
 
 imports:
-  base_strings: io.cloudslang.base.strings
-  base_print: io.cloudslang.base.print
-  utils: io.cloudslang.base.utils
+  marathon: io.cloudslang.marathon
+  strings: io.cloudslang.base.strings
+
 flow:
   name: test_demo_create_app_and_send_mail
+
   inputs:
     - email_host
     - email_port
@@ -38,75 +39,75 @@ flow:
   workflow:
     - setup_marathon_on_different_hosts:
         do:
-          setup_marathon_on_different_hosts:
+          marathon.setup_marathon_on_different_hosts:
             - marathon_host
             - username
             - private_key_file
             - marathon_port
             - is_core_os
         navigate:
-          SUCCESS: list_initial_marathon_apps
-          SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
-          WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
+          - SUCCESS: list_initial_marathon_apps
+          - SETUP_MARATHON_PROBLEM: SETUP_MARATHON_PROBLEM
+          - WAIT_FOR_MARATHON_STARTUP_TIMED_OUT: WAIT_FOR_MARATHON_STARTUP_TIMED_OUT
 
     - list_initial_marathon_apps:
         do:
-          get_apps_list:
+          marathon.get_apps_list:
             - marathon_host
             - marathon_port
         publish:
           - return_result
         navigate:
-          SUCCESS: parse_initial_response
-          FAILURE: APPS_NOT_RETRIEVED
+          - SUCCESS: parse_initial_response
+          - FAILURE: APPS_NOT_RETRIEVED
 
     - parse_initial_response:
-         do:
-           parse_get_app_list:
-             - operation_response: ${return_result}
-         publish:
-           - app_list
-         navigate:
-           SUCCESS: check_if_list_is_empty
-           FAILURE: PARSE_FAILURE
+        do:
+          marathon.parse_get_app_list:
+            - operation_response: ${return_result}
+        publish:
+          - app_list
+        navigate:
+          - SUCCESS: check_if_list_is_empty
+          - FAILURE: PARSE_FAILURE
 
     - check_if_list_is_empty:
-         do:
-            base_strings.string_equals:
-              - first_string: ${app_list}
-              - second_string: ''
-         navigate:
-           SUCCESS: demo_create_app_and_send_mail
-           FAILURE: delete_initial_apps
+        do:
+          strings.string_equals:
+            - first_string: ${app_list}
+            - second_string: ''
+        navigate:
+          - SUCCESS: demo_create_app_and_send_mail
+          - FAILURE: delete_initial_apps
 
     - delete_initial_apps:
         loop:
-            for: ${'app in app_list.split(",")'}
+            for: app in app_list.split(",")
             do:
-              delete_app:
+              marathon.delete_app:
                 - marathon_host
                 - marathon_port
-                - app_id: app
+                - app_id: ${app}
         navigate:
-          SUCCESS: demo_create_app_and_send_mail
-          FAILURE: FAIL_TO_DELETE
+          - SUCCESS: demo_create_app_and_send_mail
+          - FAILURE: FAIL_TO_DELETE
 
     - demo_create_app_and_send_mail:
         do:
-           demo_create_app_and_send_mail:
-             - email_host
-             - email_port
-             - email_sender
-             - email_recipient
-             - marathon_host
-             - marathon_port
-             - json_file
-             - enable_tls
-             - email_username
-             - email_password
+          marathon.demo_create_app_and_send_mail:
+            - email_host
+            - email_port
+            - email_sender
+            - email_recipient
+            - marathon_host
+            - marathon_port
+            - json_file
+            - enable_tls
+            - email_username
+            - email_password
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
@@ -116,4 +117,3 @@ flow:
     - PARSE_FAILURE
     - FAIL_TO_DELETE
     - APPS_NOT_RETRIEVED
-

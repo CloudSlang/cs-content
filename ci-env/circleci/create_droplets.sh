@@ -30,9 +30,9 @@ do
                   "user_data": "'"$(cat ${CLOUD_CONFIG_FILE} | sed "s/<discovery_url>/${DISCOVERY_URL_ESCAPED}/g" | sed 's/"/\\"/g')"'"
                 }')
 
-  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "Status" | awk '{print $2}')
+  STATUS_CODE=$(echo "$CURL_OUTPUT" | grep "HTTP/1.1" | tail -1 | awk '{print $2}')
 
-  if [ "${STATUS_CODE}" = "202" ]
+  if [ $STATUS_CODE = "202" ]
   then
     DROPLET_DETAILS=$(echo "${CURL_OUTPUT}" | grep "droplet")
 

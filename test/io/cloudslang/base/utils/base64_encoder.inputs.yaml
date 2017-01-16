@@ -1,0 +1,49 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+testEncodeDefaultCharsetSuccess:
+  inputs:
+    - data: 'hello'
+  description: Tests that base64_encoder.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_encoder
+  outputs:
+    - result: aGVsbG8=
+  result: SUCCESS
+
+testEncodeWithCharsetUTF8Success:
+  inputs:
+    - data: '12345'
+    - character_set: 'UTF-8'
+  description: Tests that base64_encoder.sl operation using UTF-8 character set finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_encoder
+  outputs:
+    - result: MTIzNDU=
+  result: SUCCESS
+
+testEncodeSpecialCharactersWithCharsetUTF8Success:
+  inputs:
+    - data: '!:/\.,<>'
+    - character_set: 'ISO-8859-1'
+  description: Tests that base64_encoder.sl operation using ISO-8859-1 character set finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_encoder
+  outputs:
+    - result: ITovXC4sPD4=
+  result: SUCCESS
+
+testBase64EncoderUnknownCharsetException:
+  inputs:
+    - data: 'hello'
+    - character_set: 'unknown'
+  description: Tests that base64_encoder.sl operation throws an exception when charset is unknown
+  testFlowPath: io.cloudslang.base.utils.base64_encoder
+  throwsException: true
+
+testBase64EncoderNoRequiredInputException:
+  description: Tests that base64_encoder.sl operation throws an exception when there is no input
+  testFlowPath: io.cloudslang.base.utils.base64_encoder
+  throwsException: true

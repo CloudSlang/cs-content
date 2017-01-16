@@ -1,11 +1,11 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Wrapper flow - logic steps:
 #!               - retrieves the ip addresses of the machines in the cluster
@@ -20,6 +20,7 @@
 namespace: io.cloudslang.coreos
 
 imports:
+  coreos: io.cloudslang.coreos
   maintenance: io.cloudslang.docker.maintenance
   images: io.cloudslang.docker.images
   containers: io.cloudslang.docker.containers
@@ -27,6 +28,7 @@ imports:
 
 flow:
   name: test_cluster_docker_images_maintenance
+
   inputs:
     - coreos_host
     - coreos_username
@@ -38,16 +40,16 @@ flow:
         required: false
     - timeout:
         required: false
-    - unused_image_name: 'tomcat:7'
+    - unused_image_name: 'alpine'
     - used_image_name: 'busybox'
     - number_of_images_in_cluster:
-        default: 0
-        overridable: false
+        default: "0"
+        private: true
 
   workflow:
     - list_machines_public_ip:
         do:
-          list_machines_public_ip:
+          coreos.list_machines_public_ip:
             - coreos_host
             - coreos_username
             - coreos_password
@@ -56,8 +58,8 @@ flow:
         publish:
             - machines_public_ip_list
         navigate:
-          SUCCESS: clear_docker_hosts_in_cluster
-          FAILURE: LIST_MACHINES_PROBLEM
+          - SUCCESS: clear_docker_hosts_in_cluster
+          - FAILURE: LIST_MACHINES_PROBLEM
 
     - clear_docker_hosts_in_cluster:
           loop:
@@ -70,8 +72,8 @@ flow:
                      - docker_password: ${coreos_password}
                      - private_key_file
               navigate:
-                SUCCESS: pull_unused_image
-                FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
+                - SUCCESS: pull_unused_image
+                - FAILURE: CLEAR_DOCKER_HOSTS_IN_CLUSTER_PROBLEM
 
     - pull_unused_image:
         do:
@@ -84,8 +86,8 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: run_container
-          FAILURE: PULL_UNUSED_IMAGE_PROBLEM
+          - SUCCESS: run_container
+          - FAILURE: PULL_UNUSED_IMAGE_PROBLEM
 
     - run_container:
         do:
@@ -98,12 +100,12 @@ flow:
             - private_key_file
             - timeout
         navigate:
-           SUCCESS: delete_unused_images
-           FAILURE: RUN_CONTAINER_PROBLEM
+           - SUCCESS: delete_unused_images
+           - FAILURE: RUN_CONTAINER_PROBLEM
 
     - delete_unused_images:
         do:
-          cluster_docker_images_maintenance:
+          coreos.cluster_docker_images_maintenance:
             - coreos_host
             - coreos_username
             - coreos_password
@@ -111,8 +113,8 @@ flow:
             - percentage
             - timeout
         navigate:
-          SUCCESS: count_images_in_cluster
-          FAILURE: FAILURE
+          - SUCCESS: count_images_in_cluster
+          - FAILURE: FAILURE
 
     - count_images_in_cluster:
           loop:
@@ -125,11 +127,12 @@ flow:
                      - password: ${coreos_password}
                      - private_key_file
                      - timeout
+                     - number_of_images_in_cluster
               publish:
-                - number_of_images_in_cluster: ${self['number_of_images_in_cluster'] + len(image_list.split())}
+                - number_of_images_in_cluster: ${str(int(number_of_images_in_cluster) + len(image_list.split()))}
               navigate:
-                SUCCESS: verify_number_of_remaining_images
-                FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
+                - SUCCESS: verify_number_of_remaining_images
+                - FAILURE: COUNT_IMAGES_IN_CLUSTER_PROBLEM
 
     - verify_number_of_remaining_images:
         do:
@@ -137,20 +140,8 @@ flow:
             - first_string: '1'
             - second_string: ${str(number_of_images_in_cluster)}
         navigate:
-          SUCCESS: clear_docker_host
-          FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
-
-    - clear_docker_host: # at this stage only one machine from the cluster is not clean
-        do:
-          maintenance.clear_host:
-            - docker_host: ${coreos_host}
-            - port
-            - docker_username: ${coreos_username}
-            - docker_password: ${coreos_password}
-            - private_key_file
-        navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CLEAR_DOCKER_HOST_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: NUMBER_OF_REMAINING_IMAGES_MISMATCH
 
   results:
     - SUCCESS
@@ -161,4 +152,3 @@ flow:
     - RUN_CONTAINER_PROBLEM
     - COUNT_IMAGES_IN_CLUSTER_PROBLEM
     - NUMBER_OF_REMAINING_IMAGES_MISMATCH
-    - CLEAR_DOCKER_HOST_PROBLEM

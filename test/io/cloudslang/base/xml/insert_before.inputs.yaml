@@ -1,0 +1,54 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+testInsertBeforeSuccess:
+  inputs:
+    - xml_document: <root><before_this/></root>
+    - xml_document_source: 'xmlString'
+    - xpath_element_query: /root/before_this
+    - xml_element: <append/>
+    - xpath_test_query: /root/before_this/preceding-sibling::*[1]
+  description: Tests that insert_before.sl operation finishes with SUCCESS and inserts the element
+  testFlowPath: io.cloudslang.base.xml.test_insert_before
+  outputs:
+    - selected_value: <append/>
+  result: SUCCESS
+
+testInsertBeforeBadXpath:
+  inputs:
+    - xml_document: <root><before_this/></root>
+    - xml_document_source: 'xmlString'
+    - xpath_element_query: /toot/before_this
+    - xml_element: <append/>
+  description: Tests that insert_before.sl operation finishes with FAILURE with bad XPATH query
+  testFlowPath: io.cloudslang.base.xml.insert_before
+  result: FAILURE
+
+testInsertBeforeBadElement:
+  inputs:
+    - xml_document: <root><before_this/></root>
+    - xml_document_source: 'xmlString'
+    - xpath_element_query: /root/before_this
+    - xml_element: <append>
+  description: Tests that insert_before.sl operation finishes with FAILURE with bad element to insert
+  testFlowPath: io.cloudslang.base.xml.insert_before
+  result: FAILURE
+
+testInsertBeforeSuccessfromXmlFile:
+  inputs:
+    - xml_document: ''
+    - xml_document_source: "xmlPath"
+    - xpath_element_query: "/note/from"
+    - xml_element: "<append>John</append>"
+    - xpath_test_query: "/note/append"
+  description: Tests that insert_before.sl operation finishes with SUCCESS and inserts the element in an xml file
+  testSuites: [xml-local]
+  testFlowPath: io.cloudslang.base.xml.test_insert_before
+  outputs:
+    - selected_value: <append>John</append>
+  result: SUCCESS

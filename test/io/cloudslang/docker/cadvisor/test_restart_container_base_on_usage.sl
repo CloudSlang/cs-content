@@ -1,15 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
+  cadvisor: io.cloudslang.docker.cadvisor
   containers: io.cloudslang.docker.containers
   utils: io.cloudslang.base.utils
 
@@ -33,8 +34,8 @@ flow:
            - docker_username: ${username}
            - private_key_file
        navigate:
-         SUCCESS: create_cAdvisor_container
-         FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
+         - SUCCESS: create_cAdvisor_container
+         - FAILURE: CLEAR_DOCKER_CONTAINERS_PROBLEM
 
     - create_cAdvisor_container:
         do:
@@ -57,27 +58,28 @@ flow:
             - private_key_file
             - timeout
         navigate:
-          SUCCESS: sleep
-          FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
+          - SUCCESS: sleep
+          - FAILURE: C_ADVISOR_CONTAINER_STARTUP_PROBLEM
 
     - sleep:
         do:
           utils.sleep:
-            - seconds: 5
+            - seconds: '5'
         navigate:
-          SUCCESS: call_restart_container_base_on_usage
+          - SUCCESS: call_restart_container_base_on_usage
+          - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
 
     - call_restart_container_base_on_usage:
         do:
-          restart_container_base_on_usage:
+          cadvisor.restart_container_base_on_usage:
             - container: ${cadvisor_container_name}
             - host
             - cadvisor_port
             - username
             - private_key_file
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
+          - SUCCESS: SUCCESS
+          - FAILURE: CALL_RESTART_CONTAINER_BASE_ON_USAGE_PROBLEM
   results:
     - SUCCESS
     - CLEAR_DOCKER_CONTAINERS_PROBLEM

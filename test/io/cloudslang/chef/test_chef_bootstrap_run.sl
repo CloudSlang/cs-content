@@ -1,9 +1,11 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
-####################################################
+#
+########################################################################################################################
 #!!
 #! @description: CHEF TEST FLOW
 #!               This flow tests Chef content
@@ -11,16 +13,18 @@
 #!               - Assign Chef cookbook(s)
 #!               - Run Chef client
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.chef
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  chef: io.cloudslang.chef
+  ssh: io.cloudslang.base.ssh
   print: io.cloudslang.base.print
 
 flow:
   name: test_chef_bootstrap_run
+
   inputs:
     # General inputs
     - node_host
@@ -29,7 +33,7 @@ flow:
     - run_list_items
     - knife_host
     - knife_username
-    - knife_password: 
+    - knife_password:
         required: false
     - knife_privkey:
         required: false
@@ -38,7 +42,7 @@ flow:
         required: false
     - node_privkey_local:
         required: false
-    - node_password: 
+    - node_password:
         required: false
     - knife_config:
         required: false
@@ -46,25 +50,25 @@ flow:
   workflow:
     - chef_bootstrap:
         do:
-          bootstrap_node:
+          chef.bootstrap_node:
             - node_host
             - node_name
             - knife_host
             - knife_username
             - knife_password
-            - knife_privkey           
+            - knife_privkey
             - node_username
-            - node_password            
+            - node_password
             - node_privkey: ${node_privkey_remote}
             - knife_config
         publish:
           - return_result: ${knife_result}
           - standard_err
-          - node_name
+          - node_name: ${new_node_name}
 
     - chef_assign_cookbooks:
         do:
-          run_list_add:
+          chef.run_list_add:
             - run_list_items
             - node_name
             - knife_host
@@ -81,7 +85,7 @@ flow:
           ssh.ssh_command:
             - host: ${node_host}
             - username: ${node_username}
-            - password: ${node_password}                
+            - password: ${node_password}
             - private_key_file: ${node_privkey_local}
             - command: 'sudo chef-client'
             - timeout: '600000'
@@ -91,7 +95,7 @@ flow:
 
     - chef_remove_cookbooks:
         do:
-          run_list_remove:
+          chef.run_list_remove:
             - run_list_items
             - node_name
             - knife_host
@@ -105,7 +109,7 @@ flow:
 
     - chef_remove_node_and_uninstall:
         do:
-          delete_node_uninstall:
+          chef.delete_node_uninstall:
             - node_name
             - knife_host
             - knife_username
@@ -120,6 +124,54 @@ flow:
           - return_result: ${knife_result}
           - standard_err
           - node_name
+
+    - chef_get_nodes:
+        do:
+          chef.get_nodes:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_get_roles:
+        do:
+          chef.get_roles:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_get_users:
+        do:
+          chef.get_users:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
+
+    - chef_ssl_check:
+        do:
+          chef.ssl_check:
+            - knife_host
+            - knife_username
+            - knife_password
+            - knife_privkey
+            - knife_config
+        publish:
+          - return_result: ${knife_result}
+          - standard_err
 
     - on_failure:
       - ERROR:

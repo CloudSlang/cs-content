@@ -1,13 +1,14 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Gets the IP of the specified Docker container.
+#!
 #! @input container_name: container name
 #! @input host: Docker machine host
 #! @input port: optional - SSH port
@@ -23,28 +24,35 @@
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#!
 #! @output container_ip: IP of the specified container
 #! @output error_message: error message
+#!
+#! @result SUCCESS: Docker container IP retrieved sucessfully
+#! @result FAILURE: there was an error while trying to retrieve the Docker container IP address
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.docker.containers
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: get_container_ip
+
   inputs:
     - container_name
     - command:
         default: ${"docker inspect --format '{{ .NetworkSettings.IPAddress }}' " + container_name}
-        overridable: false
+        private: true
     - host
     - port:
         required: false
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - arguments:
@@ -80,9 +88,8 @@ flow:
           - return_result
           - standard_err
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAILURE
-          FAIL_VALIDATE_SSH: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
     - container_ip: ${return_result[:-1]}

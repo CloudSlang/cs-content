@@ -1,14 +1,16 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Parses a JSON response holding Consul key information.
+#!
 #! @input json_response: response holding Consul key information
+#!
 #! @output decoded: parsed response
 #! @output key: key name
 #! @output flags: key flags
@@ -19,19 +21,22 @@
 #! @output return_result: response of the operation
 #! @output error_message: return_result if there was an error
 #! @output return_code: '0' if parsing was successful, '-1' otherwise
+#!
 #! @result SUCCESS: parsing was successful (return_code == '0')
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.consul
 
 operation:
   name: parse_key
+
   inputs:
     - json_response
-  action:
-    python_script: |
+
+  python_action:
+    script: |
       try:
         import json
         import base64
@@ -49,17 +54,19 @@ operation:
       except:
         return_code = '-1'
         return_result = 'Parsing error or key does not exist.'
+
   outputs:
-    - decoded
-    - key
-    - flags
-    - create_index
-    - value
-    - modify_index
-    - lock_index
-    - return_result
-    - error_message: ${return_result if return_code == '-1' else ''}
-    - return_code
+    - decoded: ${ str(decoded) }
+    - key: ${ str(key) }
+    - flags: ${ str(flags) }
+    - create_index: ${ str(create_index) }
+    - value: ${ str(value) }
+    - modify_index: ${ str(modify_index) }
+    - lock_index: ${ str(lock_index) }
+    - return_result: ${ str(return_result) }
+    - error_message: ${ str(return_result) if return_code == '-1' else ''}
+    - return_code: ${ str(return_code) }
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE

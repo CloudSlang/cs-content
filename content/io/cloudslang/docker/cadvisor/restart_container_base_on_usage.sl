@@ -1,34 +1,38 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Retrieves cAdvisor status and performs restart to the container if the resource usage is too high.
+#!
 #! @input container: name or ID of Docker container that runs cAdvisor
 #! @input host: Docker machine host
-#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
-#! @input machine_connect_port: optional - port to use to connect to machine running Docker - Default: '22'
+#! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
+#! @input machine_connect_port: Optional - port to use to connect to machine running Docker - Default: '22'
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to the private key file
-#! @input rule: optional - Python query to determine if the resource usages is high
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to the private key file
+#! @input rule: Optional - Python query to determine if the resource usages is high
+#!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.docker.cadvisor
 
 imports:
-  docker_container: io.cloudslang.docker.containers
-  docker_print: io.cloudslang.base.print
+  cadvisor: io.cloudslang.docker.cadvisor
+  containers: io.cloudslang.docker.containers
+  print: io.cloudslang.base.print
 
 flow:
   name: restart_container_base_on_usage
+
   inputs:
     - container
     - host
@@ -41,15 +45,17 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - private_key_file:
         required: false
     - rule:
         default: ''
         required: false
+
   workflow:
     - retrieve_container_usage:
         do:
-          report_container_metrics:
+          cadvisor.report_container_metrics:
             - container
             - host
             - cadvisor_port
@@ -62,9 +68,10 @@ flow:
           - error_tx
           - return_code
           - error_message
+
     - evaluate_resource_usage:
         do:
-          evaluate_resource_usage:
+          cadvisor.evaluate_resource_usage:
             - rule
             - memory_usage
             - cpu_usage
@@ -72,14 +79,13 @@ flow:
             - throughput_tx
             - error_rx
             - error_tx
-            - error_message
         navigate:
-            MORE: stop_container
-            LESS: SUCCESS
-            FAILURE: FAILURE
+            - MORE: stop_container
+            - LESS: SUCCESS
+
     - stop_container:
         do:
-          docker_container.stop_container:
+          containers.stop_container:
             - container_id: ${container}
             - host
             - username
@@ -89,27 +95,27 @@ flow:
         publish:
           - error_message
         navigate:
-            SUCCESS: start_container
-            FAILURE: FAILURE
+            - SUCCESS: start_container
+            - FAILURE: FAILURE
+
     - start_container:
         do:
-          docker_container.start_container:
+          containers.start_container:
             - private_key_file
-            - container_id: ${container}
+            - start_container_id: ${container}
             - host
             - username
             - password
             - port: ${machine_connect_port}
         publish:
           - error_message
+
     - on_failure:
         - print_error:
             do:
-              docker_print.print_text:
+              print.print_text:
                 - text: ${'cAdvisor ended with the following error message ' + error_message}
-            navigate:
-              SUCCESS: FAILURE
-              FAILURE: FAILURE
+
   results:
     - SUCCESS
     - FAILURE

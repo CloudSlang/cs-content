@@ -1,55 +1,180 @@
-#   (c) Copyright 2015 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 testGetKeysOuter:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: []
+    - json_path: ""
   description: Tests that get_keys.sl correctly gets outer keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'outer_key2', u'outer_key1']
+    - return_result: '["outer_key2", "outer_key1"]'
 
 testGetKeysInner:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: [outer_key2]
+    - json_path: "outer_key2"
   description: Tests that get_keys.sl correctly gets inner keys from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'inner_key1', u'inner_key2']
+    - return_result: '["inner_key1", "inner_key2"]'
 
 testGetKeysSingle:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
-    - json_path: [outer_key2]
+    - json_path: "outer_key2"
   description: Tests that get_keys.sl correctly gets a single key from a JSON
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: [u'inner_key1']
+    - return_result: '["inner_key1"]'
 
 testGetKeysNone:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
-    - json_path: [outer_key2, inner_key1]
+    - json_path: "outer_key2,inner_key1"
   description: Tests that get_keys.sl has a return_code of '-1' when there are no child keys
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: ''
+    - return_result: ''
     - return_code: '-1'
 
 testGetKeysBadPath:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1"}}'
-    - json_path: [outer_key3]
+    - json_path: "outer_key3"
   description: Tests that get_keys.sl has a return_code of '-1' for a path that doesn't exist
   testFlowPath: io.cloudslang.base.json.get_keys
   outputs:
-    - keys: ''
+    - return_result: ''
+    - return_code: '-1'
+
+testGetNoKeys:
+  inputs:
+    - json_input: '{}'
+    - json_path: ""
+  description: Tests get_keys.sl when there are no keys
+  testFlowPath: io.cloudslang.base.json.get_keys
+  result: SUCCESS
+
+testGetKeysSpecialCharacters:
+  inputs:
+    - json_input: '{"??":"japanese", "a1!#%@&*`|>-":"special characters"}'
+    - json_path: ""
+    - expected_keys: "??,a1!#%@&*`|>-"
+  description: Tests get_keys.sl when there are special Japanese characters
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  result: SUCCESS
+
+testGetKeysOrder:
+  inputs:
+    - json_input: '{"outer_key1": "outer_value1", "outer_key2": "outer_value2", "outer_key3": "outer_value3"}'
+    - json_path: ""
+    - expected_keys: "outer_key1,outer_key2,outer_key3"
+  description: Tests that get_keys.sl correctly gets all outer keys from a JSON
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  result: SUCCESS
+
+testGetKeysJSONArray:
+  inputs:
+    - json_input: '{"[arraykey1,arraykey2]":"arrayvalue"}'
+    - json_path: ""
+    - expected_keys: "arraykey1,arraykey2"
+  description: Tests that get_keys.sl correctly gets key in the form of an array
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  result: SUCCESS
+
+testGetKeysSingleQuote:
+  inputs:
+    - json_input: "{'outer_key1': 'outer_value1', 'outer_key2': 'outer_value2', 'outer_key3': 'outer_value3'}"
+    - json_path: ""
+    - expected_keys: "outer_key2,outer_key1,outer_key3"
+  description: Tests that get_keys.sl correctly gets all outer keys from a JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  result: SUCCESS
+
+testGetKeysSingleQuoteSuccess:
+  inputs:
+    - json_input:  "{
+                                                                       'server' : {
+                                                                                      'name' : 'server_3',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    }"
+    - json_path: "server,metadata"
+    - expected_keys: "min_ram,My Server Name"
+  description: Tests that get_keys.sl correctly gets all keys from a JSON with single quotes
+  testFlowPath: io.cloudslang.base.json.test_get_keys
+  result: SUCCESS
+
+testGetKeysSingleQuoteFailure:
+  inputs:
+    - json_input:  "{
+                                                                       'server' : {
+                                                                                      'name' : 'server_3',
+                                                                                      'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                      'flavorRef' : '42',
+                                                                                      'block_device_mapping_v2' : [{
+                                                                                                                    'source_type' : 'image',
+                                                                                                                    'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
+                                                                                                                    'boot_index' : '0',
+                                                                                                                    'delete_on_termination' : true
+                                                                                                     }
+                                                                                      ],
+                                                                                      'networks' : [],
+                                                                                      'availability_zone' : 'nova',
+                                                                                      'key_name' : 'default_key',
+                                                                                      'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
+                                                                                      'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
+                                                                       'metadata' : {
+                                                                                      'My Server Name' : 'Apache1',
+                                                                                      'min_ram' : '2'
+                                                                       },
+                                                                                      'security_groups' : [{
+                                                                                                                    'name' : 'default'
+                                                                                                     }
+                                                                                      ],
+                                                                                      'personality' : [{
+                                                                                                                    'path' : '/etc/banner.txt',
+                                                                                                                    'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
+                                                                                                     }
+                                                                                      ]
+                                                                       }
+                                                    }"
+    - json_path: "server,name"
+  description: Tests that get_keys.sl has a return_code of '-1' for a path that does not exist
+  testFlowPath: io.cloudslang.base.json.get_keys
+  outputs:
+    - return_result: ''
     - return_code: '-1'

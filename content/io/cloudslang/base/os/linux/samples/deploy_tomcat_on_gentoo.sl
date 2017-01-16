@@ -5,9 +5,11 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
-#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running Gentoo based linux
+#! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running
+#!               Gentoo based linux
+#!
 #! @prerequisites: Java package
 #! @input host: hostname or IP address
 #! @input root_password: the root password
@@ -23,27 +25,47 @@
 #! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
 #!                     the permissions will granted only to the folder itself - Default: True
 #! @input script_file_name: the name of the script file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
+#! @output standard_err: STDERR of the machine in case of unsuccessful request, null otherwise
+#! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
 #!                              only available for certain types of channels, and only after the channel was closed
 #!                              (more exactly, just before the channel is closed).
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
+#!
 #! @result SUCCESS: SSH access was successful
-#! @result FAILURE: otherwise
+#! @result INSTALL_JAVA_FAILURE: there was an error installing java on the machine
+#! @result SSH_VERIFY_GROUP_EXIST_FAILURE: error verifying group
+#! @result CHECK_GROUP_FAILURE: error checking for group
+#! @result ADD_GROUP_FAILURE: error adding group
+#! @result ADD_USER_FAILURE: error adding user
+#! @result CREATE_DOWNLOADING_FOLDER_FAILURE: error creating download folder
+#! @result DOWNLOAD_TOMCAT_APPLICATION_FAILURE: error downloading tomcat application
+#! @result UNTAR_TOMCAT_APPLICATION_FAILURE: error unpacking tomcat application
+#! @result CREATE_SYMLINK_FAILURE: error creating symlink
+#! @result INSTALL_TOMCAT_APPLICATION_FAILURE: error installing tomcat
+#! @result CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat folder ownership
+#! @result CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE: error changing tomcat download folder
+#! @result CREATE_INITIALIZATION_FOLDER_FAILURE: error creating initialization folder
+#! @result UPLOAD_INIT_CONFIG_FILE_FAILURE: error uploading config file
+#! @result CHANGE_PERMISSIONS_FAILURE: error changing permissions
+#! @result START_TOMCAT_APPLICATION_FAILURE: error starting tomcat application
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.samples
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  remote: io.cloudslang.base.remote_command_execution.remote_file_transfer
+  ssh: io.cloudslang.base.ssh
+  remote: io.cloudslang.base.remote_file_transfer
   folders: io.cloudslang.base.os.linux.folders
   groups: io.cloudslang.base.os.linux.groups
   users: io.cloudslang.base.os.linux.users
+  samples: io.cloudslang.base.os.linux.samples
   strings: io.cloudslang.base.strings
 
 flow:
@@ -51,8 +73,12 @@ flow:
 
   inputs:
     - host
-    - root_password
-    - user_password: ''
+    - root_password:
+        sensitive: true
+    - user_password:
+        default: ''
+        required: false
+        sensitive: true
     - java_version
     - download_url
     - download_path:
@@ -65,14 +91,13 @@ flow:
     - file_name
     - source_path
     - permissions_code: '755'
-    - recursively: True
+    - recursively: "True"
     - script_file_name
-
 
   workflow:
     - install_java:
         do:
-          install_java_on_gentoo:
+          samples.install_java_on_gentoo:
             - host
             - root_password
             - java_version
@@ -84,8 +109,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: verify_group_exist
-          FAILURE: INSTALL_JAVA_FAILURE
+          - SUCCESS: verify_group_exist
+          - FAILURE: INSTALL_JAVA_FAILURE
 
     - verify_group_exist:
         do:
@@ -101,8 +126,8 @@ flow:
           - command_return_code
           - message
         navigate:
-          SUCCESS: check_group_not_exist_result
-          FAILURE: SSH_VERIFY_GROUP_EXIST_FAILURE
+          - SUCCESS: check_group_not_exist_result
+          - FAILURE: SSH_VERIFY_GROUP_EXIST_FAILURE
 
     - check_group_not_exist_result:
         do:
@@ -110,8 +135,8 @@ flow:
             - string_in_which_to_search: ${message}
             - string_to_find: 'group does not exist'
         navigate:
-          SUCCESS: add_group
-          FAILURE: check_group_exist_result
+          - SUCCESS: add_group
+          - FAILURE: check_group_exist_result
 
     - check_group_exist_result:
         do:
@@ -119,8 +144,8 @@ flow:
             - string_in_which_to_search: ${message}
             - string_to_find: 'group exist'
         navigate:
-          SUCCESS: add_user
-          FAILURE: CHECK_GROUP_FAILURE
+          - SUCCESS: add_user
+          - FAILURE: CHECK_GROUP_FAILURE
 
     - add_group:
         do:
@@ -135,8 +160,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: add_user
-          FAILURE: ADD_GROUP_FAILURE
+          - SUCCESS: add_user
+          - FAILURE: ADD_GROUP_FAILURE
 
     - add_user:
         do:
@@ -146,7 +171,7 @@ flow:
             - user_name: 'tomcat'
             - user_password
             - group_name: 'tomcat'
-            - create_home: True
+            - create_home: "True"
             - home_path: '/usr/share/tomcat'
         publish:
           - return_result
@@ -155,8 +180,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: prepare_for_download
-          FAILURE: ADD_USER_FAILURE
+          - SUCCESS: prepare_for_download
+          - FAILURE: ADD_USER_FAILURE
 
     - prepare_for_download:
         do:
@@ -172,8 +197,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: download_tomcat
-          FAILURE: CREATE_DOWNLOADING_FOLDER_FAILURE
+          - SUCCESS: download_tomcat
+          - FAILURE: CREATE_DOWNLOADING_FOLDER_FAILURE
 
     - download_tomcat:
         do:
@@ -189,8 +214,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: untar_tomcat
-          FAILURE: DOWNLOAD_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: untar_tomcat
+          - FAILURE: DOWNLOAD_TOMCAT_APPLICATION_FAILURE
 
     - untar_tomcat:
         do:
@@ -208,8 +233,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: create_symlink
-          FAILURE: UNTAR_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: create_symlink
+          - FAILURE: UNTAR_TOMCAT_APPLICATION_FAILURE
 
     - create_symlink:
         do:
@@ -225,8 +250,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: install_tomcat
-          FAILURE: CREATE_SYMLINK_FAILURE
+          - SUCCESS: install_tomcat
+          - FAILURE: CREATE_SYMLINK_FAILURE
 
     - install_tomcat:
         do:
@@ -243,8 +268,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: change_tomcat_folder_ownership
-          FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: change_tomcat_folder_ownership
+          - FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
 
     - change_tomcat_folder_ownership:
         do:
@@ -262,8 +287,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: change_download_tomcat_folder_ownership
-          FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+          - SUCCESS: change_download_tomcat_folder_ownership
+          - FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - change_download_tomcat_folder_ownership:
         do:
@@ -281,8 +306,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: create_init_tomcat_folder
-          FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
+          - SUCCESS: create_init_tomcat_folder
+          - FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - create_init_tomcat_folder:
         do:
@@ -298,8 +323,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: upload_init_config_file
-          FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
+          - SUCCESS: upload_init_config_file
+          - FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
 
     - upload_init_config_file:
         do:
@@ -314,8 +339,8 @@ flow:
           - return_code
           - exception
         navigate:
-          SUCCESS: change_tomcat_initialization_file_permissions
-          FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
+          - SUCCESS: change_tomcat_initialization_file_permissions
+          - FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
 
     - change_tomcat_initialization_file_permissions:
         do:
@@ -332,8 +357,8 @@ flow:
           - return_code
           - command_return_code
         navigate:
-          SUCCESS: start_tomcat
-          FAILURE: CHANGE_PERMISSIONS_FAILURE
+          - SUCCESS: start_tomcat
+          - FAILURE: CHANGE_PERMISSIONS_FAILURE
 
     - start_tomcat:
         do:
@@ -351,8 +376,8 @@ flow:
           - command_return_code
           - exception
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: START_TOMCAT_APPLICATION_FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: START_TOMCAT_APPLICATION_FAILURE
 
   outputs:
     - return_result
@@ -360,6 +385,7 @@ flow:
     - standard_out
     - return_code
     - command_return_code
+    - exception
 
   results:
     - SUCCESS
@@ -377,5 +403,5 @@ flow:
     - CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
     - CREATE_INITIALIZATION_FOLDER_FAILURE
     - UPLOAD_INIT_CONFIG_FILE_FAILURE
-    - CHANGE_PERMISSIONS_FAILURE    
+    - CHANGE_PERMISSIONS_FAILURE
     - START_TOMCAT_APPLICATION_FAILURE

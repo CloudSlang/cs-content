@@ -1,0 +1,178 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+testConvertXmlToJsonWithDefaultValues:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+                    <ui:position><x>1</x><y>2</y></ui:position>
+                    <f:properties>
+                    <f:property><key1>value1</key1></f:property>
+                    <f:property><key2>value2</key2></f:property>
+                    </f:properties>
+                    <details>
+                    <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+                    <item id=\"2\"><type>color</type><name>blue</name></item>
+                    </details>
+                    </root>"
+    - text_elements_name: ""
+    - include_root_element: ""
+    - include_attributes: ""
+    - pretty_print: ""
+    - parsing_features: ""
+  description: Test XML with default values
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: "f,ui"
+    - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\"\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    }\n  }\n}"
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertXmlToJsonWithDefaultValuesSpecified:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+                    <ui:position><x>1</x><y>2</y></ui:position>
+                    <f:properties>
+                    <f:property><key1>value1</key1></f:property>
+                    <f:property><key2>value2</key2></f:property>
+                    </f:properties>
+                    <details>
+                    <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+                    <item id=\"2\"><type>color</type><name>blue</name></item>
+                    </details>
+                    </root>"
+    - text_elements_name: "_text"
+    - include_root_element: "true"
+    - include_attributes: "true"
+    - pretty_print: "true"
+    - parsing_features: ""
+  description: Test XML with specified values
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: "f,ui"
+    - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\"\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    }\n  }\n}"
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertXmlToJsonWithInvalidBooleanValues:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+                    <ui:position><x>1</x><y>2</y></ui:position>
+                    <f:properties>
+                    <f:property><key1>value1</key1></f:property>
+                    <f:property><key2>value2</key2></f:property>
+                    </f:properties>
+                    <details>
+                    <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+                    <item id=\"2\"><type>color</type><name>blue</name></item>
+                    </details>
+                    </root>"
+    - text_elements_name: "_text"
+    - include_root_element: "abc"
+    - include_attributes: "abc"
+    - pretty_print: "abc"
+    - parsing_features: ""
+  description: Test with invalid booleans
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - return_result: "abc is not a valid value for Boolean"
+    - return_code: "-1"
+  result: FAILURE
+
+testConvertXmlToJsonWithNoRootNoPrettyPrintNoAttributes:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+                    <ui:position><x>1</x><y>2</y></ui:position>
+                    <f:properties>
+                    <f:property><key1>value1</key1></f:property>
+                    <f:property><key2>value2</key2></f:property>
+                    </f:properties>
+                    <details>
+                    <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+                    <item id=\"2\"><type>color</type><name>blue</name></item>
+                    </details>
+                    </root>"
+    - text_elements_name: "+text"
+    - include_root_element: "false"
+    - include_attributes: "false"
+    - pretty_print: "false"
+    - parsing_features: ""
+  description: Test xml with no root no pretty no attributes
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: "f,ui"
+    - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
+    - return_result: "{\"ui:position\":{\"x\":\"1\",\"y\":\"2\"},\"f:properties\":{\"f:property\":[{\"key1\":\"value1\"},{\"key2\":\"value2\"}]},\"details\":{\"item\":[{\"type\":\"size\",\"height\":\"10\",\"width\":\"10\"},{\"type\":\"color\",\"name\":\"blue\"}]}}"
+    - return_code: "0"
+  result: SUCCESS
+
+testConvertXmlToJsonWithInvalidXml:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+                    <ui:position><x>1</x><y>2</y></ui:position>
+                    <f:properties>
+                    <f:property><key1>value1</key1></f:property>
+                    <f:property><key2>value2</key2></f:property>
+                    </f:properties>
+                    <details>
+                    <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+                    <item id=\"2\"><type>color</type><name>blue</name></item>
+                    </details>
+                    </root> \"abc\""
+    - text_elements_name: "+text"
+    - include_root_element: "false"
+    - include_attributes: "false"
+    - pretty_print: "false"
+    - parsing_features: ""
+  description: Test XML with invalid xml
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: ""
+    - namespaces_uris: ""
+    - return_result: "Error on line 1: Content is not allowed in trailing section."
+    - return_code: "-1"
+  result: FAILURE
+
+testConvertXmlToJsonWithTextElements:
+  inputs:
+    - xml: "<root xmlns:f=\"http://java.sun.com/jsf/core\" xmlns:ui=\"urn:x-hp:2012:software:eve:uibinding\" id=\"Page1\">
+            <td id=\"1\">Apples</td>
+            <ui:position><x>1</x><y>2</y><td id=\"1\">Apples</td></ui:position>
+            <f:properties>
+            <f:property><key1>value1</key1></f:property>
+            <f:property><key2>value2</key2></f:property>
+            </f:properties>
+            <details>
+            <item id=\"1\"><type>size</type><height>10</height><width>10</width></item>
+            <item id=\"2\"><type>color</type><name>blue</name></item>
+            </details>
+            <character>here are some special characters!@#$%^*(\")_+:.,?/'\\|}{~`</character>
+            </root>"
+    - text_elements_name: "_text"
+    - include_root_element: "true"
+    - include_attributes: "true"
+    - pretty_print: "true"
+    - parsing_features: ""
+  description: Test XML with text elements
+  testSuites: [convert_xml_json]
+  testFlowPath: io.cloudslang.base.xml.convert_xml_to_json
+  outputs:
+    - namespaces_prefixes: "f,ui"
+    - namespaces_uris: "http://java.sun.com/jsf/core,urn:x-hp:2012:software:eve:uibinding"
+    - return_result: "{\n  \"root\": {\n    \"@id\": \"Page1\",\n    \"td\": {\n      \"@id\": \"1\",\n      \"_text\": \"Apples\"\n    },\n    \"ui:position\": {\n      \"x\": \"1\",\n      \"y\": \"2\",\n      \"td\": {\n        \"@id\": \"1\",\n        \"_text\": \"Apples\"\n      }\n    },\n    \"f:properties\": {\n      \"f:property\": [\n        {\n          \"key1\": \"value1\"\n        },\n        {\n          \"key2\": \"value2\"\n        }\n      ]\n    },\n    \"details\": {\n      \"item\": [\n        {\n          \"@id\": \"1\",\n          \"type\": \"size\",\n          \"height\": \"10\",\n          \"width\": \"10\"\n        },\n        {\n          \"@id\": \"2\",\n          \"type\": \"color\",\n          \"name\": \"blue\"\n        }\n      ]\n    },\n    \"character\": \"here are some special characters!@#$%^*(\\\")_+:.,?/'\\\\|}{~`\"\n  }\n}"
+    - return_code: "0"
+  result: SUCCESS

@@ -1,0 +1,72 @@
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+testAppendSuccess:
+  inputs:
+    - origin_string: "Good "
+    - text: "morning!"
+  description: Tests that append.sl operation finishes with result = "Good morning!"
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: "Good morning!"
+  result: SUCCESS
+
+testAppendSpecialCharacters:
+  inputs:
+    - origin_string: "error"
+    - text: 't%&e$\"'
+  description: Tests that append.sl operation finishes with result = errort%&e$\"
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: 'errort%&e$\"'
+  result: SUCCESS
+
+testAppendStringWhichContainsWhitespaces:
+  inputs:
+    - origin_string:  'aaa aaa'
+    - text: 'bbb'
+  description: Tests that append.sl operation finishes with success when string input contains whitespaces.
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: 'aaa aaabbb'
+  result: SUCCESS
+
+testAppendMissingInputs:
+  inputs: []
+  description: Tests that append.sl operation throws an exception when required inputs are missing.
+  testFlowPath: io.cloudslang.base.strings.append
+  throwsException: true
+
+testAppendMissingInput:
+  inputs:
+    - text: 'text'
+  description: Tests that append.sl operation throws an exception when a required input are missing.
+  testFlowPath: io.cloudslang.base.strings.append
+  throwsException: true
+
+
+testAppendStringWhichContainsDigits:
+  inputs:
+    - origin_string: '123text45'
+    - text: '23T'
+  description: Tests that append.sl operation finishes with success when inputs contain digits.
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: '123text4523T'
+  result: SUCCESS
+
+testAppendStringWhichContainsJapaneseCharacters:
+  inputs:
+    - origin_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変'
+    - text: '更は今傾向が見られた反対します。だから私の魅了絵さらさ適応需要を向上させるです。'
+  description: Tests that append.sl operation finishes with success when inputs contain japanese characters.
+  testFlowPath: io.cloudslang.base.strings.append
+  outputs:
+    - new_string: '目は脂肪供えを取得失います。冬の缶実際の文字は、方法の変更は今傾向が見られた反対します。だから私の魅了絵さらさ適応需要を向上させるです。'
+  result: SUCCESS
+

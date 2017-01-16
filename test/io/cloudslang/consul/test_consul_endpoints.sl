@@ -1,17 +1,18 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.consul
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
-  base_utils: io.cloudslang.base.utils
+  consul: io.cloudslang.consul
+  ssh: io.cloudslang.base.ssh
+
 
 flow:
   name: test_consul_endpoints
@@ -32,48 +33,48 @@ flow:
 
     - register_endpoint:
         do:
-          register_endpoint:
+          consul.register_endpoint:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: get_catalog_services
-          FAILURE: FAIL_TO_REGISTER
+          - SUCCESS: get_catalog_services
+          - FAILURE: FAIL_TO_REGISTER
 
     - get_catalog_services:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: deregister_endpoint
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: deregister_endpoint
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_register: ${return_result}
           - error_message
 
     - deregister_endpoint:
         do:
-          deregister_endpoint:
+          consul.deregister_endpoint:
             - host
             - node
         navigate:
-          SUCCESS: get_catalog_services2
-          FAILURE: FAIL_TO_DEREGISTER
+          - SUCCESS: get_catalog_services2
+          - FAILURE: FAIL_TO_DEREGISTER
 
     - get_catalog_services2:
         do:
-          get_catalog_services:
+          consul.get_catalog_services:
             - host
             - node
             - address
             - service
         navigate:
-          SUCCESS: SUCCESS
-          FAILURE: FAIL_TO_GET_SERVICES
+          - SUCCESS: SUCCESS
+          - FAILURE: FAIL_TO_GET_SERVICES
         publish:
           - services_after_deregister: ${return_result}
           - error_message

@@ -1,33 +1,38 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Creates a Jenkins job.
+#!
 #! @prerequisites: jenkinsapi Python module
 #! @input url: URL to Jenkins
 #! @input job_name: name of job to create
 #! @input config_xml: configuration xml used to create a Jenkins job, actual file must be passed not its path
+#!
 #! @output result_message: operation results
+#!
 #! @result SUCCESS: return code is 0
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.jenkins
 
 operation:
   name: create_job
+
   inputs:
     - url
     - job_name
     - config_xml
-  action:
-    python_script: |
+
+  python_action:
+    script: |
       try:
         from jenkinsapi.jenkins import Jenkins
 

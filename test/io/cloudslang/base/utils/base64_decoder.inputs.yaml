@@ -1,0 +1,49 @@
+#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+testDecodeDefaultCharsetSuccess:
+  inputs:
+    - data: 'aGVsbG8='
+  description: Tests that base64_decoder.sl operation finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_decoder
+  outputs:
+    - result: hello
+  result: SUCCESS
+
+testDecodeWithCharsetUTF8Success:
+  inputs:
+    - data: 'MTIzNDU='
+    - character_set: 'UTF-8'
+  description: Tests that base64_decoder.sl operation using a defined character set finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_decoder
+  outputs:
+    - result: 12345
+  result: SUCCESS
+
+testDecodeSpecialCharactersWithCharsetISO-8859-1Success:
+  inputs:
+    - data: 'ITovXC4sPD4='
+    - character_set: 'ISO-8859-1'
+  description: Tests that base64_decoder.sl operation using ISO-8859-1 character set finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.base64_decoder
+  outputs:
+    - result: '!:/\.,<>'
+  result: SUCCESS
+
+testBase64DecoderUnknownCharsetException:
+  inputs:
+    - data: 'aGVsbG8='
+    - character_set: 'unknown'
+  description: Tests that base64_decoder.sl operation throws an exception when charset is unknown
+  testFlowPath: io.cloudslang.base.utils.base64_decoder
+  throwsException: true
+
+testBase64DecoderNoRequiredInputException:
+  description: Tests that base64_decoder.sl operation throws an exception when there is no input
+  testFlowPath: io.cloudslang.base.utils.base64_decoder
+  throwsException: true

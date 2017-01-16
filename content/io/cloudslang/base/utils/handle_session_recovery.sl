@@ -1,4 +1,4 @@
-#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,16 @@
 #!!
 #! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
 #!               and in such case checks whether the ssh session failed with a certain pattern.
-#! @input enabled: optional - whether session recovery is enabled - Default: true
+#!
+#! @input enabled: Optional - whether session recovery is enabled - Default: true
 #! @input retries: limit of reconnect tries
 #! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception
-#! @input exception: from SSH: contains the stack trace in case of an exception
+#! @input return_code: from SSH: '0' if SSH session , different than '0' otherwise
 #! @input exit_status: from SSH: return code of the remote command
-#! @output retries: updated input value (decreased by 1)
+#!
+#! @output updated_retries: updated input value (decreased by 1)
+#!
 #! @result RECOVERY_DISABLED: session recovery is disabled
 #! @result TIMEOUT: no more retries are available
 #! @result SESSION_IS_DOWN: session failure pattern detected
@@ -28,50 +31,58 @@
 namespace: io.cloudslang.base.utils
 
 imports:
-  comparisons: io.cloudslang.base.math.comparisons
+  ssh: io.cloudslang.base.ssh
+  math: io.cloudslang.base.math
+  utils: io.cloudslang.base.utils
 
 flow:
   name: handle_session_recovery
   inputs:
-    - enabled: True
+    - enabled: "True"
     - retries
-    - return_result
+    - return_result:
+        required: false
     - return_code
-    - exit_status
+    - exit_status:
+        required: false
+
   workflow:
     - check_enabled:
         do:
-          is_true:
+          utils.is_true:
             - bool_value: ${ enabled }
         navigate:
-          SUCCESS: check_retries
-          FAILURE: RECOVERY_DISABLED
+          - 'TRUE': check_retries
+          - 'FALSE': RECOVERY_DISABLED
 
     - check_retries:
         do:
-          comparisons.compare_numbers:
+          math.compare_numbers:
             - value1: ${ retries }
-            - value2: 0
+            - value2: "0"
+            - retries
         publish:
-          - retries: ${ int(self['retries']) - 1 }
+          - retries: ${ str(int(retries) - 1) }
         navigate:
-          GREATER_THAN: check_unstable_session
-          EQUALS: TIMEOUT
-          LESS_THAN: TIMEOUT
+          - GREATER_THAN: check_unstable_session
+          - EQUALS: TIMEOUT
+          - LESS_THAN: TIMEOUT
 
     - check_unstable_session:
         do:
-          check_ssh_unstable_session:
+          ssh.check_ssh_unstable_session:
             - return_result
             - return_code
             - exit_status
         navigate:
-          SESSION_IS_DOWN: SESSION_IS_DOWN
-          FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
-          CUSTOM_FAILURE: CUSTOM_FAILURE
-          NO_ISSUE_FOUND: NO_ISSUE_FOUND
+          - SESSION_IS_DOWN: SESSION_IS_DOWN
+          - FAILURE_WITH_NO_MESSAGE: FAILURE_WITH_NO_MESSAGE
+          - CUSTOM_FAILURE: CUSTOM_FAILURE
+          - NO_ISSUE_FOUND: NO_ISSUE_FOUND
+
   outputs:
-    - retries
+    - updated_retries: ${retries}
+
   results:
     - RECOVERY_DISABLED
     - TIMEOUT

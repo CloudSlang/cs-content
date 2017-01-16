@@ -1,21 +1,23 @@
-# (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Restarts a remote Linux process using SSH.
+#!
 #! @input host: hostname or IP address
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: username to connect as
-#! @input password: optional - password of user
+#! @input password: Optional - password of user
 #! @input process_name: Linux process name to be restarted
 #!                      NOTE: if Linux has several processes with the same name all of them will be restarted
-#! @input sudo_user: optional - whether to use 'sudo' prefix before command - Default: false
+#! @input sudo_user: Optional - whether to use 'sudo' prefix before command - Default: false
 #! @input private_key_file: absolute path to the private key file
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -26,15 +28,16 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute.
 #! @output return_code: return code of the command
+#!
 #! @result SUCCESS: process on Linux host is restarted successfully
 #! @result FAILURE: processes cannot be restarted due to an error
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.os.linux
 
 imports:
-  ssh: io.cloudslang.base.remote_command_execution.ssh
+  ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
 
 flow:
@@ -47,9 +50,10 @@ flow:
     - username
     - password:
         required: false
+        sensitive: true
     - process_name
     - sudo_user:
-        default: False
+        default: "False"
         required: False
     - private_key_file:
         required: false
