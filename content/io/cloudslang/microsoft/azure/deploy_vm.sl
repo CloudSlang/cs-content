@@ -182,8 +182,9 @@ flow:
           - auth_token
           - error_message: ${exception}
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: random_number_generator
+          - FAILURE: on_failure
+
 
     - create_public_ip:
         do:
