@@ -185,7 +185,6 @@ flow:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
 
-
     - create_public_ip:
         do:
           ip.create_public_ip_address:
