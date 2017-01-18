@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,29 +7,29 @@
 #
 ########################################################################################################################
 #!!
-#! @description: parse the given date/time and convert it to an output format
+#! @description: Parse the given date/time and convert it to an output format.
 #!
-#! @input date: the date/time to parse
+#! @input date: The date/time to parse.
 #!              Example:  "2001-07-04T12:08:56.235+0700"
-#! @input date_format: optional - the format of the date/time
+#! @input date_format: Optional - The format of the date/time.
 #!                     Example: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-#! @input date_locale_lang: optional - the locale language
-#!                        Example: 'en'
-#! @input date_locale_country: optional - the locale country
-#!                           Example: 'US'
-#! @input out_format: optional - the output format
+#! @input date_locale_lang: Optional - The locale language.
+#!                          Example: 'en'
+#! @input date_locale_country: Optional - The locale country.
+#!                             Example: 'US'
+#! @input out_format: Optional - The output format.
 #!                    Example: "yyyy-MM-dd"
-#! @input out_locale_lang: optional - the output locale language
+#! @input out_locale_lang: Optional - The output locale language.
 #!                         Example: 'fr'
-#! @input out_locale_country: optional - the output locale country
+#! @input out_locale_country: Optional - The output locale country.
 #!                            Example: 'FR'
 #!
-#! @output output: the new date/time after if parsing was successful, exception otherwise
-#! @output return_code: 0 if success, -1 if failure
-#! @output exception: an exception in case of failure
+#! @output output: The new date/time after if parsing was successful, exception otherwise.
+#! @output return_code: 0 if success, -1 if failure.
+#! @output exception: An exception in case of failure.
 #!
-#! @result SUCCESS: the date/time was parsed properly
-#! @result FAILURE: failed to parse the date/time
+#! @result SUCCESS: The date/time was parsed properly.
+#! @result FAILURE: Failed to parse the date/time.
 #!!#
 ########################################################################################################################
 

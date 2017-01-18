@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Performs a VMware vSphere command to update a specified virtual machine.
+#!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
 #!     1. Go to https://my.vmware.com/web/vmware and register.
@@ -61,7 +62,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: an error occurred when trying to create a new virtual machine
+#! @result FAILURE: An error occurred when trying to create a new virtual machine
 #!!#
 ########################################################################################################################
 

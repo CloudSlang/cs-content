@@ -5,26 +5,27 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Performs several linux commands in order to deploy Tomcat application on machines that are running
 #!               Ubuntu based linux
 #!
 #! @prerequisites: Java package
+#!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input user_password: optional - the Tomcat user password - Default: ''
-#! @input java_version: the java version that will be installed - Example: openjdk-7-jdk
-#! @input download_url: the URL address where the content to be downloaded is
-#! @input download_path: optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
-#! @input folder_name: the folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
-#! @input folder_path: optional - the absolute path under the <folder_name> will be created - Default: '/opt'
-#! @input file_name: the name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
+#! @input root_password: The root password
+#! @input user_password: Optional - the Tomcat user password - Default: ''
+#! @input java_version: The java version that will be installed - Example: openjdk-7-jdk
+#! @input download_url: The URL address where the content to be downloaded is
+#! @input download_path: Optional - the absolute path under the content will be downloaded - Default: '/opt/apache-tomcat'
+#! @input folder_name: The folder name to be created where tomcat installing archive will be downloaded - Default: 'apache-tomcat'
+#! @input folder_path: Optional - the absolute path under the <folder_name> will be created - Default: '/opt'
+#! @input file_name: The name of the Tomcat archive file - Example: 'apache-tomcat-7.0.61.tar.gz'
 #! @input source_path: absolute path of the file to be copied - Example: 'C:\temp\tomcat'
-#! @input permissions_code: the number that represents octal code of the folder permissions granted - Example: '755'
+#! @input permissions_code: The number that represents octal code of the folder permissions granted - Example: '755'
 #! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
 #!                     the permissions will granted only to the folder itself - Default: True
-#! @input script_file_name: the name of the script file
+#! @input script_file_name: The name of the script file
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -38,7 +39,7 @@
 #!                              channel type has no command), 126 if the command cannot execute.
 #!
 #! @result SUCCESS: SSH access was successful
-#! @result INSTALL_JAVA_FAILURE: there was an error installing java on the machine
+#! @result INSTALL_JAVA_FAILURE: There was an error installing java on the machine
 #! @result SSH_VERIFY_GROUP_EXIST_FAILURE: error verifying group
 #! @result CHECK_GROUP_FAILURE: error checking for group
 #! @result ADD_GROUP_FAILURE: error adding group

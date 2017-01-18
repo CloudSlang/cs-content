@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -35,11 +35,12 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 50
 #!
-#! @output output: contains the success message or the exception in case of failure
+#! @output output: contains the state of the instance or the exception in case of failure
+#! @output ip_address: The public IP address of the instance
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully stopped
+#! @result SUCCESS: The server (instance) was successfully stopped
 #! @result FAILURE: error stopping instance
 #!!#
 ########################################################################################################################
@@ -48,6 +49,8 @@ namespace: io.cloudslang.amazon.aws.ec2
 
 imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
+  xml: io.cloudslang.base.xml
+  strings: io.cloudslang.base.strings
 
 flow:
   name: stop_instance
@@ -90,7 +93,7 @@ flow:
             - instance_ids_string: '${instance_id}'
             - force_stop
         publish:
-          - return_result
+          - output: '${return_result}'
           - return_code
           - exception
         navigate:
@@ -114,15 +117,45 @@ flow:
           break:
             - SUCCESS
           publish:
-            - return_result: '${output}'
+            - output
             - return_code
             - exception
+        navigate:
+          - SUCCESS: search_and_replace
+          - FAILURE: FAILURE
+
+    - search_and_replace:
+        do:
+          strings.search_and_replace:
+            - origin_string: '${output}'
+            - text_to_replace: xmlns
+            - replace_with: xhtml
+        publish:
+          - replaced_string
+        navigate:
+          - SUCCESS: parse_state
+          - FAILURE: FAILURE
+
+    - parse_state:
+        do:
+          xml.xpath_query:
+              - xml_document: ${replaced_string}
+              - xpath_query: >
+                  ${'"/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']' + '
+                  /*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']' + '
+                  /*[local-name()='instanceState']/*[local-name()='name']"')
+              - query_type: 'value'
+        publish:
+            - output: ${selected_value}
+            - ip_address: 'The instance is stopped. It has no IP address.'
+            - return_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
-    - output: '${return_result}'
+    - output
+    - ip_address
     - return_code
     - exception
 
@@ -141,21 +174,35 @@ extensions:
             targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
             port: FAILURE
       check_instance_state:
-        x: 318
-        y: 106
+        x: 341
+        y: 105
         navigate:
-          3654941e-a894-e960-e463-1b2b8315697d:
+          a02653a1-e178-0acf-2196-4fbc24b18f42:
+            targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
+            port: FAILURE
+      search_and_replace:
+        x: 605
+        y: 107
+        navigate:
+          f224eff4-5011-1b75-b0fe-cffc894296e6:
+            targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
+            port: FAILURE
+      parse_state:
+        x: 604
+        y: 311
+        navigate:
+          dc2ad3b6-dd3e-6857-3733-aa7c57bd54a0:
             targetId: 6912f217-4cd7-11c7-8f89-428022b6558c
             port: SUCCESS
-          a02653a1-e178-0acf-2196-4fbc24b18f42:
+          01376a99-a1a5-2eac-76f2-3abb93d050a7:
             targetId: cc5c6637-013f-0f35-b3bb-fb4c6a90902b
             port: FAILURE
     results:
       SUCCESS:
         6912f217-4cd7-11c7-8f89-428022b6558c:
-          x: 566
-          y: 111
+          x: 826
+          y: 316
       FAILURE:
         cc5c6637-013f-0f35-b3bb-fb4c6a90902b:
-          x: 184
-          y: 254
+          x: 336
+          y: 311

@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,14 +10,14 @@
 #! @description: Performs a REST API call to list the RedHat OpenShift Online applications from a specified domain.
 #!
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - RedHat OpenShift Online username
+#! @input username: Optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port
+#! @input password: Optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: Optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: Optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain from where the applications will be listed
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise
@@ -26,7 +26,7 @@
 #! @output status_code: code returned by the operation
 #!
 #! @result SUCCESS: Openshift applications from the specific domain retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve Openshift applications from a specified domain
+#! @result FAILURE: There was an error while trying to retrieve Openshift applications from a specified domain
 #!!#
 ########################################################################################################################
 

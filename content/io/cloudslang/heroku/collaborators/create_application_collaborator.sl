@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -15,7 +15,7 @@
 #! @input app_id_or_name: ID or name of the Heroku application
 #! @input user: unique identifier or email address of account of a new collaborator
 #!              example: '01234567-89ab-cdef-0123-456789abcdef' or 'username@example.com'
-#! @input silent: optional - whether to suppress email invitation when creating collaborator
+#! @input silent: Optional - whether to suppress email invitation when creating collaborator
 #!                default: False
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise

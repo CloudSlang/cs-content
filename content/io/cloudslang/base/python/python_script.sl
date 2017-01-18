@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,7 @@
 #!
 #! @input script: The inline script to run.
 #! @input file_path: The canonical path to the script file.
-#!                   Note: The file should not be a symbolink link
+#!                   Note: The file should not be a symbolic link
 #! @input argv: The arguments to be passed to the script with the delimiter " " (a space). They will be present in the
 #!              script as an array named 'argv' and if the script is from a file, the file absolute path will be added
 #!              as the first element otherwise the word 'script'
@@ -20,14 +20,14 @@
 #!                    argv = ['script', '1', '2', '3', 'the red fox']
 #! @input timeout: How many seconds to wait for the command to finish (in seconds).
 #!                 Default value: 0 (waits indefinitely).
-#!                 Note: It's recommended to have a non-zero value
+#!                 Note: It's recommended to have a non-zero value.
 #!
-#! @output return_result: STDOUT of the script that was ran
+#! @output return_result: STDOUT of the script that was ran.
 #! @output return_code: The exit code or errno of the script if present, 0 if the script succeeded or -1 otherwise.
 #! @output error_message: The error message of the script.
 #!
-#! @result SUCCESS: If the script ran successfully with no error messages
-#! @result FAILURE: If the script was invalid, the timeout was suppressed  or an error occurred
+#! @result SUCCESS: If the script ran successfully with no error messages.
+#! @result FAILURE: If the script was invalid, the timeout was suppressed  or an error occurred.
 #!!#
 ########################################################################################################################
 
@@ -38,16 +38,16 @@ operation:
 
   inputs:
     - script:
-        default: ""
+        default: ''
         required: false
     - file_path:
-        default: ""
+        default: ''
         required: false
     - argv:
-        default: ""
+        default: ''
         required: false
     - timeout:
-        default: "0"
+        default: '0'
         required: false
 
   python_action:

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,12 +9,14 @@
 #!!
 #! @description: Finds all the locations of a given element within a list.
 #!
-#! @input list: list in which to find elements
-#! @input element: element to find
-#! @input ignore_case: whether to ignore case when finding matches
-#!                     default: false
-#! @output indices: list of indices where <element> was found in <list>
-#! @result SUCCESS: element(s) found in list
+#! @input list: List in which to find elements.
+#! @input element: Element to find.
+#! @input ignore_case: Whether to ignore case when finding matches.
+#!                     Default: 'false'
+#!
+#! @output indices: List of indices where <element> was found in <list>
+#!
+#! @result SUCCESS: Element(s) found in list.
 #!!#
 ########################################################################################################################
 
@@ -27,7 +29,7 @@ operation:
     - list
     - element
     - ignore_case:
-        default: "false"
+        default: 'false'
 
   python_action:
     script: |

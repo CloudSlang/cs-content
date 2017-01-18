@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,12 +8,15 @@
 #!!
 #! @description: Removes text from a string.
 #!
-#! @input origin_string: optional - original string - Example: "SPAMgood morning"
-#! @input text: optional - text to be removed - Example: "SPAM"
+#! @input origin_string: Optional - Original string.
+#!                       Example: "SPAMgood morning"
+#! @input text: Optional - Text to be removed.
+#!              Example: "SPAM"
 #!
-#! @output new_string: string after removing - Example: "good morning"
+#! @output new_string: String after removing.
+#!                     Example: "good morning"
 #!
-#! @result SUCCESS: text removed from string successfully
+#! @result SUCCESS: Text removed from string successfully.
 #!!#
 ########################################################################################################################
 

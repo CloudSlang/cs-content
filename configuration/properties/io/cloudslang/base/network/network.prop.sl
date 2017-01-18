@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,10 +8,10 @@
 ####################################################
 # System property file for network operations
 #
-# io.cloudslang.base.network.trust_keystore: the pathname of the Java TrustStore file
-# io.cloudslang.base.network.trust_password: the password associated with the TrustStore file
-# io.cloudslang.base.network.keystore: the pathname of the Java KeyStore file
-# io.cloudslang.base.network.keystore_password: the password associated with the KeyStore file
+# io.cloudslang.base.network.trust_keystore: The pathname of the Java TrustStore file
+# io.cloudslang.base.network.trust_password: The password associated with the TrustStore file
+# io.cloudslang.base.network.keystore: The pathname of the Java KeyStore file
+# io.cloudslang.base.network.keystore_password: The password associated with the KeyStore file
 #
 ####################################################
 

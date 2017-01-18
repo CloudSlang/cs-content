@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -24,7 +24,7 @@
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
 #!                 name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
-#!                 Examples: "Accept:text/plain"
+#!                 Examples: 'Accept:text/plain'
 #! @input query_params: String containing query parameters regarding the instance. These parameters will be
 #!                      appended to the URL, but the names and the values must not be URL encoded because if
 #!                      they are encoded then a double encoded will occur. The separator between name-value
@@ -48,22 +48,22 @@
 #!                                    c4.large | c4.xlarge | c4.2xlarge | c4.4xlarge | c4.8xlarge | cc1.4xlarge |
 #!                                    cc2.8xlarge | g2.2xlarge | g2.8xlarge | cg1.4xlarge | d2.xlarge | d2.2xlarge |
 #!                                    d2.4xlarge | d2.8xlarge
-#!                                    Default: "m1.small"
+#!                                    Default: 'm1.small'
 #! @input kernel_id: ID of the kernel. Important: We recommend that you use PV-GRUB instead of kernels and RAM disks.
 #!                   For more information, see PV-GRUB in the Amazon Elastic Compute Cloud User Guide.
-#!                   Default: ""
+#!                   Default: ''
 #! @input ramdisk_id: ID of the RAM disk. Important: We recommend that you use PV-GRUB instead of kernels and RAM disks.
 #!                    For more information, see PV-GRUB in the Amazon Elastic Compute Cloud User Guide.
-#!                    Default: ""
+#!                    Default: ''
 #! @input subnet_id: String that contains one or more subnet IDs. If you launch into EC2 Classic then supply values for
 #!                   this input and don't supply values for Private IP Addresses string. [EC2-VPC] The ID of the subnet
 #!                   to launch the instance into.
-#!                   Default: ""
+#!                   Default: ''
 #! @input block_device_mapping_device_names_string: String that contains one or more device names, exposed to the instance,
 #!                                                  separated by ','. If you want to suppress the specified device included
 #!                                                  in the block device mapping of the AMI then supply "NoDevice" in string.
 #!                                                  Examples: "/dev/sdc,/dev/sdd", "/dev/sdh", "xvdh" or "NoDevice".
-#!                                                  Default: ""
+#!                                                  Default: ''
 #! @input block_device_mapping_virtual_names_string: String that contains one or more virtual names separated by ','.
 #!                                                   Virtual device name is "ephemeralN". Instance store volumes are numbered
 #!                                                   starting from 0. An instance type with 2 available instance store volumes
@@ -74,27 +74,27 @@
 #!                                                   in the block device mapping for the instance. When you launch an M3 instance,
 #!                                                   we ignore any instance store volumes specified in the block device mapping
 #!                                                   for the AMI.
-#!                                                   Example: "ephemeral0,ephemeral1,Not relevant"
-#!                                                   Default: ""
+#!                                                   Example: 'ephemeral0,ephemeral1,Not relevant'
+#!                                                   Default: ''
 #! @input delete_on_terminations_string: String that contains one or more values that indicates whether a specific EBS
 #!                                       volume will be deleted on instance termination. 
 #!                                       Example: For a second EBS device (from existing 4 devices), that should be deleted,
 #!                                       the string will be: "false,true,false,false". 
-#!                                       Valid values: "true", "false". 
-#!                                       Default: ""
+#!                                       Valid values: 'true', 'false'. 
+#!                                       Default: ''
 #! @input ebs_optimized: Indicates whether the instance is optimized for EBS I/O.This optimization provides dedicated
 #!                       throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance.
 #!                       This optimization isn't available with all instance types. Additional usage charges apply when
 #!                       using an EBS-optimized instance.
-#!                       Valid values: "true", "false".
-#!                       Default: "false"
+#!                       Valid values: 'true', 'false'.
+#!                       Default: 'false'
 #! @input encrypted_string: String that contains one or more values that indicates whether a specific EBS volume will be
 #!                          encrypted. Encrypted Amazon EBS volumes may only be attached to instances that support Amazon
 #!                          EBS encryption.
 #!                          Example: For a second EBS device (from existing 4 devices), that should be encrypted, the
 #!                          string will be: "0,1,0,0". If no value is provided, the default value of not encrypted will
 #!                          be considered for all EBS specified devices.
-#!                          Default: ""
+#!                          Default: ''
 #! @input iops_string: String that contains one or more values that specifies the number of I/O operations per second (IOPS)
 #!                     that the volume supports. For "io1", this represents the number of IOPS that are provisioned for the
 #!                     volume. For "gp2", this represents the baseline performance of the volume and the rate at which the
@@ -106,13 +106,13 @@
 #!                     Example: For a first EBS device  (from existing 3 devices), with type "io1" that should have 5000
 #!                     IOPS as value the string will be: "5000,,". If no value provided then the default value for every
 #!                     single EBS device will be used.
-#!                     Default: ""
+#!                     Default: ''
 #! @input snapshot_ids_string: String that contains one or more values of the snapshot IDs to be used when creating the
 #!                             EBS device.
 #!                             Example: For a last EBS device (from existing 3 devices), to be created using a snapshot
 #!                             as image the string will be: "Not relevant,Not relevant,snap-abcdef12". If no value provided
 #!                             then no snapshot will be used when creating EBS device.
-#!                             Default: ""
+#!                             Default: ''
 #! @input volume_sizes_string: String that contains one or more values of the sizes (in GiB) for EBS devices.
 #!                             Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),
 #!                             500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 for
@@ -120,11 +120,11 @@
 #!                             larger than the snapshot size. If you are creating the volume from a snapshot and don't specify
 #!                             a volume size, the default is the snapshot size.
 #!                             Examples: "Not relevant,Not relevant,100"
-#!                             Default: ""
+#!                             Default: ''
 #! @input volume_types_string: String that contains one or more values that specifies the volume types: "gp2", "io1",
 #!                             "st1", "sc1", or "standard". If no value provided then the default value of "standard"
 #!                             for every single EBS device type will be considered.
-#!                             Default: ""
+#!                             Default: ''
 #! @input private_ip_address: [EC2-VPC] The primary IP address. You must specify a value from the IP address range of
 #!                            the subnet. Only one private IP address can be designated as primary. Therefore, you can't
 #!                            specify this parameter if <PrivateIpAddresses.n.Primary> is set to "true" and
@@ -133,83 +133,83 @@
 #! @input private_ip_addresses_string: String that contains one or more private IP addresses to assign to the network
 #!                                     interface. Only one private IP address can be designated as primary. Use this if
 #!                                     you want to launch instances with many NICs attached.
-#!                                     Default: ""
+#!                                     Default: ''
 #! @input iam_instance_profile_arn: Amazon Resource Name (IAM_INSTANCE_PROFILE_ARN) of the instance profile.
 #!                                  Example: "arn:aws:iam::123456789012:user/some_user". Default: ""
 #! @input iam_instance_profile_name: Name of the instance profile.
-#!                                   Default: ""
+#!                                   Default: ''
 #! @input key_pair_name: Name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
 #!                      Important: If you do not specify a key pair, you can't connect to the instance unless you choose
 #!                      an AMI that is configured to allow users another way to log in.
-#!                      Default: ""
+#!                      Default: ''
 #! @input security_group_ids_string: IDs of the security groups for the network interface. Applies only if creating a
 #!                                   network interface when launching an instance.
-#!                                   Default: ""
+#!                                   Default: ''
 #! @input affinity: Affinity setting for the instance on the Dedicated Host(as part of Placement). This parameter is not
 #!                  supported for the <ImportInstance> command.
-#!                  Default: ""
+#!                  Default: ''
 #! @input client_token: Unique, case-sensitive identifier you provide to ensure the idem-potency of the request. For more
 #!                      information, see Ensuring Idempotency. Constraints: Maximum 64 ASCII characters.
-#!                      Default: ""
+#!                      Default: ''
 #! @input disable_api_termination: If you set this parameter to "true", you can"t terminate the instance using the Amazon
 #!                                 EC2 console, CLI, or API; otherwise, you can. If you set this parameter to "true" and
 #!                                 then later want to be able to terminate the instance, you must first change the value
 #!                                 of the <disableApiTermination> attribute to "false" using <ModifyInstanceAttribute>.
 #!                                 Alternatively, if you set <InstanceInitiatedShutdownBehavior> to "terminate", you can
 #!                                 terminate the instance by running the shutdown command from the instance.
-#!                                 Valid values: "true", "false".
-#!                                 Default: "false"
+#!                                 Valid values: 'true', 'false'.
+#!                                 Default: 'false'
 #! @input instance_initiated_shutdown_behavior: Indicates whether an instance stops or terminates when you initiate shutdown
 #!                                              from the instance (using the operating system command for system shutdown).
-#!                                              Valid values: "stop", "terminate".
-#!                                              Default: "stop"
+#!                                              Valid values: 'stop', 'terminate'.
+#!                                              Default: 'stop'
 #! @input monitoring: whether to enable or not monitoring for the instance.
-#!                    Default: "false"
+#!                    Default: 'false'
 #! @input placement_group_name: Name of the placement group for the instance (as part of Placement).
-#!                              Default: ""
+#!                              Default: ''
 #! @input tenancy: Tenancy of an instance (if the instance is running in a VPC - as part of Placement). An instance with
 #!                 a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the
 #!                 ImportInstance command.
-#!                 Valid values: "dedicated", "default", "host".
+#!                 Valid values: 'dedicated', 'default', 'host'.
 #! @input user_data: The user data to make available to the instance. For more information, see Running Commands on Your
 #!                   Linux Instance at Launch (Linux) and Adding User Data (Windows). If you are using an AWS SDK or
 #!                   command line tool, Base64-encoding is performed for you, and you can load the text from a file.
 #!                   Otherwise, you must provide Base64-encoded text.
-#!                   Default: ""
+#!                   Default: ''
 #! @input network_interface_associate_public_ip_address: String that contains one or more values that indicates whether
 #!                                                       to assign a public IP address or not when you launch in a VPC.
 #!                                                       The public IP address can only be assigned to a network interface
 #!                                                       for eth0, and can only be assigned to a new network interface,
 #!                                                       not an existing one. You cannot specify more than one network
 #!                                                       interface in the request. If launching into a default subnet,
-#!                                                       the default value is "true".
-#!                                                       Valid values: "true", "false".
-#!                                                       Default: ""
+#!                                                       the default value is 'true'.
+#!                                                       Valid values: 'true', 'false'.
+#!                                                       Default: ''
 #! @input network_interface_delete_on_termination: String that contains one or more values that indicates that the interface
 #!                                                 is deleted when the instance is terminated. You can specify true only
 #!                                                 if creating a new network interface when launching an instance.
-#!                                                 Valid values: "true", "false".
-#!                                                 Default: ""
+#!                                                 Valid values: 'true', 'false'.
+#!                                                 Default: ''
 #! @input network_interface_description: String that contains one or more values that describe the network interfaces.
 #!                                       Applies only if creating a network interfaces when launching an instance.
-#!                                       Default: ""
+#!                                       Default: ''
 #! @input network_interface_device_index: String that contains one or more values that are indexes of the device on the
 #!                                        instance for the network interface attachment. If you are specifying a network
 #!                                        interface in a RunInstances request, you should provide the device index.
 #!                                        If not provided, then we supply the automatic index starting from 0.
-#!                                        Default: ""
+#!                                        Default: ''
 #! @input network_interface_id: String that contains one or more values that are IDs of the network interfaces.
-#!                              Default: ""
+#!                              Default: ''
 #! @input secondary_private_ip_address_count: The number of secondary private IP addresses. You can't specify this option
 #!                                            and specify more than one private IP address using the private IP addresses
 #!                                            option. Minimum valid number is 2.
-#!                                            Default: ""
+#!                                            Default: ''
 #! @input key_tags_string: String that contains one or more key tags separated by delimiter. Constraints: Tag keys are
 #!                         case-sensitive and accept a maximum of 127 Unicode characters. May not begin with "aws:";
 #!                         Each resource can have a maximum of 50 tags. Note: if you want to overwrite the existing tag
 #!                         and replace it with empty value then specify the parameter with "Not relevant" string.
-#!                         Example: "Name,webserver,stack,scope"
-#!                         Default: ""
+#!                         Example: 'Name,webserver,stack,scope'
+#!                         Default: ''
 #! @input value_tags_string: String that contains one or more tag values separated by delimiter. The value parameter is
 #!                           required, but if you don't want the tag to have a value, specify the parameter with
 #!                           "Not relevant" string, and we set the value to an empty string. Constraints: Tag values are
@@ -217,11 +217,11 @@
 #!                           maximum of 50 tags.
 #!                           Example of values string for tagging resources with values corresponding to the keys from
 #!                           above example: "Tagged from API call,Not relevant,Testing,For testing purposes"
-#!                           Default: ""
+#!                           Default: ''
 #! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: "10"
+#!                          Default: '10'
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Default: "50"
+#!                         Default: '50'
 #!
 #! @output instance_id: The ID of the newly created instance
 #! @output ip_address: The public IP address of the new instance
@@ -229,8 +229,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully deployed
-#! @result FAILURE: error deploying instance
+#! @result SUCCESS: The server (instance) was successfully deployed
+#! @result FAILURE: Error deploying instance
 #!!#
 ########################################################################################################################
 
@@ -486,22 +486,6 @@ flow:
           - SUCCESS: search_and_replace
           - FAILURE: terminate_instances
 
-    - xpath_query:
-        do:
-          xml.xpath_query:
-            - xml_document: '${valid_xml}'
-            - xml_document_source: xmlString
-            - xpath_query: /DescribeInstancesResponse/reservationSet/item/instancesSet/item/ipAddress
-            - query_type: value
-        publish:
-          - ip_address: '${selected_value}'
-          - return_result: '${return_result}'
-          - error_message: '${error_message}'
-          - return_code: '${return_code}'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
-
     - search_and_replace:
         do:
           strings.search_and_replace:
@@ -509,9 +493,24 @@ flow:
             - text_to_replace: xmlns
             - replace_with: xhtml
         publish:
-          - valid_xml: '${replaced_string}'
+          - replaced_string
         navigate:
-          - SUCCESS: xpath_query
+          - SUCCESS: parse_ip_address
+          - FAILURE: FAILURE
+
+    - parse_ip_address:
+        do:
+          xml.xpath_query:
+            - xml_document: '${replaced_string}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
+            - query_type: 'value'
+        publish:
+          - ip_address: '${selected_value}'
+          - return_result: '${return_result}'
+          - error_message: '${error_message}'
+          - return_code: '${return_code}'
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:
@@ -528,8 +527,8 @@ extensions:
   graph:
     steps:
       run_instances:
-        x: 108
-        y: 108
+        x: 109
+        y: 109
         navigate:
           a18f11b3-54ff-3b40-3e9a-4e8458f8c740:
             targetId: ec31434a-1b02-4c0f-72c2-ee53bdf9744f
@@ -553,32 +552,32 @@ extensions:
       describe_instances:
         x: 524
         y: 319
-      xpath_query:
-        x: 874
-        y: 321
-        navigate:
-          e15da7b8-3d11-cde8-55f4-62dfc7e446c8:
-            targetId: 3daeaee4-40c0-5e5e-b244-7c7bed391de6
-            port: SUCCESS
-          6dee385a-df38-9697-536d-c855abbe39bb:
-            targetId: f709be24-7bdb-1d20-eb02-878d688c46d9
-            port: FAILURE
       search_and_replace:
-        x: 692
-        y: 321
+        x: 732
+        y: 320
         navigate:
           7c21a250-626f-0e2b-c8ad-36ca4e1eaf42:
             targetId: f709be24-7bdb-1d20-eb02-878d688c46d9
             port: FAILURE
+      parse_ip_address:
+        x: 728
+        y: 523
+        navigate:
+          2656e137-2e41-8a16-d4c5-800a05fec8a3:
+            targetId: 3daeaee4-40c0-5e5e-b244-7c7bed391de6
+            port: SUCCESS
+          c9d85ffa-fb02-b712-aa5d-217d87876004:
+            targetId: ec31434a-1b02-4c0f-72c2-ee53bdf9744f
+            port: FAILURE
     results:
-      FAILURE:
-        ec31434a-1b02-4c0f-72c2-ee53bdf9744f:
-          x: 103
-          y: 320
-        f709be24-7bdb-1d20-eb02-878d688c46d9:
-          x: 774
-          y: 172
       SUCCESS:
         3daeaee4-40c0-5e5e-b244-7c7bed391de6:
-          x: 1044
-          y: 318
+          x: 953
+          y: 530
+      FAILURE:
+        ec31434a-1b02-4c0f-72c2-ee53bdf9744f:
+          x: 109
+          y: 518
+        f709be24-7bdb-1d20-eb02-878d688c46d9:
+          x: 941
+          y: 325

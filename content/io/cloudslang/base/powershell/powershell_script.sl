@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -117,23 +117,23 @@
 #!    List all service principal names configured for a specific host in the domain: setspn -L <hostname>
 #!
 #! @input host: The hostname or ip address of the remote host.
-#! @input port: optional - The port to use when connecting to the remote WinRM server.
-#! @input protocol: optional - The protocol to use when connecting to the remote server.
+#! @input port: Optional - The port to use when connecting to the remote WinRM server.
+#! @input protocol: Optional - The protocol to use when connecting to the remote server.
 #!                  Valid values are 'HTTP' and 'HTTPS'.
 #!                  Default value is 'HTTPS'.
 #! @input username: The username used to connect to the remote machine.
 #! @input password: The password used to connect to the remote machine.
-#! @input auth_type: optional - type of authentication used to execute the request on the target server
+#! @input auth_type: Optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
 #!                   Default: 'basic'
-#! @input proxy_host: optional - The proxy server used to access the remote host.
-#! @input proxy_port: optional - The proxy server port.
-#! @input proxy_username: optional - The username used when connecting to the proxy.
-#! @input proxy_password: optional - The password used when connecting to the proxy.
-#! @input trust_all_roots: optional - Specifies whether to enable weak security over SSL/TSL.
+#! @input proxy_host: Optional - The proxy server used to access the remote host.
+#! @input proxy_port: Optional - The proxy server port.
+#! @input proxy_username: Optional - The username used when connecting to the proxy.
+#! @input proxy_password: Optional - The password used when connecting to the proxy.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL/TSL.
 #!                         A certificate is trusted even if no trusted certification authority issued it.
-#!                         Valid values : 'true' and 'false'.
-#!                         Default value : 'false'.
+#!                         Valid values : 'true' and 'false'
+#!                         Default value : 'false'
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -164,21 +164,21 @@
 #! @input kerberos_skip_port_for_lookup: Do not include port in the key distribution center database lookup.
 #!                                       Default value: true
 #!                                       Valid values: true, false
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
 #! @input winrm_max_envelop_size: The maximum size of a SOAP packet in bytes for all stream content.
@@ -193,11 +193,11 @@
 #! @output return_code: '0' if the script succeeded or '-1' otherwise.
 #! @output return_result: The scripts result.
 #! @output stderr: The standard error output if any error occurred.
-#! @output script_exit_code: The exitcode of the script.
-#! @output exception: The return code of the script
+#! @output script_exit_code: The exit code of the script.
+#! @output exception: The return code of the script.
 #!
-#! @result SUCCESS: If the script ran successfully with no error messages
-#! @result FAILURE: If the script was invalid, the timeout was suppressed or an error occurred
+#! @result SUCCESS: If the script ran successfully with no error messages.
+#! @result FAILURE: If the script was invalid, the timeout was suppressed or an error occurred.
 #!!#
 ########################################################################################################################
 

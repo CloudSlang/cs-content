@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,28 +10,28 @@
 #! @description: Adds content to an already existing text index.
 #!
 #! @input api_key: API key
-#! @input reference: optional - Haven OnDemand reference
+#! @input reference: Optional - Haven OnDemand reference
 #!                   exactly one of <reference>, <json> is required
-#! @input json: optional - JSON document to index
+#! @input json: Optional - JSON document to index
 #!              exactly one of <reference>, <json> is required
 #! @input index: name of the index to add to
-#! @input additional_metadata: optional - JSON object containing additional metadata to add to the indexed documents.
+#! @input additional_metadata: Optional - JSON object containing additional metadata to add to the indexed documents.
 #!                             To add metadata for multiple files, specify objects in order, separated by an empty object.
-#! @input duplicate_mode: optional - method to use to handle duplicate documents
+#! @input duplicate_mode: Optional - method to use to handle duplicate documents
 #!                        valid: duplicate, replace
 #!                        default: replace
-#! @input reference_prefix: optional - string to add to the start of the reference of
+#! @input reference_prefix: Optional - string to add to the start of the reference of
 #!                          documents that are extracted from a file.
 #!                          To add a prefix for multiple files, specify prefixes
 #!                          in order, separated by a space.
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: content successfully added to the text index
-#! @result FAILURE: there was an error while trying to add content to the text index
+#! @result FAILURE: There was an error while trying to add content to the text index
 #!!#
 ########################################################################################################################
 

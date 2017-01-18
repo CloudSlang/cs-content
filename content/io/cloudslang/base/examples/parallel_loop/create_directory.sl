@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,12 +9,12 @@
 #!!
 #! @description: Wrapper over the files/create_folder operation.
 #!
-#! @input directory_name: name of directory to be created
+#! @input directory_name: Name of directory to be created.
 #!
-#! @output error_msg: error message
+#! @output error_msg: An error message in case something went wrong.
 #!
-#! @result SUCCESS: directory created successfully
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Directory created successfully.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

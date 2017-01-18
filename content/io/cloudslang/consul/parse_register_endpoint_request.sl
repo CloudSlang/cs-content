@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,19 +9,23 @@
 #!!
 #! @description: Creates a JSON for request to register a new endpoint.
 #!
-#! @input node: node name
-#! @input address: node host - Default: ''
-#! @input datacenter: Optional - Default: ''; matched to that of agent
-#! @input service: Optional - if Service key is provided, then service will also be registered - Default: ''
-#! @input check: Optional - if the Check key is provided, then a health check will also be registered - Default: ''
+#! @input node: Node name.
+#! @input address: Node host.
+#!                 Default: ''
+#! @input datacenter: Optional - Matched to that of agent.
+#!                    Default: ''
+#! @input service: Optional - If Service key is provided, then service will also be registered.
+#!                 Default: ''
+#! @input check: Optional - If the Check key is provided, then a health check will also be registered.
+#!               Default: ''
 #!
-#! @output return_result: response of the operation
-#! @output error_message: return_result if there was an error
-#! @output return_code: '0' if parsing was successful, '-1' otherwise
-#! @output json_request: JSON request for registering endpoint
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result if there was an error.
+#! @output return_code: '0' if parsing was successful, '-1' otherwise.
+#! @output json_request: JSON request for registering endpoint.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Parsing was successful (return_code == '0').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
