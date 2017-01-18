@@ -13,7 +13,7 @@
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2016-09-01'
+#!                     Default: '2016-03-30'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -59,7 +59,7 @@ flow:
     - auth_token
     - api_version:
         required: false
-        default: '2016-09-01'
+        default: '2016-03-30'
     - proxy_host:
         required: false
     - proxy_port:

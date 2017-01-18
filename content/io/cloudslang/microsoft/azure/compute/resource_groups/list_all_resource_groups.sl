@@ -12,18 +12,7 @@
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-01-01'
-#! @input top: can be used to limit the number of items returned
-#! @input skip_token: is only used if a partial result is returned in a previous operation call
-#!                    If the response contains a nextLink element, the value of the nextLink element includes a
-#!                    $skip_token parameter with a value that specifies the starting point in the collection of
-#!                    entities for the next GET operation. The $skiptoken parameter must only be used on the URI
-#!                    contained in the value of the nextLink element.
-#! @input filter: filter can be used to restrict the results to specific tagged resources.
-#!                The following possible values can be used with filter:
-#!                filter=tagname eq {value}
-#!                filter=tagname eq {tagname} and tagvalue eq {tagvalue}
-#!                filter=startswith(tagname, {tagname prefix})
+#!                     Default: '2016-09-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -68,16 +57,7 @@ flow:
     - auth_token
     - api_version:
         required: false
-        default: '2015-01-01'
-    - top:
-        required: false
-        default: '1'
-    - skip_token:
-        required: false
-        default: ''
-    - filter:
-        required: false
-        default: ''
+        default: '2016-09-01'
     - proxy_host:
         required: false
     - proxy_port:
@@ -106,7 +86,7 @@ flow:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups?api-version=' +
-                api_version + '&$top=' + top + '$skiptoken=' + skip_token + '&$filter=' + filter}
+                api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
