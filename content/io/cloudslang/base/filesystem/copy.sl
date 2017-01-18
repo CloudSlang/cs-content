@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,14 +10,14 @@
 #! @description: Copies a file or folder.
 #!               If a folder is copied, the destination directory must not already exist.
 #!
-#! @input source: path of source file or folder to be copied
-#! @input destination: path of destination for file or folder to be copied to. If copying a folder, destination path must
+#! @input source: Path of source file or folder to be copied.
+#! @input destination: Path of destination for file or folder to be copied to. If copying a folder, destination path must
 #!                     include folder name. If copying a file, destination path must include file name.
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: file or folder was successfully copied
-#! @result FAILURE: file or folder was not copied due to an error
+#! @result SUCCESS: File or folder was successfully copied.
+#! @result FAILURE: File or folder was not copied due to an error.
 #!!#
 ########################################################################################################################
 

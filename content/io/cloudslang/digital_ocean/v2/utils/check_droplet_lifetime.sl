@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,16 +9,16 @@
 #!!
 #! @description: Checks if a droplet's lifetime exceeds a given threshold.
 #!
-#! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
-#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#! @input threshold: threshold in minutes to compare the droplet's lifetime to
+#! @input creation_time_as_string: Creation time (UTC timezone) of the droplet as a string value.
+#!                                 Format (used by DigitalOcean): '2015-09-27T18:47:19Z'
+#! @input threshold: Threshold in minutes to compare the droplet's lifetime to.
 #!
-#! @output return_result: elapsed time in minutes in case of success, cause of the error in case of failure
-#! @output return_code: 0 if parsing was successful, -1 otherwise
+#! @output return_result: Elapsed time in minutes in case of success, cause of the error in case of failure.
+#! @output return_code: 0 if parsing was successful, -1 otherwise.
 #!
-#! @result FAILURE: an error occurred
-#! @result ABOVE_THRESHOLD: lifetime of droplet reached the threshold
-#! @result BELOW_THRESHOLD: lifetime of droplet did not reach the threshold
+#! @result FAILURE: An error occurred.
+#! @result ABOVE_THRESHOLD: Lifetime of droplet reached the threshold.
+#! @result BELOW_THRESHOLD: Lifetime of droplet did not reach the threshold.
 #!!#
 ########################################################################################################################
 

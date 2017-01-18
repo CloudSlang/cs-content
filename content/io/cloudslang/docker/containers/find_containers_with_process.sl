@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -32,7 +32,7 @@
 #! @input container_ids: Optional - a list containing the ID`s all the containers running
 #!                       Default: ''
 #!
-#! @output containers_found: the names of the containers with runing processes
+#! @output containers_found: The names of the containers with runing processes
 #! @output standard_err: error message
 #!
 #! @result SUCCESS: names of running containers retrieved successfully

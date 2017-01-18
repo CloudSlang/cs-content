@@ -1,4 +1,4 @@
-# (c) Copyright 2015 Liran Tal
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: Checks out a git branch.
+#!
 #! @input host: hostname or IP address
 #! @input port: Optional - port number for running the command
 #! @input username: username to connect as
@@ -32,7 +33,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: git checkout completed successfully
-#! @result FAILURE: there was an error during GIT checkout
+#! @result FAILURE: There was an error during GIT checkout
 #!!#
 ########################################################################################################################
 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,17 +10,17 @@
 #! @description: Authenticates and deletes an OpenStack server.
 #!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: '8774'
 #! @input username: username used for URL authentication; for NTLM authentication
 #!                  Format: 'domain\user'
 #! @input password: password used for URL authentication
 #! @input tenant_name: name of OpenStack project that contains server (instance) to be deleted
 #! @input server_name: name of server to delete
-#! @input proxy_host: optional - proxy server used to access OpenStack services
-#! @input proxy_port: optional - proxy server port used to access OpenStack services
+#! @input proxy_host: Optional - proxy server used to access OpenStack services
+#! @input proxy_port: Optional - proxy server port used to access OpenStack services
 #!
 #! @output return_result: response of operation in case of success, error message otherwise
 #! @output error_message: return_result if status code is not '202'

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,13 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Compares two inputs for Python equality (==).
+#! @description: Compares two strings for Python equality (==).
 #!
-#! @input first: first Python object to compare
-#! @input second: second Python object to compare
+#! @input first: First string to compare.
+#! @input second: Second string to compare.
 #!
-#! @result TRUE: object are equal
-#! @result FALSE: objects are not equal
+#! @result TRUE: Strings are equal.
+#! @result FALSE: Strings are not equal.
 #!!#
 ########################################################################################################################
 

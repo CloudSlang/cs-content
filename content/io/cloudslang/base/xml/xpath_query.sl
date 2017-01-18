@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -23,7 +23,7 @@
 #! @input delimiter: string to use as delimiter in case query_type is nodelist
 #!                   optional
 #!                   default: ','
-#! @input secure_processing: optional -  sets the secure processing feature
+#! @input secure_processing: Optional -  sets the secure processing feature
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
@@ -36,7 +36,7 @@
 #! @output selected_value: value selected, no match found or empty if an error occurs
 #! @output return_result: xpath queried successfully or empty otherwise
 #! @output return_code: 0 if success, -1 if failure
-#! @output error_message: an exception in case of failure
+#! @output error_message: An exception in case of failure
 #!
 #! @result SUCCESS: if return_code = 0
 #! @result FAILURE: otherwise

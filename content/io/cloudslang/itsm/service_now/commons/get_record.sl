@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,43 +11,44 @@
 #!
 #! @input host: required - URL of the ServiceNow instance
 #!              Example: 'dev10000.service-now.com'
-#! @input protocol: optional - protocol that is used to send the request
+#! @input protocol: Optional - protocol that is used to send the request
 #!                  Valid: https Obs: ServiceNow uses only this protocol
 #!                  Default: https
-#! @input auth_type: optional - type of authentication used to execute the request on the target server
+#! @input auth_type: Optional - type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'anonymous' (When OAuth token is provided). Obs: ServiceNow uses only these
 #!                   Default: 'basic'
-#! @input api_version: optional - servicenow api version to be used for the call
+#! @input api_version: Optional - servicenow api version to be used for the call
 #!                     Example: 'v1'
 #!                     Default: ''
-#! @input system_id: optional - System ID of the item for which details should be returned.
+#! @input system_id: Optional - System ID of the item for which details should be returned.
 #!                   When this input is left empty, the flow returns the details of multiple items.
 #!                   Example: 71c7ac460f811200ff7eb17ce1050e7a
 #! @input table_name: required - name of the servicenow table which should be used for the request.
 #!                    Example: 'incident', 'change', 'request'
-#! @input username: optional - ServiceNow username used to perform the request.
-#! @input password: optional - ServiceNow password used to perform the request.
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
-#! @input headers: optional - list containing the headers to use for the request separated by new line (CRLF);
+#! @input username: Optional - ServiceNow username used to perform the request.
+#! @input password: Optional - ServiceNow password used to perform the request.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established - Default: '0' (infinite)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved - Default: '0' (infinite)
+#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":" - Format: According to HTTP standard for
 #!                 headers (RFC 2616) - Default: 'application/json'
-#! @input query_params: optional - list containing query parameters to append to the URL
+#! @input query_params: Optional - list containing query parameters to append to the URL
 #!                      Example: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type of
+#! @input content_type: Optional - content type that should be set in the request header, representing the MIME-type of
 #!                      the data in the message body - Default: 'text/plain'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
+#! @output return_result: The response of the operation in case of success or the error message otherwise
 #! @output error_message: return_result if status_code different than '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output status_code: status code of the HTTP call
 #!
 #! @result SUCCESS: record retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the record
+#! @result FAILURE: There was an error while trying to retrieve the record
 #!!#
 ########################################################################################################################
 

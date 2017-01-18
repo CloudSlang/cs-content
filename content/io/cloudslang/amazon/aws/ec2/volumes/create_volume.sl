@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -20,21 +20,21 @@
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
 #!
-#! @input endpoint: optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
+#! @input endpoint: Optional - Endpoint to which the request will be sent - Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-#! @input proxy_host: optional - proxy server used to connect to Amazon API. If empty no proxy will be used.
-#! @input proxy_port: optional - proxy server port. You must either specify values for both <proxyHost> and <proxyPort>
+#! @input proxy_host: Optional - proxy server used to connect to Amazon API. If empty no proxy will be used.
+#! @input proxy_port: Optional - proxy server port. You must either specify values for both <proxyHost> and <proxyPort>
 #!                    inputs or leave them both empty.
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - proxy server user name.
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - string containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
@@ -50,24 +50,24 @@
 #!                   For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
 #!                   Valid values: 'false', 'true'. Any other but valid values provided will be ignored.
 #!                   Default: 'false'
-#! @input iops: optional - only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second (IOPS) to
+#! @input iops: Optional - only valid for Provisioned IOPS SSD volumes. The number of I/O operations per second (IOPS) to
 #!              provision for the volume, with a maximum ratio of 30 IOPS/GiB. Constraint: Range is 100 to 20000
 #!              for Provisioned IOPS SSD volumes
-#! @input kms_key_id: optional - The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use
+#! @input kms_key_id: Optional - The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use
 #!                    when creating the encrypted volume. This parameter is only required if you want to use a non-default
 #!                    CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the
 #!                    arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the
 #!                    key namespace, and then the CMK ID. If a KmsKeyId is specified, the <encrypted> input must be set on "true".
 #!                    Example: "arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef"
-#! @input size: optional - size of the volume, in GiBs. If you specify a snapshot, the volume size must be equal to or
+#! @input size: Optional - size of the volume, in GiBs. If you specify a snapshot, the volume size must be equal to or
 #!              larger than the snapshot size. If you're creating the volume from a snapshot and don't specify a volume
 #!              size, the default is the snapshot size. Constraints: 1-16384 for "gp2", 4-16384 for "io1", 500-16384 for
 #!              "st1", 500-16384 for "sc1", and 1-1024 for "standard".
-#! @input snapshot_id: optional - Snapshot from which to create the volume - Default: ''
-#! @input volume_type: optional - Volume type of the Amazon EBS volume - Valid values: 'gp2' (for General Purpose SSD volumes),
+#! @input snapshot_id: Optional - Snapshot from which to create the volume - Default: ''
+#! @input volume_type: Optional - Volume type of the Amazon EBS volume - Valid values: 'gp2' (for General Purpose SSD volumes),
 #!                     'io1' (for Provisioned IOPS SSD volumes), 'st1' (for Throughput Optimized HDD), 'sc1'
 #!                     (for Cold HDD) and 'standard' (for Magnetic volumes) - Default: 'standard'
-#! @input version: version of the web service to make the call against it.
+#! @input version: Version of the web service to make the call against it.
 #!                 Example: "2014-06-15"
 #!                 Default: "2014-06-15"
 #!
@@ -75,8 +75,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the list with existing regions was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve the regions list
+#! @result SUCCESS: The list with existing regions was successfully retrieved
+#! @result FAILURE: An error occurred when trying to retrieve the regions list
 #!!#
 ########################################################################################################################
 

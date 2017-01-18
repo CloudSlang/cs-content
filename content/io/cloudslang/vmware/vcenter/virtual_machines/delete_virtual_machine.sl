@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -44,7 +44,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: specified virtual machine was successfully deleted
-#! @result FAILURE: an error occurred when trying to delete the specified virtual machine
+#! @result FAILURE: An error occurred when trying to delete the specified virtual machine
 #!!#
 ########################################################################################################################
 

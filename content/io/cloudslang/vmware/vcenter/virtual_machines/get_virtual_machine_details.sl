@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -48,8 +48,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the details of the specified virtual machine was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve a list with all virtual machines and templates
+#! @result SUCCESS: The details of the specified virtual machine was successfully retrieved
+#! @result FAILURE: An error occurred when trying to retrieve a list with all virtual machines and templates
 #!!#
 ########################################################################################################################
 

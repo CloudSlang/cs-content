@@ -12,9 +12,9 @@
 #!
 #! @input return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input folder_name: the folder name to be added
-#! @input folder_path: optional - the absolute path under the folder will be created - Default: '/home'
+#! @input root_password: The root password
+#! @input folder_name: The folder name to be added
+#! @input folder_path: Optional - the absolute path under the folder will be created - Default: '/home'
 #!
 #! @output return_result: output of the command
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

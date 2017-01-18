@@ -10,8 +10,8 @@
 #! @description: Perform a SSH command to verify if a specified <group_name> exist
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input group_name: the name of the group to verify if exist
+#! @input root_password: The root password
+#! @input group_name: The name of the group to verify if exist
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

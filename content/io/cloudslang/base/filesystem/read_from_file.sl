@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,13 @@
 #!!
 #! @description: Reads a file from the given path and returns its content.
 #!
-#! @input file_path: the path of the file to read
+#! @input file_path: The path of the file to read.
 #!
-#! @output read_text: content of the file
-#! @output message: error message if error occurred
+#! @output read_text: Content of the file.
+#! @output message: Error message if error occurred.
 #!
-#! @result SUCCESS: file was read successfully
-#! @result FAILURE: otherwise
+#! @result SUCCESS: File was read successfully.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,14 @@
 #!!
 #! @description: Adds two numbers as floating point values.
 #!
-#! @input value1: first value as number or string
-#! @input value2: second value as number or string
+#! @input value1: First value as number or string.
+#! @input value2: Second value as number or string.
 #!
-#! @output result: operation result or reason for failure
-#! @output return_code: operation return code ('0' or '-1')
+#! @output result: Operation result or reason for failure.
+#! @output return_code: Operation return code ('0' or '-1').
 #!
-#! @result SUCCESS: The operation completed successfully
-#! @result FAILURE: The operation failed
+#! @result SUCCESS: The operation completed successfully.
+#! @result FAILURE: The operation failed.
 #!!#
 ########################################################################################################################
 

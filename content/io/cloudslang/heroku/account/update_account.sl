@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -14,11 +14,11 @@
 #! @input password: Heroku <username> account password
 #!                  optional
 #!                  default: None
-#! @input allow_tracking: optional - whether to allow third party web activity tracking
+#! @input allow_tracking: Optional - whether to allow third party web activity tracking
 #!                        default: True
-#! @input beta: optional - whether allowed to utilize beta Heroku features
+#! @input beta: Optional - whether allowed to utilize beta Heroku features
 #!              default: False
-#! @input account_owner_name: optional - full name of account owner
+#! @input account_owner_name: Optional - full name of account owner
 #!                            default: None
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise

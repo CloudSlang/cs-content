@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -14,7 +14,7 @@
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services
 #! @input proxy_port: Proxy server port used to access the provider services
- #!                   Default: '8080'
+#!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
@@ -35,7 +35,7 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully rebooted
+#! @result SUCCESS: The server (instance) was successfully rebooted
 #! @result FAILURE: error rebooting instance
 #!!#
 ########################################################################################################################
@@ -133,7 +133,10 @@ flow:
         do:
           xml.xpath_query:
               - xml_document: ${replaced_string}
-              - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
+              - xpath_query: >
+                  ${'"/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']' +
+                  '/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']' +
+                  '/*[local-name()='instanceState']/*[local-name()='name']"')
               - query_type: 'value'
         publish:
             - output: ${selected_value}
@@ -146,7 +149,10 @@ flow:
         do:
           xml.xpath_query:
             - xml_document: '${replaced_string}'
-            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
+            - xpath_query: >
+                ${'"/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']' +
+                '/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']' +
+                '/*[local-name()='ipAddress']"'}
             - query_type: 'value'
         publish:
           - ip_address: '${selected_value}'

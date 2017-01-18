@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -19,15 +19,15 @@
 #!
 #! @input host: VMware host or IP
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: optional - port to connect through
+#! @input port: Optional - port to connect through
 #!              examples: '443', '80'
 #!              default: '443'
-#! @input protocol: optional - connection protocol
+#! @input protocol: Optional - connection protocol
 #!                  valid: 'http', 'https'
 #!                  default: 'https'
 #! @input username: VMware username to connect with
 #! @input password: password associated with <username> input
-#! @input trust_everyone: optional - if 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: Optional - if 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
 #!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
@@ -46,7 +46,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: list with all supported guest OSs was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve a list with all supported guest OSs
+#! @result FAILURE: An error occurred when trying to retrieve a list with all supported guest OSs
 #!!#
 ########################################################################################################################
 

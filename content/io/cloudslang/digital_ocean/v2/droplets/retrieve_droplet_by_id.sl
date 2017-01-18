@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,24 +9,27 @@
 #!!
 #! @description: Retrieves information about an existing droplet.
 #!
-#! @input droplet_id: id of the droplet as string or number
-#! @input token: personal access token for DigitalOcean API
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input connect_timeout: optional - time in seconds to wait for a connection to be established (0 represents infinite value)
-#! @input socket_timeout: optional - time in seconds to wait for data to be retrieved (0 represents infinite value)
+#! @input droplet_id: ID of the droplet as string or number.
+#! @input token: Personal access token for DigitalOcean API.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                         (0 represents infinite value)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        (0 represents infinite value)
 #!
-#! @output response: raw response of the API call
-#! @output status_code: status code of the underlying GET request
-#! @output droplet: droplet object in case of SUCCESS - JSON types (object, array) are represented as Python objects
-#!                  information can be retrieved in Python style - Example: droplet['name']
-#!                  None in case of FAILURE
-#! @output droplet_status: status of the droplet is case of SUCCESS, empty in case of FAILURE
+#! @output response: Raw response of the API call.
+#! @output status_code: Status code of the underlying GET request.
+#! @output droplet: Droplet object in case of SUCCESS - JSON types (object, array) are represented as Python objects
+#!                  information can be retrieved in Python style.
+#!                  None in case of FAILURE.
+#!                  Example: droplet['name']
+#! @output droplet_status: Status of the droplet is case of SUCCESS, empty in case of FAILURE.
 #!
-#! @result SUCCESS: existing droplet retrieved successfully
-#! @result FAILURE: something went wrong while trying to retrieve droplet by ID
+#! @result SUCCESS: Existing droplet retrieved successfully.
+#! @result FAILURE: Something went wrong while trying to retrieve droplet by ID.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.digital_ocean.v2.droplets

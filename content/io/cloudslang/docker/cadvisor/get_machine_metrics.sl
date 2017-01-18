@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,7 +10,7 @@
 #! @description: Performs a REST call to cAdvisor running in a Docker container.
 #!
 #! @input host: Docker machine host
-#! @input cadvisor_port: optional - port used for cAdvisor - Default: '8080'
+#! @input cadvisor_port: Optional - port used for cAdvisor - Default: '8080'
 #!
 #! @output return_result: response of the operation
 #! @output error_message: return_result if return_code == ': 1' or status_code != '200'

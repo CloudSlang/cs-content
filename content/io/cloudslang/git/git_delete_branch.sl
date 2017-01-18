@@ -1,4 +1,4 @@
-# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,14 +10,14 @@
 #! @description: Deletes a git branch
 #!
 #! @input host: hostname or IP address
-#! @input port: optional - port number for running the command
+#! @input port: Optional - port number for running the command
 #! @input username: username to connect as
-#! @input password: optional - password of user
-#! @input git_branch: optional - git branch to delete
-#! @input git_repository_localdir: optional - target directory where a git repository exists - Default: /tmp/repo_folder
-#! @input sudo_user: optional - true or false, whether the command should execute using sudo - Default: false
-#! @input private_key_file: optional - path to private key file
-#! @input branch_type: optional - type of branch to delete:local, remote or remote-tracking - Default: local
+#! @input password: Optional - password of user
+#! @input git_branch: Optional - git branch to delete
+#! @input git_repository_localdir: Optional - target directory where a git repository exists - Default: /tmp/repo_folder
+#! @input sudo_user: Optional - true or false, whether the command should execute using sudo - Default: false
+#! @input private_key_file: Optional - path to private key file
+#! @input branch_type: Optional - type of branch to delete:local, remote or remote-tracking - Default: local
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT branch deleted successfully
-#! @result FAILURE: there was an error while trying to delete GIT branch
+#! @result FAILURE: There was an error while trying to delete GIT branch
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.git

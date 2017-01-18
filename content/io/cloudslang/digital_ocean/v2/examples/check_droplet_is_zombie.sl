@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,15 +9,16 @@
 #!!
 #! @description: Checks whether a droplet is considered a zombie.
 #!
-#! @input droplet_name: name of the droplet
-#! @input creation_time_as_string: creation time (UTC timezone) of the droplet as a string value
-#!                                 Format (used by DigitalOcean): 2015-09-27T18:47:19Z
-#! @input time_to_live: threshold in minutes to compare the droplet's lifetime to
-#! @input name_pattern: regex pattern for zombie droplet names - Example: ci-([0-9]+)-coreos-([0-9]+)
+#! @input droplet_name: Name of the droplet.
+#! @input creation_time_as_string: Creation time (UTC timezone) of the droplet as a string value.
+#!                                 Format (used by DigitalOcean): '2015-09-27T18:47:19Z'
+#! @input time_to_live: Threshold in minutes to compare the droplet's lifetime to.
+#! @input name_pattern: Regex pattern for zombie droplet names.
+#!                      Example: 'ci-([0-9]+)-coreos-([0-9]+)'
 #!
-#! @result ZOMBIE: droplet is considered zombie
-#! @result NOT_ZOMBIE: droplet is not considered zombie
-#! @result FAILURE: error occurred
+#! @result ZOMBIE: Droplet is considered zombie.
+#! @result NOT_ZOMBIE: Droplet is not considered zombie.
+#! @result FAILURE: Error occurred.
 #!!#
 ########################################################################################################################
 

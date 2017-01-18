@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,8 +12,8 @@
 #! @input host: Docker host
 #! @input username: username for Docker host
 #! @input private_key_file: private key file used for host
-#! @input marathon_port: optional - Marathon agent port - Default: 8080
-#! @input timeout: optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
+#! @input marathon_port: Optional - Marathon agent port - Default: 8080
+#! @input timeout: Optional - time in milliseconds to wait for one SSH command to complete - Default: 3000000 ms (50 min)
 #!
 #! @result SUCCESS: setup succeeded
 #! @result CLEAR_CONTAINERS_ON_HOST_PROBLEM: setup failed due to problem clearing containers

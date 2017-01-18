@@ -1,9 +1,9 @@
-# (c) Copyright 2015 Liran Tal
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
-# The Apache License is available at
-# http://www.apache.org/licenses/LICENSE-2.0
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
 #!!
@@ -31,7 +31,7 @@
 #! @output return_code: return code of the command
 #!
 #! @result SUCCESS: GIT branch successfully pushed to the remote repository
-#! @result FAILURE: there was an error while trying to push the branch to the remote repository
+#! @result FAILURE: There was an error while trying to push the branch to the remote repository
 #!!#
 ########################################################################################################################
 

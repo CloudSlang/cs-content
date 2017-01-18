@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -31,7 +31,7 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the server (instance) was successfully terminated
+#! @result SUCCESS: The server (instance) was successfully terminated
 #! @result FAILURE: error terminating instance
 #!!#
 ########################################################################################################################
