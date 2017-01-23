@@ -571,6 +571,8 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
+        publish:
+          - vm_name: ''
         navigate:
           - SUCCESS: on_failure
           - FAILURE: on_failure
@@ -617,14 +619,13 @@ flow:
     - random_number_generator:
         do:
           math.random_number_generator:
-            - min: '0'
+            - min: '10000'
             - max: '99999'
         publish:
           - random_number: ${random_number}
         navigate:
           - SUCCESS: append
           - FAILURE: random_number_generator
-
 
     - get_vm_details_1:
         do:
@@ -647,7 +648,6 @@ flow:
         navigate:
           - SUCCESS: remove
           - FAILURE: string_occurrence_counter
-
 
     - append:
         do:
