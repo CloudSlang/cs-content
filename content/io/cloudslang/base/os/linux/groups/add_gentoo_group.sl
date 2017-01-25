@@ -11,8 +11,8 @@
 #!               Gentoo based linux
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input group_name: the group name where to be added
+#! @input root_password: The root password
+#! @input group_name: The group name where to be added
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

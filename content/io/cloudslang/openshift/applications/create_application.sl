@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,24 +10,24 @@
 #! @description: Performs a REST API call to create a new RedHat OpenShift Online application.
 #!
 #! @input host: RedHat OpenShift Online host
-#! @input username: optional - RedHat OpenShift Online username
+#! @input username: Optional - RedHat OpenShift Online username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - RedHat OpenShift Online password used for authentication
-#! @input proxy_host: optional - proxy server used to access RedHat OpenShift Online web site
-#! @input proxy_port: optional - proxy server port
+#! @input password: Optional - RedHat OpenShift Online password used for authentication
+#! @input proxy_host: Optional - proxy server used to access RedHat OpenShift Online web site
+#! @input proxy_port: Optional - proxy server port
 #!                    default: '8080'
-#! @input proxy_username: optional - user name used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_username: Optional - user name used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #! @input domain: name of RedHat OpenShift Online domain in which application will be created
 #!                note: domain must be created first in order to create applications
 #! @input application_name: RedHat OpenShift Online application name
 #! @input cartridge: list with names of frameworks to be added in RedHat OpenShift Online application
 #!                   example: ['ruby-1.8']
-#! @input scale: optional - mark RedHat OpenShift Online application as scalable
+#! @input scale: Optional - mark RedHat OpenShift Online application as scalable
 #!               default: False
-#! @input gear_profile: optional - size of the gear
+#! @input gear_profile: Optional - size of the gear
 #!                      default: 'small'
-#! @input initial_git_url: optional - URL to Git source repository
+#! @input initial_git_url: Optional - URL to Git source repository
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise
 #! @output error_message: return_result if status_code is not '201'

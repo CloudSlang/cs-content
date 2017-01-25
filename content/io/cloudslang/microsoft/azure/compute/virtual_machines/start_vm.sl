@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,7 @@
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be started.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to start the VM.
 #! @input auth_token: Azure authorization Bearer token
-#! @input api_version: the API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input vm_name: The name of the virtual machine to be started.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.

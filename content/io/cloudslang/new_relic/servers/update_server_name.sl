@@ -13,10 +13,11 @@
 #! @input api_key: New Relic REST API key
 #! @input server_id: server id
 #! @input server_name: new server name
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
-#! @input proxy_username: optional - username used when connecting to proxy
-#! @input proxy_password: optional - proxy server password associated with <proxy_username> input value
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to proxy
+#! @input proxy_password: Optional - proxy server password associated with <proxy_username> input value
 #!
 #! @output return_result: response of operation
 #! @output status_code: normal status code is '200'
@@ -48,7 +49,7 @@ flow:
         default: ''
     - proxy_port:
         required: false
-        default: ''
+        default: '8080'
     - proxy_username:
         required: false
         default: ''

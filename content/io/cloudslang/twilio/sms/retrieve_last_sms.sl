@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,7 +16,7 @@
 #!               The 'To' parameter will also need to be a phone number you acquired from Twilio
 #!               (https://www.twilio.com/console/phone-numbers/incoming).
 #!
-#! @input account_sid: The Account SID on behalf the message is sent
+#! @input account_sid: The Account SID on behalf the message is sent,
 #!                     If you are using a Twilio Trial account for this example, you will only be able to send SMS
 #!                     messages to phone numbers that you have verified with Twilio. Phone numbers can be verified via
 #!                     your Twilio Console's Verified Caller IDs (https://www.twilio.com/console/phone-numbers/verified).
@@ -26,20 +26,20 @@
 #!                  number should be verified in https://www.twilio.com/console/phone-numbers/verified
 #! @input to_num: The number that the message was sent to. Notice it should start with +. The number should be verified
 #!                registered in https://www.twilio.com/console/phone-numbers/incoming
-#! @input api_version: optional - Twilio api version
+#! @input api_version: Optional - Twilio API version.
 #!                     Default: '2010-04-01'
-#! @input auth_token: The Auth Token for this Account SID
-#! @input proxy_host: optional - The proxy to pass the HTTP call through
-#! @input proxy_port: optional - The port of the proxy to pass the HTTP call through
-#! @input proxy_username: optional - The username of the proxy to pass the HTTP call through
-#! @input proxy_password: optional - The password of the proxy username to pass the HTTP call through
+#! @input auth_token: The Auth Token for this Account SID.
+#! @input proxy_host: Optional - The proxy to pass the HTTP call through.
+#! @input proxy_port: Optional - The port of the proxy to pass the HTTP call through.
+#! @input proxy_username: Optional - The username of the proxy to pass the HTTP call through.
+#! @input proxy_password: Optional - The password of the proxy username to pass the HTTP call through.
 #!
-#! @output sms_message: In case a relevant SMS was found, this field holds the text of that last SMS
-#! @output error_message: Exception in case something went wrong
+#! @output sms_message: In case a relevant SMS was found, this field holds the text of that last SMS.
+#! @output error_message: Exception in case something went wrong.
 #!
-#! @result SUCCESS: This result indicated that there is at least one SMS sent from the To number to the From number
-#! @result NO_SMS: This result indicates that there is no SMS sent from the To number to the From number
-#! @result FAILURE: Something went wrong
+#! @result SUCCESS: This result indicated that there is at least one SMS sent from the To number to the From number.
+#! @result NO_SMS: This result indicates that there is no SMS sent from the To number to the From number.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,25 +11,25 @@
 #!
 #! @input container_name: container name
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
 #! @input password: Docker machine password
-#! @input private_key_file: optional - absolute path to private key file
-#! @input arguments: optional - arguments to pass to the command
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input private_key_file: Optional - absolute path to private key file
+#! @input arguments: Optional - arguments to pass to the command
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: optional - whether to use PTY - Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for command to complete
-#! @input close_session: optional - if 'false' SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY - Valid: true, false
+#! @input timeout: Optional - time in milliseconds to wait for command to complete
+#! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed;
 #!                       Valid: true, false
-#! @input agent_forwarding: optional - the sessionObject that holds the connection if the close session is false
+#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false
 #!
 #! @output container_ip: IP of the specified container
 #! @output error_message: error message
 #!
 #! @result SUCCESS: Docker container IP retrieved sucessfully
-#! @result FAILURE: there was an error while trying to retrieve the Docker container IP address
+#! @result FAILURE: There was an error while trying to retrieve the Docker container IP address
 #!!#
 ########################################################################################################################
 

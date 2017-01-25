@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -43,8 +43,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the Install Tools process on specified virtual machine was successfully started
-#! @result FAILURE: an error occurred when trying to start Install Tools process on specified virtual machine
+#! @result SUCCESS: The Install Tools process on specified virtual machine was successfully started
+#! @result FAILURE: An error occurred when trying to start Install Tools process on specified virtual machine
 #!!#
 ########################################################################################################################
 

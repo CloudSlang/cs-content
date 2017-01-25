@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,9 +9,9 @@
 #!!
 #! @description: Prints text to the screen.
 #!
-#! @input text: text to print
+#! @input text: Text to print.
 #!
-#! @result SUCCESS: Text printed successfully
+#! @result SUCCESS: Text printed successfully.
 #!!#
 ########################################################################################################################
 

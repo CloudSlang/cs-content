@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,15 +9,15 @@
 #!!
 #! @description: Replaces a substring within a string.
 #!
-#! @input origin_string: Optional - original string
-#! @input text_to_replace: text to replace
-#! @input replace_with: Optional - text to replace with
+#! @input origin_string: Optional - Original string.
+#! @input text_to_replace: Text to replace.
+#! @input replace_with: Optional - Text to replace with.
 #!
-#! @output replaced_string: string with the text replaced
-#! @output error_message: substring not found
+#! @output replaced_string: String with the text replaced.
+#! @output error_message: Substring not found.
 #!
-#! @result SUCCESS: parsing successful
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: Parsing successful.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 

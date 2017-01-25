@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,18 +11,19 @@
 #!               When the index of an element from a list is known,
 #!               this operation can be used to get the element.
 #!
-#! @input list: list from which we want to get the element  - Example: '1,2,3,4,5,6'
-#! @input delimiter: the list delimiter
-#! @input index: index of the value (starting with 0) to retrieve from the list
+#! @input list: List from which we want to get the element.
+#!              Example: '1,2,3,4,5,6'
+#! @input delimiter: The list delimiter.
+#! @input index: Index of the value (starting with 0) to retrieve from the list.
 #!
 #! @output response: 'success' or 'failure'
 #! @output return_code: 0 if success, -1 if failure
-#! @output return_result: returns the value found at the specified index in the list, if the value specified for
+#! @output return_result: Returns the value found at the specified index in the list, if the value specified for
 #!                        the index input is (starting with 0) positive and less than the size of the list.
 #!                        Otherwise, it returns the value specified for index.
 #!
-#! @result SUCCESS: value retrieved with success
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Value retrieved with success
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

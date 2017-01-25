@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,12 +9,12 @@
 #!!
 #! @description: Multiply two numbers as floating point values.
 #!
-#! @input value1: first value as number or string
-#! @input value2: second value as number or string
+#! @input value1: First value as number or string.
+#! @input value2: Second value as number or string.
 #!
-#! @output result: value1 multiplied by value2
+#! @output result: Value1 multiplied by value2.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 

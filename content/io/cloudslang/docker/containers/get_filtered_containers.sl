@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -37,7 +37,7 @@
 #! @output container_ids: comma separated list of container IDs
 #!
 #! @result SUCCESS: Docker container names retrieved successfully
-#! @result FAILURE: there was an error while trying to retrieve the Docker container names
+#! @result FAILURE: There was an error while trying to retrieve the Docker container names
 #!!#
 ########################################################################################################################
 

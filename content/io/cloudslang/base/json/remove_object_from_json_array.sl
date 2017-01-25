@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,16 +10,19 @@
 #! @description: Removes an object from a JSON array, specifying the JSON object to remove
 #!               from array or the position from which to remove the existing object.
 #!
-#! @input json_array: JSON array to remove object from - Example: '[{"a": "0"}, {"b": "1"}, {"c": "2"}]'
-#! @input json_object: Optional - JSON object to remove from array - Example: '{"b": "1"}'
-#! @input index: Optional - position from which to remove the existing object - Example: 1
+#! @input json_array: JSON array to remove object from
+#!                    Example: '[{"a": "0"}, {"b": "1"}, {"c": "2"}]'
+#! @input json_object: Optional - JSON object to remove from array
+#!                     Example: '{"b": "1"}'
+#! @input index: Optional - Position from which to remove the existing object
+#1               Example: 1
 #!
 #! @output return_result: JSON array with object removed
 #! @output return_code: "0" if removing was successful, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output error_message: Error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: removing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Removing was successful (return_code == '0')
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

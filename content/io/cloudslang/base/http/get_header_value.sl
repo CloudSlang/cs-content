@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,14 @@
 #!!
 #! @description: Performs a search in the response_headers to get the specified header value.
 #!
-#! @input response_headers: response headers string from an HTTP Client REST call
-#! @input header_name: name of header to get value for
+#! @input response_headers: Response headers string from an HTTP Client REST call.
+#! @input header_name: Name of header to get value for.
 #!
-#! @output result: specified header value in case of success, error message otherwise
-#! @output error_message: exception if occurs
+#! @output result: Specified header value in case of success, error message otherwise.
+#! @output error_message: Exception if occurs.
 #!
-#! @result SUCCESS: retrieved specified header value
-#! @result FAILURE: there was an error retrieving header value
+#! @result SUCCESS: Retrieved specified header value.
+#! @result FAILURE: There was an error retrieving header value.
 #!!#
 ########################################################################################################################
 

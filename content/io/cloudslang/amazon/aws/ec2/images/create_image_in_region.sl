@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,43 +9,43 @@
 #!!
 #! @description: Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped.
 #!
-#! @input endpoint: optional - Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #!
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services
+#! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - proxy server user name.
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#! @input version: version of the web service to make the call against it.
-#!                 Example: "2016-04-01"
-#!                 Default: "2016-04-01"
+#! @input version: Version of the web service to make the call against it.
+#!                 Example: '2016-04-01'
+#!                 Default: '2016-04-01'
 #! @input instance_id: ID of the server (instance) to be used to create image for
 #! @input name: A name for the new image
-#! @input description: optional - A description for the new image.
-#! @input no_reboot: optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
+#! @input description: Optional - A description for the new image.
+#! @input no_reboot: Optional - By default, Amazon EC2 attempts to shut down and reboot the instance before creating
 #!                   the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance
 #!                   before creating the image. When this option is used, file system integrity on the created
 #!                   image can't be guaranteed
 #!                   Default: 'true'
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the image was successfully created
-#! @result FAILURE: an error occurred when trying to create image
+#! @result SUCCESS: The image was successfully created
+#! @result FAILURE: An error occurred when trying to create image
 #!!#
 ########################################################################################################################
 
@@ -96,7 +96,7 @@ operation:
        required: false
        private: true
     - version:
-       default: "2016-04-01"
+       default: '2016-04-01'
        required: false
     - instance_id
     - instanceId:

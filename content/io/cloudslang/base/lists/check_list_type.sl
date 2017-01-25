@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,15 @@
 #!!
 #! @description: Check if the list contains ints or strings.
 #!
-#! @input list: list to check - e.g. "el1,el2"
-#! @input delimiter: the list delimiter
+#! @input list: List to check.
+#!              Example: "el1,el2"
+#! @input delimiter: The list delimiter.
 #!
-#! @output result: message indicating whether the list contains int or string elements
-#! @output error_message: list contains int and strings
+#! @output result: Message indicating whether the list contains int or string elements.
+#! @output error_message: List contains int and strings.
 #!
-#! @result SUCCESS: all elements in the list are ints or strings.
-#! @result FAILURE: list contains both ints and string elements.
+#! @result SUCCESS: All elements in the list are ints or strings.
+#! @result FAILURE: List contains both ints and string elements.
 #!!#
 ########################################################################################################################
 

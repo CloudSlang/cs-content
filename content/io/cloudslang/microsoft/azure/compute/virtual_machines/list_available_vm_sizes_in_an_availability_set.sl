@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,50 +12,38 @@
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2015-06-15'
 #! @input availability_set_name: virtual machine name
-#! @input auth_type: optional - authentication type
-#!                   Default: "anonymous"
 #! @input auth_token: Azure authorization Bearer token
-#! @input content_type: optional - content type that should be set in the request header, representing the MIME-type
-#!                      of the data in the message body
-#!                      Default: "application/json; charset=utf-8"
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
-#!                        that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty,
-#!                        trustPassword default will be supplied.
-#!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
-#!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
-#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trust_all_roots is false and keystore
-#!                           is empty, keystore_password default will be supplied.
-#!                           Default value: ''
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: optional - specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate
+#! @input vm_name: The name of the virtual machine to be created.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input location: A supported Azure region
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input use_cookies: optional - specifies whether to enable cookie tracking or not - Default: true
-#! @input keep_alive: optional - specifies whether to create a shared connection that will be used in subsequent calls
-#!                    Default: true
-#! @input request_character_set: optional - character encoding to be used for the HTTP request - Default: 'UTF-8'
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: the list of all available virtual machine sizes that can be used to create a new virtual machine
+#! @output output: The list of all available virtual machine sizes that can be used to create a new virtual machine
 #!                 in an existing availability set
 #! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
 #! @output error_message: If no available virtual machine size that can be used is found the error message will be
 #!                        populated with a response, empty otherwise
 #!
-#! @result SUCCESS: the list of all available virtual machine sizes that can be used to create a new virtual machine
+#! @result SUCCESS: The list of all available virtual machine sizes that can be used to create a new virtual machine
 #!                  in an existing availability set
 #! @result FAILURE: There was an error while trying to retrieve the list of all available virtual machine sizes that can
 #!                  be used to create a new virtual machine in an existing availability set
@@ -79,17 +67,11 @@ flow:
     - api_version:
         required: false
         default: '2015-06-15'
-    - auth_type:
-        default: "anonymous"
-        required: false
-    - content_type:
-        default: 'application/json'
-        required: false
     - proxy_host:
         required: false
     - proxy_port:
+        default: "8080"
         required: false
-        default: '8080'
     - proxy_username:
         required: false
     - proxy_password:
@@ -103,36 +85,23 @@ flow:
         required: false
     - trust_keystore:
         required: false
-        default: ''
     - trust_password:
-        default: ''
+        required: false
         sensitive: true
-        required: false
-    - keystore:
-        required: false
-        default: ''
-    - keystore_password:
-        default: ''
-        sensitive: true
-        required: false
-    - use_cookies:
-        default: "true"
-        required: false
-    - keep_alive:
-        default: "true"
-        required: false
-    - request_character_set:
-        default: "UTF-8"
-        required: false
 
   workflow:
     - list_available_vm_sizes_in_an_availability_set:
         do:
           http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name + '/vmSizes?api-version=' + api_version}
+            - url: >
+                ${'https://management.azure.com/subscriptions/' + subscription_id +
+                '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
+                '/vmSizes?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type
-            - content_type
+            - auth_type: 'anonymous'
+            - preemptive_auth: 'true'
+            - content_type: 'application/json'
+            - request_character_set: 'UTF-8'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -141,11 +110,6 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
-            - keystore
-            - keystore_password
-            - use_cookies
-            - keep_alive
-            - request_character_set
         publish:
           - output: ${return_result}
           - status_code
