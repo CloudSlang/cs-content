@@ -5,17 +5,19 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Perform a SSH command to add a specified user named <user_name> on machines that are running Ubuntu based linux
+#!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input user_name: the name of the user to verify if exist
-#! @input user_password: the password to be set for the <user_name>
+#! @input root_password: The root password
+#! @input user_name: The name of the user to verify if exist
+#! @input user_password: The password to be set for the <user_name>
 #! @input group_name: Optional - the group name where the <user_name> will be added - Default: ''
 #! @input create_home: Optional - if True then a <user_name> folder with be created in <home_path> path
 #!                     if False then no folder will be created - Default: True
 #! @input home_path: Optional - the path of the home folder - Default: '/home'
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -26,10 +28,12 @@
 #!                              (more exactly, just before the channel is closed).
 #!                              Examples: 0 for a successful command, -1 if the command was not yet terminated (or this
 #!                              channel type has no command), 126 if the command cannot execute.
+#!
 #! @result SUCCESS: add user SSH command was successfully executed
 #! @result FAILURE: otherwise
 #!!#
-####################################################
+########################################################################################################################
+
 namespace: io.cloudslang.base.os.linux.users
 
 imports:
@@ -90,6 +94,7 @@ flow:
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE
+
   outputs:
     - return_result
     - standard_err

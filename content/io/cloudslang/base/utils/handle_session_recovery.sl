@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,21 +10,22 @@
 #! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
 #!               and in such case checks whether the ssh session failed with a certain pattern.
 #!
-#! @input enabled: Optional - whether session recovery is enabled - Default: true
-#! @input retries: limit of reconnect tries
-#! @input return_result: from SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
-#!                       exception
-#! @input return_code: from SSH: '0' if SSH session , different than '0' otherwise
-#! @input exit_status: from SSH: return code of the remote command
+#! @input enabled: Optional - Whether session recovery is enabled.
+#!                 Default: 'true'
+#! @input retries: Limit of reconnect tries.
+#! @input return_result: From SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
+#!                       exception.
+#! @input return_code: From SSH: '0' if SSH session , different than '0' otherwise.
+#! @input exit_status: From SSH: Return code of the remote command.
 #!
-#! @output updated_retries: updated input value (decreased by 1)
+#! @output updated_retries: Updated input value (decreased by 1).
 #!
-#! @result RECOVERY_DISABLED: session recovery is disabled
-#! @result TIMEOUT: no more retries are available
-#! @result SESSION_IS_DOWN: session failure pattern detected
-#! @result FAILURE_WITH_NO_MESSAGE: session failure pattern detected
-#! @result CUSTOM_FAILURE: general accumulator for new types of patterns (see subflow)
-#! @result NO_ISSUE_FOUND: no session failure pattern was detected
+#! @result RECOVERY_DISABLED: Session recovery is disabled.
+#! @result TIMEOUT: No more retries are available.
+#! @result SESSION_IS_DOWN: Session failure pattern detected.
+#! @result FAILURE_WITH_NO_MESSAGE: Session failure pattern detected.
+#! @result CUSTOM_FAILURE: General accumulator for new types of patterns (see subflow).
+#! @result NO_ISSUE_FOUND: No session failure pattern was detected.
 #!!#
 ########################################################################################################################
 
@@ -37,6 +38,7 @@ imports:
 
 flow:
   name: handle_session_recovery
+
   inputs:
     - enabled: "True"
     - retries

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,18 +7,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: returns the length of the list
+#! @description: Returns the length of the list
 #!
-#! @input list: list which we want to get the length of - Example: 1,2,3,4,5
-#! @input delimiter: list delimiter - Example: ','
-#!                   default: ','
+#! @input list: List which we want to get the length of.
+#!              Example: 1,2,3,4,5
+#! @input delimiter: List delimiter
+#!                   Example: ','
+#!                   Default: ','
 #!
-#! @output response: 'success' or 'failure'
-#! @output return_result: length of the list or an error message otherwise
+#! @output response: 'Success' or 'failure'
+#! @output return_result: Length of the list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: string list length was returned
-#! @result FAILURE: otherwise
+#! @result SUCCESS: String list length was returned
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

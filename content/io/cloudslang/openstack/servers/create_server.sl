@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,21 +9,22 @@
 #!!
 #! @description: Creates an OpenStack server.
 #!
-#! @input host: OpenStack machine host
-#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
-#! @input token: OpenStack token obtained after authentication
-#! @input tenant_id: OpenStack tenantID obtained after authentication
-#! @input server_name: server name
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
-#! @input img_ref: image reference for server to be created
-#! @input network_id: optional - ID of network to connect to
+#! @input host: OpenStack machine host.
+#! @input compute_port: Optional - Port used for OpenStack computations.
+#!                      Default: '8774'
+#! @input token: OpenStack token obtained after authentication.
+#! @input tenant_id: OpenStack tenantID obtained after authentication.
+#! @input server_name: Server name.
+#! @input proxy_host: Optional - Proxy server used to access web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input img_ref: Image reference for server to be created.
+#! @input network_id: Optional - ID of network to connect to.
 #!
-#! @output return_result: response of the operation
-#! @output status_code: normal status code is 202
-#! @output error_message: returnResult if statusCode != '202'
+#! @output return_result: Response of the operation.
+#! @output status_code: Normal status code is '202'.
+#! @output error_message: return_result if status_code != '202'.
 #!
-#! @result SUCCESS: operation succeeded (statusCode == '202')
+#! @result SUCCESS: operation succeeded (status_code == '202').
 #! @result FAILURE: otherwise
 #!!#
 ########################################################################################################################

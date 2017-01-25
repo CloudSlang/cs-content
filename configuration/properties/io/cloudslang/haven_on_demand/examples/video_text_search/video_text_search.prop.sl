@@ -1,11 +1,11 @@
-# (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 # System properties for Haven OnDemand video text search example.
 #
 # api_key: Haven OnDemand eDiscovery user api key
@@ -16,7 +16,7 @@
 # from: sender email address
 # to: recipient email address
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.haven_on_demand.examples.video_text_search
 

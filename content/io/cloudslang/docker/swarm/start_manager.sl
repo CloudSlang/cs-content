@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,20 +11,20 @@
 #!
 #! @input swarm_port: port of the host used by the Swarm manager
 #! @input cluster_id: ID of the Swarm cluster
-#! @input swarm_image: optional - Docker image the Swarm agent container is created from - Default: swarm (latest)
+#! @input swarm_image: Optional - Docker image the Swarm agent container is created from - Default: swarm (latest)
 #! @input host: Docker machine host
-#! @input port: optional - SSH port
+#! @input port: Optional - SSH port
 #! @input username: Docker machine username
-#! @input password: optional - Docker machine password
-#! @input private_key_file: optional - path to private key file
-#! @input character_set: optional - character encoding used for input stream encoding from target machine
+#! @input password: Optional - Docker machine password
+#! @input private_key_file: Optional - path to private key file
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: SJIS, EUC-JP, UTF-8
-#! @input pty: optional - whether to use PTY - Valid: true, false
-#! @input timeout: optional - time in milliseconds to wait for the command to complete
-#! @input close_session: optional - if false SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY - Valid: true, false
+#! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - if false SSH session will be cached for future calls during the life of the flow,
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
-#! @input agent_forwarding: optional - whether to forward the user authentication agent
+#! @input agent_forwarding: Optional - whether to forward the user authentication agent
 #!
 #! @output manager_container_id: ID of the created manager container
 #!

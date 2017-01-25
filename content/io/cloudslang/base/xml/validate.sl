@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -18,10 +18,10 @@
 #! @input xsd_document_source: xsd document type
 #!                             Default value: 'xsdString'
 #!                             Accepted values: 'xsdString', 'xsdPath', 'xsdUrl'
-#! @input username: optional - username used for URL authentication; for NTLM authentication, the required format is
+#! @input username: Optional - username used for URL authentication; for NTLM authentication, the required format is
 #!                  'domain\user'
-#! @input password: optional - password used for URL authentication
-#! @input trust_all_roots: optional - specifies whether to enable weak security over SSL - Default: false
+#! @input password: Optional - password used for URL authentication
+#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones
@@ -39,27 +39,28 @@
 #!                                 possible Man-In-The-Middle attacks, we strongly recommend to use "strict" option.
 #!                                Valid values are 'strict', 'browser_compatible', 'allow_all'.
 #!                                Default value is 'strict'.
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - user name used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_keystore: optional - the pathname of the Java TrustStore file. This contains certificates from other parties
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - user name used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from other parties
 #!                        that you expect to communicate with, or from Certificate Authorities that you trust to
 #!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
 #!                        trustAllRoots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: optional - the password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty,
-#!                        trustPassword default will be supplied.
+#! @input trust_password: Optional - the password associated with the TrustStore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default value: ''
-#! @input keystore: optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
+#! @input keystore: Optional - the pathname of the Java KeyStore file. You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is 'true' this input is ignored.
 #!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
+#! @input keystore_password: Optional - the password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied.
 #!                           Default value: ''
-#! @input secure_processing: optional -  sets the secure processing feature
+#! @input secure_processing: Optional -  sets the secure processing feature
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
@@ -69,9 +70,9 @@
 #!                           Default value: 'true'
 #!                           Accepted values: 'true' or 'false'
 #!
-#! @output return_result: parsing was successfull or valid xml
+#! @output return_result: Parsing was successful or valid xml
 #! @output return_code: 0 if success, -1 if failure
-#! @output error_message: exception in case of failure
+#! @output error_message: Exception in case of failure
 #!
 #! @result SUCCESS: XML is well-formed and is valid based on XSD if given
 #! @result FAILURE: XML is not well-formed or is not valid based on given XSD

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,15 +10,16 @@
 #! @description: Retrieves a list of servers on an OpenStack machine.
 #!
 #! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication
+#! @input identity_port: Optional - port used for OpenStack authentication
 #!                       Default: 5000
-#! @input compute_port: optional - port used for OpenStack computations
+#! @input compute_port: Optional - port used for OpenStack computations
 #!                      Default: 8774
 #! @input username: OpenStack username
 #! @input password: OpenStack password
 #! @input tenant_name: name of project on OpenStack
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #!
 #! @output server_list: list of server names
 #! @output return_result: response of last operation executed

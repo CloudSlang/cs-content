@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,16 +9,18 @@
 #!!
 #! @description: Test if two JSONs are equal.
 #!
-#! @input json_input1: first JSON input - Example: '{"k1":"v1", "k2": "v2"}'
-#! @input json_input2: second JSON input - Example: '{"k2":"v2", "k1": "v1"}'
+#! @input json_input1: First JSON input.
+#!                     Example: '{"k1":"v1", "k2": "v2"}'
+#! @input json_input2: Second JSON input.
+#!                     Example: '{"k2":"v2", "k1": "v1"}'
 #!
-#! @output return_result: parsing was successful or not
-#! @output return_code: "0" if parsing was successful, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: Parsing was successful or not.
+#! @output return_code: "0" if parsing was successful, "-1" otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result EQUALS: two JSONs are equal
-#! @result NOT_EQUALS: two JSONs are not equal
-#! @result FAILURE: parsing was unsuccessful (return_code != '0')
+#! @result EQUALS: Two JSONs are equal.
+#! @result NOT_EQUALS: Two JSONs are not equal.
+#! @result FAILURE: Parsing was unsuccessful (return_code != '0').
 #!!#
 ########################################################################################################################
 
@@ -26,6 +28,7 @@ namespace: io.cloudslang.base.json
 
 operation:
   name: equals
+
   inputs:
     - json_input1
     - json_input2

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,7 +10,7 @@
 #! @description: Retrieves a list of all the Docker container names.
 #!
 #! @input container_id: container id
-#! @input containers_with_process: the string where the container id will be appended
+#! @input containers_with_process: The string where the container id will be appended
 #!                                 Default: ''
 #! @input host: Docker machine host
 #! @input port: Optional - SSH port

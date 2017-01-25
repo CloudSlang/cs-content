@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,17 +7,17 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Parses a JSON input and retrieves a list of usernames.
+#! @description: Parses a JSON input and retrieves a list of user names.
 #!
-#! @input json_input: response of get_users flow
+#! @input json_input: Response of get_users flow.
 #!
-#! @output return_result: was parsing was successful or not
-#! @output error_message: return_result if there was an error
-#! @output return_code: '0' if parsing was successful, '-1' otherwise
-#! @output usernames_list: list with all usernames
+#! @output return_result: The parsing was successful or not.
+#! @output error_message: An error message in case there was an error or return_code is different than '0'
+#! @output return_code: '0' if parsing was successful, '-1' otherwise.
+#! @output usernames_list: List with all user names.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

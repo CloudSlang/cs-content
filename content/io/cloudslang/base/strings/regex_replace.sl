@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,14 @@
 #!!
 #! @description: Replaces a string in another string by a Python regex expression.
 #!
-#! @input regex: Python regex expresssion - "f\\w*r"
-#! @input text: Optional - string to replace in
-#! @input replacement: Optional - replacement string
+#! @input regex: Python regex expression.
+#!               Example: "f\\w*r"
+#! @input text: Optional - String to replace in.
+#! @input replacement: Optional - Replacement string.
 #!
-#! @output result_text: string after replacement
+#! @output result_text: String after replacement.
 #!
-#! @result SUCCESS: always
+#! @result SUCCESS: Always.
 #!!#
 ########################################################################################################################
 

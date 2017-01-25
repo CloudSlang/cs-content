@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -20,28 +20,28 @@
 #!               instance and attach it to a Linux instance. For more information about EBS volumes, see Attaching Amazon
 #!               EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
 #!
-#! @input endpoint: optional - Endpoint to which the request will be sent.
+#! @input endpoint: Optional - Endpoint to which the request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #!                  Default: ''
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #!                    Default: ''
-#! @input proxy_host: optional - Proxy server used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services
 #!                    Default: ''
-#! @input proxy_port: optional - Proxy server port used to access the provider services.
+#! @input proxy_port: Optional - Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - proxy server user name.
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - string containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - string containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#! @input version: version of the web service to make the call against it.
+#! @input version: Version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: ""
 #! @input volume_id: ID of the EBS volume. The volume and instance must be within the same Availability Zone
@@ -53,8 +53,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the list with existing regions was successfully retrieved
-#! @result FAILURE: an error occurred when trying to retrieve the regions list
+#! @result SUCCESS: The list with existing regions was successfully retrieved
+#! @result FAILURE: An error occurred when trying to retrieve the regions list
 #!!#
 ########################################################################################################################
 

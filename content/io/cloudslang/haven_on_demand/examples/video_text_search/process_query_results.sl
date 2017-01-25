@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -15,7 +15,7 @@
 #! @output built_results: HTML text containing query results with links
 #!
 #! @result SUCCESS: query result processed successfully
-#! @result FAILURE: there was an error while trying to process the query result
+#! @result FAILURE: There was an error while trying to process the query result
 #!!#
 ########################################################################################################################
 

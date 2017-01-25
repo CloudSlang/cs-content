@@ -1,18 +1,18 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#######################################################################################################################
+########################################################################################################################
 #!!
 #! @description: This operation performs a XSL Transformation to transform a XML document into HTML.
 #!
 #! @input xml_document: Optional - the location of the XML document to transform. Can be a local file path, an HTTP URL,
 #!                      or the actual xml to transform, as string. This is Optional as some stylesheets do not need
 #!                      an XML document and can create output based on runtime parameters.
-#! @input xsl_template: the location of the XSL stylesheet to use. Can be a local file path,
+#! @input xsl_template: The location of the XSL stylesheet to use. Can be a local file path,
 #!                       an HTTP URL or the actual template as string.
 #! @input output_file: Optional - the local file to write the output of the transformation. If an output file is not
 #!                     specified the output of the transformation will be returned as returnResult.
@@ -36,14 +36,14 @@
 #!                          http://xml.org/sax/features/external-general-entities false
 #!                          http://xml.org/sax/features/external-parameter-entities false'
 #!
-#! @output return_result: the output of the transformation, if no output file is specified.
+#! @output return_result: The output of the transformation, if no output file is specified.
 #! @output return_code: 0 if success, -1 if failure
 #! @output exception: exception in case of failure, empty otherwise
 #!
 #! @result SUCCESS: XSL transformation applied successfully
-#! @result FAILURE: there was an error while trying to apply the XSL transformation to the XML string or file
+#! @result FAILURE: There was an error while trying to apply the XSL transformation to the XML string or file
 #!!#
-#######################################################################################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.xml
 
@@ -52,8 +52,8 @@ operation:
 
   inputs:
     - xml_document:
-        required: false
         default: ''
+        required: false
     - xmlDocument:
         default: ${get("xml_document", "")}
         required: false
@@ -64,18 +64,18 @@ operation:
         required: false
         private: true
     - output_file:
-        required: false
         default: ''
+        required: false
     - outputFile:
         default: ${get("output_file", "")}
         required: false
         private: true
     - parsing_features:
-        required: false
         default: |
             http://apache.org/xml/features/disallow-doctype-decl true
             http://xml.org/sax/features/external-general-entities false
             http://xml.org/sax/features/external-parameter-entities false
+        required: false
     - parsingFeatures:
         default: ${get("parsing_features", "")}
         required: false

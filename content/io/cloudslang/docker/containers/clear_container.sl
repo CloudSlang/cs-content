@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -21,7 +21,7 @@
 #! @output error_message: error message of the operation that failed
 #!
 #! @result SUCCESS: Docker container deleted successfully
-#! @result FAILURE: there was an error while trying to delete the Docker container
+#! @result FAILURE: There was an error while trying to delete the Docker container
 #!!#
 ########################################################################################################################
 

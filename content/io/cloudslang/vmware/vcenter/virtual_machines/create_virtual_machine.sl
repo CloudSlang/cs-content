@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -47,19 +47,19 @@
 #! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
 #!                     be obtained by running utils/get_os_descriptors operation
 #!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
-#! @input folder_name: optional - name of the folder where the virtual machine will be created.
+#! @input folder_name: Optional - name of the folder where the virtual machine will be created.
 #!                     If not provided then the top parent folder will be used
 #!                     default: ''
-#! @input resource_pool: optional - the resource pool for the cloned virtual machine.
+#! @input resource_pool: Optional - the resource pool for the cloned virtual machine.
 #!                       If not provided then the parent resource pool will be used
 #!                       default: ''
-#! @input description: optional - description of virtual machine that will be created
+#! @input description: Optional - description of virtual machine that will be created
 #!                     default: ''
-#! @input num_cpus: optional - number that indicates how many processors the newly created virtual machine will have
+#! @input num_cpus: Optional - number that indicates how many processors the newly created virtual machine will have
 #!                  default: '1'
-#! @input vm_disk_size: optional - disk capacity (in Mb) attached to virtual machine that will be created
+#! @input vm_disk_size: Optional - disk capacity (in Mb) attached to virtual machine that will be created
 #!                      default: '1024'
-#! @input vm_memory_size: optional - amount of memory (in Mb) attached to virtual machine that will be created
+#! @input vm_memory_size: Optional - amount of memory (in Mb) attached to virtual machine that will be created
 #!                        default: '1024'
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
@@ -67,7 +67,7 @@
 #! @output error_message: error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: an error occurred when trying to create a new virtual machine
+#! @result FAILURE: An error occurred when trying to create a new virtual machine
 #!!#
 ########################################################################################################################
 

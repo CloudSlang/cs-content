@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,41 +9,41 @@
 #!!
 #! @description: Sends an email.
 #!
-#! @input hostname: email host
-#! @input port: email port
-#! @input from: email sender
-#! @input to: email recipient
-#! @input cc: Optional - comma-delimited list of cc recipients
-#!            Default: none
-#! @input bcc: Optional - comma-delimited list of bcc recipients
-#!             Default: none
-#! @input subject: email subject
-#! @input body: email text
+#! @input hostname: Email host.
+#! @input port: Email port.
+#! @input from: Email sender.
+#! @input to: Email recipient.
+#! @input cc: Optional - Comma-delimited list of cc recipients.
+#!            Default: ''
+#! @input bcc: Optional - Comma-delimited list of bcc recipients.
+#!             Default: ''
+#! @input subject: Email subject.
+#! @input body: Email text.
 #! @input html_email: Optional
-#!                   Default: true
+#!                    Default: 'true'
 #! @input read_receipt: Optional
-#!                      Default: false
+#!                      Default: 'false'
 #! @input attachments: Optional
-#!                    Default: none
+#!                     Default: ''
 #! @input username: Optional
-#!                  Default: none
+#!                  Default: ''
 #! @input password: Optional
-#!                  Default: none
+#!                  Default: ''
 #! @input character_set: Optional
-#!                       Default: UTF-8
+#!                       Default: 'UTF-8'
 #! @input content_transfer_encoding: Optional
-#!                                   Default: base64
+#!                                   Default: 'base64'
 #! @input delimiter: Optional
-#!                   Default: none
-#! @input enable_TLS: Optional - enable startTLS
-#!                    Default : false
+#!                   Default: ''
+#! @input enable_TLS: Optional - Enable startTLS
+#!                    Default: 'false'
 #!
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output return_result: success or exception message
-#! @output exception: possible exception details
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output return_result: Success or exception message.
+#! @output exception: Possible exception details.
 #!
-#! @result SUCCESS: succeeds if mail was sent successfully (returnCode is equal to 0)
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Succeeds if mail was sent successfully (returnCode is equal to 0).
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

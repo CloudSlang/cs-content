@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,14 @@
 #!!
 #! @description: Tests whether a Python regex expression matches a string.
 #!
-#! @input regex: Python regex expresssion - Example: "f\\w*r"
-#! @input text: Optional - string to match
+#! @input regex: Python regex expression.
+#!               Example: "f\\w*r"
+#! @input text: Optional - String to match.
 #!
-#! @output match_text: matched text
+#! @output match_text: Matched text.
 #!
-#! @result MATCH: a match was found
-#! @result NO_MATCH: no match found
+#! @result MATCH: A match was found.
+#! @result NO_MATCH: No match found.
 #!!#
 ########################################################################################################################
 
@@ -23,6 +24,7 @@ namespace: io.cloudslang.base.strings
 
 operation:
   name: match_regex
+
   inputs:
     - regex
     - text:

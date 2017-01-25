@@ -10,10 +10,10 @@
 #! @description: Perform a SSH command to download content in <download_path> from a URL address given by <download_url>
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input download_url: the URL address where the content to be downloaded is
+#! @input root_password: The root password
+#! @input download_url: The URL address where the content to be downloaded is
 #!                      Example: 'http://www.website.com/some_content.doc'
-#! @input download_path: optional - the absolute path under the content will be downloaded - Default: '/root'
+#! @input download_path: Optional - the absolute path under the content will be downloaded - Default: '/root'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,30 +9,34 @@
 #! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different
 #!               remote machine using the SCP protocol.
 #!
-#! @input source_host: optional - host of the source machine (only if remote to remote)
-#! @input source_path: absolute or relative path of the file about to be copied
-#! @input source_port: optional - port number for the source machine (only if remote to remote) - Default: '22'
-#! @input source_username: optional - username of the source machine (only if remote to remote)
-#! @input source_password: optional -  password of the source machine (only if remote to remote)
-#! @input source_private_key_file: optional - path to the private key file on the source machine
+#! @input source_host: Optional - Host of the source machine (only if remote to remote).
+#! @input source_path: Absolute or relative path of the file about to be copied.
+#! @input source_port: Optional - Port number for the source machine (only if remote to remote).
+#!                     Default: '22'
+#! @input source_username: Optional - Username of the source machine (only if remote to remote).
+#! @input source_password: Optional - Password of the source machine (only if remote to remote).
+#! @input source_private_key_file: Optional - Path to the private key file on the source machine.
 #!                                 (only if remote to remote)
-#! @input destination_host: host of the destination machine
-#! @input destination_path: absolute or relative path where the file will be copied
-#! @input destination_port: optional - port number for the destination machine - Default: '22'
-#! @input destination_username: username of the destination machine
-#! @input destination_password: optional - password of the destination machine
-#! @input destination_private_key_file: optional - path to the private key file on the destination machine
-#! @input known_hosts_policy: optional - policy used for managing known_hosts file - Valid: 'allow', 'strict', 'add'
+#! @input destination_host: Host of the destination machine.
+#! @input destination_path: Absolute or relative path where the file will be copied.
+#! @input destination_port: Optional - port number for the destination machine.
+#!                          Default: '22'
+#! @input destination_username: Username of the destination machine.
+#! @input destination_password: Optional - Password of the destination machine.
+#! @input destination_private_key_file: Optional - path to the private key file on the destination machine.
+#! @input known_hosts_policy: Optional - Policy used for managing known_hosts file.
+#!                            Valid: 'allow', 'strict', 'add'
 #!                            Default: 'allow'
-#! @input known_hosts_path: path to the known_hosts file
-#! @input timeout: optional - time in milliseconds to wait for the command to complete - Default: 90000 ms
+#! @input known_hosts_path: Path to the known_hosts file.
+#! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
+#!                 Default: '90000'
 #!
-#! @output return_result: confirmation message
-#! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise
-#! @output exception: exception description
+#! @output return_result: Confirmation message.
+#! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise.
+#! @output exception: Exception description.
 #!
-#! @result SUCCESS: file copied successfully
-#! @result FAILURE: copy failed
+#! @result SUCCESS: File copied successfully.
+#! @result FAILURE: Copy failed.
 #!!#
 ########################################################################################################################
 

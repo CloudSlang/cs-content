@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,16 @@
 #!!
 #! @description: Checks if one percentage is less than another.
 #!
-#! @input first_percentage: string which represents a percentage - Example: "50%"
-#! @input second_percentage: string which represents a percentage - Example: "50%"
+#! @input first_percentage: String which represents a percentage
+#!                          Example: "50%"
+#! @input second_percentage: String which represents a percentage
+#!                           Example: "50%"
 #!
-#! @output error_message: error message if error occurred
+#! @output error_message: Error message if error occurred
 #!
-#! @result LESS: first_percentage < second_percentage
-#! @result MORE: first_percentage >= second_percentage
-#! @result FAILURE: input was not in correct format
+#! @result LESS: First_percentage < Second_percentage
+#! @result MORE: First_percentage >= Second_percentage
+#! @result FAILURE: Input was not in correct format
 #!!#
 ########################################################################################################################
 
@@ -24,6 +26,7 @@ namespace: io.cloudslang.base.comparisons
 
 operation:
   name: less_than_percentage
+
   inputs:
     - first_percentage
     - second_percentage

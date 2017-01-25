@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,14 +11,15 @@
 #!
 #! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input key: Azure account key
-#! @input proxy_host: optional - proxy server used to access the web site
-#! @input proxy_port: optional - proxy server port - Default: '8080'
-#! @input proxy_username: optional - username used when connecting to the proxy
-#! @input proxy_password: optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - username used when connecting to the proxy
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #!
 #! @output output: a list of container names separated by ','
 #! @output return_code: 0 if request completed successfully, -1 in case something went wrong
-#! @output exception: the stacktrace of the operation in case something went wrong
+#! @output exception: The stacktrace of the operation in case something went wrong
 #!
 #! @result SUCCESS: The list of the containers under the specified account retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the list of containers under the specified account

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,11 +9,12 @@
 #!!
 #! @description: Gets keys from a map.
 #!
-#! @input map: map - Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
+#! @input map: Map.
+#!             Example: {'laptop': 1000, 'docking station':200, 'monitor': 500, 'phone': 100}
 #!
-#! @output result: keys from map
+#! @output result: Keys from map.
 #!
-#! @result SUCCESS: keys retrieved successfully
+#! @result SUCCESS: Keys retrieved successfully.
 #!!#
 ########################################################################################################################
 
