@@ -1,0 +1,11 @@
+
+testAddDomainsApp:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_name_or_id: <app_name_or_id>
+    - hostname: <hostname>
+  description: Test that create a domain in an application
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.domains.test_create_app_domain
+  result: SUCCESS

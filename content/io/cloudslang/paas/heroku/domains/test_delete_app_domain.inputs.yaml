@@ -1,0 +1,12 @@
+
+
+testdeleteDomainsApp:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - app_name_or_id: <app_name_or_id>
+    - domain_hostname_or_id: <domain_hostname_or_id>
+  description: Test that delete a hostname in an application
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.domains.test_delete_app_domain
+  result: SUCCESS

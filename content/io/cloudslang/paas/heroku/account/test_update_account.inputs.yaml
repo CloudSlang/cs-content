@@ -1,0 +1,12 @@
+
+
+testUpdateAccount:
+  inputs:
+    - username: <username>
+    - password: <password>
+    - allow_tracking: "true"
+    - name: <name>
+  description: Test that change the account name
+  testSuites: [heroku]
+  testFlowPath: io.cloudslang.paas.heroku.account.test_update_account
+  result: SUCCESS
