@@ -19,7 +19,7 @@
 #!                    Default: '8080'
 #!
 #! @output return_result: Path to the file that was downloaded.
-#! @output return_code: 0 if command runs with success, -1 in case of failure
+#! @output return_code: 0 if command runs with success, -1 in case of failure.
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
@@ -51,10 +51,8 @@ operation:
     script: |
       import urllib2
       import os
-      print cwd
       if cwd == '':
         cwd = os.getcwd()
-      print cwd
       try:
         if not proxy_host == '':
           proxy = urllib2.ProxyHandler({proxy_type:proxy_type + "://" + proxy_host + ":" + proxy_port})

@@ -13,7 +13,7 @@
 #! @input param: Parameter to extract.
 #!
 #! @output return_result: Decoded URL string.
-#! @output return_code: 0 if command runs with success, -1 in case of failure
+#! @output return_code: 0 if command runs with success, -1 in case of failure.
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
@@ -45,6 +45,9 @@ operation:
           if len(query_param) > 0:
             return_result = str(query_param[0])
             return_code = 0
+        elif param == '':
+          return_result = str(urllib.unquote(url).decode('utf8'))
+          return_code = 0
         else:
           return_result = '"' + param + '" is not present or does not have any value in the url' + "'" + 's query params : "' + url + '"'
           return_code = -1
