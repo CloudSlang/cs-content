@@ -20,7 +20,7 @@ testUrlDecoderWithParam:
   inputs:
     - url: 'http://www.example.com/scan/?url=http%3A%2F%2Fus.versus.them.com%2FWindows%2FLinux&unique_id=something'
     - param: 'url'
-  description: "Tests that url_decoder.sl operation finishes with SUCCESS and replaces spaces with '+' characters."
+  description: "Tests that url_decoder.sl operation finishes with SUCCESS when param is provided"
   testFlowPath: io.cloudslang.base.http.url_decoder
   outputs:
     - return_result: "http://us.versus.them.com/Windows/Linux"
@@ -31,7 +31,7 @@ testUrlDecoderWrongParam:
   inputs:
     - url: "http://www.example.com/scan/?url=http%3A%2F%2Fus.versus.them.com%2FWindows%2FLinux&unique_id=something"
     - param: 'url123'
-  description: "Tests that url_decoder.sl operation finishes with SUCCESS"
+  description: "Tests that url_decoder.sl operation finishes with FAILURE when wrong param is provided"
   testFlowPath: io.cloudslang.base.http.url_decoder
   outputs:
     - return_code: '-1'
