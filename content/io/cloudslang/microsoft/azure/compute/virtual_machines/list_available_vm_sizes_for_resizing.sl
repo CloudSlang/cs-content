@@ -10,7 +10,9 @@
 #! @description: Performs an HTTP request to retrieve a list of all available virtual machine sizes it can be resized to.
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve the VM list.
 #! @input api_version: The API version used to create calls to Azure.
+#!                     Default: '2016-03-30'
 #! @input auth_token: Azure authorization Bearer token.
 #! @input vm_name: The name of the virtual machine to be created.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
@@ -55,11 +57,12 @@ flow:
 
   inputs:
     - subscription_id
+    - resource_group_name
     - auth_token
     - vm_name
     - api_version:
         required: false
-        default: '2015-06-15'
+        default: '2016-03-30'
     - proxy_host:
         required: false
     - proxy_port:
@@ -88,7 +91,8 @@ flow:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id +
-                '/providers/Microsoft.Compute/virtualMachines/' + vm_name + '/vmSizes?api-version=' + api_version}
+                /resourceGroups/ + resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' +
+                vm_name + '/vmSizes?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
