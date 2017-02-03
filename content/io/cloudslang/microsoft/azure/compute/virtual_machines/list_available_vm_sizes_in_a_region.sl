@@ -14,8 +14,6 @@
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
 #! @input auth_token: Azure authorization Bearer token
-#! @input vm_name: The name of the virtual machine to be created.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input location: A supported Azure region
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
@@ -61,7 +59,6 @@ flow:
     - subscription_id
     - auth_token
     - location
-    - vm_name
     - api_version:
         required: false
         default: '2015-06-15'

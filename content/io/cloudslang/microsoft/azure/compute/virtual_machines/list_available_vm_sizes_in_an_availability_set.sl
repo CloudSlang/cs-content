@@ -15,9 +15,6 @@
 #!                     Default: '2015-06-15'
 #! @input availability_set_name: virtual machine name
 #! @input auth_token: Azure authorization Bearer token
-#! @input vm_name: The name of the virtual machine to be created.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: A supported Azure region
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
