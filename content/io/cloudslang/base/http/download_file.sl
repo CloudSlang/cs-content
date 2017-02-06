@@ -54,36 +54,46 @@ operation:
       if cwd == '':
         cwd = os.getcwd()
       try:
-        if not proxy_host == '':
-          proxy = urllib2.ProxyHandler({proxy_type:proxy_type + "://" + proxy_host + ":" + proxy_port})
-          opener = urllib2.build_opener(proxy)
-          urllib2.install_opener(opener)
-
         file_name =  url.split('/')[-1]
-        u = urllib2.urlopen(url)
+        if proxy_host:
+          proxy_handler = urllib2.ProxyHandler({proxy_type:proxy_type + "://" + proxy_host + ":" + proxy_port})
+        else:
+          proxy_handler = urllib2.ProxyHandler({})
+        opener = urllib2.build_opener(proxy_handler)
+        req = urllib2.Request(url)
+        r = opener.open(req)
+
         file_path = cwd + file_name
         f = open(file_path, 'wb')
-        print file_path
-        meta = u.info()
-        file_size = int(meta.getheaders("Content-Length")[0])
-        print "Downloading: %s Bytes: %s" % (file_path, file_size)
+        meta = r.info()
 
-        file_size_dl = 0
-        block_sz = 8192
-        while True:
-            buffer = u.read(block_sz)
-            if not buffer:
-                break
+        server = str(meta.getheaders("Server"))
+        # The server header cannot be empty or []
+        if len(server) > 2:
+          file_size = int(meta.getheaders("Content-Length")[0])
+          print "Downloading: %s Bytes: %s" % (file_path, file_size)
+          file_size_dl = 0
+          block_sz = 8192
+          while True:
+              buffer = r.read(block_sz)
+              if not buffer:
+                  break
 
-            file_size_dl += len(buffer)
-            f.write(buffer)
-            status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
-            status = status + chr(8)*(len(status)+1)
-            print status,
+              file_size_dl += len(buffer)
+              f.write(buffer)
+              status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+              status = status + chr(8)*(len(status)+1)
+              print status,
+          return_code = 0
+          return_result = file_path
+        else:
+          return_code = -1
+          return_result = "\nThere was an error while trying to download the file:\n" + \
+                          "1. Please check your proxy settings, then try again.\n" + \
+                          "2. The URL is not accessible."
 
         f.close()
-        return_code = 0
-        return_result = file_path
+
       except Exception as e:
         return_result = str(e)
         return_code = -1
