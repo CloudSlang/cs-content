@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be to retrieve all of the resource groups that are defined in the specified subscription
+#! @description: This operation can be used to retrieve all of the resource groups that are defined in the specified subscription
 #!
 #! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of all resource groups.
 #! @input auth_token: Azure authorization Bearer token
