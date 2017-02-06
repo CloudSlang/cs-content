@@ -7,20 +7,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all available virtual machine sizes that can be used to
-#!               create a new virtual machine in an existing availability set
+#! @description: This operation can be used to retrieve a list of all available virtual machine sizes that can be used to
+#!               create a new virtual machine in an existing availability set.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input api_version: The API version used to create calls to Azure
+#! @input subscription_id: The ID of the Azure Subscription from which the list of available vm sizes contained in the
+#!                         specified availability set can be retrieved.
+#! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
 #! @input availability_set_name: virtual machine name
 #! @input auth_token: Azure authorization Bearer token
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -35,15 +37,15 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
 #! @output output: The list of all available virtual machine sizes that can be used to create a new virtual machine
-#!                 in an existing availability set
+#!                 in an existing availability set.
 #! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
 #! @output error_message: If no available virtual machine size that can be used is found the error message will be
-#!                        populated with a response, empty otherwise
+#!                        populated with a response, empty otherwise.
 #!
 #! @result SUCCESS: The list of all available virtual machine sizes that can be used to create a new virtual machine
-#!                  in an existing availability set
+#!                  in an existing availability set.
 #! @result FAILURE: There was an error while trying to retrieve the list of all available virtual machine sizes that can
-#!                  be used to create a new virtual machine in an existing availability set
+#!                  be used to create a new virtual machine in an existing availability set.
 #!!#
 ########################################################################################################################
 

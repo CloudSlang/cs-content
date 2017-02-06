@@ -7,18 +7,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of the data center locations that are valid for the
+#! @description: This operation can be used to retrieve a list of datacenter locations that are valid for the
 #!               specified subscription.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: The ID of the Azure Subscription for which the locations will be retrieved.
 #! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2016-09-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Username used when connecting to the proxy
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
@@ -33,8 +33,8 @@
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of the data center locations that are valid for the specified subscription
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output output: The list of the data center locations that are valid for the specified subscription.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output error_message: If the subscription is  not found the error message will be populated with a response,
 #!                        empty otherwise.
 #!

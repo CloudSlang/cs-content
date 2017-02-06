@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a load balancer
+#! @description: This operation can be used to delete a load balancer
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure

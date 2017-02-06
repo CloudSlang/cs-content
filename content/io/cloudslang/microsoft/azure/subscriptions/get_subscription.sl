@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to return information about the subscription.
+#! @description: This operation can be used to return information about the subscription.
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input auth_token: Azure authorization Bearer token.
