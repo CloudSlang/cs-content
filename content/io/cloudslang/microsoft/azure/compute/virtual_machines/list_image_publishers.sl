@@ -34,12 +34,12 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all image publishers
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If no publisher is found the error message will be populated with a response, empty otherwise
+#! @output output: The list of all image publishers.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output error_message: If no publisher is found the error message will be populated with a response, empty otherwise.
 #!
-#! @result SUCCESS: The list of all image publishers retrieved successfully
-#! @result FAILURE: There was an error while trying to retrieve the list of all image publishers
+#! @result SUCCESS: The list of all image publishers retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of all image publishers.
 #!!#
 ########################################################################################################################
 
