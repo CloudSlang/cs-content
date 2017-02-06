@@ -9,8 +9,9 @@
 #!!
 #! @description: This operation can be used to retrieve a list of all available virtual machine sizes it can be resized to.
 #!
-#! @input subscription_id: The ID of the Azure Subscription from which the list of available virtual machine sized can
+#! @input subscription_id: The ID of the Azure Subscription from which the list of available virtual machine sizes can
 #!                         be retrieved.
+#! @input resource_group_name: The name of the Azure Resource Group from which to retrieve the available vm sizes.
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2016-03-30'
 #! @input auth_token: Azure authorization Bearer token.

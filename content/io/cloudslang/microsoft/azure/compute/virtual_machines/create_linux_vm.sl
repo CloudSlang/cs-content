@@ -50,12 +50,13 @@
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
