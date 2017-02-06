@@ -7,24 +7,25 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of public IP addresses within a resource group
+#! @description: This operation can be used to retrieve a List of public IP addresses within a resource group.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the public IP address list should be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription from which the public IP address list should be retrieved.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve
 #!                             the list of public IP addresses.
-#! @input auth_token: Azure authorization Bearer token
+#! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'

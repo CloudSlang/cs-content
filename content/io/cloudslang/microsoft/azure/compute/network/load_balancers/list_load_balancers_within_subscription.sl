@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of load balancers within a subscription
+#! @description: This operation can be used to retrieve a List of load balancers within a subscription
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure

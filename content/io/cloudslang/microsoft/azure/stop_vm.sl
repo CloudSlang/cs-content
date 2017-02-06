@@ -28,8 +28,10 @@
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -38,7 +40,6 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'

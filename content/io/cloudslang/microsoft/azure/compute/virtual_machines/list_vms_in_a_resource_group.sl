@@ -7,9 +7,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all the virtual machines in the specified resource group
+#! @description: This operation can be used to retrieve a list of all the virtual machines in the specified resource group.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM list should be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of available virtual machines
+#!                         within the resource group.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve the VM list.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
@@ -21,8 +22,10 @@
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -32,18 +35,17 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: The list of all virtual machines in the specified resource group
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If no VM is found the error message will be populated with a response, empty otherwise
+#! @output output: The list of all virtual machines in the specified resource group.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output error_message: If no VM is found the error message will be populated with a response, empty otherwise.
 #!
-#! @result SUCCESS: The list of all virtual machines in the specified resource group retrieved successfully
-#! @result FAILURE: There was an error while trying to retrieve the list of all VMs in the specified resource group
+#! @result SUCCESS: The list of all virtual machines in the specified resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of all VMs in the specified resource group.
 #!!#
 ########################################################################################################################
 

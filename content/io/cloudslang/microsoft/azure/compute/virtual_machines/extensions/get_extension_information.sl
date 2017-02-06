@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the specified extension
+#! @description: This operation can be used to retrieve information about the specified extension
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.

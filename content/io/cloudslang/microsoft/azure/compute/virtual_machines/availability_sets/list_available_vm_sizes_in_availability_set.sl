@@ -7,20 +7,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of all available virtual machine sizes that can be used to
+#! @description: This operation can be used to retrieve a List of all available virtual machine sizes that can be used to
 #!               create a new virtual machine in an existing availability set
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of available vm sizes in the
+#!                         availability set name.
+#! @input auth_token: Azure authorization Bearer token.
+#! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2016-09-01'
-#! @input availability_set_name: availability set name
+#! @input availability_set_name: availability set name.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'

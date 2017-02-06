@@ -7,35 +7,36 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of subnets from within a virtual network
+#! @description: This operation can be used to retrieve a list of subnets from within a virtual network.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the subnet list.
+#! @input resource_group_name: The name of the Azure Resource Group from which to retrieve the subnet list.
+#! @input auth_token: Azure authorization Bearer token.
+#! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
-#! @input virtual_network_name: Name of the virtual network containing the subnets
+#! @input virtual_network_name: Name of the virtual network containing the subnets.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response about the list of subnets within a virtual network
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output output: Json response about the list of subnets within a virtual network.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output error_message: If no subnets are found the error message will be populated with a response, empty otherwise
 #!
 #! @result SUCCESS: Subnet list retrieved successfully.
