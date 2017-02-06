@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be to return a list of subscriptions that you can access.
+#! @description: This operation can be used to return a list of subscriptions that you can access.
 #!
 #! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure.
