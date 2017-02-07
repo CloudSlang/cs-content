@@ -149,6 +149,7 @@ operation:
         sensitive: true
     - keystorePassword:
         default: ${get("keystore_password", "")}
+        required: false
         private: true
         sensitive: true
     - character_set:
