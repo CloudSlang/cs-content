@@ -1,0 +1,29 @@
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+TestSearchArtifactAllVCersionsSuccess:
+  inputs:
+    - group_id: 'io.cloudslang.content'
+    - artifact_id: 'cs-mail'
+  description: Tests that search_all_artifact_versions.sl finishes with SUCCESS
+  testFlowPath: io.cloudslang.maven.search_all_artifact_versions
+  outputs:
+    - return_code: '0'
+    - status_code: '200'
+  result: SUCCESS
+
+TestSearchArtifactAllVersionsSuccessEmptyResponeWhileArtifactNotFodund:
+  inputs:
+    - group_id: 'io.cloudslang.content'
+    - artifact_id: 'asdfghjl'
+  description: Tests that search_all_artifact_versions.sl finishes with SUCCESS while no artifact version found.
+  testFlowPath: io.cloudslang.maven.search_all_artifact_versions
+  outputs:
+    - return_code: '0'
+    - status_code: '200'
+  result: SUCCESS
