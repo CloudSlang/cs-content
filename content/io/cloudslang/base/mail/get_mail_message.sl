@@ -75,7 +75,7 @@
 #!                      -1 if the operation goes to failure.
 #! @output subject: Subject of the email.
 #! @output body: Only the body contents of the email. This will not contain the attachment including inline
-#!                      attachments. This is in HTML format, not plain text.
+#!               attachments. This is in HTML format, not plain text.
 #! @output plain_text_body: Attached file names to the email.
 #! @output attached_file_names: Attached file names to the email.
 #! @output exception: The exception message if the operation goes to failure.

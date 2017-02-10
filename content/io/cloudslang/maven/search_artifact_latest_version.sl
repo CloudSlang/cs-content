@@ -12,6 +12,8 @@
 #!
 #! @input artifact_id: Name of the artifact that you are searching in the Maven repository.
 #!                       Example: 'cs-mail'
+#! @input url: URL to the maven resource that the REST call is made.
+#!             Default: 'http://search.maven.org/solrsearch/select?q=artifact_id&rows=20&wt=json'
 #! @input proxy_host: Optional - Proxy server used to access the Maven repository (if required).
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -22,7 +24,7 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output version: The latest version of the artifact.
 #!                  The version response will be empty ([]) if there is no artifact with that name.
-#! @output return_code: 0 the query succeeded, -1 otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
 #! @output error_message: If there is an error while trying to retrieve the latest artifact version.
 #!
 #! @result SUCCESS: The artifact version was retrieved successfully and return code = '0'.
@@ -40,6 +42,8 @@ flow:
   name: search_artifact_latest_version
 
   inputs:
+    - url:
+        default: ${'http://search.maven.org/solrsearch/select?q=' + artifact_id + '&rows=20&wt=json'}
     - artifact_id:
         default: 'cs-mail'
     - proxy_host:
@@ -57,7 +61,7 @@ flow:
     - search_artifact:
         do:
           http.http_client_get:
-            - url: ${'http://search.maven.org/solrsearch/select?q=' + artifact_id + '&rows=20&wt=json'}
+            - url
             - proxy_host
             - proxy_port
             - proxy_username
