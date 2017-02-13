@@ -201,7 +201,7 @@ operation:
     - body
     - plain_text_body: ${plainTextBody}
     - attached_file_names: ${attachedFileNames}
-    - exception: ${get('exception', '')}
+    - exception
 
   results:
     - SUCCESS: ${returnCode == '0'}
