@@ -7,18 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a list of all the virtual machines in the specified resource group.
+#! @description: This operation can be used to retrieve information about a subnet
 #!
-#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of available virtual machines
-#!                         within the resource group.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve the VM list.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
-#!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
-#!                        Default: '0' (infinite)
+#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
+#! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -26,6 +23,10 @@
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -34,54 +35,45 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
 #!
-#! @output output: The list of all virtual machines in the specified resource group.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output error_message: If no VM is found the error message will be populated with a response, empty otherwise.
+#! @output output: information about the subnet
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output error_message: If a subnet is not found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: The list of all virtual machines in the specified resource group retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of all VMs in the specified resource group.
+#! @result SUCCESS: Subnet information retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve information about the subnet.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft.azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow:
-  name: list_vms_in_a_resource_group
-
-  inputs:
-    - subscription_id
+flow: 
+  name: get_subnet_details
+  
+  inputs: 
+    - subscription_id   
     - resource_group_name
     - auth_token
     - api_version:
         required: false
         default: '2015-06-15'
-    - connect_timeout:
-        default: "0"
+    - virtual_network_name
+    - subnet_name
+    - proxy_host:
         required: false
-    - socket_timeout:
-        default: "0"
+    - proxy_port:
+        default: "8080"
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
         default: "false"
         required: false
@@ -91,25 +83,22 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
-        sensitive: true
         required: false
         sensitive: true
-
-  workflow:
-    - list_vms_in_a_resource_group:
+    
+  workflow: 
+    - get_subnet_info:
         do:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Compute/virtualmachines?api-version=' + api_version}
+                resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
+                '/subnets/' + subnet_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
             - content_type: 'application/json'
             - request_character_set: 'UTF-8'
-            - connect_timeout
-            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
@@ -123,7 +112,7 @@ flow:
           - status_code
         navigate:
           - SUCCESS: check_error_status
-          - FAILURE: FAILURE
+          - FAILURE: check_error_status
 
     - check_error_status:
         do:
@@ -162,3 +151,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+

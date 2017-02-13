@@ -53,7 +53,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: information_about_virtual_network
+  name: get_virtual_network_details
 
   inputs:
     - subscription_id

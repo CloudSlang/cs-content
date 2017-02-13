@@ -58,6 +58,7 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 imports:
   http: io.cloudslang.base.http
   strings: io.cloudslang.base.strings
+  json: io.cloudslang.base.json
 
 flow:
   name: save_image_from_vm
@@ -134,15 +135,16 @@ flow:
           - status_code
           - output: ${return_result}
         navigate:
-          - SUCCESS: string_equals
-          - FAILURE: FAILURE
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
-    - string_equals:
+    - retrieve_error:
         do:
-          strings.string_equals:
-            - first_string: "${ status_code }"
-            - second_string: "200"
-            - ignore_case: "true"
+          json.get_value:
+            - json_input: ${output}
+            - json_path: 'error,message'
+        publish:
+          - error_message: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
