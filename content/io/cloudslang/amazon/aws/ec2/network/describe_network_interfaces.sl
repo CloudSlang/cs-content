@@ -7,9 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Acquires an Elastic IP address.
-#!               Note: An Elastic IP address is for use either in the EC2-Classic platform or in a VPC.
-#!                     For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
+#! @description: Describes one or more of your network interfaces.
 #!
 #! @input endpoint: Optional - Endpoint to which the request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
@@ -40,24 +38,34 @@
 #!                      value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ''
-#! @input domain: Optional - If set to "vpc" then allocates the address for use with instances in a VPC, otherwise for
-#!                use with with instances in EC2 Classic way.
-#!                Valid values: 'standard', 'vpc'
-#!                Default: 'standard'
+#! @input delimiter: Optional - delimiter that will be used
+#!                   Default: ','
+#! @input filter_names_string: Optional - String that contains one or more values that represents filters for the search.
+#!                             For a complete list of valid filters see: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeNetworkInterfaces.html
+#!                             Example: "status,attachment.status"
+#!                             Default: ""
+#! @input filter_values_string: Optional - String that contains one or more values that represents filters values.
+#!                              For a complete list of valid filters see: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeNetworkInterfaces.html
+#!                              Example of filters values for the above <filterNamesString> input: "in-use|available,attaching|attached|detaching|detached"
+#!                              Note that "in-use|available" represents values for "status" and are separated
+#!                              by the enforced "|" symbol
+#!                              Default (describes all your network interfaces): ""
+#! @input network_interface_id: Optional - String that contains one or more network interface IDs.
+#!                              Example: 'eni-12345678,eni-87654321'
 #!
 #! @output return_result: Outcome of the action in case of success, exception occurred otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: Error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: Success message
-#! @result FAILURE: An error occurred when trying to allocate new IP address
+#! @result FAILURE: An error occurred when trying to retrieve network interfaces details.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2.network
 
 operation:
-  name: allocate_address
+  name: describe_network_interfaces
 
   inputs:
     - endpoint:
@@ -94,7 +102,7 @@ operation:
         sensitive: true
         required: false
     - version:
-        default: '2014-06-15'
+        default: '2016-11-15'
         required: false
     - headers:
         default: ''
@@ -105,13 +113,31 @@ operation:
         default: ${get("query_params", "")}
         required: false
         private: true
-    - domain:
-        default: 'standard'
+    - delimiter:
+        default: ','
         required: false
+    - filter_names_string:
+        required: false
+    - filterNamesString:
+        default: ${get("filter_names_string", "")}
+        required: false
+        private: true
+    - filter_values_string:
+        required: false
+    - filterValuesString:
+        default: ${get("filter_values_string", "")}
+        required: false
+        private: true
+    - network_interface_id:
+        required: false
+    - networkInterfaceId:
+        default: ${get("network_interface_id", "")}
+        required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.8'
-    class_name: io.cloudslang.content.amazon.actions.network.AllocateAddressAction
+    class_name: io.cloudslang.content.amazon.actions.network.DescribeNetworkInterfacesAction
     method_name: execute
 
   outputs:
