@@ -40,5 +40,5 @@ after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builde
 notifications:
   slack:
     rooms:
-      - cloudslang:kGHpDqUrYXJvaiCTpmq40gtK#advocates
+      - cloudslang:${slacktoken}#advocates
 
