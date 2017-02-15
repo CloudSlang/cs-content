@@ -1,26 +1,27 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+
 ########################################################################################################################
 #!!
 #! @description: Runs a shell command locally.
 #!
-#! @input command: command to run
-#! @input cwd: current working directory
+#! @input command: Command to run.
+#! @input cwd: Current working directory.
 #!            If cwd is not None, the child’s current directory will be changed to cwd before it is executed.
 #!            Note that this directory is not considered when searching the executable,
-#!            so you can’t specify the program’s path relative to cwd
+#!            so you can’t specify the program’s path relative to cwd.
 #!
-#! @output return_result: output of the command
-#! @output error_message: error in case something went wrong
-#! @output return_code: 0 if command runs with success, -1 in case of failure
+#! @output return_result: Output of the command.
+#! @output error_message: error in case something went wrong.
+#! @output return_code: 0 if command runs with success, -1 in case of failure.
 #!
-#! @result SUCCESS: if return_code is 0
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

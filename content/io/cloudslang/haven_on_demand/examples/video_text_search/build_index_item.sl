@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,7 +16,7 @@
 #! @output json_index_item: JSON representation of item to add to the index
 #!
 #! @result SUCCESS: index item created successfully from the result
-#! @result FAILURE: there was an error while trying to create item index
+#! @result FAILURE: There was an error while trying to create item index
 #!!#
 ########################################################################################################################
 

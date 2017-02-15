@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -33,7 +33,7 @@
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: metadata and content successfully extracted from the file
-#! @result FAILURE: there was an error while trying to extract metadata and/or context from the file
+#! @result FAILURE: There was an error while trying to extract metadata and/or context from the file
 #!!#
 ########################################################################################################################
 

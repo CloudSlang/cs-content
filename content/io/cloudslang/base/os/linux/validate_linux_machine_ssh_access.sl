@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,49 +9,60 @@
 #!!
 #! @description: Executes a no-op SSH command.
 #!
-#! @input host: Docker machine host
-#! @input port: Optional - SSH port - Default: '22'
-#! @input username: Docker machine username
-#! @input password: Optional - Docker machine password
-#! @input private_key_file: Optional - absolute path to private key file
+#! @input host: Docker machine host.
+#! @input port: Optional - SSH port
+#!              Default: '22'
+#! @input username: Docker machine username.
+#! @input password: Optional - Docker machine password.
+#! @input private_key_file: Optional - absolute path to private key file.
 #! @input private_key_data: Optional - A string representing the private key (OpenSSH type) used to authenticate the user.
 #!                          This string is usually the content of a private key file. The 'privateKeyData' and the
 #!                          'privateKeyFile' inputs are mutually exclusive. For security reasons it is recommend
 #!                          that the private key be protected by a passphrase that should be provided through the
-#!                          'password' input. - Default: none
+#!                          'password' input.
+#!                          Default: ''
 #! @input arguments: Optional - arguments to pass to the command
 #! @input character_set: Optional - character encoding used for input stream encoding from target machine
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8' - Default: 'UTF-8'
 #! @input known_hosts_policy: Optional - The policy used for managing known_hosts file.
-#!                            - Valid values: allow, strict, add. - Default value: allow
-#! @input known_hosts_path: Optional - The path to the known hosts file. - Default: {user.home}/.ssh/known_hosts
+#!                            Valid values: 'allow', 'strict', 'add'.
+#!                            Default value: 'allow'
+#! @input known_hosts_path: Optional - The path to the known hosts file.
+#!                          Default: '{user.home}/.ssh/known_hosts'
 #! @input allowed_ciphers: Optional - A comma separated list of ciphers that will be used in the client-server handshake
 #!                         mechanism when the connection is created. Check the notes section for security concerns
 #!                         regarding your choice of ciphers. The default value will be used even if the input is not
 #!                         added to the operation.
-#!                         Default value: aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,
-#!                                        aes192-cbc,aes256-ctr,aes256-cbc
-#! @input pty: Optional - whether to use PTY - Valid: true, false - Default: false
-#! @input timeout: time in milliseconds to wait for command to complete - Default: '30000000'
-#! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made. - Default value: 10000
+#!                         Default value: 'aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,
+#!                                        aes192-cbc,aes256-ctr,aes256-cbc'
+#! @input pty: Optional - whether to use PTY.
+#!             Valid: 'true', 'false'
+#!             Default: 'false'
+#! @input timeout: Time in milliseconds to wait for command to complete.
+#!                 Default: '30000000'
+#! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made.
+#!                         Default value: '10000'
 #! @input close_session: Optional - if 'false' the SSH session will be cached for future calls of this operation during
 #!                       the life of the flow, if 'true' the SSH session used by this operation will be closed
-#!                       Valid: true, false - Default: false
-#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false
+#!                       Valid: 'true', 'false'
+#!                       Default: 'false'
+#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false.
 #! @input proxy_host: Optional - The proxy server used to access the remote machine.
-#! @input proxy_port: Optional - The proxy server port. - Default: 8080. - Valid values: -1 and numbers greater than 0.
+#! @input proxy_port: Optional - The proxy server port.
+#!                    Valid values: -1 and numbers greater than 0.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - The user name used when connecting to the proxy.
 #! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: "0" if successful, "-1" otherwise
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
-#! @output exception: exception in case of failure
-#! @output exit_status: return code of the remote command
+#! @output exception: Exception in case of failure
+#! @output exit_status: Return code of the remote command
 #!
-#! @result SUCCESS: command execution finished successfully
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Command execution finished successfully
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

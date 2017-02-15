@@ -10,9 +10,9 @@
 #! @description: Performs SSH command to create a symbolic link between <source_folder> and <linked_folder>
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input source_folder: the name of the folder to be linked
-#! @input linked_folder: the name of the linked folder
+#! @input root_password: The root password
+#! @input source_folder: The name of the folder to be linked
+#! @input linked_folder: The name of the linked folder
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -64,7 +64,7 @@ flow:
     - evaluate_result:
         do:
           utils.is_true:
-            - bool_value: ${return_code == '0' and command_return_code == '0'}
+            - bool_value: ${str(return_code == '0' and command_return_code == '0')}
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE

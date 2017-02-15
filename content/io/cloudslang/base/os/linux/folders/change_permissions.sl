@@ -11,10 +11,10 @@
 #!               ones indicated by <permissions_code> recursively or not
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input folder_path: the absolute path of the targeted folder
-#! @input permissions_code: the octal code that represent the new permissions
-#! @input recursively: optional - if True the permissions changes will be applied recursively to the whole content of the
+#! @input root_password: The root password
+#! @input folder_path: The absolute path of the targeted folder
+#! @input permissions_code: The octal code that represent the new permissions
+#! @input recursively: Optional - if True the permissions changes will be applied recursively to the whole content of the
 #!                     targeted folder; if False the permissions changes will be applied ony to the folder itself
 #!                     Default: True
 #!
@@ -73,7 +73,7 @@ flow:
     - evaluate_result:
         do:
           utils.is_true:
-            - bool_value: ${return_code == '0' and command_return_code == '0'}
+            - bool_value: ${str(return_code == '0' and command_return_code == '0')}
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE

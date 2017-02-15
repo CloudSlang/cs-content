@@ -11,12 +11,12 @@
 #!               indicated by <user_name> and with group indicated by <group_name> recursively or not
 #!
 #! @input host: hostname or IP address
-#! @input root_password: the root password
-#! @input folder_path: the absolute path of the targeted folder
-#! @input user_name: the name of the user that acquire the ownership
-#! @input group_name: optional - the name of the group that acquire the ownership; if not specified the group will be
+#! @input root_password: The root password
+#! @input folder_path: The absolute path of the targeted folder
+#! @input user_name: The name of the user that acquire the ownership
+#! @input group_name: Optional - the name of the group that acquire the ownership; if not specified the group will be
 #!                    the default group for that user - Default: ''
-#! @input recursively: optional - if True the ownership change will be applied recursively to the whole content of the
+#! @input recursively: Optional - if True the ownership change will be applied recursively to the whole content of the
 #!                     targeted folder; if False the ownership change will be applied ony to the folder itself
 #!                     Default: True
 #!
@@ -79,7 +79,7 @@ flow:
     - evaluate_result:
         do:
           utils.is_true:
-            - bool_value: ${return_code == '0' and command_return_code == '0'}
+            - bool_value: ${str(return_code == '0' and command_return_code == '0')}
         navigate:
             - 'TRUE': SUCCESS
             - 'FALSE': FAILURE

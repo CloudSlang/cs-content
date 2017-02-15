@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,13 +9,13 @@
 #!!
 #! @description: Unzips an archive.
 #!
-#! @input archive_path: path to archive to be unziped (including '.zip')
-#! @input output_folder: path of folder to place unzipped files from archive
+#! @input archive_path: Path to archive to be unzipped (including '.zip').
+#! @input output_folder: Path of folder to place unzipped files from archive.
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: archive was successfully unzipped
-#! @result FAILURE: archive was not unzipped due to error
+#! @result SUCCESS: Archive was successfully unzipped.
+#! @result FAILURE: Archive was not unzipped due to error.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.base.filesystem

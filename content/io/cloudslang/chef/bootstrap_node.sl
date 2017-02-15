@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2015-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -23,7 +23,7 @@
 #!
 #! @output raw_result: full STDOUT
 #! @output knife_result: filtered output of knife command
-#! @output standard_err: any STDERR
+#! @output standard_err: Any STDERR
 #! @output new_node_name: new node name in Chef
 #!
 #! @result SUCCESS: bootstrap process completed without errors

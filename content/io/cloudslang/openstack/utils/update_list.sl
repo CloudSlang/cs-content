@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,8 +10,8 @@
 #! @description: Updates a specified list within JSON object.
 #!
 #! @input json_object: JSON object - Example: '{"server": {"security_groups": [{"name": "default"}], "networks": []}}'
-#! @input list_label: the key of targeted list to be updated - Example: 'networks'
-#! @input value: the value used to update the list - Example: '{"uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743"}'
+#! @input list_label: The key of targeted list to be updated - Example: 'networks'
+#! @input value: The value used to update the list - Example: '{"uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743"}'
 #!
 #! @output json_output: JSON object with specified list updated
 #! @output return_result: contains the exception in case of failure, success message otherwise

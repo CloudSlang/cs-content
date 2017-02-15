@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,25 +10,25 @@
 #! @description: Makes a Haven OnDeman API call to transcribe a video and waits for the response.
 #!
 #! @input api_key: API key
-#! @input reference: optional - Haven OnDemand reference
+#! @input reference: Optional - Haven OnDemand reference
 #!                   exactly one of <reference>, <file> is required
-#! @input file: optional - path to video file
+#! @input file: Optional - path to video file
 #!              exactly one of <reference>, <file> is required
-#! @input interval: optional - use to segment the speech in the output. -1 to turn off
+#! @input interval: Optional - use to segment the speech in the output. -1 to turn off
 #!                  segmentation, 0 to segment on every word, and a positive
 #!                  number for a time interval (ms).
 #!                  optional:
 #!                  default: -1
-#! @input language: optional - language of the provided speech
+#! @input language: Optional - language of the provided speech
 #!                  default value: en-US.
-#! @input proxy_host: optional - proxy server
-#! @input proxy_port: optional - proxy server port
+#! @input proxy_host: Optional - proxy server
+#! @input proxy_port: Optional - proxy server port
 #!
 #! @output return_result: result of API
 #! @output error_message: error message if one exists, empty otherwise
 #!
 #! @result SUCCESS: video transcribed successfully
-#! @result FAILURE: there was an error while trying to transcribe the video
+#! @result FAILURE: There was an error while trying to transcribe the video
 #!!#
 ########################################################################################################################
 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,17 +9,18 @@
 #!!
 #! @description: Sends a request to register a new agent service.
 #!
-#! @input host: Consul agent host
-#! @input consul_port: optional - Consul agent host port - Default: '8500'
-#! @input json_request: the request JSON
+#! @input host: Consul agent host.
+#! @input consul_port: Optional - Consul agent host port.
+#!                     Default: '8500'
+#! @input json_request: The request JSON.
 #!
-#! @output return_result: response of the operation
-#! @output error_message: return_result if return_code is equal to ': 1' or status_code different than '200'
-#! @output return_code: if return_code is equal to '-1' then there was an error
-#! @output status_code: normal status code is '200'
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result if return_code is equal to ': 1' or status_code different than '200'.
+#! @output return_code: If return_code is equal to '-1' then there was an error.
+#! @output status_code: Normal status code is '200'.
 #!
-#! @result SUCCESS: operation succeeded (return_code != '-1' and status_code == '200')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Operation succeeded (return_code != '-1' and status_code == '200').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

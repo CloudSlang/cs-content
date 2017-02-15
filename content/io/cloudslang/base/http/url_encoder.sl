@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,15 @@
 #!!
 #! @description: Encodes data for usage in a url.
 #!
-#! @input data: data to encode
-#! @input safe: optional - characters that should not be encoded
-#! @input quote_plus: optional - if true, will replace spaces with plus signs
+#! @input data: URL string to encode.
+#! @input safe: Optional - Characters that should not be encoded.
+#! @input quote_plus: Optional - If true, will replace spaces with plus signs.
+#!                    Default: 'false'
 #!
-#! @output result: encoded string
+#! @output result: Encoded URL string.
 #!
-#! @result SUCCESS: data was encoded successfully
-#! @result FAILURE: otherwise
+#! @result SUCCESS: URL was encoded successfully.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -24,14 +25,15 @@ namespace: io.cloudslang.base.http
 
 operation:
   name: url_encoder
+
   inputs:
     - data
     - safe:
         required: false
-        default: ""
+        default: ''
     - quote_plus:
         required: false
-        default: "false"
+        default: 'false'
 
   python_action:
     script: |

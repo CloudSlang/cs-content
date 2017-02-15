@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,14 +8,15 @@
 ########################################################################################################################
 # Sample system property file for email protocol
 #
-# io.cloudslang.base.hostname: host name - Example: smtp.example.com
-# io.cloudslang.base.port: port
-# io.cloudslang.base.from: sender email
-# io.cloudslang.base.to: receiver email
-# io.cloudslang.base.username: sender username
-# io.cloudslang.base.password: sender password
+# io.cloudslang.base.hostname: Host name.
+#                              Example: 'smtp.example.com'
+# io.cloudslang.base.port: Email server port.
+# io.cloudslang.base.from: Sender email.
+# io.cloudslang.base.to: Receiver email.
+# io.cloudslang.base.username: Sender username.
+# io.cloudslang.base.password: Sender password.
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base
 
@@ -25,4 +26,6 @@ properties:
   - from: user@example.com
   - to: otheruser@example.com
   - username: user
-  - password: pwd
+  - password:
+      value: 'pwd'
+      sensitive: true

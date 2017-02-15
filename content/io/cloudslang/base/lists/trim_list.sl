@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,16 +12,17 @@
 #!               by the percentage that is passed in.  If the percentage would indicate an odd number of elements the
 #!               number trimmed is lowered by one so that the same number are taken from both ends.
 #!
-#! @input list: list from which to get the sublist - Example: '1,2,3,4,5,6'
-#! @input delimiter: the list delimiter
-#! @input pct: the percentage of elements to trim
+#! @input list: List from which to get the sublist.
+#!              Example: '1,2,3,4,5,6'
+#! @input delimiter: The list delimiter.
+#! @input pct: The percentage of elements to trim.
 #!
-#! @output response: 'success' or 'failure'
-#! @output return_code: 0 if success, -1 if failure
-#! @output return_result: the trimmed list of elements to trim or an error message otherwise
+#! @output response: 'Success' or 'failure'.
+#! @output return_code: 0 if success, -1 if failure.
+#! @output return_result: The trimmed list of elements to trim or an error message otherwise.
 #!
-#! @result SUCCESS: the operation finished with 'success'
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation finished with success.
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 

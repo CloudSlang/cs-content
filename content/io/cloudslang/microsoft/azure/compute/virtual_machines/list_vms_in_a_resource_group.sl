@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -18,8 +18,9 @@
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - username used when connecting to the proxy
 #! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
@@ -37,11 +38,11 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: the list of all virtual machines in the specified resource group
+#! @output output: The list of all virtual machines in the specified resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output error_message: If no VM is found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: the list of all virtual machines in the specified resource group retrieved successfully
+#! @result SUCCESS: The list of all virtual machines in the specified resource group retrieved successfully
 #! @result FAILURE: There was an error while trying to retrieve the list of all VMs in the specified resource group
 #!!#
 ########################################################################################################################

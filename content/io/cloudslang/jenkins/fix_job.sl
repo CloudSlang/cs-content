@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,11 +11,11 @@
 #!               After copying a job, the job cannot be directly triggered from the Jenkins UI because the "Build now"
 #!               link is missing.
 #!
-#! @input url: the URL to Jenkins
-#! @input job_name: the name of the job to fix
+#! @input url: The URL to Jenkins
+#! @input job_name: The name of the job to fix
 #!
 #! @result SUCCESS: Jenkins job successfully enabled/disabled and fixed
-#! @result FAILURE: there was an error while trying to enable/disable the Jenkins job in an attempt to fix it
+#! @result FAILURE: There was an error while trying to enable/disable the Jenkins job in an attempt to fix it
 #!!#
 ########################################################################################################################
 

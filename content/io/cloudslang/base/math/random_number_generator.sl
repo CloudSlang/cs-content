@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,14 +9,14 @@
 #!!
 #! @description: Generates a random number.
 #!
-#! @input max: maximum number that can be returned
-#! @input min: minimum number that can be returned
+#! @input max: Maximum number that can be returned.
+#! @input min: Minimum number that can be returned.
 #!
-#! @output random_number: random number between max and min (inclusive)
-#! @output error_message: error message if error occurred
+#! @output random_number: Random number between max and min (inclusive).
+#! @output error_message: Error message if error occurred.
 #!
-#! @result SUCCESS: a number was generated
-#! @result FAILURE: otherwise
+#! @result SUCCESS: A number was generated.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

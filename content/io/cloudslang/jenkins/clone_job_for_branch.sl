@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -22,7 +22,7 @@
 #! @input email_recipient: email recipient
 #!
 #! @result SUCCESS: Jenkins job cloned successfully
-#! @result FAILURE: there was an eror while trying to clone the Jenkins job
+#! @result FAILURE: There was an error while trying to clone the Jenkins job
 #!!#
 ########################################################################################################################
 

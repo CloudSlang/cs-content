@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,18 +9,19 @@
 #!!
 #! @description: Creates JSON for request to register new agent service.
 #!
-#! @input address: Optional - will default to that of the agent - Default: ''
-#! @input service_name: name of the service to be registered
-#! @input service_id: Optional - service_name will be used if not specified
-#! @input check: Optional - if the Check key is provided, then a health check will also be registered
+#! @input address: Optional - Will default to that of the agent.
+#!                 Default: ''
+#! @input service_name: Name of the service to be registered.
+#! @input service_id: Optional - Service_name will be used if not specified.
+#! @input check: Optional - If the Check key is provided, then a health check will also be registered.
 #!
-#! @output return_result: response of the operation
-#! @output error_message: return_result if there was an error
-#! @output return_code: '0' if parsing was successful, '-1' otherwise
-#! @output json_request: JSON request for registering endpoint
+#! @output return_result: Response of the operation.
+#! @output error_message: Return_result if there was an error.
+#! @output return_code: '0' if parsing was successful, '-1' otherwise.
+#! @output json_request: JSON request for registering endpoint.
 #!
-#! @result SUCCESS: parsing was successful (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Parsing was successful (return_code == '0').
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 

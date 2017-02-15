@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,12 +12,12 @@
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
 #! @input password: Heroku password used for authentication
-#! @input name: optional - name of application; if not provided, name will be generate by Heroku
+#! @input name: Optional - name of application; if not provided, name will be generate by Heroku
 #!              default: None
-#! @input region: optional - unique identifier or name of region
+#! @input region: Optional - unique identifier or name of region
 #!                default: None
 #!                example: 'us'
-#! @input stack: optional - optional unique identifier or name of stack
+#! @input stack: Optional - optional unique identifier or name of stack
 #!               default: None
 #!               example: 'cedar-14'
 #!

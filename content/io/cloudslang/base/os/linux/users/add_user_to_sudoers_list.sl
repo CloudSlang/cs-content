@@ -5,14 +5,17 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 #!!
 #! @description: Perform a SSH command to add a specified user to sudoers group.
+#!
 #! @input host: hostname or IP address
-#! @input port: Optional - port number for running the command - Default: '22'
+#! @input port: Optional - port number for running the command
+#!              Default: '22'
 #! @input password: password of user
 #! @input private_key_file: Optional - the path to the private key file
-#! @input user: the user to be added in sudoers group
+#! @input user: The user to be added in sudoers group
+#!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
 #! @output standard_err: STDERR of the machine in case of successful request, null otherwise
@@ -24,10 +27,11 @@
 #!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
 #!                              channel type has no command), '126' if the command cannot execute.
 #! @output return_code: return code of the command
+#!
 #! @result SUCCESS: user was successfully added
 #! @result FAILURE: error occurred when trying to add user
 #!!#
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.base.os.linux.users
 
@@ -68,7 +72,6 @@ flow:
           - exception
           - command_return_code
           - return_code
-
         navigate:
           - SUCCESS: check_result
           - FAILURE: FAILURE
@@ -78,7 +81,6 @@ flow:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ command_return_code }
             - string_to_find: "0"
-
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

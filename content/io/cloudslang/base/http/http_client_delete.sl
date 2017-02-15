@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,59 +10,61 @@
 #! @description: Executes a DELETE REST call.
 #!
 #! @input url: URL to which the call is made
-#! @input auth_type: Optional - type of authentication used to execute the request on the target server
+#! @input auth_type: Optional - Type of authentication used to execute the request on the target server
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
 #!                   Default: 'basic'
-#! @input username: Optional - username used for URL authentication; for NTLM authentication, the required format is
-#!                  'domain\user'
-#! @input password: Optional - password used for URL authentication
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
-#! @input proxy_username: Optional - user name used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input username: Optional - Username used for URL authentication; for NTLM authentication.
+#!                  Format: 'domain\user'
+#! @input password: Optional - Password used for URL authentication.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: Optional - the pathname of the Java KeyStore file.
+#! @input keystore: Optional - The pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
-#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#!                  Default value: '..JAVA_HOME/java/lib/security/cacerts'
+#! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
 #! @input request_character_set: Optional - character encoding to be used for the HTTP request body; should not
 #!                               be provided for method=GET, HEAD, TRACE - Default: 'ISO-8859-1'
-#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF);
-#!                 header name - value pair will be separated by ":"
+#! @input headers: Optional - list containing the headers to use for the request separated by new line (CRLF).
+#!                 Header name - value pair will be separated by ":"
 #!                 Format: According to HTTP standard for headers (RFC 2616)
 #!                 Example: 'Accept:text/plain'
 #! @input query_params: Optional - list containing query parameters to append to the URL
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input body: Optional - string to include in body for HTTP PATCH operation
-#! @input content_type: Optional - content type that should be set in the request header, representing the
+#! @input body: Optional - String to include in body for HTTP DELETE operation
+#! @input content_type: Optional - Content type that should be set in the request header, representing the
 #!                      MIME-type of the data in the message body
 #!                      Default: 'text/plain'
-#! @input method: HTTP method used - Default: 'DELETE'
+#! @input method: HTTP method used.
+#!                Default: 'DELETE'
 #!
-#! @output return_result: the response of the operation in case of success or the error message otherwise
-#! @output error_message: return_result if status_code is not contained in interval between '200' and '299'
-#! @output return_code: '0' if success, '-1' otherwise
-#! @output status_code: status code of the HTTP call
-#! @output response_headers: response headers string from the HTTP Client REST call
+#! @output return_result: The response of the operation in case of success or the error message otherwise.
+#! @output error_message: Return_result if status_code is not contained in interval between '200' and '299'.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Status code of the HTTP call.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: DELETE REST call executed successfully
-#! @result FAILURE: something went wrong
+#! @result SUCCESS: DELETE REST call executed successfully.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 
@@ -86,7 +88,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: "8080"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -108,10 +110,10 @@ flow:
         required: false
         sensitive: true
     - connect_timeout:
-        default: "0"
+        default: '0'
         required: false
     - socket_timeout:
-        default: "0"
+        default: '0'
         required: false
     - request_character_set:
         required: false
@@ -120,10 +122,10 @@ flow:
     - query_params:
         required: false
     - content_type:
-        default: "text/plain"
+        default: 'text/plain'
         required: false
     - method:
-        default: "DELETE"
+        default: 'DELETE'
         private: true
 
   workflow:

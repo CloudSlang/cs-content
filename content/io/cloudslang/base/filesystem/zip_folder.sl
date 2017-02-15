@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -7,15 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a zip archive
+#! @description: Creates a zip archive.
 #!
-#! @input archive_name: name of archive to be created (without the .zip extension)
-#! @input folder_path: path to folder to be zipped (zipped file will be created in this folder)
+#! @input archive_name: Name of archive to be created (without the .zip extension).
+#! @input folder_path: Path to folder to be zipped (zipped file will be created in this folder).
 #!
-#! @output message: error message in case of error
+#! @output message: Error message in case of error.
 #!
-#! @result SUCCESS: archive was successfully created
-#! @result FAILURE: archive was not created due to error
+#! @result SUCCESS: Archive was successfully created.
+#! @result FAILURE: Archive was not created due to an error.
 #!!#
 ########################################################################################################################
 

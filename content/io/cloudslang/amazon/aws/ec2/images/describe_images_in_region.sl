@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,114 +13,115 @@
 #!               Note: De-registered images are included in the returned results for an unspecified interval
 #!                     after de-registration.
 #!
-#! @input endpoint: optional - Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Example: 'https://ec2.amazonaws.com'
 #! @input identity: Amazon Access Key ID
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: optional - Proxy server used to access the provider services
-#! @input proxy_port: optional - Proxy server port used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services
+#! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
-#! @input proxy_username: optional - proxy server user name.
-#! @input proxy_password: optional - proxy server password associated with the <proxyUsername> input value.
-#! @input headers: optional - string containing the headers to use for the request separated by new line (CRLF).
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
+#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
 #!                 The header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: "Accept:text/plain"
-#! @input query_params: optional - string containing query parameters that will be appended to the URL. The names
+#! @input query_params: Optional - String containing query parameters that will be appended to the URL. The names
 #!                      and the values must not be URL encoded because if they are encoded then a double encoded
 #!                      will occur. The separator between name-value pairs is "&" symbol. The query name will be
 #!                      separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#! @input version: version of the web service to make the call against it.
+#! @input version: Version of the web service to make the call against it.
 #!                 Example: "2016-04-01"
 #!                 Default: "2016-04-01"
-#! @input delimiter: optional - the delimiter to split the user_ids_string and user_groups_string
+#! @input delimiter: Optional - The delimiter to split the user_ids_string and user_groups_string
 #!                   Default: ','
 #! @input identity_id: Scopes the images by users with explicit launch permissions. Specify an AWS account ID, 'self'
-#!                     (the sender of the request), or 'all' (public AMIs) - Valid: '' (no identity_id filtering),
-#!                     'self', 'all' or AWS account ID
+#!                     (the sender of the request), or 'all' (public AMIs)
+#!                     Valid: '' (no identity_id filtering), 'self', 'all' or AWS account ID
 #!                     Default: ''
-#! @input architecture: optional - Instance architecture - Valid values: '' (no architecture filtering), 'i386', 'x86_64'
+#! @input architecture: Optional - Instance architecture
+#!                      Valid values: '' (no architecture filtering), 'i386', 'x86_64'
 #!                      Default: ''
-#! @input delete_on_termination: optional - a Boolean that indicates whether the EBS volume is deleted on instance termination.
+#! @input delete_on_termination: Optional - a Boolean that indicates whether the EBS volume is deleted on instance termination.
 #!                               Valid values: '' (no delete_on_termination filtering), 'true', 'false'
 #!                               Default: ''
-#! @input block_mapping_device_name: optional - Device name for the EBS volume - Ex: '/dev/sdh'
+#! @input block_mapping_device_name: Optional - Device name for the EBS volume - Ex: '/dev/sdh'
 #!                                   Default: ''
-#! @input block_device_mapping_snapshot_id: optional - ID of the snapshot used for the Amazon EBS volume
+#! @input block_device_mapping_snapshot_id: Optional - ID of the snapshot used for the Amazon EBS volume
 #!                                          Default: ''
-#! @input volume_size: optional - Volume size of the Amazon EBS volume, in GiB
+#! @input volume_size: Optional - Volume size of the Amazon EBS volume, in GiB
 #!                     Default: ''
-#! @input volume_type: optional - Volume type of the Amazon EBS volume
+#! @input volume_type: Optional - Volume type of the Amazon EBS volume
 #!                     Valid values: '' (no delete_on_termination filtering),
 #!                                   'gp2' (for General Purpose SSD volumes), 'io1' (for Provisioned IOPS SSD volumes),
 #!                                   and 'standard' (for Magnetic volumes)
 #!                     Default: ''
-#! @input hypervisor: optional - Hypervisor type of the instance.
+#! @input hypervisor: Optional - Hypervisor type of the instance.
 #!                    Valid values: '' (no hypervisor filtering), 'ovm', 'xen'
 #!                    Default: ''
-#! @input image_id: optional - ID of the specified image to search for
+#! @input image_id: Optional - ID of the specified image to search for
 #!                  Default: ''
-#! @input kernel_id: optional - Kernel ID
+#! @input kernel_id: Optional - Kernel ID
 #!                   Default: ''
-#! @input owner_alias: optional - AWS account alias. Ex: 'amazon'
+#! @input owner_alias: Optional - AWS account alias. Ex: 'amazon'
 #!                     Default: ''
-#! @input owner_id: optional - AWS account ID of the instance owner
+#! @input owner_id: Optional - AWS account ID of the instance owner
 #!                  Default: ''
-#! @input platform: optional - platform used. Use 'windows' if you have Windows instances; otherwise leave blank.
+#! @input platform: Optional - platform used. Use 'windows' if you have Windows instances; otherwise leave blank.
 #!                  Valid values: '', 'windows' - Default: ''
-#! @input product_code: optional - product code associated with the AMI used to launch the instance
+#! @input product_code: Optional - product code associated with the AMI used to launch the instance
 #!                      Default: ''
-#! @input product_code_type: optional - type of product code.
+#! @input product_code_type: Optional - type of product code.
 #!                           Valid values: '' (no hypervisor filtering), 'devpay', 'marketplace'
 #!                           Default: ''
-#! @input ramdisk_id: optional - RAM disk ID
+#! @input ramdisk_id: Optional - RAM disk ID
 #!                    Default: ''
-#! @input root_device_name: optional - name of the root device for the instance. Ex: '/dev/sda1'
+#! @input root_device_name: Optional - name of the root device for the instance. Ex: '/dev/sda1'
 #!                          Default: ''
-#! @input root_device_type: optional - type of root device that the instance uses
+#! @input root_device_type: Optional - type of root device that the instance uses
 #!                          Valid values: '' (no root_device_type filtering), 'ebs', 'instance-store'
 #!                          Default: ''
-#! @input state_reason_code: optional - reason code for the state change
+#! @input state_reason_code: Optional - reason code for the state change
 #!                           Default: ''
-#! @input state_reason_message: optional - a message that describes the state change
+#! @input state_reason_message: Optional - a message that describes the state change
 #!                              Default: ''
-#! @input key_tags_string: optional - A string that contains: none, one or more key tags separated by delimiter
+#! @input key_tags_string: Optional - A string that contains: none, one or more key tags separated by delimiter
 #!                         Default: ''
-#! @input value_tags_string: optional - A string that contains: none, one or more tag values separated by delimiter
-#! @input virtualization_type: optional - virtualization type of the instance
+#! @input value_tags_string: Optional - A string that contains: none, one or more tag values separated by delimiter
+#! @input virtualization_type: Optional - virtualization type of the instance
 #!                             Valid values: '' (no virtualization_type filtering), 'paravirtual', 'hvm'
 #!                             Default: ''
-#! @input ids_string: optional - A string that contains: none, one or more image IDs separated by delimiter
+#! @input ids_string: Optional - A string that contains: none, one or more image IDs separated by delimiter
 #!                    Default: ''
-#! @input owners_string: optional - Filters the images by the owner. Specify an AWS account ID, a'mazon'
+#! @input owners_string: Optional - Filters the images by the owner. Specify an AWS account ID, a'mazon'
 #!                       (owner is Amazon), 'aws-marketplace' (owner is AWS Marketplace),
 #!                       'self' (owner is the sender of the request). Omitting this option returns all images for which
 #!                       you have launch permissions, regardless of ownership
 #!                       Valid values: '' (no owners_string filtering), 'amazon', 'aws-marketplace', or 'self'
 #!                       Default: ''
-#! @input description: optional - Description of the image (provided during image creation)
+#! @input description: Optional - Description of the image (provided during image creation)
 #!                     Default: ''
-#! @input type: optional - Image type
+#! @input type: Optional - Image type
 #!              Valid values: '' (no owners_string filtering), 'machine', 'kernel', 'ramdisk'
 #!              Default: ''
-#! @input is_public: optional - A Boolean that indicates whether the image is public
+#! @input is_public: Optional - A Boolean that indicates whether the image is public
 #!                   Valid values: '' (no is_public filtering), 'true', 'false'
 #!                   Default: ''
-#! @input manifest_location: optional - Location of the image manifest
+#! @input manifest_location: Optional - Location of the image manifest
 #!                           Default: ''
-#! @input name: optional - Name of the AMI (provided during image creation)
+#! @input name: Optional - Name of the AMI (provided during image creation)
 #!              Default: ''
-#! @input state: optional - State of the image
+#! @input state: Optional - State of the image
 #!               Valid values: '' (no state filtering), 'available', 'pending', 'failed'
 #!               Default: ''
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: the image was successfully created
-#! @result FAILURE: an error occurred when trying to create image
+#! @result SUCCESS: The image was successfully created
+#! @result FAILURE: An error occurred when trying to create image
 #!!#
 ########################################################################################################################
 
@@ -171,7 +172,7 @@ operation:
         required: false
         private: true
     - version:
-        default: "2016-04-01"
+        default: '2016-04-01'
         required: false
     - delimiter:
         required: false

@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -18,8 +18,9 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be deployed.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
+#!                        identifier in order to avoid duplicate names.
+#!                        Virtual machine name cannot contain non-ASCII or special characters.
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #!                 Default: 'Standard_DS1_v2'
@@ -66,8 +67,9 @@
 #!                   Example: '1'
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input proxy_host: Optional - proxy server used to access the web site
-#! @input proxy_port: Optional - proxy server port - Default: '8080'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Optional - username used when connecting to the proxy
 #! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
 #! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
@@ -86,6 +88,7 @@
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
+#! @output vm_name: The final virtual machine name composed of vm_name_prefix and the 5 digits unique identifier.
 #! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -103,6 +106,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   strings: io.cloudslang.base.strings
+  math: io.cloudslang.base.math
   auth: io.cloudslang.microsoft.azure.authorization
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
@@ -121,7 +125,7 @@ flow:
         default: 'https://sts.windows.net/common'
         required: false
     - location
-    - vm_name
+    - vm_name_prefix
     - vm_size
     - offer
     - sku
@@ -179,7 +183,7 @@ flow:
           - auth_token
           - error_message: ${exception}
         navigate:
-          - SUCCESS: create_public_ip
+          - SUCCESS: random_number_generator
           - FAILURE: on_failure
 
     - create_public_ip:
@@ -567,6 +571,8 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
+        publish:
+          - vm_name: ''
         navigate:
           - SUCCESS: on_failure
           - FAILURE: on_failure
@@ -610,9 +616,73 @@ flow:
           - SUCCESS: get_nic_list
           - FAILURE: on_failure
 
+    - random_number_generator:
+        do:
+          math.random_number_generator:
+            - min: '10000'
+            - max: '99999'
+        publish:
+          - random_number: ${random_number}
+        navigate:
+          - SUCCESS: append
+          - FAILURE: random_number_generator
+
+    - get_vm_details_1:
+        do:
+          vm.get_vm_details:
+            - subscription_id: ${subscription_id}
+            - resource_group_name: ${resource_group_name}
+            - auth_token: ${auth_token}
+            - vm_name: ${vm_name}
+            - connect_timeout: ${connect_timeout}
+            - proxy_username: ${proxy_username}
+            - proxy_password: ${proxy_password}
+            - proxy_port: ${proxy_port}
+            - proxy_host: ${proxy_host}
+            - trust_all_roots: ${trust_all_roots}
+            - x_509_hostname_verifier: ${x_509_hostname_verifier}
+            - trust_keystore: ${trust_keystore}
+            - trust_password: ${trust_password}
+        publish:
+          - vm_details: ${output}
+        navigate:
+          - SUCCESS: remove
+          - FAILURE: string_occurrence_counter
+
+    - append:
+        do:
+          strings.append:
+            - origin_string: ${vm_name_prefix}
+            - text: ${random_number}
+        publish:
+          - vm_name: ${new_string}
+        navigate:
+          - SUCCESS: get_vm_details_1
+
+    - string_occurrence_counter:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${vm_details}
+            - string_to_find: 'ResourceNotFound'
+        publish: []
+        navigate:
+          - SUCCESS: create_public_ip
+          - FAILURE: FAILURE
+
+    - remove:
+        do:
+          strings.remove:
+            - origin_string: ${vm_name}
+            - text: ${random_number}
+        publish:
+          - vm_name: ${new_string}
+        navigate:
+          - SUCCESS: random_number_generator
+
   outputs:
     - output
     - ip_address
+    - vm_name: ${vm_name}
     - status_code
     - return_code
     - error_message: ${error_message}

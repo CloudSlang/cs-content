@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -11,9 +11,9 @@
 #!
 #! @input username: Heroku username
 #!                  example: 'someone@mailprovider.com'
-#! @input password: optional - Heroku <username> account password
+#! @input password: Optional - Heroku <username> account password
 #!                  default: None
-#! @input new_password: optional - new password for <username> account
+#! @input new_password: Optional - new password for <username> account
 #!                      default: None
 #!
 #! @output return_result: response of the operation in case of success, error message otherwise

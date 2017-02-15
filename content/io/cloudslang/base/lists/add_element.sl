@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,16 +9,18 @@
 #!!
 #! @description: Adds an element to a list of strings
 #!
-#! @input list: list in which to add the element - Example: '1,2,3,4,5,6'
-#! @input element: element to add to the list - Example: '7'
-#! @input delimiter: the list delimiter
+#! @input list: List in which to add the element
+#!              Example: '1,2,3,4,5,6'
+#! @input element: Element to add to the list
+#!                 Example: '7'
+#! @input delimiter: The list delimiter
 #!
 #! @output response: 'success' or 'failure'
-#! @output return_result: the new list or an error message otherwise
+#! @output return_result: The new list or an error message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: the new list was retrieved with success
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The new list was retrieved with success
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 
@@ -29,8 +31,8 @@ operation:
 
   inputs:
     - list
-    - delimiter
     - element
+    - delimiter
 
   java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.6'

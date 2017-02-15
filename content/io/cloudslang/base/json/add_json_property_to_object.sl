@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,19 +9,19 @@
 #!!
 #! @description: Adds a JSON object under specified key in existing JSON.
 #!
-#! @input json_object: existing JSON object
+#! @input json_object: Existing JSON object.
 #!                     Example: '{"server": {"security_groups": [{"name": "default"}], "networks": []}}'
-#! @input key: key where the new JSON object will be added
+#! @input key: Key where the new JSON object will be added.
 #!             Example: 'block_device_mapping_v2'
-#! @input value: the JSON object to add
+#! @input value: The JSON object to add.
 #!               Example: '{"source_type": "image", "uuid": "b67f9da0-4a89-4588-b0f5-bf4d19401743", "boot_index": "0"}'
 #!
-#! @output return_result: JSON object updated
-#! @output return_code: "0" if success, "-1" otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: JSON object updated.
+#! @output return_code: "0" if success, "-1" otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: successfully inserted the JSON object (return_code == '0')
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 

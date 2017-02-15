@@ -1,4 +1,4 @@
-#   (c) Copyright 2016 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -9,27 +9,29 @@
 #!!
 #! @description: Checks if an OpenStack server exists.
 #!
-#! @input host: OpenStack machine host
-#! @input identity_port: optional - port used for OpenStack authentication - Default: '5000'
-#! @input compute_port: optional - port used for OpenStack computations - Default: '8774'
-#! @input username: OpenStack username
-#! @input password: OpenStack password
-#! @input tenant_name: name of OpenStack project
-#! @input proxy_host: optional - proxy server used to access web site
-#! @input proxy_port: optional - proxy server port
-#! @input server_name: server name to check
+#! @input host: OpenStack machine host.
+#! @input identity_port: Optional - Port used for OpenStack authentication.
+#!                       Default: '5000'
+#! @input compute_port: Optional - Port used for OpenStack computations.
+#!                      Default: '8774'
+#! @input username: OpenStack username.
+#! @input password: OpenStack password.
+#! @input tenant_name: name of OpenStack project.
+#! @input proxy_host: Optional - Proxy server used to access web site.
+#! @input proxy_port: Optional - Proxy server port.
+#! @input server_name: Server name to check.
 #!
-#! @output return_result: response of last operation executed
-#! @output error_message: error message of operation that failed
+#! @output return_result: Response of last operation executed.
+#! @output error_message: Error message of operation that failed.
 #!
-#! @result SUCCESS: the OpenStack server (instance) exist
-#! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
-#! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name
-#!                                cannot be obtained from authentication call response
-#! @result GET_AUTHENTICATION_FAILURE: authentication call fails
-#! @result GET_SERVERS_FAILURE: call for list OpenStack servers (instances) fails
-#! @result EXTRACT_SERVERS_FAILURE: list of OpenStack servers (instances) could not be retrieved
-#! @result CHECK_SERVER_FAILURE: check for specified OpenStack server (instance) fails
+#! @result SUCCESS: The OpenStack server (instance) exists.
+#! @result GET_AUTHENTICATION_TOKEN_FAILURE: Authentication token cannot be obtained from authentication call response.
+#! @result GET_TENANT_ID_FAILURE: Tenant_id corresponding to tenant_name
+#!                                cannot be obtained from authentication call response.
+#! @result GET_AUTHENTICATION_FAILURE: Authentication call fails.
+#! @result GET_SERVERS_FAILURE: Call for list OpenStack servers (instances) fails.
+#! @result EXTRACT_SERVERS_FAILURE: List of OpenStack servers (instances) could not be retrieved.
+#! @result CHECK_SERVER_FAILURE: Check for specified OpenStack server (instance) fails.
 #!!#
 ########################################################################################################################
 
