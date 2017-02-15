@@ -118,17 +118,8 @@ flow:
           - status_code
           - output: ${return_result}
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404,409'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -137,25 +128,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,202'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: get_storage_account_key
-          - FAILURE: FAILURE
-    - get_storage_account_key:
-        do:
-          json.get_value:
-            - json_input: ${output}
-            - json_path: 'key1'
-        publish:
-          - key: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

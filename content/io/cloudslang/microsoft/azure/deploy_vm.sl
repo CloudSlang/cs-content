@@ -414,7 +414,7 @@ flow:
 
     - get_vm_public_ip_address:
         do:
-          ip.list_public_ip_addresses_within_resource_group:
+          ip.list_public_ip_addresses_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token

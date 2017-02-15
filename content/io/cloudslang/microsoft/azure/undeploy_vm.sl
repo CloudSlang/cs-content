@@ -179,12 +179,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_vms_in_a_resource_group
+          - SUCCESS: get_vms_for_resource_group
           - FAILURE: on_failure
 
-    - list_vms_in_a_resource_group:
+    - get_vms_for_resource_group:
         do:
-          vm.list_vms_in_a_resource_group:
+          vm.get_vms_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -231,7 +231,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_vms_in_a_resource_group
+          - SUCCESS: get_vms_for_resource_group
           - FAILURE: on_failure
 
     - delete_nic:
@@ -255,12 +255,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_nics_within_resource_group
+          - SUCCESS: list_nics_for_resource_group
           - FAILURE: on_failure
 
-    - list_nics_within_resource_group:
+    - list_nics_for_resource_group:
         do:
-          nic.list_nics_within_resource_group:
+          nic.list_nics_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -307,7 +307,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_nics_within_resource_group
+          - SUCCESS: list_nics_for_resource_group
           - FAILURE: on_failure
 
     - delete_public_ip_address:
@@ -331,12 +331,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_public_ip_addresses_within_resource_group
+          - SUCCESS: list_public_ip_addresses_for_resource_group
           - FAILURE: on_failure
 
-    - list_public_ip_addresses_within_resource_group:
+    - list_public_ip_addresses_for_resource_group:
         do:
-          ip.list_public_ip_addresses_within_resource_group:
+          ip.list_public_ip_addresses_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -383,7 +383,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_public_ip_addresses_within_resource_group
+          - SUCCESS: list_public_ip_addresses_for_resource_group
           - FAILURE: on_failure
 
     - get_storage_auth:

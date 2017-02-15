@@ -7,7 +7,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a list of all available virtual machine sizes it can be resized to.
+#! @description: This operation can be used to retrieve a JSON array containing all
+#!               available virtual machine sizes it can be resized to.
 #!
 #! @input subscription_id: The ID of the Azure Subscription from which the list of available virtual machine sizes can
 #!                         be retrieved.
@@ -37,7 +38,7 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all available virtual machine sizes it can be resized to.
+#! @output output: The list of all available virtual machine sizes it can be resized to as a JSON array.
 #! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
 #! @output error_message: If no offer is found the error message will be populated with a response, empty otherwise.
 #!
@@ -112,17 +113,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '502'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -131,15 +123,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

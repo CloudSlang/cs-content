@@ -7,10 +7,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a List of load balancers within a subscription
+#! @description: This operation can be used to retrieves a JSON array containing all load balancers within a resource group.
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input api_version: The API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure.
+#!                     Default: '2015-06-15'
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input preemptive_auth: Optional - if 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header
@@ -56,13 +58,13 @@
 #! @input chunked_request_entity: Optional - data is sent in a series of 'chunks' - Valid: true/false
 #!                                Default: "false"
 #!
-#! @output output: The list of load balancers from within the subscription
+#! @output output: The list of load balancers from within the resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a load balanceris not found the error message will be populated with a response,
+#! @output error_message: If a load balancer is not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: The list with all the load balancers within the subscription retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the list of load balancers from within the subscription.
+#! @result SUCCESS: The list with all the load balancers within the resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of network cards from within the resource group.
 #!!#
 ########################################################################################################################
 
@@ -74,10 +76,11 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_load_balancers_within_subscription
+  name: list_load_balancers_for_resource_group
 
   inputs:
     - subscription_id
+    - resource_group_name
     - auth_token
     - api_version:
         required: false
@@ -136,7 +139,9 @@ flow:
     - list_load_balancers:
         do:
           http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/providers/Microsoft.Network/loadBalancers?api-version=' + api_version}
+            - url: >
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
+                resource_group_name + '/providers/Microsoft.Network/loadBalancers?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - preemptive_auth
@@ -159,17 +164,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -178,15 +174,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

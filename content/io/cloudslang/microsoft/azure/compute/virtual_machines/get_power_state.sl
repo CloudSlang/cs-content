@@ -41,11 +41,11 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: json response with information about the virtual machine's instance power state
-#! @output power_state: power state json response
-#! @output status_code: If a VM is not found the error message will be populated with a response, empty otherwise
+#! @output output: json response with information about the virtual machine's instance power state as a JSON array.
+#! @output power_state: Power state json response.
+#! @output status_code: If a VM is not found the error message will be populated with a response, empty otherwise.
 #! @output error_message: If an error occurs while running the flow it will be populated in this output,
-#!                        otherwise the output will be empty
+#!                        otherwise the output will be empty.
 #!
 #! @result SUCCESS: Virtual machine power state retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the power state of the virtual machine.
@@ -126,17 +126,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: get_power_status
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -146,16 +137,7 @@ flow:
         publish:
           - error_message: ${return_result}
         navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
-          - SUCCESS: get_power_status
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
     - get_power_status:

@@ -7,15 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a list of all  available virtual machine sizes
-#!               for a subscription in a given region.
+#! @description: This operation can be used to retrieve a list of subnets from within a virtual network.
 #!
-#! @input subscription_id: The ID of the Azure Subscription from which the list of available vm sizes within the specified
-#!                         region can be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the subnet list.
+#! @input resource_group_name: The name of the Azure Resource Group from which to retrieve the subnet list.
+#! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
-#! @input auth_token: Azure authorization Bearer token
-#! @input location: A supported Azure region
+#! @input virtual_network_name: Name of the virtual network containing the subnets.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -27,43 +26,42 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all  available virtual machine sizes for a subscription in a given region.
-#! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
-#! @output error_message: If no available virtual machine size is found the error message
-#!                        will be populated with a response, empty otherwise.
+#! @output output: Json response about the list of subnets within a virtual network.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output error_message: If no subnets are found the error message will be populated with a response, empty otherwise
 #!
-#! @result SUCCESS: The list of all available virtual machine sizes for a subscription in a given region
-#! @result FAILURE: There was an error while trying to retrieve the list of all available
-#!                  virtual machine sizes for a subscription in a given region.
+#! @result SUCCESS: Subnet list retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of subnets from the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft.azure.compute.network.subnet
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
   strings: io.cloudslang.base.strings
 
-flow:
-  name: list_available_vm_sizes_in_a_region
-
+flow: 
+  name: list_subnets_for_virtual_network
+  
   inputs:
     - subscription_id
     - auth_token
-    - location
+    - resource_group_name   
     - api_version:
         required: false
         default: '2015-06-15'
+    - virtual_network_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -85,14 +83,15 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-
-  workflow:
-    - list_available_vm_sizes_in_a_region:
+    
+  workflow: 
+    - update_subnet:
         do:
           http.http_client_get:
             - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id +
-                '/providers/Microsoft.Compute/locations/' + location + '/vmSizes?api-version=' + api_version}
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
+                resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
+                '/subnets?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -110,17 +109,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '502'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -129,15 +119,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -150,3 +131,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
