@@ -34,7 +34,7 @@ operation:
     - command
     - cwd:
         required: false
-        default: None
+        default: null
 
   python_action:
     script: |
@@ -43,7 +43,7 @@ operation:
       return_code = 0
       return_result = ''
       error_message = ''
-      cwd = os.getcwd() if cwd is not None else cwd
+      cwd = os.getcwd() if cwd is None else cwd
       try:
         res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
         output,error = res.communicate()
