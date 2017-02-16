@@ -22,7 +22,41 @@ testAmazonDescribeNetworkInterfacesLocal:
     - headers: <headers>
     - query_params: <query_params>
     - delimiter: <delimiter>
-    - filter_names_string: <filter_names_string>
-    - filter_values_string: <filter_values_string>
+    - filter_addresses_private_ip_address: <filter_addresses_private_ip_address>
+    - filter_addresses_primary: <filter_addresses_primary>
+    - filter_addresses_association_public_ip: <filter_addresses_association_public_ip>
+    - filter_addresses_association_owner_id: <filter_addresses_association_owner_id>
+    - filter_association_association_id: <filter_association_association_id>
+    - filter_association_allocation_id: <filter_association_allocation_id>
+    - filter_association_ip_owner_id: <filter_association_ip_owner_id>
+    - filter_association_public_ip: <filter_association_public_ip>
+    - filter_association_public_dns_name: <filter_association_public_dns_name>
+    - filter_attachment_attachment_id: <filter_attachment_attachment_id>
+    - filter_attachment_attach_time: <filter_attachment_attach_time>
+    - filter_attachment_delete_on_termination: <filter_attachment_delete_on_termination>
+    - filter_attachment_device_index: <filter_attachment_device_index>
+    - filter_attachment_instance_id: <filter_attachment_instance_id>
+    - filter_attachment_instance_owner_id: <filter_attachment_instance_owner_id>
+    - filter_attachment_nat_gateway_id: <filter_attachment_nat_gateway_id>
+    - filter_attachment_status: <filter_attachment_status>
+    - filter_availability_zone: <filter_availability_zone>
+    - filter_description: <filter_availability_zone>
+    - filter_group_id: <filter_group_id>
+    - filter_group_name: <filter_group_name>
+    - filter_ipv6_addresses_ipv6_address: <filter_ipv6_addresses_ipv6_address>
+    - filter_mac_address: <filter_mac_address>
+    - filter_network_interface_id: <filter_network_interface_id>
+    - filter_owner_id: <filter_owner_id>
+    - filter_private_ip_address: <filter_private_ip_address>
+    - filter_private_dns_name: <filter_private_dns_name>
+    - filter_requester_id: <filter_requester_id>
+    - filter_requester_managed: <filter_requester_managed>
+    - filter_source_desk_check: <filter_source_desk_check>
+    - filter_status: <filter_status>
+    - filter_subnet_id: <filter_subnet_id>
+    - filter_tag: <filter_tag>
+    - filter_tag_key: <filter_tag_key>
+    - filter_tag_value: <filter_tag_value>
+    - filter_vpc_id: <filter_vpc_id>
     - network_interface_id: <network_interface_id>
   result: SUCCESS

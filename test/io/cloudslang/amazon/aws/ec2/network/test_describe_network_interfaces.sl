@@ -40,9 +40,80 @@ flow:
         required: false
     - delimiter
     - version
-    - filter_names_string
-    - filter_values_string
-    - network_interface_id
+    - filter_addresses_private_ip_address:
+        required: false
+    - filter_addresses_primary:
+        required: false
+    - filter_addresses_association_public_ip:
+        required: false
+    - filter_addresses_association_owner_id:
+        required: false
+    - filter_association_association_id:
+        required: false
+    - filter_association_allocation_id:
+        required: false
+    - filter_association_ip_owner_id:
+        required: false
+    - filter_association_public_ip:
+        required: false
+    - filter_association_public_dns_name:
+        required: false
+    - filter_attachment_attachment_id:
+        required: false
+    - filter_attachment_attach_time:
+        required: false
+    - filter_attachment_delete_on_termination:
+        required: false
+    - filter_attachment_device_index:
+        required: false
+    - filter_attachment_instance_id:
+        required: false
+    - filter_attachment_instance_owner_id:
+        required: false
+    - filter_attachment_nat_gateway_id:
+        required: false
+    - filter_attachment_status:
+        required: false
+    - filter_availability_zone:
+        required: false
+    - filter_description:
+        required: false
+    - filter_group_id:
+        required: false
+    - filter_group_name:
+        required: false
+    - filter_ipv6_addresses_ipv6_address:
+        required: false
+    - filter_mac_address:
+        required: false
+    - filter_network_interface_id:
+        required: false
+    - filter_owner_id:
+        required: false
+    - filter_private_ip_address:
+        required: false
+    - filter_private_dns_name:
+        required: false
+    - filter_requester_id:
+        required: false
+    - filter_requester_managed:
+        required: false
+    - filter_source_desk_check:
+        required: false
+    - filter_status:
+        required: false
+    - filter_subnet_id:
+        required: false
+    - filter_tag:
+        required: false
+    - filter_tag_key:
+        required: false
+    - filter_tag_value:
+        required: false
+    - filter_vpc_id:
+        required: false
+    - network_interface_id:
+        required: false
 
   workflow:
     - describe_network_interfaces:
@@ -59,8 +130,42 @@ flow:
             - query_params
             - delimiter
             - version
-            - filter_names_string
-            - filter_values_string
+            - filter_addresses_private_ip_address
+            - filter_addresses_primary
+            - filter_addresses_association_public_ip
+            - filter_addresses_association_owner_id
+            - filter_association_association_id
+            - filter_association_allocation_id
+            - filter_association_ip_owner_id
+            - filter_association_public_ip
+            - filter_association_public_dns_name
+            - filter_attachment_attachment_id
+            - filter_attachment_attach_time
+            - filter_attachment_delete_on_termination
+            - filter_attachment_device_index
+            - filter_attachment_instance_id
+            - filter_attachment_instance_owner_id
+            - filter_attachment_nat_gateway_id
+            - filter_attachment_status
+            - filter_availability_zone
+            - filter_description
+            - filter_group_id
+            - filter_group_name
+            - filter_ipv6_addresses_ipv6_address
+            - filter_mac_address
+            - filter_network_interface_id
+            - filter_owner_id
+            - filter_private_ip_address
+            - filter_private_dns_name
+            - filter_requester_id
+            - filter_requester_managed
+            - filter_source_desk_check
+            - filter_status
+            - filter_subnet_id
+            - filter_tag
+            - filter_tag_key
+            - filter_tag_value
+            - filter_vpc_id
             - network_interface_id
         publish:
           - return_result
