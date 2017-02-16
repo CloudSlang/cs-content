@@ -42,4 +42,3 @@ notifications:
   slack:
     rooms:
       - cloudslang:${slacktoken}#advocates
-
