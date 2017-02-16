@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to get information about a specified network interface card
+#! @description: This operation can be used to get information about a specified network interface card
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input api_version: The API version used to create calls to Azure
@@ -76,7 +76,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: get_load_balancer_info
+  name: get_load_balancer_details
 
   inputs:
     - subscription_id
@@ -140,7 +140,10 @@ flow:
     - get_load_balancer_info:
         do:
           http.http_client_get:
-            - url: ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/loadBalancers/' + load_balancer_name + '?api-version=' + api_version}
+            - url: >
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
+                resource_group_name + '/providers/Microsoft.Network/loadBalancers/' +
+                load_balancer_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type
             - preemptive_auth
@@ -163,17 +166,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -182,15 +176,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

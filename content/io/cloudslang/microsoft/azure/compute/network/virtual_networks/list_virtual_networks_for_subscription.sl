@@ -7,23 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all available virtual machine sizes that can be used to
-#!               create a new virtual machine in an existing availability set
+#! @description: This operation can be used to retrieve a JSON array containing all virtual networks within a subscription.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-06-15'
-#! @input availability_set_name: virtual machine name
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of virtual networks.
 #! @input auth_token: Azure authorization Bearer token
-#! @input vm_name: The name of the virtual machine to be created.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: A supported Azure region
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2016-03-30'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -37,20 +33,18 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all available virtual machine sizes that can be used to create a new virtual machine
-#!                 in an existing availability set
-#! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
-#! @output error_message: If no available virtual machine size that can be used is found the error message will be
-#!                        populated with a response, empty otherwise
+#! @output output: information about the list of network security groups within a subscription
+#! @output status_code: 200 if request completed successfully, others in case something went wrong
+#! @output error_message: If the resource group is  not found the error message will be populated with a response,
+#!                        empty otherwise
 #!
-#! @result SUCCESS: The list of all available virtual machine sizes that can be used to create a new virtual machine
-#!                  in an existing availability set
-#! @result FAILURE: There was an error while trying to retrieve the list of all available virtual machine sizes that can
-#!                  be used to create a new virtual machine in an existing availability set
+#! @result SUCCESS: Information about the list of virtual networks withing subscription retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve retrieve information about the list of virtual networks
+#!                  withing subscription
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft.azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
@@ -58,15 +52,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_available_vm_sizes_in_an_availability_set
+  name: list_virtual_networks_for_subscription
 
   inputs:
     - subscription_id
     - auth_token
-    - availability_set_name
     - api_version:
         required: false
-        default: '2015-06-15'
+        default: '2016-03-30'
     - proxy_host:
         required: false
     - proxy_port:
@@ -90,13 +83,12 @@ flow:
         sensitive: true
 
   workflow:
-    - list_available_vm_sizes_in_an_availability_set:
+    - list_virtual_networks_within_subscription:
         do:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id +
-                '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
-                '/vmSizes?api-version=' + api_version}
+                '/providers/Microsoft.Network/virtualnetworks?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -115,12 +107,12 @@ flow:
           - status_code
         navigate:
           - SUCCESS: check_error_status
-          - FAILURE: FAILURE
+          - FAILURE: check_error_status
 
     - check_error_status:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: '502'
+            - string_in_which_to_search: '400,401,404'
             - string_to_find: ${status_code}
         navigate:
           - SUCCESS: retrieve_error
@@ -154,3 +146,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+

@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to create or update a virtual machine extension
+#! @description: This operation can be used to create or update a virtual machine extension
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
@@ -133,17 +133,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404,409'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -152,15 +143,6 @@ flow:
             - json_path: 'error,message'
         publish:
           - error_message: ${return_result}
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,202'
-            - string_to_find: ${status_code}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

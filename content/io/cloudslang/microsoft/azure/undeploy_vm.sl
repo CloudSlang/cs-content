@@ -34,9 +34,10 @@
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -178,12 +179,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_vms_in_a_resource_group
+          - SUCCESS: get_vms_for_resource_group
           - FAILURE: on_failure
 
-    - list_vms_in_a_resource_group:
+    - get_vms_for_resource_group:
         do:
-          vm.list_vms_in_a_resource_group:
+          vm.get_vms_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -230,7 +231,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_vms_in_a_resource_group
+          - SUCCESS: get_vms_for_resource_group
           - FAILURE: on_failure
 
     - delete_nic:
@@ -254,12 +255,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_nics_within_resource_group
+          - SUCCESS: list_nics_for_resource_group
           - FAILURE: on_failure
 
-    - list_nics_within_resource_group:
+    - list_nics_for_resource_group:
         do:
-          nic.list_nics_within_resource_group:
+          nic.list_nics_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -306,7 +307,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_nics_within_resource_group
+          - SUCCESS: list_nics_for_resource_group
           - FAILURE: on_failure
 
     - delete_public_ip_address:
@@ -330,12 +331,12 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: list_public_ip_addresses_within_resource_group
+          - SUCCESS: list_public_ip_addresses_for_resource_group
           - FAILURE: on_failure
 
-    - list_public_ip_addresses_within_resource_group:
+    - list_public_ip_addresses_for_resource_group:
         do:
-          ip.list_public_ip_addresses_within_resource_group:
+          ip.list_public_ip_addresses_for_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -382,7 +383,7 @@ flow:
           flow.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: list_public_ip_addresses_within_resource_group
+          - SUCCESS: list_public_ip_addresses_for_resource_group
           - FAILURE: on_failure
 
     - get_storage_auth:

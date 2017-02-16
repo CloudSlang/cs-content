@@ -7,20 +7,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about a virtual network
+#! @description: This operation can be used to retrieve a list of resource groups within the specified resource group
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of resource groups.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2016-03-30'
-#! @input virtual_network_name: Name of the virtual network to retrieve information about
+#!                     Default: '2015-01-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -34,17 +34,17 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response with information about the virtual network
+#! @output output: information about the specified resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a virtual network is not found the error message will be populated with a response,
+#! @output error_message: If the resource group is  not found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Virtual network information retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the virtual network.
+#! @result SUCCESS: Information about the resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve retrieve information about the resource group
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.network.virtual_networks
+namespace: io.cloudslang.microsoft.azure.compute.resource_groups
 
 imports:
   http: io.cloudslang.base.http
@@ -52,7 +52,7 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: information_about_virtual_network
+  name: get_resource_group_details
 
   inputs:
     - subscription_id
@@ -60,8 +60,7 @@ flow:
     - auth_token
     - api_version:
         required: false
-        default: '2016-03-30'
-    - virtual_network_name
+        default: '2015-01-01'
     - proxy_host:
         required: false
     - proxy_port:
@@ -85,13 +84,12 @@ flow:
         sensitive: true
 
   workflow:
-    - information_about_virtual_network:
+    - get_information_about_a_resource_group:
         do:
           http.http_client_get:
             - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
-                '?api-version=' + api_version}
+                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourcegroups/' +
+                resource_group_name + '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -136,7 +134,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${status_code}
-            - second_string: '201'
+            - second_string: '200'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE

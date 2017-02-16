@@ -7,10 +7,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to delete a virtual machine
+#! @description: This operation can be used to delete a virtual machine.
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be deleted.
-#! @input auth_token: Azure authorization Bearer token
+#! @input auth_token: Azure authorization Bearer token.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the VM.
 #! @input vm_name: The name of the virtual machine to be deleted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
@@ -23,8 +23,10 @@
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -34,7 +36,6 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default: ''
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -123,17 +124,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - FAILURE: check_error_status
-          - SUCCESS: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404,412'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -143,18 +135,8 @@ flow:
         publish:
           - error_message: ${return_result}
         navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,202'
-            - string_to_find: ${status_code}
-        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
 
   outputs:
     - status_code

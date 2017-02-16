@@ -7,20 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of all available virtual machine sizes that can be used to
-#!               create a new virtual machine in an existing availability set
+#! @description: This operation can be used to retrieve a List of network interface cards within a subscription
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2016-09-01'
-#! @input availability_set_name: availability set name
+#! @input subscription_id: The ID of the Azure Subscription from which to retrieve the list of network interface cards.
+#! @input auth_token: Azure authorization Bearer token.
+#! @input api_version: The API version used to create calls to Azure.
+#!                     Default: '2015-06-15'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -34,20 +33,17 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all available virtual machine sizes that can be used to create a new virtual machine
-#!                 in an existing availability set
+#! @output output: information about the network interface card
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If no virtual machine size is found the error message will be populated with a response,
+#! @output error_message: If no network interface card is found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: All available virtual machine sizes that can be used to create a new virtual machine in an
-#!                  existing availability set retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve all available virtual machine sizes that can be used to
-#!                  create a new virtual machine in an existing availability set.
+#! @result SUCCESS: The list with all the network interface cards within the subscription retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of network cards from within the subscription.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.virtual_machines.availability_sets
+namespace: io.cloudslang.microsoft.azure.compute.network.network_interface_card
 
 imports:
   http: io.cloudslang.base.http
@@ -55,15 +51,14 @@ imports:
   strings: io.cloudslang.base.strings
 
 flow:
-  name: list_available_vm_sizes_in_availability_set
+  name: list_nics_for_subscription
 
   inputs:
     - subscription_id
     - auth_token
     - api_version:
         required: false
-        default: '2016-09-01'
-    - availability_set_name
+        default: '2015-06-15'
     - proxy_host:
         required: false
     - proxy_port:
@@ -87,13 +82,12 @@ flow:
         sensitive: true
 
   workflow:
-    - list_available_vm_sizes_in_availability_set:
+    - list_nics:
         do:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id +
-                '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
-                '/vmSizes?api-version=' + api_version}
+                '/providers/Microsoft.Network/networkInterfaces?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -111,17 +105,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -131,18 +116,8 @@ flow:
         publish:
           - error_message: ${return_result}
         navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
