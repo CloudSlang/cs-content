@@ -109,7 +109,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.7'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.9'
     class_name: io.cloudslang.content.amazon.actions.network.DetachNetworkInterfaceAction
     method_name: execute
 
