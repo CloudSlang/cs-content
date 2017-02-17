@@ -377,5 +377,5 @@ operation:
     - response_headers: ${get('responseHeaders', '')}
 
   results:
-    - SUCCESS: ${returnCode == '0' and str(statusCode) in valid_http_status_codes}
+    - SUCCESS: ${(returnCode == '0') and (str(statusCode) in valid_http_status_codes)}
     - FAILURE
