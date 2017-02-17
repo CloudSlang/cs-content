@@ -19,14 +19,14 @@
 #!                    Default: ''
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both <proxy_host> and <proxy_port>
 #!                    inputs or leave them both empty.
-#!                    Default: ''
+#!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
 #!                        Default: ''
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #!                        Default: ''
-#! @input version: Version of the web service to make the call against it.
-#!                 Example: '2014-06-15'
-#!                 Default: '2014-06-15'
+#! @input version: Optional - Version of the web service to make the call against it.
+#!                 Example: '2016-11-15'
+#!                 Default: '2016-11-15'
 #! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF). The
 #!                 header name-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
@@ -394,7 +394,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.8'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.9'
     class_name: io.cloudslang.content.amazon.actions.network.DescribeNetworkInterfacesAction
     method_name: execute
 
