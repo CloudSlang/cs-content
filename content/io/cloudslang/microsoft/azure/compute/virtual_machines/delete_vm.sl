@@ -55,7 +55,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: delete_vm

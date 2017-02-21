@@ -61,7 +61,6 @@ namespace: io.cloudslang.microsoft.azure.compute.network.load_balancers
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: create_load_balancer

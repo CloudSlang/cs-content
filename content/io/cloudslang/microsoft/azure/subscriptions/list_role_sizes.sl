@@ -50,7 +50,6 @@ namespace: io.cloudslang.microsoft.azure.subscriptions
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_role_sizes

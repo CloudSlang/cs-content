@@ -61,7 +61,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines.extensions
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: add_or_update_extension

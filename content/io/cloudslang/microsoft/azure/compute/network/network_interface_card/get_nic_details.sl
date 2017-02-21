@@ -56,7 +56,6 @@ namespace: io.cloudslang.microsoft.azure.compute.network.network_interface_card
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow: 
   name: get_nic_details
@@ -120,9 +119,6 @@ flow:
             - x_509_hostname_verifier
             - trust_keystore
             - trust_password
-        publish:
-          - output: ${return_result}
-          - status_code
         publish:
           - output: ${return_result}
           - status_code

@@ -49,7 +49,6 @@ namespace: io.cloudslang.microsoft.azure.databases
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_sql_servers

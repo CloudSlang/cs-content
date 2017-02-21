@@ -58,7 +58,6 @@
 namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 
 imports:
-  strings: io.cloudslang.base.strings
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 

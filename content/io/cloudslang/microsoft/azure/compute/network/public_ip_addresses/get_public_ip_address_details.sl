@@ -56,7 +56,6 @@ namespace: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: get_public_ip_address_details
