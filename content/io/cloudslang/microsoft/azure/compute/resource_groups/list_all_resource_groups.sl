@@ -49,7 +49,6 @@ namespace: io.cloudslang.microsoft.azure.compute.resource_groups
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_all_resource_groups

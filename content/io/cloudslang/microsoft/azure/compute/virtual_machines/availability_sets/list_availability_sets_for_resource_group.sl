@@ -50,7 +50,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines.availability_s
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_availability_sets_for_resource_group

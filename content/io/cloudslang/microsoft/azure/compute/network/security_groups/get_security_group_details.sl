@@ -52,7 +52,6 @@ namespace: io.cloudslang.microsoft.azure.compute.network.security_groups
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: get_security_group_details
