@@ -7,51 +7,53 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes one or more volumes.
-#!               Note: If you are describing a long list of volumes, you can paginate the output to make the list more manageable.
-#!               The maxResults parameter sets the maximum number of results returned in a single page.
-#!               If the list of results exceeds your maxResults value, then that number of results is returned along with a
-#!               nextToken value that can be passed to a subsequent DescribeVolumes operation to retrieve the remaining results.
+#! @description: This operation can be used to retrieve information about one or more volumes, in XML format, that
+#!               respect all the filter criterion.
+#!               Note: If you are describing a long list of volumes, you can paginate the output to make the list more
+#!               manageable. The max_results parameter sets the maximum number of results returned in a single page.
+#!               If the list of results exceeds your max_results value, then that number of results is returned along
+#!               with a next_token value that can be passed to a subsequent describe_volumes operation
+#!               to retrieve the remaining results.
 #!
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Endpoint to which first request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #!                  Optional
-#! @input identity: Amazon Access Key ID
-#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: Proxy server used to access the provider services
+#! @input identity: Amazon Access Key ID.
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input proxy_host: Proxy server used to access the provider services.
 #!                    Default: ''
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Default: ''
 #!                        Optional
-#! @input proxy_password: Proxy server password associated with the proxy_username
-#!                        input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Default: ''
 #!                        Optional
-#! @input headers: String containing the headers to use for the request separated
-#!                 by new line (CRLF). The header name-value pair will be separated by ':'.
+#! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
+#!                 name-value pair will be separated by ':'.
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616)
 #!                 Examples: 'Accept:text/plain'
 #!                 Default: ''
 #!                 Optional
-#! @input query_params: String containing query parameters that will be appended to
-#!                      the URL. The names and the values must not be URL encoded because if
-#!                      they are encoded then a double encoded will occur. The separator between
-#!                      name-value pairs is '&' symbol. The query name will be separated from
+#! @input query_params: String containing query parameters that will be appended to the URL. The names and the values
+#!                      must not be URL encoded because if they are encoded then a double encoded will occur.
+#!                      The separator between name-value pairs is '&' symbol. The query name will be separated from
 #!                      query value by '='.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
 #!                      Optional
-#! @input delimiter: Delimiter that will be used
+#! @input delimiter: Delimiter that will be used to separate parameters in all of the inputs.
 #!                   Default: ','
 #!                   Optional
 #! @input version: Version of the web service to made the call against it.
 #!                 Example: '2016-11-15'
 #!                 Default: '2016-11-15'
-#! @input volume_ids_string: String that contains one or more values that represents volume IDs.
+#! @input volume_ids_string: String that contains one or more values that represents volume IDs. If this input is empty,
+#!                           the filters will be applied to all the volumes accessible by the account, otherwise
+#!                           the given volumes will be filtered.
 #!                           Example: 'vol-12345678,vol-abcdef12,vol-12ab34cd'
 #!                           Default: ''
 #!                           Optional
@@ -60,7 +62,7 @@
 #!                                       Default: ''
 #!                                       Optional
 #! @input filter_attachment_delete_on_termination: Whether the volume is deleted on instance termination.
-#!                                                 Valid values: true | false
+#!                                                 Valid values: 'true', 'false'
 #!                                                 Default: ''
 #!                                                 Optional
 #! @input filter_attachment_device: The device name that is exposed to the instance.
@@ -72,7 +74,7 @@
 #!                                       Default: ''
 #!                                       Optional
 #! @input filter_attachment_status: The attachment state.
-#!                                  Valid values: attaching | attached | detaching | detached
+#!                                  Valid values: 'attaching', 'attached', 'detaching', 'detached'
 #!                                  Default: ''
 #!                                  Optional
 #! @input filter_availability_zone: The Availability Zone in which the volume was created.
@@ -83,7 +85,7 @@
 #!                            Default: ''
 #!                            Optional
 #! @input filter_encrypted: The encryption status of the volume.
-#!                          Valid values: true | false
+#!                          Valid values: 'true', 'false'
 #!                          Default: ''
 #!                          Optional
 #! @input filter_size: The size of the volume, in GiB.
@@ -95,25 +97,23 @@
 #!                            Default: ''
 #!                            Optional
 #! @input filter_status: The status of the volume.
-#!                       Valid values: creating | available | in-use | deleting | deleted | error
+#!                       Valid values: 'creating', 'available', 'in-use', 'deleting', 'deleted', 'error'
 #!                       Default: ''
 #!                       Optional
 #! @input filter_tag: The key/value combination of a tag assigned to the resource.
 #!                    Example: 'tagKey=tagValue'
 #!                    Default: ''
 #!                    Optional
-#! @input filter_tag_key: The key of a tag assigned to the resource. This filter is
-#!                        independent of the filterTagValue filter. For example, if you use both
-#!                        the filter filterTagKey='Purpose' and the filter filterTagValue='X',
+#! @input filter_tag_key: The key of a tag assigned to the resource. This filter is independent of the filter_tag_value
+#!                        filter. For example, if you use both filter_tag_key='Purpose' and filter_tag_value='X',
 #!                        you get any resources assigned both the tag key Purpose (regardless of what the tag's value is),
 #!                        and the tag value X (regardless of what the tag's key is).
-#!                        Note: If you want to list only resources where Purpose is X,
-#!                        see the filterTag filter.
+#!                        Note: If you want to list only resources where Purpose is X, see the filter_tag filter.
 #!                        Example: 'tagKey'
 #!                        Default: ''
 #!                        Optional
 #! @input filter_tag_value: The value of a tag assigned to the resource.
-#!                          This filter is independent of the filterTagKey filter.
+#!                          This filter is independent of the filter_tag_key filter.
 #!                          Example: 'tagValue'
 #!                          Optional
 #! @input filter_volume_id: The volume ID.
@@ -121,12 +121,12 @@
 #!                          Default: ''
 #!                          Optional
 #! @input filter_volume_type: The Amazon EBS volume type.
-#!                            Valid values: gp2 | io1 | st1 | sc1 | standard
+#!                            Valid values: 'gp2', 'io1', 'st1', 'sc1', 'standard'
 #!                            Default: ''
 #!                            Optional
-#! @input max_results: The maximum number of results to return in a single call. To retrieve the
-#!                     remaining results, make another call with the returned NextToken value. This value can
-#!                     be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter
+#! @input max_results: The maximum number of results to return in a single call. To retrieve the remaining results,
+#!                     make another call with the returned NextToken value. This value can be between 5 and 1000.
+#!                     You cannot specify this parameter and the instance IDs parameter
 #!                     or tag filters in the same call.
 #!                     Default: ''
 #!                     Optional
@@ -135,12 +135,12 @@
 #!                    Default: ''
 #!                    Optional
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output return_result: Contains the response in XML format, otherwise the exception.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The list with existing servers (volumes) was successfully retrieved
-#! @result FAILURE: An error occurred when trying to retrieve servers (volumes) list
+#! @result SUCCESS: The list with existing volumes was successfully retrieved.
+#! @result FAILURE: An error occurred when trying to retrieve volumes list.
 #!!#
 ########################################################################################################################
 
