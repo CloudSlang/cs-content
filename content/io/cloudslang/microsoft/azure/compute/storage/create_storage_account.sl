@@ -134,7 +134,7 @@ flow:
         publish:
           - error_message: ${return_result}
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: FAILURE
           - FAILURE: FAILURE
 
   outputs:
