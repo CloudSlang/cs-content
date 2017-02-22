@@ -136,7 +136,7 @@ flow:
         publish:
           - error_message: ${return_result}
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: FAILURE
           - FAILURE: FAILURE
 
     - get_power_status:
