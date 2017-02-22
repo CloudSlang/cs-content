@@ -11,13 +11,14 @@
 #!               respect all the filter criterion.
 #!               Note: If you are describing a long list of volumes, you can paginate the output to make the list more
 #!               manageable. The max_results parameter sets the maximum number of results returned in a single page.
-#!               If the list of results exceeds your max_results value, then that number of results is returned along with a
-#!               next_token value that can be passed to a subsequent describe_volumes operation to retrieve the remaining results.
+#!               If the list of results exceeds your max_results value, then that number of results is returned along
+#!               with a next_token value that can be passed to a subsequent describe_volumes operation
+#!               to retrieve the remaining results.
 #!
 #! @input endpoint: Endpoint to which first request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #!                  Optional
-#! @input identity: Amazon Access Key ID
+#! @input identity: Amazon Access Key ID.
 #! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Default: ''
@@ -51,8 +52,8 @@
 #!                 Example: '2016-11-15'
 #!                 Default: '2016-11-15'
 #! @input volume_ids_string: String that contains one or more values that represents volume IDs. If this input is empty,
-#!                           the filters will be applied to all the volumes accessible by the account, otherwise the given
-#!                           volumes will be filtered.
+#!                           the filters will be applied to all the volumes accessible by the account, otherwise
+#!                           the given volumes will be filtered.
 #!                           Example: 'vol-12345678,vol-abcdef12,vol-12ab34cd'
 #!                           Default: ''
 #!                           Optional
@@ -107,8 +108,7 @@
 #!                        filter. For example, if you use both filter_tag_key='Purpose' and filter_tag_value='X',
 #!                        you get any resources assigned both the tag key Purpose (regardless of what the tag's value is),
 #!                        and the tag value X (regardless of what the tag's key is).
-#!                        Note: If you want to list only resources where Purpose is X,
-#!                        see the filter_tag filter.
+#!                        Note: If you want to list only resources where Purpose is X, see the filter_tag filter.
 #!                        Example: 'tagKey'
 #!                        Default: ''
 #!                        Optional
@@ -135,12 +135,12 @@
 #!                    Default: ''
 #!                    Optional
 #!
-#! @output return_result: contains the response in XML format, otherwise the exception
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output return_result: Contains the response in XML format, otherwise the exception.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The list with existing servers (volumes) was successfully retrieved
-#! @result FAILURE: An error occurred when trying to retrieve servers (volumes) list
+#! @result SUCCESS: The list with existing servers (volumes) was successfully retrieved.
+#! @result FAILURE: An error occurred when trying to retrieve servers (volumes) list.
 #!!#
 ########################################################################################################################
 
