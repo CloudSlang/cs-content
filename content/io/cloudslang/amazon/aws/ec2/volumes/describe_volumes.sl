@@ -139,8 +139,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The list with existing servers (volumes) was successfully retrieved.
-#! @result FAILURE: An error occurred when trying to retrieve servers (volumes) list.
+#! @result SUCCESS: The list with existing volumes was successfully retrieved.
+#! @result FAILURE: An error occurred when trying to retrieve volumes list.
 #!!#
 ########################################################################################################################
 
