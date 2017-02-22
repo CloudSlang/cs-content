@@ -10,19 +10,19 @@
 #! @description: This operation can be used to retrieve information about one or more volumes, in XML format, that
 #!               respect all the filter criterion.
 #!               Note: If you are describing a long list of volumes, you can paginate the output to make the list more
-#!               manageable. The maxResults parameter sets the maximum number of results returned in a single page.
-#!               If the list of results exceeds your maxResults value, then that number of results is returned along with a
-#!               nextToken value that can be passed to a subsequent DescribeVolumes operation to retrieve the remaining results.
+#!               manageable. The max_results parameter sets the maximum number of results returned in a single page.
+#!               If the list of results exceeds your max_results value, then that number of results is returned along with a
+#!               next_token value that can be passed to a subsequent describe_volumes operation to retrieve the remaining results.
 #!
-#! @input endpoint: Endpoint to which first request will be sent
+#! @input endpoint: Endpoint to which first request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #!                  Optional
 #! @input identity: Amazon Access Key ID
-#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
-#! @input proxy_host: Proxy server used to access the provider services
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input proxy_host: Proxy server used to access the provider services.
 #!                    Default: ''
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
@@ -61,7 +61,7 @@
 #!                                       Default: ''
 #!                                       Optional
 #! @input filter_attachment_delete_on_termination: Whether the volume is deleted on instance termination.
-#!                                                 Valid values: true | false
+#!                                                 Valid values: 'true', 'false'
 #!                                                 Default: ''
 #!                                                 Optional
 #! @input filter_attachment_device: The device name that is exposed to the instance.
@@ -73,7 +73,7 @@
 #!                                       Default: ''
 #!                                       Optional
 #! @input filter_attachment_status: The attachment state.
-#!                                  Valid values: attaching | attached | detaching | detached
+#!                                  Valid values: 'attaching', 'attached', 'detaching', 'detached'
 #!                                  Default: ''
 #!                                  Optional
 #! @input filter_availability_zone: The Availability Zone in which the volume was created.
@@ -84,7 +84,7 @@
 #!                            Default: ''
 #!                            Optional
 #! @input filter_encrypted: The encryption status of the volume.
-#!                          Valid values: true | false
+#!                          Valid values: 'true', 'false'
 #!                          Default: ''
 #!                          Optional
 #! @input filter_size: The size of the volume, in GiB.
@@ -96,7 +96,7 @@
 #!                            Default: ''
 #!                            Optional
 #! @input filter_status: The status of the volume.
-#!                       Valid values: creating | available | in-use | deleting | deleted | error
+#!                       Valid values: 'creating', 'available', 'in-use', 'deleting', 'deleted', 'error'
 #!                       Default: ''
 #!                       Optional
 #! @input filter_tag: The key/value combination of a tag assigned to the resource.
@@ -121,7 +121,7 @@
 #!                          Default: ''
 #!                          Optional
 #! @input filter_volume_type: The Amazon EBS volume type.
-#!                            Valid values: gp2 | io1 | st1 | sc1 | standard
+#!                            Valid values: 'gp2', 'io1', 'st1', 'sc1', 'standard'
 #!                            Default: ''
 #!                            Optional
 #! @input max_results: The maximum number of results to return in a single call. To retrieve the remaining results,
@@ -135,7 +135,7 @@
 #!                    Default: ''
 #!                    Optional
 #!
-#! @output return_result: contains the response
+#! @output return_result: contains the response in XML format, otherwise the exception
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
