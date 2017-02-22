@@ -7,9 +7,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes one or more of the tags for your EC2 resources.
+#! @description: This operation can be used to retrieve information about one or more EC2 tags, in XML format,
+#!               that respect all the filter criterion.
 #!
-#! @input endpoint: Endpoint to which the request will be sent
+#! @input endpoint: Endpoint to which the request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #!                  Optional
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -46,7 +47,7 @@
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2'
 #!                      Default: ''
 #!                      Optional
-#! @input delimiter: Delimiter that will be used
+#! @input delimiter: Delimiter that will be used to separate parameters in all of the inputs.
 #!                   Default: ','
 #!                   Optional
 #! @input filter_key: The tag key.
@@ -78,7 +79,7 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: Error message if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: Success message
+#! @result SUCCESS: The xml with existing tags that match the criterias was successfully retrieved.
 #! @result FAILURE: An error occurred when trying to retrieve tags details.
 #!!#
 ########################################################################################################################
