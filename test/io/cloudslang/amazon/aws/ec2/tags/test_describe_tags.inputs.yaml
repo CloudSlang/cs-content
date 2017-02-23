@@ -9,7 +9,7 @@
 testAmazonDescribeTagsLocal:
   testSuites: [amazon-local]
   description: "Test that successfully retrieves details about tags."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.tags.describe_tags
+  testFlowPath: io.cloudslang.amazon.aws.ec2.tags.test_describe_tags
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>

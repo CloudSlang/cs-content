@@ -17,7 +17,9 @@ flow:
   name: test_describe_tags
 
   inputs:
-    - endpoint
+    - endpoint:
+        default: ''
+        required: false
     - identity
     - credential
     - proxy_host:
@@ -38,8 +40,11 @@ flow:
     - query_params:
         default: ''
         required: false
-    - delimiter
-    - version
+    - delimiter:
+        default: ','
+        required: false
+    - version:
+        required: false
     - filter_key:
         default: ''
         required: false
@@ -91,7 +96,7 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${str(exception) + "," + return_code)}
+            - list_1: ${str(exception) + "," + return_code}
             - list_2: ",0"
         navigate:
           - SUCCESS: check_describe_tags_message_exist

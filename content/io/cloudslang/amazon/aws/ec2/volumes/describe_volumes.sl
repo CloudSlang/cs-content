@@ -342,9 +342,9 @@ operation:
     method_name: execute
 
   outputs:
-  - return_code: ${returnCode}
-  - return_result: ${returnResult}
-  - exception
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${get("exception", "")}
 
   results:
   - SUCCESS: ${returnCode=='0'}

@@ -178,7 +178,7 @@ flow:
     - check_result:
         do:
           lists.compare_lists:
-            - list_1: ${str(exception) + "," + return_code)}
+            - list_1: ${str(exception) + "," + return_code}
             - list_2: ",0"
         navigate:
           - SUCCESS: check_describe_network_interface_message_exist
