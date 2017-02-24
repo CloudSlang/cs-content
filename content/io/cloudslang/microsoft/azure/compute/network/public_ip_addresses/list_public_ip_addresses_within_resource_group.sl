@@ -7,67 +7,77 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to get information about a specified network interface card
+#! @description: This operation can be used to retrieve a JSON array containing about
+#!               all public IP addresses within a resource group.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the network interface card
-#!                         information should be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription from which the public IP address list should be retrieved.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve
-#!                             information about the network interface card.
-#! @input auth_token: Azure authorization Bearer token
+#!                             the list of public IP addresses.
+#! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-06-15'
-#! @input nic_name: network interface card name
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#!                     Default: '2016-03-30'
+#!                     Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
+#!                         Optional
+#! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#!                        Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Username used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                         Optional
+#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
-#! @output output: information about the network interface card
+#! @output output: The list of public IP addresses from within the resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the network interface card is not found the error message will be populated with a response,
+#! @output error_message: If no public IP addresses are found the error message will be populated with a response,
 #!                        empty otherwise
 #!
-#! @result SUCCESS: Information about the network interface card retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the network interface card.
+#! @result SUCCESS: The list with all the public IP addresses within the resource group retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve the list of public IP addresses
+#!                  from within the resource group.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.network.network_interface_card
+namespace: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
-flow: 
-  name: get_nic_details
-  
+flow:
+  name: list_public_ip_addresses_within_resource_group
+
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
         required: false
-        default: '2015-06-15'
-    - nic_name
+        default: '2016-03-30'
     - connect_timeout:
         default: "0"
         required: false
@@ -96,14 +106,13 @@ flow:
         required: false
         sensitive: true
 
-  workflow: 
-    - get_nic_info:
+  workflow:
+    - list_public_ip_addresses:
         do:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name +
-                '?api-version=' + api_version}
+                resource_group_name + '/providers/Microsoft.Network/publicIPAddresses?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -141,8 +150,8 @@ flow:
     - output
     - status_code
     - error_message
-  
-  results: 
-      - SUCCESS
-      - FAILURE
+
+  results:
+    - SUCCESS
+    - FAILURE
 

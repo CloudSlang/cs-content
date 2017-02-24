@@ -260,7 +260,7 @@ flow:
 
     - list_nics_for_resource_group:
         do:
-          nic.list_nics_for_resource_group:
+          nic.list_nics_within_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
@@ -336,7 +336,7 @@ flow:
 
     - list_public_ip_addresses_for_resource_group:
         do:
-          ip.list_public_ip_addresses_for_resource_group:
+          ip.list_public_ip_addresses_within_resource_group:
             - subscription_id
             - resource_group_name
             - auth_token
