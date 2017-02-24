@@ -337,14 +337,14 @@ operation:
         private: true
 
   java_action:
-    gav: io.cloudslang.content:cs-amazon:1.0.9
+    gav: 'io.cloudslang.content:cs-amazon:1.0.10'
     class_name: io.cloudslang.content.amazon.actions.volumes.DescribeVolumesAction
     method_name: execute
 
   outputs:
-  - return_code: ${returnCode}
-  - return_result: ${returnResult}
-  - exception
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${get("exception", "")}
 
   results:
   - SUCCESS: ${returnCode=='0'}

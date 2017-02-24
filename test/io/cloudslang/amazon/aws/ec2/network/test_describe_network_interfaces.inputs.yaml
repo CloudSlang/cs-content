@@ -9,7 +9,7 @@
 testAmazonDescribeNetworkInterfacesLocal:
   testSuites: [amazon-local]
   description: "Test that successfully retrieves details about network interfaces."
-  testFlowPath: io.cloudslang.amazon.aws.ec2.network.describe_network_interfaces
+  testFlowPath: io.cloudslang.amazon.aws.ec2.network.test_describe_network_interfaces
   inputs:
     - endpoint: <endpoint>
     - identity: <identity>
