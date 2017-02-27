@@ -98,7 +98,7 @@ flow:
         required: false
     - filter_requester_managed:
         required: false
-    - filter_source_desk_check:
+    - filter_source_dest_check:
         required: false
     - filter_status:
         required: false
@@ -159,7 +159,7 @@ flow:
             - filter_private_dns_name
             - filter_requester_id
             - filter_requester_managed
-            - filter_source_desk_check
+            - filter_source_dest_check
             - filter_status
             - filter_subnet_id
             - filter_tag
