@@ -51,7 +51,7 @@ testAmazonDescribeNetworkInterfacesLocal:
     - filter_private_dns_name: <filter_private_dns_name>
     - filter_requester_id: <filter_requester_id>
     - filter_requester_managed: <filter_requester_managed>
-    - filter_source_desk_check: <filter_source_desk_check>
+    - filter_source_dest_check: <filter_source_dest_check>
     - filter_status: <filter_status>
     - filter_subnet_id: <filter_subnet_id>
     - filter_tag: <filter_tag>

@@ -144,7 +144,7 @@
 #!                                  (for example, AWS Management Console, Auto Scaling, and so on).
 #!                                  Default: ''
 #!                                  Optional
-#! @input filter_source_desk_check: Indicates whether the network interface performs source/destination checking. A
+#! @input filter_source_dest_check: Indicates whether the network interface performs source/destination checking. A
 #!                                  value of true means checking is enabled, and false means checking is disabled. The
 #!                                  value must be false for the network interface to perform network address translation
 #!                                  (NAT) in your VPC.
@@ -449,11 +449,11 @@ operation:
         default: ${get('filter_requester_managed', '')}
         required: false
         private: true
-    - filter_source_desk_check:
+    - filter_source_dest_check:
         default: ''
         required: false
-    - filterSourceDeskCheck:
-        default: ${get('filter_source_desk_check', '')}
+    - filterSourceDestCheck:
+        default: ${get('filter_source_dest_check', '')}
         required: false
         private: true
     - filter_status:
@@ -507,7 +507,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.10'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.11'
     class_name: io.cloudslang.content.amazon.actions.network.DescribeNetworkInterfacesAction
     method_name: execute
 
