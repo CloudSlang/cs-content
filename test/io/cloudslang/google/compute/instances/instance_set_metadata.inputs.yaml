@@ -16,7 +16,7 @@ testBasicRunForInstanceSetMetadata:
     - access_token: <access_token>
     - items_keys_list: <items_keys_list>
     - items_values_list: <items_values_list>
-    - scopes_delimiter: <scopes_delimiter>
+    - delimiter: <delimiter>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>

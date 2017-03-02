@@ -35,9 +35,9 @@
 #!                           The length of the items_keys_list must be equal with the length of the items_values_list.
 #!                           Default: ''
 #!                           Optional
-#! @input scopes_delimiter: The delimiter to split the items_keys_list and items_values_list
-#!                          Default: ','
-#!                          Optional
+#! @input delimiter: The delimiter to split the items_keys_list and items_values_list
+#!                   Default: ','
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the provider services
 #!                    Default: ''
 #!                    Optional
@@ -103,13 +103,9 @@ operation:
         default: ${get("items_values_list", "")}
         required: false
         private: true
-    - scopes_delimiter:
+    - delimiter:
         default: ','
         required: false
-    - scopesDelimiter:
-        default: ${get("scopes_delimiter", "")}
-        required: false
-        private: true
     - proxy_host:
         default: ''
         required: false
