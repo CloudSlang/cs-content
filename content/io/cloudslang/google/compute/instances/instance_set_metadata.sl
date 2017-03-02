@@ -42,7 +42,7 @@
 #!                    Default: ''
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services
-#!                    Default: '80'
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Default: ''
@@ -118,7 +118,7 @@ operation:
         required: false
         private: true
     - proxy_port:
-        default: '80'
+        default: '8080'
         required: false
     - proxyPort:
         default: ${get("proxy_port", "")}
