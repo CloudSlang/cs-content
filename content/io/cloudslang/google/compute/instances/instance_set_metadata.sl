@@ -54,6 +54,8 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
+#! @output zone_operation_name: Name of the launched ZoneOperation. Use this with the zone_operations_get operation to
+#!                              get the status of the ZoneOperation.
 #! @output return_result: Json result of the operation in case the operation executed, error message otherwise.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Error message (stacktrace) if there was an error when executing, empty otherwise.
@@ -155,6 +157,7 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
+    - zone_operation_name: ${get("zoneOperationName", "")}
 
   results:
     - SUCCESS: ${returnCode == '0'}
