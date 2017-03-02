@@ -6,13 +6,19 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 ########################################################################################################################
-# System property file for samples.yoda operations.
-#
-# io.cloudslang.samples.properties.default_quote: value of default quote
-#
+#!!
+#! @description: Decision that checks the state of a System Property file.
+#!
+#! @result CONTAINS: System Property is set at default value.
+#! @result DOES_NOT_CONTAIN: System Property is not set at default value.
+#!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.samples.properties
+namespace: io.cloudslang.base.examples.yoda
 
-properties:
-  - default_quote: 'true'
+decision:
+  name: contains
+
+  results:
+    - CONTAINS: ${get_sp('io.cloudslang.base.examples.properties.default_quote', 'false') == 'true'}
+    - DOES_NOT_CONTAIN

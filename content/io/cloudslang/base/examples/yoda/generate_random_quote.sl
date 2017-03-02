@@ -6,16 +6,16 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
 #!!
-#! @description: Based on a random number generator display a quote from Yoda
+#! @description: The flow displays a Yoda quote based on a random number generator.
 #!
-#! @input file_path: The path for the file that contains the quotes
+#! @input file_path: The path for the file that contains the quotes.
 #!
-#! @result SUCCESS: Flow completed successfully.
+#! @result SUCCESS: The quote was displayed successfully.
 #! @result FAILURE: Failure occurred during execution.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.samples.yoda
+namespace: io.cloudslang.base.examples.yoda
 
 imports:
   math: io.cloudslang.base.math
@@ -56,3 +56,6 @@ flow:
               - text: ${str(read_text.split(';')[int(random_number)])}
           navigate:
             - SUCCESS: SUCCESS
+    results:
+          - SUCCESS
+          - FAILURE

@@ -7,16 +7,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Read an image from a file and print it.
+#! @description: The flow reads an image of Yoda from a file and prints it to the screen.
 #!
-#! @input file_path: The path of the image
+#! @input file_path: The path of the file containing the image.
 #!
-#! @result SUCCESS: Flow completed successfully.
+#! @result SUCCESS: The image was displayed successfully.
 #! @result FAILURE: Failure occurred during execution.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.samples.yoda
+namespace: io.cloudslang.base.examples.yoda
 
 imports:
   base: io.cloudslang.base.print
@@ -45,3 +45,6 @@ flow:
             - text: ${read_text}
         navigate:
           - SUCCESS: SUCCESS
+  results:
+        - SUCCESS
+        - FAILURE

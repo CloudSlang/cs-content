@@ -5,25 +5,26 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-#########################################################################################################################!!
-#! @description: Based on a System Property file
+########################################################################################################################
+#!!
+#! @description: The flow is based on a System Property file
 #! If it is set on true it displays the default quote, otherwise generates a random quote.
 #!
-#! @input default_quote : quote with a default value
-#! @input file_path: The path for the file that contains the quotes
+#! @input default_quote : quote with a default value.
+#! @input file_path: The path for the file that contains the quotes.
 #!
 #! @result SUCCESS: Flow completed successfully.
 #! @result FAILURE: Failure occurred during execution.
-#!!
+#!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.samples.yoda
+namespace: io.cloudslang.base.examples.yoda
 
 imports:
   base: io.cloudslang.base.print
   fs: io.cloudslang.base.filesystem
   math: io.cloudslang.base.math
-  quoteGenerator: io.cloudslang.samples.yoda
+  quote_generator: io.cloudslang.base.examples.yoda
 
 flow:
     name: quote_check
@@ -37,14 +38,14 @@ flow:
     workflow:
       - print_quote:
           do:
-            quoteGenerator.contains: []
+            quote_generator.contains: []
           navigate:
               - CONTAINS: print_default_quote
               - DOES_NOT_CONTAIN: print_random_quote
 
       - print_random_quote:
           do:
-            quoteGenerator.generate_random_quote:
+            quote_generator.generate_random_quote:
               - file_path
           navigate:
             - SUCCESS: SUCCESS
