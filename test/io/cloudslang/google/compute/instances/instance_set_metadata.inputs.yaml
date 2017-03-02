@@ -23,5 +23,5 @@ testBasicRunForInstanceSetMetadata:
     - proxy_password: <proxy_password>
     - pretty_print: <pretty_print>
   description: Tests that instance_set_metadata runs with SUCCESS
-  testFlowPath: io.cloudslang.content.google.compute.instances.instance_set_metadata
+  testFlowPath: io.cloudslang.google.compute.instances.instance_set_metadata
   result: SUCCESS

@@ -63,7 +63,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.content.google.compute.instances
+namespace: io.cloudslang.google.compute.instances
 
 operation:
   name: instance_set_metadata
