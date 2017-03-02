@@ -14,14 +14,14 @@
 #!                     https://cloud.google.com/compute/docs/reference/latest/instances/setMetadata
 #!
 #! @input project_id: Name of the Google Cloud project.
-#!                    Example: my-project-123456
+#!                    Example: 'my-project-123456'
 #! @input zone: Name of the zone for this request.
-#!              Example: us-central1-c
+#!              Example: 'us-central1-c'
 #! @input instance_name: Name of the instance scoping this request as seen in the google cloud console
-#!                       Example: https://console.cloud.google.com/compute/instances?project=my-project-123456
-#! @input access_token: You can retrieve this access token using get_access_token operation.
-#!                      This request requires authorization with at least one of the following scopes:
-#!                      https://www.googleapis.com/auth/compute, https://www.googleapis.com/auth/cloud-platform
+#!                       Example: 'https://console.cloud.google.com/compute/instances?project=my-project-123456'
+#! @input access_token: The access token returned by the get_access_token operation, with at least one of the following
+#!                      scopes: 'https://www.googleapis.com/auth/compute',
+#!                              'https://www.googleapis.com/auth/cloud-platform'
 #! @input items_keys_list: Key for the metadata entry. Keys must conform to the following regexp: [a-zA-Z0-9-_]+, and be
 #!                         less than 128 bytes in length. This is reflected as part of a URL in the metadata server.
 #!                         Additionally, to avoid ambiguity, keys must not conflict with any other metadata keys for the
@@ -50,7 +50,7 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Default: ''
 #!                        Optional
-#! @input pretty_print: Specify if you want to stylistic format the return result.
+#! @input pretty_print: Whether to format the resulting JSON.
 #!                      Default: 'true'
 #!                      Optional
 #!
