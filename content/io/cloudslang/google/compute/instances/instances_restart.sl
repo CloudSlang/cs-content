@@ -14,15 +14,15 @@
 #!                    Example: 'my-project-123456'
 #! @input zone: Name of the zone for this request.
 #!              Example: 'us-central1-c'
-#! @input instance_name: Name of the instance scoping this request as seen in the google cloud console
+#! @input instance_name: Name of the instance scoping this request as seen in the google cloud console.
 #!                       Example: 'https://console.cloud.google.com/compute/instances?project=my-project-123456'
 #! @input access_token: The access token returned by the get_access_token operation, with at least one of the following
 #!                      scopes: 'https://www.googleapis.com/auth/compute',
 #!                              'https://www.googleapis.com/auth/cloud-platform'
-#! @input proxy_host: Proxy server used to access the provider services
+#! @input proxy_host: Proxy server used to access the provider services.
 #!                    Default: ''
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
