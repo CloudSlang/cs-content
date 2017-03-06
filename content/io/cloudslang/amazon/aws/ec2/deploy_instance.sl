@@ -138,6 +138,9 @@
 #!                                  Example: "arn:aws:iam::123456789012:user/some_user". Default: ""
 #! @input iam_instance_profile_name: Name of the instance profile.
 #!                                   Default: ''
+#! @input instance_name_prefix: The name prefix of the instance.
+#!                              Default: ''
+#!                              Optional
 #! @input key_pair_name: Name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
 #!                       Important: If you do not specify a key pair, you can't connect to the instance unless you choose
 #!                       an AMI that is configured to allow users another way to log in.
@@ -242,6 +245,7 @@ imports:
   tags: io.cloudslang.amazon.aws.ec2.tags
   network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
+  utils: io.cloudslang.amazon.aws.ec2.utils
 
 flow:
   name: deploy_instance
@@ -301,6 +305,8 @@ flow:
         required: false
     - iam_instance_profile_name:
         required: false
+    - instance_name_prefix:
+        required: false
     - key_pair_name:
         required: false
     - security_group_ids_string:
@@ -333,8 +339,12 @@ flow:
         required: false
     - secondary_private_ip_address_count:
         required: false
-    - key_tags_string
-    - value_tags_string
+    - key_tags_string:
+        default: ''
+        required: false
+    - value_tags_string:
+        default: ''
+        required: false
     - polling_interval:
         required: false
     - polling_retries:
@@ -420,7 +430,7 @@ flow:
             - return_code
             - exception
         navigate:
-          - SUCCESS: create_tags
+          - SUCCESS: generate_unique_name
           - FAILURE: terminate_instances
 
     - create_tags:
@@ -456,7 +466,7 @@ flow:
               - proxy_username
               - proxy_password
               - headers
-              - instance_ids_string: ${instance_id}
+              - instance_ids_string: '${instance_id}'
           break:
             - SUCCESS
           publish:
@@ -513,12 +523,35 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
 
+    - generate_unique_name:
+        do:
+          utils.get_unique_name:
+            - vm_tag_name: '${instance_name_prefix}'
+            - vm_tags_name: '${key_tags_string}'
+            - vm_tags_value: '${value_tags_string}'
+        publish:
+          - key_tags_string: '${key_tags_string}'
+          - value_tags_string: '${value_tags_string}'
+        navigate:
+          - FAILURE: terminate_instances
+          - SUCCESS: is_instance_name_empty
+
+    - is_instance_name_empty:
+        do:
+          strings.string_equals:
+            - first_string: '${key_tags_string}'
+            - second_string: ''
+        navigate:
+          - FAILURE: create_tags
+          - SUCCESS: describe_instances
+
   outputs:
     - instance_id
     - ip_address
     - return_result
     - return_code
     - exception
+
   results:
     - SUCCESS
     - FAILURE
@@ -526,41 +559,47 @@ flow:
 extensions:
   graph:
     steps:
-      run_instances:
-        x: 36
-        y: 73
-      check_instance_state:
-        x: 197
-        y: 73
-      create_tags:
-        x: 385
-        y: 73
-      describe_instances:
-        x: 528
-        y: 72
-      search_and_replace:
-        x: 701
-        y: 71
+      terminate_instances:
+        x: 507
+        y: 453
+        navigate:
+          6936b8c3-e801-e173-78bf-0e2f2526f613:
+            targetId: f31809d7-ee75-1d88-2683-192373df394e
+            port: SUCCESS
       parse_ip_address:
-        x: 872
+        x: 1086
         y: 72
         navigate:
           87f91533-3d85-7f77-9072-aa980fd4dbf3:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
-      terminate_instances:
-        x: 376
-        y: 259
-        navigate:
-          6936b8c3-e801-e173-78bf-0e2f2526f613:
-            targetId: f31809d7-ee75-1d88-2683-192373df394e
-            port: SUCCESS
+      run_instances:
+        x: 36
+        y: 73
+      describe_instances:
+        x: 738
+        y: 73
+      is_instance_name_empty:
+        x: 572
+        y: 53
+      generate_unique_name:
+        x: 353
+        y: 74
+      search_and_replace:
+        x: 912
+        y: 74
+      create_tags:
+        x: 528
+        y: 214
+      check_instance_state:
+        x: 197
+        y: 73
     results:
       SUCCESS:
         576dec96-8f7c-fa7a-5ec4-69f50e183dff:
-          x: 868
-          y: 278
+          x: 1255
+          y: 79
       FAILURE:
         f31809d7-ee75-1d88-2683-192373df394e:
-          x: 570
-          y: 260
+          x: 805
+          y: 446
