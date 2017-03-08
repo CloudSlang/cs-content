@@ -9,28 +9,28 @@
 #!!
 #! @description: This flow generates a unique instance name from a prefix.
 #!
-#! @input vm_tag_name: The name of the instance.
-#!                     Default: ''
-#!                     Optional
-#! @input delimiter: Delimiter used to split vm_tags_name and vm_tags_value.
+#! @input instance_name_prefix: The name of the instance.
+#!                              Default: ''
+#!                              Optional
+#! @input delimiter: Delimiter used to split instance_tags_key and instance_tags_value.
 #!                   Default: ','
 #!                   Optional
-#! @input vm_tags_name: String that contains one or more key tags separated by delimiter. Constraints: Tag keys are
-#!                      case-sensitive and accept a maximum of 127 Unicode characters. May not begin with "aws:";
-#!                      Each resource can have a maximum of 50 tags. Note: if you want to overwrite the existing tag
-#!                      and replace it with empty value then specify the parameter with "Not relevant" string.
-#!                      Example: 'Name,webserver,stack,scope'
-#!                      Default: ''
-#!                      Optional
-#! @input vm_tags_value: String that contains one or more tag values separated by delimiter. The value parameter is
-#!                       required, but if you don't want the tag to have a value, specify the parameter with
-#!                       "Not relevant" string, and we set the value to an empty string. Constraints: Tag values are
-#!                       case-sensitive and accept a maximum of 255 Unicode characters; Each resource can have a
-#!                       maximum of 50 tags.
-#!                       Example of values string for tagging resources with values corresponding to the keys from
-#!                       above example: "Tagged from API call,Not relevant,Testing,For testing purposes"
-#!                       Default: ''
-#!                       Optional
+#! @input instance_tags_key: String that contains one or more key tags separated by delimiter. Constraints: Tag keys are
+#!                           case-sensitive and accept a maximum of 127 Unicode characters. May not begin with "aws:";
+#!                           Each resource can have a maximum of 50 tags. Note: if you want to overwrite the existing tag
+#!                           and replace it with empty value then specify the parameter with "Not relevant" string.
+#!                           Example: 'Name,webserver,stack,scope'
+#!                           Default: ''
+#!                           Optional
+#! @input instance_tags_value: String that contains one or more tag values separated by delimiter. The value parameter is
+#!                             required, but if you don't want the tag to have a value, specify the parameter with
+#!                             "Not relevant" string, and we set the value to an empty string. Constraints: Tag values are
+#!                             case-sensitive and accept a maximum of 255 Unicode characters; Each resource can have a
+#!                             maximum of 50 tags.
+#!                             Example of values string for tagging resources with values corresponding to the keys from
+#!                             above example: "Tagged from API call,Not relevant,Testing,For testing purposes"
+#!                             Default: ''
+#!                             Optional
 #!
 #! @output return_result: Contains the flow result message.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise
@@ -54,16 +54,16 @@ flow:
   name: get_unique_name
 
   inputs:
-    - vm_tag_name:
+    - instance_name_prefix:
         default: ''
         required: false
     - delimiter:
         default: ','
         required: false
-    - vm_tags_name:
+    - instance_tags_key:
         default: ''
         required: false
-    - vm_tags_value:
+    - instance_tags_value:
         default: ''
         required: false
 
@@ -71,7 +71,7 @@ flow:
     - check_paired_lists_length:
         do:
           utils.is_true:
-            - bool_value: '${str(len(vm_tags_value.split(delimiter)) == len(vm_tags_name.split(delimiter)))}'
+            - bool_value: '${str(len(instance_tags_value.split(delimiter)) == len(instance_tags_key.split(delimiter)))}'
         navigate:
           - 'TRUE': find_if_name_provided_in_list
           - 'FALSE': set_failure_message_different_length
@@ -79,7 +79,7 @@ flow:
     - find_if_name_provided_in_list:
         do:
           lists.find_all:
-            - list: '${vm_tags_name if vm_tags_name != "" else "WORKAROUND"}'
+            - list: '${instance_tags_key if instance_tags_key != "" else "WORKAROUND"}'
             - delimiter: '${delimiter}'
             - element: 'Name'
             - ignore_case: 'false'
@@ -100,13 +100,13 @@ flow:
     - is_name_in_input_empty:
         do:
           strings.string_equals:
-            - first_string: '${vm_tag_name}'
+            - first_string: '${instance_name_prefix}'
             - second_string: ''
-            - vm_tags_name
-            - vm_tags_value
+            - instance_tags_key
+            - instance_tags_value
         publish:
-          - vm_tags_name
-          - vm_tags_value
+          - instance_tags_key
+          - instance_tags_value
           - return_code: '0'
           - return_result: 'No unique name generated because no prefix was provided!'
         navigate:
@@ -116,9 +116,9 @@ flow:
     - generate_unique_sufix:
         do:
           utils.uuid_generator:
-            - vm_tag_name
+            - instance_name_prefix
         publish:
-          - random_name: '${vm_tag_name + new_uuid}'
+          - random_name: '${instance_name_prefix + new_uuid}'
         navigate:
           - SUCCESS: is_list_empty
 
@@ -146,11 +146,11 @@ flow:
     - get_name_value_from_list:
         do:
           lists.get_by_index:
-            - list: '${vm_tags_value}'
+            - list: '${instance_tags_value}'
             - delimiter: '${delimiter}'
             - index: '${indices}'
         publish:
-          - vm_tag_name: '${return_result}'
+          - instance_name_prefix: '${return_result}'
         navigate:
           - SUCCESS: format_key_tags
           - FAILURE: set_failure_message_different_length
@@ -158,11 +158,11 @@ flow:
     - format_key_tags:
         do:
           lists.remove_by_index:
-            - list: '${vm_tags_name}'
+            - list: '${instance_tags_key}'
             - delimiter: '${delimiter}'
             - element: '${indices}'
         publish:
-          - vm_tags_name: '${return_result}'
+          - instance_tags_key: '${return_result}'
         navigate:
           - SUCCESS: format_value_tags
           - FAILURE: set_failure_message_unknown_error
@@ -170,11 +170,11 @@ flow:
     - format_value_tags:
         do:
           lists.remove_by_index:
-            - list: '${vm_tags_value}'
+            - list: '${instance_tags_value}'
             - delimiter: '${delimiter}'
             - element: '${indices}'
         publish:
-          - vm_tags_value: '${return_result}'
+          - instance_tags_value: '${return_result}'
         navigate:
           - SUCCESS: generate_unique_sufix
           - FAILURE: set_failure_message_unknown_error
@@ -182,11 +182,11 @@ flow:
     - add_key_tag:
         do:
           lists.add_element:
-            - list: '${vm_tags_name}'
+            - list: '${instance_tags_key}'
             - delimiter: '${delimiter}'
             - element: 'Name'
         publish:
-          - vm_tags_name: '${return_result}'
+          - instance_tags_key: '${return_result}'
         navigate:
           - SUCCESS: add_value_tag
           - FAILURE: set_failure_message_unknown_error
@@ -194,12 +194,12 @@ flow:
     - add_value_tag:
         do:
           lists.add_element:
-            - list: '${vm_tags_value}'
+            - list: '${instance_tags_value}'
             - delimiter: '${delimiter}'
             - element: '${random_name}'
         publish:
           - return_code: '${return_code}'
-          - vm_tags_value: '${return_result}'
+          - instance_tags_value: '${return_result}'
           - return_result: 'Successfully generated a unique name!'
         navigate:
           - SUCCESS: SUCCESS
@@ -208,7 +208,7 @@ flow:
     - is_list_empty:
         do:
           strings.string_equals:
-            - first_string: '${vm_tags_name}'
+            - first_string: '${instance_tags_key}'
             - second_string: ''
         navigate:
           - SUCCESS: set_success_message
@@ -221,8 +221,8 @@ flow:
             - value2: '1'
             - random_name
         publish:
-          - vm_tags_name: 'Name'
-          - vm_tags_value: '${random_name}'
+          - instance_tags_key: 'Name'
+          - instance_tags_value: '${random_name}'
           - return_code: '0'
           - return_result: 'Successfully generated a unique name!'
         navigate:
@@ -232,7 +232,7 @@ flow:
     - is_input_empty:
         do:
           strings.string_equals:
-            - first_string: '${vm_tag_name}'
+            - first_string: '${instance_name_prefix}'
             - second_string: ''
         navigate:
           - SUCCESS: get_name_value_from_list
@@ -244,8 +244,8 @@ flow:
             - value1: '1'
             - value2: '1'
         publish:
-          - vm_tags_name: ''
-          - vm_tags_value: ''
+          - instance_tags_key: ''
+          - instance_tags_value: ''
           - return_result: 'Name tag key provided both as stand-alone input and as list element!'
           - return_code: '-1'
         navigate:
@@ -258,8 +258,8 @@ flow:
             - value1: '1'
             - value2: '1'
         publish:
-          - vm_tags_name: ''
-          - vm_tags_value: ''
+          - instance_tags_key: ''
+          - instance_tags_value: ''
           - return_result: 'Failed to generate a unique name!'
           - return_code: '-1'
         navigate:
@@ -272,8 +272,8 @@ flow:
             - value1: '1'
             - value2: '1'
         publish:
-          - vm_tags_name: ''
-          - vm_tags_value: ''
+          - instance_tags_key: ''
+          - instance_tags_value: ''
           - return_result: 'The list of keys and values for tags must have the same length!'
           - return_code: '-1'
         navigate:
@@ -283,8 +283,8 @@ flow:
   outputs:
     - return_code
     - return_result
-    - key_tags_string: ${vm_tags_name}
-    - value_tags_string: ${vm_tags_value}
+    - key_tags_string: ${instance_tags_key}
+    - value_tags_string: ${instance_tags_value}
 
   results:
     - SUCCESS

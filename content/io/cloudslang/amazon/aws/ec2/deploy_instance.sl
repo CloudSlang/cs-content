@@ -526,9 +526,9 @@ flow:
     - generate_unique_name:
         do:
           utils.get_unique_name:
-            - vm_tag_name: '${instance_name_prefix}'
-            - vm_tags_name: '${key_tags_string}'
-            - vm_tags_value: '${value_tags_string}'
+            - instance_name_prefix
+            - instance_tags_key: '${key_tags_string}'
+            - instance_tags_value: '${value_tags_string}'
         publish:
           - key_tags_string: '${key_tags_string}'
           - value_tags_string: '${value_tags_string}'
