@@ -256,6 +256,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -346,8 +347,10 @@ flow:
         default: ''
         required: false
     - polling_interval:
+        default: '10'
         required: false
     - polling_retries:
+        default: '50'
         required: false
 
   workflow:

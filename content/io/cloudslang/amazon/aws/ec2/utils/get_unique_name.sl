@@ -9,7 +9,7 @@
 #!!
 #! @description: This flow generates a unique instance name from a prefix.
 #!
-#! @input instance_name_prefix: The name of the instance.
+#! @input instance_name_prefix: The name prefix of the instance.
 #!                              Default: ''
 #!                              Optional
 #! @input delimiter: Delimiter used to split instance_tags_key and instance_tags_value.
