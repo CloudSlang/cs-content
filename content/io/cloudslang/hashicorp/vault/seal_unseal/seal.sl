@@ -3,18 +3,16 @@
 #! @input port: Vault Port
 #! @input protocol: Vault Protocol
 #! @input x_vault_token: Vault Token
-#! @input secret: Secret to be retrieved
 #!!#
-namespace: io.cloudslang.hashicorp.vault.secrets
+namespace: io.cloudslang.hashicorp.vault.seal_unseal
 flow:
-  name: read_secret
+  name: seal
   inputs:
     - hostname
     - port
     - protocol
     - x_vault_token:
         sensitive: true
-    - secret
     - proxy_host:
         required: false
     - proxy_port:
@@ -32,40 +30,31 @@ flow:
     - keystore_password:
         required: false
   workflow:
-    - interogate_vault_server:
+    - interogate_vault_to_seal:
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
-            - auth_type: anonymous
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - keystore: '${keystore}'
-            - keystore_password: '${keystore_password}'
-            - content_type: application/json
-            - proxy_password: '${proxy_password}'
+          io.cloudslang.base.http.http_client_put:
+            - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal'}"
             - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - content_type: application/json
         publish:
           - return_result: '${return_result}'
-          - return_code: '${return_code}'
           - error_message: '${error_message}'
+          - return_code: '${return_code}'
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_secret
-    - get_secret:
+          - SUCCESS: is_status_code_204
+    - is_status_code_204:
         do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .value
-        publish:
-          - secret_value: "${''.join( c for c in return_result if  c not in '\"[]' )}"
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status_code}'
+            - second_string: '204'
+        publish: []
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
   outputs:
-    - secret_value: '${secret_value}'
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'

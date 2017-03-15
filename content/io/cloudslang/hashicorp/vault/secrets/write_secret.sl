@@ -1,41 +1,68 @@
-########################################################################################################################
 #!!
-#! @description: Generated flow description
-#!
-#! @input input_1: Generated description
-#! @input input_2: Generated description
-#!
-#! @output output_1: Generated description
-#!
-#! @result SUCCESS: Flow completed successfully.
-#! @result FAILURE: Failure occurred during execution.
+#! @input hostname: Vault FQDN
+#! @input port: Vault Port
+#! @input protocol: Vault Protocol
+#! @input x_vault_token: Vault Token
 #!!#
-########################################################################################################################
-
-namespace: content.io.cloudslang.hashicorp.vault.secrets
-
+namespace: io.cloudslang.hashicorp.vault.secrets
 flow:
-    name: write_secret
-
-    inputs:
-      - input_1: ""
-      - input_2: ""
-
-    workflow:
-      - step_1:
-          do:
-            operation_name:
-              - step_input_1: ${input_1}
-              - step_input_2: ${input_2}
-          publish:
-            - step_output_1
-          navigate:
-            - SUCCESS: SUCCESS
-            - FAILURE: FAILURE
-
-    outputs:
-      - output_1: ${step_output_1}
-
-    results:
-      - SUCCESS
-      - FAILURE
+  name: write_secret
+  inputs:
+    - hostname
+    - port
+    - protocol
+    - x_vault_token:
+        sensitive: true
+    - secret
+    - secret_value:
+        sensitive: true
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
+  workflow:
+    - interogate_vault_to_write:
+        do:
+          io.cloudslang.base.http.http_client_post:
+            - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - body: "${'{\"value\":\"' + secret_value + '\"}'}"
+        publish:
+          - return_result: '${return_result}'
+          - error_message: '${error_message}'
+          - return_code: '${return_code}'
+          - status_code: '${status_code}'
+          - response_headers: '${response_headers}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: is_status_code_204
+    - is_status_code_204:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status_code}'
+            - second_string: '204'
+        publish: []
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: SUCCESS
+  outputs:
+    - return_result: '${return_result}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
+    - error_message: '${error_message}'
+    - response_headers: '${response_headers}'
+  results:
+    - FAILURE
+    - SUCCESS

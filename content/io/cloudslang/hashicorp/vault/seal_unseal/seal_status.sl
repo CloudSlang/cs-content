@@ -1,41 +1,123 @@
+#!!#
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ########################################################################################################################
 #!!
-#! @description: Generated flow description
+#! @description: Executes a GET REST call.
 #!
-#! @input input_1: Generated description
-#! @input input_2: Generated description
+#!!
+#! @input hostname: Required - Vault's FQDN
+#! @input port: Required - Vault's Port
+#! @input protocol: Required - Vault's Protocol
+#! @input x_vault_token: Required - Vault's Token
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input keystore: Optional - The pathname of the Java KeyStore file.
+#!                  You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
+#!                  this input is ignored.
+#!                  Format: Java KeyStore (JKS)
+#!                  Default value: ''
+#! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
+#!                           keystore is empty, keystore_password default will be supplied.
+#!                           Default value: ''
 #!
-#! @output output_1: Generated description
+#! @output sealed: Boolean. The sealed status of the Vault server.
+#! @output return_result: The response of the operation in case of success or the error message otherwise.
+#! @output error_message: Return_result if status_code different than '200'.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Status code of the HTTP call.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
+#! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
-#! @result SUCCESS: Flow completed successfully.
-#! @result FAILURE: Failure occurred during execution.
+#! @result SUCCESS: Everything completed successfully.
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-
-namespace: content.io.cloudslang.hashicorp.vault.seal_unseal
-
+namespace: io.cloudslang.hashicorp.vault.seal_unseal
 flow:
-    name: seal_status
-
-    inputs:
-      - input_1: ""
-      - input_2: ""
-
-    workflow:
-      - step_1:
-          do:
-            operation_name:
-              - step_input_1: ${input_1}
-              - step_input_2: ${input_2}
-          publish:
-            - step_output_1
-          navigate:
-            - SUCCESS: SUCCESS
-            - FAILURE: FAILURE
-
-    outputs:
-      - output_1: ${step_output_1}
-
-    results:
-      - SUCCESS
-      - FAILURE
+  name: seal_status
+  inputs:
+    - hostname
+    - port
+    - protocol
+    - x_vault_token:
+        sensitive: true
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
+  workflow:
+    - interogate_vault_server:
+        do:
+          io.cloudslang.base.http.http_client_get:
+            - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal-status'}"
+            - auth_type: anonymous
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - keystore
+            - keystore_password
+            - content_type: application/json
+            - proxy_password
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+        publish:
+          - return_result
+          - return_code
+          - error_message
+          - status_code
+          - response_headers
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_sealed_status
+    - get_sealed_status:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .sealed
+        publish:
+          - sealed: "${''.join( c for c in return_result if  c not in '\"[]' )}"
+          - return_code
+          - exception
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: SUCCESS
+  outputs:
+    - sealed
+    - return_result
+    - return_code
+    - status_code
+    - error_message
+    - response_headers
+    - exception
+  results:
+    - FAILURE
+    - SUCCESS
