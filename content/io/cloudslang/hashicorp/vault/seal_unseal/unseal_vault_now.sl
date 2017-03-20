@@ -63,7 +63,7 @@
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
-  vault: io.cloudslang.demos.vault
+  vault: io.cloudslang.hashicorp.vault
 
 flow:
   name: unseal_vault_now
@@ -105,7 +105,7 @@ flow:
         loop:
           for: i in keys
           do:
-            vault.unseal:
+            vault.seal_unseal.unseal:
               - hostname
               - port
               - protocol

@@ -129,7 +129,7 @@ flow:
             - json_object: '${return_result}'
             - json_path: .value
         publish:
-          - secret_value: "${''.join( c for c in return_result if  c not in '\"[]' )}"
+          - secret_value: "${''.join( c for c in return_result if  c not in '[]' )}"
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS

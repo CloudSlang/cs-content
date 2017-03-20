@@ -97,7 +97,7 @@ flow:
   workflow:
     - interogate_vault_server:
         do:
-          http_client_get:
+          http.http_client_get:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/?list=true'}"
             - proxy_host
             - proxy_port

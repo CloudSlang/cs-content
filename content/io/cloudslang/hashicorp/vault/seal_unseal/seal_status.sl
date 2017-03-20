@@ -8,13 +8,13 @@
 ########################################################################################################################
 #!!
 #! @description: Executes a '/v1/sys/seal-status' GET call against a Vault Server.
+#!               This is an un-authenticated endpoint.
 #!
 #! @input hostname: Vault's FQDN.
 #! @input port: Vault's Port.
 #! @input protocol: Vault's Protocol.
 #!                  Default: 'https'
 #!                  Possible values: 'https' and 'http'.
-#! @input x_vault_token: Vault's X-VAULT-Token.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -70,8 +70,6 @@ flow:
     - port
     - protocol:
         default: 'https'
-    - x_vault_token:
-        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -110,7 +108,6 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
             - content_type: application/json
         publish:
           - return_result
