@@ -28,7 +28,7 @@
 namespace: io.cloudslang.hashicorp.vault.utils
 
 imports:
-  vault: io.cloudslang.demos.vault
+  vault: io.cloudslang.hashicorp.vault
   json: io.cloudslang.base.json
 
 flow:
@@ -47,7 +47,7 @@ flow:
   workflow:
     - check_key_if_empty:
         do:
-          vault.string_equals:
+          vault.utils.string_equals:
             - first_string: '${unseal_key}'
             - second_string: ''
             - ignore_case: 'true'
@@ -58,7 +58,7 @@ flow:
 
     - check_reset_if_empty:
         do:
-          vault.string_equals:
+          vault.utils.string_equals:
             - first_string: '${unseal_reset}'
             - second_string: ''
             - ignore_case: 'true'

@@ -55,7 +55,9 @@
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: Unseal process started properly. If sealed is false, the Vault server was unsealed.
+#! @result SUCCESS: Vault server was accessible and command was triggered property.
+#!                  If sealed is false, the Vault server was unsealed.
+#!                  If process is '0' the unseal process did not actually start.
 #! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
@@ -64,7 +66,7 @@ namespace: io.cloudslang.hashicorp.vault.seal_unseal
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  vault: io.cloudslang.demos.vault
+  vault: io.cloudslang.hashicorp.vault
 
 flow:
   name: unseal
