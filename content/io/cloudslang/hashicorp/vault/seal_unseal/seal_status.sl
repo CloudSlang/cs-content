@@ -1,5 +1,4 @@
-#!!#
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -8,16 +7,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a GET REST call.
+#! @description: Executes a '/v1/sys/seal-status' GET call against a Vault Server.
 #!
-#!!
-#! @input hostname: Required - Vault's FQDN
-#! @input port: Required - Vault's Port
-#! @input protocol: Required - Vault's Protocol
-#! @input x_vault_token: Required - Vault's Token
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#! @input hostname: Vault's FQDN.
+#! @input port: Vault's Port.
+#! @input protocol: Vault's Protocol.
+#!                  Default: 'https'
+#!                  Possible values: 'https' and 'http'.
+#! @input x_vault_token: Vault's X-VAULT-Token.
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
+#!                    Optional
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
@@ -37,26 +39,37 @@
 #! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        Default: '0' (infinite)
 #!
 #! @output sealed: Boolean. The sealed status of the Vault server.
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: Return_result if status_code different than '200'.
+#! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
-#! @result SUCCESS: Everything completed successfully.
-#! @result FAILURE: Something went wrong.
+#! @result SUCCESS: Everything completed successfully and Vault's sealed status was retrieved.
+#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved or Vault's response could not be properly parsed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
+
+imports:
+  http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
+
 flow:
   name: seal_status
+
   inputs:
     - hostname
     - port
-    - protocol
+    - protocol:
+        default: 'https'
     - x_vault_token:
         sensitive: true
     - proxy_host:
@@ -75,20 +88,30 @@ flow:
         required: false
     - keystore_password:
         required: false
+    - connect_timeout:
+        default: '0'
+        required: false
+    - socket_timeout:
+        default: '0'
+        required: false
+
   workflow:
     - interogate_vault_server:
         do:
-          io.cloudslang.base.http.http_client_get:
+          http.http_client_get:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal-status'}"
-            - auth_type: anonymous
             - proxy_host
             - proxy_port
             - proxy_username
+            - proxy_password
+            - trust_keystore
+            - trust_password
             - keystore
             - keystore_password
-            - content_type: application/json
-            - proxy_password
+            - connect_timeout
+            - socket_timeout
             - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - content_type: application/json
         publish:
           - return_result
           - return_code
@@ -96,11 +119,12 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: get_sealed_status
+          - FAILURE: on_failure
+
     - get_sealed_status:
         do:
-          io.cloudslang.base.json.json_path_query:
+          json.json_path_query:
             - json_object: '${return_result}'
             - json_path: .sealed
         publish:
@@ -108,8 +132,9 @@ flow:
           - return_code
           - exception
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+
   outputs:
     - sealed
     - return_result
@@ -118,6 +143,7 @@ flow:
     - error_message
     - response_headers
     - exception
+
   results:
     - FAILURE
     - SUCCESS

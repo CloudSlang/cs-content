@@ -1,16 +1,74 @@
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
 #!!
-#! @input hostname: Vault FQDN
-#! @input port: Vault Port
-#! @input protocol: Vault Protocol
-#! @input x_vault_token: Vault Token
+#! @description: Executes a '/v1/secret/?list=true' GET call against a Vault Server to retrieve all the available secrets.
+#!
+#! @input hostname: Vault's FQDN.
+#! @input port: Vault's Port.
+#! @input protocol: Vault's Protocol.
+#!                  Default: 'https'
+#!                  Possible values: 'https' and 'http'.
+#! @input x_vault_token: Vault's X-VAULT-Token.
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
+#!                    Default: '8080'
+#!                    Optional
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input keystore: Optional - The pathname of the Java KeyStore file.
+#!                  You only need this if the server requires client authentication.
+#!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
+#!                  this input is ignored.
+#!                  Format: Java KeyStore (JKS)
+#!                  Default value: ''
+#! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
+#!                           keystore is empty, keystore_password default will be supplied.
+#!                           Default value: ''
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        Default: '0' (infinite)
+#!
+#! @output keys: The list of available secrets on the Vault server.
+#! @output return_result: The response of the operation in case of success or the error message otherwise.
+#! @output error_message: return_result if status_code different than '200'.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Status code of the HTTP call.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
+#!
+#! @result SUCCESS: Everything completed successfully and the available secrets have been retrieved from Vault.
+#! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected thus keys(secrets) could not have be parsed.
 #!!#
+########################################################################################################################
 namespace: io.cloudslang.hashicorp.vault.secrets
+
+imports:
+  http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
+
 flow:
   name: list_secrets
+
   inputs:
     - hostname
     - port
-    - protocol
+    - protocol:
+        default: 'https'
     - x_vault_token:
         sensitive: true
     - proxy_host:
@@ -29,36 +87,43 @@ flow:
         required: false
     - keystore_password:
         required: false
-    - trust_all_root:
+    - connect_timeout:
+        default: '0'
         required: false
-    - x_509_hostname_verifier:
+    - socket_timeout:
+        default: '0'
         required: false
+
   workflow:
     - interogate_vault_server:
         do:
-          io.cloudslang.base.http.http_client_get:
+          http_client_get:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/?list=true'}"
-            - auth_type: anonymous
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - keystore: '${keystore}'
-            - keystore_password: '${keystore_password}'
-            - content_type: application/json
-            - proxy_password: '${proxy_password}'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
             - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - content_type: application/json
         publish:
-          - return_result: '${return_result}'
-          - return_code: '${return_code}'
-          - error_message: '${error_message}'
-          - status_code: '${status_code}'
-          - response_headers: '${response_headers}'
+          - return_result
+          - return_code
+          - error_message
+          - status_code
+          - response_headers
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: json_path_query
-    - json_path_query:
+          - SUCCESS: get_secrets
+
+    - get_secrets:
         do:
-          io.cloudslang.base.json.json_path_query:
+          json.json_path_query:
             - json_object: '${return_result}'
             - json_path: .keys
         publish:
@@ -66,31 +131,15 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
+
   outputs:
-    - keys: '${keys}'
-    - return_result: '${return_result}'
-    - return_code: '${return_code}'
-    - status_code: '${status_code}'
-    - error_message: '${error_message}'
-    - response_headers: '${response_headers}'
+    - keys
+    - return_result
+    - return_code
+    - status_code
+    - error_message
+    - response_headers
+
   results:
     - FAILURE
     - SUCCESS
-extensions:
-  graph:
-    steps:
-      interogate_vault_server:
-        x: 113
-        y: 100
-      json_path_query:
-        x: 316
-        y: 102
-        navigate:
-          f7d314f2-1480-e2ff-1237-f0ce00d7995c:
-            targetId: 17f1e303-4855-913c-223b-61d82c44a815
-            port: SUCCESS
-    results:
-      SUCCESS:
-        17f1e303-4855-913c-223b-61d82c44a815:
-          x: 529
-          y: 92
