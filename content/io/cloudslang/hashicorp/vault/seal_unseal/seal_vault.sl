@@ -7,14 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a '/v1/sys/seal-status' GET call against a Vault Server.
-#!               This is an un-authenticated endpoint.
+#! @description: Executes a '/v1/sys/seal' PUT call against a Vault Server.
 #!
 #! @input hostname: Vault's FQDN.
 #! @input port: Vault's Port.
 #! @input protocol: Vault's Protocol.
 #!                  Default: 'https'
 #!                  Possible values: 'https' and 'http'.
+#! @input x_vault_token: Vault's X-VAULT-Token.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -44,32 +44,32 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #!
-#! @output sealed: Boolean. The sealed status of the Vault server.
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: return_result if status_code different than '200'.
+#! @output error_message: return_result if status_code is not contained in interval between '200' and '299'.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output status_code: Status code of the HTTP call.
+#! @output status_code: Status code of the HTTP call. When 204, Vault server was sealed and no other output should be provided.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
-#! @result SUCCESS: Everything completed successfully and Vault's sealed status was retrieved.
-#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved or Vault's response could not be properly parsed.
+#! @result SUCCESS: Vault was sealed and status_code 204 was received.
+#! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
   http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
+  strings: io.cloudslang.base.strings
 
 flow:
-  name: seal_status
+  name: seal_vault
 
   inputs:
     - hostname
     - port
     - protocol:
         default: 'https'
+    - x_vault_token:
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -94,10 +94,10 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_server:
+    - interogate_vault_to_seal:
         do:
-          http.http_client_get:
-            - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal-status'}"
+          http.http_client_put:
+            - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -108,38 +108,34 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
             - content_type: application/json
         publish:
           - return_result
-          - return_code
           - error_message
+          - return_code
           - status_code
           - response_headers
         navigate:
-          - SUCCESS: get_sealed_status
           - FAILURE: on_failure
+          - SUCCESS: is_status_code_204
 
-    - get_sealed_status:
+    - is_status_code_204:
         do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .sealed
-        publish:
-          - sealed: "${''.join( c for c in return_result if  c not in '\"[]' )}"
-          - return_code
-          - exception
+          strings.string_equals:
+            - first_string: '${status_code}'
+            - second_string: '204'
+        publish: []
         navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: on_failure
+          - SUCCESS: SUCCESS
 
   outputs:
-    - sealed
     - return_result
     - return_code
     - status_code
     - error_message
     - response_headers
-    - exception
 
   results:
     - FAILURE

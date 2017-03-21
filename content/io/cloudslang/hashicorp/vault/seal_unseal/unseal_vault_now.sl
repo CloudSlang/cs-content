@@ -105,11 +105,21 @@ flow:
         loop:
           for: i in keys
           do:
-            vault.seal_unseal.unseal:
+            vault.seal_unseal.unseal_vault:
               - hostname
               - port
               - protocol
               - x_vault_token
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - trust_keystore
+              - trust_password
+              - keystore
+              - keystore_password
+              - connect_timeout
+              - socket_timeout
               - key: '${i}'
           break:
             - FAILURE

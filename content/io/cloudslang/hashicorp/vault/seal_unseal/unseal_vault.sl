@@ -69,7 +69,7 @@ imports:
   vault: io.cloudslang.hashicorp.vault
 
 flow:
-  name: unseal
+  name: unseal_vault
 
   inputs:
     - hostname
