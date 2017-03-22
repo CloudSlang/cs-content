@@ -15,6 +15,8 @@
 #! @input keys: Vault's unseal keys of comma separated values.
 #! @input secret: Vault's secret to be read and written by the flow.
 #! @input secret_value: Vault's secret value to be written for the above secret.
+#! @input trust_keystore: local trust keystore file.
+#! @input trust_password: local trust keystore's password.
 #!
 #! @result SUCCESS: All commands completed successfully thus Vault interaction occured as:
 #!                  seal status received, vault got unsealed, secrets list was retrieved, particular secret was updated and read, vault was finally sealed.
@@ -32,12 +34,16 @@ flow:
   inputs:
     - hostname
     - port
-    - x_vault_token
-    - keys
+    - x_vault_token:
+        sensitive: true
+    - keys:
+        sensitive: true
     - secret
-    - secret_value
+    - secret_value:
+        sensitive: true
     - trust_keystore
-    - trust_password
+    - trust_password:
+        sensitive: true
 
   workflow:
     - get_vault_status:

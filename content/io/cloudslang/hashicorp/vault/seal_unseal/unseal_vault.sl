@@ -80,6 +80,7 @@ flow:
         sensitive: true
     - key:
         required: false
+        sensitive: true
     - reset:
         required: false
     - proxy_host:

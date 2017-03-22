@@ -77,6 +77,7 @@ flow:
         sensitive: true
     - keys:
         required: true
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
