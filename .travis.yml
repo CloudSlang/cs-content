@@ -37,8 +37,3 @@ script:
 # cat prints only part of the file for some reason so we print ourselves
 after_failure: while read line; do printf "%s\n" "$line"; done < ./cslang-builder/logs/builder.log
 
-# the notifications section is currently bound to the slack integration. subsequent channels can/will be added if needed.
-notifications:
-  slack:
-    rooms:
-      - cloudslang:${slacktoken}#advocates
