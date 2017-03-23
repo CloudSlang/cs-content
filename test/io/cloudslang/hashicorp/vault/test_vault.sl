@@ -19,7 +19,8 @@
 #! @input trust_password: local trust keystore's password.
 #!
 #! @result SUCCESS: All commands completed successfully thus Vault interaction occured as:
-#!                  seal status received, vault got unsealed, secrets list was retrieved, particular secret was updated and read, vault was finally sealed.
+#!                  seal status received, vault got unsealed, secrets list was retrieved,
+#!                  particular secret was updated and read, vault was finally sealed.
 #! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
@@ -137,5 +138,5 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
