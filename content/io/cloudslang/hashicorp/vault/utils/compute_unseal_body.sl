@@ -30,8 +30,9 @@
 namespace: io.cloudslang.hashicorp.vault.utils
 
 imports:
-  vault: io.cloudslang.hashicorp.vault
   json: io.cloudslang.base.json
+  strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
 
 flow:
   name: compute_unseal_body
@@ -47,26 +48,40 @@ flow:
         required: true
 
   workflow:
+    - check_key_if_null:
+        do:
+          utils.is_null:
+            - variable: '${unseal_key}'
+        navigate:
+          - IS_NULL: check_reset_if_null
+          - IS_NOT_NULL: check_key_if_empty
+
     - check_key_if_empty:
         do:
-          vault.utils.string_equals:
+          strings.string_equals:
             - first_string: '${unseal_key}'
             - second_string: ''
             - ignore_case: 'true'
         navigate:
-          - SUCCESS: check_reset_if_empty
-          - NONE: check_reset_if_empty
+          - SUCCESS: check_reset_if_null
           - FAILURE: add_key_value
+
+    - check_reset_if_null:
+        do:
+          utils.is_null:
+            - variable: '${unseal_reset}'
+        navigate:
+          - IS_NULL: SUCCESS
+          - IS_NOT_NULL: check_reset_if_empty
 
     - check_reset_if_empty:
         do:
-          vault.utils.string_equals:
+          strings.string_equals:
             - first_string: '${unseal_reset}'
             - second_string: ''
             - ignore_case: 'true'
         navigate:
           - SUCCESS: SUCCESS
-          - NONE: SUCCESS
           - FAILURE: add_reset_value
 
     - add_key_value:
@@ -80,7 +95,7 @@ flow:
           - return_code
           - error_message
         navigate:
-          - SUCCESS: check_reset_if_empty
+          - SUCCESS: check_reset_if_null
           - FAILURE: on_failure
 
     - add_reset_value:
