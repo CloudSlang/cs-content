@@ -1,0 +1,33 @@
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+test_quote_check_sp_true:
+  description: Tests that quote_check finishes with SUCCESS for the default case
+  testSuites: [yoda]
+  testFlowPath: test.io.cloudslang.base.examples.test_quote_check
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_true.prop.sl
+  inputs:
+    - file_path: ${project_path}/resources/base/examples/yoda/yoda_quotes.txt
+  result: SUCCESS_PRINTING_DEFAULT
+
+test_quote_check_sp_false:
+  description: Tests that quote_check returns a random quote when the properties file is set on false
+  testSuites: [yoda]
+  testFlowPath: test.io.cloudslang.base.examples.test_quote_check
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_false.prop.sl
+  inputs:
+    - file_path: ${project_path}/resources/base/examples/yoda/yoda_quotes.txt
+  result: QUOTE_EXISTS
+
+test_quote_check_sp_not_specified:
+  description: Tests that quote_check returns a random quote when the properties file is not specified
+  testSuites: [yoda]
+  testFlowPath: test.io.cloudslang.base.examples.test_quote_check
+  inputs:
+    - file_path: ${project_path}/resources/base/examples/yoda/yoda_quotes.txt
+  result: QUOTE_EXISTS

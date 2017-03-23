@@ -7,8 +7,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: The flow is based on a System Property file
-#! If it is set on true it displays the default quote, otherwise generates a random quote.
+#! @description:  The flow is based on a System Property file.
+#!                If it is set on true it displays the default quote, otherwise generates a random quote.
 #!
 #! @input default_quote : quote with a default value.
 #! @input file_path: The path for the file that contains the quotes.
@@ -25,6 +25,7 @@ imports:
   fs: io.cloudslang.base.filesystem
   math: io.cloudslang.base.math
   quote_generator: io.cloudslang.base.examples.yoda
+  utils: io.cloudslang.base.utils
 
 flow:
     name: quote_check
@@ -38,10 +39,11 @@ flow:
     workflow:
       - print_quote:
           do:
-            quote_generator.contains: []
+            utils.is_true:
+              - bool_value: ${str(get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false'))}
           navigate:
-              - CONTAINS: print_default_quote
-              - DOES_NOT_CONTAIN: print_random_quote
+              - 'TRUE': print_default_quote
+              - 'FALSE': print_random_quote
 
       - print_random_quote:
           do:

@@ -10,6 +10,9 @@
 #!
 #! @input file_path: The path for the file that contains the quotes.
 #!
+#! @output quotes: A list with all the quotes from the file.
+#! @output random_quote: The quote randomly selected.
+#!
 #! @result SUCCESS: The quote was displayed successfully.
 #! @result FAILURE: Failure occurred during execution.
 #!!#
@@ -35,6 +38,7 @@ flow:
               - file_path: ${file_path}
           publish:
             - read_text
+            - quotes : ${str(read_text)}
           navigate:
             - SUCCESS: generate_random_number
             - FAILURE: FAILURE
@@ -43,9 +47,11 @@ flow:
           do:
             math.random_number_generator:
               - min: '0'
-              - max: ${str(len(read_text.strip().split(';')) - 2)}
+              - max: ${str(len(quotes.strip().split(';')) - 2)}
+              - quotes
           publish:
             - random_number
+            - random_quote: ${str(quotes.split(';')[int(random_number)])}
           navigate:
             - SUCCESS: print_quote
             - FAILURE: FAILURE
@@ -53,9 +59,14 @@ flow:
       - print_quote:
           do:
             base.print_text:
-              - text: ${str(read_text.split(';')[int(random_number)])}
+              - text: ${str(random_quote)}
           navigate:
             - SUCCESS: SUCCESS
+
+    outputs:
+        - quotes
+        - random_quote
+
     results:
-          - SUCCESS
-          - FAILURE
+        - SUCCESS
+        - FAILURE
