@@ -137,8 +137,8 @@ flow:
             - error_message
             - status_code
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
 
   outputs:
     - sealed

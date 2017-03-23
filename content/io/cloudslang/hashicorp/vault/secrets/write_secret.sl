@@ -128,8 +128,8 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: is_status_code_204
+          - FAILURE: on_failure
 
     - is_status_code_204:
         do:
@@ -138,8 +138,8 @@ flow:
             - second_string: '204'
         publish: []
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
 
   outputs:
     - return_result

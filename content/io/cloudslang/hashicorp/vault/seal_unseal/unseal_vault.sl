@@ -124,8 +124,8 @@ flow:
           - return_code
           - error_message
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: interogate_vault_to_unseal
+          - FAILURE: on_failure
 
     - interogate_vault_to_unseal:
         do:
@@ -151,8 +151,8 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: get_sealed_status
+          - FAILURE: on_failure
 
     - get_sealed_status:
         do:
@@ -162,8 +162,8 @@ flow:
         publish:
           - sealed: "${''.join( c for c in return_result if  c not in '\"[]' )}"
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: get_progress
+          - FAILURE: on_failure
 
     - get_progress:
         do:
@@ -173,8 +173,8 @@ flow:
         publish:
           - progress: "${''.join( c for c in return_result if  c not in '\"[]' )}"
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
 
   outputs:
     - sealed

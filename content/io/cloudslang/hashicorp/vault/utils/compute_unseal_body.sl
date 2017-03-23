@@ -54,9 +54,9 @@ flow:
             - second_string: ''
             - ignore_case: 'true'
         navigate:
-          - FAILURE: add_key_value
           - SUCCESS: check_reset_if_empty
           - NONE: check_reset_if_empty
+          - FAILURE: add_key_value
 
     - check_reset_if_empty:
         do:
@@ -65,9 +65,9 @@ flow:
             - second_string: ''
             - ignore_case: 'true'
         navigate:
-          - FAILURE: add_reset_value
           - SUCCESS: SUCCESS
           - NONE: SUCCESS
+          - FAILURE: add_reset_value
 
     - add_key_value:
         do:
@@ -80,8 +80,8 @@ flow:
           - return_code
           - error_message
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: check_reset_if_empty
+          - FAILURE: on_failure
 
     - add_reset_value:
         do:
@@ -94,8 +94,8 @@ flow:
           - return_code
           - error_message
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
 
   outputs:
     - return_result: '${computed_json}'

@@ -125,8 +125,8 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: get_secret
+          - FAILURE: on_failure
 
     - get_secret:
         do:
@@ -136,8 +136,8 @@ flow:
         publish:
           - secret_value: "${''.join( c for c in return_result if  c not in '[]' )}"
         navigate:
-          - FAILURE: on_failure
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
 
   outputs:
     - secret_value
