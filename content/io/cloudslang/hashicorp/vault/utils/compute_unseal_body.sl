@@ -103,5 +103,5 @@ flow:
     - error_message
 
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE

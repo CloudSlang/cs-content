@@ -147,5 +147,5 @@ flow:
     - exception
 
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE

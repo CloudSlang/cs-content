@@ -146,5 +146,5 @@ flow:
     - response_headers
 
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
