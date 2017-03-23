@@ -20,29 +20,34 @@
 #! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: Optional - User name used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#! @input proxy_username: User name used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
-#!                        Default value: ''
-#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: Optional - The pathname of the Java KeyStore file.
+#!                        Optional
+#! @input keystore: The pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
 #!                  Format: Java KeyStore (JKS)
-#!                  Default value: ''
-#! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
+#!                  Optional
+#! @input keystore_password: The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
-#!                           Default value: ''
-#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                           Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                         Optional
+#! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
+#!                        Optional
 #!
 #! @output sealed: Boolean. The sealed status of the Vault server.
 #! @output return_result: The response of the operation in case of success or the error message otherwise.

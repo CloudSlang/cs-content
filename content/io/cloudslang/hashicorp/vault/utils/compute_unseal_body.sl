@@ -11,9 +11,11 @@
 #!               key and reset which are part of the vault's unseal body.
 #!               Example: '{"key":"value","reset":false}' where value is the provided unseal_key's value.
 #!
-#! @input unseal_key: Optional - A single master share key from Vault.
-#! @input unseal_reset: Optional - Key used by Vault so that if true, the previously-provided unseal keys are discarded from memory and the unseal process is reset.
+#! @input unseal_key: A single master share key from Vault.
+#!                    Optional
+#! @input unseal_reset: Key used by Vault so that if true, the previously-provided unseal keys are discarded from memory and the unseal process is reset.
 #!                      Format: Boolean.
+#!                      Optional
 #! @input computed_json: Private - Input used to define a default value of the computed json body as '{"reset":false}'.
 #!                       Default: '{"reset":false}'
 #!
