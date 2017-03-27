@@ -15,7 +15,7 @@
 #! @input json_object: Optional - JSON object to remove from array
 #!                     Example: '{"b": "1"}'
 #! @input index: Optional - Position from which to remove the existing object
-#1               Example: 1
+#!               Example: 1
 #!
 #! @output return_result: JSON array with object removed
 #! @output return_code: "0" if removing was successful, "-1" otherwise
