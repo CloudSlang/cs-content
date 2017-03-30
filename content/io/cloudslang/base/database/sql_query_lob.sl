@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Generated operation description
+#! @description: Execute a query on an SQL server and return each LOB row sequentially.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -18,8 +18,8 @@
 #! @input db_class: The classname of the JDBC driver to use.
 #! @input db_url: The url required to load up the driver and make your connection.
 #! @input command: The command to execute.
-#! @input delimiter: Generated description
-#! @input key: Generated description
+#! @input delimiter: The delimiter to use between resulted values in "returnResult" and column names in "columnNames".
+#! @input key: The key to help keep multiple query results distinct.
 #! @input timeout: Seconds to wait before timing out the SQL command execution. When the default value is used, there
 #!                 is no limit on the amount of time allowed for a running command to complete.
 #!                 Default values: 0
@@ -33,16 +33,16 @@
 #!                                Valid values: CONCUR_READ_ONLY, CONCUR_UPDATABLE
 #!                                Default value: CONCUR_READ_ONLY
 #!
-#! @output return_code: Generated description
-#! @output return_result: Generated description
-#! @output exception: Generated description
-#! @output rows_left: Generated description
-#! @output sql_query: Generated description
-#! @output column_names: Generated description
+#! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred
+#! @output return_result: The result of the query
+#! @output exception: The error message if something went wrong while executing the query.
+#! @output rows_left: How many rows are left from the query
+#! @output column_names: A list with all the column names
+#! @output sql_query: The SQL command executed
 #!
-#! @result HAS_MORE: Generated description
-#! @result NO_MORE: Generated description
-#! @result FAILURE: Generated description
+#! @result HAS_MORE: If rows_left is greater than 0
+#! @result NO_MORE: If rows_left is 0
+#! @result FAILURE: If an error occurred while running the query
 #!!#
 ########################################################################################################################
 
@@ -80,6 +80,7 @@ operation:
       required: false
       private: true
   - authentication_type:
+      default: 'sql'
       required: false
   - authenticationType:
       default: ${get("authentication_type", "")}
@@ -103,6 +104,7 @@ operation:
       required: false
   - key
   - timeout:
+      default: '0'
       required: false
   - database_pooling_properties:
       required: false
@@ -117,6 +119,7 @@ operation:
       required: false
       private: true
   - result_set_concurrency:
+      default: 'CONCUR_READ_ONLY'
       required: false
   - resultSetConcurrency:
       default: ${get("result_set_concurrency", "")}

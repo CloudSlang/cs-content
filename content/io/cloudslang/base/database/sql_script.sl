@@ -1,13 +1,13 @@
 ########################################################################################################################
 #!!
-#! @description: Generated operation description
+#! @description: Run an SQL script from a file or from the <sql_commands> input.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
 #!                Valid values: Oracle, MSSQL, Sybase, Netcool, DB2, PostgreSQL and Custom.
 #! @input username: The username to use when connecting to the database.
 #! @input password: The password to use when connecting to the database.
-#! @input instance: The name instance (for MSSQL Server). Leave it blank for default instance.
+#! @input instance: The name instance (fo r MSSQL Server). Leave it blank for default instance.
 #! @input db_port: The port to connect to.
 #!                 Default values: Oracle: 1521, MSSQL: 1433, Sybase: 5000, Netcool: 4100, DB2: 50000, PostgreSQL: 5432.
 #! @input database_name: The name of the database.
@@ -18,6 +18,7 @@
 #! @input db_class: The classname of the JDBC driver to use.
 #! @input db_url: The url required to load up the driver and make your connection.
 #! @input delimiter: The delimiter to use <sql_command>
+#!                   Default: ';'
 #! @input sql_commands: All the SQL commands that you want to run using the <delimiter>
 #! @input script_file_name: SQL script file name. The command in the file need to have ';' to indicate the end of the command
 #!                          Note: this is mutual exclusive with <sqlCommands>
@@ -31,12 +32,13 @@
 #!                                Valid values: CONCUR_READ_ONLY, CONCUR_UPDATABLE
 #!                                Default value: CONCUR_READ_ONLY
 #!
-#! @output return_code: Generated description
-#! @output return_result: Generated description
-#! @output exception: Generated description
+#! @output return_code: -1 if an error occurred while running the script, 0 otherwise
+#! @output return_result: The result of the script.
+#! @output exception: The error message if something went wrong while executing the script.
+#! @output update_count: How many rows were affected by the script.
 #!
-#! @result SUCCESS: Generated description
-#! @result FAILURE: Generated description
+#! @result SUCCESS: If the script executed successfully
+#! @result FAILURE: If there was an error while executing the script.
 #!!#
 ########################################################################################################################
 
@@ -74,6 +76,7 @@ operation:
       required: false
       private: true
   - authentication_type:
+      default: 'sql'
       required: false
   - authenticationType:
       default: ${get("authentication_type", "")}
@@ -92,7 +95,7 @@ operation:
       required: false
       private: true
   - delimiter:
-      default: ''
+      default: ';'
       required: false
   - sql_commands:
       required: false
@@ -119,6 +122,7 @@ operation:
       required: false
       private: true
   - result_set_concurrency:
+      default: 'CONCUR_READ_ONLY'
       required: false
   - resultSetConcurrency:
       default: ${get("result_set_concurrency", "")}
@@ -134,6 +138,7 @@ operation:
   - return_code: ${returnCode}
   - return_result: ${returnResult}
   - exception: ${exception}
+  - update_count: ${updateCount}
 
   results:
   - SUCCESS: ${returnCode=='0'}

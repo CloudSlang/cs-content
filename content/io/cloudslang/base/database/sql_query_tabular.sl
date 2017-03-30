@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Generated operation description
+#! @description: Execute a query on an SQL server an return all the rows formated.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -31,12 +31,12 @@
 #!                                Valid values: CONCUR_READ_ONLY, CONCUR_UPDATABLE
 #!                                Default value: CONCUR_READ_ONLY
 #!
-#! @output return_code: Generated description
-#! @output return_result: Generated description
-#! @output exception: Generated description
+#! @output return_code: -1 if an error occurred while running the query, 0 otherwise
+#! @output return_result: The result of the query.
+#! @output exception: The error message if something went wrong while executing the query.
 #!
-#! @result SUCCESS: Generated description
-#! @result FAILURE: Generated description
+#! @result SUCCESS: If the query executed successfully
+#! @result FAILURE: If there was an error while executing the query.
 #!!#
 ########################################################################################################################
 
@@ -74,6 +74,7 @@ operation:
       required: false
       private: true
   - authentication_type:
+      default: 'sql'
       required: false
   - authenticationType:
       default: ${get("authentication_type", "")}
@@ -93,6 +94,7 @@ operation:
       private: true
   - command
   - timeout:
+      default: '0'
       required: false
   - database_pooling_properties:
       required: false
@@ -109,6 +111,7 @@ operation:
   - result_set_concurrency:
       required: false
   - resultSetConcurrency:
+      default: 'CONCUR_READ_ONLY'
       default: ${get("result_set_concurrency", "")}
       required: false
       private: true
