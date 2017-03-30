@@ -6,8 +6,8 @@
 #! @input db_type: The type of database to connect to.
 #!                Valid values: Oracle, MSSQL, Sybase, Netcool, DB2, PostgreSQL and Custom.
 #! @input username: The username to use when connecting to the database.
-#! @input password:  The password to use when connecting to the database.
-#! @input instance:  The name instance (for MSSQL Server). Leave it blank for default instance.
+#! @input password: The password to use when connecting to the database.
+#! @input instance: The name instance (for MSSQL Server). Leave it blank for default instance.
 #! @input db_port: The port to connect to.
 #!                 Default values: Oracle: 1521, MSSQL: 1433, Sybase: 5000, Netcool: 4100, DB2: 50000, PostgreSQL: 5432.
 #! @input database_name: The name of the database.
@@ -19,8 +19,8 @@
 #! @input db_url: The url required to load up the driver and make your connection.
 #! @input delimiter: The delimiter to use <sql_command>
 #! @input sql_commands: All the SQL commands that you want to run using the <delimiter>
-#! @input script_file_name:  SQL script file name. The command in the file need to have ';' to indicate the end of the command
-#!                           Note: this is mutual exclusive with <sqlCommands>
+#! @input script_file_name: SQL script file name. The command in the file need to have ';' to indicate the end of the command
+#!                          Note: this is mutual exclusive with <sqlCommands>
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: db.pooling.enable=false
 #!                                     Example: db.pooling.enable=true

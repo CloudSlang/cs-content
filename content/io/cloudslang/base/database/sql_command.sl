@@ -2,22 +2,33 @@
 #!!
 #! @description: Generated operation description
 #!
-#! @input db_server_name: Generated description
-#! @input db_type: Generated description
-#! @input username: Generated description
-#! @input password: Generated description
-#! @input instance: Generated description
-#! @input db_port: Generated description
-#! @input database_name: Generated description
-#! @input authentication_type: Generated description
-#! @input db_class: Generated description
-#! @input db_url: Generated description
+#! @input db_server_name: The hostname or ip address of the database server.
+#! @input db_type: The type of database to connect to.
+#!                Valid values: Oracle, MSSQL, Sybase, Netcool, DB2, PostgreSQL and Custom.
+#! @input username: The username to use when connecting to the database.
+#! @input password:  The password to use when connecting to the database.
+#! @input instance:  The name instance (for MSSQL Server). Leave it blank for default instance.
+#! @input db_port: The port to connect to.
+#!                 Default values: Oracle: 1521, MSSQL: 1433, Sybase: 5000, Netcool: 4100, DB2: 50000, PostgreSQL: 5432.
+#! @input database_name: The name of the database.
+#! @input authentication_type: The type of authentication used to access the database (applicable only to MSSQL type).
+#!                             Default: sql
+#!                             Values: sql
+#!                             Note: currently, the only valid value is sql, more are planed
+#! @input db_class: The classname of the JDBC driver to use.
+#! @input db_url: The url required to load up the driver and make your connection.
 #! @input delimiter: Generated description
 #! @input sql_commands: Generated description
 #! @input script_file_name: Generated description
-#! @input database_pooling_properties: Generated description
-#! @input result_set_type: Generated description
-#! @input result_set_concurrency: Generated description
+#! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
+#!                                     Default: db.pooling.enable=false
+#!                                     Example: db.pooling.enable=true
+#! @input result_set_type: The result set type. See JDBC folder description for more details.
+#!                         Valid values: TYPE_FORWARD_ONLY, TYPE_SCROLL_INSENSITIVE,TYPE_SCROLL_SENSITIVE.
+#!                         Default value: TYPE_SCROLL_INSENSITIVE except DB2 which is overridden to TYPE_FORWARD_ONLY
+#! @input result_set_concurrency: The result set concurrency. See JDBC folder description for more details.
+#!                                Valid values: CONCUR_READ_ONLY, CONCUR_UPDATABLE
+#!                                Default value: CONCUR_READ_ONLY
 #!
 #! @output return_code: Generated description
 #! @output return_result: Generated description
