@@ -13,9 +13,6 @@
 #! @input db_class: Generated description
 #! @input db_url: Generated description
 #! @input command: Generated description
-#! @input trust_all_roots: Generated description
-#! @input trust_store: Generated description
-#! @input trust_store_password: Generated description
 #! @input col_delimiter: Generated description
 #! @input row_delimiter: Generated description
 #! @input timeout: Generated description
@@ -84,25 +81,6 @@ operation:
       required: false
       private: true
   - command
-  - trust_all_roots:
-      required: false
-  - trustAllRoots:
-      default: ${get("trust_all_roots", "")}
-      required: false
-      private: true
-  - trust_store:
-      required: false
-  - trustStore:
-      default: ${get("trust_store", "")}
-      required: false
-      private: true
-  - trust_store_password:
-      required: false
-      sensitive: true
-  - trustStorePassword:
-      default: ${get("trust_store_password", "")}
-      required: false
-      private: true
   - col_delimiter:
       required: false
   - colDelimiter:

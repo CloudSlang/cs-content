@@ -1,0 +1,5 @@
+host: 'localhost'
+port: '22'
+command: echo testing
+username: victor
+password: papple
