@@ -8,6 +8,9 @@
 ########################################################################################################################
 
 testSQLScript:
+  testSuites: [database-local]
+  description: 'Tests that sql_query.sl operation finishes with SUCCESS for a valid sql command'
+  testFlowPath: io.cloudslang.base.database.sql_query
   inputs:
     - db_server_name: <db_server_name>
     - db_type: <db_type>
@@ -28,9 +31,6 @@ testSQLScript:
     - result_set_concurrency: ''
     - ignore_case: 'true'
 
-  description: Tests that sql_query.sl operation finishes with SUCCESS for a valid sql command
-  testFlowPath: io.cloudslang.base.database.sql_query
-  testSuites: [database-local]
-    outputs:
-      - return_code: '0'
+  outputs:
+    - return_code: '0'
   result: SUCCESS

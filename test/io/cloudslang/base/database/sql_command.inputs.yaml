@@ -8,6 +8,9 @@
 ########################################################################################################################
 
 testSQLCommand:
+  testSuites: [database-local]
+  description: 'Tests that sql_command.sl operation finishes with SUCCESS for a valid sql command'
+  testFlowPath: io.cloudslang.base.database.sql_command
   inputs:
     - db_server_name: <db_server_name>
     - db_type: <db_type>
@@ -24,9 +27,6 @@ testSQLCommand:
     - result_set_type: ''
     - result_set_concurrency: ''
 
-  description: Tests that sql_command.sl operation finishes with SUCCESS for a valid sql command
-  testFlowPath: io.cloudslang.base.database.sql_command
-  testSuites: [database-local]
-    outputs:
-      - return_code: '0'
+  outputs:
+    - return_code: '0'
   result: SUCCESS
