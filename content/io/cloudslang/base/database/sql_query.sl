@@ -1,3 +1,10 @@
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
 ########################################################################################################################
 #!!
 #! @description: Execute a query on an SQL server and return each row sequentially.
@@ -146,14 +153,14 @@ operation:
     method_name: execute
 
   outputs:
-  - return_code: ${returnCode}
-  - return_result: ${returnResult}
-  - exception: ${exception}
-  - rows_left: ${rowsLeft}
-  - column_names: ${columnNames}
-  - sql_query: ${sqlQuery}
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${exception}
+    - rows_left: ${rowsLeft}
+    - column_names: ${columnNames}
+    - sql_query: ${sqlQuery}
 
   results:
-  - 'HAS_MORE': ${returnCode=='0'}
-  - 'NO_MORE': ${returnCode=='1'}
-  - FAILURE
+    - 'HAS_MORE': ${returnCode=='0'}
+    - 'NO_MORE': ${returnCode=='1'}
+    - FAILURE

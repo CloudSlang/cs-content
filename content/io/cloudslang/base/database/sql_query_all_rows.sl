@@ -140,10 +140,10 @@ operation:
     method_name: execute
 
   outputs:
-  - return_code: ${returnCode}
-  - return_result: ${returnResult}
-  - exception: ${exception}
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${exception}
 
   results:
-  - SUCCESS: ${returnCode=='0'}
-  - FAILURE
+    - SUCCESS: ${returnCode=='0'}
+    - FAILURE

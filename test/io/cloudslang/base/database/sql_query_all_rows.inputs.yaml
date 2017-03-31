@@ -1,0 +1,35 @@
+#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+########################################################################################################################
+
+testSQLScript:
+  inputs:
+    - db_server_name: <db_server_name>
+    - db_type: <db_type>
+    - username: <username>
+    - password: <password>
+    - instance: <instance>
+    - db_port: ''
+    - database_name: <database_name>
+    - authentication_type: 'sql'
+    - db_class: ''
+    - db_url: ''
+    - command: <command>
+    - col_delimiter: ''
+    - row_delimiter: ''
+    - timeout: ''
+    - database_pooling_properties: ''
+    - result_set_type: ''
+    - result_set_concurrency: ''
+
+  description: Tests that sql_query_all_rows.sl operation finishes with SUCCESS for a valid sql command
+  testFlowPath: io.cloudslang.base.database.sql_query_all_rows
+  testSuites: [database-local]
+    outputs:
+      - return_code: '0'
+  result: SUCCESS
