@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 
-testSQLScript:
+testSQLQuery:
   testSuites: [database-local]
   description: 'Tests that sql_query.sl operation finishes with SUCCESS for a valid sql command'
   testFlowPath: io.cloudslang.base.database.sql_query
