@@ -10,7 +10,7 @@
 #! @description: Retrieves a list of all the Docker container names.
 #!
 #! @input docker_options: Optional - options for the docker environment
-#~                        from the construct: docker [OPTIONS] COMMAND [arg...]
+#!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input all_containers: Optional - show all containers (both running and stopped)
 #!                        Default: false, only running containers
 #!                        any input that is different than empty string or false
