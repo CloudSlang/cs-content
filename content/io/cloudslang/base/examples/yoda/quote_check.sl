@@ -13,6 +13,8 @@
 #! @input default_quote : quote with a default value.
 #! @input file_path: The path for the file that contains the quotes.
 #!
+#! @output random_quote: The quote that is chosen after the system property check.
+#!
 #! @result SUCCESS: Flow completed successfully.
 #! @result FAILURE: Failure occurred during execution.
 #!!#
@@ -37,7 +39,7 @@ flow:
       - file_path
 
     workflow:
-      - print_quote:
+      - check_system_property:
           do:
             utils.is_true:
               - bool_value: ${str(get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false'))}
@@ -49,6 +51,8 @@ flow:
           do:
             quote_generator.generate_random_quote:
               - file_path
+          publish:
+              - random_quote
           navigate:
             - SUCCESS: SUCCESS
             - FAILURE: FAILURE
@@ -59,6 +63,8 @@ flow:
               - text: ${default_quote}
           navigate:
             - SUCCESS: SUCCESS
+    outputs:
+              - random_quote
     results:
       - SUCCESS
       - FAILURE

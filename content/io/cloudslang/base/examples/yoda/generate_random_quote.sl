@@ -38,7 +38,7 @@ flow:
               - file_path: ${file_path}
           publish:
             - read_text
-            - quotes : ${str(read_text)}
+            - quotes : ${str(read_text).replace('\n','')}
           navigate:
             - SUCCESS: generate_random_number
             - FAILURE: FAILURE

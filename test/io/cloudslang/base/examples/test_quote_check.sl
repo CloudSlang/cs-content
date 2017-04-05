@@ -8,7 +8,7 @@
 #! @result SUCCESS_PRINTING_DEFAULT: quote printed successfully
 #! @result QUOTE_EXISTS: the random quote was generated successfully
 #! @result FILE_DOESNT_OPEN: the file can't be open
-#! @result CANT_CHECK_RANDOM_QUOTE: the random quote wasn't generated
+#! @result CANT_CHECK_QUOTE: quote_check step failed
 #! @result FAILURE: failure
 #!!#
 ########################################################################################################################
@@ -32,37 +32,28 @@ flow:
       - file_path
 
     workflow:
-      - print_quote:
+      - check_system_property:
           do:
             utils.is_true:
               - bool_value: ${str(get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false'))}
           navigate:
-              - 'TRUE': print_default_quote
-              - 'FALSE': print_random_quote
+              - 'TRUE':  SUCCESS_PRINTING_DEFAULT
+              - 'FALSE': check_random_quote
 
-      - print_default_quote:
+      - check_random_quote:
           do:
-            base.print_text:
-              - text: ${default_quote}
-          navigate:
-            - SUCCESS: SUCCESS_PRINTING_DEFAULT
-
-      - print_random_quote:
-          do:
-            quote_generator.generate_random_quote:
+            quote_generator.quote_check:
               - file_path
           publish:
               - random_quote
           navigate:
-            - SUCCESS: CHECK_RANDOM_QUOTE
-            - FAILURE: CANT_CHECK_RANDOM_QUOTE
+            - SUCCESS: check_quote
+            - FAILURE: CANT_CHECK_QUOTE
 
-      - CHECK_RANDOM_QUOTE:
+      - check_quote:
           do:
             fs.read_from_file:
               - file_path: ${file_path}
-              - random_quote
-
           publish:
             - read_text
           navigate:
@@ -82,5 +73,5 @@ flow:
       - SUCCESS_PRINTING_DEFAULT
       - QUOTE_EXISTS
       - FILE_DOESNT_OPEN
-      - CANT_CHECK_RANDOM_QUOTE
+      - CANT_CHECK_QUOTE
       - FAILURE
