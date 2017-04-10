@@ -29,7 +29,7 @@ flow:
       - default_quote:
           default: "Do or do not, there is no try!"
           private: true
-      - file_path
+      - file_path : ${str(get_sp('io.cloudslang.base.examples.yoda.file_path'))}
 
     workflow:
       - check_system_property:

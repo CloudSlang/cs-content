@@ -11,8 +11,6 @@ test_quote_check_sp_true:
   testSuites: [default, yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_true.prop.sl
-  inputs:
-    - file_path: ${project_path}/resources/base/examples/yoda/yoda_quotes.txt
   result: SUCCESS_PRINTING_DEFAULT
 
 test_quote_check_sp_false:
@@ -20,14 +18,11 @@ test_quote_check_sp_false:
   testSuites: [default, yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_false.prop.sl
-  inputs:
-    - file_path: /resources/base/examples/yoda/yoda_quotes.txt
   result: QUOTE_EXISTS
 
 test_quote_check_sp_not_specified:
-  description: Tests that quote_check returns a random quote when the properties file is not specified
+  description: Tests that quote_check returns a random quote when the properties file for the default quote is not specified
   testSuites: [default, yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
-  inputs:
-    - file_path: /resources/base/examples/yoda/yoda_quotes.txt
+  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_none.prop.sl
   result: QUOTE_EXISTS
