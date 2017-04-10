@@ -36,8 +36,6 @@ machine:
     COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
     CHANGES_ONLY_BUILD_MODE: '[ "${CIRCLE_BRANCH}" != "master" ] && [ -n $BUILD_MODE ]'
     YODA_FILE_PATH: $(pwd)/cloud-slang-content/resources/base/examples/yoda/yoda_quotes.txt
-    TEST: $(ls)
-
     JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
@@ -105,7 +103,7 @@ dependencies:
     - echo ${TEST}
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-        then find configuration -type f -exec sed -i "s/<yoda_file_path>/${YODA_FILE_PATH}/g" {} +;
+        then find configuration -type f -exec sed -i "s/<yoda_file_path>/${YODA_FILE_PATH}/g" {} + ;
         fi
       : parallel: true
 

@@ -15,4 +15,4 @@
 namespace: io.cloudslang.base.examples.yoda
 
 properties:
-  - file_path: '<yoda_file_path>'
+  - file_path: "<yoda_file_path>"
