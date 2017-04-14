@@ -15,7 +15,7 @@
 #!
 #! @input project_id: the project in Google cloud for which the deployment is done
 #!
-#! @input service_id: the project in Google cloud for which the deployment is done
+#! @input service_id: the service in Google cloud for which the deployment is done
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional

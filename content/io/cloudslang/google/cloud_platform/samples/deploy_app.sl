@@ -41,6 +41,9 @@
 #! @output exception: An error message in case there was an error while generating the Bearer token.
 #! @output error_message: Error message in case of deployment error
 #! @output status_code: Status code of the deployment call.
+#! @output message: If something went wrong this message would provide more info.
+#! @output serving_status: If version exists its status is returned.
+#! @output version_url: If version exists its url is returned.
 #!
 #! @result SUCCESS: Access token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
@@ -51,6 +54,7 @@ namespace: io.cloudslang.google.cloud_platform.samples
 imports:
   gcauth: io.cloudslang.google.cloud_platform.authentication
   gcappengine: io.cloudslang.google.cloud_platform.compute.appengine
+  utils: io.cloudslang.base.utils
 
 flow:
   name: deploy_app
@@ -116,8 +120,46 @@ flow:
           - error_message
           - status_code
         navigate:
+          - SUCCESS: wait_for_deployment
+          - FAILURE: FAILURE
+
+    - wait_for_deployment:
+        do:
+          utils.sleep:
+            - seconds: '15'
+        navigate:
+          - SUCCESS: get_version_details
+          - FAILURE: on_failure
+
+    - get_version_details:
+        do:
+          gcappengine.get_version:
+            - access_token
+            - project_id
+            - service_id
+            - version_id: 'staging'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+        publish:
+          - return_result
+          - return_code
+          - error_message
+          - status_code
+          - serving_status
+          - version_url
+          - message
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
 
   outputs:
     - return_result
@@ -125,6 +167,9 @@ flow:
     - exception
     - error_message
     - status_code
+    - serving_status
+    - version_url
+    - message
 
   results:
     - SUCCESS

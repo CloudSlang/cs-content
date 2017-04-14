@@ -52,6 +52,7 @@ namespace: io.cloudslang.google.cloud_platform.samples
 imports:
   gcauth: io.cloudslang.google.cloud_platform.authentication
   gcappengine: io.cloudslang.google.cloud_platform.compute.appengine
+  utils: io.cloudslang.base.utils
 
 flow:
   name: undeploy_app
@@ -116,6 +117,43 @@ flow:
           - return_code
           - error_message
           - status_code
+        navigate:
+          - SUCCESS: wait_for_undeployment
+          - FAILURE: FAILURE
+
+    - wait_for_undeployment:
+        do:
+          utils.sleep:
+            - seconds: '15'
+        navigate:
+          - SUCCESS: get_version_details
+          - FAILURE: on_failure
+
+    - get_version_details:
+        do:
+          gcappengine.get_version:
+            - access_token
+            - project_id
+            - service_id
+            - version_id: 'staging'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+        publish:
+          - return_result
+          - return_code
+          - error_message
+          - status_code
+          - serving_status
+          - version_url
+          - message
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
