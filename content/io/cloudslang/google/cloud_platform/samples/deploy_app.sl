@@ -19,6 +19,11 @@
 #! @input scopes_delimiter: Delimiter that will be used for the <scopes> input.
 #!                          Default: ','
 #!                          Optional
+#! @input json_app_conf: the app.json content for the application to be deployed
+#!
+#! @input project_id: the project in Google cloud for which the deployment is done
+#!
+#! @input service_id: the project in Google cloud for which the deployment is done
 #! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
 #!                 Default: 'https://sts.windows.net/common'
 #! @input proxy_host: Proxy server used to access the web site.
@@ -34,70 +39,93 @@
 #! @output return_result: The generated access token for Google Cloud Compute.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: An error message in case there was an error while generating the Bearer token.
+#! @output error_message: Error message in case of deployment error
+#! @output status_code: Status code of the deployment call.
 #!
 #! @result SUCCESS: Access token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.authentication
+namespace: io.cloudslang.google.cloud_platform.samples
 
-operation:
-  name: get_access_token_cs
+imports:
+  gcauth: io.cloudslang.google.cloud_platform.authentication
+  gcappengine: io.cloudslang.google.cloud_platform.compute.appengine
+
+flow:
+  name: deploy_app
 
   inputs:
     - json_token
-    - jsonToken:
-        default: ${get('json_token', '')}
+    - scopes:
+        default: 'https://www.googleapis.com/auth/cloud-platform'
         required: false
-        private: true
-    - scopes
     - scopes_delimiter:
-        default: ','
         required: false
-    - scopesDelimiter:
-        default: ${get('scopes_delimiter', ',')}
-        required: false
-        private: true
-    - timeout:
-        default: '0'
-        required: false
+    - json_app_conf
+    - project_id
+    - service_id
     - proxy_host:
         required: false
-    - proxyHost:
-        default: ${get('proxy_host', '')}
-        required: false
-        private: true
     - proxy_port:
         required: false
-    - proxyPort:
-        default: ${get('proxy_port', '8080')}
-        required: false
-        private: true
     - proxy_username:
         required: false
-    - proxyUsername:
-        default: ${get('proxy_username', '')}
-        required: false
-        private: true
     - proxy_password:
         required: false
-        sensitive: true
-    - proxyPassword:
-        default: ${get('proxy_password', '')}
-        required: false
-        private: true
-        sensitive: true
 
-  java_action:
-      gav: 'io.cloudslang.content:cs-google-cloud:0.0.1-SNAPSHOT'
-      class_name: io.cloudslang.content.gcloud.actions.compute.utils.GetAccessToken
-      method_name: execute
+  workflow:
+    - get_token:
+        do:
+          gcauth.get_access_token:
+            - json_token
+            - scopes
+            - scopes_delimiter
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+        publish:
+          - access_token: ${return_result}
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: deploy_app
+          - FAILURE: FAILURE
+
+    - deploy_app:
+        do:
+          gcappengine.create_version:
+            - access_token
+            - json_app_conf
+            - project_id
+            - service_id
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+            - connect_timeout
+            - socket_timeout
+        publish:
+          - return_result
+          - return_code
+          - error_message
+          - status_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception: ${get("exception", "")}
+    - return_result
+    - return_code
+    - exception
+    - error_message
+    - status_code
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS
     - FAILURE

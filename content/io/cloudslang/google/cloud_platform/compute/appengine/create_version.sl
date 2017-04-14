@@ -11,7 +11,7 @@
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
-#! @input json_app: the app.json content for the application to be deployed
+#! @input json_app_conf: the app.json content for the application to be deployed
 #!
 #! @input project_id: the project in Google cloud for which the deployment is done
 #!
@@ -73,7 +73,7 @@ flow:
 
   inputs:
     - access_token
-    - json_app
+    - json_app_conf
     - project_id
     - service_id
     - proxy_host:
@@ -116,7 +116,7 @@ flow:
             - socket_timeout
             - content_type: application/json
             - headers: "${'Authorization: Bearer ' + access_token}"
-            - body: ${ json_app }
+            - body: ${ json_app_conf }
         publish:
           - return_result
           - return_code

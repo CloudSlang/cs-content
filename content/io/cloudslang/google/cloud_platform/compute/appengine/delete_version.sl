@@ -11,13 +11,11 @@
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
-#! @input json_app: the app.json content for the application to be deployed
+#! @input project_id: the project in Google cloud for which the removal is performed
 #!
-#! @input project_id: the project in Google cloud for which the deployment is done
+#! @input service_id: the project in Google cloud for which the removal is performed
 #!
-#! @input service_id: the project in Google cloud for which the deployment is done
-#!
-#! @input version_id: the project in Google cloud for which the deployment is done
+#! @input version_id: the project in Google cloud for which the removal is performed
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -75,7 +73,6 @@ flow:
 
   inputs:
     - access_token
-    - json_app
     - project_id
     - service_id
     - version_id
