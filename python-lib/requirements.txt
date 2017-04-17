@@ -1,1 +1,2 @@
 jenkinsapi == 0.2.22
+pywinrm == 0.0.3
