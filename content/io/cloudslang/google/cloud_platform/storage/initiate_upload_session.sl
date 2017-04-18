@@ -7,14 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the versions of a service
+#! @description: Initiates a resumable upload session
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
-#! @input project_id: the project in Google cloud for which the deployment is done
+#! @input bucket_id: the project in Google cloud for which the deployment is done
 #!
-#! @input service_id: the service in Google cloud for which the deployment is done
-#!
+#! @input file_name: the file for which to initiate the upload session
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -49,6 +49,7 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
+#! @output upload_id: the id of the upload session
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
@@ -59,18 +60,21 @@
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.compute.appengine
+namespace: io.cloudslang.google.cloud_platform.storage
 
 imports:
   http: io.cloudslang.base.http
+  gcutils: io.cloudslang.google.cloud_platform.utils
 
 flow:
-  name: list_versions
+  name: initiate_upload_session
 
   inputs:
     - access_token
-    - project_id
-    - service_id
+    - bucket_id
+    - file_name:
+        default: 'uploadedObject'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -97,8 +101,8 @@ flow:
   workflow:
     - interogate_google_cloud_platform:
         do:
-          http.http_client_get:
-            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
+          http.http_client_post:
+            - url: "${'https://www.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=resumable'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -109,8 +113,9 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - content_type: application/json
+            - content_type: application/json; charset=UTF-8
             - headers: "${'Authorization: Bearer ' + access_token}"
+            - body: "${'{\"name\": \"' + file_name + '\"}'}"
         publish:
           - return_result
           - return_code
@@ -118,10 +123,23 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_upload_id
           - FAILURE: on_failure
 
+    - get_upload_id:
+        do:
+          gcutils.get_item:
+            - list: ${response_headers}
+            - delimiter: '\r\n'
+            - index: '0'
+        publish:
+          - upload_id: ${item[22:200]}
+          - return_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
+    - upload_id
     - return_result
     - return_code
     - status_code
