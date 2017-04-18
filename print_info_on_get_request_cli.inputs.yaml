@@ -1,0 +1,3 @@
+url: 'http://petstore.swagger.io/v2/pet/findByStatus?status=pending'
+proxy_host: proxy.houston.hp.com
+proxy_port: "8080"
