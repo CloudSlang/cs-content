@@ -1,0 +1,7 @@
+host: <host>
+port: <port>
+admin_user: <admin_user>
+admin_password: <admin_password>
+user_name: <user_name>
+user_password: <user_password>
+user_email: <user_email>
