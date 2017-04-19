@@ -11,19 +11,11 @@
 #!               operations.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
-#! @input scopes: Scopes that you might need to request to access Google Compute APIs, depending on the level of access
-#!                you need. One or more scopes may be specified delimited by the <scopesDelimiter>.
-#!                Example: 'https://www.googleapis.com/auth/compute.readonly'
-#!                Note: It is recommended to use the minimum necessary scope in order to perform the requests.
-#!                For a full list of scopes see https://developers.google.com/identity/protocols/googlescopes#computev1
-#! @input scopes_delimiter: Delimiter that will be used for the <scopes> input.
-#!                          Default: ','
-#!                          Optional
 #! @input json_app_conf: the app.json content for the application to be deployed
-#!
 #! @input project_id: the project in Google cloud for which the deployment is done
+#! @input service_id: the service in Google cloud for which the deployment is done
+#! @input version_id: the version in Google cloud that will be deployed
 #!
-#! @input service_id: the project in Google cloud for which the deployment is done
 #! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
 #!                 Default: 'https://sts.windows.net/common'
 #! @input proxy_host: Proxy server used to access the web site.
@@ -60,15 +52,13 @@ flow:
   name: deploy_app
 
   inputs:
-    - json_token
-    - scopes:
-        default: 'https://www.googleapis.com/auth/cloud-platform'
-        required: false
-    - scopes_delimiter:
-        required: false
+    - json_token:
+        sensitive: true
     - json_app_conf
     - project_id
     - service_id
+    - version_id:
+        default: 'staging'
     - proxy_host:
         required: false
     - proxy_port:
@@ -83,7 +73,7 @@ flow:
         do:
           gcauth.get_access_token:
             - json_token
-            - scopes
+            - scopes: 'https://www.googleapis.com/auth/cloud-platform'
             - scopes_delimiter
             - proxy_host
             - proxy_port
@@ -137,7 +127,7 @@ flow:
             - access_token
             - project_id
             - service_id
-            - version_id: 'staging'
+            - version_id
             - proxy_host
             - proxy_port
             - proxy_username

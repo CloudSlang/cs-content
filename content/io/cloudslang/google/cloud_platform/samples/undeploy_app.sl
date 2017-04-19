@@ -11,14 +11,6 @@
 #!               operations.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
-#! @input scopes: Scopes that you might need to request to access Google Compute APIs, depending on the level of access
-#!                you need. One or more scopes may be specified delimited by the <scopesDelimiter>.
-#!                Example: 'https://www.googleapis.com/auth/compute.readonly'
-#!                Note: It is recommended to use the minimum necessary scope in order to perform the requests.
-#!                For a full list of scopes see https://developers.google.com/identity/protocols/googlescopes#computev1
-#! @input scopes_delimiter: Delimiter that will be used for the <scopes> input.
-#!                          Default: ','
-#!                          Optional
 #! @input project_id: the project in Google cloud for which the removal is performed
 #!
 #! @input service_id: the project in Google cloud for which the removal is performed
@@ -58,15 +50,12 @@ flow:
   name: undeploy_app
 
   inputs:
-    - json_token
-    - scopes:
-        default: 'https://www.googleapis.com/auth/cloud-platform'
-        required: false
-    - scopes_delimiter:
-        required: false
+    - json_token:
+        sensitive: true
     - project_id
     - service_id
-    - version_id
+    - version_id:
+        default: 'staging'
     - proxy_host:
         required: false
     - proxy_port:
@@ -81,7 +70,7 @@ flow:
         do:
           gcauth.get_access_token:
             - json_token
-            - scopes
+            - scopes: 'https://www.googleapis.com/auth/cloud-platform'
             - scopes_delimiter
             - proxy_host
             - proxy_port
@@ -135,7 +124,7 @@ flow:
             - access_token
             - project_id
             - service_id
-            - version_id: 'staging'
+            - version_id
             - proxy_host
             - proxy_port
             - proxy_username
