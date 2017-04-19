@@ -7,16 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve an access token to be used in subsequent google compute
-#!               operations.
+#! @description: This flow is used to remove specific versions of deployed applications from Google App Engine.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: the project in Google cloud for which the removal is performed
 #!
-#! @input service_id: the project in Google cloud for which the removal is performed
+#! @input service_id: the service in Google cloud for which the removal is performed
 #!
 #! @input version_id: the version id of the service to be removed
-#!
+#!                    Default: 'staging'
 #! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
 #!                 Default: 'https://sts.windows.net/common'
 #! @input proxy_host: Proxy server used to access the web site.
@@ -29,13 +28,13 @@
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
 #!
-#! @output return_result: The generated access token for Google Cloud Compute.
+#! @output return_result: The entire result of the call.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: An error message in case there was an error while generating the Bearer token.
 #! @output error_message: Error message in case of deployment error
 #! @output status_code: Status code of the deployment call.
 #!
-#! @result SUCCESS: Access token generated successfully.
+#! @result SUCCESS: The version of the specified application was removed successfully.
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
