@@ -45,7 +45,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.utils
+namespace: io.cloudslang.google.compute.zone_operations
 
 operation:
   name: zone_operations_get
