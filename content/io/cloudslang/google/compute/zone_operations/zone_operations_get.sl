@@ -45,13 +45,11 @@ operation:
   name: zone_operations_get
 
   inputs:
-    - project_id:
-        sensitive: true
+    - project_id
     - projectId:
         default: ${get('project_id', '')}
         required: false
         private: true
-        sensitive: true
     - zone
     - zone_operation_name:
         default: ''

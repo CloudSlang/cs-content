@@ -37,13 +37,14 @@
 #!                      Valid values: 'true', 'false'
 #!                      Default: 'true'
 #!
-#! @output return_code: Generated description
-#! @output return_result: Generated description
-#! @output exception: Generated description
-#! @output zone_operation_name: Generated description
+#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
 #!
-#! @result SUCCESS: Generated description
-#! @result FAILURE: Generated description
+#! @result SUCCESS: The request to set the Instance metadata was successfully sent.
+#! @result FAILURE: An error occurred while trying to send the request.
+#!
 #!!#
 ########################################################################################################################
 
@@ -51,19 +52,12 @@ namespace: io.cloudslang.google.compute.instances
 operation:
   name: set_instance_metadata
   inputs:
-    - project_id:
-        private: false
-        sensitive: false
-        required: true
+    - project_id
     - projectId:
         default: ${get('project_id', '')}
-        private: true
-        sensitive: false
         required: false
-    - zone:
-        private: false
-        sensitive: false
-        required: true
+        private: true
+    - zone
     - instance_name:
         private: false
         sensitive: false
@@ -74,14 +68,12 @@ operation:
         sensitive: false
         required: false
     - access_token:
-        private: false
         sensitive: true
-        required: true
     - accessToken:
         default: ${get('access_token', '')}
+        required: false
         private: true
         sensitive: true
-        required: false
     - items_keys_list:
         private: false
         sensitive: false
@@ -110,55 +102,47 @@ operation:
         sensitive: false
         required: false
     - proxy_host:
-        private: false
-        sensitive: false
+        default: ''
         required: false
     - proxyHost:
         default: ${get('proxy_host', '')}
-        private: true
-        sensitive: false
         required: false
+        private: true
     - proxy_port:
-        private: false
-        sensitive: false
+        default: '8080'
         required: false
     - proxyPort:
         default: ${get('proxy_port', '')}
-        private: true
-        sensitive: false
         required: false
+        private: true
     - proxy_username:
-        private: false
-        sensitive: false
+        default: ''
         required: false
     - proxyUsername:
         default: ${get('proxy_username', '')}
+        required: false
         private: true
-        sensitive: false
-        required: false
     - proxy_password:
-        private: false
-        sensitive: true
+        default: ''
         required: false
+        sensitive: true
     - proxyPassword:
         default: ${get('proxy_password', '')}
+        required: false
         private: true
         sensitive: true
-        required: false
     - pretty_print:
-        private: false
-        sensitive: false
+        default: 'true'
         required: false
     - prettyPrint:
         default: ${get('pretty_print', '')}
-        private: true
-        sensitive: false
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
     method_name: execute
-    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstanceSetMetadata
+    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesSetMetadata
 
   outputs:
     - return_code: ${returnCode}
