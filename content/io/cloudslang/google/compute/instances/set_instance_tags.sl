@@ -57,12 +57,14 @@ operation:
         private: true
         required: false
     - tags_list:
+        default: ''
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
         private: true
         required: false
     - tags_delimiter:
+        default: ','
         required: false
     - tagsDelimiter:
         default: ${get('tags_delimiter', '')}

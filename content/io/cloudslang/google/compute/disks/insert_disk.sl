@@ -104,42 +104,49 @@ operation:
         private: true
         required: false
     - disk_size:
+        default: '10'
         required: false
     - diskSize:
         default: ${get('disk_size', '')}
         private: true
         required: false
     - disk_description:
+        default: ''
         required: false
     - diskDescription:
         default: ${get('disk_description', '')}
         private: true
         required: false
     - licenses_list:
+        default: ''
         required: false
     - licensesList:
         default: ${get('licenses_list', '')}
         private: true
         required: false
     - licenses_delimiter:
+        default: ','
         required: false
     - licensesDelimiter:
         default: ${get('licenses_delimiter', '')}
         private: true
         required: false
     - source_image:
+        default: ''
         required: false
     - sourceImage:
         default: ${get('source_image', '')}
         private: true
         required: false
     - snapshot_image:
+        default: ''
         required: false
     - snapshotImage:
         default: ${get('snapshot_image', '')}
         private: true
         required: false
     - image_encryption_key:
+        default: ''
         required: false
     - imageEncryptionKey:
         default: ${get('image_encryption_key', '')}
@@ -151,6 +158,7 @@ operation:
         private: true
         required: false
     - disk_encryption_key:
+        default: ''
         required: false
     - diskEncryptionKey:
         default: ${get('disk_encryption_key', '')}

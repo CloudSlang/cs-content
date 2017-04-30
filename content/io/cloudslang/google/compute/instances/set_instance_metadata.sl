@@ -71,18 +71,21 @@ operation:
         private: true
         sensitive: true
     - items_keys_list:
+        default: ''
         required: false
     - itemsKeysList:
         default: ${get('items_keys_list', '')}
         private: true
         required: false
     - items_values_list:
+        default: ''
         required: false
     - itemsValuesList:
         default: ${get('items_values_list', '')}
         private: true
         required: false
     - items_delimiter:
+        default: ','
         required: false
     - itemsDelimiter:
         default: ${get('items_delimiter', '')}

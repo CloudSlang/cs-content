@@ -67,18 +67,21 @@ operation:
         private: true
         required: false
     - network_description:
+        default: ''
         required: false
     - networkDescription:
         default: ${get('network_description', '')}
         private: true
         required: false
     - auto_create_subnetworks:
+        default: ''
         required: false
     - autoCreateSubnetworks:
         default: ${get('auto_create_subnetworks', '')}
         private: true
         required: false
     - ip_v4_range:
+        default: ''
         required: false
     - ipV4Range:
         default: ${get('ip_v_4_range', '')}

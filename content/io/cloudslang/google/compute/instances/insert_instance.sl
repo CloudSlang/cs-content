@@ -159,6 +159,7 @@ operation:
         private: true
         required: false
     - instance_description:
+        default: ''
         required: false
     - instanceDescription:
         default: ${get('instance_description', '')}
@@ -170,60 +171,70 @@ operation:
         private: true
         required: false
     - list_delimiter:
+        default: ''
         required: false
     - listDelimiter:
         default: ${get('list_delimiter', '')}
         private: true
         required: false
     - can_ip_forward:
+        default: 'true'
         required: false
     - canIpForward:
         default: ${get('can_ip_forward', '')}
         private: true
         required: false
     - metadata_keys:
+        default: ''
         required: false
     - metadataKeys:
         default: ${get('metadata_keys', '')}
         private: true
         required: false
     - metadata_values:
+        default: ''
         required: false
     - metadataValues:
         default: ${get('metadata_values', '')}
         private: true
         required: false
     - tags_list:
+        default: ''
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
         private: true
         required: false
     - volume_mount_type:
+        default: 'PERSISTENT'
         required: false
     - volumeMountType:
         default: ${get('volume_mount_type', '')}
         private: true
         required: false
     - volume_mount_mode:
+        default: 'READ_WRITE'
         required: false
     - volumeMountMode:
         default: ${get('volume_mount_mode', '')}
         private: true
         required: false
     - volume_auto_delete:
+        default: 'true'
         required: false
     - volumeAutoDelete:
         default: ${get('volume_auto_delete', '')}
         private: true
         required: false
     - volume_disk_device_name:
+        default: ''
         required: false
     - volumeDiskDeviceName:
         default: ${get('volume_disk_device_name', '')}
         private: true
         required: false
     - volume_disk_name:
+        default: ''
         required: false
     - volumeDiskName:
         default: ${get('volume_disk_name', '')}
@@ -235,58 +246,69 @@ operation:
         private: true
         required: false
     - volume_disk_type:
+        default: ''
         required: false
     - volumeDiskType:
         default: ${get('volume_disk_type', '')}
         private: true
         required: false
     - volume_disk_size:
+        default: '10'
         required: false
     - volumeDiskSize:
         default: ${get('volume_disk_size', '')}
         private: true
         required: false
     - network:
+        default: ''
         required: false
     - subnetwork:
+        default: ''
         required: false
     - access_config_name:
+        default: ''
         required: false
     - accessConfigName:
         default: ${get('access_config_name', '')}
         private: true
         required: false
     - access_config_type:
+        default: 'ONE_TO_ONE_NAT'
         required: false
     - accessConfigType:
         default: ${get('access_config_type', '')}
         private: true
         required: false
     - scheduling_on_host_maintenance:
+        default: ''
         required: false
     - schedulingOnHostMaintenance:
         default: ${get('scheduling_on_host_maintenance', '')}
         private: true
         required: false
     - scheduling_automatic_restart:
+        default: 'true'
         required: false
     - schedulingAutomaticRestart:
         default: ${get('scheduling_automatic_restart', '')}
         private: true
         required: false
     - scheduling_preemptible:
+        default: 'false'
         required: false
     - schedulingPreemptible:
         default: ${get('scheduling_preemptible', '')}
         private: true
         required: false
     - service_account_email:
+        default: ''
         required: false
     - serviceAccountEmail:
         default: ${get('service_account_email', '')}
         private: true
         required: false
     - service_account_scopes:
+        default: ''
         required: false
     - serviceAccountScopes:
         default: ${get('service_account_scopes', '')}

@@ -65,8 +65,10 @@ operation:
         required: false
         private: true
     - filter:
+        default: ''
         required: false
     - order_by:
+        default: ''
         required: false
     - orderBy:
         default: ${get('order_by', '')}
