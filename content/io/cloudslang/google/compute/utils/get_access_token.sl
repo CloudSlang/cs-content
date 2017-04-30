@@ -19,21 +19,13 @@
 #! @input scopes_delimiter: Delimiter that will be used for the scopes input.
 #!                          Default: ','
 #!                          Optional
-#! @input timeout: Timeout of the resulting access token, in seconds.
+#! @input timeout: Optional - Timeout of the resulting access token, in seconds.
 #!                 Default: '600'
-#!                 Optional
-#! @input proxy_host: Proxy server used to access the provider services.
-#!                    Default: ''
-#!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services.
+#! @input proxy_host: Optional - Proxy server used to access the provider services.
+#! @input proxy_port: Optional - Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#!                    Optional
-#! @input proxy_username: Proxy server user name.
-#!                        Default: ''
-#!                        Optional
-#! @input proxy_password: Proxy server password associated with the proxy_username input value.
-#!                        Default: ''
-#!                        Optional
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #!
 #! @output return_result: Contains the access token as a string.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -59,14 +51,14 @@ operation:
         sensitive: true
     - scopes
     - scopes_delimiter:
-        default: ""
+        default: ''
         required: false
     - scopesDelimiter:
         default: ${get('scopes_delimiter', '')}
         required: false
         private: true
     - timeout:
-        default: "600"
+        default: '600'
         required: false
     - proxy_host:
         default: ''

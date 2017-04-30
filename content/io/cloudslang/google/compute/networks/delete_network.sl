@@ -7,20 +7,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Generated operation description
+#! @description: This operation can be used to delete a Network resource. The operation returns a ZoneOperation resource as a
+#!               JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
+#!               ZoneOperationsGet operation.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input network_name: Name of the Network resource to delete.
-#!                      Example: "default"
+#!                      Example: 'default'
 #! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Optional - Proxy server used to access the provider services.
 #! @input proxy_port: Optional - Proxy server port used to access the provider services.
-#!                    Default: "8080"
+#!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxyUsername> input value.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Default: "true"
+#!                      Valid values: 'true', 'false'
+#!                      Default: 'true'
 #!
 #! @output return_code: Generated description
 #! @output return_result: Generated description
@@ -41,7 +44,7 @@ operation:
         sensitive: false
         required: true
     - projectId:
-        default: ${get("project_id", "")}
+        default: ${get('project_id', '')}
         private: true
         sensitive: false
         required: false
@@ -50,7 +53,7 @@ operation:
         sensitive: false
         required: true
     - networkName:
-        default: ${get("network_name", "")}
+        default: ${get('network_name', '')}
         private: true
         sensitive: false
         required: false
@@ -59,7 +62,7 @@ operation:
         sensitive: true
         required: true
     - accessToken:
-        default: ${get("access_token", "")}
+        default: ${get('access_token', '')}
         private: true
         sensitive: true
         required: false
@@ -68,7 +71,7 @@ operation:
         sensitive: false
         required: false
     - proxyHost:
-        default: ${get("proxy_host", "")}
+        default: ${get('proxy_host', '')}
         private: true
         sensitive: false
         required: false
@@ -77,7 +80,7 @@ operation:
         sensitive: false
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "")}
+        default: ${get('proxy_port', '')}
         private: true
         sensitive: false
         required: false
@@ -86,7 +89,7 @@ operation:
         sensitive: false
         required: false
     - proxyUsername:
-        default: ${get("proxy_username", "")}
+        default: ${get('proxy_username', '')}
         private: true
         sensitive: false
         required: false
@@ -95,7 +98,7 @@ operation:
         sensitive: true
         required: false
     - proxyPassword:
-        default: ${get("proxy_password", "")}
+        default: ${get('proxy_password', '')}
         private: true
         sensitive: true
         required: false
@@ -104,7 +107,7 @@ operation:
         sensitive: false
         required: false
     - prettyPrint:
-        default: ${get("pretty_print", "")}
+        default: ${get('pretty_print', '')}
         private: true
         sensitive: false
         required: false

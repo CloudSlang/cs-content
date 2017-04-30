@@ -19,21 +19,15 @@
 #!                      scopes: 'https://www.googleapis.com/auth/compute.readonly',
 #!                              'https://www.googleapis.com/auth/compute',
 #!                              'https://www.googleapis.com/auth/cloud-platform'.
-#! @input proxy_host: Proxy server used to access the provider services.
-#!                    Default: ''
-#!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services.
+#! @input proxy_host: Optional - Proxy server used to access the provider services.
+#!
+#! @input proxy_port: Optional - Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#!                    Optional
-#! @input proxy_username: Proxy server user name.
-#!                        Default: ''
-#!                        Optional
-#! @input proxy_password: Proxy server password associated with the proxy_username input value.
-#!                        Default: ''
-#!                        Optional
-#! @input pretty_print: Whether to format the resulting JSON.
+#! @input proxy_username: Optional - Proxy server user name.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input pretty_print: Optional - Whether to format the resulting JSON.
+#!                      Valid values: 'true', 'false'
 #!                      Default: 'true'
-#!                      Optional
 #!
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output status: The status of the ZoneOperation resource: 'PENDING', 'RUNNING' or 'DONE'
@@ -60,7 +54,7 @@ operation:
         sensitive: true
     - zone
     - zone_operation_name:
-        default: ""
+        default: ''
         required: false
     - zoneOperationName:
         default: ${get('zone_operation_name', '')}
