@@ -363,7 +363,6 @@ operation:
     - exception: ${get('exception', '')}
     - zone_operation_name: ${zoneOperationName}
 
-
   results:
     - SUCCESS: ${returnCode=='0'}
     - FAILURE
