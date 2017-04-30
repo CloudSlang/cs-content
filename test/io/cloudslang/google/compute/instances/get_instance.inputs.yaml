@@ -7,20 +7,18 @@
 #
 ########################################################################################################################
 
-testBasicRunForInstancesSetTags:
+testBasicRunForInstancesGet:
   testSuites: [google-local]
   inputs:
     - project_id: <project_id>
     - zone: <zone>
     - instance_name: <instance_name>
     - access_token: <access_token>
-    - tags_list: <tags_list>
-    - tags_delimiter: <tags_delimiter>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
     - pretty_print: <pretty_print>
-  description: Tests that instances_set_tags runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.instances_set_tags
+  description: Tests that get_instance runs with SUCCESS
+  testFlowPath: io.cloudslang.google.compute.instances.get_instance
   result: SUCCESS
