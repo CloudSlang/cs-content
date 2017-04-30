@@ -51,32 +51,22 @@ operation:
         required: false
         private: true
     - zone
-    - instance_name:
-        private: false
-        sensitive: false
-        required: true
+    - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
         private: true
-        sensitive: false
         required: false
     - tags_list:
-        private: false
-        sensitive: false
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
         private: true
-        sensitive: false
         required: false
     - tags_delimiter:
-        private: false
-        sensitive: false
         required: false
     - tagsDelimiter:
         default: ${get('tags_delimiter', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true

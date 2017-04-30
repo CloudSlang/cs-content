@@ -153,220 +153,144 @@ operation:
         required: false
         private: true
     - zone
-    - instance_name:
-        private: false
-        sensitive: false
-        required: true
+    - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
         private: true
-        sensitive: false
         required: false
     - instance_description:
-        private: false
-        sensitive: false
         required: false
     - instanceDescription:
         default: ${get('instance_description', '')}
         private: true
-        sensitive: false
         required: false
-    - machine_type:
-        private: false
-        sensitive: false
-        required: true
+    - machine_type
     - machineType:
         default: ${get('machine_type', '')}
         private: true
-        sensitive: false
         required: false
     - list_delimiter:
-        private: false
-        sensitive: false
         required: false
     - listDelimiter:
         default: ${get('list_delimiter', '')}
         private: true
-        sensitive: false
         required: false
     - can_ip_forward:
-        private: false
-        sensitive: false
         required: false
     - canIpForward:
         default: ${get('can_ip_forward', '')}
         private: true
-        sensitive: false
         required: false
     - metadata_keys:
-        private: false
-        sensitive: false
         required: false
     - metadataKeys:
         default: ${get('metadata_keys', '')}
         private: true
-        sensitive: false
         required: false
     - metadata_values:
-        private: false
-        sensitive: false
         required: false
     - metadataValues:
         default: ${get('metadata_values', '')}
         private: true
-        sensitive: false
         required: false
     - tags_list:
-        private: false
-        sensitive: false
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
         private: true
-        sensitive: false
         required: false
     - volume_mount_type:
-        private: false
-        sensitive: false
         required: false
     - volumeMountType:
         default: ${get('volume_mount_type', '')}
         private: true
-        sensitive: false
         required: false
     - volume_mount_mode:
-        private: false
-        sensitive: false
         required: false
     - volumeMountMode:
         default: ${get('volume_mount_mode', '')}
         private: true
-        sensitive: false
         required: false
     - volume_auto_delete:
-        private: false
-        sensitive: false
         required: false
     - volumeAutoDelete:
         default: ${get('volume_auto_delete', '')}
         private: true
-        sensitive: false
         required: false
     - volume_disk_device_name:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - volumeDiskDeviceName:
         default: ${get('volume_disk_device_name', '')}
         private: true
-        sensitive: false
         required: false
     - volume_disk_name:
-        private: false
-        sensitive: false
         required: false
     - volumeDiskName:
         default: ${get('volume_disk_name', '')}
         private: true
-        sensitive: false
         required: false
-    - volume_disk_source_image:
-        private: false
-        sensitive: false
-        required: true
+    - volume_disk_source_image
     - volumeDiskSourceImage:
         default: ${get('volume_disk_source_image', '')}
         private: true
-        sensitive: false
         required: false
     - volume_disk_type:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - volumeDiskType:
         default: ${get('volume_disk_type', '')}
         private: true
-        sensitive: false
         required: false
     - volume_disk_size:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - volumeDiskSize:
         default: ${get('volume_disk_size', '')}
         private: true
-        sensitive: false
         required: false
     - network:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - subnetwork:
-        private: false
-        sensitive: false
         required: false
     - access_config_name:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - accessConfigName:
         default: ${get('access_config_name', '')}
         private: true
-        sensitive: false
         required: false
     - access_config_type:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - accessConfigType:
         default: ${get('access_config_type', '')}
         private: true
-        sensitive: false
         required: false
     - scheduling_on_host_maintenance:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - schedulingOnHostMaintenance:
         default: ${get('scheduling_on_host_maintenance', '')}
         private: true
-        sensitive: false
         required: false
     - scheduling_automatic_restart:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - schedulingAutomaticRestart:
         default: ${get('scheduling_automatic_restart', '')}
         private: true
-        sensitive: false
         required: false
     - scheduling_preemptible:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - schedulingPreemptible:
         default: ${get('scheduling_preemptible', '')}
         private: true
-        sensitive: false
         required: false
     - service_account_email:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - serviceAccountEmail:
         default: ${get('service_account_email', '')}
         private: true
-        sensitive: false
         required: false
     - service_account_scopes:
-        private: false
-        sensitive: false
-        required: true
+        required: false
     - serviceAccountScopes:
         default: ${get('service_account_scopes', '')}
         private: true
-        sensitive: false
         required: false
     - proxy_host:
         default: ''

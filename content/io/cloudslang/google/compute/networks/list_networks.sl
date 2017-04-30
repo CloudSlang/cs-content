@@ -65,17 +65,12 @@ operation:
         required: false
         private: true
     - filter:
-        private: false
-        sensitive: false
         required: false
     - order_by:
-        private: false
-        sensitive: false
         required: false
     - orderBy:
         default: ${get('order_by', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true

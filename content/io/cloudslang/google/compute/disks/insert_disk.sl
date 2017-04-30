@@ -98,95 +98,63 @@ operation:
         required: false
         private: true
         sensitive: true
-    - disk_name:
-        private: false
-        sensitive: false
-        required: true
+    - disk_name
     - diskName:
         default: ${get('disk_name', '')}
         private: true
-        sensitive: false
         required: false
     - disk_size:
-        private: false
-        sensitive: false
         required: false
     - diskSize:
         default: ${get('disk_size', '')}
         private: true
-        sensitive: false
         required: false
     - disk_description:
-        private: false
-        sensitive: false
         required: false
     - diskDescription:
         default: ${get('disk_description', '')}
         private: true
-        sensitive: false
         required: false
     - licenses_list:
-        private: false
-        sensitive: false
         required: false
     - licensesList:
         default: ${get('licenses_list', '')}
         private: true
-        sensitive: false
         required: false
     - licenses_delimiter:
-        private: false
-        sensitive: false
         required: false
     - licensesDelimiter:
         default: ${get('licenses_delimiter', '')}
         private: true
-        sensitive: false
         required: false
     - source_image:
-        private: false
-        sensitive: false
         required: false
     - sourceImage:
         default: ${get('source_image', '')}
         private: true
-        sensitive: false
         required: false
     - snapshot_image:
-        private: false
-        sensitive: false
         required: false
     - snapshotImage:
         default: ${get('snapshot_image', '')}
         private: true
-        sensitive: false
         required: false
     - image_encryption_key:
-        private: false
-        sensitive: false
         required: false
     - imageEncryptionKey:
         default: ${get('image_encryption_key', '')}
         private: true
-        sensitive: false
         required: false
-    - disk_type:
-        private: false
-        sensitive: false
-        required: true
+    - disk_type
     - diskType:
         default: ${get('disk_type', '')}
         private: true
-        sensitive: false
         required: false
     - disk_encryption_key:
-        private: false
-        sensitive: false
         required: false
     - diskEncryptionKey:
         default: ${get('disk_encryption_key', '')}
         private: true
-        sensitive: false
         required: false
     - proxy_host:
         default: ''

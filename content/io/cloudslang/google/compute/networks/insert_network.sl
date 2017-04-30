@@ -61,41 +61,28 @@ operation:
         required: false
         private: true
         sensitive: true
-    - network_name:
-        private: false
-        sensitive: false
-        required: true
+    - network_name
     - networkName:
         default: ${get('network_name', '')}
         private: true
-        sensitive: false
         required: false
     - network_description:
-        private: false
-        sensitive: false
         required: false
     - networkDescription:
         default: ${get('network_description', '')}
         private: true
-        sensitive: false
         required: false
     - auto_create_subnetworks:
-        private: false
-        sensitive: false
         required: false
     - autoCreateSubnetworks:
         default: ${get('auto_create_subnetworks', '')}
         private: true
-        sensitive: false
         required: false
     - ip_v4_range:
-        private: false
-        sensitive: false
         required: false
     - ipV4Range:
         default: ${get('ip_v_4_range', '')}
         private: true
-        sensitive: false
         required: false
     - proxy_host:
         default: ''

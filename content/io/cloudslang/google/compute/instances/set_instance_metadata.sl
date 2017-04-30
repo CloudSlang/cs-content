@@ -58,14 +58,10 @@ operation:
         required: false
         private: true
     - zone
-    - instance_name:
-        private: false
-        sensitive: false
-        required: true
+    - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true
@@ -75,31 +71,22 @@ operation:
         private: true
         sensitive: true
     - items_keys_list:
-        private: false
-        sensitive: false
         required: false
     - itemsKeysList:
         default: ${get('items_keys_list', '')}
         private: true
-        sensitive: false
         required: false
     - items_values_list:
-        private: false
-        sensitive: false
         required: false
     - itemsValuesList:
         default: ${get('items_values_list', '')}
         private: true
-        sensitive: false
         required: false
     - items_delimiter:
-        private: false
-        sensitive: false
         required: false
     - itemsDelimiter:
         default: ${get('items_delimiter', '')}
         private: true
-        sensitive: false
         required: false
     - proxy_host:
         default: ''

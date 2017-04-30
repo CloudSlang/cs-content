@@ -45,14 +45,10 @@ operation:
         default: ${get('project_id', '')}
         required: false
         private: true
-    - network_name:
-        private: false
-        sensitive: false
-        required: true
+    - network_name
     - networkName:
         default: ${get('network_name', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true

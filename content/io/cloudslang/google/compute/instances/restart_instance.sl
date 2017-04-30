@@ -48,14 +48,10 @@ operation:
         required: false
         private: true
     - zone
-    - instance_name:
-        private: false
-        sensitive: false
-        required: true
+    - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true

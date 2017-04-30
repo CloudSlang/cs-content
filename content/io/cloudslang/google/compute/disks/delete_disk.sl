@@ -49,14 +49,10 @@ operation:
         required: false
         private: true
     - zone
-    - disk_name:
-        private: false
-        sensitive: false
-        required: true
+    - disk_name
     - diskName:
         default: ${get('disk_name', '')}
         private: true
-        sensitive: false
         required: false
     - access_token:
         sensitive: true
