@@ -101,6 +101,7 @@ operation:
         required: false
     - characterSet:
         default: ${get("character_set", "UTF-8")}
+        required: false
         private: true
     - known_hosts_policy:
         default: 'allow'

@@ -135,6 +135,7 @@ operation:
         required: false
     - authType:
         default: ${get("auth_type", "basic")}
+        required: false
         private: true
     - preemptive_auth:
         required: false
@@ -365,7 +366,7 @@ operation:
         default: ${ str(range(200, 300)) }
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.68'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.71'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
 
