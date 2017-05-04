@@ -135,7 +135,6 @@ operation:
         required: false
     - authType:
         default: ${get("auth_type", "basic")}
-        required: false
         private: true
     - preemptive_auth:
         required: false
