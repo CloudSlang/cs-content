@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Run an SQL script from a file or from the <sql_commands> input.
+#! @description: This operation runs an SQL script from a file or from the <sql_commands> input.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -39,12 +39,12 @@
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
 #!
-#! @output return_code: -1 if an error occurred while running the script, 0 otherwise
+#! @output return_code: -1 if an error occurred while running the script, 0 otherwise.
 #! @output return_result: The result of the script.
 #! @output exception: The error message if something went wrong while executing the script.
 #! @output update_count: How many rows were affected by the script.
 #!
-#! @result SUCCESS: If the script executed successfully
+#! @result SUCCESS: If the script executed successfully.
 #! @result FAILURE: If there was an error while executing the script.
 #!!#
 ########################################################################################################################
