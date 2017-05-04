@@ -20,9 +20,9 @@ namespace: io.cloudslang.base.http
 properties:
   - trust_keystore: ''
   - trust_password:
-      value: ''
+      value: 'changeit'
       sensitive: true
   - keystore: ''
   - keystore_password:
-      value: ''
+      value: 'changeit'
       sensitive: true
