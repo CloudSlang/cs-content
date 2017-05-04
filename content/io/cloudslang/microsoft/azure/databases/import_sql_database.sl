@@ -18,7 +18,7 @@
 #!                  This can be different from the location of the resource group.
 #! @input database_name: Azure database name to be created
 #! @input sql_server_name: Sql Database server name
-#! @inputstorage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
+#! @input storage_key_type: Specifies the type of access key for the storage account. The acceptable value are:
 #!                          - StorageAccessKey (using storage account key)
 #!                          - SharedAccessKey (using SAS key)
 #! @input storage_key: Specifies the access key for the storage account.
