@@ -54,7 +54,7 @@
 #! @result GET_AUTHENTICATION_FAILURE: authentication call fails
 #! @result GET_AUTHENTICATION_TOKEN_FAILURE: authentication token cannot be obtained from authentication call response
 #! @result GET_TENANT_ID_FAILURE: tenant_id corresponding to tenant_name cannot
-#~                                be obtained from authentication call response
+#!                                be obtained from authentication call response
 #! @result GET_SERVER_DETAILS_FAILURE: details of the OpenStack server (instance) cannot be retrieved
 #!!#
 ########################################################################################################################
