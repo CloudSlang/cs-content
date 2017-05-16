@@ -7,13 +7,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the versions of a service
+#! @description: Gets information about an application
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
 #! @input project_id: the project in Google cloud for which the deployment is done
-#!
-#! @input service_id: the service in Google cloud for which the deployment is done
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -59,18 +57,17 @@
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.compute.appengine
+namespace: io.cloudslang.google.compute.app_engine
 
 imports:
   http: io.cloudslang.base.http
 
 flow:
-  name: list_versions
+  name: get_app
 
   inputs:
     - access_token
     - project_id
-    - service_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -98,7 +95,7 @@ flow:
     - interogate_google_cloud_platform:
         do:
           http.http_client_get:
-            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
+            - url: "${'https://appengine.googleapis.com/v1/apps/' + project_id}"
             - proxy_host
             - proxy_port
             - proxy_username

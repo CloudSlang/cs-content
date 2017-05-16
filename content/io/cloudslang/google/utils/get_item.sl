@@ -14,7 +14,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.cloud_platform.utils
+namespace: io.cloudslang.google.utils
 
 imports:
   lists: io.cloudslang.base.lists

@@ -7,9 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a 'get access token' GET call against Google Cloud
+#! @description: Gets the latest state of an operation
 #!
-#! @input client_id: the client_id from Google Cloud Platform for which the access token should be granted
+#! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
+#!
+#! @input project_id: the project in Google cloud for which the deployment is done
+#!
+#! @input operation_id: the operation to get
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -45,31 +49,28 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output custom: Boolean. TBD
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
 #! @result SUCCESS: Everything completed successfully.
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.authentication.temp
+namespace: io.cloudslang.google.compute.app_engine.operations
 
 imports:
   http: io.cloudslang.base.http
-  strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
-  custom_utils: io.cloudslang.google.cloud_platform.utils
 
 flow:
-  name: get_access_token_raw
+  name: get_operation
 
   inputs:
-    - client_id
+    - access_token
+    - project_id
+    - operation_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -96,9 +97,8 @@ flow:
   workflow:
     - interogate_google_cloud_platform:
         do:
-          custom_utils.http_client_get:
-            - url: "${'https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=' + client_id + '&scope=https://www.googleapis.com/auth/cloud-platform&redirect_uri=https://www.google.com'}"
-            - auth_type: anonymous
+          http.http_client_get:
+            - url: "${'https://appengine.googleapis.com/v1/apps/' + project_id + '/operations/' + operation_id}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -109,8 +109,8 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - follow_redirects: 'false'
-            - use_cookies: 'true'
+            - content_type: application/json
+            - headers: "${'Authorization: Bearer ' + access_token}"
         publish:
           - return_result
           - return_code

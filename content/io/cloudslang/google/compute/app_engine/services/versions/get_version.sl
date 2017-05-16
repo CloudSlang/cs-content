@@ -7,9 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a 'get access token' GET call against Google Cloud
+#! @description: Lists the versions of a service
 #!
-#! @input client_id: the client_id from Google Cloud Platform for which the access token should be granted
+#! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
+#!
+#! @input project_id: the project in Google cloud for which the call is done
+#!
+#! @input service_id: the service in Google cloud for which the call is done
+#!
+#! @input version_id: the version in Google cloud for which the call is done
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -45,30 +51,33 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output custom: Boolean. TBD
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
+#! @output message: If something went wrong this message would provide more info.
+#! @output serving_status: If version exists its status is returned.
+#! @output version_url: If version exists its url is returned.
 #!
 #! @result SUCCESS: Everything completed successfully.
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.authentication.temp
+namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
-  strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
+  json: io.cloudslang.base.json
 
 flow:
-  name: get_access_token
+  name: get_version
 
   inputs:
-    - client_id
+    - access_token
+    - project_id
+    - service_id
+    - version_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -96,7 +105,7 @@ flow:
     - interogate_google_cloud_platform:
         do:
           http.http_client_get:
-            - url: "${'https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=' + client_id + '&scope=https://www.googleapis.com/auth/cloud-platform&redirect_uri=https://www.google.com'}"
+            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions/' + version_id}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -108,6 +117,7 @@ flow:
             - connect_timeout
             - socket_timeout
             - content_type: application/json
+            - headers: "${'Authorization: Bearer ' + access_token}"
         publish:
           - return_result
           - return_code
@@ -115,28 +125,38 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - SUCCESS: is_status_302
-          - FAILURE: on_failure
+          - SUCCESS: get_message
+          - FAILURE: get_message
 
-    - is_status_302:
+    - get_message:
         do:
-          strings.string_equals:
-            - first_string: '${status_code}'
-            - second_string: '302'
-            - ignore_case: 'true'
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .message
         publish:
-          - return_code
-          - exception
+          - message: ${return_result}
         navigate:
-          - SUCCESS: parse_access_token
+          - SUCCESS: get_serving_status
+          - FAILURE: get_serving_status
+
+    - get_serving_status:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .servingStatus
+        publish:
+          - serving_status: ${return_result}
+        navigate:
+          - SUCCESS: get_version_url
           - FAILURE: on_failure
 
-    - parse_access_token:
+    - get_version_url:
         do:
-          utils.noop:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .versionUrl
         publish:
-          - return_code
-          - exception
+          - version_url: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -147,7 +167,9 @@ flow:
     - status_code
     - error_message
     - response_headers
-    - exception
+    - message
+    - serving_status
+    - version_url
 
   results:
     - SUCCESS

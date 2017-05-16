@@ -38,11 +38,11 @@
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.samples
+namespace: io.cloudslang.google.compute.app_engine.samples
 
 imports:
-  gcauth: io.cloudslang.google.cloud_platform.authentication
-  gcappengine: io.cloudslang.google.cloud_platform.compute.appengine
+  gcauth: io.cloudslang.google.authentication
+  gcappengineversions: io.cloudslang.google.compute.app_engine.services.versions
   utils: io.cloudslang.base.utils
 
 flow:
@@ -85,7 +85,7 @@ flow:
 
     - undeploy_app:
         do:
-          gcappengine.delete_version:
+          gcappengineversions.delete_version:
             - access_token
             - project_id
             - service_id
@@ -119,7 +119,7 @@ flow:
 
     - get_version_details:
         do:
-          gcappengine.get_version:
+          gcappengineversions.get_version:
             - access_token
             - project_id
             - service_id

@@ -7,15 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Uploads a file at a specified bucket location
+#! @description: Deploys code and resource files to a new version
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
-#! @input bucket_id: the project in Google cloud for which the deployment is done
+#! @input project_id: the project in Google cloud for which the removal is performed
 #!
-#! @input file_name: the file name on the destination.
-#!                   Optional
-#! @input source_file: the file to be uploaded
+#! @input service_id: the service in Google cloud for which the removal is performed
+#!
+#! @input version_id: the version in Google cloud for which the removal is performed
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -51,6 +51,7 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
+#! @output custom: Boolean. TBD
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
@@ -61,22 +62,19 @@
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.storage
+namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
-  gcutils: io.cloudslang.google.cloud_platform.utils
 
 flow:
-  name: upload_file
+  name: delete_version
 
   inputs:
     - access_token
-    - bucket_id
-    - file_name:
-        required: false
-    - source_file:
-        default: 'c:\Temp\CapGemini\java_war\appengine-try-java-1.1.war'
+    - project_id
+    - service_id
+    - version_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -101,36 +99,10 @@ flow:
         required: false
 
   workflow:
-    - get_upload_id:
+    - interogate_google_cloud_platform:
         do:
-          initiate_upload_session:
-            - access_token
-            - bucket_id
-            - file_name
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_keystore
-            - trust_password
-            - keystore
-            - keystore_password
-            - connect_timeout
-            - socket_timeout
-        publish:
-          - upload_id
-          - return_result
-          - return_code
-          - error_message
-          - status_code
-          - response_headers
-        navigate:
-          - SUCCESS: upload_file
-          - FAILURE: on_failure
-    - upload_file:
-        do:
-          gcutils.http_client_put_from_file:
-            - url: "${'https://www.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=resumable&upload_id=' + upload_id}"
+          http.http_client_delete:
+            - url: "${'https://appengine.googleapis.com/v1/apps/' + project_id + '/services/' + service_id + '/versions/' + version_id}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -143,7 +115,6 @@ flow:
             - socket_timeout
             - content_type: application/json
             - headers: "${'Authorization: Bearer ' + access_token}"
-            - source_file
         publish:
           - return_result
           - return_code

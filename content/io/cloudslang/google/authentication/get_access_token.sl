@@ -39,7 +39,7 @@
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.authentication
+namespace: io.cloudslang.google.authentication
 
 operation:
   name: get_access_token

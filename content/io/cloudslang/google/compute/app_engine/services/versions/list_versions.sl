@@ -7,11 +7,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deploys code and resource files to a new version
+#! @description: Lists the versions of a service
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
-#!
-#! @input json_app_conf: the app.json content for the application to be deployed
 #!
 #! @input project_id: the project in Google cloud for which the deployment is done
 #!
@@ -51,7 +49,6 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output custom: Boolean. TBD
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
@@ -62,17 +59,16 @@
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.compute.appengine
+namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
 
 flow:
-  name: create_version
+  name: list_versions
 
   inputs:
     - access_token
-    - json_app_conf
     - project_id
     - service_id
     - proxy_host:
@@ -101,8 +97,8 @@ flow:
   workflow:
     - interogate_google_cloud_platform:
         do:
-          http.http_client_post:
-            - url: "${'https://appengine.googleapis.com/v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
+          http.http_client_get:
+            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -115,7 +111,6 @@ flow:
             - socket_timeout
             - content_type: application/json
             - headers: "${'Authorization: Bearer ' + access_token}"
-            - body: ${ json_app_conf }
         publish:
           - return_result
           - return_code

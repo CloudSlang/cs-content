@@ -7,15 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the versions of a service
+#! @description: Deploys code and resource files to a new version
 #!
 #! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
 #!
-#! @input project_id: the project in Google cloud for which the call is done
+#! @input json_app_conf: the app.json content for the application to be deployed
 #!
-#! @input service_id: the service in Google cloud for which the call is done
+#! @input project_id: the project in Google cloud for which the deployment is done
 #!
-#! @input version_id: the version in Google cloud for which the call is done
+#! @input service_id: the service in Google cloud for which the deployment is done
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -51,33 +51,30 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
+#! @output custom: Boolean. TBD
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: return_result if status_code different than '200'.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output message: If something went wrong this message would provide more info.
-#! @output serving_status: If version exists its status is returned.
-#! @output version_url: If version exists its url is returned.
 #!
 #! @result SUCCESS: Everything completed successfully.
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.cloud_platform.compute.appengine
+namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
 
 flow:
-  name: get_version
+  name: create_version
 
   inputs:
     - access_token
+    - json_app_conf
     - project_id
     - service_id
-    - version_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -104,8 +101,8 @@ flow:
   workflow:
     - interogate_google_cloud_platform:
         do:
-          http.http_client_get:
-            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions/' + version_id}"
+          http.http_client_post:
+            - url: "${'https://appengine.googleapis.com/v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -118,45 +115,13 @@ flow:
             - socket_timeout
             - content_type: application/json
             - headers: "${'Authorization: Bearer ' + access_token}"
+            - body: ${ json_app_conf }
         publish:
           - return_result
           - return_code
           - error_message
           - status_code
           - response_headers
-        navigate:
-          - SUCCESS: get_message
-          - FAILURE: get_message
-
-    - get_message:
-        do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .message
-        publish:
-          - message: ${return_result}
-        navigate:
-          - SUCCESS: get_serving_status
-          - FAILURE: get_serving_status
-
-    - get_serving_status:
-        do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .servingStatus
-        publish:
-          - serving_status: ${return_result}
-        navigate:
-          - SUCCESS: get_version_url
-          - FAILURE: on_failure
-
-    - get_version_url:
-        do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .versionUrl
-        publish:
-          - version_url: ${return_result}
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -167,9 +132,6 @@ flow:
     - status_code
     - error_message
     - response_headers
-    - message
-    - serving_status
-    - version_url
 
   results:
     - SUCCESS

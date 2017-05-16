@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a GET REST call.
+#! @description: Executes a PUT REST call.
 #!
 #! @input url: URL to which the call is made.
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server.
@@ -25,16 +25,16 @@
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Format: Java KeyStore (JKS)
 #!                        Default value: ''
+#!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: Optional - The pathname of the Java KeyStore file.
+#! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
-#!                  Format: Java KeyStore (JKS)
 #!                  Default value: ''
+#!                  Format: Java KeyStore (JKS)
 #! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
@@ -43,7 +43,7 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #! @input request_character_set: Optional - Character encoding to be used for the HTTP request body; should not
-#!                               be provided for method=GET, HEAD, TRACE
+#!                               be provided for method=GET, HEAD, TRACE.
 #!                               Default: 'ISO-8859-1'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF).
 #!                 Header name - value pair will be separated by ":"
@@ -51,32 +51,33 @@
 #!                 Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request;
+#!                     should not be provided for method=GET, HEAD, TRACE.
+#! @input body: Optional - String to include in body for HTTP PUT operation.
 #! @input content_type: Optional - Content type that should be set in the request header, representing the
 #!                      MIME-type of the data in the message body.
 #!                      Default: 'text/plain'
 #! @input method: HTTP method used.
-#!                Default: 'GET'
-#! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects.
-#!                          Default: 'true'
+#!                Default: 'PUT'
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: Return_result if status_code different than '200'.
+#! @output error_message: Return_result if status_code is not contained in interval between '200' and '299'.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: GET REST call executed successfully.
+#! @result SUCCESS: PUT REST call executed successfully.
 #! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.cloud_platform.utils
+namespace: io.cloudslang.google.utils
 
 imports:
   http: io.cloudslang.base.http
 
 flow:
-  name: http_client_get
+  name: http_client_put_from_file
 
   inputs:
     - url
@@ -121,18 +122,20 @@ flow:
         required: false
     - query_params:
         required: false
+    - source_file
+    - body:
+        required: false
     - content_type:
         default: 'text/plain'
         required: false
+    - request_character_set:
+        required: false
     - method:
-        default: 'GET'
+        default: 'PUT'
         private: true
-    - follow_redirects:
-        default: 'true'
-    - use_cookies:
-        default: 'true'
+
   workflow:
-    - http_client_action_get:
+    - http_client_action_put:
         do:
           http.http_client_action:
             - url
@@ -151,12 +154,13 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - request_character_set
             - headers
             - query_params
+            - source_file
+            - body
             - content_type
             - method
-            - follow_redirects
-            - use_cookies
         publish:
           - return_result
           - error_message
@@ -170,4 +174,3 @@ flow:
     - return_code
     - status_code
     - response_headers
-
