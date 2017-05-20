@@ -8,7 +8,7 @@
 ########################################################################################################################
 testPrintTextSuccess:
   inputs:
-    - text: hello
+    - text: Daniel_Crisan
   description: Tests that print_text.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.print.print_text
   result: SUCCESS
