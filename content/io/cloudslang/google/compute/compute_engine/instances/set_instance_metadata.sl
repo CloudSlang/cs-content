@@ -7,40 +7,59 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to stop an Instance resource. The operation returns a ZoneOperation resource as a
-#!               JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
-#!               ZoneOperationsGet operation.
+#! @description: Sets metadata for the specified instance to the data provided to the operation. Can be used as a delete
+#!               metadata as well.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: Name of the Instance resource to stop.
-#!                      Example: 'operation-1234'
+#! @input instance_name: Name of the Instance resource to set the metadata to.
+#!                       Example: 'operation-1234'
 #! @input access_token: The access token from get_access_token.
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#! @input items_keys_list: key for the metadata entry. Keys must conform to the following regexp: [a-zA-Z0-9-_]+,
+#!                         and be less than 128 bytes in length. This is reflected as part of a URL in the metadata
+#!                         server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata
+#!                         keys for the project. The length of the itemsKeysList must be equal with the length of
+#!                         the itemsValuesList.
+#!                         Optional
+#! @input items_values_list: value for the metadata entry. These are free-form strings, and only have meaning as
+#!                           interpreted by the image running in the instance. The only restriction placed on values
+#!                           is that their size must be less than or equal to 32768 bytes. The length of the
+#!                           itemsKeysList must be equal with the length of the itemsValuesList.
+#!                           Optional
+#! @input items_delimiter: The delimiter to split the <items_keys_list> and <items_values_list>
+#!                         Default: ','
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Valid values: 'true', 'false'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input pretty_print: Whether to format the resulting JSON.
+#!                      Valid: 'true', 'false'
 #!                      Default: 'true'
+#!                      Optional
 #!
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
 #!
-#! @result SUCCESS: The request for the Instance to stop was successfully sent.
+#! @result SUCCESS: The request to set the Instance metadata was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.instances
+namespace: io.cloudslang.google.compute.compute_engine.instances
+
 operation:
-  name: stop_instance
+  name: set_instance_metadata
+
   inputs:
     - project_id
     - projectId:
@@ -60,6 +79,27 @@ operation:
         required: false
         private: true
         sensitive: true
+    - items_keys_list:
+        default: ''
+        required: false
+    - itemsKeysList:
+        default: ${get('items_keys_list', '')}
+        private: true
+        required: false
+    - items_values_list:
+        default: ''
+        required: false
+    - itemsValuesList:
+        default: ${get('items_values_list', '')}
+        private: true
+        required: false
+    - items_delimiter:
+        default: ','
+        required: false
+    - itemsDelimiter:
+        default: ${get('items_delimiter', '')}
+        private: true
+        required: false
     - proxy_host:
         default: ''
         required: false
@@ -100,8 +140,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
+    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesSetMetadata
     method_name: execute
-    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesStop
 
   outputs:
     - return_code: ${returnCode}

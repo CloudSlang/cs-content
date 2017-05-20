@@ -19,17 +19,21 @@
 #!                    long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
 #!                    character must be a lowercase letter, and all following characters must be a dash, lowercase
 #!                    letter, or digit, except the last character, which cannot be a dash.
-#! @input disk_size: Optional - Size of the persistent disk, specified in GB. You can specify this field when creating a
+#! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a
 #!                   persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to
 #!                   create an empty persistent disk.
 #!                   If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must
 #!                   not be less than the size of the sourceImage or the size of the snapshot.
-#!                   Constraint: Number greater or eaqual with 10
+#!                   Constraint: Number greater or equal with 10
 #!                   Default: '10'
-#! @input disk_description: Optional - The description of the new Disk
-#! @input licenses_list: Optional - A list containing any applicable publicly visible licenses separated by <licenses_delimiter>.
-#! @input licenses_delimiter: Optional - The delimiter used to split the <licenses_list>
-#! @input source_image: Optional - The source image used to create this disk. If the source image is deleted, this field
+#!                   Optional
+#! @input disk_description: The description of the new Disk.
+#!                          Optional
+#! @input licenses_list: A list containing any applicable publicly visible licenses separated by <licenses_delimiter>.
+#!                       Optional
+#! @input licenses_delimiter: The delimiter used to split the <licenses_list>.
+#!                            Optional
+#! @input source_image: The source image used to create this disk. If the source image is deleted, this field
 #!                      will not be set.
 #!                      To create a disk with one of the public operating system images, specify the image by its
 #!                      family name. For example, specify family/debian-8 to use the latest Debian 8 image:
@@ -37,38 +41,46 @@
 #!                      Alternatively, use a specific version of a public operating system image:
 #!                      'projects/debian-cloud/global/images/debian-8-jessie-vYYYYMMDD'
 #!                      To create a disk with a private image that you created, specify the image name in the following
-#!                      format:
-#!                      'global/images/my-private-image'
+#!                      format: 'global/images/my-private-image'
 #!                      You can also specify a private image by its image family, which returns the latest version of
 #!                      the image in that family. Replace the image name with family/family-name:
 #!                      'global/images/family/my-private-family'
 #!                      Note: mutual exclusive with <snapshot_image>
-#! @input snapshot_image: Optional - The source snapshot used to create this disk. You can provide this as a partial or full URL to
+#!                      Optional
+#! @input snapshot_image: The source snapshot used to create this disk. You can provide this as a partial or full URL to
 #!                        the resource. For example, the following are valid values:
 #!                        'https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot'
 #!                        'projects/project/global/snapshots/snapshot'
 #!                        'global/snapshots/snapshot'
 #!                        Note: mutual exclusive with <source_image>
-#! @input image_encryption_key: Optional - The customer-supplied encryption key of the source image. Required if the source image is
-#!                              protected by a customer-supplied encryption key.
+#!                        Optional
+#! @input image_encryption_key: The customer-supplied encryption key of the source image. Required if the source image
+#!                              is protected by a customer-supplied encryption key.
+#!                              Optional
 #! @input disk_type: URL of the disk type resource describing which disk type to use to create the disk. Provide
 #!                   this when creating the disk.
-#! @input disk_encryption_key: Optional -  Encrypts the disk using a customer-supplied encryption key.
-#!                             After you encrypt a disk with a customer-supplied key, you must provide the same key if you use
-#!                             the disk later (e.g. to create a disk snapshot or an image, or to attach the disk to a virtual
-#!                             machine).
+#! @input disk_encryption_key: Encrypts the disk using a customer-supplied encryption key.
+#!                             After you encrypt a disk with a customer-supplied key, you must provide the same key if
+#!                             you use the disk later (e.g. to create a disk snapshot or an image,
+#!                             or to attach the disk to a virtual machine).
 #!                             Customer-supplied encryption keys do not protect access to metadata of the disk.
-#!                             If you do not provide an encryption key when creating the disk, then the disk will be encrypted
-#!                             using an automatically generated key and you do not need to provide a key to use the disk
-#!                             later.
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#!                             If you do not provide an encryption key when creating the disk, then the disk will
+#!                             be encrypted using an automatically generated key and you do not need to provide
+#!                             a key to use the disk later.
+#!                             Optional
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Valid values: 'true', 'false'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input pretty_print: Whether to format the resulting JSON.
+#!                      Valid: 'true', 'false'
 #!                      Default: 'true'
+#!                      Optional
 #!
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -81,9 +93,11 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.disks
+namespace: io.cloudslang.google.compute.compute_engine.disks
+
 operation:
   name: insert_disk
+
   inputs:
     - project_id
     - projectId:
@@ -204,8 +218,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
-    method_name: execute
     class_name: io.cloudslang.content.gcloud.actions.compute.disks.DisksInsert
+    method_name: execute
 
   outputs:
     - return_code: ${returnCode}

@@ -19,14 +19,19 @@
 #!                   Example: 'disk-1'
 #! @input access_token: The access token returned by the GetAccessToken operation, with at least the
 #!                      following scope: 'https://www.googleapis.com/auth/compute'.
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Valid values: 'true', 'false'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input pretty_print: Whether to format the resulting JSON.
+#!                      Valid: 'true', 'false'
 #!                      Default: 'true'
+#!                      Optional
 #!
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -39,9 +44,11 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.disks
+namespace: io.cloudslang.google.compute.compute_engine.disks
+
 operation:
   name: delete_disk
+
   inputs:
     - project_id
     - projectId:
@@ -101,8 +108,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
-    method_name: execute
     class_name: io.cloudslang.content.gcloud.actions.compute.disks.DisksDelete
+    method_name: execute
 
   outputs:
     - return_code: ${returnCode}

@@ -19,13 +19,18 @@
 #! @input scopes_delimiter: Delimiter that will be used for the scopes input.
 #!                          Default: ','
 #!                          Optional
-#! @input timeout: Optional - Timeout of the resulting access token, in seconds.
+#! @input timeout: Timeout of the resulting access token, in seconds.
 #!                 Default: '600'
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#!                 Optional
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
 #!
 #! @output return_result: Contains the access token as a string.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -36,7 +41,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.utils
+namespace: io.cloudslang.google.compute.compute_engine.authentication
 
 operation:
   name: get_access_token

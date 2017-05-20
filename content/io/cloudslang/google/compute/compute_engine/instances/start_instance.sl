@@ -7,53 +7,59 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a disk resource in the specified project using the data included as inputs.
+#! @description: This operation can be used to start an Instance resource. The operation returns a ZoneOperation resource
+#!               as a JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
+#!               ZoneOperationsGet operation.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
+#! @input zone: The name of the zone in which the instance lives.
+#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
+#! @input instance_name: Name of the Instance resource to start.
+#!                      Example: 'operation-1234'
 #! @input access_token: The access token from get_access_token.
-#! @input network_name: Name of the Network. Provided by the client when the Network is created. The name must be
-#!                      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
-#!                      long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
-#!                      character must be a lowercase letter, and all following characters must be a dash, lowercase
-#! @input network_description: Optional - The description of the new Network
-#! @input ip_v4_range: Optional - The range of internal addresses that are legal on this network. This range
-#!                                is a CIDR specification, for example: 192.168.0.0/16. Provided by the client when the
-#!                                network is created.
-#! @input auto_create_subnetworks: Optional - When set to true, the network is created in 'auto subnet mode'. When set to false, the network
-#!                                 is in 'custom subnet mode'.
-#!                                 In 'auto subnet mode', a newly created network is assigned the default CIDR of 10.128.0.0/9 and
-#!                                 it automatically creates one subnetwork per region.
-#!                                 Note: If <ipV4RangeInp> is set, then this input is ignored
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Valid values: 'true', 'false'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input pretty_print: Whether to format the resulting JSON.
+#!                      Valid: 'true', 'false'
 #!                      Default: 'true'
+#!                      Optional
 #!
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
 #!
-#! @result SUCCESS: The request for the Network to be inserted was successfully sent.
+#! @result SUCCESS: The request for the Instance to start was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.networks
+namespace: io.cloudslang.google.compute.compute_engine.instances
+
 operation:
-  name: insert_network
+  name: start_instance
+
   inputs:
     - project_id
     - projectId:
         default: ${get('project_id', '')}
         required: false
         private: true
+    - zone
+    - instance_name
+    - instanceName:
+        default: ${get('instance_name', '')}
+        private: true
+        required: false
     - access_token:
         sensitive: true
     - accessToken:
@@ -61,32 +67,6 @@ operation:
         required: false
         private: true
         sensitive: true
-    - network_name
-    - networkName:
-        default: ${get('network_name', '')}
-        private: true
-        required: false
-    - network_description:
-        default: ''
-        required: false
-    - networkDescription:
-        default: ${get('network_description', '')}
-        private: true
-        required: false
-    - auto_create_subnetworks:
-        default: ''
-        required: false
-    - autoCreateSubnetworks:
-        default: ${get('auto_create_subnetworks', '')}
-        private: true
-        required: false
-    - ip_v4_range:
-        default: ''
-        required: false
-    - ipV4Range:
-        default: ${get('ip_v_4_range', '')}
-        private: true
-        required: false
     - proxy_host:
         default: ''
         required: false
@@ -127,8 +107,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
+    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesStart
     method_name: execute
-    class_name: io.cloudslang.content.gcloud.actions.compute.networks.NetworksInsert
 
   outputs:
     - return_code: ${returnCode}

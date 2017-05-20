@@ -7,13 +7,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve the list of instance resource, as JSON array.
+#! @description: This operation can be used to retrieve the list of Disk resources, as JSON array.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input filter: Optional - Sets a filter expression for filtering listed resources, in the form filter={expression}.
+#! @input access_token: The access token from get_access_token.
+#! @input filter: Sets a filter expression for filtering listed resources, in the form filter={expression}.
 #!                Your {expression} must be in the format: field_name comparison_string literal_string.
 #!                The field_name is the name of the field you want to compare. Only atomic field types are
 #!                supported (string, number, boolean). The comparison_string must be either eq (equals) or ne
@@ -30,36 +31,44 @@
 #!                example, (scheduling.automaticRestart eq true) (zone eq us-central1-f). Multiple
 #!                expressions are treated as AND expressions, meaning that resources must match all
 #!                expressions to pass the filters.
-#! @input order_by: Optional - Sorts list results by a certain order. By default, results are returned in alphanumerical
+#!                Optional
+#! @input order_by: Sorts list results by a certain order. By default, results are returned in alphanumerical
 #!                  order based on the resource name.
 #!                  You can also sort results in descending order based on the creation timestamp using
 #!                  orderBy='creationTimestamp desc'. This sorts results based on the creationTimestamp field
 #!                  in reverse chronological order (newest result first). Use this to sort resources like
 #!                  operations so that the newest operation is returned first.
 #!                  Currently, only sorting by name or creationTimestamp desc is supported.
-#! @input access_token: The access token from get_access_token.
-#! @input proxy_host: Optional - Proxy server used to access the provider services.
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
+#!                  Optional
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input pretty_print: Optional - Whether to format the resulting JSON.
-#!                      Valid values: 'true', 'false'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input pretty_print: Whether to format the resulting JSON.
+#!                      Valid: 'true', 'false'
 #!                      Default: 'true'
+#!                      Optional
 #!
-#! @output return_result: A JSON list containing the Instances information.
+#! @output return_result: A JSON list containing the Disks information.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The Instances were found and successfully retrieved.
-#! @result FAILURE: The Instances were not found or some inputs were given incorrectly
+#! @result SUCCESS: The Disks were found and successfully retrieved.
+#! @result FAILURE: The Disks were not found or some inputs were given incorrectly.
 #!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.instances
+namespace: io.cloudslang.google.compute.compute_engine.disks
+
 operation:
-  name: list_instances
+  name: list_disks
+
   inputs:
     - project_id
     - projectId:
@@ -67,6 +76,13 @@ operation:
         required: false
         private: true
     - zone
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - filter:
         default: ''
         required: false
@@ -77,13 +93,6 @@ operation:
         default: ${get('order_by', '')}
         private: true
         required: false
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false
@@ -124,8 +133,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
+    class_name: io.cloudslang.content.gcloud.actions.compute.disks.DisksList
     method_name: execute
-    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesList
 
   outputs:
     - return_code: ${returnCode}
