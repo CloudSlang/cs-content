@@ -30,10 +30,10 @@ operation:
 
   python_action:
     script: |
+      import os
       try:
-        f = open(file_path, 'a')
-        f.write(text)
-        f.close()
+        with open(os.path.expandvars(file_path), 'a') as f:
+          f.write(text)
         message = 'writing done successfully'
         res = True
       except IOError as e:

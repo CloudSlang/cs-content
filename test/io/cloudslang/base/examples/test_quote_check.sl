@@ -4,6 +4,7 @@
 #!
 #! @input file_path: Path for the file containing the quotes.
 #! @input default_quote: Default quote to be displayed.
+#! @input default_value: Whether to print the default quote or not.
 #!
 #! @result SUCCESS_PRINTING_DEFAULT: Quote printed successfully.
 #! @result QUOTE_EXISTS: The random quote was generated successfully.
@@ -32,14 +33,17 @@ flow:
     - file_path:
         default: ${get_sp('io.cloudslang.base.examples.yoda.file_path')}
         required: false
+    - default_value:
+        default: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
+        required: false
 
   workflow:
     - check_system_property:
         do:
           utils.is_true:
-          - bool_value: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
+          - bool_value: ${default_value}
         navigate:
-          - 'TRUE':  SUCCESS_PRINTING_DEFAULT
+          - 'TRUE': SUCCESS_PRINTING_DEFAULT
           - 'FALSE': check_random_quote
 
     - check_random_quote:

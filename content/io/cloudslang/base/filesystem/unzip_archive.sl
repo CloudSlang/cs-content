@@ -28,25 +28,23 @@ operation:
 
   python_action:
     script: |
-        import zipfile
-        fh = None
-        try:
-          fh = open(archive_path, 'rb')
+      import zipfile
+      import os
+      fh = None
+      try:
+        with open(os.path.expandvars(archive_path), 'rb') as fh:
           z = zipfile.ZipFile(fh)
           for name in z.namelist():
-              z.extract(name, output_folder)
-          fh.close()
-          message = 'unzipping done successfully'
-          result = True
-        except Exception as e:
-          if fh != None:
-            fh.close()
-          message = e
-          result = False
+            z.extract(name, output_folder)
+        message = 'Unzipping done successfully.'
+        res = True
+      except Exception as e:
+        message = str(e)
+        res = False
 
   outputs:
-    - message: ${ str(message) }
+    - message
 
   results:
-    - SUCCESS: ${result}
+    - SUCCESS: ${res}
     - FAILURE

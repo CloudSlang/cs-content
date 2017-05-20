@@ -30,17 +30,14 @@ operation:
 
   python_action:
     script: |
+      import os
       try:
-        f = open(file_path, 'w')
-        f.write(text)
-        f.close()
-        message = 'writing done successfully'
+        with open(os.path.expandvars(file_path), 'w') as f:
+          f.write(text)
+        message = 'Writing done successfully.'
         res = True
-      except IOError as e:
-        message =  "ERROR: no such folder or permission denied: " + str(e)
-        res = False
       except Exception as e:
-        message =  e
+        message = str(e)
         res = False
 
   outputs:

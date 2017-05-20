@@ -9,6 +9,7 @@
 # System property file for base.examples.yoda operations.
 #
 # io.cloudslang.base.examples.yoda.default_quote: value of default quote
+# io.cloudslang.base.examples.yoda.file_path: value of file path
 #
 ########################################################################################################################
 
@@ -16,4 +17,4 @@ namespace: io.cloudslang.base.examples.yoda
 
 properties:
   - default_quote: 'false'
-  - file_path: '${project_path}/test/io/cloudslang/base/examples/yoda/yoda_quotes.txt'
+  - file_path: '/home/ubuntu/cloud-slang-content/test/io/cloudslang/base/examples/yoda/yoda_quotes.txt'

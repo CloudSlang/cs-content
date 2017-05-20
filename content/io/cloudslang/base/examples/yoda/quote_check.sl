@@ -12,8 +12,10 @@
 #!
 #! @input default_quote : Quote with a default value.
 #! @input file_path: The path for the file that contains the quotes.
+#! @input default_value: Whether to print the default quote or not.
 #!
 #! @output random_quote: The quote that is chosen after the system property check.
+#! @output default_quote: The default quote byy default.
 #!
 #! @result SUCCESS: Flow completed successfully.
 #! @result FAILURE: Failure occurred during execution.
@@ -39,12 +41,14 @@ flow:
     - file_path:
         default: ${get_sp('io.cloudslang.base.examples.yoda.file_path')}
         required: false
+    - default_value:
+        default: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
 
   workflow:
     - check_system_property:
         do:
           utils.is_true:
-          - bool_value: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
+          - bool_value: ${default_value}
         navigate:
           - 'TRUE': print_default_quote
           - 'FALSE': print_random_quote
