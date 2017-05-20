@@ -5,7 +5,7 @@ Please familiarize yourself with the Contribution Guidelines and Project Roadmap
 There are many ways to help CloudSlang:
 * Report issues
 * Fix issues
-* Improve the documentation
+* Improve the documentationghghg
 
 
 ## Contributing Code
