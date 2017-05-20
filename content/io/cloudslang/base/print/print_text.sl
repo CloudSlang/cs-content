@@ -24,7 +24,7 @@ operation:
     - text
 
   python_action:
-    script: print text
+    script: print "a printer that printed a print"
 
   results:
     - SUCCESS
