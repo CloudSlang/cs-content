@@ -24,7 +24,7 @@ operation:
     - text
 
   python_action:
-    script: print text
+    script: "ligia"
 
   results:
     - SUCCESS
