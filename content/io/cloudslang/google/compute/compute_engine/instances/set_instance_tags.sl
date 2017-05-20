@@ -61,22 +61,22 @@ operation:
     - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
-        private: true
         required: false
+        private: true
     - tags_list:
         default: ''
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
-        private: true
         required: false
+        private: true
     - tags_delimiter:
         default: ','
         required: false
     - tagsDelimiter:
         default: ${get('tags_delimiter', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:

@@ -84,8 +84,8 @@ operation:
         required: false
     - orderBy:
         default: ${get('order_by', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:

@@ -74,29 +74,29 @@ operation:
     - network_name
     - networkName:
         default: ${get('network_name', '')}
-        private: true
         required: false
+        private: true
     - network_description:
         default: ''
         required: false
     - networkDescription:
         default: ${get('network_description', '')}
-        private: true
         required: false
+        private: true
     - auto_create_subnetworks:
         default: ''
         required: false
     - autoCreateSubnetworks:
         default: ${get('auto_create_subnetworks', '')}
-        private: true
         required: false
+        private: true
     - ip_v4_range:
         default: ''
         required: false
     - ipV4Range:
         default: ${get('ip_v_4_range', '')}
-        private: true
         required: false
+        private: true
     - proxy_host:
         default: ''
         required: false

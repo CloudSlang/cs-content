@@ -55,8 +55,8 @@ operation:
     - network_name
     - networkName:
         default: ${get('network_name', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:

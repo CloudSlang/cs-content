@@ -115,69 +115,69 @@ operation:
     - disk_name
     - diskName:
         default: ${get('disk_name', '')}
-        private: true
         required: false
+        private: true
     - disk_size:
         default: '10'
         required: false
     - diskSize:
         default: ${get('disk_size', '')}
-        private: true
         required: false
+        private: true
     - disk_description:
         default: ''
         required: false
     - diskDescription:
         default: ${get('disk_description', '')}
-        private: true
         required: false
+        private: true
     - licenses_list:
         default: ''
         required: false
     - licensesList:
         default: ${get('licenses_list', '')}
-        private: true
         required: false
+        private: true
     - licenses_delimiter:
         default: ','
         required: false
     - licensesDelimiter:
         default: ${get('licenses_delimiter', '')}
-        private: true
         required: false
+        private: true
     - source_image:
         default: ''
         required: false
     - sourceImage:
         default: ${get('source_image', '')}
-        private: true
         required: false
+        private: true
     - snapshot_image:
         default: ''
         required: false
     - snapshotImage:
         default: ${get('snapshot_image', '')}
-        private: true
         required: false
+        private: true
     - image_encryption_key:
         default: ''
         required: false
     - imageEncryptionKey:
         default: ${get('image_encryption_key', '')}
-        private: true
         required: false
+        private: true
     - disk_type
     - diskType:
         default: ${get('disk_type', '')}
-        private: true
         required: false
+        private: true
     - disk_encryption_key:
         default: ''
         required: false
     - diskEncryptionKey:
         default: ${get('disk_encryption_key', '')}
-        private: true
         required: false
+        private: true
     - proxy_host:
         default: ''
         required: false

@@ -47,6 +47,12 @@
 #!                   during instance creation. The tags can be later modified by the setTags method. Each tag
 #!                   within the list must comply with RFC1035.
 #!                   Optional
+#! @input volume_source: A valid partial or full URL to an existing Persistent Disk resource.
+#!                       Note: If this input is specified, the disk will be used as a boot disk for the
+#!                       newly created instance, and <volume_disk_source_image> cannot be specified.
+#!                       Also <volume_mount_type>, <volume_disk_name>, <volume_disk_type> and <volume_disk_size>
+#!                       will be ignored.
+#!                       Optional
 #! @input volume_mount_type: Specifies the type of the disk, either SCRATCH or PERSISTENT.
 #!                           Default: 'PERSISTENT'
 #!                           Optional
@@ -185,109 +191,116 @@ operation:
     - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
-        private: true
         required: false
+        private: true
     - instance_description:
         default: ''
         required: false
     - instanceDescription:
         default: ${get('instance_description', '')}
-        private: true
         required: false
+        private: true
     - machine_type
     - machineType:
         default: ${get('machine_type', '')}
-        private: true
         required: false
+        private: true
     - list_delimiter:
         default: ''
         required: false
     - listDelimiter:
         default: ${get('list_delimiter', '')}
-        private: true
         required: false
+        private: true
     - can_ip_forward:
         default: 'true'
         required: false
     - canIpForward:
         default: ${get('can_ip_forward', '')}
-        private: true
         required: false
+        private: true
     - metadata_keys:
         default: ''
         required: false
     - metadataKeys:
         default: ${get('metadata_keys', '')}
-        private: true
         required: false
+        private: true
     - metadata_values:
         default: ''
         required: false
     - metadataValues:
         default: ${get('metadata_values', '')}
-        private: true
         required: false
+        private: true
     - tags_list:
         default: ''
         required: false
     - tagsList:
         default: ${get('tags_list', '')}
-        private: true
         required: false
+        private: true
+    - volume_source:
+        default: ''
+        required: false
+    - volumeSource:
+        default: ${get('volume_source', '')}
+        required: false
+        private: true
     - volume_mount_type:
         default: 'PERSISTENT'
         required: false
     - volumeMountType:
         default: ${get('volume_mount_type', '')}
-        private: true
         required: false
+        private: true
     - volume_mount_mode:
         default: 'READ_WRITE'
         required: false
     - volumeMountMode:
         default: ${get('volume_mount_mode', '')}
-        private: true
         required: false
+        private: true
     - volume_auto_delete:
         default: 'true'
         required: false
     - volumeAutoDelete:
         default: ${get('volume_auto_delete', '')}
-        private: true
         required: false
+        private: true
     - volume_disk_device_name:
         default: ''
         required: false
     - volumeDiskDeviceName:
         default: ${get('volume_disk_device_name', '')}
-        private: true
         required: false
+        private: true
     - volume_disk_name:
         default: ''
         required: false
     - volumeDiskName:
         default: ${get('volume_disk_name', '')}
-        private: true
         required: false
+        private: true
     - volume_disk_source_image
     - volumeDiskSourceImage:
         default: ${get('volume_disk_source_image', '')}
-        private: true
         required: false
+        private: true
     - volume_disk_type:
         default: ''
         required: false
     - volumeDiskType:
         default: ${get('volume_disk_type', '')}
-        private: true
         required: false
+        private: true
     - volume_disk_size:
         default: '10'
         required: false
     - volumeDiskSize:
         default: ${get('volume_disk_size', '')}
-        private: true
         required: false
+        private: true
     - network:
         default: ''
         required: false
@@ -299,50 +312,50 @@ operation:
         required: false
     - accessConfigName:
         default: ${get('access_config_name', '')}
-        private: true
         required: false
+        private: true
     - access_config_type:
         default: 'ONE_TO_ONE_NAT'
         required: false
     - accessConfigType:
         default: ${get('access_config_type', '')}
-        private: true
         required: false
+        private: true
     - scheduling_on_host_maintenance:
         default: ''
         required: false
     - schedulingOnHostMaintenance:
         default: ${get('scheduling_on_host_maintenance', '')}
-        private: true
         required: false
+        private: true
     - scheduling_automatic_restart:
         default: 'true'
         required: false
     - schedulingAutomaticRestart:
         default: ${get('scheduling_automatic_restart', '')}
-        private: true
         required: false
+        private: true
     - scheduling_preemptible:
         default: 'false'
         required: false
     - schedulingPreemptible:
         default: ${get('scheduling_preemptible', '')}
-        private: true
         required: false
+        private: true
     - service_account_email:
         default: ''
         required: false
     - serviceAccountEmail:
         default: ${get('service_account_email', '')}
-        private: true
         required: false
+        private: true
     - service_account_scopes:
         default: ''
         required: false
     - serviceAccountScopes:
         default: ${get('service_account_scopes', '')}
-        private: true
         required: false
+        private: true
     - proxy_host:
         default: ''
         required: false

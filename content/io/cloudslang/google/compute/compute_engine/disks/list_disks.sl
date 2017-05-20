@@ -91,8 +91,8 @@ operation:
         required: false
     - orderBy:
         default: ${get('order_by', '')}
-        private: true
         required: false
+        private: true
     - proxy_host:
         default: ''
         required: false

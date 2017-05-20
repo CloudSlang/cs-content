@@ -55,8 +55,8 @@ operation:
     - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:

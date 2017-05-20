@@ -70,8 +70,8 @@ operation:
     - instance_name
     - instanceName:
         default: ${get('instance_name', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:
@@ -84,22 +84,22 @@ operation:
         required: false
     - itemsKeysList:
         default: ${get('items_keys_list', '')}
-        private: true
         required: false
+        private: true
     - items_values_list:
         default: ''
         required: false
     - itemsValuesList:
         default: ${get('items_values_list', '')}
-        private: true
         required: false
+        private: true
     - items_delimiter:
         default: ','
         required: false
     - itemsDelimiter:
         default: ${get('items_delimiter', '')}
-        private: true
         required: false
+        private: true
     - proxy_host:
         default: ''
         required: false

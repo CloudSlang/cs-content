@@ -55,8 +55,8 @@ operation:
     - disk_name
     - diskName:
         default: ${get('disk_name', '')}
-        private: true
         required: false
+        private: true
     - access_token:
         sensitive: true
     - accessToken:
