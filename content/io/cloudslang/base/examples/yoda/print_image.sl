@@ -32,7 +32,7 @@ flow:
     - read_start:
         do:
           fs.read_from_file:
-            - file_path: ${file_path}
+            - file_path
         publish:
           - read_text
         navigate:
@@ -45,6 +45,7 @@ flow:
             - text: ${read_text}
         navigate:
           - SUCCESS: SUCCESS
+
   results:
         - SUCCESS
         - FAILURE

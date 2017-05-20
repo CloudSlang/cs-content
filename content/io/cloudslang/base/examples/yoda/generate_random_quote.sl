@@ -26,47 +26,47 @@ imports:
   fs: io.cloudslang.base.filesystem
 
 flow:
-    name: generate_random_quote
+  name: generate_random_quote
 
-    inputs:
-      - file_path
+  inputs:
+    - file_path
 
-    workflow:
-      - read_quotes:
-          do:
-            fs.read_from_file:
-              - file_path: ${file_path}
-          publish:
-            - read_text
-            - quotes : ${str(read_text).replace('\n','')}
-          navigate:
-            - SUCCESS: generate_random_number
-            - FAILURE: FAILURE
+  workflow:
+    - read_quotes:
+        do:
+          fs.read_from_file:
+            - file_path
+        publish:
+          - read_text
+          - quotes : ${str(read_text).replace('\n','')}
+        navigate:
+          - SUCCESS: generate_random_number
+          - FAILURE: FAILURE
 
-      - generate_random_number:
-          do:
-            math.random_number_generator:
-              - min: '0'
-              - max: ${str(len(quotes.strip().split(';')) - 2)}
-              - quotes
-          publish:
-            - random_number
-            - random_quote: ${str(quotes.split(';')[int(random_number)])}
-          navigate:
-            - SUCCESS: print_quote
-            - FAILURE: FAILURE
+    - generate_random_number:
+        do:
+          math.random_number_generator:
+            - min: '0'
+            - max: ${str(len(quotes.strip().split(';')) - 2)}
+            - quotes
+        publish:
+          - random_number
+          - random_quote: ${str(quotes.split(';')[int(random_number)])}
+        navigate:
+          - SUCCESS: print_quote
+          - FAILURE: FAILURE
 
-      - print_quote:
-          do:
-            base.print_text:
-              - text: ${str(random_quote)}
-          navigate:
-            - SUCCESS: SUCCESS
+    - print_quote:
+        do:
+          base.print_text:
+            - text: ${str(random_quote)}
+        navigate:
+          - SUCCESS: SUCCESS
 
-    outputs:
-        - quotes
-        - random_quote
+  outputs:
+      - quotes
+      - random_quote
 
-    results:
-        - SUCCESS
-        - FAILURE
+  results:
+      - SUCCESS
+      - FAILURE

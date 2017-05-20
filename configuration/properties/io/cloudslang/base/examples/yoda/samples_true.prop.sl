@@ -8,7 +8,7 @@
 ########################################################################################################################
 # System property file for base.examples.yoda operations.
 #
-# io.cloudslang.base.examples.properties.default_quote: value of default quote
+# io.cloudslang.base.examples.yoda.default_quote: value of default quote
 #
 ########################################################################################################################
 
