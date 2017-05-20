@@ -35,7 +35,7 @@ machine:
     COREOS_PLACEHOLDERS_1: '<coreos_host_1> <coreos_host_2> <coreos_host_3>'
     COREOS_PLACEHOLDERS_2: '<coreos_host_4> <coreos_host_5> <coreos_host_6>'
     CHANGES_ONLY_BUILD_MODE: '[ "${CIRCLE_BRANCH}" != "master" ] && [ -n $BUILD_MODE ]'
-    YODA_FILE_PATH: $(pwd)/cloud-slang-content/resources/base/examples/yoda/yoda_quotes.txt
+
     JAVA_OPTS: -Xms400m -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=256m
   pre:
     - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.8.2-circleci'; sudo chmod 0755 /usr/bin/docker; true
@@ -45,65 +45,58 @@ machine:
 
 dependencies:
   override:
-#    - echo ${CIRCLE_BRANCH}
-#    - echo ${BUILD_MODE}
-#    - ? >
-#        if eval "${CHANGES_ONLY_BUILD_MODE}";
-#        then echo 'Build mode: CHANGES_ONLY'
-#        && chmod +x ci-env/circleci/setup_changes_only_mode.sh
-#        && ci-env/circleci/setup_changes_only_mode.sh;
-#        else echo 'Build mode: BASIC';
-#        fi
-#      : parallel: true
-#    - docker info
-#    - docker images
-#    - ? > ### machine 1
-#        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
-#        then chmod +x ci-env/circleci/create_droplets.sh
-#        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_1} DROPLETS_FILE=${DROPLETS_FILE_1}
-#        ci-env/circleci/create_droplets.sh;
-#        fi
-#      : parallel: true
-#    - ? > ### machine 2
-#        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
-#        then chmod +x ci-env/circleci/create_droplets.sh
-#        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_2} DROPLETS_FILE=${DROPLETS_FILE_2}
-#        ci-env/circleci/create_droplets.sh;
-#        fi
-#      : parallel: true
-#    - ? > ### machine 0
-#        if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-#        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
-#        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
-#        && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
-#        fi
-#      : parallel: true
-#    - ? > ### every machine
-#        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.3/cslang-builder.zip
-#        && unzip cslang-builder.zip
-#        && chmod +x cslang-builder/bin/cslang-builder
-#        && mkdir cslang-builder/lib/Lib
-#        && pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
-#      : parallel: true
-#    - ? > ### machine 1
-#        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
-#        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
-#        && DROPLETS_FILE=${DROPLETS_FILE_1} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_1}
-#        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
-#        fi
-#      : parallel: true
-#    - ? > ### machine 2
-#        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
-#        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
-#        && DROPLETS_FILE=${DROPLETS_FILE_2} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_2}
-#        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
-#        fi
-#      : parallel: true
-    - echo ${YODA_FILE_PATH}
-    - echo ${TEST}
+    - echo ${CIRCLE_BRANCH}
+    - echo ${BUILD_MODE}
+    - ? >
+        if eval "${CHANGES_ONLY_BUILD_MODE}";
+        then echo 'Build mode: CHANGES_ONLY'
+        && chmod +x ci-env/circleci/setup_changes_only_mode.sh
+        && ci-env/circleci/setup_changes_only_mode.sh;
+        else echo 'Build mode: BASIC';
+        fi
+      : parallel: true
+    - docker info
+    - docker images
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
+        then chmod +x ci-env/circleci/create_droplets.sh
+        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_1} DROPLETS_FILE=${DROPLETS_FILE_1}
+        ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 2
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
+        then chmod +x ci-env/circleci/create_droplets.sh
+        && COREOS_MACHINE_NAMES=${COREOS_MACHINE_NAMES_2} DROPLETS_FILE=${DROPLETS_FILE_2}
+        ci-env/circleci/create_droplets.sh;
+        fi
+      : parallel: true
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
-        then find configuration -type f -exec sed -i "s/<yoda_file_path>/${YODA_FILE_PATH}/g" {} + ;
+        then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
+        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
+        && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
+        fi
+      : parallel: true
+    - ? > ### every machine
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.6/cslang-builder.zip
+        && unzip cslang-builder.zip
+        && chmod +x cslang-builder/bin/cslang-builder
+        && mkdir cslang-builder/lib/Lib
+        && pip install -r python-lib/requirements.txt -t cslang-builder/lib/Lib
+      : parallel: true
+    - ? > ### machine 1
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_1}";
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_1} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_1}
+        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
+        fi
+      : parallel: true
+    - ? > ### machine 2
+        if eval "${RULE_DROPLET_MACHINE_NOT_FORK_2}";
+        then chmod +x ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh
+        && DROPLETS_FILE=${DROPLETS_FILE_2} COREOS_PLACEHOLDERS=${COREOS_PLACEHOLDERS_2}
+        ci-env/circleci/wait_for_droplets_and_update_test_inputs.sh;
         fi
       : parallel: true
 

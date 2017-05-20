@@ -53,6 +53,13 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - The user name used when connecting to the proxy.
 #! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
+#! @input use_shell: Specifies whether to use shell mode to run the commands. This will start a shell
+#!                   session and run the command, after which it will issue an 'exit' command, to close
+#!                   the shell.
+#!                   Note: If the output does not show the whole expected output, increase the <timeout> value.
+#!                   Valid values: 'true', 'false'
+#!                   Default: 'false'
+#!                   Optional
 #!
 #! @output return_result: Contains the exception in case of failure, success message otherwise
 #! @output return_code: "0" if successful, "-1" otherwise
@@ -171,9 +178,17 @@ operation:
         required: false
         private: true
         sensitive: true
+    - use_shell:
+        default: 'false'
+        required: false
+    - useShell:
+        default: ${get('use_shell', '')}
+        required: false
+        private: true
+
 
   java_action:
-    gav: 'io.cloudslang.content:cs-ssh:0.0.35'
+    gav: 'io.cloudslang.content:cs-ssh:0.0.36'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
 
@@ -186,5 +201,5 @@ operation:
     - exit_status: ${ get('exitStatus', '') }
 
   results:
-    - SUCCESS: ${ returnCode == '0' and (not 'Error' in STDERR) }
+    - SUCCESS: ${ returnCode == '0' and (STDERR is None or (not 'Error' in STDERR)) }
     - FAILURE
