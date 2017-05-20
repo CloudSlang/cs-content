@@ -8,21 +8,18 @@
 ########################################################################################################################
 testQuoteCheckSpTrue:
   description: Tests that quote_check finishes with SUCCESS for the default case
-  testSuites: [yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_true.prop.sl
   result: SUCCESS_PRINTING_DEFAULT
 
 testQuoteCheckSpFalse:
   description: Tests that quote_check returns a random quote when the properties file is set on false
-  testSuites: [yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_false.prop.sl
   result: QUOTE_EXISTS
 
 testQuoteCheckSpNotSpecified:
   description: Tests that quote_check returns a random quote when the properties file for the default quote is not specified
-  testSuites: [yoda]
   testFlowPath: test.io.cloudslang.base.examples.test_quote_check
   systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/examples/yoda/samples_none.prop.sl
   result: QUOTE_EXISTS
