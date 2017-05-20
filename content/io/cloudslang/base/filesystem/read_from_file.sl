@@ -29,19 +29,22 @@ operation:
 
   python_action:
     script: |
-      import os
+      import sys
+      read_text = ""
+      message = ""
       try:
-        with open(os.path.expandvars(file_path), 'r') as f:
-          read_text = f.read()
-        message = 'File was read successfully.'
+        f = open(file_path, 'r')
+        read_text = f.read()
+        f.close()
+        message = 'file was read successfully'
         res = True
       except Exception as e:
-        message = str(e)
+        message = e
         res = False
 
   outputs:
     - read_text
-    - message
+    - message: ${ str(message) }
 
   results:
     - SUCCESS: ${res}
