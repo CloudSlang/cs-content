@@ -64,7 +64,7 @@ namespace: io.cloudslang.google.storage.utils
 
 imports:
   http: io.cloudslang.base.http
-  gcutils: io.cloudslang.google.cloud_platform.utils
+  lists: io.cloudslang.base.lists
 
 flow:
   name: initiate_upload_session
@@ -128,12 +128,12 @@ flow:
 
     - get_upload_id:
         do:
-          gcutils.get_item:
+          lists.get_by_index:
             - list: ${response_headers}
             - delimiter: '\r\n'
             - index: '0'
         publish:
-          - upload_id: ${item[22:200]}
+          - upload_id: ${return_result[22:200]}
           - return_code
         navigate:
           - SUCCESS: SUCCESS

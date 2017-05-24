@@ -7,14 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow is used to remove specific versions of deployed applications from Google App Engine.
+#! @description: This flow is used to deploy applications to Google App Engine by using the Admin API.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
-#! @input project_id: the project in Google cloud for which the removal is performed
-#!
-#! @input service_id: the service in Google cloud for which the removal is performed
-#!
-#! @input version_id: the version id of the service to be removed
+#! @input json_app_conf: the app.json content for the application to be deployed
+#! @input project_id: the project in Google cloud for which the deployment is done
+#! @input service_id: the service in Google cloud for which the deployment is done
+#! @input version_id: the version in Google cloud that will be deployed
 #!                    Default: 'staging'
 #! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
 #!                 Default: 'https://sts.windows.net/common'
@@ -33,12 +32,15 @@
 #! @output exception: An error message in case there was an error while generating the Bearer token.
 #! @output error_message: Error message in case of deployment error
 #! @output status_code: Status code of the deployment call.
+#! @output message: If something went wrong this message would provide more info.
+#! @output serving_status: If version exists its status is returned.
+#! @output version_url: If version exists its url is returned.
 #!
-#! @result SUCCESS: The version of the specified application was removed successfully.
+#! @result SUCCESS: The application was deployed successfully.
 #! @result FAILURE: There was an error while trying to retrieve Bearer token.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute.app_engine.samples
+namespace: io.cloudslang.google.compute.app_engine
 
 imports:
   gcauth: io.cloudslang.google.authentication
@@ -46,11 +48,12 @@ imports:
   utils: io.cloudslang.base.utils
 
 flow:
-  name: undeploy_app
+  name: deploy_app
 
   inputs:
     - json_token:
         sensitive: true
+    - json_app_conf
     - project_id
     - service_id
     - version_id:
@@ -80,16 +83,16 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: undeploy_app
+          - SUCCESS: deploy_app
           - FAILURE: FAILURE
 
-    - undeploy_app:
+    - deploy_app:
         do:
-          gcappengineversions.delete_version:
+          gcappengineversions.create_version:
             - access_token
+            - json_app_conf
             - project_id
             - service_id
-            - version_id
             - proxy_host
             - proxy_port
             - proxy_username
@@ -106,10 +109,10 @@ flow:
           - error_message
           - status_code
         navigate:
-          - SUCCESS: wait_for_undeployment
+          - SUCCESS: wait_for_deployment
           - FAILURE: FAILURE
 
-    - wait_for_undeployment:
+    - wait_for_deployment:
         do:
           utils.sleep:
             - seconds: '15'
@@ -146,12 +149,16 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
+
   outputs:
     - return_result
     - return_code
     - exception
     - error_message
     - status_code
+    - serving_status
+    - version_url
+    - message
 
   results:
     - SUCCESS
