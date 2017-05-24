@@ -65,7 +65,6 @@ namespace: io.cloudslang.google.storage.objects
 
 imports:
   http: io.cloudslang.base.http
-  gcutils: io.cloudslang.google.utils
   gcstorageutils: io.cloudslang.google.storage.utils
 
 flow:
@@ -130,7 +129,7 @@ flow:
           - FAILURE: on_failure
     - upload_file:
         do:
-          gcutils.http_client_put_from_file:
+          http.http_client_put:
             - url: "${'https://www.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=resumable&upload_id=' + upload_id}"
             - proxy_host
             - proxy_port
