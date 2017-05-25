@@ -9,11 +9,11 @@
 #!!
 #! @description: Lists the versions of a service
 #!
-#! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
+#! @input access_token: The access token as a string.
 #!
-#! @input project_id: the project in Google cloud for which the deployment is done
+#! @input app_id: The App Engine application id.
 #!
-#! @input service_id: the service in Google cloud for which the deployment is done
+#! @input service_id: The App Engine service id for which the call is done
 #!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -49,11 +49,11 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: return_result if status_code different than '200'.
-#! @output return_code: '0' if success, '-1' otherwise.
+#! @output return_result: The available versions for the requested App Engine service if (status_code=200)
+#!                        or the error message otherwise.
+#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
-#! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
 #! @result SUCCESS: Everything completed successfully.
 #! @result FAILURE: Something went wrong.
@@ -63,13 +63,14 @@ namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
 
 flow:
   name: list_versions
 
   inputs:
     - access_token
-    - project_id
+    - app_id
     - service_id
     - proxy_host:
         required: false
@@ -95,10 +96,10 @@ flow:
         required: false
 
   workflow:
-    - interogate_google_cloud_platform:
+    - get_versions:
         do:
           http.http_client_get:
-            - url: "${'https://appengine.googleapis.com//v1/apps/' + project_id + '/services/' + service_id + '/versions'}"
+            - url: "${'https://appengine.googleapis.com//v1/apps/' + app_id + '/services/' + service_id + '/versions'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -116,7 +117,17 @@ flow:
           - return_code
           - error_message
           - status_code
-          - response_headers
+        navigate:
+          - SUCCESS: get_message
+          - FAILURE: get_message
+
+    - get_message:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .message
+        publish:
+          - error_message: "${''.join( c for c in return_result if  c not in '[]\"' )}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -126,7 +137,6 @@ flow:
     - return_code
     - status_code
     - error_message
-    - response_headers
 
   results:
     - SUCCESS
