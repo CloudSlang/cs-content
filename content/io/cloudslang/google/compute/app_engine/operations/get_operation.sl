@@ -49,7 +49,8 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains and instance of the operation or the error message otherwise.
+#! @output return_result: If successful (status_code=200), it contains and instance of the operation
+#!                        or the error message otherwise.
 #! @output error_message: The error message in case return_code=-1.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.

@@ -51,7 +51,8 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains a new instance of the operation or the error message otherwise.
+#! @output return_result: If successful (status_code=200), it contains a new instance of the operation
+#!                        or the error message otherwise.
 #! @output error_message: The error message from the Google response or the error message when return_code=-1.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
@@ -98,7 +99,7 @@ flow:
         required: false
 
   workflow:
-    - interogate_google_cloud_platform:
+    - delete_version:
         do:
           http.http_client_delete:
             - url: "${'https://appengine.googleapis.com/v1/apps/' + app_id + '/services/' + service_id + '/versions/' + version_id}"
