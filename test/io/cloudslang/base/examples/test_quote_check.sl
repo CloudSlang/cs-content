@@ -1,10 +1,10 @@
 ########################################################################################################################
 #!!
-#! @description: Workflow that tests quote_check
+#! @description: Workflow that tests quote_check.
+#!               It uses property files to obtain the file paths and the default values.
 #!
 #! @input file_path: Path for the file containing the quotes.
 #! @input default_quote: Default quote to be displayed.
-#! @input default_value: Whether to print the default quote or not.
 #!
 #! @result SUCCESS_PRINTING_DEFAULT: Quote printed successfully.
 #! @result QUOTE_EXISTS: The random quote was generated successfully.
@@ -33,15 +33,12 @@ flow:
     - file_path:
         default: ${get_sp('io.cloudslang.base.examples.yoda.file_path')}
         required: false
-    - default_value:
-        default: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
-        required: false
 
   workflow:
     - check_system_property:
         do:
           utils.is_true:
-          - bool_value: ${default_value}
+          - bool_value: ${get_sp('io.cloudslang.base.examples.yoda.default_quote', 'false')}
         navigate:
           - 'TRUE': SUCCESS_PRINTING_DEFAULT
           - 'FALSE': check_random_quote

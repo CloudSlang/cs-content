@@ -6,7 +6,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ########################################################################################################################
 #!!
-#! @description: The flow displays a Yoda quote based on a random number generator.
+#! @description: The flow displays a quote based on a random number generator.
 #!
 #! @input file_path: The path for the file that contains the quotes.
 #!

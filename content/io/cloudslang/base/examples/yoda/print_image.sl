@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: The flow reads an image of Yoda from a file and prints it to the screen.
+#! @description: The flow reads an image from a file and prints it to the screen.
 #!
 #! @input file_path: The path of the file containing the image.
 #!

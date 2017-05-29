@@ -17,4 +17,4 @@ namespace: io.cloudslang.base.examples.yoda
 
 properties:
   - default_quote: 'false'
-  - file_path: '/home/ubuntu/cloud-slang-content/test/io/cloudslang/base/examples/yoda/yoda_quotes.txt'
+  - file_path: '/home/ubuntu/cloud-slang-content/test/io/cloudslang/base/examples/yoda/quotes.txt'
