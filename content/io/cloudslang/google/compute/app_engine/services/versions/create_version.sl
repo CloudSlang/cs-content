@@ -52,7 +52,7 @@
 #!                        Optional
 #!
 #! @output return_result: If successful (status_code=200), it contains a new instance of the operation or the error message otherwise.
-#! @output error_message: The error message in case return_code=-1.
+#! @output error_message: The error message from the Google response or the error message when return_code=-1.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #!
@@ -64,6 +64,7 @@ namespace: io.cloudslang.google.compute.app_engine.services.versions
 
 imports:
   http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
 
 flow:
   name: create_version
@@ -119,6 +120,17 @@ flow:
           - return_code
           - error_message
           - status_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: get_message
+
+    - get_message:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .message
+        publish:
+          - error_message: "${''.join( c for c in return_result if  c not in '[]\"' )}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure

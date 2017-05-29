@@ -114,7 +114,7 @@ flow:
           - error_message
           - status_code
         navigate:
-          - SUCCESS: get_message
+          - SUCCESS: SUCCESS
           - FAILURE: get_message
 
     - get_message:
