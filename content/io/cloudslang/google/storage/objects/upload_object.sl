@@ -7,16 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Uploads a file at a specified bucket location
-#!
-#! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
-#!
-#! @input bucket_id: the project in Google cloud for which the deployment is done
-#!
-#! @input file_name: the file name on the destination.
+#! @description: This flow uploads a provided file at a specified bucket location in the Google Storage Buckets section
+#! @input access_token: The access_token as string.
+#! @input bucket_id: The bucket id for which to initiate the session.
+#! @input source_file: The actual file to be uploaded.
+#! @input file_name: The file name to be displayed on the Google Storage Bucket
 #!                   Optional
-#! @input source_file: the file to be uploaded
-#!
+#!                   Default: taken from init_upload_session as "myName"
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -51,9 +48,12 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: return_result if status_code different than '200'.
-#! @output return_code: '0' if success, '-1' otherwise.
+#! @output file_id: The file id of the newly uploaded file.
+#! @output file_link: The URL of the newly uploaded file.
+#! @output return_result: If successful (status_code=200), it contains a storage object
+#!                        or the error message otherwise.
+#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
@@ -66,6 +66,7 @@ namespace: io.cloudslang.google.storage.objects
 imports:
   http: io.cloudslang.base.http
   gcstorageutils: io.cloudslang.google.storage.utils
+  json: io.cloudslang.base.json
 
 flow:
   name: upload_object
@@ -73,10 +74,9 @@ flow:
   inputs:
     - access_token
     - bucket_id
+    - source_file
     - file_name:
         required: false
-    - source_file:
-        default: '/temp.txt'
     - proxy_host:
         required: false
     - proxy_port:
@@ -103,7 +103,7 @@ flow:
   workflow:
     - get_upload_id:
         do:
-          gcstorageutils.initiate_upload_session:
+          gcstorageutils.init_upload_session:
             - access_token
             - bucket_id
             - file_name
@@ -151,15 +151,38 @@ flow:
           - status_code
           - response_headers
         navigate:
+          - SUCCESS: get_file_id
+          - FAILURE: on_failure
+
+    - get_file_id:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .id
+        publish:
+          - file_id: "${''.join( c for c in return_result if  c not in '[]\"' )}"
+        navigate:
+          - SUCCESS: get_file_link
+          - FAILURE: on_failure
+
+    - get_file_link:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .selfLink
+        publish:
+          - file_link: "${''.join( c for c in return_result if  c not in '[]\"' )}"
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
 
   outputs:
+    - file_id
+    - file_link
     - return_result
     - return_code
     - status_code
     - error_message
-    - response_headers
 
   results:
     - SUCCESS

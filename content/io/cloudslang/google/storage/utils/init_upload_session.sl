@@ -7,14 +7,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Initiates a resumable upload session
-#!
-#! @input access_token: the access_token from Google Cloud Platform for which the access token should be granted
-#!
-#! @input bucket_id: the project in Google cloud for which the deployment is done
-#!
-#! @input file_name: the file for which to initiate the upload session
+#! @description: Initiates a resumable upload session.
+#!               For more details consult: https://cloud.google.com/storage/docs/json_api/v1/how-tos/resumable-upload
+#! @input access_token: The access_token as string.
+#! @input bucket_id: The bucket id for which to initiate the session.
+#! @input file_name: Name to be used for the item to be uploaded.
 #!                   Optional
+#!                   Default: myName
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -49,10 +48,11 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output upload_id: the id of the upload session
-#! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: return_result if status_code different than '200'.
-#! @output return_code: '0' if success, '-1' otherwise.
+#! @output upload_id: The id of the upload session parsed from the Location section in the response_headers
+#! @output return_result: If successful (status_code=200), it contains the entire result of the operation
+#!                        or the error message otherwise.
+#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
@@ -65,15 +65,16 @@ namespace: io.cloudslang.google.storage.utils
 imports:
   http: io.cloudslang.base.http
   lists: io.cloudslang.base.lists
+  json: io.cloudslang.base.json
 
 flow:
-  name: initiate_upload_session
+  name: init_upload_session
 
   inputs:
     - access_token
     - bucket_id
     - file_name:
-        default: 'uploadedObject'
+        default: 'myName'
         required: false
     - proxy_host:
         required: false
@@ -99,7 +100,7 @@ flow:
         required: false
 
   workflow:
-    - interogate_google_cloud_platform:
+    - initialize_session:
         do:
           http.http_client_post:
             - url: "${'https://www.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=resumable'}"
@@ -124,7 +125,7 @@ flow:
           - response_headers
         navigate:
           - SUCCESS: get_upload_id
-          - FAILURE: on_failure
+          - FAILURE: get_message
 
     - get_upload_id:
         do:
@@ -138,6 +139,18 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+
+    - get_message:
+        do:
+          json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: .message
+        publish:
+          - error_message: "${''.join( c for c in return_result if  c not in '[]\"' )}"
+        navigate:
+          - SUCCESS: on_failure
+          - FAILURE: on_failure
+
   outputs:
     - upload_id
     - return_result
