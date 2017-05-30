@@ -10,11 +10,8 @@
 #! @description: Gets the latest state of a long-running operation
 #!
 #! @input access_token: The access token as a string.
-#!
 #! @input app_id: The App Engine application id.
-#!
 #! @input operation_id: The operation to be retrieved.
-#!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.

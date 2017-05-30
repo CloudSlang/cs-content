@@ -10,11 +10,8 @@
 #! @description: Lists the versions of a service
 #!
 #! @input access_token: The access token as a string.
-#!
 #! @input app_id: The App Engine application id.
-#!
 #! @input service_id: The App Engine service id for which the call is done
-#!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.

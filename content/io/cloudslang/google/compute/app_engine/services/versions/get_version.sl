@@ -10,13 +10,9 @@
 #! @description: Lists the versions of a service
 #!
 #! @input access_token: The access token as a string.
-#!
 #! @input app_id: The App Engine application id.
-#!
 #! @input service_id: The App Engine service id for which the call is done
-#!
 #! @input version_id: The App Engine version id for which the call is done
-#!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -51,7 +47,8 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains an instance of the version or the error message otherwise.
+#! @output return_result: If successful (status_code=200), it contains an instance of the version
+#!                        or the error message otherwise.
 #! @output error_message: The error message from the Google response or the error message when return_code=-1.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.

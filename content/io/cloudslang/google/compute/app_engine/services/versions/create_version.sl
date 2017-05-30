@@ -10,11 +10,8 @@
 #! @description: Deploys code and resource files to a new version
 #!
 #! @input access_token: The access token as a string.
-#!
 #! @input app_id: The App Engine application id.
-#!
 #! @input service_id: The App Engine service id for which the call is done
-#!
 #! @input version_instance_conf: The json based instance of the version to be deployed.
 #!                          The contents of an app.json file of the version to be deployed.
 #! @input proxy_host: Proxy server used to access the web site.

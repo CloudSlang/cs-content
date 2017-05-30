@@ -10,9 +10,7 @@
 #! @description: Gets information about an application
 #!
 #! @input access_token: The access token as a string.
-#!
 #! @input app_id: The App Engine application id.
-#!
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
