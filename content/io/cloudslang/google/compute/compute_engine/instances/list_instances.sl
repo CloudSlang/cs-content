@@ -133,7 +133,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.2.1'
-    class_name: io.cloudslang.content.gcloud.actions.compute.instances.InstancesList
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesList
     method_name: execute
 
   outputs:

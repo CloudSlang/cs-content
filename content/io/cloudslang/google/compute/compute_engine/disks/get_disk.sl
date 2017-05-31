@@ -104,7 +104,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-google-cloud:0.2.1'
-    class_name: io.cloudslang.content.gcloud.actions.compute.disks.DisksGet
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DisksGet
     method_name: execute
 
   outputs:
