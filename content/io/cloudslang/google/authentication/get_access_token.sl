@@ -41,7 +41,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.compute_engine.authentication
+namespace: io.cloudslang.google.authentication
 
 operation:
   name: get_access_token
@@ -97,8 +97,8 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google-cloud:0.0.1'
-    class_name: io.cloudslang.content.gcloud.actions.compute.utils.GetAccessToken
+    gav: 'io.cloudslang.content:cs-google-cloud:0.2.1'
+    class_name: io.cloudslang.content.google.actions.authentication.GetAccessToken
     method_name: execute
 
   outputs:
