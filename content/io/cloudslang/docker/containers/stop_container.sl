@@ -9,30 +9,33 @@
 #!!
 #! @description: Stops the specified Docker container.
 #!
-#! @input container_id: ID of the container to be deleted
-#! @input docker_options: Optional - options for the docker environment
+#! @input container_id: ID of the container to be deleted.
+#! @input docker_options: Optional - Options for the docker environment
 #!                        from the construct: docker [OPTIONS] COMMAND [arg...]
-#! @input cmd_params: Optional - command parameters
-#! @input host: Docker machine host
-#! @input port: Optional - SSH port
-#! @input username: Docker machine username
-#! @input password: Optional - Docker machine password
-#! @input private_key_file: Optional - absolute path to private key file
-#! @input arguments: Optional - arguments to pass to command
-#! @input character_set: Optional - character encoding used for input stream encoding from target machine
+#! @input time: Optional - Time to wait before stopping the container gracefully.
+#!              Note: By default, Docker has a 10 second timeout.
+#! @input cmd_params: Optional - Command parameters.
+#! @input host: Docker machine host.
+#! @input port: Optional - SSH port.
+#! @input username: Docker machine username.
+#! @input password: Optional - Docker machine password.
+#! @input private_key_file: Optional - Absolute path to private key file.
+#! @input arguments: Optional - arguments to pass to command.
+#! @input character_set: Optional - character encoding used for input stream encoding from target machine.
 #!                       Valid: 'SJIS', 'EUC-JP', 'UTF-8'
-#! @input pty: Optional - whether to use PTY
+#! @input pty: Optional - whether to use PTY.
 #!             Valid: 'true', 'false'
-#! @input timeout: Optional - time in milliseconds to wait for command to complete
-#! @input close_session: Optional - if false SSH session will be cached for future calls during the life of the flow,
-#!                       if true the SSH session used will be closed;
+#! @input timeout: Optional - Time in milliseconds to wait for command to complete.
+#! @input close_session: Optional - If false SSH session will be cached for future calls during the life of the flow,
+#!                       if true the SSH session used will be closed.
 #!                       Valid: 'true', 'false'
-#! @input agent_forwarding: Optional - the sessionObject that holds the connection if the close session is false
+#! @input agent_forwarding: Optional - The sessionObject that holds the connection if the close session is false.
 #!
-#! @output result: ID of the container that was stopped
+#! @output result: ID of the container that was stopped.
+#! @output standard_err: STDERR of the command.
 #!
-#! @result SUCCESS: Docker container stopped successfully
-#! @result FAILURE: There was an error while trying to stop the Docker container
+#! @result SUCCESS: Docker container stopped successfully.
+#! @result FAILURE: There was an error while trying to stop the Docker container.
 #!!#
 ########################################################################################################################
 
@@ -50,6 +53,12 @@ flow:
         required: false
     - docker_options_expression:
         default: ${docker_options + ' ' if bool(docker_options) else ''}
+        required: false
+        private: true
+    - time:
+        required: false
+    - time_option:
+        default: ${'-t ' + time + ' ' if bool(time) else ''}
         required: false
         private: true
     - cmd_params:
@@ -70,7 +79,7 @@ flow:
     - arguments:
         required: false
     - command:
-        default: ${'docker ' + docker_options_expression + 'stop ' + params + container_id}
+        default: ${'docker ' + docker_options_expression + 'stop ' + time_option + params + container_id}
         private: true
     - character_set:
         required: false
@@ -110,6 +119,7 @@ flow:
 
   outputs:
     - result
+    - standard_err
 
   results:
     - SUCCESS
