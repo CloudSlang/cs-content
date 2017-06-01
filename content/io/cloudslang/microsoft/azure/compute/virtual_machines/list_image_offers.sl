@@ -7,20 +7,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all image offers for the specifed location and publisher
+#! @description: This operation can be used to retrieve a JSON array containing all image offers for the
+#!               specified location and publisher.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
+#! @input subscription_id: The ID of the Azure Subscription from which the list of all image offers can be retrieved.
+#! @input auth_token: Azure authorization Bearer token.
+#! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
-#! @input location: A supported Azure region
-#! @input publisher: A valid image publisher
+#! @input location: A supported Azure region.
+#! @input publisher: A valid image publisher.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -34,13 +36,13 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: The list of all image offers for the specifed location and publisher
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If no offer is found the error message will be populated with a response, empty otherwise
+#! @output output: The list of all image offers for the specified location and publisher as a JSON array.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output error_message: If no offer is found the error message will be populated with a response, empty otherwise.
 #!
-#! @result SUCCESS: The list of all image offers for the specifed location and publisher retrieved successfully
+#! @result SUCCESS: The list of all image offers for the specified location and publisher retrieved successfully.
 #! @result FAILURE: There was an error while trying to retrieve the list of all image offers for
-#!                  the specifed location and publisher
+#!                  the specified location and publisher.
 #!!#
 ########################################################################################################################
 
@@ -49,7 +51,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_image_offers
@@ -110,17 +111,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -131,15 +123,6 @@ flow:
           - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:

@@ -159,7 +159,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.7'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.11'
     class_name: io.cloudslang.content.amazon.actions.volumes.CreateVolumeAction
     method_name: execute
 
