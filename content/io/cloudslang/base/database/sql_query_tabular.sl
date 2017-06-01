@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Execute a query on an SQL server an return all the rows formated.
+#! @description: This operation executes a query on an SQL server an return all the rows formatted.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -38,11 +38,11 @@
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
 #!
-#! @output return_code: -1 if an error occurred while running the query, 0 otherwise
+#! @output return_code: -1 if an error occurred while running the query, 0 otherwise.
 #! @output return_result: The result of the query.
 #! @output exception: The error message if something went wrong while executing the query.
 #!
-#! @result SUCCESS: If the query executed successfully
+#! @result SUCCESS: If the query executed successfully.
 #! @result FAILURE: If there was an error while executing the query.
 #!!#
 ########################################################################################################################

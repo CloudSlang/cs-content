@@ -7,15 +7,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List the containers for the specified storage account
+#! @description: This operation can be used to retrieve a list of containers for the specified storage account.
 #!
-#! @input storage_account: Azure The name of the storage account in which the OS and Storage disks of the VM should be created.
-#! @input key: Azure account key
+#! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
+#! @input key: Azure account key.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
+#! @input proxy_username: Optional - username used when connecting to the proxy.
+#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value.
 #!
 #! @output output: a list of container names separated by ','
 #! @output return_code: 0 if request completed successfully, -1 in case something went wrong
