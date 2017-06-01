@@ -98,7 +98,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - check_instance_state:
         loop:
@@ -122,7 +122,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: search_and_replace
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - search_and_replace:
         do:
@@ -134,7 +134,7 @@ flow:
           - replaced_string
         navigate:
           - SUCCESS: parse_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - parse_state:
         do:
@@ -151,7 +151,7 @@ flow:
             - return_code
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output
@@ -162,3 +162,28 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
+extensions:
+  graph:
+    steps:
+      stop_instances:
+        x: 37
+        y: 72
+      check_instance_state:
+        x: 215
+        y: 72
+      search_and_replace:
+        x: 388
+        y: 73
+      parse_state:
+        x: 565
+        y: 74
+        navigate:
+          ad1f2b40-a258-bf38-4280-f4f9f8452af2:
+            targetId: f0530fe9-e322-d35c-f88d-e642234d57bd
+            port: SUCCESS
+    results:
+      SUCCESS:
+        f0530fe9-e322-d35c-f88d-e642234d57bd:
+          x: 742
+          y: 79

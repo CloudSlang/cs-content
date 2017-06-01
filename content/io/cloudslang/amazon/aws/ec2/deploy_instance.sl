@@ -128,8 +128,8 @@
 #! @input private_ip_address: [EC2-VPC] The primary IP address. You must specify a value from the IP address range of
 #!                            the subnet. Only one private IP address can be designated as primary. Therefore, you can't
 #!                            specify this parameter if <PrivateIpAddresses.n.Primary> is set to "true" and
-#!                           <PrivateIpAddresses.n.PrivateIpAddress> is set to an IP address.
-#!                           Default: We select an IP address from the IP address range of the subnet.
+#!                            <PrivateIpAddresses.n.PrivateIpAddress> is set to an IP address.
+#!                            Default: We select an IP address from the IP address range of the subnet.
 #! @input private_ip_addresses_string: String that contains one or more private IP addresses to assign to the network
 #!                                     interface. Only one private IP address can be designated as primary. Use this if
 #!                                     you want to launch instances with many NICs attached.
@@ -138,10 +138,13 @@
 #!                                  Example: "arn:aws:iam::123456789012:user/some_user". Default: ""
 #! @input iam_instance_profile_name: Name of the instance profile.
 #!                                   Default: ''
+#! @input instance_name_prefix: The name prefix of the instance.
+#!                              Default: ''
+#!                              Optional
 #! @input key_pair_name: Name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
-#!                      Important: If you do not specify a key pair, you can't connect to the instance unless you choose
-#!                      an AMI that is configured to allow users another way to log in.
-#!                      Default: ''
+#!                       Important: If you do not specify a key pair, you can't connect to the instance unless you choose
+#!                       an AMI that is configured to allow users another way to log in.
+#!                       Default: ''
 #! @input security_group_ids_string: IDs of the security groups for the network interface. Applies only if creating a
 #!                                   network interface when launching an instance.
 #!                                   Default: ''
@@ -242,6 +245,7 @@ imports:
   tags: io.cloudslang.amazon.aws.ec2.tags
   network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
+  utils: io.cloudslang.amazon.aws.ec2.utils
 
 flow:
   name: deploy_instance
@@ -252,6 +256,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -301,6 +306,8 @@ flow:
         required: false
     - iam_instance_profile_name:
         required: false
+    - instance_name_prefix:
+        required: false
     - key_pair_name:
         required: false
     - security_group_ids_string:
@@ -333,11 +340,17 @@ flow:
         required: false
     - secondary_private_ip_address_count:
         required: false
-    - key_tags_string
-    - value_tags_string
+    - key_tags_string:
+        default: ''
+        required: false
+    - value_tags_string:
+        default: ''
+        required: false
     - polling_interval:
+        default: '10'
         required: false
     - polling_retries:
+        default: '50'
         required: false
 
   workflow:
@@ -397,7 +410,7 @@ flow:
           - instance_id: '${instance_id_result}'
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - check_instance_state:
         loop:
@@ -420,7 +433,7 @@ flow:
             - return_code
             - exception
         navigate:
-          - SUCCESS: create_tags
+          - SUCCESS: generate_unique_name
           - FAILURE: terminate_instances
 
     - create_tags:
@@ -456,7 +469,7 @@ flow:
               - proxy_username
               - proxy_password
               - headers
-              - instance_ids_string: ${instance_id}
+              - instance_ids_string: '${instance_id}'
           break:
             - SUCCESS
           publish:
@@ -465,7 +478,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - describe_instances:
         do:
@@ -496,7 +509,7 @@ flow:
           - replaced_string
         navigate:
           - SUCCESS: parse_ip_address
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - parse_ip_address:
         do:
@@ -511,7 +524,29 @@ flow:
           - return_code: '${return_code}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
+
+    - generate_unique_name:
+        do:
+          utils.get_unique_name:
+            - instance_name_prefix
+            - instance_tags_key: '${key_tags_string}'
+            - instance_tags_value: '${value_tags_string}'
+        publish:
+          - key_tags_string: '${key_tags_string}'
+          - value_tags_string: '${value_tags_string}'
+        navigate:
+          - FAILURE: terminate_instances
+          - SUCCESS: is_instance_name_empty
+
+    - is_instance_name_empty:
+        do:
+          strings.string_equals:
+            - first_string: '${key_tags_string}'
+            - second_string: ''
+        navigate:
+          - FAILURE: create_tags
+          - SUCCESS: describe_instances
 
   outputs:
     - instance_id
@@ -519,6 +554,55 @@ flow:
     - return_result
     - return_code
     - exception
+
   results:
     - SUCCESS
     - FAILURE
+
+extensions:
+  graph:
+    steps:
+      terminate_instances:
+        x: 507
+        y: 453
+        navigate:
+          6936b8c3-e801-e173-78bf-0e2f2526f613:
+            targetId: f31809d7-ee75-1d88-2683-192373df394e
+            port: SUCCESS
+      parse_ip_address:
+        x: 1086
+        y: 72
+        navigate:
+          87f91533-3d85-7f77-9072-aa980fd4dbf3:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
+      run_instances:
+        x: 36
+        y: 73
+      describe_instances:
+        x: 738
+        y: 73
+      is_instance_name_empty:
+        x: 572
+        y: 53
+      generate_unique_name:
+        x: 353
+        y: 74
+      search_and_replace:
+        x: 912
+        y: 74
+      create_tags:
+        x: 528
+        y: 214
+      check_instance_state:
+        x: 197
+        y: 73
+    results:
+      SUCCESS:
+        576dec96-8f7c-fa7a-5ec4-69f50e183dff:
+          x: 1255
+          y: 79
+      FAILURE:
+        f31809d7-ee75-1d88-2683-192373df394e:
+          x: 805
+          y: 446

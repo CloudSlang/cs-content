@@ -92,7 +92,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - check_instance_state:
         loop:
@@ -116,7 +116,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: search_and_replace
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - search_and_replace:
         do:
@@ -128,7 +128,7 @@ flow:
           - replaced_string
         navigate:
           - SUCCESS: parse_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - parse_state:
         do:
@@ -144,7 +144,7 @@ flow:
             - return_code
         navigate:
           - SUCCESS: parse_ip_address
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - parse_ip_address:
         do:
@@ -162,7 +162,7 @@ flow:
           - return_code: '${return_code}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output
@@ -173,3 +173,31 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
+extensions:
+  graph:
+    steps:
+      start_instances:
+        x: 39
+        y: 74
+      check_instance_state:
+        x: 213
+        y: 74
+      search_and_replace:
+        x: 389
+        y: 74
+      parse_state:
+        x: 563
+        y: 73
+      parse_ip_address:
+        x: 741
+        y: 72
+        navigate:
+          e0935384-b27e-9b2c-f2be-dba0a4fbce1a:
+            targetId: e9d46585-7ed4-a485-c2ed-48e1dbeceb38
+            port: SUCCESS
+    results:
+      SUCCESS:
+        e9d46585-7ed4-a485-c2ed-48e1dbeceb38:
+          x: 917
+          y: 77
