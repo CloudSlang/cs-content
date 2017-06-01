@@ -395,13 +395,13 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google-cloud:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.2.1'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesInsert
     method_name: execute
 
   outputs:
-    - return_code: ${returnCode}
     - return_result: ${returnResult}
+    - return_code: ${returnCode}
     - exception: ${get('exception', '')}
     - zone_operation_name: ${zoneOperationName}
 

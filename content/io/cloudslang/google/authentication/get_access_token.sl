@@ -32,8 +32,8 @@
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
 #!
-#! @output return_result: Contains the access token as a string.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output return_result: Contains the access token as a string.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The access token has been successfully generated.
@@ -97,7 +97,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google-cloud:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.2.1'
     class_name: io.cloudslang.content.google.actions.authentication.GetAccessToken
     method_name: execute
 
