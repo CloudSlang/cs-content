@@ -7,18 +7,18 @@
 #
 ########################################################################################################################
 
-testBasicRunForInstancesGet:
+testBasicRunForZoneOperationsGet:
   testSuites: [google-local]
   inputs:
     - project_id: <project_id>
     - zone: <zone>
-    - instance_name: <instance_name>
+    - zone_operation_name: <zone_operation_name>
     - access_token: <access_token>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
     - pretty_print: <pretty_print>
-  description: Tests that get_instance runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.get_instance
+  description: Tests that zone_operations_get runs with SUCCESS
+  testFlowPath: io.cloudslang.google.compute.compute_engine.zone_operations.zone_operations_get
   result: SUCCESS
