@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 
-testBasicRunForInstancesDelete:
+testBasicRunForInstancesGet:
   testSuites: [google-local]
   inputs:
     - project_id: <project_id>
@@ -19,6 +19,6 @@ testBasicRunForInstancesDelete:
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
     - pretty_print: <pretty_print>
-  description: Tests that delete_instance runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.delete_instance
+  description: Tests that get_instance runs with SUCCESS
+  testFlowPath: io.cloudslang.google.compute.compute_engine.instances.get_instance
   result: SUCCESS
