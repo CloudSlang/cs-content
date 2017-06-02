@@ -22,7 +22,7 @@ The following is an overview of what is included in the ready-made content:
     + **http:** Http REST calls, such as: GET, POST, DELETE, PUT, TRACE, PATCH.
     + **json:** This folder contains operations for manipulating Javascript objects, or more precisely, string values that are contain objects in the JSON format (JavaScript Object Notation).  JSON is a simple format that can represent simple values, arrays, and objects in a human-readable format that is very similar to what is used elsewhere in Operations Orchestration, with the added benefit that Javascript scriptlets can handle them as true structured objects.
     + **lists:** This folder contains a set of operations for list manipulation.
-    + **mail:** The operations allow email to be sent using the send mail protocol. It also allows emails to be retrieved via either POP3 or IMAP.
+    + **mail:** The operations allow email to be sent using the sendmail protocol. It also allows emails to be retrieved via either POP3 or IMAP.
     + **maps:** Maps related content, such as: get keys and values.
     + **math:** Numeric operations, such as: add, divide, multiply, round and subtract numbers.
     + **network:** Network related actions, such as: ping and wait port open.
