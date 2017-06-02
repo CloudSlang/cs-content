@@ -18,5 +18,5 @@ testBasicRunForGetAccessToken:
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
   description: Tests that get_access_token runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.utils.get_access_token
+  testFlowPath: io.cloudslang.google.authentication.get_access_token
   result: SUCCESS
