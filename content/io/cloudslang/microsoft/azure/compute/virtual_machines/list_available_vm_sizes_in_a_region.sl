@@ -7,36 +7,45 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a list of all  available virtual machine sizes
+#! @description: This operation can be used to retrieve a JSON array containing all available virtual machine sizes
 #!               for a subscription in a given region.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: The ID of the Azure Subscription from which the list of available vm sizes within the specified
+#!                         region can be retrieved.
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2015-06-15'
-#! @input auth_token: Azure authorization Bearer token
-#! @input vm_name: The name of the virtual machine to be created.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: A supported Azure region
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#!                     Optional
+#! @input auth_token: Azure authorization Bearer token.
+#! @input location: A supported Azure region.
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
-#! @output output: The list of all  available virtual machine sizes for a subscription in a given region.
+#! @output output: The list of all  available virtual machine sizes for a subscription in a given region as a JSON array.
 #! @output status_code:  If successful, the operation returns 200 (OK); otherwise 502 (Bad Gateway) will be returned.
 #! @output error_message: If no available virtual machine size is found the error message
 #!                        will be populated with a response, empty otherwise.
@@ -52,7 +61,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_available_vm_sizes_in_a_region
@@ -61,7 +69,6 @@ flow:
     - subscription_id
     - auth_token
     - location
-    - vm_name
     - api_version:
         required: false
         default: '2015-06-15'
@@ -111,17 +118,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: FAILURE
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '502'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -132,15 +130,6 @@ flow:
           - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:

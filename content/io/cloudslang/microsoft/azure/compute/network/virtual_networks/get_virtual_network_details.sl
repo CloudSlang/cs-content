@@ -7,21 +7,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about a subnet
+#! @description: This operation can be used to retrieve information about a virtual network
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-06-15'
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: The name of the Subnet in which the created VM should be added.
+#!                     Default: '2016-03-30'
+#! @input virtual_network_name: Name of the virtual network to retrieve information about
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -35,34 +35,33 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: information about the subnet
+#! @output output: json response with information about the virtual network
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a subnet is not found the error message will be populated with a response, empty otherwise
+#! @output error_message: If a virtual network is not found the error message will be populated with a response,
+#!                        empty otherwise
 #!
-#! @result SUCCESS: Subnet information retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the subnet.
+#! @result SUCCESS: Virtual network information retrieved successfully.
+#! @result FAILURE: There was an error while trying to retrieve information about the virtual network.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.network.subnet
+namespace: io.cloudslang.microsoft.azure.compute.network.virtual_networks
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
-flow: 
-  name: information_about_subnet
-  
-  inputs: 
-    - subscription_id   
+flow:
+  name: get_virtual_network_details
+
+  inputs:
+    - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
         required: false
-        default: '2015-06-15'
+        default: '2016-03-30'
     - virtual_network_name
-    - subnet_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -84,15 +83,15 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    
-  workflow: 
-    - get_subnet_info:
+
+  workflow:
+    - information_about_virtual_network:
         do:
           http.http_client_get:
             - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
                 resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
-                '/subnets/' + subnet_name + '?api-version=' + api_version}
+                '?api-version=' + api_version}
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -110,17 +109,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -131,15 +121,6 @@ flow:
           - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:

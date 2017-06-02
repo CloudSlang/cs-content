@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Execute a command on an SQL server.
+#! @description: This operation executes a command on an SQL server.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
