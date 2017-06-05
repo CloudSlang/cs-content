@@ -1,0 +1,28 @@
+#   (c) Copyright 2014 Hewlett-Packard Development Company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+
+####################################################
+testNutanixComplete:
+  inputs:
+    - name: <name>
+    - num_vcpus: <numVcpus>
+    - memory_mb: <memoryMb>
+    - uuid: <uuid>
+    - host: <host>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - template_id: <templateId>
+    - description: <description>
+    - ha_priority: <haPriority>
+    - num_cores_per_vcpu: <numCoresPerVcpu>
+  description: "Test Create & Delete nutanix"
+  testFlowPath: io.cloudslang.nutanix.test_nutanix_complete
+  testSuites: [nutanix-local]
+  result: SUCCESS
+
+
