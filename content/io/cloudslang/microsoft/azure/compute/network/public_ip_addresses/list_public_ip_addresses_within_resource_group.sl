@@ -7,36 +7,49 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve a List of public IP addresses within a resource group
+#! @description: This operation can be used to retrieve a JSON array containing about
+#!               all public IP addresses within a resource group.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the public IP address list should be retrieved.
+#! @input subscription_id: The ID of the Azure Subscription from which the public IP address list should be retrieved.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve
 #!                             the list of public IP addresses.
-#! @input auth_token: Azure authorization Bearer token
+#! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#!                     Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
+#!                         Optional
+#! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#!                        Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - username used when connecting to the proxy
-#! @input proxy_password: Optional - proxy server password associated with the <proxy_username> input value
-#! @input trust_all_roots: Optional - specifies whether to enable weak security over SSL - Default: false
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
 #! @output output: The list of public IP addresses from within the resource group
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -54,7 +67,6 @@ namespace: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: list_public_ip_addresses_within_resource_group
@@ -120,17 +132,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -141,15 +144,6 @@ flow:
           - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '200,201,202'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:

@@ -74,12 +74,12 @@ dependencies:
     - ? > ### machine 0
         if [ "${CIRCLE_NODE_INDEX}" = "0" ];
         then docker run -p 49154:25 -e maildomain=example.com -e smtp_user=user:pwd,otheruser:pwd --name postfix -d catatnight/postfix
-        && docker run -d -p 8500:8500 -p 8600:8600/udp gituser173/consul
+        && docker run -d -p 8500:8500 -p 8600:8600/udp consul
         && docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
         fi
       : parallel: true
     - ? > ### every machine
-        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.5/cslang-builder.zip
+        wget https://github.com/CloudSlang/cloud-slang/releases/download/cloudslang-1.0.6/cslang-builder.zip
         && unzip cslang-builder.zip
         && chmod +x cslang-builder/bin/cslang-builder
         && mkdir cslang-builder/lib/Lib

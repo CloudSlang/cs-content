@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Execute a query on an SQL server and return each LOB row sequentially.
+#! @description: This operation executes a query on an SQL server and return each LOB row sequentially.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -40,16 +40,16 @@
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
 #!
-#! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred
-#! @output return_result: The result of the query
+#! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred.
+#! @output return_result: The result of the query.
 #! @output exception: The error message if something went wrong while executing the query.
-#! @output rows_left: How many rows are left from the query
-#! @output column_names: A list with all the column names
-#! @output sql_query: The SQL command executed
+#! @output rows_left: How many rows are left from the query.
+#! @output column_names: A list with all the column names.
+#! @output sql_query: The SQL command executed.
 #!
-#! @result HAS_MORE: If rows_left is greater than 0
-#! @result NO_MORE: If rows_left is 0
-#! @result FAILURE: If an error occurred while running the query
+#! @result HAS_MORE: If rows_left is greater than 0.
+#! @result NO_MORE: If rows_left is 0.
+#! @result FAILURE: If an error occurred while running the query.
 #!!#
 ########################################################################################################################
 
