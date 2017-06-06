@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets the latest state of a long-running operation
+#! @description: Gets the latest state of a long-running operation.
 #!
 #! @input access_token: The access token as a string.
 #! @input app_id: The App Engine application id.
@@ -40,20 +40,20 @@
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite)
+#!                         Default: '0'
 #!                         Optional
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
-#!                        Default: '0' (infinite)
+#!                        Default: '0'
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains and instance of the operation
+#! @output return_result: If successful (status_code = 200), it contains and instance of the operation
 #!                        or the error message otherwise.
-#! @output error_message: The error message in case return_code=-1.
+#! @output error_message: The error message in case return_code = '-1'.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #!
-#! @result SUCCESS: Everything completed successfully.
-#! @result FAILURE: Something went wrong.
+#! @result SUCCESS: The operation has been properly retrieved.
+#! @result FAILURE: Something went wrong while trying to retrieve the operation.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.app_engine.operations
@@ -71,16 +71,19 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
     - trust_keystore:
+        default: ''
         required: false
     - trust_password:
         required: false
     - keystore:
+        default: ''
         required: false
     - keystore_password:
         required: false

@@ -9,7 +9,8 @@
 #!!
 #! @description: This flow is used to remove a specific version of deployed application from Google App Engine.
 #!               The flow authenticates to google cloud, removes the provided version
-#!               waits for the operation to complete and retrieves the version details
+#!               waits for the operation to complete and retrieves the version details.
+#!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input app_id: The App Engine application id.
 #! @input service_id: The App Engine service id for which the call is done.
@@ -34,7 +35,7 @@
 #! @output error_message: The error message from the Google response or the error message when return_code=-1.
 #!
 #! @result SUCCESS: The version of the specified application was removed successfully.
-#! @result FAILURE: There was an error while trying to retrieve Bearer token.
+#! @result FAILURE: There was an error while trying to remove the application.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.app_engine
@@ -56,6 +57,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false

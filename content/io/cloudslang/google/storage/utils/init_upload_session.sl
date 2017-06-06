@@ -8,7 +8,8 @@
 ########################################################################################################################
 #!!
 #! @description: Initiates a resumable upload session.
-#!               For more details consult: https://cloud.google.com/storage/docs/json_api/v1/how-tos/resumable-upload
+#!               For more details consult: https://cloud.google.com/storage/docs/json_api/v1/how-tos/resumable-upload.
+#!
 #! @input access_token: The access_token as string.
 #! @input bucket_id: The bucket id for which to initiate the session.
 #! @input file_name: Name to be used for the item to be uploaded.
@@ -42,22 +43,22 @@
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite)
+#!                         Default: '0'
 #!                         Optional
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
-#!                        Default: '0' (infinite)
+#!                        Default: '0'
 #!                        Optional
 #!
 #! @output upload_id: The id of the upload session parsed from the Location section in the response_headers
-#! @output return_result: If successful (status_code=200), it contains the entire result of the operation
+#! @output return_result: If successful (status_code = 200), it contains the entire result of the operation
 #!                        or the error message otherwise.
-#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output error_message: The error message from the Google response or the error message when return_code = '-1'.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: Everything completed successfully.
-#! @result FAILURE: Something went wrong.
+#! @result SUCCESS: An upload session has been properly initialized.
+#! @result FAILURE: Something went wrong while trying to initialize the upload session.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.storage.utils
@@ -79,16 +80,19 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
     - trust_keystore:
+        default: ''
         required: false
     - trust_password:
         required: false
     - keystore:
+        default: ''
         required: false
     - keystore_password:
         required: false

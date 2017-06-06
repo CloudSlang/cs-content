@@ -7,12 +7,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the versions of a service
+#! @description: Lists the versions of a service.
 #!
 #! @input access_token: The access token as a string.
 #! @input app_id: The App Engine application id.
-#! @input service_id: The App Engine service id for which the call is done
-#! @input version_id: The App Engine version id for which the call is done
+#! @input service_id: The App Engine service id for which the call is done.
+#! @input version_id: The App Engine version id for which the call is done.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -41,22 +41,22 @@
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite)
+#!                         Default: '0'
 #!                         Optional
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
-#!                        Default: '0' (infinite)
+#!                        Default: '0'
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains an instance of the version
+#! @output return_result: If successful (status_code = 200), it contains an instance of the version
 #!                        or the error message otherwise.
-#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output error_message: The error message from the Google response or the error message when return_code = '-1'.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output serving_status: If the requested version exists its status will be returned here.
 #! @output version_url: If the requested version exists its url will be returned here.
 #!
-#! @result SUCCESS: Everything completed successfully.
-#! @result FAILURE: Something went wrong.
+#! @result SUCCESS: The version has been retrieved.
+#! @result FAILURE: Something went wrong while trying to retrieve the version.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.app_engine.services.versions
@@ -76,16 +76,19 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
     - trust_keystore:
+        default: ''
         required: false
     - trust_password:
         required: false
     - keystore:
+        default: ''
         required: false
     - keystore_password:
         required: false

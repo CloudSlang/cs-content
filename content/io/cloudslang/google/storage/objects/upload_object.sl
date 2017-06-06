@@ -8,6 +8,7 @@
 ########################################################################################################################
 #!!
 #! @description: This flow uploads a provided file at a specified bucket location in the Google Storage Buckets section
+#!
 #! @input access_token: The access_token as string.
 #! @input bucket_id: The bucket id for which to initiate the session.
 #! @input source_file: The actual file to be uploaded.
@@ -42,23 +43,23 @@
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite)
+#!                         Default: '0'
 #!                         Optional
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
-#!                        Default: '0' (infinite)
+#!                        Default: '0'
 #!                        Optional
 #!
 #! @output file_id: The file id of the newly uploaded file.
 #! @output file_link: The URL of the newly uploaded file.
-#! @output return_result: If successful (status_code=200), it contains a storage object
+#! @output return_result: If successful (status_code = 200), it contains a storage object
 #!                        or the error message otherwise.
-#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output error_message: The error message from the Google response or the error message when return_code = '-1'.
 #! @output return_code: '0' if target server is reachable, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: Everything completed successfully.
-#! @result FAILURE: Something went wrong.
+#! @result SUCCESS: The provided file has been uploaded to the Google Storage.
+#! @result FAILURE: Something went wrong and the file has not been uploaded.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.storage.objects
@@ -80,16 +81,19 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
     - trust_keystore:
+        default: ''
         required: false
     - trust_password:
         required: false
     - keystore:
+        default: ''
         required: false
     - keystore_password:
         required: false

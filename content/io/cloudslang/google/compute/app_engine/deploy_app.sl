@@ -9,11 +9,12 @@
 #!!
 #! @description: This flow is used to deploy application to Google App Engine.
 #!               The flow uses the Google App Engine Admin API and authenticates to Google, creates an app version,
-#!               waits for the operation to complete and retrieves app details like URL and status
+#!               waits for the operation to complete and retrieves app details like URL and status.
+#!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input app_id: The App Engine application id.
-#! @input service_id: The App Engine service id for which the call is done
-#! @input version_id: The App Engine version id for which the call is done
+#! @input service_id: The App Engine service id for which the call is done.
+#! @input version_id: The App Engine version id for which the call is done.
 #!                    Default: 'staging'
 #! @input version_instance_conf: The app.json content for the application to be deployed.
 #! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
@@ -28,17 +29,17 @@
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
 #!
-#! @output return_result: If successful (status_code=200), it contains a new instance of the operation
+#! @output return_result: If successful (status_code = 200), it contains a new instance of the operation
 #!                        or the error message otherwise.
 #! @output status_code: Status code of the deployment call.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: An error message in case there was an error while generating the Bearer token.
-#! @output error_message: The error message from the Google response or the error message when return_code=-1.
+#! @output error_message: The error message from the Google response or the error message when return_code = '-1'.
 #! @output serving_status: If version exists its status is returned.
 #! @output version_url: If version exists its url is returned.
 #!
 #! @result SUCCESS: The application was deployed successfully.
-#! @result FAILURE: There was an error while trying to retrieve Bearer token.
+#! @result FAILURE: There was an error while trying to deploy the application.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.app_engine
@@ -61,6 +62,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
