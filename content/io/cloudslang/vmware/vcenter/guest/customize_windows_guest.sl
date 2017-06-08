@@ -249,7 +249,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:score-vmware:0.0.5'
     class_name: io.cloudslang.content.vmware.actions.guest.CustomizeWindowsGuest
     method_name: customizeWindowsGuest
 

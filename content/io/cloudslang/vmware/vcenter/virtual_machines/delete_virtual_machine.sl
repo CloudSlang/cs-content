@@ -75,7 +75,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:score-vmware:0.0.5'
     class_name: io.cloudslang.content.vmware.actions.vm.DeleteVM
     method_name: deleteVM
 
