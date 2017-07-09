@@ -1,4 +1,5 @@
-#Content
+Content
+=======
 
 The **cloud-slang-content** repository contains ready-made CloudSlang flows,
 operations and tests for many common tasks as well as content that integrates
@@ -40,6 +41,7 @@ The following is an overview of what is included in the ready-made content:
     + **circleci:** [CircleCI](http://www.circleci.com) related content.
   + **consul:** [Consul](https://consul.io/) has multiple components, but as a whole, it is a tool for discovering and configuring services in your infrastructure. This folder contains content for interacting with Consul, such as dealing with endpoints and the key/value store.
   + **coreos:** [CoreOS](https://coreos.com/) is a Linux distribution that has been rearchitected to provide features needed to run modern infrastructure stacks. This folder contains content for interacting with a CoreOS cluster.
+  + **couchbase:** [Couchbase](https://developer.couchbase.com/documentation/server/current/introduction/intro.html) Server is an open source, distributed, NoSQL document-oriented database.
   + **digital_ocean:**
     + **v2:** [DigitalOcean](https://www.digitalocean.com/) is a cloud infrastructure provider focused on simplifying web infrastructure for software developers. This folder contains content for dealing with droplets, such as: create, list and delete.
   + **docker:** [Docker](https://www.docker.com/) is an open platform for developers and sysadmins to build, ship, and run distributed applications.
