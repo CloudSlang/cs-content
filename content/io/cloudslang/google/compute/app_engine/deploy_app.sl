@@ -8,14 +8,13 @@
 ########################################################################################################################
 #!!
 #! @description: This flow is used to deploy an application to Google App Engine.
-#!               The flow uses the Google App Engine Admin API and authenticates to Google, creates an app version,
-#!               waits for the operation to complete and retrieves app details like URL and status.
+#!               The flow uses the Google App Engine Admin API and authenticates to Google, creates an app version
+#!               based on an instance configuration file and with a version_id as read from the file,
+#!               waits for the create operation to complete and retrieves application details like URL and status.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input app_id: The App Engine application id.
 #! @input service_id: The App Engine service id for which the call is done.
-#! @input version_id: The App Engine version id for which the call is done.
-#!                    Default: 'staging'
 #! @input version_instance_conf: The app.json content for the application to be deployed.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
