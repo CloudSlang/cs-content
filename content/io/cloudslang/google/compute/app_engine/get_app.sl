@@ -16,7 +16,7 @@
 #! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: User name used when connecting to the proxy.
+#! @input proxy_username: User name used when connecting to the proxy server.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
@@ -108,7 +108,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - content_type: application/json
+            - content_type: 'application/json'
             - headers: "${'Authorization: Bearer ' + access_token}"
         publish:
           - return_result
@@ -122,8 +122,8 @@ flow:
     - get_message:
         do:
           json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .message
+            - json_object: ${return_result}
+            - json_path: '.message'
         publish:
           - error_message: "${''.join( c for c in return_result if  c not in '[]\"' )}"
         navigate:

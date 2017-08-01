@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow is used to deploy application to Google App Engine.
+#! @description: This flow is used to deploy an application to Google App Engine.
 #!               The flow uses the Google App Engine Admin API and authenticates to Google, creates an app version,
 #!               waits for the operation to complete and retrieves app details like URL and status.
 #!
@@ -17,14 +17,12 @@
 #! @input version_id: The App Engine version id for which the call is done.
 #!                    Default: 'staging'
 #! @input version_instance_conf: The app.json content for the application to be deployed.
-#! @input timeout: URL of the login authority that should be used when retrieving the Authentication Token.
-#!                 Default: 'https://sts.windows.net/common'
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: User name used when connecting to the proxy.
+#! @input proxy_username: User name used when connecting to the proxy server.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional

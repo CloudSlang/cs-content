@@ -17,7 +17,7 @@
 #! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: User name used when connecting to the proxy.
+#! @input proxy_username: User name used when connecting to the proxy server.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
