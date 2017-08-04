@@ -12,8 +12,8 @@ testGitFlowsContent:
     - port: "49153"
     - username: root
     - password: screencast
-    - git_repository: "https://github.com/CloudSlang/cloud-slang-content.git"
-    - git_repository_localdir: "/tmp/cloud-slang-content"
+    - git_repository: "https://github.com/CloudSlang/cs-content.git"
+    - git_repository_localdir: "/tmp/cs-content"
     - git_branch: "master"
     - git_merge_branch: "master"
     - git_pull_remote: "origin"

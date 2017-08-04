@@ -5,12 +5,12 @@
 CloudSlang Content
 ==================
 
-[![Join the chat at https://gitter.im/CloudSlang/cloud-slang-content](https://badges.gitter.im/CloudSlang/cloud-slang-content.svg)](https://gitter.im/CloudSlang/cloud-slang-content?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/CloudSlang/cs-content](https://badges.gitter.im/CloudSlang/cs-content.svg)](https://gitter.im/CloudSlang/cs-content?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 CloudSlang is a [YAML](http://yaml.org) based language for writing human-readable workflows for the Cloud Slang Orchestration Engine (Score). This repository includes CloudSlang flows and operations.
 
-[![Circle CI](https://circleci.com/gh/CloudSlang/cloud-slang-content/tree/master.svg?style=svg)](https://circleci.com/gh/CloudSlang/cloud-slang-content/tree/master)
-[![Build Status](https://travis-ci.org/CloudSlang/cloud-slang-content.svg?branch=master)](https://travis-ci.org/CloudSlang/cloud-slang-content)
+[![Circle CI](https://circleci.com/gh/CloudSlang/cs-content/tree/master.svg?style=svg)](https://circleci.com/gh/CloudSlang/cs-content/tree/master)
+[![Build Status](https://travis-ci.org/CloudSlang/cs-content.svg?branch=master)](https://travis-ci.org/CloudSlang/cs-content)
 
 Click [here](/DOCS.md) for an overview of all the currently supported integrations.
 
