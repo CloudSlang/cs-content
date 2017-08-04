@@ -1,7 +1,7 @@
 Content
 =======
 
-The **cloud-slang-content** repository contains ready-made CloudSlang flows,
+The **cs-content** repository contains ready-made CloudSlang flows,
 operations and tests for many common tasks as well as content that integrates
 with several other systems.
 
