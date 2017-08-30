@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an HTTP request to retrieve information about the specified extension
+#! @description: This operation can be used to retrieve information about the specified extension
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
@@ -52,7 +52,6 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines.extensions
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  strings: io.cloudslang.base.strings
 
 flow:
   name: get_extension_information
@@ -114,17 +113,8 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: check_error_status
-          - FAILURE: check_error_status
-
-    - check_error_status:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: '400,401,404'
-            - string_to_find: ${status_code}
-        navigate:
-          - SUCCESS: retrieve_error
-          - FAILURE: retrieve_success
+          - SUCCESS: SUCCESS
+          - FAILURE: retrieve_error
 
     - retrieve_error:
         do:
@@ -135,15 +125,6 @@ flow:
           - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: retrieve_success
-
-    - retrieve_success:
-        do:
-          strings.string_equals:
-            - first_string: ${status_code}
-            - second_string: '200'
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
 
   outputs:

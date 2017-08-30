@@ -81,7 +81,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - check_instance_state:
         loop:
@@ -105,7 +105,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output
@@ -115,3 +115,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
