@@ -18,7 +18,8 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be deployed.
+#! @input vm_name: The name of the virtual machine to be deployed. Virtual machine name cannot contain non-ASCII or special
+#!                 characters.
 #! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
 #!                        identifier in order to avoid duplicate names.
 #!                        Virtual machine name cannot contain non-ASCII or special characters.
@@ -90,7 +91,7 @@
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
-#! @output vm_final_name: The final virtual machine name composed of vm_name_prefix and the 5 digits unique identifier.
+#! @output vm_final_name: The final virtual machine name.
 #! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
