@@ -18,6 +18,8 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
+#! @input vm_name_1: The name of the virtual machine to be deployed. Virtual machine name cannot contain non-ASCII or special
+#!                 characters.
 #! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
 #!                        identifier in order to avoid duplicate names.
 #!                        Virtual machine name cannot contain non-ASCII or special characters.
@@ -89,7 +91,7 @@
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
-#! @output vm_name: The final virtual machine name composed of vm_name_prefix and the 5 digits unique identifier.
+#! @output vm_final_name: The final virtual machine name.
 #! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -126,7 +128,12 @@ flow:
         default: 'https://sts.windows.net/common'
         required: false
     - location
-    - vm_name_prefix
+    - vm_name_1:
+        default: ''
+        required: false
+    - vm_name_prefix:
+        default: ''
+        required: false
     - vm_size
     - offer
     - sku
@@ -656,7 +663,7 @@ flow:
             - origin_string: ${vm_name_prefix}
             - text: ${random_number}
         publish:
-          - vm_name: ${new_string}
+          - vm_name: ${new_string if vm_name_1 == '' else vm_name_1 }
         navigate:
           - SUCCESS: get_vm_details_1
 
@@ -683,7 +690,7 @@ flow:
   outputs:
     - output
     - ip_address
-    - vm_name: ${vm_name}
+    - vm_final_name: ${vm_name}
     - status_code
     - return_code
     - error_message: ${error_message}
