@@ -12,6 +12,7 @@ testDefaultIfEmptySuccess:
     - default_value: 'world'
   description: Tests that default_if_empty.sl operation finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
   outputs:
     - return_result: 'hello'
     - return_code: '0'
@@ -23,6 +24,7 @@ testDefaultIfEmptyEmptyInitialStringSuccess:
     - default_value: 'UTF-8'
   description: Tests that default_if_empty.sl operation using empty initial_value finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
   outputs:
     - return_result: 'UTF-8'
   result: SUCCESS
@@ -33,8 +35,71 @@ testDefaultIfEmptySameValueSuccess:
     - default_value: 'value'
   description: Tests that default_if_empty.sl operation using similar values finishes with SUCCESS
   testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
   outputs:
     - return_result: 'value'
+  result: SUCCESS
+
+testDefaultIfEmptySameTrimFalseValueSuccess:
+  inputs:
+    - initial_value: ' '
+    - default_value: '1'
+    - trim: 'false'
+  description: Tests that default_if_empty.sl operation using using space and trim 'false'  finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
+  outputs:
+    - return_result: ' '
+  result: SUCCESS
+
+testDefaultIfEmptySameTrimTrueValueSuccess:
+  inputs:
+    - initial_value: ' '
+    - default_value: '1'
+    - trim: 'true'
+  description: Tests that default_if_empty.sl operation using space and trim 'true' finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
+  outputs:
+    - return_result: '1'
+  result: SUCCESS
+
+testDefaultIfEmptyTrimTrueSuccess:
+  inputs:
+    - initial_value: 'hello'
+    - default_value: 'world    '
+    - trim: 'true'
+  description: Tests that default_if_empty.sl operation using trim 'true' finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
+  outputs:
+    - return_result: 'hello'
+    - return_code: '0'
+  result: SUCCESS
+
+testDefaultIfEmptyNoInitialValueSuccess:
+  inputs:
+    - default_value: 'world    '
+    - trim: 'false'
+  description: Tests that default_if_empty.sl operation with no initial_value finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
+  outputs:
+    - return_result: 'world    '
+    - return_code: '0'
+  result: SUCCESS
+
+testDefaultIfEmptyStringWithSpacesTrimFalseSuccess:
+  inputs:
+    - initial_value: 'hello    '
+    - default_value: 'world    '
+    - trim: 'false'
+  description: Tests that default_if_empty.sl operation using trim 'false' finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
+  outputs:
+    - return_result: 'hello    '
+    - return_code: '0'
   result: SUCCESS
 
 testDefaultIfEmptyException:
@@ -42,9 +107,11 @@ testDefaultIfEmptyException:
     - initial_value: 'hello'
   description: Tests that default_if_empty.sl operation throws an exception when no default_valus is given
   testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
   throwsException: true
 
 testDefaultIfEmptyNoInputsException:
   description: Tests that default_if_empty.sl operation throws an exception when there is no input
   testFlowPath: io.cloudslang.base.utils.default_if_empty
+  testSuites: [def]
   throwsException: true
