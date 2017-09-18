@@ -9,7 +9,7 @@
 #!!
 #! @description: Stops the specified Docker container.
 #!
-#! @input container_id: ID of the container to be deleted.
+#! @input container_id: ID of the container to be stopped.
 #! @input docker_options: Optional - Options for the docker environment
 #!                        from the construct: docker [OPTIONS] COMMAND [arg...]
 #! @input time: Optional - Time to wait before stopping the container gracefully.

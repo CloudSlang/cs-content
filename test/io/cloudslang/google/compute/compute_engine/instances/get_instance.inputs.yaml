@@ -7,16 +7,18 @@
 #
 ########################################################################################################################
 
-testBasicRunForGetAccessToken:
+testBasicRunForInstancesGet:
   testSuites: [google-local]
   inputs:
-    - json_token: <json_token>
-    - scopes: <scopes>
-    - scopes_delimiter: <scopes_delimiter>
+    - project_id: <project_id>
+    - zone: <zone>
+    - instance_name: <instance_name>
+    - access_token: <access_token>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
-  description: Tests that get_access_token runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.utils.get_access_token
+    - pretty_print: <pretty_print>
+  description: Tests that get_instance runs with SUCCESS
+  testFlowPath: io.cloudslang.google.compute.compute_engine.instances.get_instance
   result: SUCCESS

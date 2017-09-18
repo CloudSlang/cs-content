@@ -7,17 +7,17 @@
 #
 ########################################################################################################################
 
-testBasicRunForInstancesList:
+testBasicDeployGoogleApp:
   testSuites: [google-local]
   inputs:
-    - project_id: <project_id>
-    - zone: <zone>
-    - access_token: <access_token>
+    - json_token: <json_token>
+    - app_id: <app_id>
+    - service_id: <service_id>
+    - version_instance_conf: <version_instance_conf>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
-    - pretty_print: <pretty_print>
-  description: Tests that list_instances runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.list_instances
+  description: Tests that an application can be deployed to the Google App Engine
+  testFlowPath: io.cloudslang.google.compute.app_engine.deploy_app
   result: SUCCESS

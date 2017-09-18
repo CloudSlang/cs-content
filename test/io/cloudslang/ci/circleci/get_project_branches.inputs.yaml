@@ -13,7 +13,7 @@ testGetBranchesSuccess:
     - token: 'circleci-token'
     - proxy_host: 'proxy_host'
     - proxy_port: '8080'
-    - project: 'cloud-slang-content'
+    - project: 'cs-content'
     - headers: 'Accept:application/json'
     - content_type: 'application/json'
 
@@ -35,7 +35,7 @@ testGetBranchesWrongAPIFailure:
     - token: 'wrong-circleci-token'
     - proxy_host: 'proxy_host'
     - proxy_port: '8080'
-    - project: 'cloud-slang-content'
+    - project: 'cs-content'
     - headers: 'Accept:application/json'
     - content_type: 'application/json'
 
