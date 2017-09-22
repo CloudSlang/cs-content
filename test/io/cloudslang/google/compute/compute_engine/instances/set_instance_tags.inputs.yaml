@@ -22,5 +22,5 @@ testBasicRunForInstancesSetTags:
     - proxy_password: <proxy_password>
     - pretty_print: <pretty_print>
   description: Tests that set_instance_tags runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.set_instance_tags
+  testFlowPath: io.cloudslang.google.compute.compute_engine.instances.set_instance_tags
   result: SUCCESS
