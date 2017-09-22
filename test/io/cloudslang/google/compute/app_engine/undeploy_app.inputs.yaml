@@ -7,18 +7,17 @@
 #
 ########################################################################################################################
 
-testBasicRunForInstancesGet:
+testBasicUnDeployGoogleApp:
   testSuites: [google-local]
   inputs:
-    - project_id: <project_id>
-    - zone: <zone>
-    - instance_name: <instance_name>
-    - access_token: <access_token>
+    - json_token: <json_token>
+    - app_id: <app_id>
+    - service_id: <service_id>
+    - version_id: <version_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
     - proxy_password: <proxy_password>
-    - pretty_print: <pretty_print>
-  description: Tests that get_instance runs with SUCCESS
-  testFlowPath: io.cloudslang.google.compute.instances.get_instance
+  description: Tests that application's specified version can be removed from the Google App Engine
+  testFlowPath: io.cloudslang.google.compute.app_engine.undeploy_app
   result: SUCCESS
