@@ -25,6 +25,7 @@
 #! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
 #!                        identifier in order to avoid duplicate names.
 #!                        Virtual machine name cannot contain non-ASCII or special characters.
+#!                        If the "vm_name" input is set, this input will be ignored.
 #!                        Default: ''
 #!                        Optional
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
