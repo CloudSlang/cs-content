@@ -1,24 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to delete a Disk resource. The operation returns a ZoneOperation resource as a
-#!               JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
-#!               ZoneOperationsGet operation.
+#! @description: This operation deletes a disk resource from the specified project using the data included as inputs.
 #!
-#! @input project_id: Google Cloud project id.
+#! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input zone: The name of the zone where the Disk resource is located.
+#! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input disk_name: Name of the Disk resource to delete.
-#!                   Example: 'disk-1'
-#! @input access_token: The access token returned by the GetAccessToken operation, with at least the
-#!                      following scope: 'https://www.googleapis.com/auth/compute'.
+#! @input access_token: The access token from get_access_token.
+#! @input instance_name: The name that the new instance will have.
+#!                       Example: 'instance-1234'
+#! @input device_name: The disk device name to detach.
 #! @input async: Boolean specifying whether the operation to run sync or async.
 #!               Valid: 'true', 'false'
 #!               Default: 'true'
@@ -47,46 +38,52 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output instance_name_out: The name of the instance.
+#! @output instance_details: Details of the instance.
+#! @output disks: The disks attached to the instance.
 #! @output status: The status of the operation if async is true, otherwise the status of the instance.
-#! @output disk_name_out: The name of the attached instance.
 #!
-#! @result SUCCESS: The request for the Disk to be deleted was successfully sent.
+#! @result SUCCESS: The request to detach the Disk from an Instance was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
-#!
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.google.compute.compute_engine.disks
 
-operation:
-  name: delete_disk
-
-  inputs:
-    - project_id
-    - projectId:
-        default: ${get('project_id', '')}
-        required: false
-        private: true
-    - zone
-    - disk_name
-    - diskName:
-        default: ${get('disk_name', '')}
-        required: false
-        private: true
-    - access_token:
+operation: 
+  name: detach_disk_from_instance
+  
+  inputs: 
+    - access_token:    
         sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
+    - accessToken: 
+        default: ${get('access_token', '')}  
+        required: false 
+        private: true 
         sensitive: true
+    - project_id    
+    - projectId: 
+        default: ${get('project_id', '')}  
+        required: false 
+        private: true 
+    - zone    
+    - instance_name    
+    - instanceName: 
+        default: ${get('instance_name', '')}  
+        required: false 
+        private: true 
+    - device_name    
+    - deviceName: 
+        default: ${get('device_name', '')}  
+        required: false 
+        private: true
     - async:
-        default: 'true'
-        required: false
+          default: 'true'
+          required: false
     - timeout:
         default: '30'
         required: false
@@ -134,20 +131,22 @@ operation:
         default: ${get('pretty_print', '')}
         required: false
         private: true
-
-  java_action:
+    
+  java_action: 
     gav: 'io.cloudslang.content:cs-google:0.4.1'
-    class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DisksDelete
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DetachDisk
     method_name: execute
-
-  outputs:
+  
+  outputs: 
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
     - zone_operation_name: ${zoneOperationName}
+    - instance_name_out: ${get('instanceName', '')}
+    - instance_details: ${get('instanceDetails', '')}
+    - disks
     - status
-    - disk_name_out: ${get('disk_name', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
