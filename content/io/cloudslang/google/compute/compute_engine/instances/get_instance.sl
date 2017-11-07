@@ -33,6 +33,14 @@
 #! @output return_result: A JSON containing the Instance resource information.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output instance_id: The id of the instance.
+#! @output instance_name_out: The name of the instance.
+#! @output internal_ips: The internal IPs of the instance.
+#! @output external_ips: The external IPs of the instance.
+#! @output status: The status of the instance.
+#! @output metadata: The metadata of the instance.
+#! @output tags: The tags of the instance.
+#! @output disks: The attached disks of the instance.
 #!
 #! @result SUCCESS: The Instance was found and successfully retrieved.
 #! @result FAILURE: The Instance was not found or some inputs were given incorrectly
@@ -111,6 +119,14 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
+    - instance_id: ${get('instanceId'. '')}
+    - instance_name_out: ${get('instanceName', '')}
+    - internal_ips: ${get('internalIps', '')}
+    - external_ips: ${get('externalIps', '')}
+    - status
+    - metadata
+    - tags
+    - disks
 
   results:
     - SUCCESS: ${returnCode=='0'}
