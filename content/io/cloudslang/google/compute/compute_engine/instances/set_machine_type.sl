@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to set the machine type of a stoped instance.
+#! @description: This operation can be used to set the machine type of a stopped instance.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
