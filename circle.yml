@@ -19,6 +19,8 @@ general:
     - "./cslang-builder/logs/builder.log"
 
 machine:
+  java:
+    version: oraclejdk8
   environment:
     # "${CIRCLE_PR_NUMBER}" = "" denotes that the build is not part of a fork PR
     # ignore test suites on node 1 in fork builds
