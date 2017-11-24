@@ -51,6 +51,7 @@
 #!                 Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request.
 #! @input body: Optional - String to include in body for HTTP PUT operation.
 #! @input content_type: Optional - Content type that should be set in the request header, representing the
 #!                      MIME-type of the data in the message body.
@@ -120,6 +121,8 @@ flow:
         required: false
     - query_params:
         required: false
+    - source_file:
+        required: false
     - body:
         required: false
     - content_type:
@@ -154,6 +157,7 @@ flow:
             - request_character_set
             - headers
             - query_params
+            - source_file
             - body
             - content_type
             - method

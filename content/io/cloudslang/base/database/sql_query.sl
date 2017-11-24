@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Execute a query on an SQL server and return each row sequentially.
+#! @description: This operation executes a query on an SQL server and return each row sequentially.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.

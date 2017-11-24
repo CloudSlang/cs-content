@@ -98,7 +98,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - check_instance_state:
         loop:
@@ -122,7 +122,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: search_and_replace
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - search_and_replace:
         do:
@@ -134,7 +134,7 @@ flow:
           - replaced_string
         navigate:
           - SUCCESS: parse_state
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - parse_state:
         do:
@@ -151,7 +151,7 @@ flow:
             - return_code
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output
@@ -162,3 +162,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+

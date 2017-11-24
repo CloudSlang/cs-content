@@ -78,7 +78,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: string_occurrence_counter
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
     - string_occurrence_counter:
         do:
@@ -96,7 +96,7 @@ flow:
             - seconds: ${get('polling_interval', '10')}
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
 
   outputs:
     - output: ${return_result}
@@ -106,3 +106,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
