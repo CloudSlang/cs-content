@@ -43,7 +43,7 @@ testMyltiplyZeroWithNegativeFloat:
   description: Tests that multiply_numbers.sl operation finishes with result = 0.0
   testFlowPath: io.cloudslang.base.math.multiply_numbers
   outputs:
-    - result: '0.0'
+    - result: '0'
   result: SUCCESS
 
 testMyltiplyStr:

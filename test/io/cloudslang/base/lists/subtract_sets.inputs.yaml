@@ -54,7 +54,7 @@ testSubtractSetsEmptySet2:
   description: Tests that subtract_sets.sl operation finishes with SUCCESS when inputs are valid having result_set equal to set_1 when set_2 is empty
   testFlowPath: io.cloudslang.base.lists.subtract_sets
   outputs:
-      - result_set: "element1~element4~element3~element2"
+      - result_set: "element1~element2~element3~element4"
   result: SUCCESS
 
 testSubtractSetsWithNothingInCommon:
@@ -67,7 +67,7 @@ testSubtractSetsWithNothingInCommon:
   description: Tests that subtract_sets.sl operation finishes with SUCCESS when inputs are valid having result_set equal to set_1 when no elements from set_2 are in set_1
   testFlowPath: io.cloudslang.base.lists.subtract_sets
   outputs:
-      - result_set: "element1>element4>element3>element2"
+      - result_set: "element1>element2>element3>element4"
   result: SUCCESS
 
 testSubtractSetsThatAreIdentical:
