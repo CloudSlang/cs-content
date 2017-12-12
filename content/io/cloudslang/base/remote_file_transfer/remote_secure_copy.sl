@@ -30,8 +30,8 @@
 #! @input known_hosts_path: Path to the known_hosts file.
 #! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
 #!                 Default: '90000'
-#! @input proxyHost: Optional - HTTP proxy host.
-#! @input proxyPort: Optional - HTTP proxy port.
+#! @input proxy_host: Optional - HTTP proxy host to access the server.
+#! @input proxy_port: Optional - HTTP proxy port.
 #!                   Default: '8080'
 #!
 #! @output return_result: Confirmation message.
@@ -134,13 +134,22 @@ operation:
     - timeout:
         default: '90000'
         required: false
+    - proxy_host:
+        required: false
     - proxyHost:
+        default: ${get("proxy_host", "")}
+        required: false
+        private: true
+    - proxy_port:
+        default: '8080'
         required: false
     - proxyPort:
+        default: ${get("proxy_port", "8080")}
         required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.5'
+    gav: 'io.cloudslang.content:cs-rft:0.0.4'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
 

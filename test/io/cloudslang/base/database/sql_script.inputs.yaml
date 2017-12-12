@@ -25,6 +25,40 @@ testSQLScript:
     - delimiter: ';'
     - sql_commands: <sql_commands>
     - script_file_name: ''
+    - trust_all_roots: <trust_all_roots>
+    - trust_store: <trust_store>
+    - trust_store_password: <trust_store_password>
+    - auth_library_path: ''
+    - database_pooling_properties: ''
+    - result_set_type: ''
+    - result_set_concurrency: ''
+
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+testSQLScriptWindowsAuthentication:
+  testSuites: [database-local]
+  description: 'Tests that sql_script.sl operation finishes with SUCCESS for a valid sql command with Windows authentication'
+  testFlowPath: io.cloudslang.base.database.sql_script
+  inputs:
+    - db_server_name: <db_server_name>
+    - db_type: 'MSSQL'
+    - username: ''
+    - password: ''
+    - instance: <instance>
+    - db_port: ''
+    - database_name: <database_name>
+    - authentication_type: 'windows'
+    - db_class: ''
+    - db_url: ''
+    - delimiter: ';'
+    - sql_commands: <sql_commands>
+    - script_file_name: ''
+    - trust_all_roots: <trust_all_roots>
+    - trust_store: <trust_store>
+    - trust_store_password: <trust_store_password>
+    - auth_library_path: <auth_library_path>
     - database_pooling_properties: ''
     - result_set_type: ''
     - result_set_concurrency: ''
