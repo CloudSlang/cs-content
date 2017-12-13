@@ -1,9 +1,16 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Extracts runc container dump files.
@@ -12,15 +19,18 @@
 #! @input port: The ssh port used by the Docker host.
 #! @input username: A user with sufficient privileges to extract the files.
 #! @input password: The user's password.
-#! @input pre_dump: Indicates if a predump image should be extracted. - Example: "false"
-#! @input runc_container: The name of the container which the dump files belong to . - Example: "redis"
-#! @input root_path: The full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
+#! @input pre_dump: Indicates if a predump image should be extracted.
+#!                  Example: "false"
+#! @input runc_container: The name of the container which the dump files belong to.
+#!                        Example: "redis"
+#! @input root_path: The full path to the folder which contains the containers folders.
+#!                   Example: "/usr/local/migrate/"
 #! @input predump_image_location: The full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: The full path to the folder which will contain the container's dump image.
 #!
 #! @result SUCCESS: Runc container dump files extracted successfully
 #! @result GET_CONTEXT_FAILURE: There was an error while trying to retrieve the context
-#! @result EXTRACT_PRE_DUMP_FAILURE: There was an error while trying to exrtact the pre-dump file
+#! @result EXTRACT_PRE_DUMP_FAILURE: There was an error while trying to extract the pre-dump file
 #! @result EXTRACT_DUMP_FAILURE: There was an error while trying to extract the dump file
 #!!#
 ########################################################################################################################

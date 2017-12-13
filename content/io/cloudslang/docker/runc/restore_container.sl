@@ -1,25 +1,35 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 ########################################################################################################################
 #!!
 #! @description: Creates a checkpoint for a running runc container.
 #!
-#! @input pre_dump: perform a pre-dump checkpoint (true/false). - Example: "false"
-#! @input docker_host: The address of the Docker host to checkpoint . - Example: "192.168.0.1"
+#! @input pre_dump: Perform a pre-dump checkpoint (true/false).
+#!                  Example: "false"
+#! @input docker_host: The address of the Docker host to checkpoint.
+#!                     Example: "192.168.0.1"
 #! @input port: The ssh port used by the Docker host.
 #! @input username: A user with sufficient privileges to restore the container.
 #! @input password: The user's password.
-#! @input runc_container: The name of the containerb to checkpoint . - Example: "petclinic"
-#! @input root_path: The full path to the folder which contains the containers folders . - Example: "/usr/local/migrate/"
+#! @input runc_container: The name of the container to checkpoint.
+#!                        Example: "petclinic"
+#! @input root_path: The full path to the folder which contains the containers folders.
+#!                   Example: "/usr/local/migrate/"
 #! @input predump_image_location: The full path to the folder which will contain the container's pre_dump image.
 #! @input dump_image_location: The full path  to the folder which will contain the container's dump image.
 #!
 #! @result SUCCESS: Checkpoint created successfully for the runc container
-#! @result RESTORE_DUMP_FAILURE: There was an error while trying to create the dump for t6he runc containe
+#! @result RESTORE_DUMP_FAILURE: There was an error while trying to create the dump for t6he runc container
 #! @result RESTORE_PRE_DUMP_FAILURE: There was an error while pre-dumnping the runc container
 #!!#
 ########################################################################################################################
