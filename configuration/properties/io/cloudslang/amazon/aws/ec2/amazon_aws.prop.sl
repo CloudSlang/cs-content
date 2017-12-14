@@ -5,7 +5,7 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 # System property file for Amazon AWS operations
 #
 # io.cloudslang.amazon.aws.ec2.provider: cloud service provider
@@ -16,7 +16,7 @@
 # io.cloudslang.amazon.aws.ec2.success_call_list: string formatted list that verifies the HTTP call has '0' as
 #                                                   return_code and no exception message
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2
 

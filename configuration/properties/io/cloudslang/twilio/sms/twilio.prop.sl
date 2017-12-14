@@ -5,7 +5,7 @@
 # The Apache License is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-####################################################
+########################################################################################################################
 # System property file for Twilio SMS
 #
 # io.cloudslang.twilio.sms.account_sid: for example: BC1288daaced544d342cf6e6576a6df805
@@ -17,7 +17,7 @@
 # io.cloudslang.twilio.sms.proxy_username: Proxy username
 # io.cloudslang.twilio.sms.proxy_password: Proxy password
 #
-####################################################
+########################################################################################################################
 
 namespace: io.cloudslang.twilio.sms
 
