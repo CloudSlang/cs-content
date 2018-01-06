@@ -122,3 +122,21 @@ flow:
     - SUCCESS
     - FAILURE
 
+extensions:
+  graph:
+    steps:
+      terminate_instances:
+        x: 39
+        y: 73
+      check_instance_state:
+        x: 247
+        y: 72
+        navigate:
+          d3f0f887-2988-16f9-0fe8-1463229352b0:
+            targetId: 5f2b0b1f-9d98-a21c-63c1-c3b8133e30ea
+            port: SUCCESS
+    results:
+      SUCCESS:
+        5f2b0b1f-9d98-a21c-63c1-c3b8133e30ea:
+          x: 448
+          y: 75
