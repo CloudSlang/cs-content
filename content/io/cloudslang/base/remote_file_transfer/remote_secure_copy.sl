@@ -1,9 +1,16 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different
@@ -30,6 +37,9 @@
 #! @input known_hosts_path: Path to the known_hosts file.
 #! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
 #!                 Default: '90000'
+#! @input proxy_host: Optional - HTTP proxy host to access the server.
+#! @input proxy_port: Optional - HTTP proxy port.
+#!                   Default: '8080'
 #!
 #! @output return_result: Confirmation message.
 #! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise.
@@ -131,9 +141,22 @@ operation:
     - timeout:
         default: '90000'
         required: false
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get("proxy_host", "")}
+        required: false
+        private: true
+    - proxy_port:
+        default: '8080'
+        required: false
+    - proxyPort:
+        default: ${get("proxy_port", "8080")}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.3'
+    gav: 'io.cloudslang.content:cs-rft:0.0.4'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
 

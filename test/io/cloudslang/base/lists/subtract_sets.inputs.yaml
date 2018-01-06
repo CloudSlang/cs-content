@@ -1,9 +1,15 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 testSubtractSetsSuccess:
@@ -54,7 +60,7 @@ testSubtractSetsEmptySet2:
   description: Tests that subtract_sets.sl operation finishes with SUCCESS when inputs are valid having result_set equal to set_1 when set_2 is empty
   testFlowPath: io.cloudslang.base.lists.subtract_sets
   outputs:
-      - result_set: "element1~element4~element3~element2"
+      - result_set: "element1~element2~element3~element4"
   result: SUCCESS
 
 testSubtractSetsWithNothingInCommon:
@@ -67,7 +73,7 @@ testSubtractSetsWithNothingInCommon:
   description: Tests that subtract_sets.sl operation finishes with SUCCESS when inputs are valid having result_set equal to set_1 when no elements from set_2 are in set_1
   testFlowPath: io.cloudslang.base.lists.subtract_sets
   outputs:
-      - result_set: "element1>element4>element3>element2"
+      - result_set: "element1>element2>element3>element4"
   result: SUCCESS
 
 testSubtractSetsThatAreIdentical:

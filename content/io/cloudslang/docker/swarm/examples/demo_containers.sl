@@ -1,9 +1,15 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -12,7 +18,7 @@
 #!               (including agent containers) in the cluster after each creation.
 #!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
-#! @input swarm_manager_port: port used by the Swarm manager container
+#! @input swarm_manager_port: Port used by the Swarm manager container
 #! @input host: Docker machine host
 #! @input port: Optional - SSH port
 #! @input username: Docker machine username
@@ -26,10 +32,14 @@
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
 #! @input agent_forwarding: Optional - whether to forward the user authentication agent
-#! @input container_name_1: name of the first container - Default: 'tomcat1'
-#! @input image_name_1: Docker image for the first container - Default: 'tomcat'
-#! @input container_name_2: name of the second container - Default: 'tomcat2'
-#! @input image_name_2: Docker image for the second container - Default: same as image_name_1
+#! @input container_name_1: Name of the first container
+#!                          Default: 'tomcat1'
+#! @input image_name_1: Docker image for the first container
+#!                      Default: 'tomcat'
+#! @input container_name_2: Name of the second container
+#!                          Default: 'tomcat2'
+#! @input image_name_2: Docker image for the second container
+#!                      Default: same as image_name_1
 #!
 #! @result SUCCESS: successful
 #! @result FAILURE: otherwise
