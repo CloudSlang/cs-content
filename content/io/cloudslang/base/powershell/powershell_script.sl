@@ -332,7 +332,7 @@ operation:
          private: true
 
    java_action:
-      gav: 'io.cloudslang.content:cs-powershell:0.0.3'
+      gav: 'io.cloudslang.content:cs-powershell:0.0.6'
       method_name: execute
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
 
