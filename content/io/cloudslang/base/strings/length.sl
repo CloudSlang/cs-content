@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Appends text to string.
+#! @description: Calculates a given string length.
 #!
-#! @input origin_string: Optional - String.
+#! @input origin_string: String.
 #!                       Example: "good"
 #!
 #! @output length: Length of string.
