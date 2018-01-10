@@ -377,12 +377,12 @@ operation:
   outputs: 
     - return_result: ${returnResult} 
     - return_code: ${returnCode} 
-    - os_family: ${osFamily} 
-    - os_name: ${osName} 
-    - os_architecture: ${osArchitecture} 
-    - os_version: ${osVersion} 
-    - os_commands: ${osCommands} 
-    - exception: ${exception} 
+    - os_family: ${ get('osFamily', '') }
+    - os_name: ${ get('osName', '') }
+    - os_architecture: ${ get('osArchitecture', '') }
+    - os_version: ${ get('osVersion', '') }
+    - os_commands: ${ get('osCommands', '') }
+    - exception: ${ get('exception', '') }
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
