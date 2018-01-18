@@ -22,8 +22,11 @@
 #!                             Default: 'sql'
 #!                             Values: 'sql', 'windows'
 #! @input db_class: The classname of the JDBC driver to use.
+#!                  Examples: 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver'
 #! @input db_url: The url required to load up the driver and make your connection.
+#!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
 #! @input command: The command to execute.
+#!                 Example: 'INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)'
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no trusted certification authority issued it.
 #!                         Default value: false
 #!                         Valid values: true, false
@@ -79,7 +82,8 @@ operation:
     - password:
         required: false
         sensitive: true
-    - instance
+    - instance:
+        required: false
     - db_port:
         required: false
     - DBPort:

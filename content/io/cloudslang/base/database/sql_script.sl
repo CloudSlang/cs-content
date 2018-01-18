@@ -22,7 +22,9 @@
 #!                             Default: 'sql'
 #!                             Values: 'sql', 'windows'
 #! @input db_class: The classname of the JDBC driver to use.
+#!                  Examples: 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver'
 #! @input db_url: The url required to load up the driver and make your connection.
+#!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
 #! @input delimiter: The delimiter to use <sql_command>
 #!                   Default: ';'
 #! @input sql_commands: All the SQL commands that you want to run using the <delimiter>
