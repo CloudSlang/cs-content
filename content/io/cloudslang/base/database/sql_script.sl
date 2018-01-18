@@ -1,9 +1,15 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -22,7 +28,9 @@
 #!                             Default: 'sql'
 #!                             Values: 'sql', 'windows'
 #! @input db_class: The classname of the JDBC driver to use.
+#!                  Examples: 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver'
 #! @input db_url: The url required to load up the driver and make your connection.
+#!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
 #! @input delimiter: The delimiter to use <sql_command>
 #!                   Default: ';'
 #! @input sql_commands: All the SQL commands that you want to run using the <delimiter>

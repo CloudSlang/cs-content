@@ -1,3 +1,16 @@
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This operation executes a query on an SQL server an return all the rows.
@@ -15,8 +28,11 @@
 #!                             Default: 'sql'
 #!                             Values: 'sql', 'windows'
 #! @input db_class: The classname of the JDBC driver to use.
+#!                  Examples: 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver'
 #! @input db_url: The url required to load up the driver and make your connection.
+#!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
 #! @input command: The command to execute.
+#!                 Example: 'SELECT * FROM table'
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no trusted certification authority issued it.
 #!                         Default value: false
 #!                         Valid values: true, false
