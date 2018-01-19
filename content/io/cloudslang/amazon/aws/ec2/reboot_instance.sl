@@ -179,3 +179,30 @@ flow:
     - SUCCESS
     - FAILURE
 
+extensions:
+  graph:
+    steps:
+      reboot_instances:
+        x: 38
+        y: 74
+      check_instance_state:
+        x: 212
+        y: 73
+      search_and_replace:
+        x: 389
+        y: 74
+      parse_state:
+        x: 561
+        y: 74
+      parse_ip_address:
+        x: 742
+        y: 72
+        navigate:
+          1f7bbf54-ee69-7092-8c1f-992725eebf06:
+            targetId: 19717164-3739-f1dd-5e35-b13b3541f103
+            port: SUCCESS
+    results:
+      SUCCESS:
+        19717164-3739-f1dd-5e35-b13b3541f103:
+          x: 917
+          y: 78
