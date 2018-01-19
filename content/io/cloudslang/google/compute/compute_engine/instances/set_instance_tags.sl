@@ -27,6 +27,20 @@
 #! @input tags_delimiter: Delimiter used for the list of tags from <tags_list> param.
 #!                        Default: ','
 #! @input access_token: The access token from get_access_token.
+#! @input async: Boolean specifying whether the operation to run sync or async.
+#!               Valid: 'true', 'false'
+#!               Default: 'true'
+#!               Optional
+#! @input timeout: The time, in seconds, to wait for a response if the async input is set to "false".
+#!                 If the value is 0, the operation will wait until zone operation progress is 100.
+#!                 Valid: Any positive number including 0.
+#!                 Default: '30'
+#!                 Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed, if the async input is set to "false".
+#!                          Valid values: Any positive number including 0.
+#!                          Default: '1'
+#!                          Optional
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -45,6 +59,10 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output instance_name_out: The name of the instance.
+#! @output instance_details: Details about the instance if async is false.
+#! @output status: The status of the instance if async is false, otherwise the status of the ZoneOperation.
+#! @output tags: All the tags assigned to the instance
 #!
 #! @result SUCCESS: The request to set the Instance tags was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -90,6 +108,19 @@ operation:
         required: false
         private: true
         sensitive: true
+    - async:
+        default: 'true'
+        required: false
+    - timeout:
+        default: '30'
+        required: false
+    - polling_interval:
+        default: '1'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
     - proxy_host:
         default: ''
         required: false
@@ -129,7 +160,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesSetTags
     method_name: execute
 
@@ -138,6 +169,10 @@ operation:
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
     - zone_operation_name: ${zoneOperationName}
+    - instance_name_out: ${get('instanceName', '')}
+    - instance_details: ${get('instanceDetails', '')}
+    - status
+    - tags
 
   results:
     - SUCCESS: ${returnCode=='0'}

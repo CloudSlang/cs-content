@@ -1,28 +1,22 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
-#! @description: This operation deletes a disk resource from the specified project using the data included as inputs.
+#! @description: This operation can be used to retrieve a GlobalOperation resource, as JSON object.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input zone: The name of the zone in which the instance lives.
-#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input access_token: The access token from get_access_token.
-#! @input instance_name: The name that the new instance will have.
-#!                       Example: 'instance-1234'
-#! @input device_name: The disk device name to detach.
+#! @input global_operation_name: Name of the GlobalOperation resource to return.
+#!                             Example: 'operation-1234'
+#! @input access_token: The access token returned by the get_access_token operation, with at least one of the following
+#!                      scopes: 'https://www.googleapis.com/auth/compute.readonly',
+#!                              'https://www.googleapis.com/auth/compute',
+#!                              'https://www.googleapis.com/auth/cloud-platform'.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -37,45 +31,41 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
+#! @output return_result: Contains the GlobalOperation resource, as a JSON object.
+#! @output status: The status of the GlobalOperation resource: 'PENDING', 'RUNNING' or 'DONE'.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
 #!
-#! @result SUCCESS: The request to detach the Disk from an Instance was successfully sent.
-#! @result FAILURE: An error occurred while trying to send the request.
+#! @result SUCCESS: The GlobalOperation resource has been successfully retrieved.
+#! @result FAILURE: An error occurred while trying to get the GlobalOperation resource.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.compute_engine.instances
+namespace: io.cloudslang.google.compute.compute_engine.operations
 
-operation: 
-  name: detach_disk_from_instance
-  
-  inputs: 
-    - access_token:    
+operation:
+  name: global_operations_get
+
+  inputs:
+    - project_id
+    - projectId:
+        default: ${get('project_id', '')}
+        required: false
+        private: true
+    - global_operation_name:
+        default: ''
+        required: false
+    - globalOperationName:
+        default: ${get('global_operation_name', '')}
+        required: false
+        private: true
+    - access_token:
         sensitive: true
-    - accessToken: 
-        default: ${get('access_token', '')}  
-        required: false 
-        private: true 
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
         sensitive: true
-    - project_id    
-    - projectId: 
-        default: ${get('project_id', '')}  
-        required: false 
-        private: true 
-    - zone    
-    - instance_name    
-    - instanceName: 
-        default: ${get('instance_name', '')}  
-        required: false 
-        private: true 
-    - device_name    
-    - deviceName: 
-        default: ${get('device_name', '')}  
-        required: false 
-        private: true 
     - proxy_host:
         default: ''
         required: false
@@ -113,18 +103,18 @@ operation:
         default: ${get('pretty_print', '')}
         required: false
         private: true
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
-    class_name: 'io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesDetachDisk'
-    method_name: 'execute'
-  
-  outputs: 
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.operations.GlobalOperationsGet
+    method_name: execute
+
+  outputs:
     - return_code: ${returnCode}
+    - status: ${status}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

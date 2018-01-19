@@ -34,6 +34,20 @@
 #!                                 10.128.0.0/9 and it automatically creates one subnetwork per region.
 #!                                 Note: If <ipV4RangeInp> is set, then this input is ignored.
 #!                                 Optional
+#! @input async: Boolean specifying whether the operation to run sync or async.
+#!               Valid: 'true', 'false'
+#!               Default: 'true'
+#!               Optional
+#! @input timeout: The time, in seconds, to wait for a response if the async input is set to "false".
+#!                 If the value is 0, the operation will wait until global operation progress is 100.
+#!                 Valid: Any positive number including 0.
+#!                 Default: '30'
+#!                 Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed, if the async input is set to "false".
+#!                          Valid values: Any positive number including 0.
+#!                          Default: '1'
+#!                          Optional
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -48,10 +62,13 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
+#! @output return_result: Contains the GlobalOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output global_operation_name: Contains the GlobalOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output network_name_out: The name of the newly created network if async is true, otherwise empty.
+#! @output network_id: The id of the newly created network if async is true, otherwise empty.
+#! @output status: The status of the operation if async is true, otherwise the status of the instance.
 #!
 #! @result SUCCESS: The request for the Network to be inserted was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -103,6 +120,19 @@ operation:
         default: ${get('ip_v_4_range', '')}
         required: false
         private: true
+    - async:
+        default: 'true'
+        required: false
+    - timeout:
+        default: '30'
+        required: false
+    - polling_interval:
+        default: '1'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
     - proxy_host:
         default: ''
         required: false
@@ -142,7 +172,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.networks.NetworksInsert
     method_name: execute
 
@@ -150,7 +180,10 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - global_operation_name: ${globalOperationName}
+    - network_name_out: ${networkName}
+    - network_id: ${networkId}
+    - status
 
   results:
     - SUCCESS: ${returnCode=='0'}
