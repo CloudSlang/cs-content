@@ -23,7 +23,7 @@ do
                   \"ssh_keys\":[${DO_DROPLET_SSH_PUBLIC_KEY_ID}],
                   \"region\":\"${DO_REGION}\","'
                   "size":"512mb",
-                  "image":"coreos-stable",
+                  "image":"22580948",
                   "backups":false,
                   "ipv6":false,
                   "private_networking":true,
