@@ -16,9 +16,11 @@
 #! @description: This operation runs a Ping command locally.
 #!
 #! @input target_host: The target host to ping.
-#! @input packet_count: The number of packets to send. Default: ''.
+#! @input packet_count: The number of packets to send.
+#!                      Default: ''
 #!                      Optional
-#! @input packet_size: The size of the ping packet. Default: ''.
+#! @input packet_size: The size of the ping packet.
+#!                     Default: ''
 #!                     Optional
 #! @input timeout: The timeout in milliseconds for the Local Ping operation. Default: 10000.Note: When using timeout on
 #!                 an operating system belonging to SunOs family, the command will ignore the rest of the options
