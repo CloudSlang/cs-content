@@ -19,6 +19,8 @@
 #! @input character_set: The character encoding used for the data string. If you do not specify a value for this input,
 #!                       it uses the system's default character encoding.
 #!                       Examples: 'UTF-8', 'ISO-8859-1', 'US-ASCII' or 'Shift_JIS'
+#!                       Default: 'UTF-8'
+#!                       Optional
 #!
 #! @output result: Encoded string.
 #!
@@ -35,8 +37,8 @@ operation:
   inputs:
     - data
     - character_set:
-        required: false
         default: 'UTF-8'
+        required: false
 
   python_action:
     script: |

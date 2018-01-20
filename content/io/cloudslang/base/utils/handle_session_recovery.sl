@@ -16,11 +16,13 @@
 #! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
 #!               and in such case checks whether the ssh session failed with a certain pattern.
 #!
-#! @input enabled: Optional - Whether session recovery is enabled.
+#! @input enabled: Whether session recovery is enabled.
 #!                 Default: 'true'
+#!                 Optional
 #! @input retries: Limit of reconnect tries.
 #! @input return_result: From SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception.
+#!                       Optional
 #! @input return_code: From SSH: '0' if SSH session , different than '0' otherwise.
 #! @input exit_status: From SSH: Return code of the remote command.
 #!
@@ -46,7 +48,9 @@ flow:
   name: handle_session_recovery
 
   inputs:
-    - enabled: "True"
+    - enabled:
+       default: 'true'
+       required: false
     - retries
     - return_result:
         required: false
