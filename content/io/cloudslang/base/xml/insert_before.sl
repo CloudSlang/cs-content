@@ -29,15 +29,15 @@
 #!                           and (false instructs the implementation to process XML in accordance with the XML specifications
 #!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
 #!                           denial of service attacks)
-#!                           Default value: 'true'
-#!                           Accepted values: 'true' or 'false'
+#!                           Accepted: 'true' or 'false'
+#!                           Default: 'true'
 #!
-#! @output result_xml: given XML with element inserted
+#! @output result_xml: Given XML with element inserted.
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: element was inserted
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Element was inserted.
+#! @result FAILURE: An error occurred while trying to insert the element
 #!!#
 ########################################################################################################################
 
