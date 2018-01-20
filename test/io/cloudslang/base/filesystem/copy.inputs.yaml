@@ -24,7 +24,7 @@ testCopySuccess:
 
 testCopyFailure:
   inputs:
-    - source: should_not_exist
+    - source: abc/RE\0AD*ME2.md
     - destination: wont_be_copied
   description: Tests that copy.sl finishes with FAILURE when source file does not exist
   testFlowPath: io.cloudslang.base.filesystem.copy

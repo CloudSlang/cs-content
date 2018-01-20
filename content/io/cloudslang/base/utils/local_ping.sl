@@ -22,15 +22,17 @@
 #! @input packet_size: The size of the ping packet.
 #!                     Default: ''
 #!                     Optional
-#! @input timeout: The timeout in milliseconds for the Local Ping operation. Default: 10000.Note: When using timeout on
-#!                 an operating system belonging to SunOs family, the command will ignore the rest of the options
-#!                 (packetSize, packetCount, ipVersion).
+#! @input timeout: The timeout in milliseconds for the Local Ping operation.
+#!                 Note: When using timeout on an operating system belonging to SunOs family, the command will ignore
+#!                 the rest of the options(packetSize, packetCount, ipVersion).
+#!                 Default: '10000'
 #!                 Optional
 #! @input ip_version: IP version forced to the ping command executed on the target host. For Windows -4 or -6 parameters
 #!                    will be added. On Linux, ping or ping6 will be used. For Solaris -A inet or -A inet6 parameters
 #!                    will be added. For empty string the operation will decide what format to use if targetHost is an
 #!                    ip literal; if targetHost is given as a hostname default 'ping' command will be used on each
-#!                    operating system.Valid values: 4, 6, '' (empty string without quotes). Default: ''.
+#!                    operating system.Valid values: 4, 6, '' (empty string without quotes).
+#!                    Default: ''.
 #!                    Optional
 #!
 #! @output return_result: The raw output of the ping command.
