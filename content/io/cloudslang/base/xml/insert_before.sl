@@ -76,7 +76,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.InsertBefore
     method_name: execute
 

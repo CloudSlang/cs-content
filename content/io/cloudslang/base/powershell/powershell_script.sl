@@ -211,13 +211,13 @@ operation:
    -  port:
          required: false
    -  protocol:
-         required: false
          default: 'https'
+         required: false
    -  username:
          required: false
    -  password:
-         sensitive: true
          required: false
+         sensitive: true
    -  auth_type:
          required: false
          default: 'basic'
@@ -272,8 +272,8 @@ operation:
          required: false
          private: true
    -  trust_password:
-         sensitive: true
          required: false
+         sensitive: true
    -  trustPassword:
          default: ${get("trust_password", "")}
          required: false
@@ -300,9 +300,9 @@ operation:
    -  keystore:
          required: false
    -  keystore_password:
-         sensitive: true
          default: 'changeit'
          required: false
+         sensitive: true
    -  keystorePassword:
          default: ${get("keystore_password", "")}
          required: false
@@ -332,16 +332,16 @@ operation:
          private: true
 
    java_action:
-      gav: 'io.cloudslang.content:cs-powershell:0.0.3'
+      gav: 'io.cloudslang.content:cs-powershell:0.0.7'
       method_name: execute
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
 
    outputs:
-   -  return_code: ${returnCode}
-   -  return_result: ${returnResult}
-   -  stderr: ${stderr}
-   -  script_exit_code: ${scriptExitCode}
-   -  exception: ${exception}
+   -  return_result: ${ get('returnResult', '') }
+   -  return_code: ${ get('returnCode', '') }
+   -  script_exit_code: ${ get('scriptExitCode', '') }
+   -  stderr: ${ get('stderr', '') }
+   -  exception: ${ get('exception', '') }
 
    results:
    -  SUCCESS: ${returnCode == '0'}
