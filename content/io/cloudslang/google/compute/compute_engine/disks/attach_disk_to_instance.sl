@@ -23,9 +23,6 @@
 #! @input instance_name: The name that the new instance will have.
 #!                       Example: 'instance-1234'
 #! @input source: A valid partial or full URL to an existing Persistent Disk resource.
-#! @input boot: Indicates that this is a boot disk. The virtual machine will use the first
-#!              partition of the disk for its root filesystem.
-#!              Optional
 #! @input mode: The mode in which to attach the disk to the instance.
 #!              Valid: 'READ_WRITE', 'READ_ONLY'
 #!              Default: 'READ_WRITE'
@@ -41,13 +38,20 @@
 #!                     in the form persistent-disks-x, where x is a number assigned by Google Compute Engine.
 #!                     This field is only applicable for persistent disks.
 #!                     Optional
-#! @input interface: Specifies the disk interface to use for attaching this disk.
-#!                   Note: Persistent disks must always use SCSI and the request will fail if you attempt to
-#!                   attach a persistent disk in any other format than SCSI. Local SSDs can use either
-#!                   NVME or SCSI.
-#!                   Valid: 'SCSI', 'NVME'
-#!                   Default: 'SCSI'
-#!                   Optional
+#! @input async: Boolean specifying whether the operation to run sync or async.
+#!               Valid: 'true', 'false'
+#!               Default: 'true'
+#!               Optional
+#! @input timeout: The time, in seconds, to wait for a response if the async input is set to "false".
+#!                 If the value is 0, the operation will wait until zone operation progress is 100.
+#!                 Valid: Any positive number including 0.
+#!                 Default: '30'
+#!                 Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed, if the async input is set to "false".
+#!                          Valid values: Any positive number including 0.
+#!                          Default: '1'
+#!                          Optional
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -66,13 +70,18 @@
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output instance_name_out: The name of the instance.
+#! @output instance_details: Details of the instance.
+#! @output disks: The disks attached to the instance.
+#! @output status: The status of the operation if async is true, otherwise the status of the instance.
+#! @output device_name_out: The name of the attached instance.
 #!
 #! @result SUCCESS: The request to attach the Disk to an Instance was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.compute_engine.instances
+namespace: io.cloudslang.google.compute.compute_engine.disks
 
 operation: 
   name: attach_disk_to_instance
@@ -97,8 +106,6 @@ operation:
         required: false 
         private: true 
     - source    
-    - boot:  
-        required: false  
     - mode:
         default: 'READ_WRITE'
         required: false  
@@ -114,11 +121,21 @@ operation:
     - deviceName: 
         default: ${get('device_name', '')}  
         required: false 
-        private: true 
-    - interface:
-        default: 'SCSI'
-        required: false  
-    - proxy_host:  
+        private: true
+    - async:
+        default: 'true'
+        required: false
+    - timeout:
+        default: '30'
+        required: false
+    - polling_interval:
+        default: '1'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
+    - proxy_host:
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
@@ -153,15 +170,20 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
-    class_name: 'io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesAttachDisk'
-    method_name: 'execute'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.AttachDisk
+    method_name: execute
   
   outputs: 
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName} 
+    - zone_operation_name: ${zoneOperationName}
+    - instance_name_out: ${get('instanceName', '')}
+    - instance_details: ${get('instanceDetails', '')}
+    - disks
+    - status
+    - device_name_out: ${get('deviceName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

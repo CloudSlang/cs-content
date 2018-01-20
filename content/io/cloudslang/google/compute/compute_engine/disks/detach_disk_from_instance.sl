@@ -13,18 +13,30 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a ZoneOperation resource, as JSON object.
+#! @description: This operation deletes a disk resource from the specified project using the data included as inputs.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input zone_operation_name: Name of the ZoneOperation resource to return.
-#!                             Example: 'operation-1234'
-#! @input access_token: The access token returned by the get_access_token operation, with at least one of the following
-#!                      scopes: 'https://www.googleapis.com/auth/compute.readonly',
-#!                              'https://www.googleapis.com/auth/compute',
-#!                              'https://www.googleapis.com/auth/cloud-platform'.
+#! @input access_token: The access token from get_access_token.
+#! @input instance_name: The name that the new instance will have.
+#!                       Example: 'instance-1234'
+#! @input device_name: The disk device name to detach.
+#! @input async: Boolean specifying whether the operation to run sync or async.
+#!               Valid: 'true', 'false'
+#!               Default: 'true'
+#!               Optional
+#! @input timeout: The time, in seconds, to wait for a response if the async input is set to "false".
+#!                 If the value is 0, the operation will wait until zone operation progress is 100.
+#!                 Valid: Any positive number including 0.
+#!                 Default: '30'
+#!                 Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed, if the async input is set to "false".
+#!                          Valid values: Any positive number including 0.
+#!                          Default: '1'
+#!                          Optional
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -39,42 +51,62 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
-#! @output status: The status of the ZoneOperation resource: 'PENDING', 'RUNNING' or 'DONE'.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output instance_name_out: The name of the instance.
+#! @output instance_details: Details of the instance.
+#! @output disks: The disks attached to the instance.
+#! @output status: The status of the operation if async is true, otherwise the status of the instance.
 #!
-#! @result SUCCESS: The ZoneOperation resource has been successfully retrieved.
-#! @result FAILURE: An error occurred while trying to get the ZoneOperation resource.
+#! @result SUCCESS: The request to detach the Disk from an Instance was successfully sent.
+#! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.compute_engine.zone_operations
+namespace: io.cloudslang.google.compute.compute_engine.disks
 
-operation:
-  name: zone_operations_get
-
-  inputs:
-    - project_id
-    - projectId:
-        default: ${get('project_id', '')}
-        required: false
-        private: true
-    - zone
-    - zone_operation_name:
-        default: ''
-        required: false
-    - zoneOperationName:
-        default: ${get('zone_operation_name', '')}
-        required: false
-        private: true
-    - access_token:
+operation: 
+  name: detach_disk_from_instance
+  
+  inputs: 
+    - access_token:    
         sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
+    - accessToken: 
+        default: ${get('access_token', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - project_id    
+    - projectId: 
+        default: ${get('project_id', '')}  
+        required: false 
+        private: true 
+    - zone    
+    - instance_name    
+    - instanceName: 
+        default: ${get('instance_name', '')}  
+        required: false 
+        private: true 
+    - device_name    
+    - deviceName: 
+        default: ${get('device_name', '')}  
+        required: false 
+        private: true
+    - async:
+          default: 'true'
+          required: false
+    - timeout:
+        default: '30'
+        required: false
+    - polling_interval:
+        default: '1'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
         required: false
         private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false
@@ -112,18 +144,22 @@ operation:
         default: ${get('pretty_print', '')}
         required: false
         private: true
-
-  java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
-    class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesGet
+    
+  java_action: 
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DetachDisk
     method_name: execute
-
-  outputs:
+  
+  outputs: 
     - return_code: ${returnCode}
-    - status: ${status}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+    - zone_operation_name: ${zoneOperationName}
+    - instance_name_out: ${get('instanceName', '')}
+    - instance_details: ${get('instanceDetails', '')}
+    - disks
+    - status
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
