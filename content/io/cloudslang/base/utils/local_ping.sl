@@ -32,7 +32,7 @@
 #!                    will be added. For empty string the operation will decide what format to use if targetHost is an
 #!                    ip literal; if targetHost is given as a hostname default 'ping' command will be used on each
 #!                    operating system.Valid values: 4, 6, '' (empty string without quotes).
-#!                    Default: ''.
+#!                    Default: ''
 #!                    Optional
 #!
 #! @output return_result: The raw output of the ping command.
