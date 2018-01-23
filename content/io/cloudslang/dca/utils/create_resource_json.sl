@@ -17,20 +17,16 @@
 #!               Template operation.
 #!
 #! @input type_uuid: The UUID of the resource type.
-#!                   Optional
 #! @input deploy_sequence: A number (starting at 1) representing at which step the resource deployment should occur.
-#!                         Optional
 #! @input base_resource_uuid_list: The list of base resource UUIDs from uCMDB.
-#!                                 Optional
 #! @input base_resource_ci_type_list: The list of uCMDB ciTypes of the base resources.
-#!                                    Optional
 #! @input base_resource_type_uuid_list: The list of resource type UUIDs for the base resources.
-#!                                      Optional
 #! @input deployment_parameter_name_list: List of deployment parameter names.
 #!                                        Optional
 #! @input deployment_parameter_value_list: List of deployment parameter values.
 #!                                         Optional
 #! @input delimiter: The delimiter used in the above lists.
+#!                   Default: ','
 #!                   Optional
 #!
 #! @output return_result: A JSON representation of a DCA Resource, to use in the Deploy Template Operation.
@@ -44,54 +40,50 @@
 
 namespace: io.cloudslang.dca.utils
 
-operation: 
+operation:
   name: create_resource_json
-  
-  inputs: 
-    - type_uuid:  
-        required: false  
-    - typeUuid: 
-        default: ${get('type_uuid', '')}  
-        required: false 
-        private: true 
-    - deploy_sequence:  
-        required: false  
-    - deploySequence: 
-        default: ${get('deploy_sequence', '')}  
-        required: false 
-        private: true 
-    - base_resource_uuid_list:  
-        required: false  
-    - baseResourceUuidList: 
-        default: ${get('base_resource_uuid_list', '')}  
-        required: false 
-        private: true 
-    - base_resource_ci_type_list:  
-        required: false  
-    - baseResourceCiTypeList: 
-        default: ${get('base_resource_ci_type_list', '')}  
-        required: false 
-        private: true 
-    - base_resource_type_uuid_list:  
-        required: false  
-    - baseResourceTypeUuidList: 
-        default: ${get('base_resource_type_uuid_list', '')}  
-        required: false 
-        private: true 
-    - deployment_parameter_name_list:  
-        required: false  
-    - deploymentParameterNameList: 
-        default: ${get('deployment_parameter_name_list', '')}  
-        required: false 
-        private: true 
-    - deployment_parameter_value_list:  
-        required: false  
-    - deploymentParameterValueList: 
-        default: ${get('deployment_parameter_value_list', '')}  
-        required: false 
-        private: true 
-    - delimiter:  
-        required: false  
+
+  inputs:
+    - type_uuid
+    - typeUuid:
+        default: ${get('type_uuid', '')}
+        required: false
+        private: true
+    - deploy_sequence
+    - deploySequence:
+        default: ${get('deploy_sequence', '')}
+        required: false
+        private: true
+    - base_resource_uuid_list
+    - baseResourceUuidList:
+        default: ${get('base_resource_uuid_list', '')}
+        required: false
+        private: true
+    - base_resource_ci_type_list
+    - baseResourceCiTypeList:
+        default: ${get('base_resource_ci_type_list', '')}
+        required: false
+        private: true
+    - base_resource_type_uuid_list
+    - baseResourceTypeUuidList:
+        default: ${get('base_resource_type_uuid_list', '')}
+        required: false
+        private: true
+    - deployment_parameter_name_list:
+        required: false
+    - deploymentParameterNameList:
+        default: ${get('deployment_parameter_name_list', '')}
+        required: false
+        private: true
+    - deployment_parameter_value_list:
+        required: false
+    - deploymentParameterValueList:
+        default: ${get('deployment_parameter_value_list', '')}
+        required: false
+        private: true
+    - delimiter:
+        default: ','
+        required: false
     
   java_action: 
     gav: 'io.cloudslang.content:cs-dca:1.0.0-SNAPSHOT'
