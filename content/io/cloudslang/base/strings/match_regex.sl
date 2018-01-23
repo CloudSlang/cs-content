@@ -17,7 +17,8 @@
 #!
 #! @input regex: Python regex expression.
 #!               Example: "f\\w*r"
-#! @input text: Optional - String to match.
+#! @input text: String to match.
+#!              Optional
 #!
 #! @output match_text: Matched text.
 #!
