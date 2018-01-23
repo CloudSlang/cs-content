@@ -176,7 +176,8 @@ operation:
     - username:  
         required: false  
     - password:  
-        required: false  
+        required: false
+        sensitive: true
     - port:  
         required: false  
     - proxy_host:  
