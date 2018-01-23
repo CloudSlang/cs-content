@@ -262,16 +262,18 @@ operation:
          required: false
          default: 'strict'
    -  x509HostnameVerifier:
-         default: ${get("x509hostname_verifier", "")}
+         default: ${get("x_509_hostname_verifier", "")}
          required: false
          private: true
    -  trust_keystore:
+         default: ''
          required: false
    -  trustKeystore:
          default: ${get("trust_keystore", "")}
          required: false
          private: true
    -  trust_password:
+         default: 'changeit'
          required: false
          sensitive: true
    -  trustPassword:
@@ -298,6 +300,7 @@ operation:
          required: false
          private: true
    -  keystore:
+         default: ''
          required: false
    -  keystore_password:
          default: 'changeit'
