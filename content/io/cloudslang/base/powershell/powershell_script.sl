@@ -172,6 +172,7 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Default value: 'changeit'
 #! @input keystore: Optional - the pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
@@ -180,7 +181,7 @@
 #!                  Format: Java KeyStore (JKS)
 #! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
-#!                           Default value: ''
+#!                           Default value: 'changeit'
 #! @input winrm_max_envelop_size: The maximum size of a SOAP packet in bytes for all stream content.
 #!                                 Default value is '153600'.
 #! @input script: The PowerShell script that will be executed on the remote shell.
