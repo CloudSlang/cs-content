@@ -170,9 +170,9 @@ operation:
         required: false
         private: true
     - result_set_concurrency:
+        default: 'CONCUR_READ_ONLY'
         required: false
     - resultSetConcurrency:
-        default: 'CONCUR_READ_ONLY'
         default: ${get('result_set_concurrency', '')}
         required: false
         private: true
