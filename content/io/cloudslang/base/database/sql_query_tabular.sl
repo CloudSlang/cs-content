@@ -52,7 +52,7 @@
 #!                           downloaded from https://www.microsoft.com/en-us/download/details.aspx?id=11774.
 #! @input timeout: Seconds to wait before timing out the SQL command execution. When the default value is used, there
 #!                 is no limit on the amount of time allowed for a running command to complete.
-#!                 Default values: 0
+#!                 Default: 0
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: 'db.pooling.enable=false'
 #!                                     Example: 'db.pooling.enable=true'
@@ -170,9 +170,9 @@ operation:
         required: false
         private: true
     - result_set_concurrency:
+        default: 'CONCUR_READ_ONLY'
         required: false
     - resultSetConcurrency:
-        default: 'CONCUR_READ_ONLY'
         default: ${get('result_set_concurrency', '')}
         required: false
         private: true
