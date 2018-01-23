@@ -56,7 +56,7 @@
 #!                                  Default value: \n
 #! @input timeout: Seconds to wait before timing out the SQL command execution. When the default value is used, there
 #!                 is no limit on the amount of time allowed for a running command to complete.
-#!                 Default values: 0
+#!                 Default: 0
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: 'db.pooling.enable=false'
 #!                                     Example: 'db.pooling.enable=true'
