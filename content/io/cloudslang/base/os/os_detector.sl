@@ -166,7 +166,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.utils
+namespace: io.cloudslang.base.os
 
 operation: 
   name: os_detector
