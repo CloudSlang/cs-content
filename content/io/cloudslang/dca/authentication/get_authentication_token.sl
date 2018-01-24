@@ -18,14 +18,18 @@
 #!
 #! @input idm_host: The hostname or IP of the IdM with which to authenticate.
 #! @input idm_port: The port on which IdM is listening on the host.
+#!                  Default: '5443'
 #!                  Optional
 #! @input protocol: The protocol to use when connecting to IdM.
+#!                  Default: 'https'
+#!                  Valid: 'http' or 'https'
 #!                  Optional
 #! @input idm_username: The IdM username to use when authenticating.
 #! @input idm_password: The password of the IdM user.
 #! @input dca_username: The DCA user to authenticate.
 #! @input dca_password: The password of the DCA user.
 #! @input dca_tenant_name: The tenant of the DCA user to authenticate.
+#!                         Default: 'PROVIDER'
 #!                         Optional
 #! @input preemptive_auth: If this field is 'true' authentication info will be sent in the first request. If this is
 #!                         'false' a request with no authentication info will be made and if server responds with 401
@@ -34,9 +38,11 @@
 #!                         Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1 and integer values greater than 0.
-#!                    The value '-1' indicates that the proxy port is not set and the protocol default port will be
-#!                    used. If the protocol is 'http' and the 'proxyPort' is set to '-1' then port '80' will be used.
+#! @input proxy_port: The proxy server port.
+#!                    Default: '8080'
+#!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
+#!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
+#!                    'proxy_port' is set to '-1' then port '80' will be used.
 #!                    Optional
 #! @input proxy_username: The user name used when connecting to the proxy.
 #!                        Optional
@@ -44,6 +50,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -53,6 +60,7 @@
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -109,13 +117,15 @@ operation:
         default: ${get('idm_host', '')}  
         required: false 
         private: true 
-    - idm_port:  
+    - idm_port:
+        default: '5443'
         required: false  
     - idmPort: 
         default: ${get('idm_port', '')}  
         required: false 
         private: true 
-    - protocol:  
+    - protocol:
+        default: 'https'
         required: false  
     - idm_username    
     - idmUsername: 
@@ -141,7 +151,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - dca_tenant_name:  
+    - dca_tenant_name:
+        default: 'PROVIDER'
         required: false  
     - dcaTenantName: 
         default: ${get('dca_tenant_name', '')}  
@@ -159,7 +170,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -179,13 +191,15 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  

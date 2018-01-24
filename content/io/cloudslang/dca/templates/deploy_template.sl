@@ -17,33 +17,38 @@
 #!
 #! @input dca_host: The hostname or IP of the DCA environment.
 #! @input dca_port: The port on which the DCA environment is listening.
+#!                  Default: '443'
 #!                  Optional
 #! @input protocol: The protocol with which to connect to the DCA environment
+#!                  Default: 'https'
+#!                  Valid: 'http' or 'https'
 #!                  Optional
 #! @input auth_token: The authentication token from the Get Authentication Token operation.
 #! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
 #!                       default lifetime of the authentication token.
 #!                       Optional
 #! @input deployment_name: The display name of the deployment.
-#!                         Optional
 #! @input deployment_description: A description of the deployment.
 #!                                Optional
 #! @input deployment_template_id: The UUID of the DCA template to deploy.
-#!                                Optional
-#! @input deployment_resources_json: The JSON array with resources resulted from the Create Resource JSON operation.
-#!                                   Optional
+#! @input deployment_resources_json: The JSON array with resources resulted from the create_resource_json operation.
 #! @input async: Whether to run the operation is async mode. In async mode, the deployment will be started, and the
 #!               operation will exit. Otherwise the operation will wait for the result of the deployment.
+#!               Default: 'true'
 #!               Optional
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
+#!                 Default: '1200'
 #!                 Optional
 #! @input polling_interval: The interval in seconds at which the deployment will be queried in sync mode.
+#!                          Default: '30'
 #!                          Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1 and integer values greater than 0.
-#!                    The value '-1' indicates that the proxy port is not set and the protocol default port will be
-#!                    used. If the protocol is 'http' and the 'proxyPort' is set to '-1' then port '80' will be used.
+#! @input proxy_port: The proxy server port.
+#!                    Default: '8080'
+#!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
+#!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
+#!                    'proxy_port' is set to '-1' then port '80' will be used.
 #!                    Optional
 #! @input proxy_username: The user name used when connecting to the proxy.
 #!                        Optional
@@ -51,6 +56,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -60,6 +66,7 @@
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -115,28 +122,33 @@ operation:
         default: ${get('dca_host', '')}  
         required: false 
         private: true 
-    - dca_port:  
+    - dca_port:
+        default: '443'
         required: false  
     - dcaPort: 
         default: ${get('dca_port', '')}  
         required: false 
         private: true 
-    - protocol:  
+    - protocol:
+        default: 'https'
         required: false  
-    - auth_token    
+    - auth_token:
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - refresh_token:  
-        required: false  
+        required: false
+        sensitive: true
     - refreshToken: 
         default: ${get('refresh_token', '')}  
         required: false 
-        private: true 
-    - deployment_name:  
-        required: false  
-    - deploymentName: 
+        private: true
+        sensitive: true
+    - deployment_name
+    - deploymentName:
         default: ${get('deployment_name', '')}  
         required: false 
         private: true 
@@ -146,23 +158,24 @@ operation:
         default: ${get('deployment_description', '')}  
         required: false 
         private: true 
-    - deployment_template_id:  
-        required: false  
-    - deploymentTemplateId: 
+    - deployment_template_id
+    - deploymentTemplateId:
         default: ${get('deployment_template_id', '')}  
         required: false 
         private: true 
-    - deployment_resources_json:  
-        required: false  
-    - deploymentResourcesJson: 
+    - deployment_resources_json
+    - deploymentResourcesJson:
         default: ${get('deployment_resources_json', '')}  
         required: false 
         private: true 
-    - async:  
+    - async:
+        default: 'true'
         required: false  
-    - timeout:  
+    - timeout:
+        default: '1200'
         required: false  
-    - polling_interval:  
+    - polling_interval:
+        default: '30'
         required: false  
     - pollingInterval: 
         default: ${get('polling_interval', '')}  
@@ -174,7 +187,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -194,13 +208,15 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  

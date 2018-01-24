@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This utility operation is used to create a JSON representation of a DCA resource for use in the Deploy
-#!               Template operation.
+#! @description: This utility operation is used to create a JSON representation of a DCA resource for use in the
+#!               deploy_template operation.
 #!
 #! @input type_uuid: The UUID of the resource type.
 #! @input deploy_sequence: A number (starting at 1) representing at which step the resource deployment should occur.
