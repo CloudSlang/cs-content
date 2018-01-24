@@ -100,6 +100,7 @@
 #!                        identify other parties.  If the protocol selected is not 'https' or if trustAllRoots
 #!                        is 'true' this input is ignored (For PowerShell detection).
 #!                        Format: Java KeyStore (JKS)
+#!                        Default: ''
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and
 #!                        trustKeystore is empty, trustPassword default will be supplied (For PowerShell detection).
@@ -108,6 +109,7 @@
 #!                  authentication. If the protocol selected is not 'https' or if trustAllRoots is 'true'
 #!                  this input is ignored (For PowerShell detection).
 #!                  Format: Java KeyStore (JKS)
+#!                  Default: ''
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore
 #!                           is empty, keystorePassword default will be supplied (For PowerShell detection).
@@ -285,7 +287,8 @@ operation:
         default: ${get('x_509_hostname_verifier', '')}  
         required: false 
         private: true 
-    - trust_keystore:  
+    - trust_keystore:
+        default: ''
         required: false  
     - trustKeystore: 
         default: ${get('trust_keystore', '')}  
@@ -299,7 +302,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
+    - keystore:
+        default: ''
         required: false  
     - keystore_password:  
         required: false  
