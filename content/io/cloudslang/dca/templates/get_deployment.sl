@@ -17,15 +17,17 @@
 #!
 #! @input dca_host: The hostname or IP of the DCA environment.
 #! @input dca_port: The port on which the DCA environment is listening.
+#!                  Default: '443'
 #!                  Optional
 #! @input protocol: The protocol with which to connect to the DCA environment
+#!                  Default: 'https'
+#!                  Valid: 'http' or 'https'
 #!                  Optional
 #! @input auth_token: The authentication token from the Get Authentication Token operation.
 #! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
 #!                       default lifetime of the authentication token.
 #!                       Optional
 #! @input deployment_uuid: The UUID of the deployment for which the information will be retrieved.
-#!                         Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1 and integer values greater than 0.
@@ -102,13 +104,15 @@ operation:
         default: ${get('dca_host', '')}  
         required: false 
         private: true 
-    - dca_port:  
+    - dca_port:
+        default: '443'
         required: false  
     - dcaPort: 
         default: ${get('dca_port', '')}  
         required: false 
         private: true 
-    - protocol:  
+    - protocol:
+        default: 'https'
         required: false  
     - auth_token    
     - authToken: 
@@ -121,9 +125,8 @@ operation:
         default: ${get('refresh_token', '')}  
         required: false 
         private: true 
-    - deployment_uuid:  
-        required: false  
-    - deploymentUuid: 
+    - deployment_uuid
+    - deploymentUuid:
         default: ${get('deployment_uuid', '')}  
         required: false 
         private: true 
