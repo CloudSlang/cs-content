@@ -1,0 +1,48 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+
+testBasicRunCreateResourceJSON:
+  inputs:
+    - type_uuid: 'type_uuid'
+    - deploy_sequence: '1'
+    - base_resource_uuid_list: 'uuid_1,uuid_2'
+    - base_resource_ci_type_list: 'ci_type_1,ci_type_2'
+    - base_resource_type_uuid_list: 'type_uuid_1,type_uuid_2'
+    - deployment_parameter_name_list: 'param_1,param_2,param_3'
+    - deployment_parameter_value_list: 'value_1,value_2,value_3'
+    - delimiter: ','
+  outputs:
+    - return_code: '0'
+    - exception: ''
+  description: Tests that create_resource_json runs with SUCCESS
+  testFlowPath: io.cloudslang.dca.utils.create_resource_json
+  result: SUCCESS
+
+testBasicRunCreateResourceJSONFailure:
+  inputs:
+    - type_uuid: 'type_uuid'
+    - deploy_sequence: 'invalid_int'
+    - base_resource_uuid_list: 'uuid_1,uuid_2'
+    - base_resource_ci_type_list: 'ci_type_1,ci_type_2'
+    - base_resource_type_uuid_list: 'type_uuid_1,type_uuid_2'
+    - deployment_parameter_name_list: 'param_1,param_2,param_3'
+    - deployment_parameter_value_list: 'value_1,value_2,value_3'
+    - delimiter: ','
+  outputs:
+    - return_code: '-1'
+    - exception: 'Invalid integer.'
+  description: Tests that create_resource_json runs with FAILURE when deploy_sequence is not a valid int
+  testFlowPath: io.cloudslang.dca.utils.create_resource_json
+  result: FAILURE

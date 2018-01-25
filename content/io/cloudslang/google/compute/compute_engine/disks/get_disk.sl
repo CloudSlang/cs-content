@@ -109,7 +109,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DisksGet
     method_name: execute
 

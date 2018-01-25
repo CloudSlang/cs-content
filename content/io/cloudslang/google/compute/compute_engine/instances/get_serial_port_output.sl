@@ -1,26 +1,30 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to delete a Network resource. The operation returns a GlobalOperation resource
-#!               as a JSON object, that can be used to retrieve the status and progress of the GlobalOperation, using the
-#!               GlobalOperationsGet operation.
+#! @description: This operation can be used to retrieve data from a port.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input network_name: Name of the Network resource to delete.
-#!                      Example: 'default'
+#! @input zone: The name of the zone in which the instance lives.
+#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
+#! @input instance_name: Name of the Instance resource to get.
+#!                       Example: 'operation-1234'
+#! @input console_port: Specifies which COM or serial port to retrieve data from.
+#!                      Valid: an integer between 1 and 4 (inclusive)
+#!                      Default: '1'
+#!                      Optional
+#! @input start_index: The byte position from which to return the output. Use this to page through output
+#!                     when the output is too large to return in a single request. For the initial request, leave
+#!                     this field unspecified. For subsequent calls, this field should be set to the next value
+#!                     returned in the previous call.
+#!                     Default: '0'
+#!                     Optional
 #! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
@@ -36,22 +40,21 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the GlobalOperation resource, as a JSON object.
+#! @output return_result: A string containing the read data from the port.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output global_operation_name: Contains the GlobalOperation name, if the returnCode is '0', otherwise it is empty.
-#! @output status: The status of the operation if async is true, otherwise the status of the instance.
+#! @output next_index: The position of the last byte read.
 #!
-#! @result SUCCESS: The request for the Network to be deleted was successfully sent.
-#! @result FAILURE: An error occurred while trying to send the request.
+#! @result SUCCESS: The Instance was found and successfully retrieved.
+#! @result FAILURE: The Instance was not found or some inputs were given incorrectly
 #!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.compute.compute_engine.networks
+namespace: io.cloudslang.google.compute.compute_engine.instances
 
 operation:
-  name: delete_network
+  name: get_serial_port_output
 
   inputs:
     - project_id
@@ -59,9 +62,24 @@ operation:
         default: ${get('project_id', '')}
         required: false
         private: true
-    - network_name
-    - networkName:
-        default: ${get('network_name', '')}
+    - zone
+    - instance_name
+    - instanceName:
+        default: ${get('instance_name', '')}
+        required: false
+        private: true
+    - console_port:
+        default: '1'
+        required: false
+    - consolePort:
+        default: ${get('console_port', '')}
+        required: false
+        private: true
+    - start_index:
+        default: '0'
+        required: false
+    - startIndex:
+        default: ${get('start_index', '')}
         required: false
         private: true
     - access_token:
@@ -101,25 +119,17 @@ operation:
         required: false
         private: true
         sensitive: true
-    - pretty_print:
-        default: 'true'
-        required: false
-    - prettyPrint:
-        default: ${get('pretty_print', '')}
-        required: false
-        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-google:0.4.2'
-    class_name: io.cloudslang.content.google.actions.compute.compute_engine.networks.NetworksDelete
+    class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesGetSerialPortOutput
     method_name: execute
 
   outputs:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - global_operation_name: ${globalOperationName}
-    - status
+    - next_index: ${get('nextIndex', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
