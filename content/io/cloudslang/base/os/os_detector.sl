@@ -104,6 +104,7 @@
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and
 #!                        trustKeystore is empty, trustPassword default will be supplied (For PowerShell detection).
+#!                        Default: ''
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol selected is not 'https' or if trustAllRoots is 'true'
@@ -294,7 +295,8 @@ operation:
         default: ${get('trust_keystore', '')}  
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
+        default: ''
         required: false  
         sensitive: true
     - trustPassword: 
