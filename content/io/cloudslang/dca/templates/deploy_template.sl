@@ -20,8 +20,8 @@
 #!                  Default: '443'
 #!                  Optional
 #! @input protocol: The protocol with which to connect to the DCA environment
-#!                  Default: 'https'
 #!                  Valid: 'http' or 'https'
+#!                  Default: 'https'
 #!                  Optional
 #! @input auth_token: The authentication token from the Get Authentication Token operation.
 #! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
@@ -45,10 +45,10 @@
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default: '8080'
 #!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
 #!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
 #!                    'proxy_port' is set to '-1' then port '80' will be used.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: The user name used when connecting to the proxy.
 #!                        Optional

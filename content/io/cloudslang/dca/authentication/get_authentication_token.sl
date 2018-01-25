@@ -21,8 +21,8 @@
 #!                  Default: '5443'
 #!                  Optional
 #! @input protocol: The protocol to use when connecting to IdM.
-#!                  Default: 'https'
 #!                  Valid: 'http' or 'https'
+#!                  Default: 'https'
 #!                  Optional
 #! @input idm_username: The IdM username to use when authenticating.
 #! @input idm_password: The password of the IdM user.
@@ -39,10 +39,10 @@
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default: '8080'
 #!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
 #!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
 #!                    'proxy_port' is set to '-1' then port '80' will be used.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: The user name used when connecting to the proxy.
 #!                        Optional
@@ -219,7 +219,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
+    - keystore:
+        default: ''
         required: false  
     - keystore_password:  
         required: false  
