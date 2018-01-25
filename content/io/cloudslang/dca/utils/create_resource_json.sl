@@ -86,7 +86,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-dca:1.0.0'
     class_name: 'io.cloudslang.content.dca.actions.utils.CreateResourceJSON'
     method_name: 'execute'
   
