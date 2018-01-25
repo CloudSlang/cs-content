@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,7 +12,21 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRandInt:
-  description: Tests that generate_uuid.sl operation finishes with result = SUCCESS
-  testFlowPath: io.cloudslang.base.math.generate_uuid
+
+TestLocalPing:
+  inputs:
+    -  target_host: "localhost"
+  description: Tests a basic execution of the opperation
+  testFlowPath: io.cloudslang.base.utils.local_ping
+  outputs:
+    -  return_code: "0"
   result: SUCCESS
+
+testExecuteFailureHostUnreachable:
+  inputs:
+    -  target_host: "invalidHost"
+  description: Tests the ping command using an invalid host
+  testFlowPath: io.cloudslang.base.utils.local_ping
+  outputs:
+    -  return_code: "-1"
+  result: FAILURE
